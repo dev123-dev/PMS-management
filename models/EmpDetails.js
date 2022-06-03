@@ -70,6 +70,7 @@ const EmpDetailsSchema = new mongoose.Schema({
   },
   empDateTime: {
     type: Date,
+    default: Date.now(),
   },
   empDeactiveReason: {
     type: String,
@@ -79,6 +80,7 @@ const EmpDetailsSchema = new mongoose.Schema({
   },
   empDeactiveDateTime: {
     type: Date,
+    default: Date.now(),
   },
   empBankName: {
     type: String,
@@ -115,4 +117,4 @@ const EmpDetailsSchema = new mongoose.Schema({
   },
 });
 
-module.exports = EmpDetails = mongoose.model("EmpDetails", EmpDetailsSchema);
+module.exports = empdetails = mongoose.model("empdetails", EmpDetailsSchema);

@@ -10,10 +10,6 @@ const LoginHistorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  useremail: {
-    type: String,
-    required: true,
-  },
   loginDate: {
     type: String,
     required: true,
