@@ -6,6 +6,7 @@ const config = require("config");
 const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const Department = require("../../models/Department");
+const Menu = require("../../models/Menus");
 
 //ADD
 router.post("/add-department", async (req, res) => {
@@ -13,6 +14,18 @@ router.post("/add-department", async (req, res) => {
   try {
     let DepartmentDetails = new Department(data);
     output = await DepartmentDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/add-menu", async (req, res) => {
+  let data = req.body;
+  try {
+    let MenuDetails = new Menu(data);
+    output = await MenuDetails.save();
     res.send(output);
   } catch (err) {
     console.error(err.message);
