@@ -121,4 +121,27 @@ router.post(
     }
   }
 );
+
+//DEACTIVATE
+router.post("/deactive-user", async (req, res) => {
+  try {
+    let data = req.body;
+
+    const deactiveUser = await EmployeeDetails.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          empStatus: data.empStatus,
+          empDeactiveReason: data.empDeactiveReason,
+          empDeactiveById: data.empDeactiveById,
+          empDeactiveDateTime: Date.now(),
+        },
+      }
+    );
+    res.json(deactiveUser);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 module.exports = router;
