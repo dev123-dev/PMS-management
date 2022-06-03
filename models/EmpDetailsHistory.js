@@ -4,6 +4,9 @@ require("mongoose-double")(mongoose);
 var SchemaTypes = mongoose.Schema.Types;
 
 const EmpDetailsHistorySchema = new mongoose.Schema({
+  edhId: {
+    type: ObjectId,
+  },
   edhFullName: {
     type: String,
     required: true,
