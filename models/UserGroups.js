@@ -6,10 +6,13 @@ const UserGroupSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  userGroupEnteredById: {
+    type: ObjectId,
+  },
   userGroupDateTime: {
     type: Date,
     default: Date.now(),
   },
 });
 
-module.exports = userGroup = mongoose.model("userGroup", UserGroupSchema);
+module.exports = usergroup = mongoose.model("usergroup", UserGroupSchema);

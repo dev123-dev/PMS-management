@@ -68,6 +68,9 @@ const EmpDetailsSchema = new mongoose.Schema({
   empEnteredById: {
     type: ObjectId,
   },
+  empDate: {
+    type: Date,
+  },
   empDateTime: {
     type: Date,
     default: Date.now(),

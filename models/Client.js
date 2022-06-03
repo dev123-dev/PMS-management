@@ -46,6 +46,26 @@ const ClientSchema = new mongoose.Schema({
   testClient: {
     type: Number,
   },
+  clientEnteredById: {
+    type: ObjectId,
+  },
+  clientEnteredDate: {
+    type: Date,
+  },
+  clientEnteredDateTime: {
+    type: Date,
+    default: Date.now(),
+  },
+  clientDeactiveById: {
+    type: ObjectId,
+  },
+  clientDeactiveDate: {
+    type: Date,
+  },
+  clientDeactiveDateTime: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 module.exports = client = mongoose.model("client", ClientSchema);
