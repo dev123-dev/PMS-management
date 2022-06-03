@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { login, removeError, sendOTP } from "../../actions/auth";
+import { login, removeError } from "../../actions/auth";
 
 const Login = ({
   login,
@@ -10,8 +10,6 @@ const Login = ({
   errorResponse,
   removeError,
   loading,
-  sendOTP,
-  otpMessage,
 }) => {
   useEffect(() => {
     removeError();
@@ -20,31 +18,30 @@ const Login = ({
   let modalTitle = { marginTop: "-30px", marginBottom: "20px" };
 
   const [formData, setFormData] = useState({
-    useremail: "",
+    userName: "",
     password: "",
   });
 
-  // W7'Um34BrCxzQNR?
-  const { useremail, password } = formData;
+  const { userName, password } = formData;
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
-      case "useremail":
+      case "userName":
         if (value === "") {
           setError({
             ...error,
-            userEmailValChecker: true,
-            userEmailValResult: "Please Enter Your useremail",
-            userEmailValStyle: { color: "#FF0000" },
-            userEmailInptErrStyle: { borderBottom: "1px solid #FF0000" },
+            userNameValChecker: true,
+            userNameValResult: "Please Enter Your userName",
+            userNameValStyle: { color: "#FF0000" },
+            userNameInptErrStyle: { borderBottom: "1px solid #FF0000" },
           });
           setFormData({ ...formData, [e.target.name]: "" });
         } else {
           setError({
             ...error,
-            userEmailValChecker: false,
-            userEmailInptErrStyle: { borderBottom: "1px solid #0086dc" },
+            userNameValChecker: false,
+            userNameInptErrStyle: { borderBottom: "1px solid #0086dc" },
           });
           setFormData({ ...formData, [e.target.name]: value });
         }
@@ -75,10 +72,10 @@ const Login = ({
   };
 
   const [error, setError] = useState({
-    userEmailValChecker: false,
-    userEmailValResult: "",
-    userEmailValStyle: {},
-    userEmailInptErrStyle: {},
+    userNameValChecker: false,
+    userNameValResult: "",
+    userNameValStyle: {},
+    userNameInptErrStyle: {},
 
     passwordValChecker: false,
     passwordValResult: "",
@@ -87,10 +84,10 @@ const Login = ({
   });
 
   const {
-    userEmailValChecker,
-    userEmailValResult,
-    userEmailValStyle,
-    userEmailInptErrStyle,
+    userNameValChecker,
+    userNameValResult,
+    userNameValStyle,
+    userNameInptErrStyle,
 
     passwordValChecker,
     passwordValResult,
@@ -99,25 +96,24 @@ const Login = ({
   } = error;
 
   const checkErrors = (formData) => {
-    if (formData && formData.useremail === "") {
+    if (formData && formData.userName === "") {
       setError({
         ...error,
-        userEmailValChecker: true,
-        userEmailValResult: "Please Enter Your email",
-        userEmailValStyle: { color: "#FF0000" },
-        userEmailInptErrStyle: { borderBottom: "1px solid #FF0000" },
+        userNameValChecker: true,
+        userNameValResult: "Please Enter Your userName",
+        userNameValStyle: { color: "#FF0000" },
+        userNameInptErrStyle: { borderBottom: "1px solid #FF0000" },
       });
       return false;
     } else {
-      const userEmailFilter =
-        /^(\d*[a-zA-Z][a-zA-Z\d_.+-]*)\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})*$/;
-      if (!userEmailFilter.test(formData && formData.useremail)) {
+      const userNameFilter = /^([a-zA-Z])*$/;
+      if (!userNameFilter.test(formData && formData.userName)) {
         setError({
           ...error,
-          userEmailValChecker: true,
-          userEmailValResult: "Please Enter Valid email",
-          userEmailValStyle: { color: "#FF0000" },
-          userEmailInptErrStyle: { borderBottom: "1px solid #FF0000" },
+          userNameValChecker: true,
+          userNameValResult: "Please Enter Valid userName",
+          userNameValStyle: { color: "#FF0000" },
+          userNameInptErrStyle: { borderBottom: "1px solid #FF0000" },
         });
         return false;
       }
@@ -138,7 +134,7 @@ const Login = ({
   const onSubmit = async (e) => {
     e.preventDefault();
     if (checkErrors(formData)) {
-      login(useremail, password);
+      login(userName, password);
     }
     setFormData({ ...formData, submitted: true });
   };
@@ -149,8 +145,8 @@ const Login = ({
 
   return (
     <Fragment>
-      <div className="col-md-12 col-lg-12 col-sm-12 col-12 py-3">
-        <div className="modal-header pt-1">
+      <div className="col-md-12 col-lg-12 col-sm-12 col-12 py-5">
+        <div className="modal-header">
           {loading ? (
             <h2 className="modal-title " id="myModalLabel" style={modalTitle}>
               Please Wait
@@ -162,50 +158,50 @@ const Login = ({
           )}
         </div>
         {errorResponse && <p style={{ color: "red" }}>{errorResponse}</p>}
-        <div className="form-group form_top">
-          <input
-            type="text"
-            name="useremail"
-            value={useremail}
-            style={userEmailInptErrStyle}
-            className="form-control form_contct"
-            onChange={(e) => onInputChange(e)}
-          />
-          {userEmailValChecker && (
-            <span style={userEmailValStyle}>
-              {userEmailValResult}
-              <br />
-            </span>
-          )}
-          <label className="pop_up">
-            <span className="label-content">Email *</span>
-          </label>
-        </div>
+        {/* <!-- form --> */}
+        <form onSubmit={(e) => onSubmit(e)}>
+          <div className="form-group form_top">
+            <input
+              type="text"
+              name="userName"
+              value={userName}
+              style={userNameInptErrStyle}
+              className="form-control form_contct"
+              onChange={(e) => onInputChange(e)}
+            />
+            {userNameValChecker && (
+              <span style={userNameValStyle}>
+                {userNameValResult}
+                <br />
+              </span>
+            )}
+            <label className="pop_up">
+              <span className="label-content">User Name *</span>
+            </label>
+          </div>
 
-        <div className="form-group form_top">
-          <input
-            type="password"
-            name="password"
-            value={password}
-            style={passwordInptErrStyle}
-            className="form-control form_contct"
-            onChange={(e) => onInputChange(e)}
-            autoComplete="false"
-          />
-          {passwordValChecker && (
-            <span style={passwordValStyle}>
-              {passwordValResult}
-              <br />
-            </span>
-          )}
-          <label className="pop_up">Password *</label>
-        </div>
-
-        <div className="col-md-12 col-sm-12 col-lg-12 col-12 text-center">
-          <button className="btn contact_reg" onClick={(e) => onSubmit(e)}>
-            SIGN IN
-          </button>
-        </div>
+          <div className="form-group form_top">
+            <input
+              type="password"
+              name="password"
+              value={password}
+              style={passwordInptErrStyle}
+              className="form-control form_contct"
+              onChange={(e) => onInputChange(e)}
+              autoComplete="false"
+            />
+            {passwordValChecker && (
+              <span style={passwordValStyle}>
+                {passwordValResult}
+                <br />
+              </span>
+            )}
+            <label className="pop_up">Password *</label>
+          </div>
+          <div className="col-md-12 col-sm-12 col-lg-12 col-12 text-center">
+            <button className="btn contact_reg">SIGN IN</button>
+          </div>
+        </form>
       </div>
     </Fragment>
   );
@@ -214,18 +210,20 @@ const Login = ({
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
+  otpAuthenticated: PropTypes.bool,
   loading: PropTypes.bool,
   errorResponse: PropTypes.string,
-  otpMessage: PropTypes.string,
   removeError: PropTypes.func.isRequired,
-  sendOTP: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  otpAuthenticated: state.auth.otpAuthenticated,
   loading: state.auth.loading,
   errorResponse: state.auth.errorResponse,
-  otpMessage: state.auth.otpMessage,
 });
 
-export default connect(mapStateToProps, { login, removeError, sendOTP })(Login);
+export default connect(mapStateToProps, {
+  login,
+  removeError,
+})(Login);
