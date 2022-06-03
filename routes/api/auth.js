@@ -127,7 +127,9 @@ router.post(
 // @access   Private
 router.get("/load-user", auth, async (req, res) => {
   try {
-    const user = await UserDetails.findById(req.user.id).select("-password");
+    const user = await EmployeeDetails.findById(req.user.id).select(
+      "-password"
+    );
     res.json(user);
   } catch (err) {
     res.status(STATUS_CODE_500).send(SERVER_ERROR);
