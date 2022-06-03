@@ -5,7 +5,9 @@ import { connect } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
-
+import AddStaffInfo from "./AddStaffInfo";
+import AddStaffAreainfo from "./AddStaffAreainfo";
+import AddSalaryInfo from "./AddSalaryInfo";
 const AddEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -23,25 +25,25 @@ const AddEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                 <Tab>Staff Info</Tab>
                 <Tab>Area Info</Tab>
 
-                <Tab>State</Tab>
-                <Tab>District</Tab>
+                <Tab>Salary Info</Tab>
+                {/* <Tab>District</Tab> */}
               </TabList>
             </div>
 
             <TabPanel>
-              <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
-                {/* <AllVarado /> */}
+              <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
+                <AddStaffInfo />
               </div>
             </TabPanel>
             <TabPanel>
               <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
-                {/* <AllParish /> */}
+                <AddStaffAreainfo />
               </div>
             </TabPanel>
 
             <TabPanel>
               <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
-                {/* <AllStates /> */}
+                <AddSalaryInfo />
               </div>
             </TabPanel>
             <TabPanel>
