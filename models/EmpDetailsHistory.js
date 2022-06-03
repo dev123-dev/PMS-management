@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 ObjectId = mongoose.Schema.ObjectId;
+require("mongoose-double")(mongoose);
+var SchemaTypes = mongoose.Schema.Types;
 
 const EmpDetailsHistorySchema = new mongoose.Schema({
   edhFullName: {
