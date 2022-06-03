@@ -212,11 +212,8 @@ const AddUser = ({
       <>
         {errorResponse && <p style={{ color: "red" }}>{errorResponse}</p>}
         <div className="row col-lg-12 col-md-9 col-sm-9 col-12 py-4">
-          <div className="col-lg-2 col-md-2 col-sm-1 col-12">
+          <div className="col-lg-6  col-md-4 col-sm-4 col-12">
             <label>Full Name* :</label>
-          </div>
-
-          <div className="col-lg-4  col-md-4 col-sm-4 col-12">
             <input
               type="text"
               name="userfullName"
@@ -225,11 +222,9 @@ const AddUser = ({
               required
             />
           </div>
-          <div className="col-lg-2 col-md-2 col-sm-4 col-12">
-            <label>Email* :</label>
-          </div>
 
-          <div className="col-lg-4  col-md-4 col-sm-4 col-12">
+          <div className="col-lg-6  col-md-4 col-sm-4 col-12">
+            <label>Email* :</label>
             <input
               type="text"
               name="useremail"
@@ -241,11 +236,8 @@ const AddUser = ({
         </div>
 
         <div className="row col-lg-12 col-md-9 col-sm-9 col-12 py-4">
-          <div className="col-lg-2 col-md-2 col-sm-1 col-12">
+          <div className="col-lg-6  col-md-4 col-sm-4 col-12">
             <label> Phone* :</label>
-          </div>
-
-          <div className="col-lg-4  col-md-4 col-sm-4 col-12">
             <input
               type="Number"
               name="userphone"
@@ -257,11 +249,9 @@ const AddUser = ({
               required
             />
           </div>
-          <div className="col-lg-2 col-md-2 col-sm-1 col-12">
-            <label>User Group*:</label>
-          </div>
 
           <div className="col-lg-4  col-md-4 col-sm-4 col-12">
+            <label>User Group*:</label>
             <Select
               name="usergroup"
               options={UserGroups}
