@@ -53,7 +53,6 @@ router.post(
 
     //retriving Data
     const { userName, password } = req.body;
-    console.log("userName", userName);
 
     try {
       //userName Check In DB
