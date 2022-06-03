@@ -25,7 +25,7 @@ const Login = ({
   });
 
   // W7'Um34BrCxzQNR?
-  const { useremail, password, userOTP } = formData;
+  const { useremail, password } = formData;
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -68,9 +68,6 @@ const Login = ({
           });
           setFormData({ ...formData, [e.target.name]: value });
         }
-        break;
-      case "userOTP":
-        setFormData({ ...formData, [e.target.name]: value });
         break;
       default:
         break;
@@ -141,15 +138,9 @@ const Login = ({
   const onSubmit = async (e) => {
     e.preventDefault();
     if (checkErrors(formData)) {
-      login(useremail, password, userOTP);
+      login(useremail, password);
     }
     setFormData({ ...formData, submitted: true });
-  };
-
-  const getOtp = async () => {
-    if (checkErrors(formData)) {
-      sendOTP(useremail, password);
-    }
   };
 
   if (isAuthenticated) {
@@ -171,8 +162,6 @@ const Login = ({
           )}
         </div>
         {errorResponse && <p style={{ color: "red" }}>{errorResponse}</p>}
-        {/* <!-- form --> */}
-        {/* <form> */}
         <div className="form-group form_top">
           <input
             type="text"
@@ -213,60 +202,10 @@ const Login = ({
         </div>
 
         <div className="col-md-12 col-sm-12 col-lg-12 col-12 text-center">
-          {loading ? (
-            <button
-              className="btn contact_reg"
-              disabled
-              onClick={() => getOtp()}
-            >
-              Loading...
-            </button>
-          ) : (
-            <button className="btn contact_reg" onClick={() => getOtp()}>
-              Get OTP
-            </button>
-          )}
-        </div>
-
-        <div className="form-group form_top">
-          <input
-            type="text"
-            name="userOTP"
-            maxLength={4}
-            value={userOTP}
-            // style={userEmailInptErrStyle}
-            className="form-control form_contct"
-            onChange={(e) => onInputChange(e)}
-          />
-          <label className="pop_up">
-            <span className="label-content">OTP</span>
-          </label>
-        </div>
-
-        <div className="col-md-12 col-sm-12 col-lg-12 col-12 text-center">
           <button className="btn contact_reg" onClick={(e) => onSubmit(e)}>
             SIGN IN
           </button>
         </div>
-        {otpMessage && (
-          <>
-            <center>
-              <p style={{ color: "blue", fontSize: "18px" }}>
-                {otpMessage}
-                <span
-                  style={{
-                    color: "gray",
-                    fontSize: "13px",
-                    fontStyle: "italic",
-                  }}
-                >
-                  &nbsp;&nbsp;&nbsp;Please check in spam if not received!
-                </span>
-              </p>
-            </center>
-          </>
-        )}
-        {/* </form> */}
       </div>
     </Fragment>
   );

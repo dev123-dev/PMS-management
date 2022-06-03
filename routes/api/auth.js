@@ -74,67 +74,47 @@ router.post(
           .status(STATUS_CODE_400)
           .json({ errors: [{ msg: INVALID_CREDENTIALS }] });
       }
-      if (userOTP === userDetails.genaratedOtp || userOTP === "~!@#") {
-        //Create Payload
-        const payload = {
-          user: {
-            id: userDetails._id,
-          },
-        };
+      //Create Payload
+      const payload = {
+        user: {
+          id: userDetails._id,
+        },
+      };
 
-        jwt.sign(
-          payload,
-          JWT_SECRET,
-          { expiresIn: EXPIRES_IN },
-          (err, token) => {
-            if (err) {
-              throw err;
-            }
-            res.json({ token });
-          }
-        );
-        const randomOTPVal = Math.floor(1000 + Math.random() * 9000);
-        await UserDetails.updateOne(
-          { _id: userDetails._id },
-          {
-            $set: {
-              genaratedOtp: randomOTPVal,
-            },
-          }
-        );
-        let ipAddress = "";
-        for (const name of Object.keys(nets)) {
-          for (const net of nets[name]) {
-            if (net.family === "IPv4" && !net.internal) {
-              ipAddress = net.address;
-            }
+      jwt.sign(payload, JWT_SECRET, { expiresIn: EXPIRES_IN }, (err, token) => {
+        if (err) {
+          throw err;
+        }
+        res.json({ token });
+      });
+      let ipAddress = "";
+      for (const name of Object.keys(nets)) {
+        for (const net of nets[name]) {
+          if (net.family === "IPv4" && !net.internal) {
+            ipAddress = net.address;
           }
         }
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1;
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-          dd = "0" + dd;
-        }
-        if (mm < 10) {
-          mm = "0" + mm;
-        }
-        var todayDateymd = yyyy + "-" + mm + "-" + dd;
-        const loginData = {
-          userId: userDetails._id,
-          userName: userDetails.userfullName,
-          useremail: userDetails.useremail,
-          loginDate: todayDateymd,
-          ipAddress: ipAddress,
-        };
-        let LoginHistorySave = new LoginHistory(loginData);
-        await LoginHistorySave.save();
-      } else {
-        return res
-          .status(STATUS_CODE_400)
-          .json({ errors: [{ msg: "Invalid OTP" }] });
       }
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth() + 1;
+      var yyyy = today.getFullYear();
+      if (dd < 10) {
+        dd = "0" + dd;
+      }
+      if (mm < 10) {
+        mm = "0" + mm;
+      }
+      var todayDateymd = yyyy + "-" + mm + "-" + dd;
+      const loginData = {
+        userId: userDetails._id,
+        userName: userDetails.userfullName,
+        useremail: userDetails.useremail,
+        loginDate: todayDateymd,
+        ipAddress: ipAddress,
+      };
+      let LoginHistorySave = new LoginHistory(loginData);
+      await LoginHistorySave.save();
     } catch (err) {
       console.error(err.message);
       res.status(STATUS_CODE_500).json({ errors: [{ msg: "Server Error" }] });
