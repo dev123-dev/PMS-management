@@ -6,6 +6,7 @@ const config = require("config");
 const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const EmployeeDetails = require("../../models/EmpDetails");
+const UserGroups = require("../../models/UserGroups");
 
 const {
   USER_EXISTS,
@@ -13,6 +14,18 @@ const {
   STATUS_CODE_400,
 } = require("../../common/constant/constants");
 
+//ADD
+router.post("/add-user-groups", async (req, res) => {
+  let data = req.body;
+  try {
+    let userGroupDetails = new UserGroups(data);
+    output = await userGroupDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 router.post("/add-user", async (req, res) => {
   let data = req.body;
   try {
@@ -37,4 +50,26 @@ router.post("/add-user", async (req, res) => {
   }
 });
 
+//EDIT
+router.post(
+  "/edit-user-groups",
+  [check("userGroupId", "Invalid Request").not().isEmpty()],
+  async (req, res) => {
+    try {
+      let data = req.body;
+      const updateUserGroup = await UserGroup.updateOne(
+        { _id: data.recordId },
+        {
+          $set: {
+            userGroupName: data.userGroupName,
+            userGroupDateTime: Date.now(),
+          },
+        }
+      );
+      res.json(updateUserGroup);
+    } catch (error) {
+      res.status(500).json({ errors: [{ msg: "Server Error" }] });
+    }
+  }
+);
 module.exports = router;
