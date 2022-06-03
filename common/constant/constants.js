@@ -9,6 +9,7 @@ module.exports = {
   //Constants for VALIDATION MESSAGES for REGISTER USER
   NAME_REQUIRED: "Name is required",
   EMAIL_REQUIRED_INVALID: "Please enter a valid Email",
+  USERNAME_REQUIRED_INVALID: "Please enter a valid User name",
   PASSWORD_INVALID:
     "Password should not be empty, minimum 8 characters with atleast 1 uppercase, 1 lowercase, 1 digit and 1 symbol",
   USER_EXISTS: "User already exists",
@@ -17,6 +18,7 @@ module.exports = {
   ID: "Id",
   NAME: "name",
   EMAIL: "email",
+  USERNAME: "userName",
   PASSWORD: "password",
 
   //Constants For Auth API Start
