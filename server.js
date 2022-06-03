@@ -12,7 +12,10 @@ app.use(express.json({ extended: false }));
 // Define Routes
 app.use("/api/users", require("./routes/api/user"));
 app.use("/api/auth", require("./routes/api/auth"));
-// app.use("/api/tenants", require("./routes/api/tenants"));
+app.use("/api/settings", require("./routes/api/settings"));
+app.use("/api/projects", require("./routes/api/projects"));
+app.use("/api/client", require("./routes/api/client"));
+app.use("/api/chat", require("./routes/api/chat"));
 
 // Set static folder for client build Serve static assets in production
 //app.use(express.static('client/build'));

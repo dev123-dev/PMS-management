@@ -35,9 +35,6 @@ const {
   CHANGE_PWD,
 } = require("../../common/constant/api-constants");
 
-// @route    POST api/auth
-// @desc     Authenticate user & get token
-// @access   Public
 router.post(
   LOGIN,
   [
@@ -46,11 +43,6 @@ router.post(
   ],
 
   async (req, res) => {
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //   return res.status(STATUS_CODE_400).json({ errors: errors.array() });
-    // }
-
     //retriving Data
     const { userName, password } = req.body;
 
@@ -121,9 +113,6 @@ router.post(
   }
 );
 
-// @route    GET api/auth
-// @desc     Get Authenticated User
-// @access   Private
 router.get("/load-user", auth, async (req, res) => {
   try {
     const user = await EmployeeDetails.findById(req.user.id).select(
@@ -135,9 +124,6 @@ router.get("/load-user", auth, async (req, res) => {
   }
 });
 
-// @route    GET api/auth
-// @desc     Get All Users
-// @access   Private
 router.get(GET_ALL_USERS, auth, async (req, res) => {
   try {
     const user = await UserDetails.find().select("-password"); //.select('-password');
@@ -148,9 +134,6 @@ router.get(GET_ALL_USERS, auth, async (req, res) => {
   }
 });
 
-// @route    POST api/users
-// @desc     Change Password
-// @access   Private
 router.post(
   CHANGE_PWD,
   auth,
