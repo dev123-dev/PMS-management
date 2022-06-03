@@ -6,7 +6,7 @@ const DepartmentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  departmentName: {
+  departmentDesc: {
     type: String,
   },
   departmentEnteredById: {
