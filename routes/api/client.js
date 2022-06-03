@@ -4,6 +4,7 @@ const config = require("config");
 const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const ClientDetails = require("../../models/Client");
+
 //ADD
 router.post("/add-client", async (req, res) => {
   let data = req.body;
@@ -63,4 +64,28 @@ router.post("/edit-client", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
+
+//DEACTIVATE
+
+router.post("/deactive-client", async (req, res) => {
+  try {
+    let data = req.body;
+
+    const deactiveClientDetails = await ClientDetails.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          clientStatus: "Deactive",
+          clientDeactiveById: data.clientDeactiveById,
+          clientDeactiveDate: data.clientDeactiveDate,
+          clientDeactiveDateTime: Date.now(),
+        },
+      }
+    );
+    res.json(deactiveClientDetails);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 module.exports = router;

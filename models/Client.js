@@ -21,6 +21,10 @@ const ClientSchema = new mongoose.Schema({
   clientCountry: {
     type: String,
   },
+  clientStatus: {
+    type: String,
+    default: "Active",
+  },
   clientDate: {
     type: Date,
   },
