@@ -18,6 +18,7 @@ import AllTenantShopDetails from "../dashboard/AllTenantShopDetails";
 import AddShopDetails from "../dashboard/AddShopDetails";
 import EditTenantDetails from "../dashboard/EditTenantDetails";
 
+import AddEmployeeDetails from "../staffs/AddEmployeeDetails";
 const RoutesFile = () => {
   return (
     <section>
@@ -30,7 +31,7 @@ const RoutesFile = () => {
         <PrivateRoute exact path="/tenant-report" component={TenantReport} />
         <PrivateRoute exact path="/tenant-setting" component={TenantSettings} />
         <PrivateRoute exact path="/shop-Details" component={ShopDetails} />
-        <PrivateRoute exact path="/add-user" component={AllUserDetails} />
+        <PrivateRoute exact path="/add-user" component={AddEmployeeDetails} />
 
         <PrivateRoute
           exact
