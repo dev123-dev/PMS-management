@@ -5,9 +5,19 @@ import Select from "react-select";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import Pagination from "../layout/Pagination";
-
+import AddDepartment from "./AddDepartment";
 const AllDepartment = ({ auth: { allUser, isAuthenticated, user, users } }) => {
+  const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
+  const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
+  const onClickHandler = () => {
+    setShowAddDistrictModal(true);
+  };
+  const onAddDistrictModalChange = (e) => {
+    if (e) {
+      handleAddDistrictModalClose();
+    }
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -16,23 +26,22 @@ const AllDepartment = ({ auth: { allUser, isAuthenticated, user, users } }) => {
         <section className="sub_reg">
           <div className="row col-lg-11 col-md-12 col-sm-12 col-12 no_padding">
             <div className="row col-lg-5 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Staff Details </h5>
+              <h5 className="heading_color">All Department Details </h5>
             </div>
           </div>
           <div className="row col-lg-12 col-md-11 col-sm-12 col-12 no_padding">
             <div className="col-lg-11 col-md-11 col-sm-12 col-11 py-3">
-              <Link to="/all-department">
-                <img
-                  className="img_icon_size log float-right"
-                  src={require("../../static/images/add-icon.png")}
-                  alt="Add Department"
-                  title="Add Department"
-                />
-              </Link>
+              <img
+                className="img_icon_size log float-right"
+                onClick={() => onClickHandler()}
+                src={require("../../static/images/add-icon.png")}
+                alt="Add Department"
+                title="Add Department"
+              />
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-11 col-md-12 col-sm-12 col-12 text-center py-2">
+            <div className="col-lg-11 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
                 <div className=" body-inner no-padding table-responsive">
                   <table
@@ -41,12 +50,8 @@ const AllDepartment = ({ auth: { allUser, isAuthenticated, user, users } }) => {
                   >
                     <thead>
                       <tr>
-                        <th>Staff Name</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>Staff Code</th>
-                        <th>Joining Date Code</th>
-                        <th>OP</th>
+                        <th>Department Name</th>
+                        <th>Op</th>
                       </tr>
                     </thead>
                     <tbody></tbody>
@@ -56,6 +61,36 @@ const AllDepartment = ({ auth: { allUser, isAuthenticated, user, users } }) => {
             </div>
           </div>
         </section>
+        <Modal
+          show={showAllDistrictModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">
+                Add Department Details
+              </h3>
+            </div>
+            <div className="col-lg-2">
+              <button onClick={handleAddDistrictModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <AddDepartment
+              onAddDistrictModalChange={onAddDistrictModalChange}
+            />
+          </Modal.Body>
+        </Modal>
       </div>
     </Fragment>
   );
