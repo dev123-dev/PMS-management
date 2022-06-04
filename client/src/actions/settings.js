@@ -11,6 +11,8 @@ import {
   ALL_DEPARTMENT,
   ALL_DESIGNATION,
   ACTIVE_DESIGNATION,
+  ALL_MENUS,
+  ACTIVE_MENUS,
 } from "./types";
 
 const config = {
@@ -199,6 +201,34 @@ export const getActiveDesigantion = () => async (dispatch) => {
     const res = await axios.get("/api/settings/get-active-designation");
     dispatch({
       type: ACTIVE_DESIGNATION,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getALLMenus = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/settings/get-all-menus");
+    dispatch({
+      type: ALL_MENUS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getActiveMenus = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/settings/get-active-menus");
+    dispatch({
+      type: ACTIVE_MENUS,
       payload: res.data,
     });
   } catch (err) {
