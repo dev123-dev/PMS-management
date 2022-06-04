@@ -12,6 +12,12 @@ const PaymentModeSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  paymentModeEditedById: {
+    type: ObjectId,
+  },
+  paymentModeEditedDateTime: {
+    type: Date,
+  },
 });
 
 module.exports = paymentmode = mongoose.model("paymentmode", PaymentModeSchema);
