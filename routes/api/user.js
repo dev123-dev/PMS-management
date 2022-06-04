@@ -144,4 +144,19 @@ router.post("/deactive-employee", async (req, res) => {
   }
 });
 
+//SELECT
+//Get all users
+router.post("/get-all-employee", auth, async (req, res) => {
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  try {
+    const getEmployeeDetails = await EmployeeDetails.find();
+    res.json(getEmployeeDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;
