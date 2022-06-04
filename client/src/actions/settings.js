@@ -8,6 +8,8 @@ import {
   SET_LOADING_FALSE,
   CHECK_USER,
   PAYMENT_MODE,
+  ALL_DEPARTMENT,
+  ALL_DESIGNATION,
 } from "./types";
 
 const config = {
@@ -154,6 +156,48 @@ export const getALLPaymentMode = () => async (dispatch) => {
     const res = await axios.get("/api/settings/get-all-payment-mode");
     dispatch({
       type: PAYMENT_MODE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getALLDepartment = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/settings/get-all-department");
+    dispatch({
+      type: ALL_DEPARTMENT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getALLDesigantion = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/settings/get-all-designation");
+    dispatch({
+      type: ALL_DESIGNATION,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getActiveDesigantion = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/settings/get-active-designation");
+    dispatch({
+      type: ALL_DESIGNATION,
       payload: res.data,
     });
   } catch (err) {
