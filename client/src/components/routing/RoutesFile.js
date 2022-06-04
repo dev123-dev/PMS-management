@@ -9,11 +9,13 @@ import RouteDriver from "../dashboard/RouteDriver";
 //DashBoard
 import changePassword from "../auth/ChangePwd";
 import AddEmployeeDetails from "../staffs/AddEmployeeDetails";
+import AllStaffDetails from "../staffs/AllStaffDetails";
 const RoutesFile = () => {
   return (
     <section>
       <Switch>
         <PrivateRoute exact path="/add-user" component={AddEmployeeDetails} />
+        <PrivateRoute exact path="/all-staff" component={AllStaffDetails} />
 
         <PrivateRoute
           exact
