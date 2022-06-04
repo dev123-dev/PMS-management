@@ -43,8 +43,8 @@ router.post("/edit-department", async (req, res) => {
         $set: {
           departmentName: data.departmentName,
           departmentDesc: data.departmentDesc,
-          departmentEnteredById: data.departmentEnteredById,
-          departmentDateTime: Date.now(),
+          departmentEditedById: data.departmentEditedById,
+          departmentEditedDateTime: Date.now(),
         },
       }
     );
@@ -54,4 +54,23 @@ router.post("/edit-department", async (req, res) => {
   }
 });
 
+router.post("/edit-menu", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateMenu = await Menu.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          menuName: data.menuName,
+          menuDesc: data.departmentDesc,
+          departmentEnteredById: data.departmentEnteredById,
+          departmentDateTime: Date.now(),
+        },
+      }
+    );
+    res.json(updateMenu);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
 module.exports = router;
