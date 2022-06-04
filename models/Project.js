@@ -93,6 +93,12 @@ const ProjectSchema = new mongoose.Schema({
   ptEstimatedTime: {
     type: String,
   },
+  projectEditedById: {
+    type: ObjectId,
+  },
+  projectEditedDateTime: {
+    type: Date,
+  },
   projectDeactiveById: {
     type: ObjectId,
   },
