@@ -2,10 +2,9 @@ import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
-
 import Spinner from "../layout/Spinner";
 
-const EditDepartment = ({
+const AddProjectStatus = ({
   auth: { isAuthenticated, user, users, loading },
 
   onAddDistrictModalChange,
@@ -13,10 +12,11 @@ const EditDepartment = ({
   //formData
   const [formData, setFormData] = useState({
     districtName: "",
+    projectStatusCategory: "",
     isSubmitted: false,
   });
 
-  const { districtName } = formData;
+  const { districtName, projectStatusCategory } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -63,6 +63,19 @@ const EditDepartment = ({
   //       getStateData("");
   //     }
   //   };
+  const StatusCategory = [
+    { value: "Cash", label: "Cash" },
+    { value: "Cheque", label: "Cheque" },
+  ];
+
+  const onStatuscatChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        projectStatusCategory: e,
+      });
+    }
+  };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -70,8 +83,8 @@ const EditDepartment = ({
     <Fragment>
       {/* <form onSubmit={(e) => onSubmit(e)}> */}
       <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-        <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-          <label className="label-control"> Department Name * :</label>
+        <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+          <label className="label-control">Status Name :</label>
           <input
             type="text"
             name="districtName"
@@ -81,9 +94,30 @@ const EditDepartment = ({
             required
           />
         </div>
+        <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+          <label className="label-control">Project Status Category :</label>
+          <Select
+            name="projectStatusCategory"
+            options={StatusCategory}
+            isSearchable={false}
+            value={projectStatusCategory}
+            placeholder="Select"
+            onChange={(e) => onStatuscatChange(e)}
+            theme={(theme) => ({
+              ...theme,
+              height: 26,
+              minHeight: 26,
+              borderRadius: 1,
+              colors: {
+                ...theme.colors,
+                primary: "black",
+              },
+            })}
+          />
+        </div>
       </div>
 
-      <div className="col-md-12 col-lg-8 col-sm-12 col-12 text-left">
+      <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
         {loading ? (
           <button
             className="btn sub_form btn_continue Save float-right"
@@ -105,7 +139,7 @@ const EditDepartment = ({
   );
 };
 
-EditDepartment.propTypes = {
+AddProjectStatus.propTypes = {
   auth: PropTypes.object.isRequired,
   area: PropTypes.object.isRequired,
 };
@@ -114,4 +148,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(EditDepartment);
+export default connect(mapStateToProps, {})(AddProjectStatus);
