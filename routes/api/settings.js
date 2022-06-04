@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const Department = require("../../models/Department");
 const Designation = require("../../models/Designation");
 const Menu = require("../../models/Menus");
+const PaymentMode = require("../../models/PaymentMode");
 
 //ADD
 router.post("/add-department", async (req, res) => {
@@ -46,6 +47,18 @@ router.post("/add-designation", async (req, res) => {
   }
 });
 
+router.post("/add-payment-mode", async (req, res) => {
+  let data = req.body;
+  try {
+    let PaymentModeDetails = new PaymentMode(data);
+    output = await PaymentModeDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 //EDIT
 router.post("/edit-department", async (req, res) => {
   try {
@@ -56,7 +69,6 @@ router.post("/edit-department", async (req, res) => {
         $set: {
           departmentName: data.departmentName,
           departmentDesc: data.departmentDesc,
-
           departmentEditedById: data.departmentEditedById,
           departmentEditedDateTime: Date.now(),
         },
@@ -107,6 +119,36 @@ router.post("/edit-designation", async (req, res) => {
     res.json(updateDesignation);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/edit-payment-mode", async (req, res) => {
+  try {
+    let data = req.body;
+    const updatePaymentMode = await PaymentMode.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          paymentMode: data.paymentMode,
+          paymentModeEditedById: data.paymentModeEditedById,
+          paymentModeEditedDateTime: Date.now(),
+        },
+      }
+    );
+    res.json(updatePaymentMode);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+//***************SELECT***************
+router.get("/get-all-payment-mode", async (req, res) => {
+  try {
+    const allPaymentMode = await PaymentMode.find({});
+    res.json(allPaymentMode);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
   }
 });
 
