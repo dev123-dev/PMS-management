@@ -69,4 +69,30 @@ router.post("/deactive-client", async (req, res) => {
   }
 });
 
+//SELECT
+
+router.post("/get-all-client", async (req, res) => {
+  try {
+    const getClientDetails = await ClientDetails.find({});
+    res.json(getClientDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-active-client", async (req, res) => {
+  try {
+    const getClientDetails = await ClientDetails.find({
+      clientStatus: {
+        $eq: "Active",
+      },
+    });
+    res.json(getClientDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;

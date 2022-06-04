@@ -1,12 +1,10 @@
 import axios from "axios";
 import {
   AUTH_ERROR,
-  USER_GROUPS,
-  ALL_USER_DETAILS,
-  ALL_INCHARGE_DETAILS,
   SET_LOADING_TRUE,
   SET_LOADING_FALSE,
-  CHECK_USER,
+  ALL_CLIENTS,
+  ACTIVE_CLIENTS,
 } from "./types";
 
 const config = {
@@ -61,6 +59,36 @@ export const deactiveClient = (finalData) => async (dispatch) => {
     await axios.post("/api/client/deactive-client", finalData, config);
     dispatch({
       type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+//SELECT
+
+export const getAllClients = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/client/get-all-clients");
+    dispatch({
+      type: ALL_CLIENTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getActiveClients = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/client/get-active-clients");
+    dispatch({
+      type: ACTIVE_CLIENTS,
+      payload: res.data,
     });
   } catch (err) {
     dispatch({

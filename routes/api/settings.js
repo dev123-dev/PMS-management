@@ -191,4 +191,28 @@ router.get("/get-active-designation", async (req, res) => {
   }
 });
 
+router.get("/get-all-menus", async (req, res) => {
+  try {
+    const allMenu = await Menu.find({});
+    res.json(allMenu);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.get("/get-active-menus", async (req, res) => {
+  try {
+    const activeMenu = await Menu.find({
+      menuStatus: {
+        $eq: "Active",
+      },
+    });
+    res.json(activeMenu);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;
