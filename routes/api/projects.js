@@ -3,11 +3,11 @@ const router = express.Router();
 const config = require("config");
 const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
-const ProjectDetails = require("../../models/Project");
-const ProjectStatusDetails = require("../../models/ProjectStatus");
+const Project = require("../../models/Project");
+const ProjectStatus = require("../../models/ProjectStatus");
 
 //ADD
-router.post("/add-department", async (req, res) => {
+router.post("/add-project", async (req, res) => {
   let data = req.body;
   try {
     let DepartmentDetails = new Department(data);
