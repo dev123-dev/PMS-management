@@ -102,7 +102,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 
                       <ul className="dropdown-menu second-level-menu ">
                         <li>
-                          <Link to="/add-user">All Clients</Link>
+                          <Link to="/all-clients">All Clients</Link>
                         </li>
                         <li>
                           <Link to="/all-staff">All Staff</Link>

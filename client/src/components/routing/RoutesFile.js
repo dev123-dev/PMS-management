@@ -40,6 +40,8 @@ const RoutesFile = () => {
         />
 
         {/* clients */}
+
+        <PrivateRoute exact path="/all-clients" component={AllClientDetails} />
         <PrivateRoute exact path="/add-client" component={AddClientDetails} />
         <PrivateRoute exact path="/edit-client" component={EditClientDetails} />
         <PrivateRoute
