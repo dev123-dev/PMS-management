@@ -10,6 +10,7 @@ import {
   PAYMENT_MODE,
   ALL_DEPARTMENT,
   ALL_DESIGNATION,
+  ACTIVE_DESIGNATION,
 } from "./types";
 
 const config = {
@@ -197,7 +198,7 @@ export const getActiveDesigantion = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/settings/get-active-designation");
     dispatch({
-      type: ALL_DESIGNATION,
+      type: ACTIVE_DESIGNATION,
       payload: res.data,
     });
   } catch (err) {
