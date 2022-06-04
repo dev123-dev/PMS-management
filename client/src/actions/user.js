@@ -40,3 +40,57 @@ export const AddEmployee = (finalData) => async (dispatch) => {
     });
   }
 };
+
+//EDIT
+
+export const editUserGroup = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/users/edit-user-groups", finalData, config);
+    //   dispatch(getUserGroups());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const editEmployeeDetails = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/users/edit-employee", finalData, config);
+    // dispatch(getAllUser());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+//DEACTIVE
+
+export const deactiveEmployeeDetails = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/users/deactive-employee", finalData, config);
+    // dispatch(getAllUser());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
