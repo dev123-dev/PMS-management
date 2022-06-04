@@ -14,7 +14,7 @@ const RoutesFile = () => {
   return (
     <section>
       <Switch>
-        <PrivateRoute exact path="/add-user" component={AddEmployeeDetails} />
+        <PrivateRoute exact path="/add-staff" component={AddEmployeeDetails} />
         <PrivateRoute exact path="/all-staff" component={AllStaffDetails} />
 
         <PrivateRoute

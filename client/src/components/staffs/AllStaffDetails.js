@@ -109,6 +109,7 @@ const AllStaffDetails = ({
                         <th>Address</th>
                         <th>Staff Code</th>
                         <th>Joining Date Code</th>
+                        <th>OP</th>
                       </tr>
                     </thead>
                     <tbody></tbody>

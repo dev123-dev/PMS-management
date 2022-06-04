@@ -99,6 +99,13 @@ const ProjectSchema = new mongoose.Schema({
   projectEditedDateTime: {
     type: Date,
   },
+  projectStatus: {
+    type: String,
+    default: "Active",
+  },
+  projectDeactiveReason: {
+    type: String,
+  },
   projectDeactiveById: {
     type: ObjectId,
   },
