@@ -106,4 +106,5 @@ router.post("/edit-designation", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
+// -------------------
 module.exports = router;
