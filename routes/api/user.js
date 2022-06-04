@@ -146,10 +146,7 @@ router.post("/deactive-employee", async (req, res) => {
 
 //SELECT
 //Get all users
-router.post("/get-all-employee", auth, async (req, res) => {
-  const userInfo = await EmployeeDetails.findById(req.user.id).select(
-    "-password"
-  );
+router.post("/get-all-employee", async (req, res) => {
   try {
     const getEmployeeDetails = await EmployeeDetails.find();
     res.json(getEmployeeDetails);
@@ -159,9 +156,7 @@ router.post("/get-all-employee", auth, async (req, res) => {
   }
 });
 
-//Get Active Users
-router.post("/get-active-employee", auth, async (req, res) => {
-  const userInfo = await UserDetails.findById(req.user.id).select("-password");
+router.post("/get-active-employee", async (req, res) => {
   try {
     const getActiveEmployeeDetails = await EmployeeDetails.find({
       empStatus: {

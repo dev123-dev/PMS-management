@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import AddDepartment from "./AddDepartment";
+import EditDepartment from "./EditDepartment";
 const AllDepartment = ({ auth: { allUser, isAuthenticated, user, users } }) => {
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
@@ -15,6 +16,17 @@ const AllDepartment = ({ auth: { allUser, isAuthenticated, user, users } }) => {
   const onAddDistrictModalChange = (e) => {
     if (e) {
       handleAddDistrictModalClose();
+    }
+  };
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  const handleEditModalClose = () => setShowEditModal(false);
+  const onClickHandler1 = () => {
+    setShowEditModal(true);
+  };
+  const onEditModalChange = (e) => {
+    if (e) {
+      handleEditModalClose();
     }
   };
 
@@ -37,6 +49,14 @@ const AllDepartment = ({ auth: { allUser, isAuthenticated, user, users } }) => {
                 src={require("../../static/images/add-icon.png")}
                 alt="Add Department"
                 title="Add Department"
+              />
+
+              <img
+                className="img_icon_size log float-right"
+                onClick={() => onClickHandler1()}
+                // src={require("../../static/images/add-icon.png")}
+                alt="Edit Department"
+                title="Edit Department"
               />
             </div>
           </div>
@@ -89,6 +109,35 @@ const AllDepartment = ({ auth: { allUser, isAuthenticated, user, users } }) => {
             <AddDepartment
               onAddDistrictModalChange={onAddDistrictModalChange}
             />
+          </Modal.Body>
+        </Modal>
+
+        <Modal
+          show={showEditModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">
+                Edit Department Details
+              </h3>
+            </div>
+            <div className="col-lg-2">
+              <button onClick={handleEditModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <EditDepartment onEditModalChange={onEditModalChange} />
           </Modal.Body>
         </Modal>
       </div>

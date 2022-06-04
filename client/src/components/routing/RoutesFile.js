@@ -11,6 +11,7 @@ import changePassword from "../auth/ChangePwd";
 // staff
 import AddEmployeeDetails from "../staffs/AddEmployeeDetails";
 import AllStaffDetails from "../staffs/AllStaffDetails";
+import EditEmployeeDetails from "../staffs/EditEmployeeDetails";
 // client
 import AddClientDetails from "../clients/AddClientDetails";
 import EditClientDetails from "../clients/EditClientDetails";
@@ -23,12 +24,20 @@ import EditDepartment from "../department/EditDepartment";
 import DeactivateDepartment from "../department/DeactivateDepartment";
 import AllDepartment from "../department/AllDepartment";
 
+//project
+import AllProjectStatus from "../projects/AllProjectStatus";
+
 const RoutesFile = () => {
   return (
     <section>
       <Switch>
         <PrivateRoute exact path="/add-staff" component={AddEmployeeDetails} />
         <PrivateRoute exact path="/all-staff" component={AllStaffDetails} />
+        <PrivateRoute
+          exact
+          path="/edit-staff"
+          component={EditEmployeeDetails}
+        />
 
         {/* clients */}
         <PrivateRoute exact path="/add-client" component={AddClientDetails} />
@@ -39,7 +48,6 @@ const RoutesFile = () => {
           component={DeactivateClient}
         />
         <PrivateRoute exact path="/all-client" component={AllClientDetails} />
-
         {/* Department */}
         <PrivateRoute exact path="/add-department" component={AddDepartment} />
         <PrivateRoute
@@ -53,7 +61,12 @@ const RoutesFile = () => {
           component={DeactivateDepartment}
         />
         <PrivateRoute exact path="/all-department" component={AllDepartment} />
-
+        {/* Project Status */}
+        <PrivateRoute
+          exact
+          path="/all-project-status"
+          component={AllProjectStatus}
+        />
         <PrivateRoute
           exact
           path="/change-password"
