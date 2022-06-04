@@ -13,6 +13,12 @@ const UserGroupSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  userGroupEditedById: {
+    type: ObjectId,
+  },
+  userGroupEditedDateTime: {
+    type: Date,
+  },
 });
 
 module.exports = usergroup = mongoose.model("usergroup", UserGroupSchema);
