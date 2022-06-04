@@ -51,7 +51,7 @@ const AddClientDetails = ({
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
           <div className="col-lg-11 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">Add SHG Details </h2>
+            <h2 className="heading_color">Add Client Details </h2>
             <hr />
           </div>
           <section className="sub_reg">
