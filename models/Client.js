@@ -60,6 +60,12 @@ const ClientSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  clientEditedById: {
+    type: ObjectId,
+  },
+  clientEditedDateTime: {
+    type: Date,
+  },
   clientDeactiveById: {
     type: ObjectId,
   },

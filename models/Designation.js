@@ -10,12 +10,22 @@ const DepsignationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  designationStatus: {
+    type: String,
+    default: "Active",
+  },
   designationEnteredById: {
     type: ObjectId,
   },
   designationDateTime: {
     type: Date,
     default: Date.now(),
+  },
+  designationEditedById: {
+    type: ObjectId,
+  },
+  designationEditedDateTime: {
+    type: Date,
   },
 });
 

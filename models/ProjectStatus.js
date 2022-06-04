@@ -12,12 +12,22 @@ const ProjectStatusSchema = new mongoose.Schema({
   projectStatusColor: {
     type: String,
   },
+  projectStatusStatus: {
+    type: String,
+    default: "Active",
+  },
   projectStutusEnteredById: {
     type: ObjectId,
   },
   projectStatusDateTime: {
     type: Date,
     default: Date.now(),
+  },
+  projectStutusEditedById: {
+    type: ObjectId,
+  },
+  projectStatusEditedDateTime: {
+    type: Date,
   },
 });
 

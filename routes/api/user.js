@@ -110,8 +110,8 @@ router.post(
         {
           $set: {
             userGroupName: data.userGroupName,
-            userGroupEnteredById: data.userGroupEnteredById,
-            userGroupDateTime: Date.now(),
+            userGroupEditedById: data.userGroupEditedById,
+            userGroupEditedDateTime: Date.now(),
           },
         }
       );

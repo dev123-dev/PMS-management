@@ -10,12 +10,22 @@ const MenuSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  menuStatus: {
+    type: String,
+    default: "Active",
+  },
   menuEnteredById: {
     type: ObjectId,
   },
   menuDateTime: {
     type: Date,
     default: Date.now(),
+  },
+  menuEditedById: {
+    type: ObjectId,
+  },
+  menuEditedDateTime: {
+    type: Date,
   },
 });
 

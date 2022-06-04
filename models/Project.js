@@ -93,6 +93,19 @@ const ProjectSchema = new mongoose.Schema({
   ptEstimatedTime: {
     type: String,
   },
+  projectEditedById: {
+    type: ObjectId,
+  },
+  projectEditedDateTime: {
+    type: Date,
+  },
+  projectStatus: {
+    type: String,
+    default: "Active",
+  },
+  projectDeactiveReason: {
+    type: String,
+  },
   projectDeactiveById: {
     type: ObjectId,
   },
