@@ -86,7 +86,13 @@ export const AddPaymentMode = (finalData) => async (dispatch) => {
 
 export const EditDepartment = (finalData) => async (dispatch) => {
   try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
     await axios.post("/api/settings/edit-department", finalData);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
@@ -96,7 +102,13 @@ export const EditDepartment = (finalData) => async (dispatch) => {
 
 export const EditMenu = (finalData) => async (dispatch) => {
   try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
     await axios.post("/api/settings/edit-menu", finalData);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
@@ -106,7 +118,13 @@ export const EditMenu = (finalData) => async (dispatch) => {
 
 export const EditDesignation = (finalData) => async (dispatch) => {
   try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
     await axios.post("/api/settings/edit-designation", finalData);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
@@ -116,7 +134,13 @@ export const EditDesignation = (finalData) => async (dispatch) => {
 
 export const EditPaymentMode = (finalData) => async (dispatch) => {
   try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
     await axios.post("/api/settings/edit-payment-mode", finalData);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
