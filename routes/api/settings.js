@@ -9,6 +9,7 @@ const Department = require("../../models/Department");
 const Designation = require("../../models/Designation");
 const Menu = require("../../models/Menus");
 const PaymentMode = require("../../models/PaymentMode");
+const Rights = require("../../models/Rights");
 
 //ADD
 router.post("/add-department", async (req, res) => {
@@ -52,6 +53,18 @@ router.post("/add-payment-mode", async (req, res) => {
   try {
     let PaymentModeDetails = new PaymentMode(data);
     output = await PaymentModeDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("add-rights", async (req, res) => {
+  let data = req.body;
+  try {
+    let RightsData = new Rights(data);
+    output = await RightsData.save();
     res.send(output);
   } catch (err) {
     console.error(err.message);
@@ -209,6 +222,16 @@ router.get("/get-active-menus", async (req, res) => {
       },
     });
     res.json(activeMenu);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.get("/get-all-rights", async (req, res) => {
+  try {
+    const allRights = await Rights.find({});
+    res.json(allRights);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

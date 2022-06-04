@@ -47,3 +47,4 @@ export const ALL_DESIGNATION = "ALL_DESIGNATION";
 export const ACTIVE_DESIGNATION = "ACTIVE_DESIGNATION";
 export const ALL_MENUS = "ALL_MENUS";
 export const ACTIVE_MENUS = "ACTIVE_MENUS";
+export const ALL_RIGHTS = "ALL_RIGHTS";

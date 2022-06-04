@@ -7,62 +7,36 @@ import Spinner from "../layout/Spinner";
 
 const AddDepartment = ({
   auth: { isAuthenticated, user, users, loading },
-
   onAddDistrictModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    districtName: "",
+    departmentName: "",
     isSubmitted: false,
   });
 
-  const { districtName } = formData;
+  const { departmentName } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  //Required Validation Starts
-  const [error, setError] = useState({
-    sIdChecker: false,
-    sIdErrorStyle: {},
-  });
-  const { sIdChecker, sIdErrorStyle } = error;
-
-  const checkErrors = () => {
-    if (!sIdChecker) {
-      setError({
-        ...error,
-        sIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-    return true;
-  };
   //Required Validation ends
-  //   const onSubmit = (e) => {
-  //     e.preventDefault();
+  const onSubmit = (e) => {
+    const finalData = {
+      departmentName: departmentName,
+      departmentEnteredById: user._id,
+    };
+    // console.log(finalData);
+    // AddDistrict(finalData);
 
-  //     if (checkErrors()) {
-  //       const finalData = {
-  //         districtName: districtName,
-  //         stateId: stateId,
-  //         districtEnteredById: user._id,
-  //         districtEnteredByName: user.userName,
-  //         institutionId: user.institutionId,
-  //         userData: user,
-  //       };
-
-  //       AddDistrict(finalData);
-
-  //       setFormData({
-  //         ...formData,
-  //         districtName: "",
-  //         isSubmitted: true,
-  //       });
-  //       getStateData("");
-  //     }
-  //   };
+    // setFormData({
+    //   ...formData,
+    //   districtName: "",
+    //   isSubmitted: true,
+    // });
+    // getStateData("");
+  };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -74,8 +48,8 @@ const AddDepartment = ({
           <label className="label-control"> Department Name * :</label>
           <input
             type="text"
-            name="districtName"
-            value={districtName}
+            name="departmentName"
+            value={departmentName}
             className="form-control"
             onChange={(e) => onInputChange(e)}
             required

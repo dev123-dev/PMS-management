@@ -12,57 +12,34 @@ const EditDepartment = ({
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    districtName: "",
+    departmentName: "",
     isSubmitted: false,
   });
 
-  const { districtName } = formData;
+  const { departmentName } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  //Required Validation Starts
-  const [error, setError] = useState({
-    sIdChecker: false,
-    sIdErrorStyle: {},
-  });
-  const { sIdChecker, sIdErrorStyle } = error;
+  const onSubmit = (e) => {
+    const finalData = {
+      // recordId: batchesdata ? batchesdata._id : "",
 
-  const checkErrors = () => {
-    if (!sIdChecker) {
-      setError({
-        ...error,
-        sIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-    return true;
+      departmentName: departmentName,
+      // departmentEditedById:
+    };
+
+    console.log(finalData);
+    //AddDistrict(finalData);
+
+    // setFormData({
+    //   ...formData,
+    //   districtName: "",
+    //   isSubmitted: true,
+    // });
+    // getStateData("");
   };
-  //Required Validation ends
-  //   const onSubmit = (e) => {
-  //     e.preventDefault();
-
-  //     if (checkErrors()) {
-  //       const finalData = {
-  //         districtName: districtName,
-  //         stateId: stateId,
-  //         districtEnteredById: user._id,
-  //         districtEnteredByName: user.userName,
-  //         institutionId: user.institutionId,
-  //         userData: user,
-  //       };
-
-  //       AddDistrict(finalData);
-
-  //       setFormData({
-  //         ...formData,
-  //         districtName: "",
-  //         isSubmitted: true,
-  //       });
-  //       getStateData("");
-  //     }
-  //   };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -74,8 +51,8 @@ const EditDepartment = ({
           <label className="label-control"> Department Name * :</label>
           <input
             type="text"
-            name="districtName"
-            value={districtName}
+            name="departmentName"
+            value={departmentName}
             className="form-control"
             onChange={(e) => onInputChange(e)}
             required
