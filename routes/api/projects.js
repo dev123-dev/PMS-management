@@ -5,6 +5,7 @@ const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const Project = require("../../models/Project");
 const ProjectStatus = require("../../models/ProjectStatus");
+const ProjectTrack = require("../../models/ProjectTrack");
 
 //ADD
 router.post("/add-project", async (req, res) => {
@@ -24,6 +25,18 @@ router.post("/add-project-status", async (req, res) => {
   try {
     let ProjectStatusDetails = new ProjectStatus(data);
     output = await ProjectStatusDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/add-project-track", async (req, res) => {
+  let data = req.body;
+  try {
+    let ProjectTrackDetails = new ProjectTrack(data);
+    output = await ProjectTrackDetails.save();
     res.send(output);
   } catch (err) {
     console.error(err.message);
