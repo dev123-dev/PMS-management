@@ -13,6 +13,7 @@ import {
   ACTIVE_DESIGNATION,
   ALL_MENUS,
   ACTIVE_MENUS,
+  ALL_RIGHTS,
 } from "./types";
 
 const config = {
@@ -77,6 +78,22 @@ export const AddPaymentMode = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/add-payment-mode", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const AddRight = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/settings/add-rights", finalData, config);
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -229,6 +246,20 @@ export const getActiveMenus = () => async (dispatch) => {
     const res = await axios.get("/api/settings/get-active-menus");
     dispatch({
       type: ACTIVE_MENUS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getAllRights = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/settings/get-all-rights");
+    dispatch({
+      type: ALL_RIGHTS,
       payload: res.data,
     });
   } catch (err) {
