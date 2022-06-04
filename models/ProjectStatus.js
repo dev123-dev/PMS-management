@@ -28,7 +28,6 @@ const ProjectStatusSchema = new mongoose.Schema({
   },
   projectStatusEditedDateTime: {
     type: Date,
-    default: Date.now(),
   },
 });
 
