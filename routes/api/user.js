@@ -26,7 +26,7 @@ router.post("/add-user-groups", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
-router.post("/add-user", async (req, res) => {
+router.post("/add-employee", async (req, res) => {
   let data = req.body;
   try {
     let userExists = await EmployeeDetails.findOne({ userName: data.userName });
