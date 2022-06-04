@@ -142,10 +142,49 @@ router.post("/edit-payment-mode", async (req, res) => {
 });
 
 //***************SELECT***************
+
+//ALL Payment Mode
 router.get("/get-all-payment-mode", async (req, res) => {
   try {
     const allPaymentMode = await PaymentMode.find({});
     res.json(allPaymentMode);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+//ALL Department
+router.get("/get-all-department", async (req, res) => {
+  try {
+    const allDepartment = await Department.find({});
+    res.json(allDepartment);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+//ALL Designation
+router.get("/get-all-designation", async (req, res) => {
+  try {
+    const allDesignation = await Designation.find({});
+    res.json(allDesignation);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+//Active Designation
+router.get("/get-active-designation", async (req, res) => {
+  try {
+    const activeDesignation = await Designation.find({
+      designationStatus: {
+        $eq: "Active",
+      },
+    });
+    res.json(activeDesignation);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
