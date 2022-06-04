@@ -2,7 +2,6 @@ import React, { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Header from "./components/layout/Header";
-import TenantFilters from "./components/dashboard/TenantFilters";
 import Footer from "./components/layout/Footer";
 import HomePage from "./components/layout/HomePage";
 
@@ -36,9 +35,7 @@ const App = () => {
         <Fragment>
           <Header />
           <div className="row ">
-            <div className="col-lg-1 col-md-2 col-sm-2 col-2 no_padding">
-              <TenantFilters />
-            </div>
+            <div className="col-lg-1 col-md-2 col-sm-2 col-2 no_padding"></div>
             {/* <Alert /> */}
             <div className="col-lg-11 col-md-10 col-sm-10 col-9 no_padding">
               <Switch>

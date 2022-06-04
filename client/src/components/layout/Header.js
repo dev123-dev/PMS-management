@@ -6,20 +6,8 @@ import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
 import Login from "../auth/Login";
 import "react-datepicker/dist/react-datepicker.css";
-import TenantSettings from "../dashboard/TenantSettings";
 
-import { getAllSettings } from "../../actions/tenants";
-
-const Header = ({
-  auth: { isAuthenticated, loading, user, allTenantSetting },
-  logout,
-
-  getAllSettings,
-}) => {
-  useEffect(() => {
-    getAllSettings();
-  }, [getAllSettings]);
-
+const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const [showLogin, setShowLogin] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
 
@@ -188,34 +176,6 @@ const Header = ({
           </Navbar>
         </Container>
 
-        {/*Tenant Settings Modal */}
-        <Modal
-          show={showTenantSetting}
-          backdrop="static"
-          keyboard={false}
-          size="md"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header>
-            <div className="col-lg-10">
-              <h3 className="modal-title text-center">Tenant Setting</h3>
-            </div>
-            <div className="col-lg-2">
-              <button onClick={handleTenantSettingModalClose} className="close">
-                <img
-                  src={require("../../static/images/close.png")}
-                  alt="X"
-                  style={{ height: "20px", width: "20px" }}
-                />
-              </button>
-            </div>
-          </Modal.Header>
-          <Modal.Body>
-            <TenantSettings onAddSettingModalChange={onAddSettingModalChange} />
-          </Modal.Body>
-        </Modal>
-
         {/* Logout Modal */}
         <Modal
           show={showLogout}
@@ -253,11 +213,10 @@ const Header = ({
 Header.propTypes = {
   logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  getAllSettings: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { logout, getAllSettings })(Header);
+export default connect(mapStateToProps, { logout })(Header);

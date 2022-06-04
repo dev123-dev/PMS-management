@@ -33,9 +33,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server",
     "server": "nodemon server ",
-    "cjserver": "npm start --prefix cronjob",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run cjserver\" \"npm run client\" "
+    "dev": "concurrently \"npm run server\" \"npm run client\" "
   },
   "repository": {
     "type": "git",
