@@ -159,4 +159,19 @@ router.post("/get-all-employee", auth, async (req, res) => {
   }
 });
 
+router.post("/get-active-employee", auth, async (req, res) => {
+  const userInfo = await UserDetails.findById(req.user.id).select("-password");
+  try {
+    const getActiveEmployeeDetails = await EmployeeDetails.find({
+      empStatus: {
+        $eq: "Active",
+      },
+    });
+    res.json(getActiveEmployeeDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;
