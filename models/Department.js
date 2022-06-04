@@ -4,7 +4,7 @@ ObjectId = mongoose.Schema.ObjectId;
 const DepartmentSchema = new mongoose.Schema({
   departmentName: {
     type: String,
-    required: true,
+    //required: true,
   },
   departmentDesc: {
     type: String,
