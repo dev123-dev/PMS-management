@@ -10,6 +10,10 @@ const MenuSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  menuStatus: {
+    type: String,
+    default: "Active",
+  },
   menuEnteredById: {
     type: ObjectId,
   },

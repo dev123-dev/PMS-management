@@ -10,6 +10,10 @@ const DepsignationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  designationStatus: {
+    type: String,
+    default: "Active",
+  },
   designationEnteredById: {
     type: ObjectId,
   },

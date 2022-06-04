@@ -56,6 +56,7 @@ router.post("/edit-department", async (req, res) => {
         $set: {
           departmentName: data.departmentName,
           departmentDesc: data.departmentDesc,
+
           departmentEditedById: data.departmentEditedById,
           departmentEditedDateTime: Date.now(),
         },
@@ -76,6 +77,7 @@ router.post("/edit-menu", async (req, res) => {
         $set: {
           menuName: data.menuName,
           menuDesc: data.departmentDesc,
+          menuStatus: data.menuStatus,
           menuEditedById: data.menuEditedById,
           menuEditedDateTime: Date.now(),
         },
@@ -96,6 +98,7 @@ router.post("/edit-designation", async (req, res) => {
         $set: {
           designationName: data.designationName,
           designationDesc: data.designationDesc,
+          designationStatus: data.designationStatus,
           designationEditedById: data.designationEditedById,
           designationEditedDateTime: Date.now(),
         },
