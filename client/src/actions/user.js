@@ -6,6 +6,7 @@ import {
   SET_LOADING_FALSE,
   ALL_EMPLOYEE,
   ACTIVE_EMPLOYEE,
+  USER_GROUPS,
 } from "./types";
 
 const config = {
@@ -122,6 +123,20 @@ export const getActiveEmployee = () => async (dispatch) => {
     const res = await axios.post("/api/users/get-active-employee");
     dispatch({
       type: ACTIVE_EMPLOYEE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getALLUserGroups = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/users/get-all-user-groups");
+    dispatch({
+      type: USER_GROUPS,
       payload: res.data,
     });
   } catch (err) {
