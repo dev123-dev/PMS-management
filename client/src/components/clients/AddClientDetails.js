@@ -59,7 +59,7 @@ const AddClientDetails = ({
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
                 <div className="row card-new  pb-3">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h5>SHG Info </h5>
+                    <h5>Client Info </h5>
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Client Name:</label>
@@ -131,46 +131,6 @@ const AddClientDetails = ({
                       // onChange={(e) => onPaymentModeChange(e)}
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Address:</label>
-                    <input
-                      type="text"
-                      //    name="batchBankBranch"
-                      //    value={batchBankBranch}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Country:</label>
-                    <input
-                      type="text"
-                      //    name="batchBankBranch"
-                      //    value={batchBankBranch}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Currency:</label>
-                    <input
-                      type="text"
-                      //    name="batchBankBranch"
-                      //    value={batchBankBranch}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Mode of Payment:</label>
-                    <Select
-                      name="usergroup"
-                      //  options={UserGroups}
-                      isSearchable={false}
-                      placeholder="Select"
-                      // onChange={(e) => onPaymentModeChange(e)}
-                    />
-                  </div>
                 </div>
               </div>
 
@@ -178,17 +138,53 @@ const AddClientDetails = ({
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-3 no_padding">
                   <div className="row card-new pb-3">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                      <h5>Area Info </h5>
+                      <h5>Other Info </h5>
                     </div>
 
-                    <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding "></div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                <div className="row card-new pb-3">
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h5>Bank Info </h5>
+                    <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+                      <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">Address:</label>
+                        <input
+                          type="text"
+                          //    name="batchBankBranch"
+                          //    value={batchBankBranch}
+                          className="form-control"
+                          onChange={(e) => onInputChange(e)}
+                        />
+                      </div>
+                      <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">Country:</label>
+                        <input
+                          type="text"
+                          //    name="batchBankBranch"
+                          //    value={batchBankBranch}
+                          className="form-control"
+                          onChange={(e) => onInputChange(e)}
+                        />
+                      </div>
+                      <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">Currency:</label>
+                        <input
+                          type="text"
+                          //    name="batchBankBranch"
+                          //    value={batchBankBranch}
+                          className="form-control"
+                          onChange={(e) => onInputChange(e)}
+                        />
+                      </div>
+                      <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">
+                          Mode of Payment:
+                        </label>
+                        <Select
+                          name="usergroup"
+                          //  options={UserGroups}
+                          isSearchable={false}
+                          placeholder="Select"
+                          // onChange={(e) => onPaymentModeChange(e)}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
