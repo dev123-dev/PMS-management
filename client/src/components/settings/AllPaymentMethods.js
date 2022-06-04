@@ -5,7 +5,8 @@ import Select from "react-select";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-
+import AddPaymentMethod from "./AddPaymentMethod";
+import EditPaymentMethod from "./EditPaymentMethod";
 const AllPaymentMethods = ({
   auth: { allUser, isAuthenticated, user, users },
 }) => {
@@ -55,7 +56,7 @@ const AllPaymentMethods = ({
               <img
                 className="img_icon_size log float-right"
                 onClick={() => onClickHandler1()}
-                // src={require("../../static/images/add-icon.png")}
+                src={require("../../static/images/add-icon.png")}
                 alt="Edit Department"
                 title="Edit Department"
               />
@@ -71,7 +72,7 @@ const AllPaymentMethods = ({
                   >
                     <thead>
                       <tr>
-                        <th>Department Name</th>
+                        <th>Payment Method </th>
                         <th>Op</th>
                       </tr>
                     </thead>
@@ -92,9 +93,7 @@ const AllPaymentMethods = ({
         >
           <Modal.Header>
             <div className="col-lg-10">
-              <h3 className="modal-title text-center">
-                Add Department Details
-              </h3>
+              <h3 className="modal-title text-center">Add Payment Method</h3>
             </div>
             <div className="col-lg-2">
               <button onClick={handleAddDistrictModalClose} className="close">
@@ -107,9 +106,9 @@ const AllPaymentMethods = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            {/* <AddDepartment
+            <AddPaymentMethod
               onAddDistrictModalChange={onAddDistrictModalChange}
-            /> */}
+            />
           </Modal.Body>
         </Modal>
 
@@ -123,9 +122,7 @@ const AllPaymentMethods = ({
         >
           <Modal.Header>
             <div className="col-lg-10">
-              <h3 className="modal-title text-center">
-                Edit Department Details
-              </h3>
+              <h3 className="modal-title text-center">Edit Payment Method</h3>
             </div>
             <div className="col-lg-2">
               <button onClick={handleEditModalClose} className="close">
@@ -138,7 +135,7 @@ const AllPaymentMethods = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            {/* <EditDepartment onEditModalChange={onEditModalChange} /> */}
+            <EditPaymentMethod onEditModalChange={onEditModalChange} />
           </Modal.Body>
         </Modal>
       </div>
