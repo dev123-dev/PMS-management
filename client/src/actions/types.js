@@ -40,3 +40,5 @@ export const PAYMENT_MODE = "PAYMENT_MODE";
 export const ALL_EMPLOYEE = "ALL_EMPLOYEE";
 export const ACTIVE_EMPLOYEE = "ACTIVE_EMPLOYEE";
 export const USER_GROUPS = "USER_GROUPS";
+export const ALL_CLIENTS = "ALL_CLIENTS";
+export const ACTIVE_CLIENTS = "ACTIVE_CLIENTS";
