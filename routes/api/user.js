@@ -144,4 +144,30 @@ router.post("/deactive-employee", async (req, res) => {
   }
 });
 
+//SELECT
+//Get all users
+router.post("/get-all-employee", async (req, res) => {
+  try {
+    const getEmployeeDetails = await EmployeeDetails.find();
+    res.json(getEmployeeDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-active-employee", async (req, res) => {
+  try {
+    const getActiveEmployeeDetails = await EmployeeDetails.find({
+      empStatus: {
+        $eq: "Active",
+      },
+    });
+    res.json(getActiveEmployeeDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;

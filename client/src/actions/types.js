@@ -37,3 +37,5 @@ export const FINAL_DATA_REP = "FINAL_DATA_REP";
 
 ///NEW
 export const PAYMENT_MODE = "PAYMENT_MODE";
+export const ALL_EMPLOYEE = "ALL_EMPLOYEE";
+export const ACTIVE_EMPLOYEE = "ACTIVE_EMPLOYEE";

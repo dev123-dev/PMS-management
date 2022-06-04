@@ -31,6 +31,15 @@ const AllStaffDetails = ({
                   title="Add Staff"
                 />
               </Link>
+
+              <Link to="/edit-Staff">
+                <img
+                  className="img_icon_size log float-right"
+                  src={require("../../static/images/add-icon.png")}
+                  alt="Edit Staff"
+                  title="Edit Staff"
+                />
+              </Link>
             </div>
           </div>
           <div className="row">
