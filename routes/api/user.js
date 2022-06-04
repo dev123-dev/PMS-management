@@ -170,4 +170,15 @@ router.post("/get-active-employee", async (req, res) => {
   }
 });
 
+//Get All User Groups
+router.get("/get-all-user-groups", async (req, res) => {
+  try {
+    const allUserGroup = await UserGroups.find({});
+    res.json(allUserGroup);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;
