@@ -48,7 +48,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
               <img
                 className="log_size"
                 alt="Pinnacle Media"
-                src={require("../../static/images/lraLogo_wh.png")}
+                src={require("../../static/images/pmLogo_wh.png")}
               />
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
