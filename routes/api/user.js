@@ -159,6 +159,7 @@ router.post("/get-all-employee", auth, async (req, res) => {
   }
 });
 
+//Get Active Users
 router.post("/get-active-employee", auth, async (req, res) => {
   const userInfo = await UserDetails.findById(req.user.id).select("-password");
   try {
@@ -168,6 +169,17 @@ router.post("/get-active-employee", auth, async (req, res) => {
       },
     });
     res.json(getActiveEmployeeDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+//Get All User Groups
+router.get("/get-all-user-groups", async (req, res) => {
+  try {
+    const allUserGroup = await UserGroups.find({});
+    res.json(allUserGroup);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
