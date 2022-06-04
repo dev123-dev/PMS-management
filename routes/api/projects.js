@@ -31,18 +31,6 @@ router.post("/add-project-status", async (req, res) => {
   }
 });
 
-router.post("/add-designation", async (req, res) => {
-  let data = req.body;
-  try {
-    let DesignationDetails = new Designation(data);
-    output = await DesignationDetails.save();
-    res.send(output);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
 //EDIT
 router.post("/edit-project", async (req, res) => {
   try {
@@ -94,27 +82,6 @@ router.post("/edit-project-status", async (req, res) => {
       }
     );
     res.json(updateProjectStatus);
-  } catch (error) {
-    res.status(500).json({ errors: [{ msg: "Server Error" }] });
-  }
-});
-
-router.post("/edit-designation", async (req, res) => {
-  try {
-    let data = req.body;
-    const updateDesignation = await Designation.updateOne(
-      { _id: data.recordId },
-      {
-        $set: {
-          designationName: data.designationName,
-          designationDesc: data.designationDesc,
-          designationStatus: data.designationStatus,
-          designationEditedById: data.designationEditedById,
-          designationEditedDateTime: Date.now(),
-        },
-      }
-    );
-    res.json(updateDesignation);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
