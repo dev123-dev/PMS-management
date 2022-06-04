@@ -11,23 +11,14 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const [showLogin, setShowLogin] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
 
-  const [showTenantSetting, setTenantSetting] = useState(false);
-
   const handleLogoutModalClose = () => setShowLogout(false);
   const handleLogoutModalShow = () => setShowLogout(true);
-  const handleTenantSettingModalClose = () => setTenantSetting(false);
-  const handleTenantSettingModalShow = () => setTenantSetting(true);
 
   const LogoutModalClose = () => {
     handleLogoutModalClose();
     logout();
   };
 
-  const onAddSettingModalChange = (e) => {
-    if (e) {
-      handleTenantSettingModalClose();
-    }
-  };
   const openSecondLevelMenu2 = () => {
     const menu = document.getElementById("second-level-menu2");
     if (window.innerWidth <= 992) {
@@ -76,7 +67,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       to="/add-tenant-details"
                       activeStyle={{ color: "Black", textDecoration: "none" }}
                     >
-                      Add Tenant Details
+                      Job Queue
                     </NavLink>
                   ) : (
                     <NavItem></NavItem>
@@ -89,7 +80,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       to="/all-tenant-shop-Details"
                       activeStyle={{ color: "Black", textDecoration: "none" }}
                     >
-                      All Tenants Shop Details
+                      Daily Job Sheet
                     </NavLink>
                   ) : (
                     <NavItem></NavItem>
@@ -110,23 +101,24 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       </Link>
 
                       <ul className="dropdown-menu second-level-menu ">
-                        {/* <li>
-                          <Link to="/shop-Details">Shop Details</Link>
-                        </li> */}
-
                         <li>
-                          <Link
-                            to="#"
-                            onClick={() => handleTenantSettingModalShow()}
-                          >
-                            Tenant Setting
-                          </Link>
+                          <Link to="/add-user">All Clients</Link>
                         </li>
-
                         <li>
-                          <Link to="/add-user">Add Users</Link>
+                          <Link to="/add-user">All Staff</Link>
                         </li>
-
+                        <li>
+                          <Link to="/add-user">All Departments</Link>
+                        </li>
+                        <li>
+                          <Link to="/add-user">All Payment Method</Link>
+                        </li>
+                        <li>
+                          <Link to="/add-user">Project Status</Link>
+                        </li>
+                        <li>
+                          <Link to="/add-user">Groups</Link>
+                        </li>
                         <li>
                           <Link to="/change-password">Change Password</Link>
                         </li>
