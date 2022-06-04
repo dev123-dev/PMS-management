@@ -1,6 +1,12 @@
 import axios from "axios";
 
-import { AUTH_ERROR, SET_LOADING_TRUE, SET_LOADING_FALSE } from "./types";
+import {
+  AUTH_ERROR,
+  SET_LOADING_TRUE,
+  SET_LOADING_FALSE,
+  ALL_EMPLOYEE,
+  ACTIVE_EMPLOYEE,
+} from "./types";
 
 const config = {
   headers: {
@@ -87,6 +93,36 @@ export const deactiveEmployeeDetails = (finalData) => async (dispatch) => {
     // dispatch(getAllUser());
     dispatch({
       type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+//SELECT
+
+export const getAllEmployee = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/users/get-all-employee");
+    dispatch({
+      type: ALL_EMPLOYEE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getActiveEmployee = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/users/get-active-employee");
+    dispatch({
+      type: ACTIVE_EMPLOYEE,
+      payload: res.data,
     });
   } catch (err) {
     dispatch({

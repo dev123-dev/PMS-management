@@ -37,7 +37,13 @@ export const AddClient = (finalData) => async (dispatch) => {
 
 export const EditClient = (finalData) => async (dispatch) => {
   try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
     await axios.post("/api/client/edit-client", finalData);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
