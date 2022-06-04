@@ -17,6 +17,12 @@ const DepsignationSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  designationEditedById: {
+    type: ObjectId,
+  },
+  designationEditedDateTime: {
+    type: Date,
+  },
 });
 
 module.exports = designation = mongoose.model(

@@ -76,8 +76,8 @@ router.post("/edit-menu", async (req, res) => {
         $set: {
           menuName: data.menuName,
           menuDesc: data.departmentDesc,
-          departmentEnteredById: data.departmentEnteredById,
-          departmentDateTime: Date.now(),
+          menuEditedById: data.menuEditedById,
+          menuEditedDateTime: Date.now(),
         },
       }
     );

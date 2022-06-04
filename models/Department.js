@@ -16,6 +16,12 @@ const DepartmentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  departmentEditedById: {
+    type: ObjectId,
+  },
+  departmentEditedDateTime: {
+    type: Date,
+  },
 });
 
 module.exports = department = mongoose.model("department", DepartmentSchema);

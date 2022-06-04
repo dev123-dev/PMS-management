@@ -17,6 +17,12 @@ const MenuSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  menuEditedById: {
+    type: ObjectId,
+  },
+  menuEditedDateTime: {
+    type: Date,
+  },
 });
 
 module.exports = menu = mongoose.model("menu", MenuSchema);
