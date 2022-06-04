@@ -27,6 +27,10 @@ import AllDepartment from "../department/AllDepartment";
 //project
 import AllProjectStatus from "../projects/AllProjectStatus";
 
+//settings
+import AllPaymentMethods from "../settings/AllPaymentMethods";
+import AddPaymentMethod from "../settings/AddPaymentMethod";
+import AllUserGroups from "../settings/AllUserGroups";
 const RoutesFile = () => {
   return (
     <section>
@@ -69,6 +73,21 @@ const RoutesFile = () => {
           path="/all-project-status"
           component={AllProjectStatus}
         />
+
+        {/* payment methods */}
+        <PrivateRoute
+          exact
+          path="/all-payment-methods"
+          component={AllPaymentMethods}
+        />
+        <PrivateRoute
+          exact
+          path="/add-payment-method"
+          component={AddPaymentMethod}
+        />
+
+        <PrivateRoute exact path="/all-usergroups" component={AllUserGroups} />
+
         <PrivateRoute
           exact
           path="/change-password"

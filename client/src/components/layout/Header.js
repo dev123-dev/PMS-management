@@ -111,7 +111,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                           <Link to="/all-department">All Departments</Link>
                         </li>
                         <li>
-                          <Link to="/add-user">All Payment Method</Link>
+                          <Link to="/all-payment-methods">
+                            All Payment Method
+                          </Link>
                         </li>
                         <li>
                           <Link to="/all-project-status">
@@ -119,7 +121,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                           </Link>
                         </li>
                         <li>
-                          <Link to="/add-user">Groups</Link>
+                          <Link to="/all-usergroups">Groups</Link>
                         </li>
                         <li>
                           <Link to="/add-staff">Add Staff</Link>
