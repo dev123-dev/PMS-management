@@ -1,7 +1,8 @@
-import { PAYMENT_MODE } from "../actions/types";
+import { PAYMENT_MODE, ALL_DEPARTMENT } from "../actions/types";
 
 const initialState = {
   paymentMode: [],
+  allDeptartment: [],
 };
 
 const settings = (state = initialState, action) => {
@@ -13,7 +14,11 @@ const settings = (state = initialState, action) => {
         ...state,
         paymentMode: payload,
       };
-
+    case ALL_DEPARTMENT:
+      return {
+        ...state,
+        allDeptartment: payload,
+      };
     default:
       return state;
   }
