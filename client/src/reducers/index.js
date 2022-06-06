@@ -3,7 +3,7 @@ import alert from "./alert";
 import auth from "./auth";
 // import chat from "./chat";
 import client from "./client";
-// import project from "./project";
+import project from "./project";
 import settings from "./settings";
 import user from "./user";
 
@@ -12,7 +12,7 @@ export default combineReducers({
   auth,
   // chat,
   client,
-  // project,
+  project,
   settings,
   user,
 });

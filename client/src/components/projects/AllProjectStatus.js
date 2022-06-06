@@ -5,11 +5,19 @@ import Select from "react-select";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import { getAllProjectStatus } from "../../actions/projects";
 import EditProjectStatus from "./EditProjectStatus";
 import AddProjectStatus from "./AddProjectStatus";
 const AllProjectStatus = ({
   auth: { allUser, isAuthenticated, user, users },
+  project: { allProjectStatus },
+  getAllProjectStatus,
 }) => {
+  useEffect(() => {
+    getAllProjectStatus();
+  }, [getAllProjectStatus]);
+
+  console.log(allProjectStatus);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -148,9 +156,14 @@ const AllProjectStatus = ({
 
 AllProjectStatus.propTypes = {
   auth: PropTypes.object.isRequired,
+  projects: PropTypes.object.isRequired,
+  getAllProjectStatus: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  project: state.project,
 });
 
-export default connect(mapStateToProps, {})(AllProjectStatus);
+export default connect(mapStateToProps, { getAllProjectStatus })(
+  AllProjectStatus
+);

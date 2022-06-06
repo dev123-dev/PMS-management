@@ -118,7 +118,7 @@ export const deactiveProject = (finalData) => async (dispatch) => {
 //SELECT
 export const getAllProjectStatus = () => async (dispatch) => {
   try {
-    const res = await axios.get("/api/users/get-all-project-status");
+    const res = await axios.get("/api/projects/get-all-project-status");
     dispatch({
       type: ALL_PROJECT_STATUS,
       payload: res.data,
@@ -132,7 +132,7 @@ export const getAllProjectStatus = () => async (dispatch) => {
 
 export const getActiveProjectStatus = () => async (dispatch) => {
   try {
-    const res = await axios.get("/api/users/get-active-project-status");
+    const res = await axios.get("/api/projects/get-active-project-status");
     dispatch({
       type: ACTIVE_PROJECT_STATUS,
       payload: res.data,
