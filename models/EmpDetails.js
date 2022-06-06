@@ -59,7 +59,7 @@ const EmpDetailsSchema = new mongoose.Schema({
     type: ObjectId,
   },
   empStatus: {
-    type: Number,
+    type: String,
     default: "Active",
   },
   empColorCode: {
@@ -83,7 +83,6 @@ const EmpDetailsSchema = new mongoose.Schema({
   },
   empDeactiveDateTime: {
     type: Date,
-    default: Date.now(),
   },
   empBankName: {
     type: String,
