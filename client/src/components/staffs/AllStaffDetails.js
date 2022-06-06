@@ -78,7 +78,7 @@ const AllStaffDetails = ({
                         <th>Phone</th>
                         <th>Address</th>
                         <th>Staff Code</th>
-                        <th>Joining Date Code</th>
+                        <th>Joining Date </th>
                         <th>OP</th>
                       </tr>
                     </thead>
@@ -90,10 +90,10 @@ const AllStaffDetails = ({
                               <td className="headcolstatic">
                                 {allEmployee.empFullName}
                               </td>
-                              <td>{allEmployee.clientBelongsTo}</td>
-                              <td>{allEmployee.clientFolderName}</td>
-                              <td>{allEmployee.clientEmail}</td>
-                              <td>{allEmployee.clientContactNo1}</td>
+                              <td>{allEmployee.empPhone}</td>
+                              <td>{allEmployee.empAddress}</td>
+                              <td>{allEmployee.empCode}</td>
+                              <td>{allEmployee.empJoiningDate}</td>
 
                               <td>
                                 <>
