@@ -12,35 +12,30 @@ const AddUserGroup = ({
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    districtName: "",
+    userGroupName: "",
     isSubmitted: false,
   });
 
-  const { districtName } = formData;
+  const { userGroupName } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const onSubmit = (e) => {
-    //   e.preventDefault();
-    //   if (checkErrors()) {
-    //     const finalData = {
-    //       districtName: districtName,
-    //       stateId: stateId,
-    //       districtEnteredById: user._id,
-    //       districtEnteredByName: user.userName,
-    //       institutionId: user.institutionId,
-    //       userData: user,
-    //     };
-    //     AddDistrict(finalData);
-    //     setFormData({
-    //       ...formData,
-    //       districtName: "",
-    //       isSubmitted: true,
-    //     });
-    //     getStateData("");
-    //   }
+    e.preventDefault();
+    // if (checkErrors()) {
+    const finalData = {
+      userGroupName: userGroupName,
+      userGroupEnteredById: user._id,
+    };
+    console.log(finalData);
+    setFormData({
+      ...formData,
+      districtName: "",
+      isSubmitted: true,
+    });
+    // }
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -54,8 +49,8 @@ const AddUserGroup = ({
             <label className="label-control">UserGroup Name:</label>
             <input
               type="text"
-              // name="batchBankName"
-              // value={batchBankName}
+              name="userGroupName"
+              value={userGroupName}
               className="form-control"
               onChange={(e) => onInputChange(e)}
             />

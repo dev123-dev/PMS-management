@@ -12,35 +12,33 @@ const EditPaymentMethod = ({
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    districtName: "",
+    paymentMode: "",
     isSubmitted: false,
   });
 
-  const { districtName } = formData;
+  const { paymentMode } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const onSubmit = (e) => {
-    //   e.preventDefault();
-    //   if (checkErrors()) {
-    //     const finalData = {
-    //       districtName: districtName,
-    //       stateId: stateId,
-    //       districtEnteredById: user._id,
-    //       districtEnteredByName: user.userName,
-    //       institutionId: user.institutionId,
-    //       userData: user,
-    //     };
-    //     AddDistrict(finalData);
-    //     setFormData({
-    //       ...formData,
-    //       districtName: "",
-    //       isSubmitted: true,
-    //     });
-    //     getStateData("");
-    //   }
+    e.preventDefault();
+    // if (checkErrors()) {
+    const finalData = {
+      paymentMode: paymentMode,
+
+      paymentModeEnteredById: user._id,
+    };
+    console.log(finalData);
+    //  AddDistrict(finalData);
+    setFormData({
+      ...formData,
+      paymentMode: "",
+      isSubmitted: true,
+    });
+
+    // }
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -54,8 +52,8 @@ const EditPaymentMethod = ({
             <label className="label-control">Payment Method Name:</label>
             <input
               type="text"
-              // name="batchBankName"
-              // value={batchBankName}
+              name="paymentMode"
+              value={paymentMode}
               className="form-control"
               onChange={(e) => onInputChange(e)}
             />
