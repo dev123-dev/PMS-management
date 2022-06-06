@@ -81,14 +81,15 @@ router.post("/get-all-client", async (req, res) => {
   }
 });
 
-router.post("/get-active-client", async (req, res) => {
+router.get("/get-active-client", async (req, res) => {
   try {
-    const getClientDetails = await ClientDetails.find({
+    const getActiveClientDetails = await ClientDetails.find({
       clientStatus: {
         $eq: "Active",
       },
     });
-    res.json(getClientDetails);
+    res.json(getActiveClientDetails);
+    console.log(getClientDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
