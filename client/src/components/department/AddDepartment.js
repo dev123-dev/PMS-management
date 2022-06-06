@@ -12,10 +12,11 @@ const AddDepartment = ({
   //formData
   const [formData, setFormData] = useState({
     departmentName: "",
+    departmentDesc: "",
     isSubmitted: false,
   });
 
-  const { departmentName } = formData;
+  const { departmentName, departmentDesc } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,6 +26,7 @@ const AddDepartment = ({
   const onSubmit = (e) => {
     const finalData = {
       departmentName: departmentName,
+      departmentDesc: departmentDesc,
       departmentEnteredById: user._id,
     };
     // console.log(finalData);
@@ -50,6 +52,17 @@ const AddDepartment = ({
             type="text"
             name="departmentName"
             value={departmentName}
+            className="form-control"
+            onChange={(e) => onInputChange(e)}
+            required
+          />
+        </div>
+        <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <label className="label-control"> Department Description * :</label>
+          <input
+            type="text"
+            name="departmentDesc"
+            value={departmentDesc}
             className="form-control"
             onChange={(e) => onInputChange(e)}
             required

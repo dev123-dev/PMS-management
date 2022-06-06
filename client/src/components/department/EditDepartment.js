@@ -16,10 +16,15 @@ const EditDepartment = ({
       allDeptartmentdata && allDeptartmentdata.departmentName
         ? allDeptartmentdata.departmentName
         : "",
+    departmentDesc:
+      allDeptartmentdata && allDeptartmentdata.departmentDesc
+        ? allDeptartmentdata.departmentDesc
+        : "",
+
     isSubmitted: false,
   });
 
-  const { departmentName } = formData;
+  const { departmentName, departmentDesc } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,6 +35,7 @@ const EditDepartment = ({
       recordId: allDeptartmentdata ? allDeptartmentdata._id : "",
 
       departmentName: departmentName,
+      departmentDesc: departmentDesc,
       // departmentEditedById:
     };
 
@@ -56,6 +62,17 @@ const EditDepartment = ({
             type="text"
             name="departmentName"
             value={departmentName}
+            className="form-control"
+            onChange={(e) => onInputChange(e)}
+            required
+          />
+        </div>
+        <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <label className="label-control"> Department Description * :</label>
+          <input
+            type="text"
+            name="departmentDesc"
+            value={departmentDesc}
             className="form-control"
             onChange={(e) => onInputChange(e)}
             required
