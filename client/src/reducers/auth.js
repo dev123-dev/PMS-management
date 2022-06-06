@@ -25,10 +25,6 @@ const initialState = {
   errorResponse: "",
   successResponse: "",
 
-  // alllevels: [""],
-  // alltenants: [""],
-  // allTenantSetting: [""],
-
   monthExpCnt: [],
   yearExpCnt: [],
   expReport: [],
@@ -92,23 +88,6 @@ const auth = (state = initialState, action) => {
         errorResponse: payload,
         successResponse: "",
       };
-
-    // case GET_ALL_LEVELS:
-    //   return {
-    //     ...state,
-    //     allLevels: payload,
-    //   };
-
-    // case GET_ALL_TENANTS:
-    //   return {
-    //     ...state,
-    //     allTenants: payload,
-    //   };
-    // case GET_ALL_SETTINGS:
-    //   return {
-    //     ...state,
-    //     allTenantSetting: payload,
-    //   };
 
     case MONTH_EXP_CNT:
       return {

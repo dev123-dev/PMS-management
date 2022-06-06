@@ -71,7 +71,7 @@ export const deactiveClient = (finalData) => async (dispatch) => {
 
 export const getAllClients = () => async (dispatch) => {
   try {
-    const res = await axios.get("/api/client/get-all-clients");
+    const res = await axios.post("/api/client/get-all-client");
     dispatch({
       type: ALL_CLIENTS,
       payload: res.data,

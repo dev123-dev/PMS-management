@@ -9,12 +9,14 @@ import { getAllClients } from "../../actions/client";
 
 const AllClientDetails = ({
   auth: { isAuthenticated, user, users },
-  // client: {},
+  client: { allClient },
   getAllClients,
 }) => {
   useEffect(() => {
     getAllClients();
   }, [getAllClients]);
+
+  console.log("allClient", allClient);
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
