@@ -6,7 +6,7 @@ const config = require("config");
 const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const EmployeeDetails = require("../../models/EmpDetails");
-const UserGroups = require("../../models/UserGroups");
+const UserGroup = require("../../models/UserGroups");
 
 const {
   USER_EXISTS,
@@ -18,7 +18,7 @@ const {
 router.post("/add-user-groups", async (req, res) => {
   let data = req.body;
   try {
-    let userGroupDetails = new UserGroups(data);
+    let userGroupDetails = new UserGroup(data);
     output = await userGroupDetails.save();
     res.send(output);
   } catch (err) {
@@ -171,9 +171,9 @@ router.post("/get-active-employee", async (req, res) => {
 });
 
 //Get All User Groups
-router.get("/get-all-user-groups", async (req, res) => {
+router.post("/get-all-user-groups", async (req, res) => {
   try {
-    const allUserGroup = await UserGroups.find({});
+    const allUserGroup = await UserGroup.find({});
     res.json(allUserGroup);
   } catch (err) {
     console.error(err.message);
