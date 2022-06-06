@@ -48,7 +48,7 @@ const ClientSchema = new mongoose.Schema({
     type: ObjectId,
   },
   testClient: {
-    type: Number,
+    type: String,
   },
   clientEnteredById: {
     type: ObjectId,
