@@ -7,12 +7,15 @@ import Spinner from "../layout/Spinner";
 
 const EditPaymentMethod = ({
   auth: { isAuthenticated, user, users, loading },
-
+  paymentModeData,
   onAddDistrictModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    paymentMode: "",
+    paymentMode:
+      paymentModeData && paymentModeData.paymentMode
+        ? paymentModeData.paymentMode
+        : "",
     isSubmitted: false,
   });
 
@@ -26,6 +29,7 @@ const EditPaymentMethod = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
+      recordId: paymentModeData ? paymentModeData._id : "",
       paymentMode: paymentMode,
 
       paymentModeEnteredById: user._id,
@@ -34,7 +38,7 @@ const EditPaymentMethod = ({
     //  AddDistrict(finalData);
     setFormData({
       ...formData,
-      paymentMode: "",
+
       isSubmitted: true,
     });
 
@@ -48,7 +52,7 @@ const EditPaymentMethod = ({
       {" "}
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-11 col-md-11 col-sm-12 col-12 ">
-          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+          <div className="col-lg-8 col-md-6 col-sm-6 col-12">
             <label className="label-control">Payment Method Name:</label>
             <input
               type="text"
