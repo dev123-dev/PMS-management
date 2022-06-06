@@ -89,7 +89,6 @@ router.get("/get-active-client", async (req, res) => {
       },
     });
     res.json(getActiveClientDetails);
-    console.log(getClientDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
