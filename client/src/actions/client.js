@@ -85,7 +85,7 @@ export const getAllClients = () => async (dispatch) => {
 
 export const getActiveClients = () => async (dispatch) => {
   try {
-    const res = await axios.get("/api/client/get-active-clients");
+    const res = await axios.get("/api/client/get-active-client");
     dispatch({
       type: ACTIVE_CLIENTS,
       payload: res.data,

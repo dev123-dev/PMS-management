@@ -1,7 +1,8 @@
-import { ALL_CLIENTS } from "../actions/types";
+import { ALL_CLIENTS, ACTIVE_CLIENTS } from "../actions/types";
 
 const initialState = {
   allClient: [],
+  activeClient: [],
 };
 
 const client = (state = initialState, action) => {
@@ -13,7 +14,11 @@ const client = (state = initialState, action) => {
         ...state,
         allClient: payload,
       };
-
+    case ACTIVE_CLIENTS:
+      return {
+        ...state,
+        activeClient: payload,
+      };
     default:
       return state;
   }

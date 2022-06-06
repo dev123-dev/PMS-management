@@ -4,12 +4,27 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import { getALLPaymentMode } from "../../actions/settings";
+import { getActiveClients } from "../../actions/client";
 
 const AddClientDetails = ({
   auth: { isAuthenticated, user, users, loading },
-
+  settings: { paymentMode },
+  client: { activeClient },
+  getALLPaymentMode,
+  getActiveClients,
   onAddDistrictModalChange,
 }) => {
+  useEffect(() => {
+    getALLPaymentMode();
+  }, [getALLPaymentMode]);
+  useEffect(() => {
+    getActiveClients();
+  }, [getActiveClients]);
+
+  console.log(paymentMode);
+  console.log(activeClient);
+
   //formData
   const [formData, setFormData] = useState({
     clientName: "",
@@ -255,11 +270,19 @@ const AddClientDetails = ({
 
 AddClientDetails.propTypes = {
   auth: PropTypes.object.isRequired,
-  area: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
+  client: PropTypes.object.isRequired,
+  getALLPaymentMode: PropTypes.object.isRequired,
+  getActiveClients: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  settings: state.settings,
+  client: state.client,
 });
 
-export default connect(mapStateToProps, {})(AddClientDetails);
+export default connect(mapStateToProps, {
+  getALLPaymentMode,
+  getActiveClients,
+})(AddClientDetails);
