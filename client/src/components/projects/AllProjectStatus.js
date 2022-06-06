@@ -39,7 +39,11 @@ const AllProjectStatus = ({
       handleEditModalClose();
     }
   };
-
+  const [userDatas, setUserDatas] = useState(null);
+  const onUpdate = (allProjectStatus, idx) => {
+    setShowEditModal(true);
+    setUserDatas(allProjectStatus);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -87,7 +91,43 @@ const AllProjectStatus = ({
                         <th>Op</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {allProjectStatus &&
+                        allProjectStatus.map((allProjectStatus, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td className="headcolstatic">
+                                {allProjectStatus.projectStatusType}
+                              </td>
+                              <td>{allProjectStatus.projectStatusCategory}</td>
+
+                              <td>
+                                <>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() =>
+                                      onUpdate(allProjectStatus, idx)
+                                    }
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Deactivate"
+                                    title="Deactivate"
+                                  />
+                                  &nbsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() =>
+                                      onUpdate(allProjectStatus, idx)
+                                    }
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>
@@ -146,7 +186,10 @@ const AllProjectStatus = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <EditProjectStatus onEditModalChange={onEditModalChange} />
+            <EditProjectStatus
+              onEditModalChange={onEditModalChange}
+              allProjectStatusdata={userDatas}
+            />
           </Modal.Body>
         </Modal>
       </div>
