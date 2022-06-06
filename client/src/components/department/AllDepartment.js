@@ -87,6 +87,7 @@ const AllDepartment = ({
                     <thead>
                       <tr>
                         <th>Department Name</th>
+                        <th>Department Description</th>
                         <th>Op</th>
                       </tr>
                     </thead>
@@ -98,7 +99,7 @@ const AllDepartment = ({
                               <td className="headcolstatic">
                                 {allDeptartment.departmentName}
                               </td>
-
+                              <td>{allDeptartment.departmentDesc}</td>
                               <td>
                                 <>
                                   <img
