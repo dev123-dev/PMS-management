@@ -20,7 +20,7 @@ const config = {
 
 //ADD
 
-export const AddDepartment = (finalData) => async (dispatch) => {
+export const AddNewDepartment = (finalData) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING_TRUE,
