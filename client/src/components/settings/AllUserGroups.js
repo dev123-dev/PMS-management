@@ -41,6 +41,11 @@ const AllUserGroups = ({
     }
   };
 
+  const [userDatas, setUserDatas] = useState(null);
+  const onUpdate = (userGroups, idx) => {
+    setShowEditModal(true);
+    setUserDatas(userGroups);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -85,7 +90,38 @@ const AllUserGroups = ({
                         <th>Op</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {userGroups &&
+                        userGroups.map((userGroups, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td className="headcolstatic">
+                                {userGroups.userGroupName}
+                              </td>
+
+                              <td>
+                                <>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(userGroups, idx)}
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Deactivate"
+                                    title="Deactivate"
+                                  />
+                                  &nbsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(userGroups, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>
@@ -115,7 +151,10 @@ const AllUserGroups = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <AddUserGroup onAddDistrictModalChange={onAddDistrictModalChange} />
+            <AddUserGroup
+              onAddDistrictModalChange={onAddDistrictModalChange}
+              userGroupsdata={userDatas}
+            />
           </Modal.Body>
         </Modal>
 
@@ -142,7 +181,10 @@ const AllUserGroups = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <EditUserGroup onEditModalChange={onEditModalChange} />
+            <EditUserGroup
+              onEditModalChange={onEditModalChange}
+              userGroupsdata={userDatas}
+            />
           </Modal.Body>
         </Modal>
       </div>
