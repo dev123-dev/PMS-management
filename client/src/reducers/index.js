@@ -2,17 +2,17 @@ import { combineReducers } from "redux";
 import alert from "./alert";
 import auth from "./auth";
 // import chat from "./chat";
-import client from "./client";
+// import client from "./client";
 // import project from "./project";
 // import settings from "./settings";
-// import users from "./users";
+import user from "./user";
 
 export default combineReducers({
   alert,
   auth,
   // chat,
-  client,
+  // client,
   // project,
   // settings,
-  // users,
+  user,
 });

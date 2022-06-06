@@ -5,11 +5,18 @@ import Select from "react-select";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import { getAllEmployee } from "../../actions/user";
 import Pagination from "../layout/Pagination";
 
 const AllStaffDetails = ({
   auth: { allUser, isAuthenticated, user, users },
+  user: { allEmployee },
+  getAllEmployee,
 }) => {
+  useEffect(() => {
+    getAllEmployee();
+  }, [getAllEmployee]);
+  console.log(allEmployee);
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -74,9 +81,12 @@ const AllStaffDetails = ({
 
 AllStaffDetails.propTypes = {
   auth: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  getAllEmployee: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  user: state.user,
 });
 
-export default connect(mapStateToProps, {})(AllStaffDetails);
+export default connect(mapStateToProps, { getAllEmployee })(AllStaffDetails);
