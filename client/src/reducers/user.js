@@ -8,8 +8,8 @@ const initialState = {
   errorResponse: "",
   successResponse: "",
   savedMessage: "",
-  allEmployee: "",
-  userGroup: "",
+  allEmployee: [],
+  userGroups: [],
 };
 
 const user = (state = initialState, action) => {
@@ -24,7 +24,7 @@ const user = (state = initialState, action) => {
     case USER_GROUPS:
       return {
         ...state,
-        userGroup: payload,
+        userGroups: payload,
       };
 
     default:

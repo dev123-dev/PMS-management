@@ -5,11 +5,19 @@ import Select from "react-select";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import { getALLPaymentMode } from "../../actions/settings";
 import AddPaymentMethod from "./AddPaymentMethod";
 import EditPaymentMethod from "./EditPaymentMethod";
 const AllPaymentMethods = ({
   auth: { allUser, isAuthenticated, user, users },
+  settings: { paymentMode },
+  getALLPaymentMode,
 }) => {
+  useEffect(() => {
+    getALLPaymentMode();
+  }, [getALLPaymentMode]);
+
+  console.log(paymentMode);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -145,9 +153,14 @@ const AllPaymentMethods = ({
 
 AllPaymentMethods.propTypes = {
   auth: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
+  getALLPaymentMode: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  settings: state.settings,
 });
 
-export default connect(mapStateToProps, {})(AllPaymentMethods);
+export default connect(mapStateToProps, { getALLPaymentMode })(
+  AllPaymentMethods
+);

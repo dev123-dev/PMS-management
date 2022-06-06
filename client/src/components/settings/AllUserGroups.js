@@ -5,9 +5,18 @@ import Select from "react-select";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import { getALLUserGroups } from "../../actions/user";
 import AddUserGroup from "./AddUserGroup";
 import EditUserGroup from "./EditUserGroup";
-const AllUserGroups = ({ auth: { allUser, isAuthenticated, user, users } }) => {
+const AllUserGroups = ({
+  auth: { allUser, isAuthenticated, user, users },
+  user: { userGroups },
+  getALLUserGroups,
+}) => {
+  useEffect(() => {
+    getALLUserGroups();
+  }, [getALLUserGroups]);
+
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -18,6 +27,8 @@ const AllUserGroups = ({ auth: { allUser, isAuthenticated, user, users } }) => {
       handleAddDistrictModalClose();
     }
   };
+
+  console.log(userGroups);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -141,9 +152,12 @@ const AllUserGroups = ({ auth: { allUser, isAuthenticated, user, users } }) => {
 
 AllUserGroups.propTypes = {
   auth: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  getALLUserGroups: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  user: state.user,
 });
 
-export default connect(mapStateToProps, {})(AllUserGroups);
+export default connect(mapStateToProps, { getALLUserGroups })(AllUserGroups);
