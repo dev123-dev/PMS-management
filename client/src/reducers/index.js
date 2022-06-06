@@ -4,7 +4,7 @@ import auth from "./auth";
 // import chat from "./chat";
 import client from "./client";
 // import project from "./project";
-// import settings from "./settings";
+import settings from "./settings";
 import user from "./user";
 
 export default combineReducers({
@@ -13,6 +13,6 @@ export default combineReducers({
   // chat,
   client,
   // project,
-  // settings,
+  settings,
   user,
 });

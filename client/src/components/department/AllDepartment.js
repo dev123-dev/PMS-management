@@ -7,7 +7,18 @@ import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import AddDepartment from "./AddDepartment";
 import EditDepartment from "./EditDepartment";
-const AllDepartment = ({ auth: { allUser, isAuthenticated, user, users } }) => {
+import { getALLDepartment } from "../../actions/settings";
+const AllDepartment = ({
+  auth: { isAuthenticated, user, users },
+  settings: { allDeptartment },
+  getALLDepartment,
+}) => {
+  useEffect(() => {
+    getALLDepartment();
+  }, [getALLDepartment]);
+
+  console.log("allDeptartment", allDeptartment);
+
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -147,9 +158,11 @@ const AllDepartment = ({ auth: { allUser, isAuthenticated, user, users } }) => {
 
 AllDepartment.propTypes = {
   auth: PropTypes.object.isRequired,
+  getALLDepartment: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  settings: state.settings,
 });
 
-export default connect(mapStateToProps, {})(AllDepartment);
+export default connect(mapStateToProps, { getALLDepartment })(AllDepartment);
