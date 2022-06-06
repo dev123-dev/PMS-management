@@ -7,12 +7,15 @@ import Spinner from "../layout/Spinner";
 
 const EditDepartment = ({
   auth: { isAuthenticated, user, users, loading },
-
+  allDeptartmentdata,
   onAddDistrictModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    departmentName: "",
+    departmentName:
+      allDeptartmentdata && allDeptartmentdata.departmentName
+        ? allDeptartmentdata.departmentName
+        : "",
     isSubmitted: false,
   });
 
@@ -24,7 +27,7 @@ const EditDepartment = ({
 
   const onSubmit = (e) => {
     const finalData = {
-      // recordId: batchesdata ? batchesdata._id : "",
+      recordId: allDeptartmentdata ? allDeptartmentdata._id : "",
 
       departmentName: departmentName,
       // departmentEditedById:

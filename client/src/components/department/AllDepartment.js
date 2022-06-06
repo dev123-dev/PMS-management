@@ -41,6 +41,11 @@ const AllDepartment = ({
     }
   };
 
+  const [userDatas, setUserDatas] = useState(null);
+  const onUpdate = (allDeptartment, idx) => {
+    setShowEditModal(true);
+    setUserDatas(allDeptartment);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -85,7 +90,42 @@ const AllDepartment = ({
                         <th>Op</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {allDeptartment &&
+                        allDeptartment.map((allDeptartment, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td className="headcolstatic">
+                                {allDeptartment.departmentName}
+                              </td>
+
+                              <td>
+                                <>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() =>
+                                      onUpdate(allDeptartment, idx)
+                                    }
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Deactivate"
+                                    title="Deactivate"
+                                  />
+                                  &nbsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() =>
+                                      onUpdate(allDeptartment, idx)
+                                    }
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>
@@ -148,7 +188,10 @@ const AllDepartment = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <EditDepartment onEditModalChange={onEditModalChange} />
+            <EditDepartment
+              onEditModalChange={onEditModalChange}
+              allDeptartmentdata={userDatas}
+            />
           </Modal.Body>
         </Modal>
       </div>

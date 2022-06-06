@@ -40,6 +40,12 @@ const AllPaymentMethods = ({
     }
   };
 
+  const [userDatas, setUserDatas] = useState(null);
+  const onUpdate = (paymentMode, idx) => {
+    setShowEditModal(true);
+    setUserDatas(paymentMode);
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -84,7 +90,36 @@ const AllPaymentMethods = ({
                         <th>Op</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {paymentMode &&
+                        paymentMode.map((paymentMode, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td>{paymentMode.paymentMode}</td>
+
+                              <td>
+                                <>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(paymentMode, idx)}
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Deactivate"
+                                    title="Deactivate"
+                                  />
+                                  &nbsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(paymentMode, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>
@@ -143,7 +178,10 @@ const AllPaymentMethods = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <EditPaymentMethod onEditModalChange={onEditModalChange} />
+            <EditPaymentMethod
+              onEditModalChange={onEditModalChange}
+              paymentModeData={userDatas}
+            />
           </Modal.Body>
         </Modal>
       </div>

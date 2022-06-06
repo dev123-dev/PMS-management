@@ -6,12 +6,19 @@ import Spinner from "../layout/Spinner";
 
 const EditProjectStatus = ({
   auth: { isAuthenticated, user, users, loading },
-
+  allProjectStatusdata,
   onAddDistrictModalChange,
 }) => {
   const [formData, setFormData] = useState({
-    projectStatusType: "",
-    projectStatusCategory: "",
+    projectStatusType:
+      allProjectStatusdata && allProjectStatusdata.projectStatusType
+        ? allProjectStatusdata.projectStatusType
+        : "",
+    projectStatusCategory:
+      allProjectStatusdata && allProjectStatusdata.projectStatusCategory
+        ? allProjectStatusdata.projectStatusCategory
+        : "",
+
     isSubmitted: false,
   });
 
@@ -26,6 +33,7 @@ const EditProjectStatus = ({
 
     // if (checkErrors()) {
     const finalData = {
+      recordId: allProjectStatusdata ? allProjectStatusdata._id : "",
       projectStatusCategory: projectStatusCategory,
       projectStatusType: projectStatusType,
     };

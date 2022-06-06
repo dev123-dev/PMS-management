@@ -7,12 +7,15 @@ import Spinner from "../layout/Spinner";
 
 const EditUserGroup = ({
   auth: { isAuthenticated, user, users, loading },
-
+  userGroupsdata,
   onAddDistrictModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    userGroupName: "",
+    userGroupName:
+      userGroupsdata && userGroupsdata.userGroupName
+        ? userGroupsdata.userGroupName
+        : "",
     isSubmitted: false,
   });
 
@@ -26,6 +29,7 @@ const EditUserGroup = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
+      recordId: userGroupsdata ? userGroupsdata._id : "",
       userGroupName: userGroupName,
       userGroupEnteredById: user._id,
     };
