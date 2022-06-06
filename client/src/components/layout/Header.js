@@ -64,7 +64,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                 <NavItem>
                   {!loading && isAuthenticated && user ? (
                     <NavLink
-                      to="/add-tenant-details"
+                      to="/job-queue"
                       activeStyle={{ color: "Black", textDecoration: "none" }}
                     >
                       Job Queue
@@ -77,7 +77,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                 <NavItem>
                   {!loading && isAuthenticated && user ? (
                     <NavLink
-                      to="/all-tenant-shop-Details"
+                      to="/daily-job-sheet"
                       activeStyle={{ color: "Black", textDecoration: "none" }}
                     >
                       Daily Job Sheet

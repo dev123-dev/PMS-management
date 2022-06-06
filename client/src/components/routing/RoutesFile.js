@@ -7,7 +7,9 @@ import PrivateRoute from "./PrivateRoute";
 import RouteDriver from "../dashboard/RouteDriver";
 
 //DashBoard
-import changePassword from "../auth/ChangePwd";
+import DailyJobSheet from "../dashboard/DailyJobSheet";
+import JobQueue from "../dashboard/JobQueue";
+
 // staff
 import AddEmployeeDetails from "../staffs/AddEmployeeDetails";
 import AllStaffDetails from "../staffs/AllStaffDetails";
@@ -31,10 +33,15 @@ import AllProjectStatus from "../projects/AllProjectStatus";
 import AllPaymentMethods from "../settings/AllPaymentMethods";
 import AddPaymentMethod from "../settings/AddPaymentMethod";
 import AllUserGroups from "../settings/AllUserGroups";
+import changePassword from "../auth/ChangePwd";
+
 const RoutesFile = () => {
   return (
     <section>
       <Switch>
+        <PrivateRoute exact path="/daily-job-sheet" component={DailyJobSheet} />
+        <PrivateRoute exact path="/job-queue" component={JobQueue} />
+
         <PrivateRoute exact path="/add-staff" component={AddEmployeeDetails} />
         <PrivateRoute exact path="/all-staff" component={AllStaffDetails} />
         <PrivateRoute
