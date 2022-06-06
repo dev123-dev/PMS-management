@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getAllClients } from "../../actions/client";
-
+import EditClientDetails from "./EditClientDetails";
 const AllClientDetails = ({
   auth: { isAuthenticated, user, users },
   client: { allClient },
@@ -16,7 +16,7 @@ const AllClientDetails = ({
     getAllClients();
   }, [getAllClients]);
 
-  console.log("allClient", allClient);
+  // console.log("allClient", allClient);
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
@@ -38,6 +38,12 @@ const AllClientDetails = ({
     if (e) {
       handleEditModalClose();
     }
+  };
+
+  const [userDatas, setUserDatas] = useState(null);
+  const onUpdate = (allClient, idx) => {
+    setShowEditModal(true);
+    setUserDatas(allClient);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -94,7 +100,45 @@ const AllClientDetails = ({
                         <th>Op</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {allClient &&
+                        allClient.map((allClient, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td className="headcolstatic">
+                                {allClient.clientName}
+                              </td>
+                              <td>{allClient.clientBelongsTo}</td>
+                              <td>{allClient.clientFolderName}</td>
+                              <td>{allClient.clientEmail}</td>
+                              <td>{allClient.clientContactNo1}</td>
+                              <td>{allClient.clientContactNo2}</td>
+                              <td>{allClient.clientCurrency}</td>
+                              <td>{allClient.clientCurrency}</td>
+                              <td>{allClient.clientCountry}</td>
+                              <td>
+                                <>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allClient, idx)}
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Deactivate"
+                                    title="Deactivate"
+                                  />
+                                  &nbsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allClient, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>
@@ -105,7 +149,7 @@ const AllClientDetails = ({
           show={showAllDistrictModal}
           backdrop="static"
           keyboard={false}
-          size="md"
+          size="xl"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
@@ -131,36 +175,37 @@ const AllClientDetails = ({
             /> */}
           </Modal.Body>
         </Modal>
-
-        <Modal
-          show={showEditModal}
-          backdrop="static"
-          keyboard={false}
-          size="md"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header>
-            <div className="col-lg-10">
-              <h3 className="modal-title text-center">
-                Edit Department Details
-              </h3>
-            </div>
-            <div className="col-lg-2">
-              <button onClick={handleEditModalClose} className="close">
-                <img
-                  src={require("../../static/images/close.png")}
-                  alt="X"
-                  style={{ height: "20px", width: "20px" }}
-                />
-              </button>
-            </div>
-          </Modal.Header>
-          <Modal.Body>
-            {/* <EditDepartment onEditModalChange={onEditModalChange} /> */}
-          </Modal.Body>
-        </Modal>
       </div>
+
+      <Modal
+        show={showEditModal}
+        backdrop="static"
+        keyboard={false}
+        size="xl"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Edit Client Details</h3>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handleEditModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <EditClientDetails
+            onEditModalChange={onEditModalChange}
+            allClientdata={userDatas}
+          />
+        </Modal.Body>
+      </Modal>
     </Fragment>
   );
 };

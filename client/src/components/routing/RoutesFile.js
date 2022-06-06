@@ -41,7 +41,6 @@ const RoutesFile = () => {
       <Switch>
         <PrivateRoute exact path="/daily-job-sheet" component={DailyJobSheet} />
         <PrivateRoute exact path="/job-queue" component={JobQueue} />
-
         <PrivateRoute exact path="/add-staff" component={AddEmployeeDetails} />
         <PrivateRoute exact path="/all-staff" component={AllStaffDetails} />
         <PrivateRoute

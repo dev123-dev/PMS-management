@@ -258,7 +258,7 @@ const ChangePwd = ({
               />
               <Link
                 className="btn sub_form reg_continue blackbrd"
-                to="/tenant-report"
+                to="/job-queue"
               >
                 CANCEL
               </Link>

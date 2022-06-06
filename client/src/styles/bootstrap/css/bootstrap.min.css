@@ -499,28 +499,32 @@ pre code {
 .container {
   width: 100%;
   padding-right: 10px; 
-  padding-left: 30px;
+  padding-left: 10px;
   margin-right: auto;
   margin-left: auto;
 }
 @media (min-width: 576px) {
   .container {
-    max-width: 540px;
+    max-width: 100%;
+    /* 540px; */
   }
 }
 @media (min-width: 768px) {
   .container {
-    max-width: 720px;
+    max-width: 100%;
+    /* 720px; */
   }
 }
 @media (min-width: 992px) {
   .container {
-    max-width: 960px;
+    max-width: 100%;
+    /* 960px; */
   }
 }
 @media (min-width: 1200px) {
   .container {
-    max-width: 1500px;
+    max-width: 100%;
+    /* 1500px; */
   }
 }
 .container-fluid {
@@ -5167,6 +5171,9 @@ button.close {
 @media (min-width: 992px) {
   .modal-lg {
     max-width: 800px;
+  }
+  .modal-xl{
+    max-width: 80%;
   }
 }
 .tooltip {
