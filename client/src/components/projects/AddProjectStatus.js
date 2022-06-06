@@ -11,58 +11,36 @@ const AddProjectStatus = ({
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    districtName: "",
+    projectStatusType: "",
     projectStatusCategory: "",
     isSubmitted: false,
   });
 
-  const { districtName, projectStatusCategory } = formData;
+  const { projectStatusType, projectStatusCategory } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  //Required Validation Starts
-  const [error, setError] = useState({
-    sIdChecker: false,
-    sIdErrorStyle: {},
-  });
-  const { sIdChecker, sIdErrorStyle } = error;
+  const onSubmit = (e) => {
+    e.preventDefault();
 
-  const checkErrors = () => {
-    if (!sIdChecker) {
-      setError({
-        ...error,
-        sIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-    return true;
+    // if (checkErrors()) {
+    const finalData = {
+      projectStatusCategory: projectStatusCategory,
+      projectStatusType: projectStatusType,
+    };
+    //console.log(finalData);
+
+    // AddDistrict(finalData);
+
+    // setFormData({
+    //   ...formData,
+    //   districtName: "",
+    //   isSubmitted: true,
+    // });
+    // }
   };
-  //Required Validation ends
-  //   const onSubmit = (e) => {
-  //     e.preventDefault();
-
-  //     if (checkErrors()) {
-  //       const finalData = {
-  //         districtName: districtName,
-  //         stateId: stateId,
-  //         districtEnteredById: user._id,
-  //         districtEnteredByName: user.userName,
-  //         institutionId: user.institutionId,
-  //         userData: user,
-  //       };
-
-  //       AddDistrict(finalData);
-
-  //       setFormData({
-  //         ...formData,
-  //         districtName: "",
-  //         isSubmitted: true,
-  //       });
-  //       getStateData("");
-  //     }
-  //   };
   const StatusCategory = [
     { value: "Cash", label: "Cash" },
     { value: "Cheque", label: "Cheque" },
@@ -87,8 +65,8 @@ const AddProjectStatus = ({
           <label className="label-control">Status Name :</label>
           <input
             type="text"
-            name="districtName"
-            value={districtName}
+            name="projectStatusType"
+            value={projectStatusType}
             className="form-control"
             onChange={(e) => onInputChange(e)}
             required
@@ -98,7 +76,7 @@ const AddProjectStatus = ({
           <label className="label-control">Project Status Category :</label>
           <Select
             name="projectStatusCategory"
-            options={StatusCategory}
+            options={projectStatusCategory}
             isSearchable={false}
             value={projectStatusCategory}
             placeholder="Select"
