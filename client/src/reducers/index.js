@@ -1,9 +1,18 @@
 import { combineReducers } from "redux";
 import alert from "./alert";
 import auth from "./auth";
-import tenants from "./tenants";
+// import chat from "./chat";
+import client from "./client";
+// import project from "./project";
+// import settings from "./settings";
+// import users from "./users";
+
 export default combineReducers({
   alert,
   auth,
-  tenants,
+  // chat,
+  client,
+  // project,
+  // settings,
+  // users,
 });

@@ -5,10 +5,17 @@ import Select from "react-select";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import { getAllClients } from "../../actions/client";
 
 const AllClientDetails = ({
-  auth: { allUser, isAuthenticated, user, users },
+  auth: { isAuthenticated, user, users },
+  // client: {},
+  getAllClients,
 }) => {
+  useEffect(() => {
+    getAllClients();
+  }, [getAllClients]);
+
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -158,9 +165,11 @@ const AllClientDetails = ({
 
 AllClientDetails.propTypes = {
   auth: PropTypes.object.isRequired,
+  getAllClients: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  client: state.client,
 });
 
-export default connect(mapStateToProps, {})(AllClientDetails);
+export default connect(mapStateToProps, { getAllClients })(AllClientDetails);
