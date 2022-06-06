@@ -12,35 +12,56 @@ const AddClientDetails = ({
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    districtName: "",
+    clientName: "",
+    clientEmail: "",
+    clientContactNo1: "",
+    clientContactNo2: "",
+    clientAddress: "",
+    clientCountry: "",
+    clientBelongsTo: "",
+    clientFolderName: "",
+    clientCurrency: "",
     isSubmitted: false,
   });
 
-  const { districtName } = formData;
+  const {
+    clientName,
+    clientEmail,
+    clientContactNo1,
+    clientContactNo2,
+    clientAddress,
+    clientCountry,
+    clientBelongsTo,
+    clientFolderName,
+    clientCurrency,
+  } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const onSubmit = (e) => {
-    //   e.preventDefault();
-    //   if (checkErrors()) {
-    //     const finalData = {
-    //       districtName: districtName,
-    //       stateId: stateId,
-    //       districtEnteredById: user._id,
-    //       districtEnteredByName: user.userName,
-    //       institutionId: user.institutionId,
-    //       userData: user,
-    //     };
-    //     AddDistrict(finalData);
-    //     setFormData({
-    //       ...formData,
-    //       districtName: "",
-    //       isSubmitted: true,
-    //     });
-    //     getStateData("");
-    //   }
+    e.preventDefault();
+    // if (checkErrors()) {
+    const finalData = {
+      clientName: clientName,
+      clientEmail: clientEmail,
+      clientContactNo1: clientContactNo1,
+      clientContactNo2: clientContactNo2,
+      clientAddress: clientAddress,
+      clientCountry: clientCountry,
+      clientCurrency: clientCurrency,
+      clientBelongsTo: clientBelongsTo,
+      clientFolderName: clientFolderName,
+    };
+    console.log(finalData);
+    // AddDistrict(finalData);
+    // setFormData({
+    //   ...formData,
+    //   districtName: "",
+    //   isSubmitted: true,
+    // });
+    // }
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -65,8 +86,8 @@ const AddClientDetails = ({
                     <label className="label-control">Client Name:</label>
                     <input
                       type="text"
-                      // name="batchBankName"
-                      // value={batchBankName}
+                      name="clientName"
+                      value={clientName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
@@ -75,8 +96,8 @@ const AddClientDetails = ({
                     <label className="label-control">Production Email:</label>
                     <input
                       type="text"
-                      //   name="batchBankIFSC"
-                      //  value={batchBankIFSC}
+                      name="clientEmail"
+                      value={clientEmail}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
@@ -95,8 +116,8 @@ const AddClientDetails = ({
                     <label className="label-control">Client Contact 1:</label>
                     <input
                       type="text"
-                      //    name="batchBankBranch"
-                      //    value={batchBankBranch}
+                      name="clientContactNo1"
+                      value={clientContactNo1}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
@@ -105,8 +126,8 @@ const AddClientDetails = ({
                     <label className="label-control">Client Contact 2:</label>
                     <input
                       type="text"
-                      //    name="batchBankBranch"
-                      //    value={batchBankBranch}
+                      name="clientContactNo2"
+                      value={clientContactNo2}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
@@ -115,8 +136,8 @@ const AddClientDetails = ({
                     <label className="label-control">Client Folder Name:</label>
                     <input
                       type="text"
-                      //    name="batchBankBranch"
-                      //    value={batchBankBranch}
+                      name="clientFolderName"
+                      value={clientFolderName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
@@ -124,11 +145,12 @@ const AddClientDetails = ({
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Belongs To:</label>
                     <Select
-                      name="usergroup"
-                      //  options={UserGroups}
+                      name="clientBelongsTo"
+                      value={clientBelongsTo}
+                      //  options={clientBelongsTo}
                       isSearchable={false}
                       placeholder="Select"
-                      // onChange={(e) => onPaymentModeChange(e)}
+                      // onChange={(e) => clientBelongsToChange(e)}
                     />
                   </div>
                 </div>
@@ -146,8 +168,8 @@ const AddClientDetails = ({
                         <label className="label-control">Address:</label>
                         <input
                           type="text"
-                          //    name="batchBankBranch"
-                          //    value={batchBankBranch}
+                          name="clientAddress"
+                          value={clientAddress}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
                         />
@@ -156,8 +178,8 @@ const AddClientDetails = ({
                         <label className="label-control">Country:</label>
                         <input
                           type="text"
-                          //    name="batchBankBranch"
-                          //    value={batchBankBranch}
+                          name="clientCountry"
+                          value={clientCountry}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
                         />
@@ -166,8 +188,8 @@ const AddClientDetails = ({
                         <label className="label-control">Currency:</label>
                         <input
                           type="text"
-                          //    name="batchBankBranch"
-                          //    value={batchBankBranch}
+                          name="clientCurrency"
+                          value={clientCurrency}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
                         />
