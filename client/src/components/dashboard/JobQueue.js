@@ -24,15 +24,6 @@ const JobQueue = ({ auth: { isAuthenticated, user, users } }) => {
                   title="Add Staff"
                 />
               </Link>
-
-              <Link to="/edit-Staff">
-                <img
-                  className="img_icon_size log float-right"
-                  src={require("../../static/images/add-icon.png")}
-                  alt="Edit Staff"
-                  title="Edit Staff"
-                />
-              </Link>
             </div>
           </div>
           <div className="row col-lg-12 col-md-11 col-sm-12 col-12 no_padding"></div>

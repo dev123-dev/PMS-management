@@ -102,7 +102,7 @@ const EditClientDetails = ({
     <Fragment>
       {" "}
       <form className="row" onSubmit={(e) => onSubmit(e)}>
-        <div className="row col-lg-11 col-md-11 col-sm-12 col-12 ">
+        <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
           <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
             <div className="row card-new  pb-3">
               <div className="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -237,7 +237,7 @@ const EditClientDetails = ({
         </div>
 
         <div
-          className="row col-lg-11 col-md-11 col-sm-12 col-12 Savebutton no_padding"
+          className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
           size="lg"
         >
           <div className="col-lg-8 col-md-6 col-sm-12 col-12">

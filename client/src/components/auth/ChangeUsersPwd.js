@@ -188,7 +188,7 @@ const ChangeUsersPwd = ({ user, changeUsersPwd, onPwdChange }) => {
               User Name: <span className="colorGreen">{user && user.name}</span>
             </h4>
           </div>
-          <div className="col-lg-11 col-md-11 col-sm-12 col-12">
+          <div className="col-lg-12 col-md-11 col-sm-12 col-12">
             <label className="label-control">Password *</label>
             <input
               type="password"
@@ -229,7 +229,7 @@ const ChangeUsersPwd = ({ user, changeUsersPwd, onPwdChange }) => {
         </div>
 
         <div className="row">
-          <div className="col-lg-11 col-md-11 col-sm-12 col-12">
+          <div className="col-lg-12 col-md-11 col-sm-12 col-12">
             <label className="label-control">Confirm Password *</label>
             <input
               type="password"

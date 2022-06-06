@@ -54,13 +54,13 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
   ) : (
     <Fragment>
       <div className="container container_align ">
-        <div className="col-lg-11 col-md-11 col-sm-12 col-12">
+        <div className="col-lg-12 col-md-11 col-sm-12 col-12">
           <h2 className="heading_color">Edit Employee Details </h2>
           <hr />
         </div>
         <section className="sub_reg">
           <Tabs selectedIndex={tabIndex}>
-            <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
+            <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
               <TabList>
                 <Tab tabfor="0">Staff Info</Tab>
                 <Tab tabfor="2">Area Info</Tab>
@@ -199,7 +199,7 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                     </div>
                   </div>
 
-                  <div className="col-md-12 col-lg-11 col-sm-12 col-12 text-left">
+                  <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
                     <input
                       type="submit"
                       name="submit"

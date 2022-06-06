@@ -237,7 +237,7 @@ const AddStaffAreainfo = ({
         </div>
 
         <div
-          className="row col-lg-11 col-md-11 col-sm-12 col-12 Savebutton "
+          className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton "
           size="lg"
         >
           <div className="col-lg-8 col-md-6 col-sm-12 col-12">
