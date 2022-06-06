@@ -9,28 +9,151 @@ import Spinner from "../layout/Spinner";
 import AddStaffInfo from "./AddStaffInfo";
 import AddStaffAreainfo from "./AddStaffAreainfo";
 import AddSalaryInfo from "./AddSalaryInfo";
-const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
+const EditEmployeeDetails = ({
+  auth: { isAuthenticated, user, users },
+  allEmployeedata,
+}) => {
+  console.log(allEmployeedata);
   const [formData, setFormData] = useState({
-    memberName: "",
-    memberPhone: "",
-    memberAddress: "",
-    memberAadharNo: "",
-    memberPanNo: "",
-    memberDesg: "",
+    empFullName:
+      allEmployeedata && allEmployeedata.empFullName
+        ? allEmployeedata.empFullName
+        : "",
 
-    memberJoiningDate: "",
-    memberCode: "",
+    employeePhone:
+      allEmployeedata && allEmployeedata.employeePhone
+        ? allEmployeedata.employeePhone
+        : "",
+
+    employeeAadharNo:
+      allEmployeedata && allEmployeedata.employeeAadharNo
+        ? allEmployeedata.employeeAadharNo
+        : "",
+
+    employeePanNo:
+      allEmployeedata && allEmployeedata.employeePanNo
+        ? allEmployeedata.employeePanNo
+        : "",
+
+    employeeDOB:
+      allEmployeedata && allEmployeedata.employeeDOB
+        ? allEmployeedata.employeeDOB
+        : "",
+
+    employeeEmail:
+      allEmployeedata && allEmployeedata.employeeEmail
+        ? allEmployeedata.employeeEmail
+        : "",
+    employeeDOJ:
+      allEmployeedata && allEmployeedata.employeeDOJ
+        ? allEmployeedata.employeeDOJ
+        : "",
+
+    employeeDepartment:
+      allEmployeedata && allEmployeedata.employeeDepartment
+        ? allEmployeedata.employeeDepartment
+        : "",
+
+    employeeDesignation:
+      allEmployeedata && allEmployeedata.employeeDesignation
+        ? allEmployeedata.employeeDesignation
+        : "",
+
+    employeeCode:
+      allEmployeedata && allEmployeedata.employeeCode
+        ? allEmployeedata.employeeCode
+        : "",
+
+    employeeAddr:
+      allEmployeedata && allEmployeedata.employeeAddr
+        ? allEmployeedata.employeeAddr
+        : "",
+
+    employeeState:
+      allEmployeedata && allEmployeedata.employeeState
+        ? allEmployeedata.employeeState
+        : "",
+
+    employeePincode:
+      allEmployeedata && allEmployeedata.employeePincode
+        ? allEmployeedata.employeePincode
+        : "",
+
+    employeeBankName:
+      allEmployeedata && allEmployeedata.employeeBankName
+        ? allEmployeedata.employeeBankName
+        : "",
+
+    employeeIFSCcode:
+      allEmployeedata && allEmployeedata.employeeIFSCcode
+        ? allEmployeedata.employeeIFSCcode
+        : "",
+    employeeAccountNo:
+      allEmployeedata && allEmployeedata.employeeAccountNo
+        ? allEmployeedata.employeeAccountNo
+        : "",
+
+    employeeBranch:
+      allEmployeedata && allEmployeedata.employeeBranch
+        ? allEmployeedata.employeeBranch
+        : "",
+
+    employeePFNo:
+      allEmployeedata && allEmployeedata.employeePFNo
+        ? allEmployeedata.employeePFNo
+        : "",
+
+    employeeESI:
+      allEmployeedata && allEmployeedata.employeeESI
+        ? allEmployeedata.employeeESI
+        : "",
+    employeeUANNo:
+      allEmployeedata && allEmployeedata.employeeUANNo
+        ? allEmployeedata.employeeUANNo
+        : "",
+    employeeBasic:
+      allEmployeedata && allEmployeedata.employeeBasic
+        ? allEmployeedata.employeeBasic
+        : "",
+
+    employeeHRA:
+      allEmployeedata && allEmployeedata.employeeHRA
+        ? allEmployeedata.employeeHRA
+        : "",
+    employeeDA:
+      allEmployeedata && allEmployeedata.employeeDA
+        ? allEmployeedata.employeeDA
+        : "",
+
     isSubmitted: false,
   });
 
   const {
-    memberName,
-    memberPhone,
-    memberAddress,
-    memberAadharNo,
-    memberPanNo,
-    memberDesg,
-    memberCode,
+    employeeName,
+    empFullName,
+    employeePhone,
+    employeeAadharNo,
+    employeePanNo,
+    employeeDOB,
+    employeeEmail,
+    employeeDOJ,
+    employeeDepartment,
+    employeeDesignation,
+    employeeCode,
+
+    employeeAddr,
+    employeeState,
+    employeePincode,
+    employeeBankName,
+    employeeIFSCcode,
+    employeeAccountNo,
+    employeeBranch,
+    employeePFNo,
+    employeeESI,
+    employeeUANNo,
+    employeeBasic,
+    employeeHRA,
+    employeeDA,
     isSubmitted,
   } = formData;
   const [startSelectedDate, setJoinDate] = useState("");
@@ -55,7 +178,7 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
     <Fragment>
       <div className="container container_align ">
         <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-          <h2 className="heading_color">Edit Employee Details </h2>
+          <h2 className="heading_color">Add Employee Details </h2>
           <hr />
         </div>
         <section className="sub_reg">
@@ -84,8 +207,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                           </label>
                           <input
                             type="text"
-                            name="memberName"
-                            value={memberName}
+                            name="empFullName"
+                            value={empFullName}
                             className="form-control"
                             onChange={(e) => onInputChange(e)}
                             //required
@@ -97,8 +220,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                           </label>
                           <input
                             type="number"
-                            name="memberPhone"
-                            value={memberPhone}
+                            name="employeePhone"
+                            value={employeePhone}
                             className="form-control"
                             onWheel={() => document.activeElement.blur()}
                             onChange={(e) => onInputChange(e)}
@@ -114,8 +237,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                           </label>
                           <input
                             type="text"
-                            name="memberAadharNo"
-                            value={memberAadharNo}
+                            name="employeeAadharNo"
+                            value={employeeAadharNo}
                             className="form-control"
                             onChange={(e) => onInputChange(e)}
                           />
@@ -124,8 +247,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                           <label className="label-control">Pan Card No:</label>
                           <input
                             type="text"
-                            name="memberPanNo"
-                            value={memberPanNo}
+                            name="employeePanNo"
+                            value={employeePanNo}
                             className="form-control"
                             onChange={(e) => onInputChange(e)}
                           />
@@ -137,7 +260,7 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                             type="date"
                             placeholder="dd/mm/yyyy"
                             className="form-control cpp-input datevalidation"
-                            name="instistartDate"
+                            name="employeeDOB"
                             value={startSelectedDate}
                             onChange={(e) => onDateChange(e)}
                             style={{
@@ -151,8 +274,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                           <label className="label-control">Email :</label>
                           <input
                             type="text"
-                            // name="memberAadharNo"
-                            // value={memberAadharNo}
+                            name="employeeEmail"
+                            value={employeeEmail}
                             className="form-control"
                             onChange={(e) => onInputChange(e)}
                           />
@@ -164,19 +287,27 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                             type="date"
                             placeholder="dd/mm/yyyy"
                             className="form-control cpp-input datevalidation"
-                            //   name="instistartDate"
-                            //   value={startSelectedDate}
+                            name="employeeDOJ"
+                            value={startSelectedDate}
                             //   onChange={(e) => onDateChange(e)}
                             style={{
                               width: "75%",
                             }}
+
                             // required
+                          />
+                          <input
+                            type="color"
+                            id="colorpicker"
+                            name="employeeColor"
+                            pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
+                            value=""
                           />
                         </div>
                         <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                           <label className="label-control">Department :</label>
                           <Select
-                            name="districtName"
+                            name="employeeDepartment"
                             //  options={alldistrict}
                             isSearchable={true}
                             // value={district}
@@ -187,11 +318,11 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                         <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                           <label className="label-control">Designation :</label>
                           <Select
-                            name="districtName"
+                            name="employeeDesignation"
                             //  options={alldistrict}
                             isSearchable={true}
                             // value={district}
-                            placeholder="Select Department"
+                            placeholder="Select Designation"
                             // onChange={(e) => ondistrictChange(e)}
                           />
                         </div>
@@ -220,11 +351,13 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                       </div>
                       <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
                         <div className="col-lg-4 col-md-12 col-sm-12 col-12">
-                          <label className="label-control">Staff Code :</label>
+                          <label className="label-control">
+                            Employee Code :
+                          </label>
                           <input
                             type="text"
-                            name="memberName"
-                            value={memberName}
+                            name="employeeCode"
+                            value={employeeCode}
                             className="form-control"
                             onChange={(e) => onInputChange(e)}
                             // required
@@ -233,8 +366,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                         <div className="col-lg-6 col-md-12 col-sm-12 col-12">
                           <label className="label-control">Address:</label>
                           <textarea
-                            name="useraddr"
-                            id="useraddr"
+                            name="employeeAddr"
+                            id="employeeAddr"
                             className="textarea form-control"
                             rows="3"
                             placeholder="Address"
@@ -247,8 +380,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                           <label className="label-control">State:</label>
                           <input
                             type="text"
-                            name="memberAadharNo"
-                            value={memberAadharNo}
+                            name="employeeState"
+                            value={employeeState}
                             className="form-control"
                             onChange={(e) => onInputChange(e)}
                           />
@@ -257,8 +390,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                           <label className="label-control">Pincode:</label>
                           <input
                             type="text"
-                            name="memberPanNo"
-                            value={memberPanNo}
+                            name="employeePincode"
+                            value={employeePincode}
                             className="form-control"
                             onChange={(e) => onInputChange(e)}
                           />
@@ -296,8 +429,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                         <label className="label-control">Bank Name :</label>
                         <input
                           type="text"
-                          name="memberName"
-                          value={memberName}
+                          name="employeeBankName"
+                          value={employeeBankName}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
                           required
@@ -307,8 +440,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                         <label className="label-control">IFSC Code:</label>
                         <input
                           type="text"
-                          name="memberName"
-                          value={memberName}
+                          name="employeeIFSCcode"
+                          value={employeeIFSCcode}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
                           required
@@ -318,8 +451,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                         <label className="label-control">Account no:</label>
                         <input
                           type="text"
-                          name="memberAadharNo"
-                          value={memberAadharNo}
+                          name="employeeAccountNo"
+                          value={employeeAccountNo}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
                         />
@@ -328,8 +461,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                         <label className="label-control">Branch:</label>
                         <input
                           type="text"
-                          name="memberPanNo"
-                          value={memberPanNo}
+                          name="employeeBranch"
+                          value={employeeBranch}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
                         />
@@ -338,8 +471,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                         <label className="label-control">PF No:</label>
                         <input
                           type="text"
-                          name="memberPanNo"
-                          value={memberPanNo}
+                          name="employeePFNo"
+                          value={employeePFNo}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
                         />
@@ -348,8 +481,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                         <label className="label-control">ESI:</label>
                         <input
                           type="text"
-                          name="memberPanNo"
-                          value={memberPanNo}
+                          name="employeeESI"
+                          value={employeeESI}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
                         />
@@ -358,8 +491,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                         <label className="label-control">UAN No:</label>
                         <input
                           type="text"
-                          name="memberPanNo"
-                          value={memberPanNo}
+                          name="employeeUANNo"
+                          value={employeeUANNo}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
                         />
@@ -368,8 +501,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                         <label className="label-control">Basic:</label>
                         <input
                           type="text"
-                          name="memberPanNo"
-                          value={memberPanNo}
+                          name="employeeBasic"
+                          value={employeeBasic}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
                         />
@@ -378,8 +511,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                         <label className="label-control">HRA:</label>
                         <input
                           type="text"
-                          name="memberPanNo"
-                          value={memberPanNo}
+                          name="employeeHRA"
+                          value={employeeHRA}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
                         />
@@ -388,8 +521,8 @@ const EditEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                         <label className="label-control">DA:</label>
                         <input
                           type="text"
-                          name="memberPanNo"
-                          value={memberPanNo}
+                          name="employeeDA"
+                          value={employeeDA}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
                         />

@@ -21,7 +21,7 @@ const AddEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
     employeeDepartment: "",
     employeeDesignation: "",
     employeeCode: "",
-
+    empFullName: "",
     employeeAddr: "",
     employeeState: "",
     employeePincode: "",
@@ -39,6 +39,7 @@ const AddEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
   });
 
   const {
+    empFullName,
     employeeName,
     employeePhone,
     employeeAadharNo,
@@ -117,8 +118,8 @@ const AddEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                           </label>
                           <input
                             type="text"
-                            name="employeeName"
-                            value={employeeName}
+                            name="empFullName"
+                            value={empFullName}
                             className="form-control"
                             onChange={(e) => onInputChange(e)}
                             //required

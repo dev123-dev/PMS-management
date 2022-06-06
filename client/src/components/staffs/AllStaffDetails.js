@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getAllEmployee } from "../../actions/user";
 import Pagination from "../layout/Pagination";
-
+import EditEmployeeDetails from "./EditEmployeeDetails";
 const AllStaffDetails = ({
   auth: { allUser, isAuthenticated, user, users },
   user: { allEmployee },
@@ -16,7 +16,22 @@ const AllStaffDetails = ({
   useEffect(() => {
     getAllEmployee();
   }, [getAllEmployee]);
-  console.log(allEmployee);
+  // console.log(allEmployee);
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  const handleEditModalClose = () => setShowEditModal(false);
+
+  const onEditModalChange = (e) => {
+    if (e) {
+      handleEditModalClose();
+    }
+  };
+
+  const [userDatas, setUserDatas] = useState(null);
+  const onUpdate = (allEmployee, idx) => {
+    setShowEditModal(true);
+    setUserDatas(allEmployee);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -67,13 +82,77 @@ const AllStaffDetails = ({
                         <th>OP</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {allEmployee &&
+                        allEmployee.map((allEmployee, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td className="headcolstatic">
+                                {allEmployee.empFullName}
+                              </td>
+                              <td>{allEmployee.clientBelongsTo}</td>
+                              <td>{allEmployee.clientFolderName}</td>
+                              <td>{allEmployee.clientEmail}</td>
+                              <td>{allEmployee.clientContactNo1}</td>
+
+                              <td>
+                                <>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allEmployee, idx)}
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Deactivate"
+                                    title="Deactivate"
+                                  />
+                                  &nbsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allEmployee, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>
             </div>
           </div>
         </section>
+        <Modal
+          show={showEditModal}
+          backdrop="static"
+          keyboard={false}
+          size="xl"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+              <h3 className="modal-title text-center">Edit Client Details</h3>
+            </div>
+            <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+              <button onClick={handleEditModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <EditEmployeeDetails
+              onEditModalChange={onEditModalChange}
+              allEmployeedata={userDatas}
+            />
+          </Modal.Body>
+        </Modal>
       </div>
     </Fragment>
   );
