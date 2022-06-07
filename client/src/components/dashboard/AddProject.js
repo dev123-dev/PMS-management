@@ -27,29 +27,36 @@ const AddProject = ({
 
   //formData
   const [formData, setFormData] = useState({
+    clientBelongsTo: "",
     clientType: "",
     clientName: "",
-    clientEmail: "",
-    clientContactNo1: "",
-    clientContactNo2: "",
-    clientAddress: "",
-    clientCountry: "",
-    clientBelongsTo: "",
     clientFolderName: "",
-    clientCurrency: "",
+    projectName: "",
+    qty: "",
+    priority: "",
+    deadline: "",
+    projectStatus: "",
+    projectDate: "",
+    projectTime: "",
+    clientDate: "",
+    Instructions: "",
     isSubmitted: false,
   });
 
   const {
-    clientName,
-    clientEmail,
-    clientContactNo1,
-    clientContactNo2,
-    clientAddress,
-    clientCountry,
     clientBelongsTo,
+    clientName,
     clientFolderName,
-    clientCurrency,
+    projectName,
+    qty,
+    priority,
+    deadline,
+    projectStatus,
+    projectDate,
+    projectTime,
+    clientDate,
+    clienTime,
+    Instructions,
   } = formData;
 
   const onInputChange = (e) => {
@@ -59,17 +66,7 @@ const AddProject = ({
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
-    const finalData = {
-      clientName: clientName,
-      clientEmail: clientEmail,
-      clientContactNo1: clientContactNo1,
-      clientContactNo2: clientContactNo2,
-      clientAddress: clientAddress,
-      clientCountry: clientCountry,
-      clientCurrency: clientCurrency,
-      clientBelongsTo: clientBelongsTo,
-      clientFolderName: clientFolderName,
-    };
+    const finalData = {};
     console.log(finalData);
     // AddDistrict(finalData);
     // setFormData({
@@ -123,8 +120,8 @@ const AddProject = ({
                   <label className="label-control">Belongs to:</label>
                   <input
                     type="text"
-                    name="clientEmail"
-                    value={clientEmail}
+                    name="clientBelongsTo"
+                    value={clientBelongsTo}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
                   />
@@ -145,8 +142,8 @@ const AddProject = ({
                   <label className="label-control">Project Name*:</label>
                   <input
                     type="text"
-                    // name="batchBankAccountNumber"
-                    // value={batchBankAccountNumber}
+                    name="projectName"
+                    value={projectName}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
                   />
@@ -155,8 +152,8 @@ const AddProject = ({
                   <label className="label-control">Qty:</label>
                   <input
                     type="text"
-                    name="clientContactNo1"
-                    value={clientContactNo1}
+                    name="qty"
+                    value={qty}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
                   />
@@ -164,8 +161,8 @@ const AddProject = ({
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Priority:</label>
                   <Select
-                    name="clientBelongsTo"
-                    value={clientBelongsTo}
+                    name="priority"
+                    value={priority}
                     //  options={clientBelongsTo}
                     isSearchable={false}
                     placeholder="Select"
@@ -176,8 +173,8 @@ const AddProject = ({
                   <label className="label-control">Deadline:</label>
                   <input
                     type="text"
-                    name="clientFolderName"
-                    value={clientFolderName}
+                    name="deadline"
+                    value={deadline}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
                   />
@@ -188,8 +185,8 @@ const AddProject = ({
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Project Status:</label>
                   <Select
-                    name="clientBelongsTo"
-                    value={clientBelongsTo}
+                    name="projectStatus"
+                    value={projectStatus}
                     //  options={clientBelongsTo}
                     isSearchable={false}
                     placeholder="Select"
@@ -203,8 +200,8 @@ const AddProject = ({
                   <label className="label-control">Project Date:</label>
                   <input
                     type="text"
-                    name="clientFolderName"
-                    value={clientFolderName}
+                    name="projectDate"
+                    value={projectDate}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
                   />
@@ -213,8 +210,8 @@ const AddProject = ({
                   <label className="label-control">Project Time:</label>
                   <input
                     type="text"
-                    name="clientFolderName"
-                    value={clientFolderName}
+                    name="projectTime"
+                    value={projectTime}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
                   />
@@ -223,8 +220,8 @@ const AddProject = ({
                   <label className="label-control">Client Date:</label>
                   <input
                     type="text"
-                    name="clientFolderName"
-                    value={clientFolderName}
+                    name="clientDate"
+                    value={clientDate}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
                   />
@@ -233,19 +230,19 @@ const AddProject = ({
                   <label className="label-control">Client Time:</label>
                   <input
                     type="text"
-                    name="clientFolderName"
-                    value={clientFolderName}
+                    name="clienTime"
+                    value={clienTime}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
                   />
                 </div>
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+              <div className="row col-lg-6 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Instructions:</label>
                 <textarea
-                  name="useraddr"
-                  id="useraddr"
+                  name="Instructions"
+                  id="Instructions"
                   className="textarea form-control"
                   rows="3"
                   placeholder="Address"
