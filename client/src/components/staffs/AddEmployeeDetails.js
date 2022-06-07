@@ -93,13 +93,14 @@ const AddEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
           <hr />
         </div>
         <section className="sub_reg">
-          <Tabs selectedIndex={tabIndex}>
+          <Tabs>
+            {/* selectedIndex={tabIndex} */}
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
               <TabList>
                 <Tab tabfor="0">Staff Info</Tab>
-                <Tab tabfor="2">Area Info</Tab>
+                <Tab tabfor="1">Area Info</Tab>
 
-                <Tab tabfor="3">Salary Info</Tab>
+                <Tab tabfor="2">Salary Info</Tab>
               </TabList>
             </div>
 
@@ -252,7 +253,7 @@ const AddEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
                 </form>
               </div>
             </TabPanel>
-            <TabPanel tabId="2">
+            <TabPanel tabId="1">
               <form onSubmit={(e) => NextBackBtn(2)}>
                 <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
                   <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
@@ -328,7 +329,7 @@ const AddEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
               </form>
             </TabPanel>
 
-            <TabPanel tabId="3">
+            <TabPanel tabId="2">
               <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
                 <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
                   <div className=" card-new">
