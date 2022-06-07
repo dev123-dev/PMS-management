@@ -26,6 +26,7 @@ export const AddNewDepartment = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/add-department", finalData, config);
+    dispatch(getALLDepartment());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -103,12 +104,13 @@ export const AddRight = (finalData) => async (dispatch) => {
 
 //EDIT
 
-export const EditDepartment = (finalData) => async (dispatch) => {
+export const editDepartment = (finalData) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/edit-department", finalData);
+    dispatch(getALLDepartment());
     dispatch({
       type: SET_LOADING_FALSE,
     });
