@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
-import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";

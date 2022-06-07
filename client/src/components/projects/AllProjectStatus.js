@@ -1,9 +1,7 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
-import Select from "react-select";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getAllProjectStatus } from "../../actions/projects";
 import EditProjectStatus from "./EditProjectStatus";
