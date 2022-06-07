@@ -210,7 +210,7 @@ export const getALLDesignation = () => async (dispatch) => {
   }
 };
 
-export const getActiveDesigantion = () => async (dispatch) => {
+export const getActiveDesignation = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/settings/get-active-designation");
     dispatch({

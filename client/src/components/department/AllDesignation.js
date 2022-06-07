@@ -10,14 +10,14 @@ import EditDesignation from "./EditDesignation";
 import { getALLDesignation } from "../../actions/settings";
 const AllDesignation = ({
   auth: { isAuthenticated, user, users },
-  settings: { allDeptartment },
+  settings: { allDesignation },
   getALLDesignation,
 }) => {
   useEffect(() => {
     getALLDesignation();
   }, [getALLDesignation]);
 
-  console.log("allDeptartment", allDeptartment);
+  console.log("allDeptartment", allDesignation);
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
@@ -90,20 +90,20 @@ const AllDesignation = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {allDeptartment &&
-                        allDeptartment.map((allDeptartment, idx) => {
+                      {allDesignation &&
+                        allDesignation.map((allDesignation, idx) => {
                           return (
                             <tr key={idx}>
                               <td className="headcolstatic">
-                                {allDeptartment.designationName}
+                                {allDesignation.designationName}
                               </td>
-                              <td>{allDeptartment.designationDesc}</td>
+                              <td>{allDesignation.designationDesc}</td>
                               <td>
                                 <>
                                   <img
                                     className="img_icon_size log"
                                     onClick={() =>
-                                      onUpdate(allDeptartment, idx)
+                                      onUpdate(allDesignation, idx)
                                     }
                                     src={require("../../static/images/delete.png")}
                                     alt="Deactivate"
@@ -113,7 +113,7 @@ const AllDesignation = ({
                                   <img
                                     className="img_icon_size log"
                                     onClick={() =>
-                                      onUpdate(allDeptartment, idx)
+                                      onUpdate(allDesignation, idx)
                                     }
                                     src={require("../../static/images/edit_icon.png")}
                                     alt="Edit"
