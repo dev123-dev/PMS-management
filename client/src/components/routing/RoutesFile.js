@@ -9,6 +9,7 @@ import RouteDriver from "../dashboard/RouteDriver";
 //DashBoard
 import DailyJobSheet from "../dashboard/DailyJobSheet";
 import JobQueue from "../dashboard/JobQueue";
+import AddProject from "../dashboard/AddProject";
 
 // staff
 import AddEmployeeDetails from "../staffs/AddEmployeeDetails";
@@ -47,6 +48,9 @@ const RoutesFile = () => {
       <Switch>
         <PrivateRoute exact path="/daily-job-sheet" component={DailyJobSheet} />
         <PrivateRoute exact path="/job-queue" component={JobQueue} />
+        <PrivateRoute exact path="/add-project" component={AddProject} />
+
+        {/* staff */}
         <PrivateRoute exact path="/add-staff" component={AddEmployeeDetails} />
         <PrivateRoute exact path="/all-staff" component={AllStaffDetails} />
         <PrivateRoute

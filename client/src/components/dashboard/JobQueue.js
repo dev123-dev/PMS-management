@@ -16,12 +16,12 @@ const JobQueue = ({ auth: { isAuthenticated, user, users } }) => {
               <h5 className="heading_color">Job Queue</h5>
             </div>
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
-              <Link to="/add-Staff">
+              <Link to="/add-Project">
                 <img
                   className="img_icon_size log float-right"
                   src={require("../../static/images/add-icon.png")}
-                  alt="Add Staff"
-                  title="Add Staff"
+                  alt="Add Project"
+                  title="Add Project"
                 />
               </Link>
             </div>
