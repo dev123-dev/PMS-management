@@ -6,6 +6,12 @@ const ClientSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  clientBelongsToId: {
+    type: ObjectId,
+  },
+  clientBelongsToName: {
+    type: String,
+  },
   clientEmail: {
     type: String,
   },
@@ -47,7 +53,7 @@ const ClientSchema = new mongoose.Schema({
   clientModeofPaymentId: {
     type: ObjectId,
   },
-  testClient: {
+  clientType: {
     type: String,
   },
   clientEnteredById: {

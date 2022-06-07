@@ -5,7 +5,7 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getALLPaymentMode } from "../../actions/settings";
-import { getActiveClients } from "../../actions/client";
+import { getActiveClients, AddClient } from "../../actions/client";
 
 const AddClientDetails = ({
   auth: { isAuthenticated, user, users, loading },
@@ -14,6 +14,7 @@ const AddClientDetails = ({
   getALLPaymentMode,
   getActiveClients,
   onAddDistrictModalChange,
+  AddClient,
 }) => {
   useEffect(() => {
     getALLPaymentMode();
@@ -22,8 +23,13 @@ const AddClientDetails = ({
     getActiveClients();
   }, [getActiveClients]);
 
-  console.log(paymentMode);
-  console.log(activeClient);
+  // console.log(paymentMode);
+  // console.log(activeClient);
+
+  const clientTypeVal = [
+    { value: "Regular", label: "Regular Client" },
+    { value: "Test", label: "Test Client" },
+  ];
 
   //formData
   const [formData, setFormData] = useState({
@@ -36,6 +42,7 @@ const AddClientDetails = ({
     clientBelongsTo: "",
     clientFolderName: "",
     clientCurrency: "",
+    clientType: "",
     isSubmitted: false,
   });
 
@@ -49,7 +56,25 @@ const AddClientDetails = ({
     clientBelongsTo,
     clientFolderName,
     clientCurrency,
+    clientType,
   } = formData;
+
+  const onClientTypeChange = (e) => {
+    //Required Validation starts
+    // setError({
+    //   ...error,
+    //   TranscationIdChecker: true,
+    //   TranscationIdErrorStyle: { color: "#000" },
+    // });
+    //Required Validation ends
+
+    if (e) {
+      setFormData({
+        ...formData,
+        clientType: e,
+      });
+    }
+  };
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -68,9 +93,10 @@ const AddClientDetails = ({
       clientCurrency: clientCurrency,
       clientBelongsTo: clientBelongsTo,
       clientFolderName: clientFolderName,
+      clientType: clientType.value,
     };
     console.log(finalData);
-    // AddDistrict(finalData);
+    // AddClient(finalData);
     // setFormData({
     //   ...formData,
     //   districtName: "",
@@ -166,6 +192,32 @@ const AddClientDetails = ({
                       isSearchable={false}
                       placeholder="Select"
                       // onChange={(e) => clientBelongsToChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label
+                      className="label-control"
+                      // style={TranscationIdErrorStyle}
+                    >
+                      Client Type:
+                    </label>
+                    <Select
+                      name="clientType"
+                      options={clientTypeVal}
+                      isSearchable={false}
+                      value={clientType}
+                      placeholder="Select Meeting Type"
+                      onChange={(e) => onClientTypeChange(e)}
+                      theme={(theme) => ({
+                        ...theme,
+                        height: 26,
+                        minHeight: 26,
+                        borderRadius: 1,
+                        colors: {
+                          ...theme.colors,
+                          primary: "black",
+                        },
+                      })}
                     />
                   </div>
                 </div>
@@ -272,6 +324,7 @@ AddClientDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
+  AddClient: PropTypes.object.isRequired,
   getALLPaymentMode: PropTypes.object.isRequired,
   getActiveClients: PropTypes.object.isRequired,
 };
@@ -285,4 +338,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getALLPaymentMode,
   getActiveClients,
+  AddClient,
 })(AddClientDetails);
