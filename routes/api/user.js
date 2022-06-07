@@ -15,7 +15,7 @@ const {
 } = require("../../common/constant/constants");
 
 //ADD
-router.post("/add-user-groups", async (req, res) => {
+router.post("/add-user-group", async (req, res) => {
   let data = req.body;
   try {
     let userGroupDetails = new UserGroup(data);
