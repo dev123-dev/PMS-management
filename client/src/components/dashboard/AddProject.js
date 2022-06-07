@@ -96,12 +96,13 @@ const AddProject = ({
               <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
                 <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
                   <label className="label-control">Client Type:</label>
-                  <input
-                    type="text"
-                    name="clientName"
-                    value={clientName}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
+                  <Select
+                    name="clientBelongsTo"
+                    value={clientBelongsTo}
+                    //  options={clientBelongsTo}
+                    isSearchable={false}
+                    placeholder="Select"
+                    // onChange={(e) => clientBelongsToChange(e)}
                   />
                 </div>
               </div>
@@ -110,8 +111,8 @@ const AddProject = ({
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Client Name:</label>
                   <Select
-                    name="clientBelongsTo"
-                    value={clientBelongsTo}
+                    name="clientName"
+                    value={clientName}
                     //  options={clientBelongsTo}
                     isSearchable={false}
                     placeholder="Select"
@@ -182,6 +183,7 @@ const AddProject = ({
                   />
                 </div>
               </div>
+
               <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Project Status:</label>
@@ -194,7 +196,10 @@ const AddProject = ({
                     // onChange={(e) => clientBelongsToChange(e)}
                   />
                 </div>
-                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+              </div>
+
+              <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
+                <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Project Date:</label>
                   <input
                     type="text"
@@ -204,8 +209,28 @@ const AddProject = ({
                     onChange={(e) => onInputChange(e)}
                   />
                 </div>
-                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Project Enter date:</label>
+                <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Project Time:</label>
+                  <input
+                    type="text"
+                    name="clientFolderName"
+                    value={clientFolderName}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
+                </div>
+                <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Client Date:</label>
+                  <input
+                    type="text"
+                    name="clientFolderName"
+                    value={clientFolderName}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
+                </div>
+                <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Client Time:</label>
                   <input
                     type="text"
                     name="clientFolderName"
@@ -215,37 +240,18 @@ const AddProject = ({
                   />
                 </div>
               </div>
+
               <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Instructions:</label>
-                <input
-                  type="text"
-                  name="clientFolderName"
-                  value={clientFolderName}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Estimated Time:</label>
-                <input
-                  type="text"
-                  name="clientFolderName"
-                  value={clientFolderName}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Queue duration:</label>
-                <input
-                  type="text"
-                  name="clientFolderName"
-                  value={clientFolderName}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                />
+                <textarea
+                  name="useraddr"
+                  id="useraddr"
+                  className="textarea form-control"
+                  rows="3"
+                  placeholder="Address"
+                  style={{ width: "100%" }}
+                  required
+                ></textarea>
               </div>
             </div>
 
