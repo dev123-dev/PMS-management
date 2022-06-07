@@ -21,7 +21,7 @@ const ClientHistorySchema = new mongoose.Schema({
     type: String,
   },
   chDate: {
-    type: Date,
+    type: String,
   },
   chDateTime: {
     type: Date,
@@ -49,7 +49,7 @@ const ClientHistorySchema = new mongoose.Schema({
     type: ObjectId,
   },
   chEnteredDate: {
-    type: Date,
+    type: String,
   },
   chEnteredDateTime: {
     type: Date,

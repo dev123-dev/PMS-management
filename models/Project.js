@@ -48,7 +48,7 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
   },
   projectDate: {
-    type: Date,
+    type: String,
   },
   projectDateTime: {
     type: Date,
@@ -58,7 +58,7 @@ const ProjectSchema = new mongoose.Schema({
     type: ObjectId,
   },
   projectEnteredDate: {
-    type: Date,
+    type: String,
   },
   projectEntryTime: {
     type: String,
@@ -70,25 +70,25 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
   },
   eDate: {
-    type: Date,
+    type: String,
   },
   aDate: {
-    type: Date,
+    type: String,
   },
   wDate: {
-    type: Date,
+    type: String,
   },
   wEndDate: {
-    type: Date,
+    type: String,
   },
   QCDate: {
-    type: Date,
+    type: String,
   },
   QCEndDate: {
-    type: Date,
+    type: String,
   },
   UDate: {
-    type: Date,
+    type: String,
   },
   ptEstimatedTime: {
     type: String,
@@ -110,7 +110,7 @@ const ProjectSchema = new mongoose.Schema({
     type: ObjectId,
   },
   projectDeactiveDate: {
-    type: Date,
+    type: String,
   },
   projectDeactiveDateTime: {
     type: Date,
