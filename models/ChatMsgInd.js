@@ -18,7 +18,7 @@ const ChatMsgIndSchema = new mongoose.Schema({
     type: String,
   },
   chatMsgIndDate: {
-    type: Date,
+    type: String,
   },
   chatMsgIndDateTime: {
     type: Date,

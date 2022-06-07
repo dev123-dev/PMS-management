@@ -26,7 +26,7 @@ const ClientSchema = new mongoose.Schema({
     default: "Active",
   },
   clientDate: {
-    type: Date,
+    type: String,
   },
   clientDateTime: {
     type: Date,
@@ -54,7 +54,7 @@ const ClientSchema = new mongoose.Schema({
     type: ObjectId,
   },
   clientEnteredDate: {
-    type: Date,
+    type: String,
   },
   clientEnteredDateTime: {
     type: Date,
@@ -70,7 +70,7 @@ const ClientSchema = new mongoose.Schema({
     type: ObjectId,
   },
   clientDeactiveDate: {
-    type: Date,
+    type: String,
   },
   clientDeactiveDateTime: {
     type: Date,

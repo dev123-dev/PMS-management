@@ -5,19 +5,19 @@ import Select from "react-select";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import AddDepartment from "./AddDepartment";
-import EditDepartment from "./EditDepartment";
-import { getALLDepartment } from "../../actions/settings";
-const AllDepartment = ({
+import AddDesignation from "./AddDesignation";
+import EditDesignation from "./EditDesignation";
+import { getALLDesignation } from "../../actions/settings";
+const AllDesignation = ({
   auth: { isAuthenticated, user, users },
-  settings: { allDepartment },
-  getALLDepartment,
+  settings: { allDesignation },
+  getALLDesignation,
 }) => {
   useEffect(() => {
-    getALLDepartment();
-  }, [getALLDepartment]);
+    getALLDesignation();
+  }, [getALLDesignation]);
 
-  console.log("allDeptartment", allDepartment);
+  console.log("allDesignation", allDesignation);
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
@@ -42,9 +42,9 @@ const AllDepartment = ({
   };
 
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allDepartment, idx) => {
+  const onUpdate = (allDeptartment, idx) => {
     setShowEditModal(true);
-    setUserDatas(allDepartment);
+    setUserDatas(allDeptartment);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -54,23 +54,23 @@ const AllDepartment = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-5 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Department Details </h5>
+              <h5 className="heading_color">All Designation Details </h5>
             </div>
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
               <img
                 className="img_icon_size log float-right"
                 onClick={() => onClickHandler()}
                 src={require("../../static/images/add-icon.png")}
-                alt="Add Department"
-                title="Add Department"
+                alt="Add Designation"
+                title="Add Designation"
               />
 
               <img
                 className="img_icon_size log float-right"
                 onClick={() => onClickHandler1()}
                 // src={require("../../static/images/add-icon.png")}
-                alt="Edit Department"
-                title="Edit Department"
+                alt="Edit Designation"
+                title="Edit Designation"
               />
             </div>
           </div>
@@ -84,25 +84,27 @@ const AllDepartment = ({
                   >
                     <thead>
                       <tr>
-                        <th>Department Name</th>
-                        <th>Department Description</th>
+                        <th>Designation Name</th>
+                        <th>Designation Description</th>
                         <th>Op</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {allDepartment &&
-                        allDepartment.map((allDepartment, idx) => {
+                      {allDesignation &&
+                        allDesignation.map((allDesignation, idx) => {
                           return (
                             <tr key={idx}>
                               <td className="headcolstatic">
-                                {allDepartment.departmentName}
+                                {allDesignation.designationName}
                               </td>
-                              <td>{allDepartment.departmentDesc}</td>
+                              <td>{allDesignation.designationDesc}</td>
                               <td>
                                 <>
                                   <img
                                     className="img_icon_size log"
-                                    onClick={() => onUpdate(allDepartment, idx)}
+                                    onClick={() =>
+                                      onUpdate(allDesignation, idx)
+                                    }
                                     src={require("../../static/images/delete.png")}
                                     alt="Deactivate"
                                     title="Deactivate"
@@ -110,7 +112,9 @@ const AllDepartment = ({
                                   &nbsp;
                                   <img
                                     className="img_icon_size log"
-                                    onClick={() => onUpdate(allDepartment, idx)}
+                                    onClick={() =>
+                                      onUpdate(allDesignation, idx)
+                                    }
                                     src={require("../../static/images/edit_icon.png")}
                                     alt="Edit"
                                     title="Edit"
@@ -138,7 +142,7 @@ const AllDepartment = ({
           <Modal.Header>
             <div className="col-lg-10">
               <h3 className="modal-title text-center">
-                Add Department Details
+                Add Designation Details
               </h3>
             </div>
             <div className="col-lg-2">
@@ -152,7 +156,7 @@ const AllDepartment = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <AddDepartment
+            <AddDesignation
               onAddDistrictModalChange={onAddDistrictModalChange}
             />
           </Modal.Body>
@@ -169,7 +173,7 @@ const AllDepartment = ({
           <Modal.Header>
             <div className="col-lg-10">
               <h3 className="modal-title text-center">
-                Edit Department Details
+                Edit Designation Details
               </h3>
             </div>
             <div className="col-lg-2">
@@ -183,7 +187,7 @@ const AllDepartment = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <EditDepartment
+            <EditDesignation
               onEditModalChange={onEditModalChange}
               allDeptartmentdata={userDatas}
             />
@@ -194,13 +198,13 @@ const AllDepartment = ({
   );
 };
 
-AllDepartment.propTypes = {
+AllDesignation.propTypes = {
   auth: PropTypes.object.isRequired,
-  getALLDepartment: PropTypes.func.isRequired,
+  getALLDesignation: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   settings: state.settings,
 });
 
-export default connect(mapStateToProps, { getALLDepartment })(AllDepartment);
+export default connect(mapStateToProps, { getALLDesignation })(AllDesignation);

@@ -83,6 +83,11 @@ const AllStaffDetails = ({
                     <tbody>
                       {allEmployee &&
                         allEmployee.map((allEmployee, idx) => {
+                          var empJoiningDate = "";
+                          if (allEmployee.empJoiningDate) {
+                            var ED = allEmployee.empJoiningDate.split(/\D/g);
+                            empJoiningDate = [ED[2], ED[1], ED[0]].join("-");
+                          }
                           return (
                             <tr key={idx}>
                               <td className="headcolstatic">
@@ -91,7 +96,7 @@ const AllStaffDetails = ({
                               <td>{allEmployee.empPhone}</td>
                               <td>{allEmployee.empAddress}</td>
                               <td>{allEmployee.empCode}</td>
-                              <td>{allEmployee.empJoiningDate}</td>
+                              <td>{empJoiningDate}</td>
 
                               <td>
                                 <>

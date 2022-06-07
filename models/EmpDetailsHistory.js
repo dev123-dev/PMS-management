@@ -18,13 +18,13 @@ const EmpDetailsHistorySchema = new mongoose.Schema({
     type: ObjectId,
   },
   edhDesignationDate: {
-    type: Date,
+    type: String,
   },
   edhJoiningDate: {
-    type: Date,
+    type: String,
   },
   edhDOB: {
-    type: Date,
+    type: String,
   },
   edhAadharNo: {
     type: String,
@@ -76,7 +76,7 @@ const EmpDetailsHistorySchema = new mongoose.Schema({
     type: String,
   },
   edhPFDate: {
-    type: Date,
+    type: String,
   },
   edhUANNo: {
     type: Number,
