@@ -52,7 +52,7 @@ export const AddMenu = (finalData) => async (dispatch) => {
   }
 };
 
-export const AddDesignation = (finalData) => async (dispatch) => {
+export const AddNewDesignation = (finalData) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING_TRUE,
@@ -196,7 +196,7 @@ export const getALLDepartment = () => async (dispatch) => {
   }
 };
 
-export const getALLDesigantion = () => async (dispatch) => {
+export const getALLDesignation = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/settings/get-all-designation");
     dispatch({

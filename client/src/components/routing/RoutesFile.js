@@ -26,6 +26,12 @@ import EditDepartment from "../department/EditDepartment";
 import DeactivateDepartment from "../department/DeactivateDepartment";
 import AllDepartment from "../department/AllDepartment";
 
+// Designation
+import AddDesignation from "../department/AddDesignation";
+import EditDesignation from "../department/EditDesignation";
+import DeactivateDesignation from "../department/DeactivateDesignation";
+import AllDesignation from "../department/AllDesignation";
+
 //project
 import AllProjectStatus from "../projects/AllProjectStatus";
 
@@ -73,6 +79,28 @@ const RoutesFile = () => {
           component={DeactivateDepartment}
         />
         <PrivateRoute exact path="/all-department" component={AllDepartment} />
+
+        {/* Designation */}
+        <PrivateRoute
+          exact
+          path="/add-designation"
+          component={AddDesignation}
+        />
+        <PrivateRoute
+          exact
+          path="/edit-designation"
+          component={EditDesignation}
+        />
+        <PrivateRoute
+          exact
+          path="/deactivate-designation"
+          component={DeactivateDesignation}
+        />
+        <PrivateRoute
+          exact
+          path="/all-designation"
+          component={AllDesignation}
+        />
         {/* Project Status */}
         <PrivateRoute
           exact
