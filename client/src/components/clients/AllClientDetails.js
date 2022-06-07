@@ -53,12 +53,10 @@ const AllClientDetails = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className="row col-lg-5 col-md-11 col-sm-10 col-10">
+            <div className=" col-lg-6 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Client Details </h5>
             </div>
-          </div>
-          <div className="row col-lg-12 col-md-11 col-sm-12 col-12 no_padding">
-            <div className="col-lg-12 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
               <Link to="/add-client">
                 <img
                   className="img_icon_size log float-right"
@@ -78,6 +76,7 @@ const AllClientDetails = ({
               </Link>
             </div>
           </div>
+
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">

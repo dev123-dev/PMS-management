@@ -42,9 +42,7 @@ const AllStaffDetails = ({
             <div className="row col-lg-5 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Staff Details </h5>
             </div>
-          </div>
-          <div className="row col-lg-12 col-md-11 col-sm-12 col-12 no_padding">
-            <div className="col-lg-12 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
               <Link to="/add-Staff">
                 <img
                   className="img_icon_size log float-right"
