@@ -2,10 +2,11 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import { addUserGroup } from "../../actions/user";
 
 const AddUserGroup = ({
   auth: { isAuthenticated, user, users, loading },
-
+  addUserGroup,
   onAddDistrictModalChange,
 }) => {
   //formData
@@ -28,6 +29,7 @@ const AddUserGroup = ({
       userGroupEnteredById: user._id,
     };
     console.log(finalData);
+    addUserGroup(finalData);
     setFormData({
       ...formData,
       districtName: "",
@@ -89,11 +91,10 @@ const AddUserGroup = ({
 
 AddUserGroup.propTypes = {
   auth: PropTypes.object.isRequired,
-  area: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(AddUserGroup);
+export default connect(mapStateToProps, { addUserGroup })(AddUserGroup);

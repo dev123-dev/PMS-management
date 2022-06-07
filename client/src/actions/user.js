@@ -15,13 +15,13 @@ const config = {
   },
 };
 
-export const AddUserGroup = (finalData) => async (dispatch) => {
+export const addUserGroup = (finalData) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/users/add-user-group", finalData, config);
-
+    dispatch(getALLUserGroups());
     dispatch({
       type: SET_LOADING_FALSE,
     });
