@@ -21,7 +21,6 @@ router.post("/add-client", async (req, res) => {
 router.post("/edit-client", async (req, res) => {
   try {
     let data = req.body;
-
     const updateEmployeeDetails = await EmployeeDetails.updateOne(
       { _id: data.recordId },
       {
@@ -51,7 +50,6 @@ router.post("/edit-client", async (req, res) => {
 router.post("/deactive-client", async (req, res) => {
   try {
     let data = req.body;
-
     const deactiveClientDetails = await ClientDetails.updateOne(
       { _id: data.recordId },
       {

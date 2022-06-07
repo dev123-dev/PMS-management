@@ -9,7 +9,7 @@ const ChatMessageSchema = new mongoose.Schema({
     type: String,
   },
   chatMessageDate: {
-    type: Date,
+    type: String,
   },
   chatMessageDateTime: {
     type: Date,

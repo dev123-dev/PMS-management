@@ -26,13 +26,13 @@ const EmpDetailsSchema = new mongoose.Schema({
     type: ObjectId,
   },
   empDesignationDate: {
-    type: Date,
+    type: String,
   },
   empJoiningDate: {
-    type: Date,
+    type: String,
   },
   empDOB: {
-    type: Date,
+    type: String,
   },
   empAadharNo: {
     type: String,
@@ -69,7 +69,7 @@ const EmpDetailsSchema = new mongoose.Schema({
     type: ObjectId,
   },
   empDate: {
-    type: Date,
+    type: String,
   },
   empDateTime: {
     type: Date,
@@ -82,7 +82,7 @@ const EmpDetailsSchema = new mongoose.Schema({
     type: ObjectId,
   },
   empDeactiveDateTime: {
-    type: Date,
+    type: String,
   },
   empBankName: {
     type: String,
@@ -100,7 +100,7 @@ const EmpDetailsSchema = new mongoose.Schema({
     type: String,
   },
   empPFDate: {
-    type: Date,
+    type: String,
   },
   empUANNo: {
     type: Number,

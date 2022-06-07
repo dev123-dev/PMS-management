@@ -4,11 +4,10 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-
+import { AddPaymentMode } from "../../actions/settings";
 const AddPaymentMethod = ({
   auth: { isAuthenticated, user, users, loading },
-
-  onAddDistrictModalChange,
+  AddPaymentMode,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -30,7 +29,7 @@ const AddPaymentMethod = ({
       paymentModeEnteredById: user._id,
     };
     console.log(finalData);
-    // AddDistrict(finalData);
+    AddPaymentMode(finalData);
     setFormData({
       ...formData,
       paymentMode: "",
@@ -92,11 +91,10 @@ const AddPaymentMethod = ({
 
 AddPaymentMethod.propTypes = {
   auth: PropTypes.object.isRequired,
-  area: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(AddPaymentMethod);
+export default connect(mapStateToProps, { AddPaymentMode })(AddPaymentMethod);

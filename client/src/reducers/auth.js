@@ -13,6 +13,7 @@ import {
   GET_ALL_USER,
   OTP_SENT,
   SET_LOADING_TRUE,
+  SET_LOADING_FALSE,
   FINAL_DATA_REP,
 } from "../actions/types";
 
@@ -126,6 +127,11 @@ const auth = (state = initialState, action) => {
         ...state,
         loading: true,
         otpMessage: "",
+      };
+    case SET_LOADING_FALSE:
+      return {
+        ...state,
+        loading: false,
       };
     default:
       return state;

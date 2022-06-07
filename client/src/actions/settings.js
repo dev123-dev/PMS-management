@@ -74,6 +74,7 @@ export const AddPaymentMode = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/add-payment-mode", finalData, config);
+    dispatch(getALLPaymentMode());
     dispatch({
       type: SET_LOADING_FALSE,
     });
