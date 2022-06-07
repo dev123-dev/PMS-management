@@ -17,7 +17,7 @@ const AllDesignation = ({
     getALLDesignation();
   }, [getALLDesignation]);
 
-  console.log("allDeptartment", allDesignation);
+  console.log("allDesignation", allDesignation);
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
