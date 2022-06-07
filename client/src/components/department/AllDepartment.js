@@ -10,14 +10,14 @@ import EditDepartment from "./EditDepartment";
 import { getALLDepartment } from "../../actions/settings";
 const AllDepartment = ({
   auth: { isAuthenticated, user, users },
-  settings: { allDeptartment },
+  settings: { allDepartment },
   getALLDepartment,
 }) => {
   useEffect(() => {
     getALLDepartment();
   }, [getALLDepartment]);
 
-  console.log("allDeptartment", allDeptartment);
+  console.log("allDeptartment", allDepartment);
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
@@ -42,9 +42,9 @@ const AllDepartment = ({
   };
 
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allDeptartment, idx) => {
+  const onUpdate = (allDepartment, idx) => {
     setShowEditModal(true);
-    setUserDatas(allDeptartment);
+    setUserDatas(allDepartment);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -90,21 +90,19 @@ const AllDepartment = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {allDeptartment &&
-                        allDeptartment.map((allDeptartment, idx) => {
+                      {allDepartment &&
+                        allDepartment.map((allDepartment, idx) => {
                           return (
                             <tr key={idx}>
                               <td className="headcolstatic">
-                                {allDeptartment.departmentName}
+                                {allDepartment.departmentName}
                               </td>
-                              <td>{allDeptartment.departmentDesc}</td>
+                              <td>{allDepartment.departmentDesc}</td>
                               <td>
                                 <>
                                   <img
                                     className="img_icon_size log"
-                                    onClick={() =>
-                                      onUpdate(allDeptartment, idx)
-                                    }
+                                    onClick={() => onUpdate(allDepartment, idx)}
                                     src={require("../../static/images/delete.png")}
                                     alt="Deactivate"
                                     title="Deactivate"
@@ -112,9 +110,7 @@ const AllDepartment = ({
                                   &nbsp;
                                   <img
                                     className="img_icon_size log"
-                                    onClick={() =>
-                                      onUpdate(allDeptartment, idx)
-                                    }
+                                    onClick={() => onUpdate(allDepartment, idx)}
                                     src={require("../../static/images/edit_icon.png")}
                                     alt="Edit"
                                     title="Edit"
