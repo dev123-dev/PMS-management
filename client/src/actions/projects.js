@@ -31,12 +31,13 @@ export const AddProject = (finalData) => async (dispatch) => {
   }
 };
 
-export const AddProjectStatus = (finalData) => async (dispatch) => {
+export const addProjectStatus = (finalData) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/projects/add-project-status", finalData, config);
+    dispatch(getAllProjectStatus());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -81,12 +82,13 @@ export const EditProject = (finalData) => async (dispatch) => {
   }
 };
 
-export const EditProjectStatus = (finalData) => async (dispatch) => {
+export const editProjectStatus = (finalData) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/projects/edit-project-status", finalData);
+    dispatch(getAllProjectStatus());
     dispatch({
       type: SET_LOADING_FALSE,
     });
