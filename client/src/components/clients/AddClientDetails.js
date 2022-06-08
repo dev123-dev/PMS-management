@@ -7,6 +7,11 @@ import Spinner from "../layout/Spinner";
 import { getALLPaymentMode } from "../../actions/settings";
 import { getActiveClients, AddClient } from "../../actions/client";
 
+const clientTypeVal = [
+  { value: "Regular", label: "Regular Client" },
+  { value: "Test", label: "Test Client" },
+];
+
 const AddClientDetails = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { paymentMode },
@@ -22,11 +27,6 @@ const AddClientDetails = ({
   useEffect(() => {
     getActiveClients();
   }, [getActiveClients]);
-
-  const clientTypeVal = [
-    { value: "Regular", label: "Regular Client" },
-    { value: "Test", label: "Test Client" },
-  ];
 
   //formData
   const [formData, setFormData] = useState({

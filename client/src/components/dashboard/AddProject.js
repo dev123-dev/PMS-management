@@ -142,6 +142,15 @@ const AddProject = ({
       });
     }
   };
+  const [startprojectDate, setprojectDate] = useState("");
+  const onDateChange = (e) => {
+    setprojectDate(e.target.value);
+  };
+
+  const [startclientDate, setclientDate] = useState("");
+  const onDateChange1 = (e) => {
+    setclientDate(e.target.value);
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -305,42 +314,59 @@ const AddProject = ({
               <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Project Date:</label>
+
                   <input
-                    type="text"
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
                     name="projectDate"
-                    value={projectDate}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
+                    value={startprojectDate}
+                    onChange={(e) => onDateChange(e)}
+                    style={{
+                      width: "75%",
+                    }}
+                    required
                   />
                 </div>
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Project Time:</label>
+                  <br />
                   <input
-                    type="text"
-                    name="projectTime"
-                    value={projectTime}
+                    type="time"
                     className="form-control"
-                    onChange={(e) => onInputChange(e)}
+                    id="appt"
+                    name="appt"
+                    min="09:00"
+                    max="18:00"
+                    // required
                   />
                 </div>
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Client Date:</label>
+
                   <input
-                    type="text"
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
                     name="clientDate"
-                    value={clientDate}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
+                    value={startclientDate}
+                    onChange={(e) => onDateChange1(e)}
+                    style={{
+                      width: "75%",
+                    }}
+                    required
                   />
                 </div>
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Client Time:</label>
                   <input
-                    type="text"
                     name="clientTime"
                     value={clientTime}
+                    type="time"
                     className="form-control"
-                    onChange={(e) => onInputChange(e)}
+                    min="09:00"
+                    max="18:00"
+                    // required
                   />
                 </div>
               </div>
