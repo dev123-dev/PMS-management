@@ -1,14 +1,27 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
+import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
 import AddStaffInfo from "./AddStaffInfo";
 import AddStaffAreainfo from "./AddStaffAreainfo";
 import AddSalaryInfo from "./AddSalaryInfo";
-const AddEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
+const AddEmployeeDetails = ({
+  auth: { isAuthenticated, user, users },
+  settings: { allDepartment, activeDesignation },
+  getALLDepartment,
+  getActiveDesignation,
+}) => {
+  useEffect(() => {
+    getALLDepartment();
+  }, [getALLDepartment]);
+  useEffect(() => {
+    getActiveDesignation();
+  }, [getActiveDesignation]);
+
   const [formData, setFormData] = useState({
     employeeName: "",
     employeePhone: "",
@@ -49,7 +62,6 @@ const AddEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
     employeeDepartment,
     employeeDesignation,
     employeeCode,
-
     employeeAddr,
     employeeState,
     employeePincode,
@@ -65,6 +77,9 @@ const AddEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
     employeeDA,
     isSubmitted,
   } = formData;
+
+  // console.log("allDeptartment", allDepartment);
+  console.log("activeDesignation", activeDesignation);
 
   const [startSelectedDate, setJoinDate] = useState("");
   const onDateChange = (e) => {
@@ -482,9 +497,16 @@ const AddEmployeeDetails = ({ auth: { isAuthenticated, user, users } }) => {
 
 AddEmployeeDetails.propTypes = {
   auth: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
+  getALLDepartment: PropTypes.object.isRequired,
+  getActiveDesignation: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  settings: state.settings,
 });
 
-export default connect(mapStateToProps, {})(AddEmployeeDetails);
+export default connect(mapStateToProps, {
+  getALLDepartment,
+  getActiveDesignation,
+})(AddEmployeeDetails);
