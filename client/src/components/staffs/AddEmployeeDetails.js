@@ -78,7 +78,7 @@ const AddEmployeeDetails = ({
     isSubmitted,
   } = formData;
 
-  // console.log("allDeptartment", allDepartment);
+  console.log("allDeptartment", allDepartment);
   console.log("activeDesignation", activeDesignation);
 
   const [startSelectedDate, setJoinDate] = useState("");
@@ -95,6 +95,25 @@ const AddEmployeeDetails = ({
 
   const NextBackBtn = (tabIndex) => {
     setTabIndex(tabIndex);
+  };
+
+  const alldepartment = [];
+  allDepartment.map((department) =>
+    alldepartment.push({
+      departmentId: department._id,
+      label: department.departmentName,
+      value: department.departmentName,
+    })
+  );
+
+  const [department, getdepartmentData] = useState();
+  const [departmentId, setdepartmentId] = useState();
+
+  const onPayModeChange = (e) => {
+    var departmentId = "";
+    getdepartmentData(e);
+    departmentId = e.departmentId;
+    setdepartmentId(departmentId);
   };
   // code for next previous tabing ends
   return !isAuthenticated || !user || !users ? (
@@ -233,12 +252,22 @@ const AddEmployeeDetails = ({
                         <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                           <label className="label-control">Department :</label>
                           <Select
-                            name="employeeDepartment"
-                            //  options={alldistrict}
+                            name="departmentName"
+                            options={alldepartment}
                             isSearchable={true}
-                            // value={district}
-                            placeholder="Select Department"
-                            // onChange={(e) => ondistrictChange(e)}
+                            value={department}
+                            placeholder="Select Mode"
+                            onChange={(e) => onPayModeChange(e)}
+                            theme={(theme) => ({
+                              ...theme,
+                              height: 26,
+                              minHeight: 26,
+                              borderRadius: 1,
+                              colors: {
+                                ...theme.colors,
+                                primary: "black",
+                              },
+                            })}
                           />
                         </div>
                         <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
