@@ -137,12 +137,13 @@ export const EditMenu = (finalData) => async (dispatch) => {
   }
 };
 
-export const EditDesignation = (finalData) => async (dispatch) => {
+export const editDesignation = (finalData) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/edit-designation", finalData);
+    dispatch(getALLDesignation());
     dispatch({
       type: SET_LOADING_FALSE,
     });
