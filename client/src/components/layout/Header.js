@@ -126,9 +126,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                         <li>
                           <Link to="/all-usergroups">Groups</Link>
                         </li>
-                        <li>
+                        {/* <li>
                           <Link to="/add-staff">Add Staff</Link>
-                        </li>
+                        </li> */}
 
                         <li>
                           <Link to="/change-password">Change Password</Link>

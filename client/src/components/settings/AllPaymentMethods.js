@@ -62,14 +62,6 @@ const AllPaymentMethods = ({
                 alt="Add Department"
                 title="Add Department"
               />
-
-              <img
-                className="img_icon_size log float-right"
-                onClick={() => onClickHandler1()}
-                src={require("../../static/images/add-icon.png")}
-                alt="Edit Department"
-                title="Edit Department"
-              />
             </div>
           </div>
 

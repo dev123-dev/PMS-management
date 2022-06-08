@@ -62,14 +62,6 @@ const AllDesignation = ({
                 alt="Add Designation"
                 title="Add Designation"
               />
-
-              <img
-                className="img_icon_size log float-right"
-                onClick={() => onClickHandler1()}
-                // src={require("../../static/images/add-icon.png")}
-                alt="Edit Designation"
-                title="Edit Designation"
-              />
             </div>
           </div>
           <div className="row">
