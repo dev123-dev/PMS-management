@@ -4,26 +4,32 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { getALLPaymentMode } from "../../actions/settings";
-import { getActiveClients } from "../../actions/client";
+import { getActiveClientsFilter } from "../../actions/client";
+import { getAllProjectStatus } from "../../actions/projects";
 
 const AddProject = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { paymentMode },
-  client: { activeClient },
-  getALLPaymentMode,
-  getActiveClients,
+  client: { activeClientFilter },
+  project: { allProjectStatus },
+  getActiveClientsFilter,
+  getAllProjectStatus,
   onAddDistrictModalChange,
 }) => {
   useEffect(() => {
-    getALLPaymentMode();
-  }, [getALLPaymentMode]);
+    getAllProjectStatus();
+  }, [getAllProjectStatus]);
   useEffect(() => {
-    getActiveClients();
-  }, [getActiveClients]);
+    getActiveClientsFilter();
+  }, [getActiveClientsFilter]);
 
-  console.log(paymentMode);
-  console.log(activeClient);
+  console.log(allProjectStatus);
+  console.log(activeClientFilter);
+
+  const clientTypeVal = [
+    { value: "Regular", label: "Regular Client" },
+    { value: "Test", label: "Test Client" },
+  ];
 
   //formData
   const [formData, setFormData] = useState({
@@ -57,10 +63,28 @@ const AddProject = ({
     clientDate,
     clienTime,
     Instructions,
+    clientType,
   } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onClientTypeChange = (e) => {
+    //Required Validation starts
+    // setError({
+    //   ...error,
+    //   TranscationIdChecker: true,
+    //   TranscationIdErrorStyle: { color: "#000" },
+    // });
+    //Required Validation ends
+
+    if (e) {
+      setFormData({
+        ...formData,
+        clientType: e,
+      });
+    }
   };
 
   const onSubmit = (e) => {
@@ -94,12 +118,12 @@ const AddProject = ({
                 <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
                   <label className="label-control">Client Type:</label>
                   <Select
-                    name="clientBelongsTo"
-                    value={clientBelongsTo}
-                    //  options={clientBelongsTo}
+                    name="clientType"
+                    options={clientTypeVal}
+                    value={clientType}
                     isSearchable={false}
                     placeholder="Select"
-                    // onChange={(e) => clientBelongsToChange(e)}
+                    onChange={(e) => onClientTypeChange(e)}
                   />
                 </div>
               </div>
@@ -297,17 +321,18 @@ AddProject.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
-  getALLPaymentMode: PropTypes.object.isRequired,
-  getActiveClients: PropTypes.object.isRequired,
+  getAllProjectStatus: PropTypes.object.isRequired,
+  getActiveClientsFilter: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   settings: state.settings,
   client: state.client,
+  project: state.project,
 });
 
 export default connect(mapStateToProps, {
-  getALLPaymentMode,
-  getActiveClients,
+  getAllProjectStatus,
+  getActiveClientsFilter,
 })(AddProject);

@@ -93,4 +93,21 @@ router.get("/get-active-client", async (req, res) => {
   }
 });
 
+router.get("/get-active-client-filter", async (req, res) => {
+  try {
+    const getActiveClientFilterDetails = await ClientDetails.find({
+      clientStatus: {
+        $eq: "Active",
+      },
+      clientType: {
+        $eq: "Regular",
+      },
+    });
+    res.json(getActiveClientFilterDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;

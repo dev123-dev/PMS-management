@@ -5,6 +5,7 @@ import {
   SET_LOADING_FALSE,
   ALL_CLIENTS,
   ACTIVE_CLIENTS,
+  ACTIVE_CLIENT_FILTER,
 } from "./types";
 
 const config = {
@@ -88,6 +89,20 @@ export const getActiveClients = () => async (dispatch) => {
     const res = await axios.get("/api/client/get-active-client");
     dispatch({
       type: ACTIVE_CLIENTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getActiveClientsFilter = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/client/get-active-client-filter");
+    dispatch({
+      type: ACTIVE_CLIENT_FILTER,
       payload: res.data,
     });
   } catch (err) {
