@@ -65,7 +65,7 @@ const AllClientDetails = ({
                   title="Add Staff"
                 />
               </Link>
-
+              {/* 
               <Link to="/edit-Client">
                 <img
                   className="img_icon_size log float-right"
@@ -73,7 +73,7 @@ const AllClientDetails = ({
                   alt="Edit Staff"
                   title="Edit Staff"
                 />
-              </Link>
+              </Link> */}
             </div>
           </div>
 

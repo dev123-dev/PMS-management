@@ -23,9 +23,6 @@ const AddClientDetails = ({
     getActiveClients();
   }, [getActiveClients]);
 
-  // console.log(paymentMode);
-  // console.log(activeClient);
-
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
@@ -80,6 +77,43 @@ const AddClientDetails = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const allpaymentmodes = [];
+  paymentMode.map((payment) =>
+    allpaymentmodes.push({
+      paymentId: payment._id,
+      label: payment.paymentMode,
+      value: payment.paymentMode,
+    })
+  );
+
+  const [payment, getStateData] = useState();
+  const [paymentId, setpaymentId] = useState();
+
+  const onPayModeChange = (e) => {
+    var paymentId = "";
+    getStateData(e);
+    paymentId = e.paymentId;
+    setpaymentId(paymentId);
+  };
+
+  const allclientBelongsTo = [];
+  activeClient.map((clients) =>
+    allclientBelongsTo.push({
+      clientsId: clients._id,
+      label: clients.clientName,
+      value: clients.clientName,
+    })
+  );
+
+  const [clients, getclientsData] = useState();
+  const [clientsId, setclientsId] = useState();
+
+  const onBelongstoChange = (e) => {
+    var clientsId = "";
+    getclientsData(e);
+    clientsId = e.clientsId;
+    setclientsId(clientsId);
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
@@ -185,13 +219,24 @@ const AddClientDetails = ({
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Belongs To:</label>
+
                     <Select
-                      name="clientBelongsTo"
-                      value={clientBelongsTo}
-                      //  options={clientBelongsTo}
-                      isSearchable={false}
-                      placeholder="Select"
-                      // onChange={(e) => clientBelongsToChange(e)}
+                      name="clientName"
+                      options={allclientBelongsTo}
+                      isSearchable={true}
+                      value={clients}
+                      placeholder="Select Mode"
+                      onChange={(e) => onBelongstoChange(e)}
+                      theme={(theme) => ({
+                        ...theme,
+                        height: 26,
+                        minHeight: 26,
+                        borderRadius: 1,
+                        colors: {
+                          ...theme.colors,
+                          primary: "black",
+                        },
+                      })}
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -265,12 +310,24 @@ const AddClientDetails = ({
                         <label className="label-control">
                           Mode of Payment:
                         </label>
+
                         <Select
-                          name="usergroup"
-                          //  options={UserGroups}
-                          isSearchable={false}
-                          placeholder="Select"
-                          // onChange={(e) => onPaymentModeChange(e)}
+                          name="paymentMode"
+                          options={allpaymentmodes}
+                          isSearchable={true}
+                          value={payment}
+                          placeholder="Select Mode"
+                          onChange={(e) => onPayModeChange(e)}
+                          theme={(theme) => ({
+                            ...theme,
+                            height: 26,
+                            minHeight: 26,
+                            borderRadius: 1,
+                            colors: {
+                              ...theme.colors,
+                              primary: "black",
+                            },
+                          })}
                         />
                       </div>
                     </div>
