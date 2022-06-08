@@ -98,9 +98,12 @@ export const getActiveClients = () => async (dispatch) => {
   }
 };
 
-export const getActiveClientsFilter = () => async (dispatch) => {
+export const getActiveClientsFilter = (clientTypeVal) => async (dispatch) => {
   try {
-    const res = await axios.get("/api/client/get-active-client-filter");
+    const res = await axios.post(
+      "/api/client/get-active-client-filter",
+      clientTypeVal
+    );
     dispatch({
       type: ACTIVE_CLIENT_FILTER,
       payload: res.data,
