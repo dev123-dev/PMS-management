@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -6,14 +6,27 @@ import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
+import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
 import AddStaffInfo from "./AddStaffInfo";
 import AddStaffAreainfo from "./AddStaffAreainfo";
 import AddSalaryInfo from "./AddSalaryInfo";
 const EditEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
+  settings: { allDepartment, activeDesignation },
+  getALLDepartment,
+  getActiveDesignation,
   allEmployeedata,
 }) => {
-  console.log(allEmployeedata);
+  useEffect(() => {
+    getALLDepartment();
+  }, [getALLDepartment]);
+  useEffect(() => {
+    getActiveDesignation();
+  }, [getActiveDesignation]);
+  // console.log(allEmployeedata);
+  console.log("allDeptartment", allDepartment);
+  console.log("activeDesignation", activeDesignation);
+
   const [formData, setFormData] = useState({
     empFullName:
       allEmployeedata && allEmployeedata.empFullName
@@ -165,6 +178,44 @@ const EditEmployeeDetails = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const alldepartment = [];
+  allDepartment.map((department) =>
+    alldepartment.push({
+      departmentId: department._id,
+      label: department.departmentName,
+      value: department.departmentName,
+    })
+  );
+
+  const [department, getdepartmentData] = useState();
+  const [departmentId, setdepartmentId] = useState();
+
+  const onDepartmentChange = (e) => {
+    var departmentId = "";
+    getdepartmentData(e);
+    departmentId = e.departmentId;
+    setdepartmentId(departmentId);
+  };
+
+  const alldesignation = [];
+  activeDesignation.map((designation) =>
+    alldesignation.push({
+      departmentId: designation._id,
+      label: designation.designationName,
+      value: designation.designationName,
+    })
+  );
+
+  const [designation, getdesignationData] = useState();
+  const [designationId, setdesignationId] = useState();
+
+  const onDesigChange = (e) => {
+    var designationId = "";
+    getdesignationData(e);
+    designationId = e.designationId;
+    setdesignationId(designationId);
+  };
+
   // code for next previous tabing starts
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -305,23 +356,43 @@ const EditEmployeeDetails = ({
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                         <label className="label-control">Department :</label>
                         <Select
-                          name="employeeDepartment"
-                          //  options={alldistrict}
+                          name="departmentName"
+                          options={alldepartment}
                           isSearchable={true}
-                          // value={district}
-                          placeholder="Select Department"
-                          // onChange={(e) => ondistrictChange(e)}
+                          value={department}
+                          placeholder="Select Mode"
+                          onChange={(e) => onDepartmentChange(e)}
+                          theme={(theme) => ({
+                            ...theme,
+                            height: 26,
+                            minHeight: 26,
+                            borderRadius: 1,
+                            colors: {
+                              ...theme.colors,
+                              primary: "black",
+                            },
+                          })}
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                         <label className="label-control">Designation :</label>
                         <Select
-                          name="employeeDesignation"
-                          //  options={alldistrict}
+                          name="designationName"
+                          options={alldesignation}
                           isSearchable={true}
-                          // value={district}
-                          placeholder="Select Designation"
-                          // onChange={(e) => ondistrictChange(e)}
+                          value={designation}
+                          placeholder="Select Desig"
+                          onChange={(e) => onDesigChange(e)}
+                          theme={(theme) => ({
+                            ...theme,
+                            height: 26,
+                            minHeight: 26,
+                            borderRadius: 1,
+                            colors: {
+                              ...theme.colors,
+                              primary: "black",
+                            },
+                          })}
                         />
                       </div>
                     </div>
@@ -567,9 +638,16 @@ const EditEmployeeDetails = ({
 
 EditEmployeeDetails.propTypes = {
   auth: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
+  getALLDepartment: PropTypes.object.isRequired,
+  getActiveDesignation: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  settings: state.settings,
 });
 
-export default connect(mapStateToProps, {})(EditEmployeeDetails);
+export default connect(mapStateToProps, {
+  getALLDepartment,
+  getActiveDesignation,
+})(EditEmployeeDetails);

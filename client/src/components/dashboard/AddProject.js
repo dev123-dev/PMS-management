@@ -417,7 +417,7 @@ const AddProject = ({
                 )}
                 <Link
                   className="btn sub_form btn_continue blackbrd float-right"
-                  to="/all-batches"
+                  to="/job-queue"
                 >
                   Cancel
                 </Link>

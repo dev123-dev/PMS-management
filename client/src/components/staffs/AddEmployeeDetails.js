@@ -78,7 +78,7 @@ const AddEmployeeDetails = ({
     isSubmitted,
   } = formData;
 
-  // console.log("allDeptartment", allDepartment);
+  console.log("allDeptartment", allDepartment);
   console.log("activeDesignation", activeDesignation);
 
   const [startSelectedDate, setJoinDate] = useState("");
@@ -96,6 +96,45 @@ const AddEmployeeDetails = ({
   const NextBackBtn = (tabIndex) => {
     setTabIndex(tabIndex);
   };
+
+  const alldepartment = [];
+  allDepartment.map((department) =>
+    alldepartment.push({
+      departmentId: department._id,
+      label: department.departmentName,
+      value: department.departmentName,
+    })
+  );
+
+  const [department, getdepartmentData] = useState();
+  const [departmentId, setdepartmentId] = useState();
+
+  const onDepartmentChange = (e) => {
+    var departmentId = "";
+    getdepartmentData(e);
+    departmentId = e.departmentId;
+    setdepartmentId(departmentId);
+  };
+
+  const alldesignation = [];
+  activeDesignation.map((designation) =>
+    alldesignation.push({
+      departmentId: designation._id,
+      label: designation.designationName,
+      value: designation.designationName,
+    })
+  );
+
+  const [designation, getdesignationData] = useState();
+  const [designationId, setdesignationId] = useState();
+
+  const onDesigChange = (e) => {
+    var designationId = "";
+    getdesignationData(e);
+    designationId = e.designationId;
+    setdesignationId(designationId);
+  };
+
   // code for next previous tabing ends
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -233,23 +272,44 @@ const AddEmployeeDetails = ({
                         <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                           <label className="label-control">Department :</label>
                           <Select
-                            name="employeeDepartment"
-                            //  options={alldistrict}
+                            name="departmentName"
+                            options={alldepartment}
                             isSearchable={true}
-                            // value={district}
-                            placeholder="Select Department"
-                            // onChange={(e) => ondistrictChange(e)}
+                            value={department}
+                            placeholder="Select Mode"
+                            onChange={(e) => onDepartmentChange(e)}
+                            theme={(theme) => ({
+                              ...theme,
+                              height: 26,
+                              minHeight: 26,
+                              borderRadius: 1,
+                              colors: {
+                                ...theme.colors,
+                                primary: "black",
+                              },
+                            })}
                           />
                         </div>
                         <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                           <label className="label-control">Designation :</label>
+
                           <Select
-                            name="employeeDesignation"
-                            //  options={alldistrict}
+                            name="designationName"
+                            options={alldesignation}
                             isSearchable={true}
-                            // value={district}
-                            placeholder="Select Designation"
-                            // onChange={(e) => ondistrictChange(e)}
+                            value={designation}
+                            placeholder="Select Desig"
+                            onChange={(e) => onDesigChange(e)}
+                            theme={(theme) => ({
+                              ...theme,
+                              height: 26,
+                              minHeight: 26,
+                              borderRadius: 1,
+                              colors: {
+                                ...theme.colors,
+                                primary: "black",
+                              },
+                            })}
                           />
                         </div>
                       </div>
