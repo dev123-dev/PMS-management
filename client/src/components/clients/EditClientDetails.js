@@ -71,13 +71,13 @@ const EditClientDetails = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const allpaymentmodes = [];
-  paymentMode.map((payment) =>
-    allpaymentmodes.push({
-      paymentId: payment._id,
-      label: payment.paymentMode,
-      value: payment.paymentMode,
-    })
-  );
+  // paymentMode.map((payment) =>
+  //   allpaymentmodes.push({
+  //     paymentId: payment._id,
+  //     label: payment.paymentMode,
+  //     value: payment.paymentMode,
+  //   })
+  // );
 
   const [payment, getStateData] = useState();
   const [paymentId, setpaymentId] = useState();
@@ -90,13 +90,13 @@ const EditClientDetails = ({
   };
 
   const allclientBelongsTo = [];
-  activeClient.map((clients) =>
-    allclientBelongsTo.push({
-      clientsId: clients._id,
-      label: clients.clientName,
-      value: clients.clientName,
-    })
-  );
+  // activeClient.map((clients) =>
+  //   allclientBelongsTo.push({
+  //     clientsId: clients._id,
+  //     label: clients.clientName,
+  //     value: clients.clientName,
+  //   })
+  // );
 
   const [clients, getclientsData] = useState();
   const [clientsId, setclientsId] = useState();
