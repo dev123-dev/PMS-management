@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -6,14 +6,27 @@ import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
+import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
 import AddStaffInfo from "./AddStaffInfo";
 import AddStaffAreainfo from "./AddStaffAreainfo";
 import AddSalaryInfo from "./AddSalaryInfo";
 const EditEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
+  settings: { allDepartment, activeDesignation },
+  getALLDepartment,
+  getActiveDesignation,
   allEmployeedata,
 }) => {
+  useEffect(() => {
+    getALLDepartment();
+  }, [getALLDepartment]);
+  useEffect(() => {
+    getActiveDesignation();
+  }, [getActiveDesignation]);
   // console.log(allEmployeedata);
+  console.log("allDeptartment", allDepartment);
+  console.log("activeDesignation", activeDesignation);
+
   const [formData, setFormData] = useState({
     empFullName:
       allEmployeedata && allEmployeedata.empFullName
@@ -596,9 +609,16 @@ const EditEmployeeDetails = ({
 
 EditEmployeeDetails.propTypes = {
   auth: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
+  getALLDepartment: PropTypes.object.isRequired,
+  getActiveDesignation: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  settings: state.settings,
 });
 
-export default connect(mapStateToProps, {})(EditEmployeeDetails);
+export default connect(mapStateToProps, {
+  getALLDepartment,
+  getActiveDesignation,
+})(EditEmployeeDetails);
