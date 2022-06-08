@@ -380,7 +380,7 @@ const AddProject = ({
                   id="Instructions"
                   className="textarea form-control"
                   rows="3"
-                  placeholder="Address"
+                  placeholder="Instructions"
                   style={{ width: "100%" }}
                   value={Instructions}
                   onChange={(e) => onInputChange(e)}

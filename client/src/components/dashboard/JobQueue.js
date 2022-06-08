@@ -32,6 +32,15 @@ const JobQueue = ({ auth: { isAuthenticated, user, users } }) => {
                   title="Add Project"
                 />
               </Link>
+
+              <Link to="/change-project-life-cycle">
+                <img
+                  className="img_icon_size log float-right"
+                  src={require("../../static/images/add-icon.png")}
+                  alt="Add Update"
+                  title="Add Update"
+                />
+              </Link>
             </div>
           </div>
           <div className="row">

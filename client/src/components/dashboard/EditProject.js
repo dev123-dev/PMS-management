@@ -274,7 +274,7 @@ const EditProject = ({
                   id="Instructions"
                   className="textarea form-control"
                   rows="3"
-                  placeholder="Address"
+                  placeholder="Instructions"
                   style={{ width: "100%" }}
                   required
                 ></textarea>
