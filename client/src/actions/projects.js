@@ -15,7 +15,7 @@ const config = {
 
 //ADD
 
-export const AddProject = (finalData) => async (dispatch) => {
+export const addProject = (finalData) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING_TRUE,

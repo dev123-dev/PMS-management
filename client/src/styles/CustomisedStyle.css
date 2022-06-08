@@ -579,13 +579,20 @@ p {
   font-weight: 400;
   vertical-align: middle;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 22px;
   font-weight: 300;
 }
 
 .top_radio {
   margin-top: 1.5em;
+}
+.bottmAlgmnt{
+  position: fixed;
+  bottom: 30px;
+  left: 0;
+  padding: 5px 5px;
+  z-index: 999;
 }
 
 .doted_hr {
