@@ -63,16 +63,6 @@ const AllProjectStatus = ({
                 title="Add Department"
               />
             </div>
-
-            <div className="col-lg-12 col-md-11 col-sm-12 col-11 py-3">
-              <img
-                className="img_icon_size log float-right"
-                onClick={() => onClickHandler1()}
-                // src={require("../../static/images/add-icon.png")}
-                alt="Edit Department"
-                title="Edit Department"
-              />
-            </div>
           </div>
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">

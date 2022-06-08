@@ -50,8 +50,10 @@ const EditProjectStatus = ({
     // }
   };
   const StatusCategory = [
-    { value: "Cash", label: "Cash" },
-    { value: "Cheque", label: "Cheque" },
+    { value: "Amend", label: "Amend" },
+    { value: "Normal", label: "Normal" },
+    { value: "Dont Work", label: "Dont Work" },
+    { value: "Additional Instruction", label: "Additional Instruction" },
   ];
 
   const onStatuscatChange = (e) => {
