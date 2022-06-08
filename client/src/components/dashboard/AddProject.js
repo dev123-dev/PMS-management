@@ -131,7 +131,14 @@ const AddProject = ({
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
-    const finalData = {};
+    const finalData = {
+      clientType: clientType.value,
+      // userfullName: userfullName,
+      // useremail: useremail,
+      // userphone: userphone,
+      // usergroup: usergroup,
+      // useraddr: useraddr,
+    };
     console.log(finalData);
     // AddDistrict(finalData);
     // setFormData({
