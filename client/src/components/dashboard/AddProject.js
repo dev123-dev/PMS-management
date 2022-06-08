@@ -181,7 +181,6 @@ const AddProject = ({
       // projectEntryTime
       // clientType: clientType.value,
     };
-    console.log(finalData);
     addProject(finalData);
     // setFormData({
     //   ...formData,
