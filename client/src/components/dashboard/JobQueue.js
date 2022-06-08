@@ -80,20 +80,45 @@ const JobQueue = ({
                       </tr>
                     </thead>
                     <tbody>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td> </td>
-                      <td> </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td> </td>
-                      <td> </td>
-
-                      <td></td>
+                      {jobQueueProjects &&
+                        jobQueueProjects.map((jobQueueProjects, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td>{jobQueueProjects.departmentName}</td>
+                              <td>{jobQueueProjects.clientFolderName}</td>
+                              <td>{jobQueueProjects.projectName}</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td>{jobQueueProjects.projectPriority}</td>
+                              <td>{jobQueueProjects.projectDeadline}</td>
+                              <td>{jobQueueProjects.projectQuantity}</td>
+                              <td>{jobQueueProjects.projectStatusType}</td>
+                              <td></td>
+                              <td>{jobQueueProjects.projectNotes}</td>
+                              <td></td>
+                              {/* <td>
+                                <>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allDepartment, idx)}
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Deactivate"
+                                    title="Deactivate"
+                                  />
+                                  &nbsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allDepartment, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </>
+                              </td> */}
+                            </tr>
+                          );
+                        })}
                     </tbody>
                   </table>
                 </div>
