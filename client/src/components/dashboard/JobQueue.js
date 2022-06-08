@@ -5,6 +5,14 @@ import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 
 const JobQueue = ({ auth: { isAuthenticated, user, users } }) => {
+  const onRadioProjCatTypeChange = (e) => {
+    console.log(e.target.value);
+    // if (e.target.value === "student") {
+    //   setFormData({ ...formData, userRole: e.target.value });
+    // } else {
+    //   setFormData({ ...formData, userRole: e.target.value });
+    // }
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -26,7 +34,6 @@ const JobQueue = ({ auth: { isAuthenticated, user, users } }) => {
               </Link>
             </div>
           </div>
-          <div className="row col-lg-12 col-md-11 col-sm-12 col-12 no_padding"></div>
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center py-2">
               <section className="body">
@@ -75,6 +82,62 @@ const JobQueue = ({ auth: { isAuthenticated, user, users } }) => {
             </div>
           </div>
         </section>
+
+        <div className="row col-md-12 col-lg-12 col-sm-12 col-12 top_radio no_padding bottmAlgmnt">
+          <div className="col-lg-10 col-md-6 col-sm-6 col-12">
+            <label className="radio-inline ">
+              <input
+                type="radio"
+                name="ProjCatType"
+                className="radio_style"
+                value="Normal"
+                onChange={(e) => onRadioProjCatTypeChange(e)}
+              />{" "}
+              Normal
+            </label>
+
+            <label className="radio-inline ">
+              <input
+                type="radio"
+                name="ProjCatType"
+                className="radio_style"
+                value="Amendment"
+                onChange={(e) => onRadioProjCatTypeChange(e)}
+              />{" "}
+              Amendment
+            </label>
+            <label className="radio-inline ">
+              <input
+                type="radio"
+                name="ProjCatType"
+                className="radio_style"
+                value="Additional Instruction"
+                onChange={(e) => onRadioProjCatTypeChange(e)}
+              />{" "}
+              Additional Instruction
+            </label>
+            <label className="radio-inline ">
+              <input
+                type="radio"
+                name="ProjCatType"
+                className="radio_style"
+                value="Don't Work"
+                onChange={(e) => onRadioProjCatTypeChange(e)}
+              />{" "}
+              Don't Work
+            </label>
+          </div>
+          <div className="col-lg-2 col-md-6 col-sm-6 col-12">Projects:</div>
+          <div className="col-lg-10 col-md-6 col-sm-6 col-12">
+            <label>Downloading:0 &emsp;</label>
+            <label>Working :0&emsp;</label>
+            <label>Pending : 0&emsp;</label>
+            <label>QC Pending:0&emsp;</label>
+            <label>QC Estimate :0&emsp;</label>
+            <label>Working:0&emsp;</label>
+          </div>
+          <div className="col-lg-2 col-md-6 col-sm-6 col-12">Quantity:</div>
+        </div>
       </div>
     </Fragment>
   );
