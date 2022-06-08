@@ -61,7 +61,7 @@ const AddProject = ({
 
   const onClientChange = (e) => {
     setClientData(e);
-    setClientId(e.institutionId);
+    setClientId(e.clientId);
     setBelongsToVal(e.belongsTo);
     setFolderNameVal(e.folderName);
   };
@@ -173,9 +173,9 @@ const AddProject = ({
       // projectUnconfirmed
       // projectVendor
       projectTime: projectTime,
-      projectDate: projectDate,
+      projectDate: startprojectDate,
       clientTime: clientTime,
-      clientDate: clientDate,
+      clientDate: startclientDate,
       projectEnteredById: user._id,
       // projectEnteredDate:
       // projectEntryTime
@@ -301,8 +301,8 @@ const AddProject = ({
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Project Status:</label>
                   <Select
-                    name="projectStatus"
-                    value={projectStatus}
+                    name="projectStatusData"
+                    value={projectStatusData}
                     options={projectStatusOpt}
                     isSearchable={false}
                     placeholder="Select"
@@ -334,10 +334,11 @@ const AddProject = ({
                   <input
                     type="time"
                     className="form-control"
-                    id="appt"
-                    name="appt"
+                    name="projectTime"
+                    value={projectTime}
                     min="09:00"
                     max="18:00"
+                    onChange={(e) => onInputChange(e)}
                     // required
                   />
                 </div>
@@ -360,12 +361,13 @@ const AddProject = ({
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Client Time:</label>
                   <input
+                    type="time"
                     name="clientTime"
                     value={clientTime}
-                    type="time"
                     className="form-control"
                     min="09:00"
                     max="18:00"
+                    onChange={(e) => onInputChange(e)}
                     // required
                   />
                 </div>
