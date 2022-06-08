@@ -109,12 +109,32 @@ const AddEmployeeDetails = ({
   const [department, getdepartmentData] = useState();
   const [departmentId, setdepartmentId] = useState();
 
-  const onPayModeChange = (e) => {
+  const onDepartmentChange = (e) => {
     var departmentId = "";
     getdepartmentData(e);
     departmentId = e.departmentId;
     setdepartmentId(departmentId);
   };
+
+  const alldesignation = [];
+  activeDesignation.map((designation) =>
+    alldesignation.push({
+      departmentId: designation._id,
+      label: designation.designationName,
+      value: designation.designationName,
+    })
+  );
+
+  const [designation, getdesignationData] = useState();
+  const [designationId, setdesignationId] = useState();
+
+  const onDesigChange = (e) => {
+    var designationId = "";
+    getdesignationData(e);
+    designationId = e.designationId;
+    setdesignationId(designationId);
+  };
+
   // code for next previous tabing ends
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -257,7 +277,7 @@ const AddEmployeeDetails = ({
                             isSearchable={true}
                             value={department}
                             placeholder="Select Mode"
-                            onChange={(e) => onPayModeChange(e)}
+                            onChange={(e) => onDepartmentChange(e)}
                             theme={(theme) => ({
                               ...theme,
                               height: 26,
@@ -272,13 +292,24 @@ const AddEmployeeDetails = ({
                         </div>
                         <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                           <label className="label-control">Designation :</label>
+
                           <Select
-                            name="employeeDesignation"
-                            //  options={alldistrict}
+                            name="designationName"
+                            options={alldesignation}
                             isSearchable={true}
-                            // value={district}
-                            placeholder="Select Designation"
-                            // onChange={(e) => ondistrictChange(e)}
+                            value={designation}
+                            placeholder="Select Desig"
+                            onChange={(e) => onDesigChange(e)}
+                            theme={(theme) => ({
+                              ...theme,
+                              height: 26,
+                              minHeight: 26,
+                              borderRadius: 1,
+                              colors: {
+                                ...theme.colors,
+                                primary: "black",
+                              },
+                            })}
                           />
                         </div>
                       </div>

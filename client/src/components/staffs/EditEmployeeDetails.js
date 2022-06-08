@@ -178,24 +178,43 @@ const EditEmployeeDetails = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // const alldepartment = [];
-  // allDepartment.map((department) =>
-  //   alldepartment.push({
-  //     departmentId: department._id,
-  //     label: department.departmentName,
-  //     value: department.departmentName,
-  //   })
-  // );
+  const alldepartment = [];
+  allDepartment.map((department) =>
+    alldepartment.push({
+      departmentId: department._id,
+      label: department.departmentName,
+      value: department.departmentName,
+    })
+  );
 
-  // const [department, getdepartmentData] = useState();
-  // const [departmentId, setdepartmentId] = useState();
+  const [department, getdepartmentData] = useState();
+  const [departmentId, setdepartmentId] = useState();
 
-  // const onPayModeChange = (e) => {
-  //   var departmentId = "";
-  //   getdepartmentData(e);
-  //   departmentId = e.departmentId;
-  //   setdepartmentId(departmentId);
-  // };
+  const onDepartmentChange = (e) => {
+    var departmentId = "";
+    getdepartmentData(e);
+    departmentId = e.departmentId;
+    setdepartmentId(departmentId);
+  };
+
+  const alldesignation = [];
+  activeDesignation.map((designation) =>
+    alldesignation.push({
+      departmentId: designation._id,
+      label: designation.designationName,
+      value: designation.designationName,
+    })
+  );
+
+  const [designation, getdesignationData] = useState();
+  const [designationId, setdesignationId] = useState();
+
+  const onDesigChange = (e) => {
+    var designationId = "";
+    getdesignationData(e);
+    designationId = e.designationId;
+    setdesignationId(designationId);
+  };
 
   // code for next previous tabing starts
   const [tabIndex, setTabIndex] = useState(0);
@@ -336,13 +355,13 @@ const EditEmployeeDetails = ({
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                         <label className="label-control">Department :</label>
-                        {/* <Select
+                        <Select
                           name="departmentName"
                           options={alldepartment}
                           isSearchable={true}
                           value={department}
                           placeholder="Select Mode"
-                          onChange={(e) => onPayModeChange(e)}
+                          onChange={(e) => onDepartmentChange(e)}
                           theme={(theme) => ({
                             ...theme,
                             height: 26,
@@ -353,17 +372,27 @@ const EditEmployeeDetails = ({
                               primary: "black",
                             },
                           })}
-                        /> */}
+                        />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                         <label className="label-control">Designation :</label>
                         <Select
-                          name="employeeDesignation"
-                          //  options={alldistrict}
+                          name="designationName"
+                          options={alldesignation}
                           isSearchable={true}
-                          // value={district}
-                          placeholder="Select Designation"
-                          // onChange={(e) => ondistrictChange(e)}
+                          value={designation}
+                          placeholder="Select Desig"
+                          onChange={(e) => onDesigChange(e)}
+                          theme={(theme) => ({
+                            ...theme,
+                            height: 26,
+                            minHeight: 26,
+                            borderRadius: 1,
+                            colors: {
+                              ...theme.colors,
+                              primary: "black",
+                            },
+                          })}
                         />
                       </div>
                     </div>
