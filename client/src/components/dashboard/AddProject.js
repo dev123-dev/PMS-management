@@ -23,13 +23,29 @@ const AddProject = ({
     getActiveClientsFilter();
   }, [getActiveClientsFilter]);
 
-  console.log(allProjectStatus);
-  console.log(activeClientFilter);
-
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
   ];
+
+  const activeClientsOpt = [];
+  activeClientFilter.map((clientsData) =>
+    activeClientsOpt.push({
+      clientId: clientsData._id,
+      label: clientsData.clientName,
+      value: clientsData.clientName,
+    })
+  );
+  const projectStatusOpt = [];
+  allProjectStatus.map((projStatusData) =>
+    projectStatusOpt.push({
+      projStatusId: projStatusData._id,
+      label: projStatusData.projectStatusType,
+      value: projStatusData.projectStatusType,
+    })
+  );
+  // const [clientNameVal, getClientNameVal] = useState();
+  // const [clientId, setClientId] = useState();
 
   //formData
   const [formData, setFormData] = useState({
@@ -83,7 +99,9 @@ const AddProject = ({
         ...formData,
         clientType: e,
       });
-      let clientTypeVal = e.value;
+      let clientTypeVal = {
+        clientTypeinfo: e.value,
+      };
       getActiveClientsFilter(clientTypeVal);
     }
     // let finalData = {
@@ -139,10 +157,10 @@ const AddProject = ({
                   <Select
                     name="clientName"
                     value={clientName}
-                    //  options={clientBelongsTo}
+                    options={activeClientsOpt}
                     isSearchable={false}
                     placeholder="Select"
-                    // onChange={(e) => clientBelongsToChange(e)}
+                    // onChange={(e) => onClientChange(e)}
                   />
                 </div>
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -153,6 +171,7 @@ const AddProject = ({
                     value={clientBelongsTo}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
+                    disabled
                   />
                 </div>
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -163,6 +182,7 @@ const AddProject = ({
                     value={clientFolderName}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
+                    disabled
                   />
                 </div>
               </div>
@@ -216,7 +236,7 @@ const AddProject = ({
                   <Select
                     name="projectStatus"
                     value={projectStatus}
-                    //  options={clientBelongsTo}
+                    options={projectStatusOpt}
                     isSearchable={false}
                     placeholder="Select"
                     // onChange={(e) => clientBelongsToChange(e)}
