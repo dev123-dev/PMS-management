@@ -50,14 +50,14 @@ const AllStaffDetails = ({
                 />
               </Link>
 
-              <Link to="/edit-Staff">
+              {/* <Link to="/edit-Staff">
                 <img
                   className="img_icon_size log float-right"
                   src={require("../../static/images/add-icon.png")}
                   alt="Edit Staff"
                   title="Edit Staff"
                 />
-              </Link>
+              </Link> */}
             </div>
           </div>
           <div className="row">
@@ -135,7 +135,7 @@ const AllStaffDetails = ({
         >
           <Modal.Header>
             <div className="col-lg-10 col-md-10 col-sm-10 col-10">
-              <h3 className="modal-title text-center">Edit Client Details</h3>
+              <h3 className="modal-title text-center">Edit Staff Details</h3>
             </div>
             <div className="col-lg-2 col-md-2 col-sm-2 col-2">
               <button onClick={handleEditModalClose} className="close">
