@@ -84,7 +84,7 @@ const JobQueue = ({
                         jobQueueProjects.map((jobQueueProjects, idx) => {
                           return (
                             <tr key={idx}>
-                              <td>{jobQueueProjects.departmentName}</td>
+                              <td>{jobQueueProjects.clientName}</td>
                               <td>{jobQueueProjects.clientFolderName}</td>
                               <td>{jobQueueProjects.projectName}</td>
                               <td></td>
