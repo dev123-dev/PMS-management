@@ -313,11 +313,13 @@ const AddProject = ({
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Client Time:</label>
                   <input
-                    type="text"
-                    name="clienTime"
-                    value={clienTime}
+                    type="time"
                     className="form-control"
-                    onChange={(e) => onInputChange(e)}
+                    id="appt"
+                    name="appt"
+                    min="09:00"
+                    max="18:00"
+                    // required
                   />
                 </div>
               </div>
