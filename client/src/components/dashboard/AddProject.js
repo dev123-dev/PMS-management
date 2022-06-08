@@ -32,6 +32,8 @@ const AddProject = ({
   activeClientFilter.map((clientsData) =>
     activeClientsOpt.push({
       clientId: clientsData._id,
+      belongsTo: clientsData.clientBelongsToName,
+      folderName: clientsData.clientFolderName,
       label: clientsData.clientName,
       value: clientsData.clientName,
     })
@@ -44,15 +46,22 @@ const AddProject = ({
       value: projStatusData.projectStatusType,
     })
   );
-  // const [clientNameVal, getClientNameVal] = useState();
-  // const [clientId, setClientId] = useState();
+  const [clientNameVal, setClientNameVal] = useState();
+  const [clientId, setClientId] = useState();
+  const [clientBelongsTo, setBelongsToVal] = useState();
+  const [clientFolderName, setFolderNameVal] = useState();
+
+  const onClientChange = (e) => {
+    setClientNameVal(e);
+    setClientId(e.institutionId);
+    setBelongsToVal(e.belongsTo);
+    setFolderNameVal(e.folderName);
+  };
 
   //formData
   const [formData, setFormData] = useState({
-    clientBelongsTo: "",
     clientType: "",
     clientName: "",
-    clientFolderName: "",
     projectName: "",
     qty: "",
     priority: "",
@@ -66,9 +75,7 @@ const AddProject = ({
   });
 
   const {
-    clientBelongsTo,
     clientName,
-    clientFolderName,
     projectName,
     qty,
     priority,
@@ -155,12 +162,12 @@ const AddProject = ({
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Client Name:</label>
                   <Select
-                    name="clientName"
-                    value={clientName}
+                    name="clientNameVal"
+                    value={clientNameVal}
                     options={activeClientsOpt}
                     isSearchable={false}
                     placeholder="Select"
-                    // onChange={(e) => onClientChange(e)}
+                    onChange={(e) => onClientChange(e)}
                   />
                 </div>
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">

@@ -41,9 +41,6 @@ const ClientSchema = new mongoose.Schema({
   clientEnteredById: {
     type: ObjectId,
   },
-  clientBelongsTo: {
-    type: ObjectId,
-  },
   clientFolderName: {
     type: String,
   },
