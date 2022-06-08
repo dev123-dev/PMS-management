@@ -35,6 +35,7 @@ const AddProject = ({
     getActiveClientsFilter();
   }, [getActiveClientsFilter]);
 
+  console.log(activeClientFilter);
   const activeClientsOpt = [];
   activeClientFilter.map((clientsData) =>
     activeClientsOpt.push({
@@ -56,6 +57,7 @@ const AddProject = ({
   );
   const [clientData, setClientData] = useState();
   const [clientId, setClientId] = useState();
+  // const [clientName, setClientName] = useState();
   const [clientBelongsTo, setBelongsToVal] = useState();
   const [clientFolderName, setFolderNameVal] = useState();
 
@@ -158,6 +160,7 @@ const AddProject = ({
     const finalData = {
       projectName: projectName,
       clientId: clientId,
+      clientName: clientData.value,
       parentClientId: clientData.belongsToId,
       // projectLocation:
       clientFolderName: clientData.folderName,
@@ -181,6 +184,7 @@ const AddProject = ({
       // projectEntryTime
       // clientType: clientType.value,
     };
+    // console.log(finalData);
     addProject(finalData);
     // setFormData({
     //   ...formData,
