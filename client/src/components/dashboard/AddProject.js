@@ -7,6 +7,17 @@ import Spinner from "../layout/Spinner";
 import { getActiveClientsFilter } from "../../actions/client";
 import { getAllProjectStatus } from "../../actions/projects";
 
+const clientTypeVal = [
+  { value: "Regular", label: "Regular Client" },
+  { value: "Test", label: "Test Client" },
+];
+
+const priorityVal = [
+  { value: "Low", label: "Low" },
+  { value: "Mid", label: "Mid" },
+  { value: "High", label: "High" },
+];
+
 const AddProject = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { paymentMode },
@@ -22,11 +33,6 @@ const AddProject = ({
   useEffect(() => {
     getActiveClientsFilter();
   }, [getActiveClientsFilter]);
-
-  const clientTypeVal = [
-    { value: "Regular", label: "Regular Client" },
-    { value: "Test", label: "Test Client" },
-  ];
 
   const activeClientsOpt = [];
   activeClientFilter.map((clientsData) =>
@@ -104,10 +110,22 @@ const AddProject = ({
       };
       getActiveClientsFilter(clientTypeVal);
     }
-    // let finalData = {
-    //   clientTypeVal: clientType,
-    // };
-    // console.log(finalData);
+  };
+
+  const priorityToChange = (e) => {
+    //Required Validation starts
+    // setError({
+    //   ...error,
+    //   TranscationIdChecker: true,
+    //   TranscationIdErrorStyle: { color: "#000" },
+    // });
+    //Required Validation ends
+    if (e) {
+      setFormData({
+        ...formData,
+        priority: e,
+      });
+    }
   };
 
   const onSubmit = (e) => {
@@ -212,10 +230,10 @@ const AddProject = ({
                   <Select
                     name="priority"
                     value={priority}
-                    //  options={clientBelongsTo}
+                    options={priorityVal}
                     isSearchable={false}
                     placeholder="Select"
-                    // onChange={(e) => clientBelongsToChange(e)}
+                    onChange={(e) => priorityToChange(e)}
                   />
                 </div>
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
