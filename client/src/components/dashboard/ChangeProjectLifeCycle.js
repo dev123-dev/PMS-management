@@ -168,6 +168,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { AddPaymentMode })(
-  ChangeProjectLifeCycle
-);
+export default connect(mapStateToProps, {})(ChangeProjectLifeCycle);
