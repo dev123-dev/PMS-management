@@ -104,9 +104,13 @@ const ProjectSchema = new mongoose.Schema({
   },
   projectStatus: {
     type: String,
+    default: "Active",
   },
   projectStatusId: {
     type: ObjectId,
+  },
+  projectStatusType: {
+    type: String,
   },
   projectDeactiveReason: {
     type: String,

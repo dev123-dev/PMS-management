@@ -166,7 +166,7 @@ const AddProject = ({
       // projectHours
       projectNotes: Instructions,
       projectDeadline: deadline,
-      projectStatus: projectStatusData.value,
+      projectStatusType: projectStatusData.value,
       projectStatusId: projectStatusData.projStatusId,
       // projectPrice:
       projectQuantity: qty,
@@ -181,7 +181,6 @@ const AddProject = ({
       // projectEntryTime
       // clientType: clientType.value,
     };
-    console.log(finalData);
     addProject(finalData);
     // setFormData({
     //   ...formData,
