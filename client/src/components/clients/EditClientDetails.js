@@ -1,17 +1,31 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import { getALLPaymentMode } from "../../actions/settings";
+import { getActiveClients } from "../../actions/client";
 
 const EditClientDetails = ({
   auth: { isAuthenticated, user, users, loading },
+  settings: { paymentMode },
+  client: { activeClient },
   allClientdata,
-
   onAddDistrictModalChange,
+  getALLPaymentMode,
+  getActiveClients,
 }) => {
+  useEffect(() => {
+    getALLPaymentMode();
+  }, [getALLPaymentMode]);
+  useEffect(() => {
+    getActiveClients();
+  }, [getActiveClients]);
   //formData
+
+  // console.log("paymentMode", paymentMode);
+  console.log("activeClient", activeClient);
 
   const [formData, setFormData] = useState({
     clientName:
@@ -122,7 +136,7 @@ const EditClientDetails = ({
       clientBelongsTo: clientBelongsTo,
       clientFolderName: clientFolderName,
     };
-    console.log(finalData);
+    // console.log(finalData);
     // AddDistrict(finalData);
     // setFormData({
     //   ...formData,
@@ -335,11 +349,18 @@ const EditClientDetails = ({
 
 EditClientDetails.propTypes = {
   auth: PropTypes.object.isRequired,
-  area: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
+  getALLPaymentMode: PropTypes.object.isRequired,
+  getActiveClients: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  settings: state.settings,
+  client: state.client,
 });
 
-export default connect(mapStateToProps, {})(EditClientDetails);
+export default connect(mapStateToProps, {
+  getALLPaymentMode,
+  getActiveClients,
+})(EditClientDetails);
