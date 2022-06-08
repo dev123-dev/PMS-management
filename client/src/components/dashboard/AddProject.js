@@ -5,7 +5,7 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getActiveClientsFilter } from "../../actions/client";
-import { getAllProjectStatus } from "../../actions/projects";
+import { getAllProjectStatus, addProject } from "../../actions/projects";
 
 const clientTypeVal = [
   { value: "Regular", label: "Regular Client" },
@@ -26,6 +26,7 @@ const AddProject = ({
   getActiveClientsFilter,
   getAllProjectStatus,
   onAddDistrictModalChange,
+  addProject,
 }) => {
   useEffect(() => {
     getAllProjectStatus();
@@ -38,6 +39,7 @@ const AddProject = ({
   activeClientFilter.map((clientsData) =>
     activeClientsOpt.push({
       clientId: clientsData._id,
+      belongsToId: clientsData.clientBelongsToId,
       belongsTo: clientsData.clientBelongsToName,
       folderName: clientsData.clientFolderName,
       label: clientsData.clientName,
@@ -52,16 +54,21 @@ const AddProject = ({
       value: projStatusData.projectStatusType,
     })
   );
-  const [clientNameVal, setClientNameVal] = useState();
+  const [clientData, setClientData] = useState();
   const [clientId, setClientId] = useState();
   const [clientBelongsTo, setBelongsToVal] = useState();
   const [clientFolderName, setFolderNameVal] = useState();
 
   const onClientChange = (e) => {
-    setClientNameVal(e);
+    setClientData(e);
     setClientId(e.institutionId);
     setBelongsToVal(e.belongsTo);
     setFolderNameVal(e.folderName);
+  };
+
+  const [projectStatusData, setProjectStatusData] = useState();
+  const onProjectStatusChange = (e) => {
+    setProjectStatusData(e);
   };
 
   //formData
@@ -76,6 +83,7 @@ const AddProject = ({
     projectDate: "",
     projectTime: "",
     clientDate: "",
+    clientTime: "",
     Instructions: "",
     isSubmitted: false,
   });
@@ -90,7 +98,7 @@ const AddProject = ({
     projectDate,
     projectTime,
     clientDate,
-    clienTime,
+    clientTime,
     Instructions,
     clientType,
   } = formData;
@@ -139,15 +147,33 @@ const AddProject = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
-      clientType: clientType.value,
-      // userfullName: userfullName,
-      // useremail: useremail,
-      // userphone: userphone,
-      // usergroup: usergroup,
-      // useraddr: useraddr,
+      projectName: projectName,
+      clientId: clientId,
+      parentClientId: clientData.belongsToId,
+      // projectLocation:
+      clientFolderName: clientData.folderName,
+      projectPriority: priority.value,
+      // projectJobtype
+      // projectHours
+      projectNotes: Instructions,
+      projectDeadline: deadline,
+      projectStatus: projectStatusData.value,
+      projectStatusId: projectStatusData.projStatusId,
+      // projectPrice:
+      projectQuantity: qty,
+      // projectUnconfirmed
+      // projectVendor
+      projectTime: projectTime,
+      projectDate: projectDate,
+      clientTime: clientTime,
+      clientDate: clientDate,
+      projectEnteredById: user._id,
+      // projectEnteredDate:
+      // projectEntryTime
+      // clientType: clientType.value,
     };
     console.log(finalData);
-    // AddDistrict(finalData);
+    addProject(finalData);
     // setFormData({
     //   ...formData,
     //   districtName: "",
@@ -187,8 +213,8 @@ const AddProject = ({
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Client Name:</label>
                   <Select
-                    name="clientNameVal"
-                    value={clientNameVal}
+                    name="clientData"
+                    value={clientData}
                     options={activeClientsOpt}
                     isSearchable={false}
                     placeholder="Select"
@@ -271,7 +297,7 @@ const AddProject = ({
                     options={projectStatusOpt}
                     isSearchable={false}
                     placeholder="Select"
-                    // onChange={(e) => clientBelongsToChange(e)}
+                    onChange={(e) => onProjectStatusChange(e)}
                   />
                 </div>
               </div>
@@ -311,8 +337,8 @@ const AddProject = ({
                   <label className="label-control">Client Time:</label>
                   <input
                     type="text"
-                    name="clienTime"
-                    value={clienTime}
+                    name="clientTime"
+                    value={clientTime}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
                   />
@@ -328,6 +354,8 @@ const AddProject = ({
                   rows="3"
                   placeholder="Address"
                   style={{ width: "100%" }}
+                  value={Instructions}
+                  onChange={(e) => onInputChange(e)}
                   required
                 ></textarea>
               </div>
@@ -392,4 +420,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getAllProjectStatus,
   getActiveClientsFilter,
+  addProject,
 })(AddProject);
