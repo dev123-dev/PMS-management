@@ -24,7 +24,7 @@ const EditClientDetails = ({
   }, [getActiveClients]);
   //formData
 
-  // console.log("paymentMode", paymentMode);
+  console.log("paymentMode", paymentMode);
   console.log("activeClient", activeClient);
 
   const [formData, setFormData] = useState({
