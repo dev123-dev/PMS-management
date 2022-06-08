@@ -133,6 +133,7 @@ router.get("/get-all-project-status", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
 router.get("/get-active-project-status", async (req, res) => {
   try {
     const activeProjectStatus = await ProjectStatus.find({
@@ -141,6 +142,43 @@ router.get("/get-active-project-status", async (req, res) => {
       },
     });
     res.json(activeProjectStatus);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-job-queue-project-details", async (req, res) => {
+  try {
+    const getJobQueueDetails = await Project.find({
+      projectStatus: {
+        $eq: "Active",
+      },
+      projectStatusType: {
+        $ne: "Uploaded",
+      },
+      projectStatusType: {
+        $ne: "Amend_Uploaded",
+      },
+      projectStatusType: {
+        $ne: "AI_Uploaded",
+      },
+    });
+    res.json(getJobQueueDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-daily-jobsheet-project-details", async (req, res) => {
+  try {
+    const getDailyJobSheetDetails = await Project.find({
+      projectStatus: {
+        $eq: "Active",
+      },
+    });
+    res.json(getDailyJobSheetDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

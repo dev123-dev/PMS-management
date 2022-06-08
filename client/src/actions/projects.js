@@ -5,6 +5,7 @@ import {
   SET_LOADING_FALSE,
   ALL_PROJECT_STATUS,
   ACTIVE_PROJECT_STATUS,
+  JOB_QUEUE_PROJECTS,
 } from "./types";
 
 const config = {
@@ -137,6 +138,20 @@ export const getActiveProjectStatus = () => async (dispatch) => {
     const res = await axios.get("/api/projects/get-active-project-status");
     dispatch({
       type: ACTIVE_PROJECT_STATUS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getJobQueueProjectDeatils = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/projects/get-job-queue-project-details");
+    dispatch({
+      type: JOB_QUEUE_PROJECTS,
       payload: res.data,
     });
   } catch (err) {

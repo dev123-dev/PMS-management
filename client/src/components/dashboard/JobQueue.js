@@ -1,10 +1,20 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import { getJobQueueProjectDeatils } from "../../actions/projects";
 
-const JobQueue = ({ auth: { isAuthenticated, user, users } }) => {
+const JobQueue = ({
+  auth: { isAuthenticated, user, users },
+  project: { jobQueueProjects },
+  getJobQueueProjectDeatils,
+}) => {
+  useEffect(() => {
+    getJobQueueProjectDeatils();
+  }, [getJobQueueProjectDeatils]);
+
+  console.log("jobQueueProjects", jobQueueProjects);
   const onRadioProjCatTypeChange = (e) => {
     console.log(e.target.value);
     // if (e.target.value === "student") {
@@ -154,9 +164,14 @@ const JobQueue = ({ auth: { isAuthenticated, user, users } }) => {
 
 JobQueue.propTypes = {
   auth: PropTypes.object.isRequired,
+  project: PropTypes.object.isRequired,
+  getJobQueueProjectDeatils: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  project: state.project,
 });
 
-export default connect(mapStateToProps, {})(JobQueue);
+export default connect(mapStateToProps, { getJobQueueProjectDeatils })(
+  JobQueue
+);
