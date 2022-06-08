@@ -166,7 +166,7 @@ const AddProject = ({
       // projectHours
       projectNotes: Instructions,
       projectDeadline: deadline,
-      projectStatus: projectStatusData.value,
+      projectStatusType: projectStatusData.value,
       projectStatusId: projectStatusData.projStatusId,
       // projectPrice:
       projectQuantity: qty,
