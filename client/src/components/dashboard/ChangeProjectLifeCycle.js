@@ -2,7 +2,8 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { AddPaymentMode } from "../../actions/settings";
+import Select from "react-select";
+
 const ChangeProjectLifeCycle = ({
   auth: { isAuthenticated, user, users, loading },
   AddPaymentMode,
@@ -10,13 +11,36 @@ const ChangeProjectLifeCycle = ({
   //formData
   const [formData, setFormData] = useState({
     Instructions: "",
+    projectStatusCategory: "",
     isSubmitted: false,
   });
 
-  const { Instructions } = formData;
+  const { Instructions, projectStatusCategory } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const StatusCategory = [
+    { value: "01", label: "01" },
+    { value: "02", label: "02" },
+    { value: "03", label: "03" },
+    { value: "04", label: "04" },
+    { value: "05", label: "05" },
+    { value: "06", label: "06" },
+    { value: "07", label: "07" },
+    { value: "08", label: "08" },
+    { value: "09", label: "09" },
+    { value: "10", label: "10" },
+    { value: "11", label: "11" },
+    { value: "12", label: "12" },
+  ];
+  const onStatuscatChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        projectStatusCategory: e,
+      });
+    }
   };
 
   const onSubmit = (e) => {
@@ -43,13 +67,57 @@ const ChangeProjectLifeCycle = ({
       <div className="container container_align">
         <form onSubmit={(e) => onSubmit(e)}>
           <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-            <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+              <label className="label-control">Time :</label>
+
+              <Select
+                name="projectStatusCategory"
+                options={StatusCategory}
+                isSearchable={false}
+                value={projectStatusCategory}
+                placeholder="Select"
+                onChange={(e) => onStatuscatChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-4">
+              <label className="label-control"></label>
+
+              <Select
+                name="projectStatusCategory"
+                options={StatusCategory}
+                isSearchable={false}
+                value={projectStatusCategory}
+                placeholder="Select"
+                onChange={(e) => onStatuscatChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
+            <div className="col-lg-11 col-md-6 col-sm-6 col-12">
               <label className="label-control">Update Notes:</label>
               <textarea
                 name="Instructions"
                 id="Instructions"
                 className="textarea form-control"
-                rows="3"
+                rows="5"
                 placeholder="Instructions"
                 style={{ width: "100%" }}
                 value={Instructions}
