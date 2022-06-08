@@ -20,10 +20,10 @@ const ProjectSchema = new mongoose.Schema({
   projectPriority: {
     type: String,
   },
-  projectJobtype: {
-    type: String,
-  },
-  projectHours: {
+  // projectHours: {
+  //   type: String,
+  // },
+  clientFolderName: {
     type: String,
   },
   projectNotes: {
@@ -50,23 +50,26 @@ const ProjectSchema = new mongoose.Schema({
   projectDate: {
     type: String,
   },
-  projectDateTime: {
+  projectEnteredDateTime: {
     type: Date,
     default: Date.now(),
   },
   projectEnteredById: {
     type: ObjectId,
   },
-  projectEnteredDate: {
+  // projectEnteredDate: {
+  //   type: String,
+  // },
+  // projectEntryTime: {
+  //   type: String,
+  // },
+  clientTime: {
     type: String,
   },
-  projectEntryTime: {
+  clientDate: {
     type: String,
   },
   projectTimeTaken: {
-    type: String,
-  },
-  projectMailSent: {
     type: String,
   },
   eDate: {
@@ -101,7 +104,9 @@ const ProjectSchema = new mongoose.Schema({
   },
   projectStatus: {
     type: String,
-    default: "Active",
+  },
+  projectStatusId: {
+    type: ObjectId,
   },
   projectDeactiveReason: {
     type: String,

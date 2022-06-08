@@ -93,16 +93,34 @@ router.get("/get-active-client", async (req, res) => {
   }
 });
 
-router.get("/get-active-client-filter", async (req, res) => {
-  try {
-    const getActiveClientFilterDetails = await ClientDetails.find({
+router.post("/get-active-client-filter", async (req, res) => {
+  const { clientTypeinfo } = req.body;
+  // console.log(req.body);
+  // console.log(clientTypeinfo);
+  let query = {};
+  if (clientTypeinfo) {
+    query = {
+      clientStatus: {
+        $eq: "Active",
+      },
+      clientType: {
+        $eq: clientTypeinfo,
+      },
+    };
+  } else {
+    query = {
       clientStatus: {
         $eq: "Active",
       },
       clientType: {
         $eq: "Regular",
       },
-    });
+    };
+  }
+  console.log(query);
+  try {
+    const getActiveClientFilterDetails = await ClientDetails.find(query);
+    // console.log(getActiveClientFilterDetails);
     res.json(getActiveClientFilterDetails);
   } catch (err) {
     console.error(err.message);

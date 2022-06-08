@@ -5,7 +5,18 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getActiveClientsFilter } from "../../actions/client";
-import { getAllProjectStatus } from "../../actions/projects";
+import { getAllProjectStatus, addProject } from "../../actions/projects";
+
+const clientTypeVal = [
+  { value: "Regular", label: "Regular Client" },
+  { value: "Test", label: "Test Client" },
+];
+
+const priorityVal = [
+  { value: "Low", label: "Low" },
+  { value: "Mid", label: "Mid" },
+  { value: "High", label: "High" },
+];
 
 const AddProject = ({
   auth: { isAuthenticated, user, users, loading },
@@ -15,6 +26,7 @@ const AddProject = ({
   getActiveClientsFilter,
   getAllProjectStatus,
   onAddDistrictModalChange,
+  addProject,
 }) => {
   useEffect(() => {
     getAllProjectStatus();
@@ -23,20 +35,46 @@ const AddProject = ({
     getActiveClientsFilter();
   }, [getActiveClientsFilter]);
 
-  console.log(allProjectStatus);
-  console.log(activeClientFilter);
+  const activeClientsOpt = [];
+  activeClientFilter.map((clientsData) =>
+    activeClientsOpt.push({
+      clientId: clientsData._id,
+      belongsToId: clientsData.clientBelongsToId,
+      belongsTo: clientsData.clientBelongsToName,
+      folderName: clientsData.clientFolderName,
+      label: clientsData.clientName,
+      value: clientsData.clientName,
+    })
+  );
+  const projectStatusOpt = [];
+  allProjectStatus.map((projStatusData) =>
+    projectStatusOpt.push({
+      projStatusId: projStatusData._id,
+      label: projStatusData.projectStatusType,
+      value: projStatusData.projectStatusType,
+    })
+  );
+  const [clientData, setClientData] = useState();
+  const [clientId, setClientId] = useState();
+  const [clientBelongsTo, setBelongsToVal] = useState();
+  const [clientFolderName, setFolderNameVal] = useState();
 
-  const clientTypeVal = [
-    { value: "Regular", label: "Regular Client" },
-    { value: "Test", label: "Test Client" },
-  ];
+  const onClientChange = (e) => {
+    setClientData(e);
+    setClientId(e.institutionId);
+    setBelongsToVal(e.belongsTo);
+    setFolderNameVal(e.folderName);
+  };
+
+  const [projectStatusData, setProjectStatusData] = useState();
+  const onProjectStatusChange = (e) => {
+    setProjectStatusData(e);
+  };
 
   //formData
   const [formData, setFormData] = useState({
-    clientBelongsTo: "",
     clientType: "",
     clientName: "",
-    clientFolderName: "",
     projectName: "",
     qty: "",
     priority: "",
@@ -45,14 +83,13 @@ const AddProject = ({
     projectDate: "",
     projectTime: "",
     clientDate: "",
+    clientTime: "",
     Instructions: "",
     isSubmitted: false,
   });
 
   const {
-    clientBelongsTo,
     clientName,
-    clientFolderName,
     projectName,
     qty,
     priority,
@@ -61,7 +98,7 @@ const AddProject = ({
     projectDate,
     projectTime,
     clientDate,
-    clienTime,
+    clientTime,
     Instructions,
     clientType,
   } = formData;
@@ -83,21 +120,69 @@ const AddProject = ({
         ...formData,
         clientType: e,
       });
-      let clientTypeVal = e.value;
+      let clientTypeVal = {
+        clientTypeinfo: e.value,
+      };
       getActiveClientsFilter(clientTypeVal);
     }
-    // let finalData = {
-    //   clientTypeVal: clientType,
-    // };
-    // console.log(finalData);
+  };
+
+  const priorityToChange = (e) => {
+    //Required Validation starts
+    // setError({
+    //   ...error,
+    //   TranscationIdChecker: true,
+    //   TranscationIdErrorStyle: { color: "#000" },
+    // });
+    //Required Validation ends
+    if (e) {
+      setFormData({
+        ...formData,
+        priority: e,
+      });
+    }
+  };
+  const [startprojectDate, setprojectDate] = useState("");
+  const onDateChange = (e) => {
+    setprojectDate(e.target.value);
+  };
+
+  const [startclientDate, setclientDate] = useState("");
+  const onDateChange1 = (e) => {
+    setclientDate(e.target.value);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
-    const finalData = {};
+    const finalData = {
+      projectName: projectName,
+      clientId: clientId,
+      parentClientId: clientData.belongsToId,
+      // projectLocation:
+      clientFolderName: clientData.folderName,
+      projectPriority: priority.value,
+      // projectJobtype
+      // projectHours
+      projectNotes: Instructions,
+      projectDeadline: deadline,
+      projectStatus: projectStatusData.value,
+      projectStatusId: projectStatusData.projStatusId,
+      // projectPrice:
+      projectQuantity: qty,
+      // projectUnconfirmed
+      // projectVendor
+      projectTime: projectTime,
+      projectDate: projectDate,
+      clientTime: clientTime,
+      clientDate: clientDate,
+      projectEnteredById: user._id,
+      // projectEnteredDate:
+      // projectEntryTime
+      // clientType: clientType.value,
+    };
     console.log(finalData);
-    // AddDistrict(finalData);
+    addProject(finalData);
     // setFormData({
     //   ...formData,
     //   districtName: "",
@@ -137,12 +222,12 @@ const AddProject = ({
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Client Name:</label>
                   <Select
-                    name="clientName"
-                    value={clientName}
-                    //  options={clientBelongsTo}
+                    name="clientData"
+                    value={clientData}
+                    options={activeClientsOpt}
                     isSearchable={false}
                     placeholder="Select"
-                    // onChange={(e) => clientBelongsToChange(e)}
+                    onChange={(e) => onClientChange(e)}
                   />
                 </div>
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -153,6 +238,7 @@ const AddProject = ({
                     value={clientBelongsTo}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
+                    disabled
                   />
                 </div>
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -163,6 +249,7 @@ const AddProject = ({
                     value={clientFolderName}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
+                    disabled
                   />
                 </div>
               </div>
@@ -192,10 +279,10 @@ const AddProject = ({
                   <Select
                     name="priority"
                     value={priority}
-                    //  options={clientBelongsTo}
+                    options={priorityVal}
                     isSearchable={false}
                     placeholder="Select"
-                    // onChange={(e) => clientBelongsToChange(e)}
+                    onChange={(e) => priorityToChange(e)}
                   />
                 </div>
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -216,10 +303,10 @@ const AddProject = ({
                   <Select
                     name="projectStatus"
                     value={projectStatus}
-                    //  options={clientBelongsTo}
+                    options={projectStatusOpt}
                     isSearchable={false}
                     placeholder="Select"
-                    // onChange={(e) => clientBelongsToChange(e)}
+                    onChange={(e) => onProjectStatusChange(e)}
                   />
                 </div>
               </div>
@@ -227,42 +314,59 @@ const AddProject = ({
               <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Project Date:</label>
+
                   <input
-                    type="text"
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
                     name="projectDate"
-                    value={projectDate}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
+                    value={startprojectDate}
+                    onChange={(e) => onDateChange(e)}
+                    style={{
+                      width: "75%",
+                    }}
+                    required
                   />
                 </div>
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Project Time:</label>
+                  <br />
                   <input
-                    type="text"
-                    name="projectTime"
-                    value={projectTime}
+                    type="time"
                     className="form-control"
-                    onChange={(e) => onInputChange(e)}
+                    id="appt"
+                    name="appt"
+                    min="09:00"
+                    max="18:00"
+                    // required
                   />
                 </div>
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Client Date:</label>
+
                   <input
-                    type="text"
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
                     name="clientDate"
-                    value={clientDate}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
+                    value={startclientDate}
+                    onChange={(e) => onDateChange1(e)}
+                    style={{
+                      width: "75%",
+                    }}
+                    required
                   />
                 </div>
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Client Time:</label>
                   <input
-                    type="text"
-                    name="clienTime"
-                    value={clienTime}
+                    name="clientTime"
+                    value={clientTime}
+                    type="time"
                     className="form-control"
-                    onChange={(e) => onInputChange(e)}
+                    min="09:00"
+                    max="18:00"
+                    // required
                   />
                 </div>
               </div>
@@ -276,6 +380,8 @@ const AddProject = ({
                   rows="3"
                   placeholder="Address"
                   style={{ width: "100%" }}
+                  value={Instructions}
+                  onChange={(e) => onInputChange(e)}
                   required
                 ></textarea>
               </div>
@@ -340,4 +446,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getAllProjectStatus,
   getActiveClientsFilter,
+  addProject,
 })(AddProject);
