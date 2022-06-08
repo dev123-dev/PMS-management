@@ -78,13 +78,18 @@ const AddProject = ({
     //   TranscationIdErrorStyle: { color: "#000" },
     // });
     //Required Validation ends
-
     if (e) {
       setFormData({
         ...formData,
         clientType: e,
       });
+      let clientTypeVal = e.value;
+      getActiveClientsFilter(clientTypeVal);
     }
+    // let finalData = {
+    //   clientTypeVal: clientType,
+    // };
+    // console.log(finalData);
   };
 
   const onSubmit = (e) => {
