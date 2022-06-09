@@ -15,7 +15,7 @@ const AllPaymentMethods = ({
     getALLPaymentMode();
   }, [getALLPaymentMode]);
 
-  console.log(paymentMode);
+  //  console.log(paymentMode);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
