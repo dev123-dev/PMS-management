@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getAllEmployee } from "../../actions/user";
 import EditEmployeeDetails from "./EditEmployeeDetails";
+import DeactiveEmployee from "./DeactiveEmployee";
 const AllStaffDetails = ({
   auth: { allUser, isAuthenticated, user, users },
   user: { allEmployee },
@@ -30,6 +31,23 @@ const AllStaffDetails = ({
     setShowEditModal(true);
     setUserDatas(allEmployee);
   };
+
+  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
+  const onClickHandler2 = () => {
+    setShowDeactiveModal(true);
+  };
+  const onDeactiveModalChange = (e) => {
+    if (e) {
+      handleDeactiveModalClose();
+    }
+  };
+  const [userDatadeactive, setUserDatadeactive] = useState(null);
+  const onDeactive = (allEmployee, idx) => {
+    setShowDeactiveModal(true);
+    setUserDatadeactive(allEmployee);
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -100,7 +118,7 @@ const AllStaffDetails = ({
                                 <>
                                   <img
                                     className="img_icon_size log"
-                                    onClick={() => onUpdate(allEmployee, idx)}
+                                    onClick={() => onDeactive(allEmployee, idx)}
                                     src={require("../../static/images/delete.png")}
                                     alt="Deactivate"
                                     title="Deactivate"
@@ -151,6 +169,36 @@ const AllStaffDetails = ({
             <EditEmployeeDetails
               onEditModalChange={onEditModalChange}
               allEmployeedata={userDatas}
+            />
+          </Modal.Body>
+        </Modal>
+
+        <Modal
+          show={showDeactiveModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">Deactivate Staff</h3>
+            </div>
+            <div className="col-lg-2">
+              <button onClick={handleDeactiveModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <DeactiveEmployee
+              onDeactiveModalChange={onDeactiveModalChange}
+              staffDeactivedata={userDatadeactive}
             />
           </Modal.Body>
         </Modal>

@@ -82,7 +82,7 @@ const EmpDetailsSchema = new mongoose.Schema({
     type: ObjectId,
   },
   empDeactiveDateTime: {
-    type: String,
+    type: Date,
   },
   empBankName: {
     type: String,

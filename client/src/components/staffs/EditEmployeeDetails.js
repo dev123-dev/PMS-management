@@ -24,8 +24,8 @@ const EditEmployeeDetails = ({
     getActiveDesignation();
   }, [getActiveDesignation]);
   // console.log(allEmployeedata);
-  console.log("allDeptartment", allDepartment);
-  console.log("activeDesignation", activeDesignation);
+  // console.log("allDeptartment", allDepartment);
+  // console.log("activeDesignation", activeDesignation);
 
   const [formData, setFormData] = useState({
     empFullName:
