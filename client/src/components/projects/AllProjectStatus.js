@@ -223,10 +223,10 @@ const AllProjectStatus = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            {/* <DeactiveProjectStatus
+            <DeactiveProjectStatus
               onDeactiveModalChange={onDeactiveModalChange}
               allProjectStatusdeavtivedata={userDatadeactive}
-            /> */}
+            />
           </Modal.Body>
         </Modal>
       </div>
