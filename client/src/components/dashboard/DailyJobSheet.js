@@ -13,7 +13,7 @@ const DailyJobSheet = ({
   useEffect(() => {
     getDailyJobsheetProjectDeatils();
   }, [getDailyJobsheetProjectDeatils]);
-  console.log("dailyJobsheetProjects", dailyJobsheetProjects);
+  // console.log("dailyJobsheetProjects", dailyJobsheetProjects);
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -24,20 +24,11 @@ const DailyJobSheet = ({
             <div className=" col-lg-5 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Daily Job Sheet</h5>
             </div>
-            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
-              <Link to="/add-Staff">
-                <img
-                  className="img_icon_size log float-right"
-                  src={require("../../static/images/add-icon.png")}
-                  alt="Add Staff"
-                  title="Add Staff"
-                />
-              </Link>
-            </div>
+            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3"></div>
           </div>
           <div className="row col-lg-12 col-md-11 col-sm-12 col-12 no_padding"></div>
           <div className="row">
-            <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center py-2">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
                 <div className=" body-inner no-padding table-responsive">
                   <table

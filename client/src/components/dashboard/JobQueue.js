@@ -80,7 +80,7 @@ const JobQueue = ({
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center py-2">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
                 <div className=" body-inner no-padding table-responsive">
                   <table
