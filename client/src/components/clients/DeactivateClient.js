@@ -11,7 +11,7 @@ const DeactivateClient = ({
   onDeactiveModalChange,
   editProjectStatus,
 }) => {
-  0; // console.log(clientdeactivedata);
+  // console.log(clientdeactivedata);
   const [formData, setFormData] = useState({
     clientName:
       clientdeactivedata && clientdeactivedata.clientName
