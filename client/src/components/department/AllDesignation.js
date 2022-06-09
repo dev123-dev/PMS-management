@@ -6,6 +6,7 @@ import Spinner from "../layout/Spinner";
 import AddDesignation from "./AddDesignation";
 import EditDesignation from "./EditDesignation";
 import { getALLDesignation } from "../../actions/settings";
+import DeactiveDesignation from "./DeactiveDesignation";
 const AllDesignation = ({
   auth: { isAuthenticated, user, users },
   settings: { allDesignation },
@@ -15,7 +16,7 @@ const AllDesignation = ({
     getALLDesignation();
   }, [getALLDesignation]);
 
-  console.log("allDesignation", allDesignation);
+  // console.log("allDesignation", allDesignation);
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
@@ -43,6 +44,22 @@ const AllDesignation = ({
   const onUpdate = (allDeptartment, idx) => {
     setShowEditModal(true);
     setUserDatas(allDeptartment);
+  };
+
+  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
+  const onClickHandler2 = () => {
+    setShowDeactiveModal(true);
+  };
+  const onDeactiveModalChange = (e) => {
+    if (e) {
+      handleDeactiveModalClose();
+    }
+  };
+  const [userDatadeactive, setUserDatadeactive] = useState(null);
+  const onDeactive = (allDeptartment, idx) => {
+    setShowDeactiveModal(true);
+    setUserDatadeactive(allDeptartment);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -93,7 +110,7 @@ const AllDesignation = ({
                                   <img
                                     className="img_icon_size log"
                                     onClick={() =>
-                                      onUpdate(allDesignation, idx)
+                                      onDeactive(allDesignation, idx)
                                     }
                                     src={require("../../static/images/delete.png")}
                                     alt="Deactivate"
@@ -180,6 +197,38 @@ const AllDesignation = ({
             <EditDesignation
               onEditModalChange={onEditModalChange}
               allDeptartmentdata={userDatas}
+            />
+          </Modal.Body>
+        </Modal>
+
+        <Modal
+          show={showDeactiveModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">
+                Deactivate Designation
+              </h3>
+            </div>
+            <div className="col-lg-2">
+              <button onClick={handleDeactiveModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <DeactiveDesignation
+              onDeactiveModalChange={onDeactiveModalChange}
+              Designationdeactivedata={userDatadeactive}
             />
           </Modal.Body>
         </Modal>
