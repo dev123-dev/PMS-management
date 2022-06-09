@@ -6,9 +6,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
-import AddStaffInfo from "./AddStaffInfo";
-import AddStaffAreainfo from "./AddStaffAreainfo";
-import AddSalaryInfo from "./AddSalaryInfo";
+
 const AddEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
   settings: { allDepartment, activeDesignation },
