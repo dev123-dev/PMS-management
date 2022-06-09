@@ -1,20 +1,46 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import Select from "react-select";
 import Spinner from "../layout/Spinner";
-import { getJobQueueProjectDeatils } from "../../actions/projects";
+import {
+  getJobQueueProjectDeatils,
+  getAllProjectStatus,
+} from "../../actions/projects";
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
-  project: { jobQueueProjects },
+  project: { jobQueueProjects, allProjectStatus },
   getJobQueueProjectDeatils,
+  getAllProjectStatus,
 }) => {
   useEffect(() => {
     getJobQueueProjectDeatils();
   }, [getJobQueueProjectDeatils]);
+  useEffect(() => {
+    getAllProjectStatus();
+  }, [getAllProjectStatus]);
 
   console.log("jobQueueProjects", jobQueueProjects);
+
+  const projectStatusOpt = [];
+  allProjectStatus.map((projStatusData) =>
+    projectStatusOpt.push({
+      label: projStatusData.projectStatusType,
+      value: projStatusData._id,
+    })
+  );
+  const [sliderValue, setSliderValue] = useState([]);
+
+  const onSliderChange = (id) => (e) => {
+    console.log("id");
+    // console.log("e", e);
+    // const newSliderArr = [...sliderValue];
+    // newSliderArr[id] = e.target.value;
+    // setSliderValue(newSliderArr);
+  };
+
   const onRadioProjCatTypeChange = (e) => {
     console.log(e.target.value);
     // if (e.target.value === "student") {
@@ -93,7 +119,17 @@ const JobQueue = ({
                               <td>{jobQueueProjects.projectPriority}</td>
                               <td>{jobQueueProjects.projectDeadline}</td>
                               <td>{jobQueueProjects.projectQuantity}</td>
-                              <td>{jobQueueProjects.projectStatusType}</td>
+                              {/* <td>{jobQueueProjects.projectStatusType}</td> */}
+                              <td>
+                                <Select
+                                  name="projectStatusData"
+                                  // value={projectStatusData}
+                                  options={projectStatusOpt}
+                                  isSearchable={false}
+                                  placeholder="Select"
+                                  onChange={(e) => onSliderChange(idx)}
+                                />
+                              </td>
                               <td></td>
                               <td>{jobQueueProjects.projectNotes}</td>
                               <td></td>
@@ -197,6 +233,7 @@ const mapStateToProps = (state) => ({
   project: state.project,
 });
 
-export default connect(mapStateToProps, { getJobQueueProjectDeatils })(
-  JobQueue
-);
+export default connect(mapStateToProps, {
+  getJobQueueProjectDeatils,
+  getAllProjectStatus,
+})(JobQueue);
