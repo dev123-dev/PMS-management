@@ -63,20 +63,51 @@ const DailyJobSheet = ({
                       </tr>
                     </thead>
                     <tbody>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td> </td>
-                      <td> </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td> </td>
-                      <td> </td>
-
-                      <td></td>
+                      {dailyJobsheetProjects &&
+                        dailyJobsheetProjects.map(
+                          (dailyJobsheetProjects, idx) => {
+                            return (
+                              <tr key={idx}>
+                                <td>{dailyJobsheetProjects.clientName}</td>
+                                <td>
+                                  {dailyJobsheetProjects.clientFolderName}
+                                </td>
+                                <td>{dailyJobsheetProjects.projectName}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{dailyJobsheetProjects.projectPriority}</td>
+                                <td>{dailyJobsheetProjects.projectDeadline}</td>
+                                <td>{dailyJobsheetProjects.projectQuantity}</td>
+                                <td>
+                                  {dailyJobsheetProjects.projectStatusType}
+                                </td>
+                                <td></td>
+                                <td>{dailyJobsheetProjects.projectNotes}</td>
+                                <td></td>
+                                {/* <td>
+                                <>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allDepartment, idx)}
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Deactivate"
+                                    title="Deactivate"
+                                  />
+                                  &nbsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allDepartment, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </>
+                              </td> */}
+                              </tr>
+                            );
+                          }
+                        )}
                     </tbody>
                   </table>
                 </div>
