@@ -73,6 +73,9 @@ const ClientSchema = new mongoose.Schema({
     type: ObjectId,
   },
   clientDeactiveDate: {
+    type: Date,
+  },
+  clientDeactiveReason: {
     type: String,
   },
   clientDeactiveDateTime: {

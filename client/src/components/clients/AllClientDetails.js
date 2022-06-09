@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getAllClients } from "../../actions/client";
 import EditClientDetails from "./EditClientDetails";
+import DeactivateClient from "./DeactivateClient";
 const AllClientDetails = ({
   auth: { isAuthenticated, user, users },
   client: { allClient },
@@ -46,6 +47,21 @@ const AllClientDetails = ({
     setUserDatas(allClient);
   };
 
+  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
+  const onClickHandler2 = () => {
+    setShowDeactiveModal(true);
+  };
+  const onDeactiveModalChange = (e) => {
+    if (e) {
+      handleDeactiveModalClose();
+    }
+  };
+  const [userDatadeactive, setUserDatadeactive] = useState(null);
+  const onDeactive = (allClient, idx) => {
+    setShowDeactiveModal(true);
+    setUserDatadeactive(allClient);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -110,7 +126,7 @@ const AllClientDetails = ({
                                 <>
                                   <img
                                     className="img_icon_size log"
-                                    onClick={() => onUpdate(allClient, idx)}
+                                    onClick={() => onDeactive(allClient, idx)}
                                     src={require("../../static/images/delete.png")}
                                     alt="Deactivate"
                                     title="Deactivate"
@@ -193,6 +209,36 @@ const AllClientDetails = ({
           <EditClientDetails
             onEditModalChange={onEditModalChange}
             allClientdata={userDatas}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showDeactiveModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Deactivate Client</h3>
+          </div>
+          <div className="col-lg-2">
+            <button onClick={handleDeactiveModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <DeactivateClient
+            onDeactiveModalChange={onDeactiveModalChange}
+            clientdeactivedata={userDatadeactive}
           />
         </Modal.Body>
       </Modal>
