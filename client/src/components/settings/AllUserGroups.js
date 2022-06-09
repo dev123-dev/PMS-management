@@ -90,23 +90,13 @@ const AllUserGroups = ({
                               </td>
 
                               <td>
-                                <>
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(userGroups, idx)}
-                                    src={require("../../static/images/delete.png")}
-                                    alt="Deactivate"
-                                    title="Deactivate"
-                                  />
-                                  &nbsp;
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(userGroups, idx)}
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  />
-                                </>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onUpdate(userGroups, idx)}
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
+                                />
                               </td>
                             </tr>
                           );
