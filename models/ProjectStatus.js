@@ -29,6 +29,15 @@ const ProjectStatusSchema = new mongoose.Schema({
   projectStatusEditedDateTime: {
     type: Date,
   },
+  projectStatusDeactiveReason: {
+    type: String,
+  },
+  projectStatusDeactiveById: {
+    type: ObjectId,
+  },
+  projectStatusDeactiveDateTime: {
+    type: Date,
+  },
 });
 
 module.exports = projectstatus = mongoose.model(
