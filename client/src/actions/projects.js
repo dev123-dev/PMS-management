@@ -6,6 +6,7 @@ import {
   ALL_PROJECT_STATUS,
   ACTIVE_PROJECT_STATUS,
   JOB_QUEUE_PROJECTS,
+  DAILY_JOBSHEET_PROJECTS,
 } from "./types";
 
 const config = {
@@ -152,6 +153,22 @@ export const getJobQueueProjectDeatils = () => async (dispatch) => {
     const res = await axios.post("/api/projects/get-job-queue-project-details");
     dispatch({
       type: JOB_QUEUE_PROJECTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getDailyJobsheetProjectDeatils = () => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/projects/get-daily-jobsheet-project-details"
+    );
+    dispatch({
+      type: DAILY_JOBSHEET_PROJECTS,
       payload: res.data,
     });
   } catch (err) {

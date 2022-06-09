@@ -1,10 +1,19 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import { getDailyJobsheetProjectDeatils } from "../../actions/projects";
 
-const DailyJobSheet = ({ auth: { isAuthenticated, user, users } }) => {
+const DailyJobSheet = ({
+  auth: { isAuthenticated, user, users },
+  project: { dailyJobsheetProjects },
+  getDailyJobsheetProjectDeatils,
+}) => {
+  useEffect(() => {
+    getDailyJobsheetProjectDeatils();
+  }, [getDailyJobsheetProjectDeatils]);
+  console.log("dailyJobsheetProjects", dailyJobsheetProjects);
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -82,9 +91,13 @@ const DailyJobSheet = ({ auth: { isAuthenticated, user, users } }) => {
 
 DailyJobSheet.propTypes = {
   auth: PropTypes.object.isRequired,
+  project: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  project: state.project,
 });
 
-export default connect(mapStateToProps, {})(DailyJobSheet);
+export default connect(mapStateToProps, { getDailyJobsheetProjectDeatils })(
+  DailyJobSheet
+);
