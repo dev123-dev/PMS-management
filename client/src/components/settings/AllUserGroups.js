@@ -51,12 +51,10 @@ const AllUserGroups = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className="row col-lg-5 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Groups </h5>
+            <div className="col-lg-6 col-md-11 col-sm-10 col-10">
+              <h5 className="heading_color">All Groups</h5>
             </div>
-          </div>
-          <div className="row col-lg-12 col-md-11 col-sm-12 col-12 no_padding">
-            <div className="col-lg-12 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
               <img
                 className="img_icon_size log float-right"
                 onClick={() => onClickHandler()}
@@ -66,6 +64,7 @@ const AllUserGroups = ({
               />
             </div>
           </div>
+
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
@@ -90,23 +89,13 @@ const AllUserGroups = ({
                               </td>
 
                               <td>
-                                <>
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(userGroups, idx)}
-                                    src={require("../../static/images/delete.png")}
-                                    alt="Deactivate"
-                                    title="Deactivate"
-                                  />
-                                  &nbsp;
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(userGroups, idx)}
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  />
-                                </>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onUpdate(userGroups, idx)}
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
+                                />
                               </td>
                             </tr>
                           );

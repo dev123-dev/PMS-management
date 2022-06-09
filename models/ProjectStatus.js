@@ -29,10 +29,10 @@ const ProjectStatusSchema = new mongoose.Schema({
   projectStatusEditedDateTime: {
     type: Date,
   },
-  projectStutusDeactiveReason: {
+  projectStatusDeactiveReason: {
     type: String,
   },
-  projectStutusDeactiveById: {
+  projectStatusDeactiveById: {
     type: ObjectId,
   },
   projectStatusDeactiveDateTime: {

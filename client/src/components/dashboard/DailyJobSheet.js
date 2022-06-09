@@ -1,10 +1,19 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import { getDailyJobsheetProjectDeatils } from "../../actions/projects";
 
-const DailyJobSheet = ({ auth: { isAuthenticated, user, users } }) => {
+const DailyJobSheet = ({
+  auth: { isAuthenticated, user, users },
+  project: { dailyJobsheetProjects },
+  getDailyJobsheetProjectDeatils,
+}) => {
+  useEffect(() => {
+    getDailyJobsheetProjectDeatils();
+  }, [getDailyJobsheetProjectDeatils]);
+  // console.log("dailyJobsheetProjects", dailyJobsheetProjects);
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -15,20 +24,11 @@ const DailyJobSheet = ({ auth: { isAuthenticated, user, users } }) => {
             <div className=" col-lg-5 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Daily Job Sheet</h5>
             </div>
-            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
-              <Link to="/add-Staff">
-                <img
-                  className="img_icon_size log float-right"
-                  src={require("../../static/images/add-icon.png")}
-                  alt="Add Staff"
-                  title="Add Staff"
-                />
-              </Link>
-            </div>
+            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3"></div>
           </div>
           <div className="row col-lg-12 col-md-11 col-sm-12 col-12 no_padding"></div>
           <div className="row">
-            <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center py-2">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
                 <div className=" body-inner no-padding table-responsive">
                   <table
@@ -54,20 +54,51 @@ const DailyJobSheet = ({ auth: { isAuthenticated, user, users } }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td> </td>
-                      <td> </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td> </td>
-                      <td> </td>
-
-                      <td></td>
+                      {dailyJobsheetProjects &&
+                        dailyJobsheetProjects.map(
+                          (dailyJobsheetProjects, idx) => {
+                            return (
+                              <tr key={idx}>
+                                <td>{dailyJobsheetProjects.clientName}</td>
+                                <td>
+                                  {dailyJobsheetProjects.clientFolderName}
+                                </td>
+                                <td>{dailyJobsheetProjects.projectName}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{dailyJobsheetProjects.projectPriority}</td>
+                                <td>{dailyJobsheetProjects.projectDeadline}</td>
+                                <td>{dailyJobsheetProjects.projectQuantity}</td>
+                                <td>
+                                  {dailyJobsheetProjects.projectStatusType}
+                                </td>
+                                <td></td>
+                                <td>{dailyJobsheetProjects.projectNotes}</td>
+                                <td></td>
+                                {/* <td>
+                                <>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allDepartment, idx)}
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Deactivate"
+                                    title="Deactivate"
+                                  />
+                                  &nbsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allDepartment, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </>
+                              </td> */}
+                              </tr>
+                            );
+                          }
+                        )}
                     </tbody>
                   </table>
                 </div>
@@ -82,9 +113,13 @@ const DailyJobSheet = ({ auth: { isAuthenticated, user, users } }) => {
 
 DailyJobSheet.propTypes = {
   auth: PropTypes.object.isRequired,
+  project: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  project: state.project,
 });
 
-export default connect(mapStateToProps, {})(DailyJobSheet);
+export default connect(mapStateToProps, { getDailyJobsheetProjectDeatils })(
+  DailyJobSheet
+);

@@ -23,8 +23,8 @@ const EditProject = ({
     getActiveClientsFilter();
   }, [getActiveClientsFilter]);
 
-  console.log(allProjectStatus);
-  console.log(activeClientFilter);
+  // console.log(allProjectStatus);
+  // console.log(activeClientFilter);
 
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },

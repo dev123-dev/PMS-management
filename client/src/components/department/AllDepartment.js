@@ -89,23 +89,13 @@ const AllDepartment = ({
                               </td>
                               <td>{allDepartment.departmentDesc}</td>
                               <td>
-                                <>
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(allDepartment, idx)}
-                                    src={require("../../static/images/delete.png")}
-                                    alt="Deactivate"
-                                    title="Deactivate"
-                                  />
-                                  &nbsp;
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(allDepartment, idx)}
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  />
-                                </>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onUpdate(allDepartment, idx)}
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
+                                />
                               </td>
                             </tr>
                           );
