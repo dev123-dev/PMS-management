@@ -22,8 +22,6 @@ const JobQueue = ({
     getAllProjectStatus();
   }, [getAllProjectStatus]);
 
-  console.log("jobQueueProjects", jobQueueProjects);
-
   const projectStatusOpt = [];
   allProjectStatus.map((projStatusData) =>
     projectStatusOpt.push({
@@ -32,13 +30,13 @@ const JobQueue = ({
     })
   );
   const [sliderValue, setSliderValue] = useState([]);
-
   const onSliderChange = (id) => (e) => {
-    console.log("id");
-    // console.log("e", e);
-    // const newSliderArr = [...sliderValue];
-    // newSliderArr[id] = e.target.value;
-    // setSliderValue(newSliderArr);
+    console.log("id", id);
+    console.log("e", e);
+    const newSliderArr = [...sliderValue];
+    newSliderArr[id] = e.target.value;
+    setSliderValue(newSliderArr);
+    console.log("sliderValue", sliderValue);
   };
 
   const onRadioProjCatTypeChange = (e) => {
@@ -123,11 +121,14 @@ const JobQueue = ({
                               <td>
                                 <Select
                                   name="projectStatusData"
-                                  // value={projectStatusData}
+                                  value={{
+                                    label: jobQueueProjects.projectStatusType,
+                                    value: jobQueueProjects.projectStatusId,
+                                  }}
                                   options={projectStatusOpt}
                                   isSearchable={false}
                                   placeholder="Select"
-                                  onChange={(e) => onSliderChange(idx)}
+                                  onChange={onSliderChange(idx)}
                                 />
                               </td>
                               <td></td>
