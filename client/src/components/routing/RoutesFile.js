@@ -31,7 +31,7 @@ import AllDepartment from "../department/AllDepartment";
 // Designation
 import AddDesignation from "../department/AddDesignation";
 import EditDesignation from "../department/EditDesignation";
-import DeactivateDesignation from "../department/DeactivateDesignation";
+import DeactiveDesignation from "../department/DeactiveDesignation";
 import AllDesignation from "../department/AllDesignation";
 
 //project
@@ -104,7 +104,7 @@ const RoutesFile = () => {
         <PrivateRoute
           exact
           path="/deactivate-designation"
-          component={DeactivateDesignation}
+          component={DeactiveDesignation}
         />
         <PrivateRoute
           exact

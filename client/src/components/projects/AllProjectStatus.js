@@ -6,6 +6,7 @@ import Spinner from "../layout/Spinner";
 import { getAllProjectStatus } from "../../actions/projects";
 import EditProjectStatus from "./EditProjectStatus";
 import AddProjectStatus from "./AddProjectStatus";
+import DeactiveProjectStatus from "./DeactiveProjectStatus";
 const AllProjectStatus = ({
   auth: { allUser, isAuthenticated, user, users },
   project: { allProjectStatus },
@@ -15,7 +16,7 @@ const AllProjectStatus = ({
     getAllProjectStatus();
   }, [getAllProjectStatus]);
 
-  console.log(allProjectStatus);
+  // console.log(allProjectStatus);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -42,6 +43,23 @@ const AllProjectStatus = ({
     setShowEditModal(true);
     setUserDatas(allProjectStatus);
   };
+
+  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
+  const onClickHandler2 = () => {
+    setShowDeactiveModal(true);
+  };
+  const onDeactiveModalChange = (e) => {
+    if (e) {
+      handleDeactiveModalClose();
+    }
+  };
+  const [userDatadeactive, setUserDatadeactive] = useState(null);
+  const onDeactive = (allProjectStatus, idx) => {
+    setShowDeactiveModal(true);
+    setUserDatadeactive(allProjectStatus);
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -93,7 +111,7 @@ const AllProjectStatus = ({
                                   <img
                                     className="img_icon_size log"
                                     onClick={() =>
-                                      onUpdate(allProjectStatus, idx)
+                                      onDeactive(allProjectStatus, idx)
                                     }
                                     src={require("../../static/images/delete.png")}
                                     alt="Deactivate"
@@ -176,6 +194,38 @@ const AllProjectStatus = ({
             <EditProjectStatus
               onEditModalChange={onEditModalChange}
               allProjectStatusdata={userDatas}
+            />
+          </Modal.Body>
+        </Modal>
+
+        <Modal
+          show={showDeactiveModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">
+                Deactivate Project Status
+              </h3>
+            </div>
+            <div className="col-lg-2">
+              <button onClick={handleDeactiveModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <DeactiveProjectStatus
+              onDeactiveModalChange={onDeactiveModalChange}
+              allProjectStatusdeavtivedata={userDatadeactive}
             />
           </Modal.Body>
         </Modal>
