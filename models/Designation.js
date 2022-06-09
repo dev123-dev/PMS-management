@@ -27,6 +27,15 @@ const DepsignationSchema = new mongoose.Schema({
   designationEditedDateTime: {
     type: Date,
   },
+  designationDeactiveReason: {
+    type: String,
+  },
+  designationDeactiveById: {
+    type: ObjectId,
+  },
+  designationDeactiveDateTime: {
+    type: Date,
+  },
 });
 
 module.exports = designation = mongoose.model(
