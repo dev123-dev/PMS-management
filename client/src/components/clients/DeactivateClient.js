@@ -48,7 +48,7 @@ const DeactivateClient = ({
       recordId: clientdeactivedata ? clientdeactivedata._id : "",
       clientDeactiveReason: clientDeactiveReason,
       clientDeactiveById: user._id,
-      // clientDeactiveDate: Date.now(),
+      clientDeactiveDate: new Date().toLocaleString(),
     };
     console.log(finalData);
     // editProjectStatus(finalData);

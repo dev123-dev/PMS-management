@@ -46,7 +46,7 @@ const DeactiveProjectStatus = ({
         : "",
       projectStatusDeactiveReason: projectStatusDeactiveReason,
       projectStatusDeactiveById: user._id,
-      // projectStatusDeactiveDateTime: Date.now(),
+      projectStatusDeactiveDateTime: new Date().toLocaleString(),
     };
     console.log(finalData);
     // editProjectStatus(finalData);

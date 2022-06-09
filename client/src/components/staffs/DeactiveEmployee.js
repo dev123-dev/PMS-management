@@ -44,7 +44,7 @@ const DeactiveEmployee = ({
       recordId: staffDeactivedata ? staffDeactivedata._id : "",
       empDeactiveReason: empDeactiveReason,
       empDeactiveById: user._id,
-      // empDeactiveDateTime: Date.now(),
+      empDeactiveDateTime: new Date().toLocaleString(),
     };
     console.log(finalData);
     // editProjectStatus(finalData);

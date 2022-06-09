@@ -36,7 +36,7 @@ const DeactiveDesignation = ({
       recordId: Designationdeactivedata ? Designationdeactivedata._id : "",
       designationDeactiveReason: designationDeactiveReason,
       designationDeactiveById: user._id,
-      // designationDeactiveDateTime:Date.now(),
+      designationDeactiveDateTime: new Date().toLocaleString(),
     };
 
     console.log(finalData);
