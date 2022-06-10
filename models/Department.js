@@ -13,8 +13,8 @@ const DepartmentSchema = new mongoose.Schema({
     type: ObjectId,
   },
   departmentDateTime: {
-    type: Date,
-    default: Date.now(),
+    type: String,
+    default: new Date().toLocaleString("en-GB"),
   },
   departmentEditedById: {
     type: ObjectId,

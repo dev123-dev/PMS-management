@@ -108,7 +108,7 @@ const ChangeProjectLifeCycle = ({
               />
             </div>
             <div className="col-lg-11 col-md-6 col-sm-6 col-12">
-              <label className="label-control">Update Notes:</label>
+              <label className="label-control">Update Notes :</label>
               <textarea
                 name="Instructions"
                 id="Instructions"

@@ -76,12 +76,14 @@ const AddEmployeeDetails = ({
     isSubmitted,
   } = formData;
 
-  console.log("allDeptartment", allDepartment);
-  // console.log("activeDesignation", activeDesignation);
-
-  const [startSelectedDate, setJoinDate] = useState("");
+  const [employeeDOJDate, setDOJDate] = useState("");
   const onDateChange = (e) => {
-    setJoinDate(e.target.value);
+    setDOJDate(e.target.value);
+  };
+
+  const [employeeDOBDate, setDOBDDate] = useState("");
+  const onDateChange1 = (e) => {
+    setDOBDDate(e.target.value);
   };
 
   const onInputChange = (e) => {
@@ -94,15 +96,6 @@ const AddEmployeeDetails = ({
   const NextBackBtn = (tabIndex) => {
     setTabIndex(tabIndex);
   };
-
-  // const alldepartment = [];
-  // allDepartment.map((department) =>
-  //   alldepartment.push({
-  //     departmentId: department._id,
-  //     label: department.departmentName,
-  //     value: department.departmentName,
-  //   })
-  // );
 
   const [department, getdepartmentData] = useState();
   const [departmentId, setdepartmentId] = useState();
@@ -123,8 +116,20 @@ const AddEmployeeDetails = ({
     })
   );
 
+  const activeDepartment = [];
+  let allDepartmentData = JSON.parse(localStorage.getItem("allDepartmentData"));
+
+  // allDepartmentData.map((department) =>
+  //   activeDepartment.push({
+  //     departmentId: department._id,
+  //     label: department.departmentName,
+  //     value: department.departmentName,
+  //   })
+  // );
+
   const [designation, getdesignationData] = useState();
   const [designationId, setdesignationId] = useState();
+  const [color, setColor] = useState(null);
 
   const onDesigChange = (e) => {
     var designationId = "";
@@ -133,6 +138,44 @@ const AddEmployeeDetails = ({
     setdesignationId(designationId);
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    // if (checkErrors()) {
+    const finalData = {
+      empFullName: empFullName,
+      employeePhone: employeePhone,
+      employeeAadharNo: employeeAadharNo,
+      employeePanNo: employeePanNo,
+      empDOB: employeeDOBDate,
+      employeeEmail: employeeEmail,
+      empJoiningDate: employeeDOJDate,
+      department: department,
+      designation: designation,
+      employeeCode: employeeCode,
+      employeeAddr: employeeAddr,
+      employeeState: employeeState,
+      employeePincode: employeePincode,
+      employeeBankName: employeeBankName,
+      employeeIFSCcode: employeeIFSCcode,
+      employeeAccountNo: employeeAccountNo,
+      employeeBranch: employeeBranch,
+      employeePFNo: employeePFNo,
+      employeeESI: employeeESI,
+      employeeUANNo: employeeUANNo,
+      employeeBasic: employeeBasic,
+      employeeHRA: employeeHRA,
+      employeeDA: employeeDA,
+      empColorCode: color,
+    };
+    console.log(finalData);
+    // addProject(finalData);
+    // setFormData({
+    //   ...formData,
+    //   districtName: "",
+    //   isSubmitted: true,
+    // });
+    // }
+  };
   // code for next previous tabing ends
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -144,8 +187,7 @@ const AddEmployeeDetails = ({
           <hr />
         </div>
         <section className="sub_reg">
-          <Tabs>
-            {/* selectedIndex={tabIndex} */}
+          <Tabs selectedIndex={tabIndex}>
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
               <TabList>
                 <Tab tabfor="0">Staff Info</Tab>
@@ -154,12 +196,10 @@ const AddEmployeeDetails = ({
                 <Tab tabfor="2">Salary Info</Tab>
               </TabList>
             </div>
-
             <TabPanel tabId="0">
               <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
                 <form onSubmit={(e) => NextBackBtn(1)}>
                   <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
-                    {/* <div className=" card-new"> */}
                     <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                       <h5>Personal Info</h5>
                     </div>
@@ -221,9 +261,9 @@ const AddEmployeeDetails = ({
                           type="date"
                           placeholder="dd/mm/yyyy"
                           className="form-control cpp-input datevalidation"
-                          name="employeeDOB"
-                          value={startSelectedDate}
-                          onChange={(e) => onDateChange(e)}
+                          name="employeeDOBDate"
+                          value={employeeDOBDate}
+                          onChange={(e) => onDateChange1(e)}
                           style={{
                             width: "75%",
                           }}
@@ -248,28 +288,21 @@ const AddEmployeeDetails = ({
                           type="date"
                           placeholder="dd/mm/yyyy"
                           className="form-control cpp-input datevalidation"
-                          name="employeeDOJ"
-                          value={startSelectedDate}
-                          //   onChange={(e) => onDateChange(e)}
+                          name="employeeDOJDate"
+                          value={employeeDOJDate}
+                          onChange={(e) => onDateChange(e)}
                           style={{
                             width: "75%",
                           }}
 
                           // required
                         />
-                        <input
-                          type="color"
-                          id="colorpicker"
-                          name="employeeColor"
-                          pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
-                          value=""
-                        />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                         <label className="label-control">Department :</label>
                         <Select
                           name="departmentName"
-                          // options={alldepartment}
+                          // options={activeDepartment}
                           isSearchable={true}
                           value={department}
                           placeholder="Select Mode"
@@ -308,8 +341,17 @@ const AddEmployeeDetails = ({
                           })}
                         />
                       </div>
+                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                        <label className="label-control">Emp color :</label>
+                        <br />
+                        <input
+                          className="form-control"
+                          type="color"
+                          value={color}
+                          onChange={(e) => setColor(e.target.value)}
+                        />
+                      </div>
                     </div>
-                    {/* </div> */}
                   </div>
 
                   <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
@@ -351,7 +393,7 @@ const AddEmployeeDetails = ({
                           className="textarea form-control"
                           rows="3"
                           placeholder="Address"
-                          //onChange={(e) => onInputChange2(e)}
+                          onChange={(e) => onInputChange(e)}
                           style={{ width: "100%" }}
                           //   required
                         ></textarea>
@@ -396,11 +438,9 @@ const AddEmployeeDetails = ({
                 </div>
               </form>
             </TabPanel>
-
             <TabPanel tabId="2">
               <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
                 <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
-                  {/* <div className=" card-new"> */}
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Bank Info</h5>
                   </div>
@@ -508,9 +548,9 @@ const AddEmployeeDetails = ({
                       />
                     </div>
                   </div>
-                  {/* <form className="row" onSubmit={(e) => onSubmit(e)}> */}
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    {/* {loading ? (
+                  <form className="row" onSubmit={(e) => onSubmit(e)}>
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                      {/* {loading ? (
                           <button
                             className="btn sub_form btn_continue blackbrd Save float-right"
                             disabled
@@ -518,28 +558,22 @@ const AddEmployeeDetails = ({
                             Loading...
                           </button>
                         ) : ( */}
-                    <input
-                      type="submit"
-                      name="Save"
-                      value="Submit"
-                      className="btn sub_form btn_continue Save float-right"
-                    />
-                    {/* )} */}
-                    <button
-                      className="btn sub_form btn_continue Save float-right"
-                      onClick={() => NextBackBtn(1)}
-                    >
-                      Previous
-                    </button>
-                  </div>
-                  {/* </form> */}
-                  {/* </div> */}
+                      <input
+                        type="submit"
+                        name="Save"
+                        value="Submit"
+                        className="btn sub_form btn_continue Save float-right"
+                      />
+                      {/* )} */}
+                      <button
+                        className="btn sub_form btn_continue Save float-right"
+                        onClick={() => NextBackBtn(1)}
+                      >
+                        Previous
+                      </button>
+                    </div>
+                  </form>
                 </div>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
-                {/* <AllDistricts /> */}
               </div>
             </TabPanel>
           </Tabs>

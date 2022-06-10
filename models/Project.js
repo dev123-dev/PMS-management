@@ -51,8 +51,8 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
   },
   projectEnteredDateTime: {
-    type: Date,
-    default: Date.now(),
+    type: String,
+    default: new Date().toLocaleString("en-GB"),
   },
   projectEnteredById: {
     type: ObjectId,

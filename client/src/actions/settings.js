@@ -170,6 +170,17 @@ export const EditPaymentMode = (finalData) => async (dispatch) => {
   }
 };
 
+//Deactive
+export const deactiveDesignation = (finalData) => async (dispatch) => {
+  try {
+    await axios.post("/api/setting/deactive-designation", finalData, config);
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
 //SELECT
 export const getALLPaymentMode = () => async (dispatch) => {
   try {
@@ -188,6 +199,7 @@ export const getALLPaymentMode = () => async (dispatch) => {
 export const getALLDepartment = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/settings/get-all-department");
+    localStorage.setItem("allDepartmentData", JSON.stringify(res.data));
     dispatch({
       type: ALL_DEPARTMENT,
       payload: res.data,
