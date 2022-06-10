@@ -214,7 +214,7 @@ const AddProject = ({
                   </div>
 
                   <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control">Client Type:</label>
+                    <label className="label-control">Client Type :</label>
                     <Select
                       name="clientType"
                       options={clientTypeVal}
@@ -225,7 +225,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client Name:</label>
+                    <label className="label-control">Client Name :</label>
                     <Select
                       name="clientData"
                       value={clientData}
@@ -236,7 +236,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Belongs to:</label>
+                    <label className="label-control">Belongs to :</label>
                     <input
                       type="text"
                       name="clientBelongsTo"
@@ -247,7 +247,9 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client folder Name:</label>
+                    <label className="label-control">
+                      Client folder Name :
+                    </label>
                     <input
                       type="text"
                       name="clientFolderName"
@@ -267,7 +269,7 @@ const AddProject = ({
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Project Date:</label>
+                    <label className="label-control">Project Date :</label>
                     <br />
                     <input
                       type="date"
@@ -283,7 +285,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Project Time:</label>
+                    <label className="label-control">Project Time :</label>
                     <br />
                     <input
                       type="time"
@@ -313,7 +315,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client Time:</label>
+                    <label className="label-control">Client Time :</label>
                     <input
                       type="time"
                       name="clientTime"
@@ -334,7 +336,7 @@ const AddProject = ({
                   </div>
 
                   <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Project Name*:</label>
+                    <label className="label-control">Project Name* :</label>
                     <input
                       type="text"
                       name="projectName"
@@ -344,7 +346,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Qty:</label>
+                    <label className="label-control">Qty :</label>
                     <input
                       type="text"
                       name="qty"
@@ -354,7 +356,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Priority:</label>
+                    <label className="label-control">Priority :</label>
                     <Select
                       name="priority"
                       value={priority}
@@ -370,7 +372,7 @@ const AddProject = ({
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
                 <div className="row card-new  py-3">
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Project Status:</label>
+                    <label className="label-control">Project Status :</label>
                     <Select
                       name="projectStatusData"
                       value={projectStatusData}
@@ -381,7 +383,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Deadline:</label>
+                    <label className="label-control">Deadline :</label>
                     <input
                       type="text"
                       name="deadline"
@@ -392,7 +394,7 @@ const AddProject = ({
                   </div>
 
                   <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control">Instructions:</label>
+                    <label className="label-control">Instructions :</label>
                     <textarea
                       name="Instructions"
                       id="Instructions"
