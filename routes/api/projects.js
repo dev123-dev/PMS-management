@@ -123,6 +123,26 @@ router.post("/deactive-project", async (req, res) => {
   }
 });
 
+router.post("/deactive-project-status", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactiveProjectStatus = await ProjectStatus.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          projectStatusStatus: "Deactive",
+          projectStatusDeactiveReason: data.projectStatusDeactiveReason,
+          projectStatusDeactiveById: data.projectStatusDeactiveById,
+          projectStatusDeactiveDateTime: Date.now(),
+        },
+      }
+    );
+    res.json(deactiveProjectStatus);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 //***************SELECT***************
 router.get("/get-all-project-status", async (req, res) => {
   try {
