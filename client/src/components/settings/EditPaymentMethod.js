@@ -51,7 +51,7 @@ const EditPaymentMethod = ({
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
           <div className="col-lg-8 col-md-6 col-sm-6 col-12">
-            <label className="label-control">Payment Method Name:</label>
+            <label className="label-control">Payment Method Name* :</label>
             <input
               type="text"
               name="paymentMode"

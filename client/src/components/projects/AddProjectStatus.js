@@ -65,7 +65,7 @@ const AddProjectStatus = ({
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control">Status Name :</label>
+            <label className="label-control">Status Name* :</label>
             <input
               type="text"
               name="projectStatusType"
@@ -76,7 +76,7 @@ const AddProjectStatus = ({
             />
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control">Project Status Category :</label>
+            <label className="label-control">Project Status Category* :</label>
             <Select
               name="projectStatusCategory"
               options={StatusCategory}
