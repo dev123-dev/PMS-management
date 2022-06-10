@@ -1,8 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Select from "react-select";
+import ChangeProjectLifeCycle from "./ChangeProjectLifeCycle";
 import Spinner from "../layout/Spinner";
 import {
   getJobQueueProjectDeatils,
@@ -22,6 +24,17 @@ const JobQueue = ({
     getAllProjectStatus();
   }, [getAllProjectStatus]);
 
+  // On change ProjectCycle
+  const [showProjectCycleModal, setShowProjectCycleModal] = useState(false);
+  const handleProjectCycleModalClose = () => setShowProjectCycleModal(false);
+
+  const onProjectCycleModalChange = (e) => {
+    if (e) {
+      handleProjectCycleModalClose();
+    }
+  };
+
+  // Modal
   const projectStatusOpt = [];
   allProjectStatus.map((projStatusData) =>
     projectStatusOpt.push({
@@ -29,14 +42,17 @@ const JobQueue = ({
       value: projStatusData._id,
     })
   );
+
   const [sliderValue, setSliderValue] = useState([]);
   const onSliderChange = (id) => (e) => {
     console.log("id", id);
     console.log("e", e);
     const newSliderArr = [...sliderValue];
-    newSliderArr[id] = e.target.value;
+    newSliderArr[id] = e.value;
+
     setSliderValue(newSliderArr);
     console.log("sliderValue", sliderValue);
+    setShowProjectCycleModal(true);
   };
 
   const onRadioProjCatTypeChange = (e) => {
@@ -47,6 +63,7 @@ const JobQueue = ({
     //   setFormData({ ...formData, userRole: e.target.value });
     // }
   };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -99,7 +116,6 @@ const JobQueue = ({
                         <th>Status</th>
                         <th>Latest Change</th>
                         <th>Job Notes</th>
-
                         <th>OP</th>
                       </tr>
                     </thead>
@@ -219,6 +235,38 @@ const JobQueue = ({
           </div>
           <div className="col-lg-2 col-md-6 col-sm-6 col-12">Quantity:</div>
         </div>
+
+        <Modal
+          show={showProjectCycleModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">
+                Deactivate Designation
+              </h3>
+            </div>
+            <div className="col-lg-2">
+              <button onClick={handleProjectCycleModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <ChangeProjectLifeCycle
+              onProjectCycleModalChange={onProjectCycleModalChange}
+              ProjectCycledata={sliderValue}
+            />
+          </Modal.Body>
+        </Modal>
       </div>
     </Fragment>
   );

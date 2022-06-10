@@ -6,7 +6,7 @@ import Select from "react-select";
 
 const ChangeProjectLifeCycle = ({
   auth: { isAuthenticated, user, users, loading },
-  AddPaymentMode,
+  ProjectCycledata,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -15,6 +15,7 @@ const ChangeProjectLifeCycle = ({
     isSubmitted: false,
   });
 
+  console.log(ProjectCycledata);
   const { Instructions, projectStatusCategory } = formData;
 
   const onInputChange = (e) => {
