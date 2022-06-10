@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
 import Spinner from "../layout/Spinner";
+import { deactiveProjectStatus } from "../../actions/projects";
 
 const DeactiveProjectStatus = ({
   auth: { isAuthenticated, user, users, loading },
   allProjectStatusdeavtivedata,
   onDeactiveModalChange,
-  editProjectStatus,
+  deactiveProjectStatus,
 }) => {
   // console.log(allProjectStatusdeavtivedata);
   const [formData, setFormData] = useState({
@@ -48,8 +49,8 @@ const DeactiveProjectStatus = ({
       projectStatusDeactiveById: user._id,
       projectStatusDeactiveDateTime: new Date().toLocaleString(),
     };
-    console.log(finalData);
-    // editProjectStatus(finalData);
+    // console.log(finalData);
+    deactiveProjectStatus(finalData);
 
     // setFormData({
     //   ...formData,
@@ -116,10 +117,13 @@ const DeactiveProjectStatus = ({
 
 DeactiveProjectStatus.propTypes = {
   auth: PropTypes.object.isRequired,
+  deactiveProjectStatus: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(DeactiveProjectStatus);
+export default connect(mapStateToProps, { deactiveProjectStatus })(
+  DeactiveProjectStatus
+);

@@ -5,6 +5,12 @@ import Select from "react-select";
 import Spinner from "../layout/Spinner";
 import { addProjectStatus } from "../../actions/projects";
 
+const StatusCategory = [
+  { value: "Amend", label: "Amend" },
+  { value: "Normal", label: "Normal" },
+  { value: "Dont Work", label: "Dont Work" },
+  { value: "Additional Instruction", label: "Additional Instruction" },
+];
 const AddProjectStatus = ({
   auth: { isAuthenticated, user, users, loading },
   addProjectStatus,
@@ -28,11 +34,10 @@ const AddProjectStatus = ({
 
     // if (checkErrors()) {
     const finalData = {
-      projectStatusCategory: projectStatusCategory,
+      projectStatusCategory: projectStatusCategory.value,
       projectStatusType: projectStatusType,
       projectStutusEnteredById: user._id,
     };
-    console.log(finalData);
     addProjectStatus(finalData);
 
     // setFormData({
@@ -42,12 +47,6 @@ const AddProjectStatus = ({
     // });
     // }
   };
-  const StatusCategory = [
-    { value: "Amend", label: "Amend" },
-    { value: "Normal", label: "Normal" },
-    { value: "Dont Work", label: "Dont Work" },
-    { value: "Additional Instruction", label: "Additional Instruction" },
-  ];
 
   const onStatuscatChange = (e) => {
     if (e) {
