@@ -67,16 +67,16 @@ const DeactiveProjectStatus = ({
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control">
-              Status Name :{projectStatusType}
+              Status Name : {projectStatusType}
             </label>
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control">
-              Project Status Category :{projectStatusCategory}
+              Project Status Category : {projectStatusCategory}
             </label>
           </div>
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-            <label className="label-control">Deactive Reason:</label>
+            <label className="label-control">Deactive Reason : </label>
 
             <textarea
               name="projectStatusDeactiveReason"

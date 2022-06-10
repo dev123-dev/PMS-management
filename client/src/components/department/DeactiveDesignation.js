@@ -24,8 +24,11 @@ const DeactiveDesignation = ({
     isSubmitted: false,
   });
 
-  const { designationName, designationDesc, designationDeactiveReason } =
-    formData;
+  const {
+    designationName,
+    designationDesc,
+    designationDeactiveReason,
+  } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -56,15 +59,15 @@ const DeactiveDesignation = ({
     <Fragment>
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <label className="label-control">
               {" "}
-              Designation Name:{designationName}
+              Designation Name: {designationName}
             </label>
           </div>
-          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <label className="label-control">
-              Designation Description :{designationDesc}
+              Designation Description : {designationDesc}
             </label>
           </div>
 
@@ -85,7 +88,7 @@ const DeactiveDesignation = ({
           </div>
         </div>
 
-        <div className="col-md-12 col-lg-8 col-sm-12 col-12 text-left">
+        <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
           {loading ? (
             <button
               className="btn sub_form btn_continue Save float-right"

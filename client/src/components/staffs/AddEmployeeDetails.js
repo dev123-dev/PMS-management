@@ -77,7 +77,7 @@ const AddEmployeeDetails = ({
   } = formData;
 
   console.log("allDeptartment", allDepartment);
-  console.log("activeDesignation", activeDesignation);
+  // console.log("activeDesignation", activeDesignation);
 
   const [startSelectedDate, setJoinDate] = useState("");
   const onDateChange = (e) => {
@@ -95,14 +95,14 @@ const AddEmployeeDetails = ({
     setTabIndex(tabIndex);
   };
 
-  const alldepartment = [];
-  allDepartment.map((department) =>
-    alldepartment.push({
-      departmentId: department._id,
-      label: department.departmentName,
-      value: department.departmentName,
-    })
-  );
+  // const alldepartment = [];
+  // allDepartment.map((department) =>
+  //   alldepartment.push({
+  //     departmentId: department._id,
+  //     label: department.departmentName,
+  //     value: department.departmentName,
+  //   })
+  // );
 
   const [department, getdepartmentData] = useState();
   const [departmentId, setdepartmentId] = useState();
@@ -159,159 +159,157 @@ const AddEmployeeDetails = ({
               <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
                 <form onSubmit={(e) => NextBackBtn(1)}>
                   <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
-                    <div className=" card-new">
-                      <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                        <h5>Personal Info</h5>
+                    {/* <div className=" card-new"> */}
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                      <h5>Personal Info</h5>
+                    </div>
+                    <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
+                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                        <label className="label-control">Employee Name :</label>
+                        <input
+                          type="text"
+                          name="empFullName"
+                          value={empFullName}
+                          className="form-control"
+                          onChange={(e) => onInputChange(e)}
+                          //required
+                        />
                       </div>
-                      <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
-                        <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                          <label className="label-control">
-                            Employee Name:
-                          </label>
-                          <input
-                            type="text"
-                            name="empFullName"
-                            value={empFullName}
-                            className="form-control"
-                            onChange={(e) => onInputChange(e)}
-                            //required
-                          />
-                        </div>
-                        <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                          <label className="label-control">
-                            Employee Phone*:
-                          </label>
-                          <input
-                            type="number"
-                            name="employeePhone"
-                            value={employeePhone}
-                            className="form-control"
-                            onWheel={() => document.activeElement.blur()}
-                            onChange={(e) => onInputChange(e)}
-                            onKeyDown={(e) =>
-                              (e.keyCode === 69 || e.keyCode === 190) &&
-                              e.preventDefault()
-                            }
-                          />
-                        </div>
-                        <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                          <label className="label-control">
-                            Adhaar Card No*:
-                          </label>
-                          <input
-                            type="text"
-                            name="employeeAadharNo"
-                            value={employeeAadharNo}
-                            className="form-control"
-                            onChange={(e) => onInputChange(e)}
-                          />
-                        </div>
-                        <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                          <label className="label-control">Pan Card No:</label>
-                          <input
-                            type="text"
-                            name="employeePanNo"
-                            value={employeePanNo}
-                            className="form-control"
-                            onChange={(e) => onInputChange(e)}
-                          />
-                        </div>
-                        <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                          <label> DoB</label>
-                          <br />
-                          <input
-                            type="date"
-                            placeholder="dd/mm/yyyy"
-                            className="form-control cpp-input datevalidation"
-                            name="employeeDOB"
-                            value={startSelectedDate}
-                            onChange={(e) => onDateChange(e)}
-                            style={{
-                              width: "75%",
-                            }}
-                            /// required
-                          />
-                        </div>
+                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                        <label className="label-control">
+                          Employee Phone* :
+                        </label>
+                        <input
+                          type="number"
+                          name="employeePhone"
+                          value={employeePhone}
+                          className="form-control"
+                          onWheel={() => document.activeElement.blur()}
+                          onChange={(e) => onInputChange(e)}
+                          onKeyDown={(e) =>
+                            (e.keyCode === 69 || e.keyCode === 190) &&
+                            e.preventDefault()
+                          }
+                        />
+                      </div>
+                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                        <label className="label-control">
+                          Adhaar Card No* :
+                        </label>
+                        <input
+                          type="text"
+                          name="employeeAadharNo"
+                          value={employeeAadharNo}
+                          className="form-control"
+                          onChange={(e) => onInputChange(e)}
+                        />
+                      </div>
+                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                        <label className="label-control">Pan Card No :</label>
+                        <input
+                          type="text"
+                          name="employeePanNo"
+                          value={employeePanNo}
+                          className="form-control"
+                          onChange={(e) => onInputChange(e)}
+                        />
+                      </div>
+                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
+                        <label> DoB :</label>
+                        <br />
+                        <input
+                          type="date"
+                          placeholder="dd/mm/yyyy"
+                          className="form-control cpp-input datevalidation"
+                          name="employeeDOB"
+                          value={startSelectedDate}
+                          onChange={(e) => onDateChange(e)}
+                          style={{
+                            width: "75%",
+                          }}
+                          /// required
+                        />
+                      </div>
 
-                        <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                          <label className="label-control">Email :</label>
-                          <input
-                            type="text"
-                            name="employeeEmail"
-                            value={employeeEmail}
-                            className="form-control"
-                            onChange={(e) => onInputChange(e)}
-                          />
-                        </div>
-                        <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                          <label> DoJ</label>
-                          <br />
-                          <input
-                            type="date"
-                            placeholder="dd/mm/yyyy"
-                            className="form-control cpp-input datevalidation"
-                            name="employeeDOJ"
-                            value={startSelectedDate}
-                            //   onChange={(e) => onDateChange(e)}
-                            style={{
-                              width: "75%",
-                            }}
+                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                        <label className="label-control">Email :</label>
+                        <input
+                          type="text"
+                          name="employeeEmail"
+                          value={employeeEmail}
+                          className="form-control"
+                          onChange={(e) => onInputChange(e)}
+                        />
+                      </div>
+                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
+                        <label> DoJ :</label>
+                        <br />
+                        <input
+                          type="date"
+                          placeholder="dd/mm/yyyy"
+                          className="form-control cpp-input datevalidation"
+                          name="employeeDOJ"
+                          value={startSelectedDate}
+                          //   onChange={(e) => onDateChange(e)}
+                          style={{
+                            width: "75%",
+                          }}
 
-                            // required
-                          />
-                          <input
-                            type="color"
-                            id="colorpicker"
-                            name="employeeColor"
-                            pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
-                            value=""
-                          />
-                        </div>
-                        <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                          <label className="label-control">Department :</label>
-                          <Select
-                            name="departmentName"
-                            options={alldepartment}
-                            isSearchable={true}
-                            value={department}
-                            placeholder="Select Mode"
-                            onChange={(e) => onDepartmentChange(e)}
-                            theme={(theme) => ({
-                              ...theme,
-                              height: 26,
-                              minHeight: 26,
-                              borderRadius: 1,
-                              colors: {
-                                ...theme.colors,
-                                primary: "black",
-                              },
-                            })}
-                          />
-                        </div>
-                        <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                          <label className="label-control">Designation :</label>
+                          // required
+                        />
+                        <input
+                          type="color"
+                          id="colorpicker"
+                          name="employeeColor"
+                          pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
+                          value=""
+                        />
+                      </div>
+                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                        <label className="label-control">Department :</label>
+                        <Select
+                          name="departmentName"
+                          // options={alldepartment}
+                          isSearchable={true}
+                          value={department}
+                          placeholder="Select Mode"
+                          onChange={(e) => onDepartmentChange(e)}
+                          theme={(theme) => ({
+                            ...theme,
+                            height: 26,
+                            minHeight: 26,
+                            borderRadius: 1,
+                            colors: {
+                              ...theme.colors,
+                              primary: "black",
+                            },
+                          })}
+                        />
+                      </div>
+                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                        <label className="label-control">Designation :</label>
 
-                          <Select
-                            name="designationName"
-                            options={alldesignation}
-                            isSearchable={true}
-                            value={designation}
-                            placeholder="Select Desig"
-                            onChange={(e) => onDesigChange(e)}
-                            theme={(theme) => ({
-                              ...theme,
-                              height: 26,
-                              minHeight: 26,
-                              borderRadius: 1,
-                              colors: {
-                                ...theme.colors,
-                                primary: "black",
-                              },
-                            })}
-                          />
-                        </div>
+                        <Select
+                          name="designationName"
+                          options={alldesignation}
+                          isSearchable={true}
+                          value={designation}
+                          placeholder="Select Desig"
+                          onChange={(e) => onDesigChange(e)}
+                          theme={(theme) => ({
+                            ...theme,
+                            height: 26,
+                            minHeight: 26,
+                            borderRadius: 1,
+                            colors: {
+                              ...theme.colors,
+                              primary: "black",
+                            },
+                          })}
+                        />
                       </div>
                     </div>
+                    {/* </div> */}
                   </div>
 
                   <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
@@ -329,59 +327,57 @@ const AddEmployeeDetails = ({
               <form onSubmit={(e) => NextBackBtn(2)}>
                 <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
                   <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
-                    <div className=" card-new">
-                      <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                        <h5>Area Info</h5>
+                    {/* <div className=" card-new"> */}
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                      <h5>Area Info</h5>
+                    </div>
+                    <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
+                      <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+                        <label className="label-control">Employee Code :</label>
+                        <input
+                          type="text"
+                          name="employeeCode"
+                          value={employeeCode}
+                          className="form-control"
+                          onChange={(e) => onInputChange(e)}
+                          // required
+                        />
                       </div>
-                      <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
-                        <div className="col-lg-4 col-md-12 col-sm-12 col-12">
-                          <label className="label-control">
-                            Employee Code :
-                          </label>
-                          <input
-                            type="text"
-                            name="employeeCode"
-                            value={employeeCode}
-                            className="form-control"
-                            onChange={(e) => onInputChange(e)}
-                            // required
-                          />
-                        </div>
-                        <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-                          <label className="label-control">Address:</label>
-                          <textarea
-                            name="employeeAddr"
-                            id="employeeAddr"
-                            className="textarea form-control"
-                            rows="3"
-                            placeholder="Address"
-                            //onChange={(e) => onInputChange2(e)}
-                            style={{ width: "100%" }}
-                            //   required
-                          ></textarea>
-                        </div>
-                        <div className="col-lg-4 col-md-12 col-sm-12 col-12">
-                          <label className="label-control">State:</label>
-                          <input
-                            type="text"
-                            name="employeeState"
-                            value={employeeState}
-                            className="form-control"
-                            onChange={(e) => onInputChange(e)}
-                          />
-                        </div>
-                        <div className="col-lg-4 col-md-12 col-sm-12 col-12">
-                          <label className="label-control">Pincode:</label>
-                          <input
-                            type="text"
-                            name="employeePincode"
-                            value={employeePincode}
-                            className="form-control"
-                            onChange={(e) => onInputChange(e)}
-                          />
-                        </div>
+                      <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+                        <label className="label-control">Address :</label>
+                        <textarea
+                          name="employeeAddr"
+                          id="employeeAddr"
+                          className="textarea form-control"
+                          rows="3"
+                          placeholder="Address"
+                          //onChange={(e) => onInputChange2(e)}
+                          style={{ width: "100%" }}
+                          //   required
+                        ></textarea>
+                      </div>
+                      <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+                        <label className="label-control">State :</label>
+                        <input
+                          type="text"
+                          name="employeeState"
+                          value={employeeState}
+                          className="form-control"
+                          onChange={(e) => onInputChange(e)}
+                        />
+                      </div>
+                      <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+                        <label className="label-control">Pincode :</label>
+                        <input
+                          type="text"
+                          name="employeePincode"
+                          value={employeePincode}
+                          className="form-control"
+                          onChange={(e) => onInputChange(e)}
+                        />
                       </div>
                     </div>
+                    {/* </div> */}
                   </div>
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -404,117 +400,117 @@ const AddEmployeeDetails = ({
             <TabPanel tabId="2">
               <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
                 <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
-                  <div className=" card-new">
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                      <h5>Bank Info</h5>
+                  {/* <div className=" card-new"> */}
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h5>Bank Info</h5>
+                  </div>
+                  <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">Bank Name :</label>
+                      <input
+                        type="text"
+                        name="employeeBankName"
+                        value={employeeBankName}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                        required
+                      />
                     </div>
-                    <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">Bank Name :</label>
-                        <input
-                          type="text"
-                          name="employeeBankName"
-                          value={employeeBankName}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                          required
-                        />
-                      </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">IFSC Code:</label>
-                        <input
-                          type="text"
-                          name="employeeIFSCcode"
-                          value={employeeIFSCcode}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                          required
-                        />
-                      </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">Account no:</label>
-                        <input
-                          type="text"
-                          name="employeeAccountNo"
-                          value={employeeAccountNo}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">Branch:</label>
-                        <input
-                          type="text"
-                          name="employeeBranch"
-                          value={employeeBranch}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">PF No:</label>
-                        <input
-                          type="text"
-                          name="employeePFNo"
-                          value={employeePFNo}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">ESI:</label>
-                        <input
-                          type="text"
-                          name="employeeESI"
-                          value={employeeESI}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">UAN No:</label>
-                        <input
-                          type="text"
-                          name="employeeUANNo"
-                          value={employeeUANNo}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">Basic:</label>
-                        <input
-                          type="text"
-                          name="employeeBasic"
-                          value={employeeBasic}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">HRA:</label>
-                        <input
-                          type="text"
-                          name="employeeHRA"
-                          value={employeeHRA}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">DA:</label>
-                        <input
-                          type="text"
-                          name="employeeDA"
-                          value={employeeDA}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                        />
-                      </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">IFSC Code :</label>
+                      <input
+                        type="text"
+                        name="employeeIFSCcode"
+                        value={employeeIFSCcode}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                        required
+                      />
                     </div>
-                    {/* <form className="row" onSubmit={(e) => onSubmit(e)}> */}
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                      {/* {loading ? (
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">Account no :</label>
+                      <input
+                        type="text"
+                        name="employeeAccountNo"
+                        value={employeeAccountNo}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">Branch :</label>
+                      <input
+                        type="text"
+                        name="employeeBranch"
+                        value={employeeBranch}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">PF No :</label>
+                      <input
+                        type="text"
+                        name="employeePFNo"
+                        value={employeePFNo}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">ESI :</label>
+                      <input
+                        type="text"
+                        name="employeeESI"
+                        value={employeeESI}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">UAN No :</label>
+                      <input
+                        type="text"
+                        name="employeeUANNo"
+                        value={employeeUANNo}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">Basic :</label>
+                      <input
+                        type="text"
+                        name="employeeBasic"
+                        value={employeeBasic}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">HRA :</label>
+                      <input
+                        type="text"
+                        name="employeeHRA"
+                        value={employeeHRA}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">DA :</label>
+                      <input
+                        type="text"
+                        name="employeeDA"
+                        value={employeeDA}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                  </div>
+                  {/* <form className="row" onSubmit={(e) => onSubmit(e)}> */}
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    {/* {loading ? (
                           <button
                             className="btn sub_form btn_continue blackbrd Save float-right"
                             disabled
@@ -522,22 +518,22 @@ const AddEmployeeDetails = ({
                             Loading...
                           </button>
                         ) : ( */}
-                      <input
-                        type="submit"
-                        name="Save"
-                        value="Submit"
-                        className="btn sub_form btn_continue Save float-right"
-                      />
-                      {/* )} */}
-                      <button
-                        className="btn sub_form btn_continue Save float-right"
-                        onClick={() => NextBackBtn(1)}
-                      >
-                        Previous
-                      </button>
-                    </div>
-                    {/* </form> */}
+                    <input
+                      type="submit"
+                      name="Save"
+                      value="Submit"
+                      className="btn sub_form btn_continue Save float-right"
+                    />
+                    {/* )} */}
+                    <button
+                      className="btn sub_form btn_continue Save float-right"
+                      onClick={() => NextBackBtn(1)}
+                    >
+                      Previous
+                    </button>
                   </div>
+                  {/* </form> */}
+                  {/* </div> */}
                 </div>
               </div>
             </TabPanel>
