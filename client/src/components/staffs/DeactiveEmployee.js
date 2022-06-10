@@ -76,7 +76,7 @@ const DeactiveEmployee = ({
           </div>
 
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-            <label className="label-control">Deactive Reason:</label>
+            <label className="label-control">Deactive Reason :</label>
 
             <textarea
               name="empDeactiveReason"

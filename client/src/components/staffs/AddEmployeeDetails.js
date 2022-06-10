@@ -165,7 +165,7 @@ const AddEmployeeDetails = ({
                     </div>
                     <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">Employee Name:</label>
+                        <label className="label-control">Employee Name :</label>
                         <input
                           type="text"
                           name="empFullName"
@@ -177,7 +177,7 @@ const AddEmployeeDetails = ({
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                         <label className="label-control">
-                          Employee Phone*:
+                          Employee Phone* :
                         </label>
                         <input
                           type="number"
@@ -194,7 +194,7 @@ const AddEmployeeDetails = ({
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                         <label className="label-control">
-                          Adhaar Card No*:
+                          Adhaar Card No* :
                         </label>
                         <input
                           type="text"
@@ -205,7 +205,7 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">Pan Card No:</label>
+                        <label className="label-control">Pan Card No :</label>
                         <input
                           type="text"
                           name="employeePanNo"
@@ -215,7 +215,7 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                        <label> DoB</label>
+                        <label> DoB :</label>
                         <br />
                         <input
                           type="date"
@@ -242,7 +242,7 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                        <label> DoJ</label>
+                        <label> DoJ :</label>
                         <br />
                         <input
                           type="date"
@@ -344,7 +344,7 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">Address:</label>
+                        <label className="label-control">Address :</label>
                         <textarea
                           name="employeeAddr"
                           id="employeeAddr"
@@ -357,7 +357,7 @@ const AddEmployeeDetails = ({
                         ></textarea>
                       </div>
                       <div className="col-lg-4 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">State:</label>
+                        <label className="label-control">State :</label>
                         <input
                           type="text"
                           name="employeeState"
@@ -367,7 +367,7 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-4 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">Pincode:</label>
+                        <label className="label-control">Pincode :</label>
                         <input
                           type="text"
                           name="employeePincode"
@@ -417,7 +417,7 @@ const AddEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">IFSC Code:</label>
+                      <label className="label-control">IFSC Code :</label>
                       <input
                         type="text"
                         name="employeeIFSCcode"
@@ -428,7 +428,7 @@ const AddEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Account no:</label>
+                      <label className="label-control">Account no :</label>
                       <input
                         type="text"
                         name="employeeAccountNo"
@@ -438,7 +438,7 @@ const AddEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Branch:</label>
+                      <label className="label-control">Branch :</label>
                       <input
                         type="text"
                         name="employeeBranch"
@@ -448,7 +448,7 @@ const AddEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">PF No:</label>
+                      <label className="label-control">PF No :</label>
                       <input
                         type="text"
                         name="employeePFNo"
@@ -458,7 +458,7 @@ const AddEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">ESI:</label>
+                      <label className="label-control">ESI :</label>
                       <input
                         type="text"
                         name="employeeESI"
@@ -468,7 +468,7 @@ const AddEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">UAN No:</label>
+                      <label className="label-control">UAN No :</label>
                       <input
                         type="text"
                         name="employeeUANNo"
@@ -478,7 +478,7 @@ const AddEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Basic:</label>
+                      <label className="label-control">Basic :</label>
                       <input
                         type="text"
                         name="employeeBasic"
@@ -488,7 +488,7 @@ const AddEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">HRA:</label>
+                      <label className="label-control">HRA :</label>
                       <input
                         type="text"
                         name="employeeHRA"
@@ -498,7 +498,7 @@ const AddEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">DA:</label>
+                      <label className="label-control">DA :</label>
                       <input
                         type="text"
                         name="employeeDA"

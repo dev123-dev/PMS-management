@@ -159,7 +159,7 @@ const EditClientDetails = ({
                 <h5>Client Info </h5>
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Client Name:</label>
+                <label className="label-control">Client Name :</label>
                 <input
                   type="text"
                   name="clientName"
@@ -169,7 +169,7 @@ const EditClientDetails = ({
                 />
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Production Email:</label>
+                <label className="label-control">Production Email :</label>
                 <input
                   type="text"
                   //   name="batchBankIFSC"
@@ -189,7 +189,7 @@ const EditClientDetails = ({
                 />
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Client Contact 1:</label>
+                <label className="label-control">Client Contact 1 :</label>
                 <input
                   type="text"
                   name="clientContactNo1"
@@ -199,7 +199,7 @@ const EditClientDetails = ({
                 />
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Client Contact 2:</label>
+                <label className="label-control">Client Contact 2 :</label>
                 <input
                   type="text"
                   name="clientContactNo2"
@@ -209,7 +209,7 @@ const EditClientDetails = ({
                 />
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Client Folder Name:</label>
+                <label className="label-control">Client Folder Name :</label>
                 <input
                   type="text"
                   name="clientFolderName"
@@ -219,7 +219,7 @@ const EditClientDetails = ({
                 />
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Belongs To:</label>
+                <label className="label-control">Belongs To :</label>
                 <Select
                   name="clientName"
                   options={allclientBelongsTo}
@@ -251,7 +251,7 @@ const EditClientDetails = ({
 
                 <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Address:</label>
+                    <label className="label-control">Address :</label>
                     <input
                       type="text"
                       name="clientAddress"
@@ -261,7 +261,7 @@ const EditClientDetails = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Country:</label>
+                    <label className="label-control">Country :</label>
                     <input
                       type="text"
                       name="clientCountry"
@@ -271,7 +271,7 @@ const EditClientDetails = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Currency:</label>
+                    <label className="label-control">Currency :</label>
                     <input
                       type="text"
                       name="clientCurrency"
@@ -281,7 +281,7 @@ const EditClientDetails = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Mode of Payment:</label>
+                    <label className="label-control">Mode of Payment :</label>
 
                     <Select
                       name="paymentMode"
