@@ -76,9 +76,14 @@ const AddEmployeeDetails = ({
     isSubmitted,
   } = formData;
 
-  const [startSelectedDate, setJoinDate] = useState("");
+  const [employeeDOJDate, setDOJDate] = useState("");
   const onDateChange = (e) => {
-    setJoinDate(e.target.value);
+    setDOJDate(e.target.value);
+  };
+
+  const [employeeDOBDate, setDOBDDate] = useState("");
+  const onDateChange1 = (e) => {
+    setDOBDDate(e.target.value);
   };
 
   const onInputChange = (e) => {
@@ -143,8 +148,7 @@ const AddEmployeeDetails = ({
           <hr />
         </div>
         <section className="sub_reg">
-          <Tabs>
-            {/* selectedIndex={tabIndex} */}
+          <Tabs selectedIndex={tabIndex}>
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
               <TabList>
                 <Tab tabfor="0">Staff Info</Tab>
@@ -153,7 +157,6 @@ const AddEmployeeDetails = ({
                 <Tab tabfor="2">Salary Info</Tab>
               </TabList>
             </div>
-
             <TabPanel tabId="0">
               <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
                 <form onSubmit={(e) => NextBackBtn(1)}>
@@ -220,9 +223,9 @@ const AddEmployeeDetails = ({
                           type="date"
                           placeholder="dd/mm/yyyy"
                           className="form-control cpp-input datevalidation"
-                          name="employeeDOB"
-                          value={startSelectedDate}
-                          onChange={(e) => onDateChange(e)}
+                          name="employeeDOBDate"
+                          value={employeeDOBDate}
+                          onChange={(e) => onDateChange1(e)}
                           style={{
                             width: "75%",
                           }}
@@ -247,9 +250,9 @@ const AddEmployeeDetails = ({
                           type="date"
                           placeholder="dd/mm/yyyy"
                           className="form-control cpp-input datevalidation"
-                          name="employeeDOJ"
-                          value={startSelectedDate}
-                          //   onChange={(e) => onDateChange(e)}
+                          name="employeeDOJDate"
+                          value={employeeDOJDate}
+                          onChange={(e) => onDateChange(e)}
                           style={{
                             width: "75%",
                           }}
@@ -395,7 +398,6 @@ const AddEmployeeDetails = ({
                 </div>
               </form>
             </TabPanel>
-
             <TabPanel tabId="2">
               <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
                 <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
