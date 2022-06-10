@@ -170,6 +170,17 @@ export const EditPaymentMode = (finalData) => async (dispatch) => {
   }
 };
 
+//Deactive
+export const deactiveDesignation = (finalData) => async (dispatch) => {
+  try {
+    await axios.post("/api/setting/deactive-designation", finalData, config);
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
 //SELECT
 export const getALLPaymentMode = () => async (dispatch) => {
   try {
