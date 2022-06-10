@@ -34,6 +34,7 @@ const ChangeProjectLifeCycle = ({
     { value: "11", label: "11" },
     { value: "12", label: "12" },
   ];
+
   const onStatuscatChange = (e) => {
     if (e) {
       setFormData({
@@ -91,7 +92,6 @@ const ChangeProjectLifeCycle = ({
             </div>
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-4">
               <label className="label-control"></label>
-
               <Select
                 name="projectStatusCategory"
                 options={StatusCategory}
@@ -112,7 +112,7 @@ const ChangeProjectLifeCycle = ({
               />
             </div>
             <div className="col-lg-11 col-md-6 col-sm-6 col-12">
-              <label className="label-control">Update Notes:</label>
+              <label className="label-control">Update Notes :</label>
               <textarea
                 name="Instructions"
                 id="Instructions"

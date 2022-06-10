@@ -76,9 +76,6 @@ const AddEmployeeDetails = ({
     isSubmitted,
   } = formData;
 
-  console.log("allDeptartment", allDepartment);
-  // console.log("activeDesignation", activeDesignation);
-
   const [startSelectedDate, setJoinDate] = useState("");
   const onDateChange = (e) => {
     setJoinDate(e.target.value);
@@ -94,15 +91,6 @@ const AddEmployeeDetails = ({
   const NextBackBtn = (tabIndex) => {
     setTabIndex(tabIndex);
   };
-
-  // const alldepartment = [];
-  // allDepartment.map((department) =>
-  //   alldepartment.push({
-  //     departmentId: department._id,
-  //     label: department.departmentName,
-  //     value: department.departmentName,
-  //   })
-  // );
 
   const [department, getdepartmentData] = useState();
   const [departmentId, setdepartmentId] = useState();
@@ -120,6 +108,17 @@ const AddEmployeeDetails = ({
       departmentId: designation._id,
       label: designation.designationName,
       value: designation.designationName,
+    })
+  );
+
+  const activeDepartment = [];
+  let allDepartmentData = JSON.parse(localStorage.getItem("allDepartmentData"));
+
+  allDepartmentData.map((department) =>
+    activeDepartment.push({
+      departmentId: department._id,
+      label: department.departmentName,
+      value: department.departmentName,
     })
   );
 
@@ -269,7 +268,7 @@ const AddEmployeeDetails = ({
                         <label className="label-control">Department :</label>
                         <Select
                           name="departmentName"
-                          // options={alldepartment}
+                          options={activeDepartment}
                           isSearchable={true}
                           value={department}
                           placeholder="Select Mode"
