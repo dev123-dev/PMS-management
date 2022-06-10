@@ -11,35 +11,40 @@ const ChangeProjectLifeCycle = ({
   //formData
   const [formData, setFormData] = useState({
     Instructions: "",
-    projectStatusCategory: "",
+    projectHour: "",
+    projectMinutes: "",
     isSubmitted: false,
   });
 
   console.log(ProjectCycledata);
-  const { Instructions, projectStatusCategory } = formData;
+  const { Instructions, projectHour, projectMinutes } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const StatusCategory = [
-    { value: "01", label: "01" },
-    { value: "02", label: "02" },
-    { value: "03", label: "03" },
-    { value: "04", label: "04" },
-    { value: "05", label: "05" },
-    { value: "06", label: "06" },
-    { value: "07", label: "07" },
-    { value: "08", label: "08" },
-    { value: "09", label: "09" },
-    { value: "10", label: "10" },
-    { value: "11", label: "11" },
-    { value: "12", label: "12" },
-  ];
-  const onStatuscatChange = (e) => {
-    if (e) {
+
+  const onHourChange = (e) => {
+    if (e.target.value < 13) {
       setFormData({
         ...formData,
-        projectStatusCategory: e,
+        projectHour: e.target.value,
+      });
+    } else {
+      setFormData({
+        ...formData,
+      });
+    }
+  };
+
+  const onMinuteChange = (e) => {
+    if (e.target.value < 60) {
+      setFormData({
+        ...formData,
+        projectMinutes: e.target.value,
+      });
+    } else {
+      setFormData({
+        ...formData,
       });
     }
   };
@@ -68,48 +73,38 @@ const ChangeProjectLifeCycle = ({
       <div className="container container_align">
         <form onSubmit={(e) => onSubmit(e)}>
           <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+            <div className="col-lg-4 col-md-6 col-sm-6 col-12">
               <label className="label-control">Time :</label>
 
-              <Select
-                name="projectStatusCategory"
-                options={StatusCategory}
-                isSearchable={false}
-                value={projectStatusCategory}
-                placeholder="Select"
-                onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
+              <input
+                type="number"
+                name="projectHour"
+                value={projectHour}
+                min="1"
+                max="12"
+                className="form-control"
+                onWheel={() => document.activeElement.blur()}
+                onChange={(e) => onHourChange(e)}
+                onKeyDown={(e) =>
+                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+                }
               />
             </div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-4">
+            <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-4">
               <label className="label-control"></label>
 
-              <Select
-                name="projectStatusCategory"
-                options={StatusCategory}
-                isSearchable={false}
-                value={projectStatusCategory}
-                placeholder="Select"
-                onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
+              <input
+                type="number"
+                name="projectMinutes"
+                value={projectMinutes}
+                min="1"
+                max="60"
+                className="form-control"
+                onWheel={() => document.activeElement.blur()}
+                onChange={(e) => onMinuteChange(e)}
+                onKeyDown={(e) =>
+                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+                }
               />
             </div>
             <div className="col-lg-11 col-md-6 col-sm-6 col-12">

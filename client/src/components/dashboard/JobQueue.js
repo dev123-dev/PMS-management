@@ -43,15 +43,19 @@ const JobQueue = ({
     })
   );
 
-  const [sliderValue, setSliderValue] = useState([]);
-  const onSliderChange = (id) => (e) => {
-    console.log("id", id);
+  const [statusChangeValue, setStatusChange] = useState();
+  const onSliderChange = (jobQueueProjects) => (e) => {
+    // console.log("id", id);
     console.log("e", e);
-    const newSliderArr = [...sliderValue];
-    newSliderArr[id] = e.value;
 
-    setSliderValue(newSliderArr);
-    console.log("sliderValue", sliderValue);
+    let newStatusData = {
+      statusId: e.value,
+      value: e.label,
+      projectId: jobQueueProjects._id,
+    };
+
+    setStatusChange(newStatusData);
+    console.log("statusChangeValue", statusChangeValue);
     setShowProjectCycleModal(true);
   };
 
@@ -144,7 +148,7 @@ const JobQueue = ({
                                   options={projectStatusOpt}
                                   isSearchable={false}
                                   placeholder="Select"
-                                  onChange={onSliderChange(idx)}
+                                  onChange={onSliderChange(jobQueueProjects)}
                                 />
                               </td>
                               <td></td>
@@ -246,9 +250,7 @@ const JobQueue = ({
         >
           <Modal.Header>
             <div className="col-lg-10">
-              <h3 className="modal-title text-center">
-                Deactivate Designation
-              </h3>
+              <h3 className="modal-title text-center">Project Life Cycle</h3>
             </div>
             <div className="col-lg-2">
               <button onClick={handleProjectCycleModalClose} className="close">
@@ -263,7 +265,7 @@ const JobQueue = ({
           <Modal.Body>
             <ChangeProjectLifeCycle
               onProjectCycleModalChange={onProjectCycleModalChange}
-              ProjectCycledata={sliderValue}
+              ProjectCycledata={statusChangeValue}
             />
           </Modal.Body>
         </Modal>
