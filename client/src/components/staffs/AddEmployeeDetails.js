@@ -200,7 +200,6 @@ const AddEmployeeDetails = ({
               <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
                 <form onSubmit={(e) => NextBackBtn(1)}>
                   <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
-                    {/* <div className=" card-new"> */}
                     <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                       <h5>Personal Info</h5>
                     </div>
@@ -298,14 +297,6 @@ const AddEmployeeDetails = ({
 
                           // required
                         />
-
-                        {/* <input
-                          type="color"
-                          id="colorpicker"
-                          name="employeeColor"
-                          pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
-                          value=""
-                        /> */}
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                         <label className="label-control">Department :</label>
@@ -361,7 +352,6 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                     </div>
-                    {/* </div> */}
                   </div>
 
                   <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
@@ -451,7 +441,6 @@ const AddEmployeeDetails = ({
             <TabPanel tabId="2">
               <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
                 <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
-                  {/* <div className=" card-new"> */}
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Bank Info</h5>
                   </div>
@@ -584,13 +573,7 @@ const AddEmployeeDetails = ({
                       </button>
                     </div>
                   </form>
-                  {/* </div> */}
                 </div>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
-                {/* <AllDistricts /> */}
               </div>
             </TabPanel>
           </Tabs>
