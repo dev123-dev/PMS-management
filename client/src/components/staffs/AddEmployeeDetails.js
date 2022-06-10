@@ -119,16 +119,17 @@ const AddEmployeeDetails = ({
   const activeDepartment = [];
   let allDepartmentData = JSON.parse(localStorage.getItem("allDepartmentData"));
 
-  allDepartmentData.map((department) =>
-    activeDepartment.push({
-      departmentId: department._id,
-      label: department.departmentName,
-      value: department.departmentName,
-    })
-  );
+  // allDepartmentData.map((department) =>
+  //   activeDepartment.push({
+  //     departmentId: department._id,
+  //     label: department.departmentName,
+  //     value: department.departmentName,
+  //   })
+  // );
 
   const [designation, getdesignationData] = useState();
   const [designationId, setdesignationId] = useState();
+  const [color, setColor] = useState(null);
 
   const onDesigChange = (e) => {
     var designationId = "";
@@ -164,6 +165,7 @@ const AddEmployeeDetails = ({
       employeeBasic: employeeBasic,
       employeeHRA: employeeHRA,
       employeeDA: employeeDA,
+      empColorCode: color,
     };
     console.log(finalData);
     // addProject(finalData);
@@ -296,19 +298,20 @@ const AddEmployeeDetails = ({
 
                           // required
                         />
-                        <input
+
+                        {/* <input
                           type="color"
                           id="colorpicker"
                           name="employeeColor"
                           pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
                           value=""
-                        />
+                        /> */}
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                         <label className="label-control">Department :</label>
                         <Select
                           name="departmentName"
-                          options={activeDepartment}
+                          // options={activeDepartment}
                           isSearchable={true}
                           value={department}
                           placeholder="Select Mode"
@@ -345,6 +348,16 @@ const AddEmployeeDetails = ({
                               primary: "black",
                             },
                           })}
+                        />
+                      </div>
+                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                        <label className="label-control">Emp color :</label>
+                        <br />
+                        <input
+                          className="form-control"
+                          type="color"
+                          value={color}
+                          onChange={(e) => setColor(e.target.value)}
                         />
                       </div>
                     </div>
