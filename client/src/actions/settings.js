@@ -199,6 +199,7 @@ export const getALLPaymentMode = () => async (dispatch) => {
 export const getALLDepartment = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/settings/get-all-department");
+    localStorage.setItem("allDepartmentData", JSON.stringify(res.data));
     dispatch({
       type: ALL_DEPARTMENT,
       payload: res.data,

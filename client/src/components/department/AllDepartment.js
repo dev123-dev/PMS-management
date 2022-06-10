@@ -15,8 +15,6 @@ const AllDepartment = ({
     getALLDepartment();
   }, [getALLDepartment]);
 
-  console.log("allDeptartment", allDepartment);
-
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
