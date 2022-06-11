@@ -65,6 +65,18 @@ const EditClientDetails = ({
       allClientdata && allClientdata.clientCurrency
         ? allClientdata.clientCurrency
         : "",
+    clientCompanyName:
+      allClientdata && allClientdata.clientCompanyName
+        ? allClientdata.clientCompanyName
+        : "",
+    clientCompanyFounderName:
+      allClientdata && allClientdata.clientCompanyFounderName
+        ? allClientdata.clientCompanyFounderName
+        : "",
+    clientWebsite:
+      allClientdata && allClientdata.clientWebsite
+        ? allClientdata.clientWebsite
+        : "",
 
     isSubmitted: false,
   });
@@ -79,6 +91,9 @@ const EditClientDetails = ({
     clientBelongsTo,
     clientFolderName,
     clientCurrency,
+    clientCompanyName,
+    clientCompanyFounderName,
+    clientWebsite,
   } = formData;
 
   const onInputChange = (e) => {
@@ -135,6 +150,9 @@ const EditClientDetails = ({
       clientCurrency: clientCurrency,
       clientBelongsTo: clientBelongsTo,
       clientFolderName: clientFolderName,
+      clientCompanyName: clientCompanyName,
+      clientCompanyFounderName: clientCompanyFounderName,
+      clientWebsite: clientWebsite,
     };
     // console.log(finalData);
     // AddDistrict(finalData);
@@ -164,6 +182,36 @@ const EditClientDetails = ({
                   type="text"
                   name="clientName"
                   value={clientName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Company Name :</label>
+                <input
+                  type="text"
+                  name="clientCompanyName"
+                  value={clientCompanyName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Founder Name :</label>
+                <input
+                  type="text"
+                  name="clientCompanyFounderName"
+                  value={clientCompanyFounderName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Company Website :</label>
+                <input
+                  type="text"
+                  name="clientWebsite"
+                  value={clientWebsite}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
