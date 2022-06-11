@@ -90,7 +90,7 @@ const ChangeProjectLifeCycle = ({
           {showTimerSection && (
             <>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Time :</label>
+                <label className="label-control">Hour* :</label>
 
                 <input
                   type="number"
@@ -105,10 +105,11 @@ const ChangeProjectLifeCycle = ({
                     (e.keyCode === 69 || e.keyCode === 190) &&
                     e.preventDefault()
                   }
+                  required
                 />
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-4">
-                <label className="label-control"></label>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Minutes* : </label>
 
                 <input
                   type="number"
@@ -123,12 +124,13 @@ const ChangeProjectLifeCycle = ({
                     (e.keyCode === 69 || e.keyCode === 190) &&
                     e.preventDefault()
                   }
+                  required
                 />
               </div>
             </>
           )}
           <div className="col-lg-11 col-md-6 col-sm-6 col-12">
-            <label className="label-control">Update Notes :</label>
+            <label className="label-control">Update Notes* :</label>
             <textarea
               name="Instructions"
               id="Instructions"
