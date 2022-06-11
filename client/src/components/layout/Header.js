@@ -65,7 +65,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   {!loading && isAuthenticated && user ? (
                     <NavLink
                       to="/job-queue"
-                      activeStyle={{ color: "Black", textDecoration: "none" }}
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       Job Queue
                     </NavLink>
@@ -78,7 +78,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   {!loading && isAuthenticated && user ? (
                     <NavLink
                       to="/daily-job-sheet"
-                      activeStyle={{ color: "Black", textDecoration: "none" }}
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       Daily Job Sheet
                     </NavLink>
@@ -126,9 +126,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                         <li>
                           <Link to="/all-usergroups">Groups</Link>
                         </li>
-                        {/* <li>
-                          <Link to="/add-staff">Add Staff</Link>
-                        </li> */}
 
                         <li>
                           <Link to="/change-password">Change Password</Link>
