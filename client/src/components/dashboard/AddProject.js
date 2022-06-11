@@ -127,6 +127,8 @@ const AddProject = ({
       getActiveClientsFilter(clientTypeVal);
     }
     setClientData("");
+    setBelongsToVal("");
+    setFolderNameVal("");
   };
 
   const priorityToChange = (e) => {
