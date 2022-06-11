@@ -308,13 +308,17 @@ const EditClientDetails = ({
                 <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Address :</label>
-                    <input
-                      type="text"
+                    <textarea
                       name="clientAddress"
+                      id="clientAddress"
+                      className="textarea form-control"
+                      rows="3"
+                      placeholder="Client Address"
+                      style={{ width: "100%" }}
                       value={clientAddress}
-                      className="form-control"
                       onChange={(e) => onInputChange(e)}
-                    />
+                      required
+                    ></textarea>
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Country :</label>
