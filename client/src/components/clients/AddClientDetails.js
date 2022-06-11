@@ -43,6 +43,7 @@ const AddClientDetails = ({
     clientCompanyName: "",
     clientCompanyFounderName: "",
     clientWebsite: "",
+    clientModeofPaymentId: "",
     isSubmitted: false,
   });
 
@@ -59,6 +60,8 @@ const AddClientDetails = ({
     clientType,
     clientCompanyName,
     clientCompanyFounderName,
+    clientModeofPaymentId,
+    clientModeofPaymentMode,
     clientWebsite,
   } = formData;
 
@@ -94,12 +97,16 @@ const AddClientDetails = ({
 
   const [payment, getStateData] = useState();
   const [paymentId, setpaymentId] = useState();
+  const [paymentname, setpaymentname] = useState();
 
   const onPayModeChange = (e) => {
     var paymentId = "";
+    var paymentname = "";
     getStateData(e);
     paymentId = e.paymentId;
+    paymentname = e.value;
     setpaymentId(paymentId);
+    setpaymentname(paymentname);
   };
 
   const allclientBelongsTo = [];
@@ -135,10 +142,12 @@ const AddClientDetails = ({
       clientFolderName: clientFolderName,
       clientType: clientType.value,
       clientCompanyName: clientCompanyName,
+      clientModeofPaymentId: paymentId,
+      clientModeofPaymentMode: paymentname,
       clientCompanyFounderName: clientCompanyFounderName,
       clientWebsite: clientWebsite,
     };
-    console.log(finalData);
+    // console.log(finalData);
     AddClient(finalData);
     // setFormData({
     //   ...formData,

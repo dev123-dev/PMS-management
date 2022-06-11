@@ -25,7 +25,7 @@ const EditClientDetails = ({
   //formData
 
   // console.log("paymentMode", paymentMode);
-  console.log("activeClient", allClientdata);
+  console.log("dd", allClientdata);
 
   const [formData, setFormData] = useState({
     clientName:
@@ -108,21 +108,18 @@ const EditClientDetails = ({
     })
   );
 
-  const [payment, getStateData] = useState(
-    allClientdata
-      ? allpaymentmodes &&
-          allpaymentmodes.filter(
-            (x) => x.paymentId === allClientdata.paymentId
-          )[0]
-      : ""
-  );
+  const [payment, getStateData] = useState();
   const [paymentId, setpaymentId] = useState();
+  const [paymentname, setpaymentname] = useState();
 
   const onPayModeChange = (e) => {
     var paymentId = "";
+    var paymentname = "";
     getStateData(e);
     paymentId = e.paymentId;
+    paymentname = e.value;
     setpaymentId(paymentId);
+    setpaymentname(paymentname);
   };
 
   const allclientBelongsTo = [];
