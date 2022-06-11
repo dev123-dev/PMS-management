@@ -139,7 +139,7 @@ const AddClientDetails = ({
       clientWebsite: clientWebsite,
     };
     console.log(finalData);
-    // AddClient(finalData);
+    AddClient(finalData);
     // setFormData({
     //   ...formData,
     //   districtName: "",

@@ -17,7 +17,7 @@ const AllClientDetails = ({
     getAllClients();
   }, [getAllClients]);
 
-  // console.log("allClient", allClient);
+  console.log("allClient", allClient);
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
