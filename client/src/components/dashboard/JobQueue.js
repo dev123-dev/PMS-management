@@ -79,6 +79,10 @@ const JobQueue = ({
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
 
+  const onClickReset = () => {
+    getJobQueueProjectDeatils("");
+  };
+
   const onEditModalChange = (e) => {
     if (e) {
       handleEditModalClose();
@@ -101,13 +105,13 @@ const JobQueue = ({
             </div>
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
               <button
-                className="btn btn_green_bg"
-                // onClick={() => LogoutModalClose()}
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickReset()}
               >
                 Refresh
               </button>
 
-              <Link className="btn btn_green_bg" to="/add-Project">
+              <Link className="btn btn_green_bg float-right" to="/add-Project">
                 Add
               </Link>
             </div>
