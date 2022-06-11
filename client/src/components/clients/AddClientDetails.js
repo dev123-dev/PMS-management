@@ -40,6 +40,9 @@ const AddClientDetails = ({
     clientFolderName: "",
     clientCurrency: "",
     clientType: "",
+    clientCompanyName: "",
+    clientCompanyFounderName: "",
+    clientWebsite: "",
     isSubmitted: false,
   });
 
@@ -54,6 +57,9 @@ const AddClientDetails = ({
     clientFolderName,
     clientCurrency,
     clientType,
+    clientCompanyName,
+    clientCompanyFounderName,
+    clientWebsite,
   } = formData;
 
   const onClientTypeChange = (e) => {
@@ -128,6 +134,9 @@ const AddClientDetails = ({
       clientBelongsTo: clientBelongsTo,
       clientFolderName: clientFolderName,
       clientType: clientType.value,
+      clientCompanyName: clientCompanyName,
+      clientCompanyFounderName: clientCompanyFounderName,
+      clientWebsite: clientWebsite,
     };
     console.log(finalData);
     // AddClient(finalData);
@@ -163,6 +172,36 @@ const AddClientDetails = ({
                       type="text"
                       name="clientName"
                       value={clientName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Company Name :</label>
+                    <input
+                      type="text"
+                      name="clientCompanyName"
+                      value={clientCompanyName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Founder Name :</label>
+                    <input
+                      type="text"
+                      name="clientCompanyFounderName"
+                      value={clientCompanyFounderName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Company Website :</label>
+                    <input
+                      type="text"
+                      name="clientWebsite"
+                      value={clientWebsite}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
@@ -289,14 +328,19 @@ const AddClientDetails = ({
                     <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                       <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                         <label className="label-control">Address :</label>
-                        <input
-                          type="text"
+                        <textarea
                           name="clientAddress"
+                          id="clientAddress"
+                          className="textarea form-control"
+                          rows="3"
+                          placeholder="Client Address"
+                          style={{ width: "100%" }}
                           value={clientAddress}
-                          className="form-control"
                           onChange={(e) => onInputChange(e)}
-                        />
+                          required
+                        ></textarea>
                       </div>
+
                       <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                         <label className="label-control">Country :</label>
                         <input

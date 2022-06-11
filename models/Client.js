@@ -6,6 +6,15 @@ const ClientSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  clientCompanyName: {
+    type: String,
+  },
+  clientCompanyFounderName: {
+    type: String,
+  },
+  clientWebsite: {
+    type: String,
+  },
   clientBelongsToId: {
     type: ObjectId,
   },

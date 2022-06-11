@@ -31,6 +31,7 @@ const EditDesignation = ({
   };
 
   const onSubmit = (e) => {
+    e.preventDefault();
     const finalData = {
       recordId: allDeptartmentdata ? allDeptartmentdata._id : "",
 

@@ -35,7 +35,6 @@ const AddProject = ({
     getActiveClientsFilter();
   }, [getActiveClientsFilter]);
 
-  console.log(activeClientFilter);
   const activeClientsOpt = [];
   activeClientFilter.map((clientsData) =>
     activeClientsOpt.push({
@@ -127,6 +126,9 @@ const AddProject = ({
       };
       getActiveClientsFilter(clientTypeVal);
     }
+    setClientData("");
+    setBelongsToVal("");
+    setFolderNameVal("");
   };
 
   const priorityToChange = (e) => {
@@ -269,7 +271,7 @@ const AddProject = ({
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Project Date :</label>
+                    <label className="label-control">Project Date* :</label>
                     <br />
                     <input
                       type="date"
@@ -285,7 +287,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Project Time :</label>
+                    <label className="label-control">Project Time* :</label>
                     <br />
                     <input
                       type="time"
@@ -299,7 +301,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client Date :</label>
+                    <label className="label-control">Client Date* :</label>
                     <br />
                     <input
                       type="date"
@@ -346,7 +348,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Qty :</label>
+                    <label className="label-control">Qty* :</label>
 
                     <input
                       type="Number"
@@ -358,6 +360,7 @@ const AddProject = ({
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
                       }
+                      required
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -399,7 +402,7 @@ const AddProject = ({
                   </div>
 
                   <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control">Instructions :</label>
+                    <label className="label-control">Instructions* :</label>
                     <textarea
                       name="Instructions"
                       id="Instructions"

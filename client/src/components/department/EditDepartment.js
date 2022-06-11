@@ -32,6 +32,7 @@ const EditDepartment = ({
   };
 
   const onSubmit = (e) => {
+    e.preventDefault();
     const finalData = {
       recordId: allDeptartmentdata ? allDeptartmentdata._id : "",
       departmentName: departmentName,

@@ -35,6 +35,7 @@ const DeactiveDesignation = ({
   };
 
   const onSubmit = (e) => {
+    e.preventDefault();
     const finalData = {
       recordId: Designationdeactivedata ? Designationdeactivedata._id : "",
       designationDeactiveReason: designationDeactiveReason,

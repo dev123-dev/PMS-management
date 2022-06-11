@@ -151,7 +151,7 @@ const EditEmployeeDetails = ({
     employeeDepartment,
     employeeDesignation,
     employeeCode,
-
+    color,
     employeeAddr,
     employeeState,
     employeePincode,
@@ -167,9 +167,15 @@ const EditEmployeeDetails = ({
     employeeDA,
     isSubmitted,
   } = formData;
-  const [startSelectedDate, setJoinDate] = useState("");
+
+  const [employeeDOJDate, setDOJDate] = useState("");
   const onDateChange = (e) => {
-    setJoinDate(e.target.value);
+    setDOJDate(e.target.value);
+  };
+
+  const [employeeDOBDate, setDOBDDate] = useState("");
+  const onDateChange1 = (e) => {
+    setDOBDDate(e.target.value);
   };
 
   const onInputChange = (e) => {
@@ -219,6 +225,46 @@ const EditEmployeeDetails = ({
 
   const NextBackBtn = (tabIndex) => {
     setTabIndex(tabIndex);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    // if (checkErrors()) {
+    const finalData = {
+      recordId: allEmployeedata ? allEmployeedata._id : "",
+      empFullName: empFullName,
+      employeePhone: employeePhone,
+      employeeAadharNo: employeeAadharNo,
+      employeePanNo: employeePanNo,
+      empDOB: employeeDOBDate,
+      employeeEmail: employeeEmail,
+      empJoiningDate: employeeDOJDate,
+      department: department,
+      designation: designation,
+      employeeCode: employeeCode,
+      employeeAddr: employeeAddr,
+      employeeState: employeeState,
+      employeePincode: employeePincode,
+      employeeBankName: employeeBankName,
+      employeeIFSCcode: employeeIFSCcode,
+      employeeAccountNo: employeeAccountNo,
+      employeeBranch: employeeBranch,
+      employeePFNo: employeePFNo,
+      employeeESI: employeeESI,
+      employeeUANNo: employeeUANNo,
+      employeeBasic: employeeBasic,
+      employeeHRA: employeeHRA,
+      employeeDA: employeeDA,
+      empColorCode: color,
+    };
+    console.log(finalData);
+    // addProject(finalData);
+    // setFormData({
+    //   ...formData,
+    //   districtName: "",
+    //   isSubmitted: true,
+    // });
+    // }
   };
   // code for next previous tabing ends
   return !isAuthenticated || !user || !users ? (
@@ -303,9 +349,9 @@ const EditEmployeeDetails = ({
                         type="date"
                         placeholder="dd/mm/yyyy"
                         className="form-control cpp-input datevalidation"
-                        name="employeeDOB"
-                        value={startSelectedDate}
-                        onChange={(e) => onDateChange(e)}
+                        name="employeeDOBDate"
+                        value={employeeDOBDate}
+                        onChange={(e) => onDateChange1(e)}
                         style={{
                           width: "75%",
                         }}
@@ -330,9 +376,9 @@ const EditEmployeeDetails = ({
                         type="date"
                         placeholder="dd/mm/yyyy"
                         className="form-control cpp-input datevalidation"
-                        name="employeeDOJ"
-                        value={startSelectedDate}
-                        //   onChange={(e) => onDateChange(e)}
+                        name="employeeDOJDate"
+                        value={employeeDOJDate}
+                        onChange={(e) => onDateChange(e)}
                         style={{
                           width: "75%",
                         }}
@@ -589,9 +635,9 @@ const EditEmployeeDetails = ({
                     />
                   </div>
                 </div>
-                {/* <form className="row" onSubmit={(e) => onSubmit(e)}> */}
-                <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                  {/* {loading ? (
+                <form className="row" onSubmit={(e) => onSubmit(e)}>
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    {/* {loading ? (
                           <button
                             className="btn sub_form btn_continue blackbrd Save float-right"
                             disabled
@@ -599,21 +645,21 @@ const EditEmployeeDetails = ({
                             Loading...
                           </button>
                         ) : ( */}
-                  <input
-                    type="submit"
-                    name="Save"
-                    value="Submit"
-                    className="btn sub_form btn_continue Save float-right"
-                  />
-                  {/* )} */}
-                  <button
-                    className="btn sub_form btn_continue Save float-right"
-                    onClick={() => NextBackBtn(1)}
-                  >
-                    Previous
-                  </button>
-                </div>
-                {/* </form> */}
+                    <input
+                      type="submit"
+                      name="Save"
+                      value="Submit"
+                      className="btn sub_form btn_continue Save float-right"
+                    />
+                    {/* )} */}
+                    <button
+                      className="btn sub_form btn_continue Save float-right"
+                      onClick={() => NextBackBtn(1)}
+                    >
+                      Previous
+                    </button>
+                  </div>
+                </form>
                 {/* </div> */}
               </div>
             </div>
