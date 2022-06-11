@@ -93,6 +93,42 @@ const JobQueue = ({
     setShowEditModal(true);
     setUserDatas(jobQueueProjects);
   };
+  const [formData, setFormData] = useState({
+    radioselect: "",
+    isSubmitted: false,
+  });
+
+  const { radioselect } = formData;
+  const onstatuscategrorySelect = (statuscategrory) => {
+    if (statuscategrory === "Normal") {
+      setFormData({
+        ...formData,
+        radioselect: "Normal",
+      });
+    } else if (statuscategrory === "Amendment") {
+      setFormData({
+        ...formData,
+        radioselect: "Amendment",
+      });
+    } else if (statuscategrory === "Additional Instruction") {
+      setFormData({
+        ...formData,
+        radioselect: "Additional Instruction",
+      });
+    } else if (statuscategrory === "Don't Work") {
+      setFormData({
+        ...formData,
+        radioselect: "Don't Work",
+      });
+    } else {
+      setFormData({
+        ...formData,
+        radioselect: "",
+      });
+    }
+  };
+  console.log(radioselect);
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -212,6 +248,7 @@ const JobQueue = ({
                 className="radio_style"
                 value="Normal"
                 onChange={(e) => onRadioProjCatTypeChange(e)}
+                onClick={() => onstatuscategrorySelect("Normal")}
               />{" "}
               Normal
             </label>
@@ -223,6 +260,7 @@ const JobQueue = ({
                 className="radio_style"
                 value="Amendment"
                 onChange={(e) => onRadioProjCatTypeChange(e)}
+                onClick={() => onstatuscategrorySelect("Amendment")}
               />{" "}
               Amendment
             </label>
@@ -233,6 +271,9 @@ const JobQueue = ({
                 className="radio_style"
                 value="Additional Instruction"
                 onChange={(e) => onRadioProjCatTypeChange(e)}
+                onClick={() =>
+                  onstatuscategrorySelect("Additional Instruction")
+                }
               />{" "}
               Additional Instruction
             </label>
@@ -243,6 +284,7 @@ const JobQueue = ({
                 className="radio_style"
                 value="Don't Work"
                 onChange={(e) => onRadioProjCatTypeChange(e)}
+                onClick={() => onstatuscategrorySelect("Don't Work")}
               />{" "}
               Don't Work
             </label>

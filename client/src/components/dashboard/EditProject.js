@@ -298,6 +298,7 @@ const EditProject = ({
       };
       // console.log(finalData);
       addProject(finalData);
+      onEditModalChange(true);
       // setFormData({
       //   ...formData,
       //   districtName: "",
