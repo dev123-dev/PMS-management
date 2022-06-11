@@ -269,7 +269,7 @@ const AddProject = ({
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Project Date :</label>
+                    <label className="label-control">Project Date* :</label>
                     <br />
                     <input
                       type="date"
@@ -285,7 +285,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Project Time :</label>
+                    <label className="label-control">Project Time* :</label>
                     <br />
                     <input
                       type="time"
@@ -299,7 +299,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client Date :</label>
+                    <label className="label-control">Client Date* :</label>
                     <br />
                     <input
                       type="date"
@@ -399,7 +399,7 @@ const AddProject = ({
                   </div>
 
                   <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control">Instructions :</label>
+                    <label className="label-control">Instructions* :</label>
                     <textarea
                       name="Instructions"
                       id="Instructions"
