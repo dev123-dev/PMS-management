@@ -151,7 +151,7 @@ const EditEmployeeDetails = ({
     employeeDepartment,
     employeeDesignation,
     employeeCode,
-
+    color,
     employeeAddr,
     employeeState,
     employeePincode,
@@ -167,9 +167,15 @@ const EditEmployeeDetails = ({
     employeeDA,
     isSubmitted,
   } = formData;
-  const [startSelectedDate, setJoinDate] = useState("");
+
+  const [employeeDOJDate, setDOJDate] = useState("");
   const onDateChange = (e) => {
-    setJoinDate(e.target.value);
+    setDOJDate(e.target.value);
+  };
+
+  const [employeeDOBDate, setDOBDDate] = useState("");
+  const onDateChange1 = (e) => {
+    setDOBDDate(e.target.value);
   };
 
   const onInputChange = (e) => {
@@ -343,9 +349,9 @@ const EditEmployeeDetails = ({
                         type="date"
                         placeholder="dd/mm/yyyy"
                         className="form-control cpp-input datevalidation"
-                        name="employeeDOB"
-                        value={startSelectedDate}
-                        onChange={(e) => onDateChange(e)}
+                        name="employeeDOBDate"
+                        value={employeeDOBDate}
+                        onChange={(e) => onDateChange1(e)}
                         style={{
                           width: "75%",
                         }}
@@ -370,9 +376,9 @@ const EditEmployeeDetails = ({
                         type="date"
                         placeholder="dd/mm/yyyy"
                         className="form-control cpp-input datevalidation"
-                        name="employeeDOJ"
-                        value={startSelectedDate}
-                        //   onChange={(e) => onDateChange(e)}
+                        name="employeeDOJDate"
+                        value={employeeDOJDate}
+                        onChange={(e) => onDateChange(e)}
                         style={{
                           width: "75%",
                         }}
