@@ -6,7 +6,7 @@ import Spinner from "../layout/Spinner";
 const EditUserGroup = ({
   auth: { isAuthenticated, user, users, loading },
   userGroupsdata,
-  onAddDistrictModalChange,
+  onEditModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -32,7 +32,7 @@ const EditUserGroup = ({
       userGroupEnteredById: user._id,
     };
     console.log(finalData);
-    onAddDistrictModalChange(true);
+    onEditModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",
