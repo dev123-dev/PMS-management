@@ -6,6 +6,7 @@ import Spinner from "../layout/Spinner";
 const EditPaymentMethod = ({
   auth: { isAuthenticated, user, users, loading },
   paymentModeData,
+  onEditModalChange,
   onAddDistrictModalChange,
 }) => {
   //formData
@@ -39,7 +40,7 @@ const EditPaymentMethod = ({
 
       isSubmitted: true,
     });
-
+    onEditModalChange(true);
     // }
   };
 

@@ -39,7 +39,7 @@ const AddProjectStatus = ({
       projectStutusEnteredById: user._id,
     };
     addProjectStatus(finalData);
-
+    onAddDistrictModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",

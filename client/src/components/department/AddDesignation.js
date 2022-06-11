@@ -34,6 +34,7 @@ const AddDesignation = ({
     };
     console.log(finalData);
     AddNewDesignation(finalData);
+    onAddDistrictModalChange(true);
 
     // setFormData({
     //   ...formData,

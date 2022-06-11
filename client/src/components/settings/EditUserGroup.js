@@ -32,11 +32,12 @@ const EditUserGroup = ({
       userGroupEnteredById: user._id,
     };
     console.log(finalData);
-    setFormData({
-      ...formData,
-      districtName: "",
-      isSubmitted: true,
-    });
+    onAddDistrictModalChange(true);
+    // setFormData({
+    //   ...formData,
+    //   districtName: "",
+    //   isSubmitted: true,
+    // });
     // }
   };
 

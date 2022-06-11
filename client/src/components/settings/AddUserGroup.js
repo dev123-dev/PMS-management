@@ -28,13 +28,14 @@ const AddUserGroup = ({
       userGroupName: userGroupName,
       userGroupEnteredById: user._id,
     };
-    console.log(finalData);
+    // console.log(finalData);
     addUserGroup(finalData);
-    setFormData({
-      ...formData,
-      districtName: "",
-      isSubmitted: true,
-    });
+    onAddDistrictModalChange(true);
+    // setFormData({
+    //   ...formData,
+    //   districtName: "",
+    //   isSubmitted: true,
+    // });
     // }
   };
 

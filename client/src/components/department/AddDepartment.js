@@ -32,6 +32,7 @@ const AddDepartment = ({
     };
     console.log(finalData);
     AddNewDepartment(finalData);
+    onAddDistrictModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",

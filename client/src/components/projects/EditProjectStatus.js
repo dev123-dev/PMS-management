@@ -9,6 +9,7 @@ const EditProjectStatus = ({
   auth: { isAuthenticated, user, users, loading },
   allProjectStatusdata,
   onAddDistrictModalChange,
+  onEditModalChange,
   editProjectStatus,
 }) => {
   const [formData, setFormData] = useState({
@@ -32,7 +33,6 @@ const EditProjectStatus = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-
     // if (checkErrors()) {
     const finalData = {
       recordId: allProjectStatusdata ? allProjectStatusdata._id : "",
@@ -41,7 +41,7 @@ const EditProjectStatus = ({
     };
     console.log(finalData);
     editProjectStatus(finalData);
-
+    onEditModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",

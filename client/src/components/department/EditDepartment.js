@@ -8,7 +8,7 @@ import Spinner from "../layout/Spinner";
 const EditDepartment = ({
   auth: { isAuthenticated, user, users, loading },
   allDeptartmentdata,
-  onAddDistrictModalChange,
+  onEditModalChange,
   editDepartment,
 }) => {
   //formData
@@ -42,7 +42,7 @@ const EditDepartment = ({
 
     console.log(finalData);
     editDepartment(finalData);
-
+    onEditModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",

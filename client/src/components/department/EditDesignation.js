@@ -8,7 +8,7 @@ const EditDesignation = ({
   auth: { isAuthenticated, user, users, loading },
   allDeptartmentdata,
   editDesignation,
-  onAddDistrictModalChange,
+  onEditModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -42,7 +42,7 @@ const EditDesignation = ({
 
     console.log(finalData);
     editDesignation(finalData);
-
+    onEditModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",
