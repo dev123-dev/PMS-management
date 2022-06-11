@@ -358,7 +358,6 @@ const AddProject = ({
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
                       }
-                      required
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
