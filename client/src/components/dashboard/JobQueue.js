@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Select from "react-select";
 import ChangeProjectLifeCycle from "./ChangeProjectLifeCycle";
 import Spinner from "../layout/Spinner";
+import EditProject from "./EditProject";
 import {
   getJobQueueProjectDeatils,
   getAllProjectStatus,
@@ -75,6 +76,19 @@ const JobQueue = ({
     QCEstimateQty = 0,
     UploadingQty = 0;
 
+  const [showEditModal, setShowEditModal] = useState(false);
+  const handleEditModalClose = () => setShowEditModal(false);
+
+  const onEditModalChange = (e) => {
+    if (e) {
+      handleEditModalClose();
+    }
+  };
+  const [userDatas, setUserDatas] = useState(null);
+  const onUpdate = (jobQueueProjects, idx) => {
+    setShowEditModal(true);
+    setUserDatas(jobQueueProjects);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -162,26 +176,18 @@ const JobQueue = ({
                               </td>
                               <td></td>
                               <td>{jobQueueProjects.projectNotes}</td>
-                              <td></td>
-                              {/* <td>
-                                <>
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(allDepartment, idx)}
-                                    src={require("../../static/images/delete.png")}
-                                    alt="Deactivate"
-                                    title="Deactivate"
-                                  />
-                                  &nbsp;
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(allDepartment, idx)}
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  />
-                                </>
-                              </td> */}
+                              {/* <td></td> */}
+                              <td>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() =>
+                                    onUpdate(jobQueueProjects, idx)
+                                  }
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
+                                />
+                              </td>
                             </tr>
                           );
                         })}
@@ -283,6 +289,36 @@ const JobQueue = ({
           </Modal.Body>
         </Modal>
       </div>
+
+      <Modal
+        show={showEditModal}
+        backdrop="static"
+        keyboard={false}
+        size="xl"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Edit Project Details</h3>
+          </div>
+          <div className="col-lg-2">
+            <button onClick={handleEditModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <EditProject
+            onEditModalChange={onEditModalChange}
+            allProjectdata={userDatas}
+          />
+        </Modal.Body>
+      </Modal>
     </Fragment>
   );
 };
