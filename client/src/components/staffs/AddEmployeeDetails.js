@@ -5,12 +5,14 @@ import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
+import { AddEmployee } from "../../actions/user";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
 
 const AddEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
   settings: { allDepartment, activeDesignation },
   getALLDepartment,
+  AddEmployee,
   getActiveDesignation,
 }) => {
   useEffect(() => {
@@ -45,6 +47,7 @@ const AddEmployeeDetails = ({
     employeeBasic: "",
     employeeHRA: "",
     employeeDA: "",
+    empDepartmentId: "",
     isSubmitted: false,
   });
 
@@ -72,6 +75,7 @@ const AddEmployeeDetails = ({
     employeeUANNo,
     employeeBasic,
     employeeHRA,
+    empDepartmentId,
     employeeDA,
     isSubmitted,
   } = formData;
@@ -168,7 +172,7 @@ const AddEmployeeDetails = ({
       empColorCode: color,
     };
     console.log(finalData);
-    // addProject(finalData);
+    AddEmployee(finalData);
     // setFormData({
     //   ...formData,
     //   districtName: "",
@@ -588,6 +592,7 @@ AddEmployeeDetails.propTypes = {
   settings: PropTypes.object.isRequired,
   getALLDepartment: PropTypes.object.isRequired,
   getActiveDesignation: PropTypes.object.isRequired,
+  AddEmployee: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -596,5 +601,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getALLDepartment,
+  AddEmployee,
   getActiveDesignation,
 })(AddEmployeeDetails);

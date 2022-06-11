@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getALLPaymentMode } from "../../actions/settings";
 import { getActiveClients, AddClient } from "../../actions/client";
-
+import { Redirect } from "react-router-dom";
 const clientTypeVal = [
   { value: "Regular", label: "Regular Client" },
   { value: "Test", label: "Test Client" },
@@ -63,6 +63,7 @@ const AddClientDetails = ({
     clientModeofPaymentId,
     clientModeofPaymentMode,
     clientWebsite,
+    isSubmitted,
   } = formData;
 
   const onClientTypeChange = (e) => {
@@ -149,14 +150,16 @@ const AddClientDetails = ({
     };
     // console.log(finalData);
     AddClient(finalData);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
+    setFormData({
+      ...formData,
+
+      isSubmitted: true,
+    });
     // }
   };
-
+  if (isSubmitted) {
+    return <Redirect to="/all-clients" />;
+  }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (

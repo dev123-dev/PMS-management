@@ -182,14 +182,14 @@ const EditEmployeeDetails = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const alldepartment = [];
-  allDepartment.map((department) =>
-    alldepartment.push({
-      departmentId: department._id,
-      label: department.departmentName,
-      value: department.departmentName,
-    })
-  );
+  // const alldepartment = [];
+  // allDepartment.map((department) =>
+  //   alldepartment.push({
+  //     departmentId: department._id,
+  //     label: department.departmentName,
+  //     value: department.departmentName,
+  //   })
+  // );
 
   const [department, getdepartmentData] = useState();
   const [departmentId, setdepartmentId] = useState();
@@ -397,7 +397,7 @@ const EditEmployeeDetails = ({
                       <label className="label-control">Department :</label>
                       <Select
                         name="departmentName"
-                        options={alldepartment}
+                        //  options={alldepartment}
                         isSearchable={true}
                         value={department}
                         placeholder="Select Mode"
