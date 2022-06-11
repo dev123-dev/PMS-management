@@ -67,6 +67,13 @@ const JobQueue = ({
     //   setFormData({ ...formData, userRole: e.target.value });
     // }
   };
+  let projectQty = 0,
+    downloadingQty = 0,
+    WorkingQty = 0,
+    PendingQty = 0,
+    QCPendingQty = 0,
+    QCEstimateQty = 0,
+    UploadingQty = 0;
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -117,6 +124,15 @@ const JobQueue = ({
                     <tbody>
                       {jobQueueProjects &&
                         jobQueueProjects.map((jobQueueProjects, idx) => {
+                          projectQty += jobQueueProjects.projectQuantity;
+                          let statusType = jobQueueProjects.projectStatusType;
+                          if (statusType === "Downloading") downloadingQty += 1;
+                          if (statusType === "Working") WorkingQty += 1;
+                          if (statusType === "Pending") PendingQty += 1;
+                          if (statusType === "QC Pending") QCPendingQty += 1;
+                          if (statusType === "QC Estimate") QCEstimateQty += 1;
+                          if (statusType === "Uploading") UploadingQty += 1;
+
                           return (
                             <tr key={idx}>
                               <td>{jobQueueProjects.clientName}</td>
@@ -223,15 +239,15 @@ const JobQueue = ({
             Projects:{jobQueueProjects.length}
           </div>
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
-            <label>Downloading:0 &emsp;</label>
-            <label>Working :0&emsp;</label>
-            <label>Pending : 0&emsp;</label>
-            <label>QC Pending:0&emsp;</label>
-            <label>QC Estimate :0&emsp;</label>
-            <label>Working:0&emsp;</label>
+            <label>Downloading:{downloadingQty} &emsp;</label>
+            <label>Working : {WorkingQty}&emsp;</label>
+            <label>Pending : {PendingQty}&emsp;</label>
+            <label>QC Pending: {QCPendingQty}&emsp;</label>
+            <label>QC Estimate : {QCEstimateQty}&emsp;</label>
+            <label>Uploading: {UploadingQty}&emsp;</label>
           </div>
           <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
-            Quantity:{jobQueueProjects.length}
+            Quantity:{projectQty}
           </div>
         </div>
 
