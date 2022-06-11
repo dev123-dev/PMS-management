@@ -175,7 +175,7 @@ const JobQueue = ({
           </div>
         </section>
 
-        <div className="row col-md-12 col-lg-12 col-sm-12 col-12 top_radio no_padding bottmAlgmnt">
+        <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
             <label className="radio-inline ">
               <input
@@ -219,7 +219,9 @@ const JobQueue = ({
               Don't Work
             </label>
           </div>
-          <div className="col-lg-2 col-md-6 col-sm-6 col-12">Projects:</div>
+          <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
+            Projects:{jobQueueProjects.length}
+          </div>
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
             <label>Downloading:0 &emsp;</label>
             <label>Working :0&emsp;</label>
@@ -228,7 +230,9 @@ const JobQueue = ({
             <label>QC Estimate :0&emsp;</label>
             <label>Working:0&emsp;</label>
           </div>
-          <div className="col-lg-2 col-md-6 col-sm-6 col-12">Quantity:</div>
+          <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
+            Quantity:{jobQueueProjects.length}
+          </div>
         </div>
 
         <Modal
