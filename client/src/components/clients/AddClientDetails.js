@@ -190,21 +190,30 @@ const AddClientDetails = ({
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Client Contact 1 :</label>
                     <input
-                      type="text"
+                      type="Number"
                       name="clientContactNo1"
                       value={clientContactNo1}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Client Contact 2 :</label>
+
                     <input
-                      type="text"
+                      type="Number"
                       name="clientContactNo2"
                       value={clientContactNo2}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">

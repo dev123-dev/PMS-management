@@ -347,12 +347,17 @@ const AddProject = ({
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Qty :</label>
+
                     <input
-                      type="text"
+                      type="Number"
                       name="qty"
                       value={qty}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">

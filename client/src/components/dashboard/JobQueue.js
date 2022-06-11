@@ -46,7 +46,7 @@ const JobQueue = ({
   const [statusChangeValue, setStatusChange] = useState();
   const onSliderChange = (jobQueueProjects) => (e) => {
     // console.log("id", id);
-    console.log("e", e);
+    // console.log("e", e);
 
     let newStatusData = {
       statusId: e.value,
@@ -55,12 +55,12 @@ const JobQueue = ({
     };
 
     setStatusChange(newStatusData);
-    console.log("statusChangeValue", statusChangeValue);
+    // console.log("statusChangeValue", statusChangeValue);
     setShowProjectCycleModal(true);
   };
 
   const onRadioProjCatTypeChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     // if (e.target.value === "student") {
     //   setFormData({ ...formData, userRole: e.target.value });
     // } else {
