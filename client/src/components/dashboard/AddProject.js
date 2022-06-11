@@ -61,6 +61,14 @@ const AddProject = ({
   const [clientFolderName, setFolderNameVal] = useState();
 
   const onClientChange = (e) => {
+    //Required Validation starts
+    setError({
+      ...error,
+      clientnameIdChecker: true,
+      clientnameIdErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
+
     setClientData(e);
     setClientId(e.clientId);
     setBelongsToVal(e.belongsTo);
@@ -69,6 +77,13 @@ const AddProject = ({
 
   const [projectStatusData, setProjectStatusData] = useState();
   const onProjectStatusChange = (e) => {
+    //Required Validation starts
+    setError({
+      ...error,
+      projectstatusChecker: true,
+      projectstatusErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
     setProjectStatusData(e);
   };
 
@@ -110,11 +125,11 @@ const AddProject = ({
 
   const onClientTypeChange = (e) => {
     //Required Validation starts
-    // setError({
-    //   ...error,
-    //   TranscationIdChecker: true,
-    //   TranscationIdErrorStyle: { color: "#000" },
-    // });
+    setError({
+      ...error,
+      ClientIdChecker: true,
+      ClientErrorStyle: { color: "#000" },
+    });
     //Required Validation ends
     if (e) {
       setFormData({
@@ -135,8 +150,8 @@ const AddProject = ({
     //Required Validation starts
     // setError({
     //   ...error,
-    //   TranscationIdChecker: true,
-    //   TranscationIdErrorStyle: { color: "#000" },
+    //   ClientIdChecker: true,
+    //   ClientErrorStyle: { color: "#000" },
     // });
     //Required Validation ends
     if (e) {
@@ -156,44 +171,91 @@ const AddProject = ({
     setclientDate(e.target.value);
   };
 
+  //Required Validation Starts
+  const [error, setError] = useState({
+    clientnameIdChecker: false,
+    clientnameIdErrorStyle: {},
+
+    ClientIdChecker: false,
+    ClientErrorStyle: {},
+    projectstatusChecker: false,
+    projectstatusErrorStyle: {},
+  });
+  const {
+    clientnameIdChecker,
+    clientnameIdErrorStyle,
+
+    ClientIdChecker,
+    ClientErrorStyle,
+    projectstatusChecker,
+    projectstatusErrorStyle,
+  } = error;
+
+  const checkErrors = () => {
+    if (!ClientIdChecker) {
+      setError({
+        ...error,
+        ClientErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    if (!clientnameIdChecker) {
+      setError({
+        ...error,
+        clientnameIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    if (!projectstatusChecker) {
+      setError({
+        ...error,
+        projectstatusErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    return true;
+  };
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
-    const finalData = {
-      projectName: projectName,
-      clientId: clientId,
-      clientName: clientData.value,
-      parentClientId: clientData.belongsToId,
-      // projectLocation:
-      clientFolderName: clientData.folderName,
-      projectPriority: priority.value,
-      // projectJobtype
-      // projectHours
-      projectNotes: Instructions,
-      projectDeadline: deadline,
-      projectStatusType: projectStatusData.value,
-      projectStatusId: projectStatusData.projStatusId,
-      // projectPrice:
-      projectQuantity: qty,
-      // projectUnconfirmed
-      // projectVendor
-      projectTime: projectTime,
-      projectDate: startprojectDate,
-      clientTime: clientTime,
-      clientDate: startclientDate,
-      projectEnteredById: user._id,
-      // projectEnteredDate:
-      // projectEntryTime
-      // clientType: clientType.value,
-    };
-    // console.log(finalData);
-    addProject(finalData);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // }
+    if (checkErrors()) {
+      const finalData = {
+        projectName: projectName,
+        clientId: clientId,
+        clientName: clientData.value,
+        parentClientId: clientData.belongsToId,
+        // projectLocation:
+        clientFolderName: clientData.folderName,
+        projectPriority: priority.value,
+        // projectJobtype
+        // projectHours
+        projectNotes: Instructions,
+        projectDeadline: deadline,
+        projectStatusType: projectStatusData.value,
+        projectStatusId: projectStatusData.projStatusId,
+        // projectPrice:
+        projectQuantity: qty,
+        // projectUnconfirmed
+        // projectVendor
+        projectTime: projectTime,
+        projectDate: startprojectDate,
+        clientTime: clientTime,
+        clientDate: startclientDate,
+        projectEnteredById: user._id,
+        // projectEnteredDate:
+        // projectEntryTime
+        // clientType: clientType.value,
+      };
+      // console.log(finalData);
+      addProject(finalData);
+      // setFormData({
+      //   ...formData,
+      //   districtName: "",
+      //   isSubmitted: true,
+      // });
+    }
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -216,7 +278,9 @@ const AddProject = ({
                   </div>
 
                   <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control">Client Type :</label>
+                    <label className="label-control" style={ClientErrorStyle}>
+                      Client Type* :
+                    </label>
                     <Select
                       name="clientType"
                       options={clientTypeVal}
@@ -227,7 +291,12 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client Name :</label>
+                    <label
+                      className="label-control"
+                      style={clientnameIdErrorStyle}
+                    >
+                      Client Name* :
+                    </label>
                     <Select
                       name="clientData"
                       value={clientData}
@@ -345,6 +414,7 @@ const AddProject = ({
                       value={projectName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -380,7 +450,12 @@ const AddProject = ({
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
                 <div className="row card-new  py-3">
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Project Status :</label>
+                    <label
+                      className="label-control"
+                      style={projectstatusErrorStyle}
+                    >
+                      Project Status* :
+                    </label>
                     <Select
                       name="projectStatusData"
                       value={projectStatusData}
