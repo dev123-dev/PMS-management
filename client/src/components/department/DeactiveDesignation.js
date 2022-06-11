@@ -35,11 +35,12 @@ const DeactiveDesignation = ({
   };
 
   const onSubmit = (e) => {
+    e.preventDefault();
     const finalData = {
       recordId: Designationdeactivedata ? Designationdeactivedata._id : "",
       designationDeactiveReason: designationDeactiveReason,
       designationDeactiveById: user._id,
-      designationDeactiveDateTime: new Date().toLocaleString(),
+      // designationDeactiveDateTime: new Date().toLocaleString(),
     };
 
     console.log(finalData);

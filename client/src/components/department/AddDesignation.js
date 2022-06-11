@@ -26,6 +26,7 @@ const AddDesignation = ({
 
   //Required Validation ends
   const onSubmit = (e) => {
+    e.preventDefault();
     const finalData = {
       designationName: designationName,
       designationDesc: designationDesc,

@@ -24,6 +24,7 @@ const AddDepartment = ({
 
   //Required Validation ends
   const onSubmit = (e) => {
+    e.preventDefault();
     const finalData = {
       departmentName: departmentName,
       departmentDesc: departmentDesc,
