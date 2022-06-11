@@ -86,13 +86,15 @@ const JobQueue = ({
               <h5 className="heading_color">Job Queue</h5>
             </div>
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
-              <Link to="/add-Project">
-                <img
-                  className="img_icon_size log float-right"
-                  src={require("../../static/images/add-icon.png")}
-                  alt="Add Project"
-                  title="Add Project"
-                />
+              <button
+                className="btn btn_green_bg"
+                // onClick={() => LogoutModalClose()}
+              >
+                Refresh
+              </button>
+
+              <Link className="btn btn_green_bg" to="/add-Project">
+                Add
               </Link>
             </div>
           </div>
