@@ -40,7 +40,7 @@ const DeactiveDesignation = ({
       recordId: Designationdeactivedata ? Designationdeactivedata._id : "",
       designationDeactiveReason: designationDeactiveReason,
       designationDeactiveById: user._id,
-      // designationDeactiveDateTime: new Date().toLocaleString(),
+      designationDeactiveDateTime: new Date().toLocaleString(),
     };
 
     console.log(finalData);
