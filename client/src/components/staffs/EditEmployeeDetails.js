@@ -220,6 +220,46 @@ const EditEmployeeDetails = ({
   const NextBackBtn = (tabIndex) => {
     setTabIndex(tabIndex);
   };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    // if (checkErrors()) {
+    const finalData = {
+      recordId: allEmployeedata ? allEmployeedata._id : "",
+      empFullName: empFullName,
+      employeePhone: employeePhone,
+      employeeAadharNo: employeeAadharNo,
+      employeePanNo: employeePanNo,
+      empDOB: employeeDOBDate,
+      employeeEmail: employeeEmail,
+      empJoiningDate: employeeDOJDate,
+      department: department,
+      designation: designation,
+      employeeCode: employeeCode,
+      employeeAddr: employeeAddr,
+      employeeState: employeeState,
+      employeePincode: employeePincode,
+      employeeBankName: employeeBankName,
+      employeeIFSCcode: employeeIFSCcode,
+      employeeAccountNo: employeeAccountNo,
+      employeeBranch: employeeBranch,
+      employeePFNo: employeePFNo,
+      employeeESI: employeeESI,
+      employeeUANNo: employeeUANNo,
+      employeeBasic: employeeBasic,
+      employeeHRA: employeeHRA,
+      employeeDA: employeeDA,
+      empColorCode: color,
+    };
+    console.log(finalData);
+    // addProject(finalData);
+    // setFormData({
+    //   ...formData,
+    //   districtName: "",
+    //   isSubmitted: true,
+    // });
+    // }
+  };
   // code for next previous tabing ends
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -589,9 +629,9 @@ const EditEmployeeDetails = ({
                     />
                   </div>
                 </div>
-                {/* <form className="row" onSubmit={(e) => onSubmit(e)}> */}
-                <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                  {/* {loading ? (
+                <form className="row" onSubmit={(e) => onSubmit(e)}>
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    {/* {loading ? (
                           <button
                             className="btn sub_form btn_continue blackbrd Save float-right"
                             disabled
@@ -599,21 +639,21 @@ const EditEmployeeDetails = ({
                             Loading...
                           </button>
                         ) : ( */}
-                  <input
-                    type="submit"
-                    name="Save"
-                    value="Submit"
-                    className="btn sub_form btn_continue Save float-right"
-                  />
-                  {/* )} */}
-                  <button
-                    className="btn sub_form btn_continue Save float-right"
-                    onClick={() => NextBackBtn(1)}
-                  >
-                    Previous
-                  </button>
-                </div>
-                {/* </form> */}
+                    <input
+                      type="submit"
+                      name="Save"
+                      value="Submit"
+                      className="btn sub_form btn_continue Save float-right"
+                    />
+                    {/* )} */}
+                    <button
+                      className="btn sub_form btn_continue Save float-right"
+                      onClick={() => NextBackBtn(1)}
+                    >
+                      Previous
+                    </button>
+                  </div>
+                </form>
                 {/* </div> */}
               </div>
             </div>
