@@ -35,7 +35,6 @@ const AddProject = ({
     getActiveClientsFilter();
   }, [getActiveClientsFilter]);
 
-  console.log(activeClientFilter);
   const activeClientsOpt = [];
   activeClientFilter.map((clientsData) =>
     activeClientsOpt.push({
@@ -127,6 +126,7 @@ const AddProject = ({
       };
       getActiveClientsFilter(clientTypeVal);
     }
+    setClientData("");
   };
 
   const priorityToChange = (e) => {
