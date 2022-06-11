@@ -95,7 +95,7 @@ const ChangeProjectLifeCycle = ({
                   type="number"
                   name="projectHour"
                   value={projectHour}
-                  min="1"
+                  min="0"
                   max="12"
                   className="form-control"
                   onWheel={() => document.activeElement.blur()}
@@ -114,7 +114,7 @@ const ChangeProjectLifeCycle = ({
                   type="number"
                   name="projectMinutes"
                   value={projectMinutes}
-                  min="1"
+                  min="0"
                   max="60"
                   className="form-control"
                   onWheel={() => document.activeElement.blur()}
