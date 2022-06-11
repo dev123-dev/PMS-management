@@ -2,10 +2,12 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import { editUserGroup } from "../../actions/user";
 
 const EditUserGroup = ({
   auth: { isAuthenticated, user, users, loading },
   userGroupsdata,
+  editUserGroup,
   onAddDistrictModalChange,
 }) => {
   //formData
@@ -31,8 +33,9 @@ const EditUserGroup = ({
       userGroupName: userGroupName,
       userGroupEnteredById: user._id,
     };
+    editUserGroup(finalData);
     console.log(finalData);
-    onAddDistrictModalChange(true);
+    // onAddDistrictModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",
@@ -94,11 +97,13 @@ const EditUserGroup = ({
 
 EditUserGroup.propTypes = {
   auth: PropTypes.object.isRequired,
-  area: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  editUserGroup: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  user: state.user,
 });
 
-export default connect(mapStateToProps, {})(EditUserGroup);
+export default connect(mapStateToProps, { editUserGroup })(EditUserGroup);

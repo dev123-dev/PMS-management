@@ -56,7 +56,7 @@ export const editUserGroup = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/users/edit-user-groups", finalData, config);
-    //   dispatch(getUserGroups());
+    dispatch(getALLUserGroups());
     dispatch({
       type: SET_LOADING_FALSE,
     });
