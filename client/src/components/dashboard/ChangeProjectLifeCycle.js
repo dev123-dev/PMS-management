@@ -2,7 +2,6 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import Select from "react-select";
 
 const ChangeProjectLifeCycle = ({
   auth: { isAuthenticated, user, users, loading },
