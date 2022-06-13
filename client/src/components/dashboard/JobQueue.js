@@ -45,10 +45,9 @@ const JobQueue = ({
   );
 
   const [statusChangeValue, setStatusChange] = useState();
+  const [statusValue, setStatusValue] = useState();
   const onSliderChange = (jobQueueProjects) => (e) => {
-    // console.log("id", id);
-    // console.log("e", e);
-
+    setStatusValue(e);
     let newStatusData = {
       statusId: e.value,
       value: e.label,
@@ -200,7 +199,6 @@ const JobQueue = ({
                               <td>{jobQueueProjects.projectPriority}</td>
                               <td>{jobQueueProjects.projectDeadline}</td>
                               <td>{jobQueueProjects.projectQuantity}</td>
-                              {/* <td>{jobQueueProjects.projectStatusType}</td> */}
                               <td>
                                 <Select
                                   name="projectStatusData"
@@ -214,7 +212,7 @@ const JobQueue = ({
                                   onChange={onSliderChange(jobQueueProjects)}
                                 />
                               </td>
-                              <td></td>
+                              <td>{jobQueueProjects.projectStatusType}</td>
                               <td>{jobQueueProjects.projectNotes}</td>
                               {/* <td></td> */}
                               <td>

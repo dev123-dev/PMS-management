@@ -54,6 +54,7 @@ const AddUserGroup = ({
               value={userGroupName}
               className="form-control"
               onChange={(e) => onInputChange(e)}
+              required
             />
           </div>
         </div>
