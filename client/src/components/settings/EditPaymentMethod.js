@@ -2,12 +2,14 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import { EditPaymentMode } from "../../actions/settings";
 
 const EditPaymentMethod = ({
   auth: { isAuthenticated, user, users, loading },
   paymentModeData,
   onEditModalChange,
   onAddDistrictModalChange,
+  EditPaymentMode,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -33,8 +35,8 @@ const EditPaymentMethod = ({
 
       paymentModeEnteredById: user._id,
     };
-    console.log(finalData);
-    //  AddDistrict(finalData);
+    // console.log(finalData);
+    EditPaymentMode(finalData);
     setFormData({
       ...formData,
 
@@ -97,11 +99,11 @@ const EditPaymentMethod = ({
 
 EditPaymentMethod.propTypes = {
   auth: PropTypes.object.isRequired,
-  area: PropTypes.object.isRequired,
+  EditPaymentMode: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(EditPaymentMethod);
+export default connect(mapStateToProps, { EditPaymentMode })(EditPaymentMethod);

@@ -127,6 +127,7 @@ export const EditMenu = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/edit-menu", finalData);
+
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -160,6 +161,8 @@ export const EditPaymentMode = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/edit-payment-mode", finalData);
+    dispatch(getALLPaymentMode());
+
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -171,9 +174,16 @@ export const EditPaymentMode = (finalData) => async (dispatch) => {
 };
 
 //Deactive
-export const deactiveDesignation = (finalData) => async (dispatch) => {
+export const deactiveDesignationData = (finalData) => async (dispatch) => {
+  console.log(finalData);
   try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
     await axios.post("/api/setting/deactive-designation", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,

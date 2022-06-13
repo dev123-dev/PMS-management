@@ -10,11 +10,11 @@ const EmpDetailsSchema = new mongoose.Schema({
   },
   userName: {
     type: String,
-    required: true,
+    // required: true,
   },
   password: {
     type: String,
-    required: true,
+    // required: true,
   },
   empCode: {
     type: String,
@@ -22,8 +22,14 @@ const EmpDetailsSchema = new mongoose.Schema({
   empDepartmentId: {
     type: ObjectId,
   },
+  empDepartmentName: {
+    type: String,
+  },
   empDesignationId: {
     type: ObjectId,
+  },
+  empDesignationName: {
+    type: String,
   },
   empDesignationDate: {
     type: String,
@@ -57,6 +63,9 @@ const EmpDetailsSchema = new mongoose.Schema({
   },
   empGroupId: {
     type: ObjectId,
+  },
+  empGroupName: {
+    type: String,
   },
   empStatus: {
     type: String,
@@ -115,6 +124,9 @@ const EmpDetailsSchema = new mongoose.Schema({
     type: SchemaTypes.Double,
   },
   empCA: {
+    type: SchemaTypes.Double,
+  },
+  empDA: {
     type: SchemaTypes.Double,
   },
 });

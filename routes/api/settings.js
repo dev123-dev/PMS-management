@@ -142,7 +142,7 @@ router.post("/edit-payment-mode", async (req, res) => {
       { _id: data.recordId },
       {
         $set: {
-          paymentMode: data.paymentMode,
+          paymentModeName: data.paymentModeName,
           paymentModeEditedById: data.paymentModeEditedById,
           paymentModeEditedDateTime: Date.now(),
         },
@@ -153,6 +153,49 @@ router.post("/edit-payment-mode", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
+
+//DEACTIVATE
+
+router.post("/deactive-designation", async (req, res) => {
+  try {
+    let data = req.body;
+    console.log(data);
+    const deactiveDesignation = await Designation.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          designationStatus: "Deactive",
+          designationDeactiveReason: data.designationDeactiveReason,
+          designationDeactiveById: data.designationDeactiveById,
+          designationDeactiveDateTime: Date.now(),
+        },
+      }
+    );
+    res.json(deactiveDesignation);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+// router.post("/deactive-designation", async (req, res) => {
+//   try {
+//     const deactiveDesignation = await Designation.updateOne(
+//       { _id: data.recordId },
+//       {
+//         $set: {
+//           designationStatus: "Deactive",
+//           designationDeactiveReason: data.designationDeactiveReason,
+//           designationDeactiveById: data.designationDeactiveById,
+//           designationDeactiveDateTime: Date.now(),
+//         },
+//       }
+//     );
+//     // console.log(deactiveDesignation);
+//     res.json(deactiveDesignation);
+//   } catch (error) {
+//     res.status(500).json({ errors: [{ msg: "Server Error" }] });
+//   }
+// });
 
 //***************SELECT***************
 

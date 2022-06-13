@@ -38,6 +38,7 @@ export const AddEmployee = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/users/add-employee", finalData, config);
+
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -73,7 +74,7 @@ export const editEmployeeDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/users/edit-employee", finalData, config);
-    // dispatch(getAllUser());
+    dispatch(getAllEmployee());
     dispatch({
       type: SET_LOADING_FALSE,
     });
