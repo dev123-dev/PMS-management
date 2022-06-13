@@ -398,12 +398,6 @@ const EditClientDetails = ({
                 className="btn sub_form btn_continue blackbrd Save float-right"
               />
             )}
-            <Link
-              className="btn sub_form btn_continue blackbrd float-right"
-              to="/all-batches"
-            >
-              Cancel
-            </Link>
           </div>
         </div>
       </form>

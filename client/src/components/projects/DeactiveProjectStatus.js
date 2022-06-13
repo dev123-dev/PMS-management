@@ -51,7 +51,7 @@ const DeactiveProjectStatus = ({
     };
     // console.log(finalData);
     deactiveProjectStatus(finalData);
-
+    onDeactiveModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",

@@ -2,6 +2,7 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
+import { deactiveClient } from "../../actions/client";
 import Spinner from "../layout/Spinner";
 
 const DeactivateClient = ({
@@ -9,6 +10,7 @@ const DeactivateClient = ({
   allProjectStatusdeavtivedata,
   clientdeactivedata,
   onDeactiveModalChange,
+  deactiveClient,
   editProjectStatus,
 }) => {
   // console.log(clientdeactivedata);
@@ -33,12 +35,8 @@ const DeactivateClient = ({
     isSubmitted: false,
   });
 
-  const {
-    clientName,
-    clientFolderName,
-    clientEmail,
-    clientDeactiveReason,
-  } = formData;
+  const { clientName, clientFolderName, clientEmail, clientDeactiveReason } =
+    formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -54,9 +52,9 @@ const DeactivateClient = ({
       clientDeactiveById: user._id,
       clientDeactiveDate: new Date().toLocaleString(),
     };
-    console.log(finalData);
-    // editProjectStatus(finalData);
-
+    // console.log(finalData);
+    deactiveClient(finalData);
+    onDeactiveModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",
@@ -126,10 +124,11 @@ const DeactivateClient = ({
 
 DeactivateClient.propTypes = {
   auth: PropTypes.object.isRequired,
+  deactiveClient: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(DeactivateClient);
+export default connect(mapStateToProps, { deactiveClient })(DeactivateClient);
