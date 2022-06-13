@@ -23,7 +23,7 @@ const EditEmployeeDetails = ({
   useEffect(() => {
     getActiveDesignation();
   }, [getActiveDesignation]);
-  // console.log(allEmployeedata);
+  console.log(allEmployeedata);
   // console.log("allDeptartment", allDepartment);
   // console.log("activeDesignation", activeDesignation);
 
@@ -204,11 +204,11 @@ const EditEmployeeDetails = ({
     departmentId = e.departmentId;
     setdepartmentId(departmentId);
   };
-
+  console.log("dsft", activeDesignation);
   const alldesignation = [];
   activeDesignation.map((designation) =>
     alldesignation.push({
-      departmentId: designation._id,
+      designationId: designation._id,
       label: designation.designationName,
       value: designation.designationName,
     })
@@ -222,8 +222,12 @@ const EditEmployeeDetails = ({
           )[0]
       : ""
   );
-  const [designationId, setdesignationId] = useState();
-  const [designationName, setdesignationName] = useState();
+  const [designationId, setdesignationId] = useState(
+    allEmployeedata.designationId
+  );
+  const [designationName, setdesignationName] = useState(
+    allEmployeedata.designationName
+  );
 
   const onDesigChange = (e) => {
     var designationId = "";
