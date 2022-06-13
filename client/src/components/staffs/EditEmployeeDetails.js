@@ -21,7 +21,7 @@ const EditEmployeeDetails = ({
   useEffect(() => {
     getActiveDesignation();
   }, [getActiveDesignation]);
-  // console.log(allEmployeedata);
+  console.log(allEmployeedata);
   // console.log("allDeptartment", allDepartment);
   // console.log("activeDesignation", activeDesignation);
 
@@ -32,18 +32,18 @@ const EditEmployeeDetails = ({
         : "",
 
     employeePhone:
-      allEmployeedata && allEmployeedata.employeePhone
-        ? allEmployeedata.employeePhone
+      allEmployeedata && allEmployeedata.empPhone
+        ? allEmployeedata.empPhone
         : "",
 
     employeeAadharNo:
-      allEmployeedata && allEmployeedata.employeeAadharNo
-        ? allEmployeedata.employeeAadharNo
+      allEmployeedata && allEmployeedata.empAadharNo
+        ? allEmployeedata.empAadharNo
         : "",
 
     employeePanNo:
-      allEmployeedata && allEmployeedata.employeePanNo
-        ? allEmployeedata.employeePanNo
+      allEmployeedata && allEmployeedata.empPanNo
+        ? allEmployeedata.empPanNo
         : "",
 
     employeeDOB:
@@ -52,8 +52,8 @@ const EditEmployeeDetails = ({
         : "",
 
     employeeEmail:
-      allEmployeedata && allEmployeedata.employeeEmail
-        ? allEmployeedata.employeeEmail
+      allEmployeedata && allEmployeedata.empEmail
+        ? allEmployeedata.empEmail
         : "",
     employeeDOJ:
       allEmployeedata && allEmployeedata.employeeDOJ
@@ -71,66 +71,62 @@ const EditEmployeeDetails = ({
         : "",
 
     employeeCode:
-      allEmployeedata && allEmployeedata.employeeCode
-        ? allEmployeedata.employeeCode
+      allEmployeedata && allEmployeedata.empColorCode
+        ? allEmployeedata.empColorCode
         : "",
 
-    employeeAddr:
-      allEmployeedata && allEmployeedata.employeeAddr
-        ? allEmployeedata.employeeAddr
+    empAddress:
+      allEmployeedata && allEmployeedata.empAddress
+        ? allEmployeedata.empAddress
         : "",
 
     employeeState:
-      allEmployeedata && allEmployeedata.employeeState
-        ? allEmployeedata.employeeState
+      allEmployeedata && allEmployeedata.empState
+        ? allEmployeedata.empState
         : "",
 
     employeePincode:
-      allEmployeedata && allEmployeedata.employeePincode
-        ? allEmployeedata.employeePincode
+      allEmployeedata && allEmployeedata.empPincode
+        ? allEmployeedata.empPincode
         : "",
 
     employeeBankName:
-      allEmployeedata && allEmployeedata.employeeBankName
-        ? allEmployeedata.employeeBankName
+      allEmployeedata && allEmployeedata.empBankName
+        ? allEmployeedata.empBankName
         : "",
 
     employeeIFSCcode:
-      allEmployeedata && allEmployeedata.employeeIFSCcode
-        ? allEmployeedata.employeeIFSCcode
+      allEmployeedata && allEmployeedata.empIFSCCode
+        ? allEmployeedata.empIFSCCode
         : "",
     employeeAccountNo:
-      allEmployeedata && allEmployeedata.employeeAccountNo
-        ? allEmployeedata.employeeAccountNo
+      allEmployeedata && allEmployeedata.empAccountNo
+        ? allEmployeedata.empAccountNo
         : "",
 
     employeeBranch:
-      allEmployeedata && allEmployeedata.employeeBranch
-        ? allEmployeedata.employeeBranch
+      allEmployeedata && allEmployeedata.empBankBranch
+        ? allEmployeedata.empBankBranch
         : "",
 
     employeePFNo:
-      allEmployeedata && allEmployeedata.employeePFNo
-        ? allEmployeedata.employeePFNo
-        : "",
+      allEmployeedata && allEmployeedata.empPFNo ? allEmployeedata.empPFNo : "",
 
     employeeESI:
-      allEmployeedata && allEmployeedata.employeeESI
-        ? allEmployeedata.employeeESI
+      allEmployeedata && allEmployeedata.empESICNo
+        ? allEmployeedata.empESICNo
         : "",
     employeeUANNo:
-      allEmployeedata && allEmployeedata.employeeUANNo
-        ? allEmployeedata.employeeUANNo
+      allEmployeedata && allEmployeedata.empUANNo
+        ? allEmployeedata.empUANNo
         : "",
     employeeBasic:
-      allEmployeedata && allEmployeedata.employeeBasic
-        ? allEmployeedata.employeeBasic
+      allEmployeedata && allEmployeedata.empBasic
+        ? allEmployeedata.empBasic
         : "",
 
     employeeHRA:
-      allEmployeedata && allEmployeedata.employeeHRA
-        ? allEmployeedata.employeeHRA
-        : "",
+      allEmployeedata && allEmployeedata.empHRA ? allEmployeedata.empHRA : "",
     employeeDA:
       allEmployeedata && allEmployeedata.employeeDA
         ? allEmployeedata.employeeDA
@@ -151,7 +147,7 @@ const EditEmployeeDetails = ({
     employeeDepartment,
     employeeDesignation,
     employeeCode,
-    color,
+    empAddress,
     employeeAddr,
     employeeState,
     employeePincode,
@@ -214,7 +210,7 @@ const EditEmployeeDetails = ({
 
   const [designation, getdesignationData] = useState();
   const [designationId, setdesignationId] = useState();
-
+  const [color, setColor] = useState(null);
   const onDesigChange = (e) => {
     var designationId = "";
     getdesignationData(e);
@@ -244,7 +240,7 @@ const EditEmployeeDetails = ({
       department: department,
       designation: designation,
       employeeCode: employeeCode,
-      employeeAddr: employeeAddr,
+      empAddress: empAddress,
       employeeState: employeeState,
       employeePincode: employeePincode,
       employeeBankName: employeeBankName,
@@ -387,13 +383,6 @@ const EditEmployeeDetails = ({
 
                         // required
                       />
-                      <input
-                        type="color"
-                        id="colorpicker"
-                        name="employeeColor"
-                        pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
-                        value=""
-                      />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                       <label className="label-control">Department :</label>
@@ -437,6 +426,16 @@ const EditEmployeeDetails = ({
                         })}
                       />
                     </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                      <label className="label-control">Emp color :</label>
+                      <br />
+                      <input
+                        className="form-control"
+                        type="color"
+                        value={color}
+                        onChange={(e) => setColor(e.target.value)}
+                      />
+                    </div>
                   </div>
                   {/* </div> */}
                 </div>
@@ -475,12 +474,13 @@ const EditEmployeeDetails = ({
                     <div className="col-lg-6 col-md-12 col-sm-12 col-12">
                       <label className="label-control">Address : </label>
                       <textarea
-                        name="employeeAddr"
-                        id="employeeAddr"
+                        name="empAddress"
+                        id="empAddress"
+                        value={empAddress}
                         className="textarea form-control"
                         rows="3"
                         placeholder="Address"
-                        //onChange={(e) => onInputChange2(e)}
+                        onChange={(e) => onInputChange(e)}
                         style={{ width: "100%" }}
                         //   required
                       ></textarea>
