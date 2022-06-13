@@ -162,7 +162,6 @@ export const EditPaymentMode = (finalData) => async (dispatch) => {
     });
     await axios.post("/api/settings/edit-payment-mode", finalData);
     dispatch(getALLPaymentMode());
-
     dispatch({
       type: SET_LOADING_FALSE,
     });
