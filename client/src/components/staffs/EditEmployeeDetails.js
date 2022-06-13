@@ -205,11 +205,11 @@ const EditEmployeeDetails = ({
     departmentId = e.departmentId;
     setdepartmentId(departmentId);
   };
-
+  console.log("dsft", activeDesignation);
   const alldesignation = [];
   activeDesignation.map((designation) =>
     alldesignation.push({
-      departmentId: designation._id,
+      designationId: designation._id,
       label: designation.designationName,
       value: designation.designationName,
     })

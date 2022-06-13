@@ -114,7 +114,7 @@ const AddEmployeeDetails = ({
   const alldesignation = [];
   activeDesignation.map((designation) =>
     alldesignation.push({
-      departmentId: designation._id,
+      designationId: designation._id,
       label: designation.designationName,
       value: designation.designationName,
     })
@@ -146,7 +146,7 @@ const AddEmployeeDetails = ({
     setdesignationId(designationId);
     setdesignationName(designationName);
   };
-
+  console.log(designationId);
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
@@ -159,7 +159,7 @@ const AddEmployeeDetails = ({
       empEmail: employeeEmail,
       empJoiningDate: employeeDOJDate,
       empDepartmentId: department,
-      empDesignationId: designation,
+      empDesignationId: designationId,
       empCode: employeeCode,
       empAddress: employeeAddr,
       empState: employeeState,
@@ -177,7 +177,7 @@ const AddEmployeeDetails = ({
       empColorCode: color,
     };
     console.log(finalData);
-    AddEmployee(finalData);
+    // AddEmployee(finalData);
     // setFormData({
     //   ...formData,
     //   districtName: "",
