@@ -34,7 +34,17 @@ router.post("/add-project-status", async (req, res) => {
 
 router.post("/add-project-track", async (req, res) => {
   let data = req.body;
+  // console.log(data);
   try {
+    const updateProject = await Project.updateOne(
+      { _id: data.projectId },
+      {
+        $set: {
+          projectStatusId: data.projectTrackStatusId,
+          projectStatusType: data.projectStatusType,
+        },
+      }
+    );
     let ProjectTrackDetails = new ProjectTrack(data);
     output = await ProjectTrackDetails.save();
     res.send(output);
