@@ -19,10 +19,10 @@ const EmpDetailsSchema = new mongoose.Schema({
   empCode: {
     type: String,
   },
-  empDepartmentId: {
+  departmentId: {
     type: ObjectId,
   },
-  empDepartmentName: {
+  departmentName: {
     type: String,
   },
   empDesignationId: {

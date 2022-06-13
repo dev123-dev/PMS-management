@@ -221,7 +221,8 @@ const EditEmployeeDetails = ({
   };
   const activeDepartment = [];
   let allDepartmentData = JSON.parse(localStorage.getItem("allDepartmentData"));
-
+  console.log(allDepartmentData);
+  console.log(allEmployeedata);
   allDepartmentData &&
     allDepartmentData.map((department) =>
       activeDepartment.push({
@@ -231,7 +232,14 @@ const EditEmployeeDetails = ({
       })
     );
 
-  const [department, getdepartmentData] = useState();
+  const [department, getdepartmentData] = useState(
+    allEmployeedata
+      ? activeDepartment &&
+          activeDepartment.filter(
+            (x) => x.departmentId === allEmployeedata.departmentId
+          )[0]
+      : ""
+  );
   const [departmentId, setdepartmentId] = useState();
 
   const onDepartmentChange = (e) => {
@@ -437,7 +445,7 @@ const EditEmployeeDetails = ({
       empDOB: employeeDOBDate,
       empEmail: employeeEmail,
       empJoiningDate: employeeDOJDate,
-      empDepartmentId: department,
+      departmentId: department,
       empDesignationId: designation,
       empCode: employeeCode,
       empAddress: empAddress,

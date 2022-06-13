@@ -119,7 +119,7 @@ const EditClientDetails = ({
   let allPaymentModeData = JSON.parse(
     localStorage.getItem("allPaymentModeData")
   );
-  console.log(allPaymentModeData);
+  // console.log(allPaymentModeData);
   const allpaymentmodes = [];
   allPaymentModeData &&
     allPaymentModeData.map((payment) =>
@@ -130,15 +130,18 @@ const EditClientDetails = ({
       })
     );
 
-  const [paymentMode, setpaymentMode] = useState(
-    allpaymentmodes && allClientdata
-      ? allpaymentmodes &&
-          allpaymentmodes.filter(
-            (x) => x.value === allClientdata.paymentModeName
-          )[0]
-      : ""
-  );
+  const [paymentMode, setpaymentMode] = useState();
 
+  if (!paymentMode && allpaymentmodes) {
+    setpaymentMode(
+      allpaymentmodes && allClientdata
+        ? allpaymentmodes &&
+            allpaymentmodes.filter(
+              (x) => x.value === allClientdata.paymentModeName
+            )[0]
+        : ""
+    );
+  }
   const [payment, getStateData] = useState(
     allClientdata
       ? allpaymentmodes &&

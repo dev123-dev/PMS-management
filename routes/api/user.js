@@ -62,7 +62,7 @@ router.post("/edit-employee", async (req, res) => {
       {
         $set: {
           empFullName: data.empFullName,
-          // empDepartmentId: data.empDepartmentId,
+          // departmentId: data.departmentId,
           // empDesignationId: data.empDesignationId,
           // empDesignationDate: data.empDesignationDate,
           // empJoiningDate: data.empJoiningDate,
