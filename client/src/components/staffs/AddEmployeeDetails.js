@@ -197,7 +197,7 @@ const AddEmployeeDetails = ({
             </Link>
           </div>
         </div>
-        <hr />
+        {/* <hr /> */}
         <section className="sub_reg">
           <Tabs selectedIndex={tabIndex}>
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
