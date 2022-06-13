@@ -28,7 +28,7 @@ router.post("/add-user-group", async (req, res) => {
 });
 router.post("/add-employee", async (req, res) => {
   let data = req.body;
-  console.log(data);
+
   try {
     // let userExists = await EmployeeDetails.findOne({ userName: data.userName });
     // if (userExists) {
