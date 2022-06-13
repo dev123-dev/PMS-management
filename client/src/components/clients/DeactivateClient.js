@@ -9,6 +9,7 @@ const DeactivateClient = ({
   auth: { isAuthenticated, user, users, loading },
   allProjectStatusdeavtivedata,
   clientdeactivedata,
+  onDeactiveModalChange,
   deactiveClient,
   editProjectStatus,
 }) => {
@@ -51,8 +52,9 @@ const DeactivateClient = ({
       clientDeactiveById: user._id,
       clientDeactiveDate: new Date().toLocaleString(),
     };
+    // console.log(finalData);
     deactiveClient(finalData);
-
+    onDeactiveModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",

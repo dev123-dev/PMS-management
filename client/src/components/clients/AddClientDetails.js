@@ -431,7 +431,7 @@ const AddClientDetails = ({
                 )}
                 <Link
                   className="btn sub_form btn_continue blackbrd float-right"
-                  to="/all-batches"
+                  to="/all-clients"
                 >
                   Cancel
                 </Link>
