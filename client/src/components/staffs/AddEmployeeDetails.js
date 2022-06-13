@@ -7,7 +7,7 @@ import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
 import { AddEmployee } from "../../actions/user";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
-
+import { Link } from "react-router-dom";
 const AddEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
   settings: { allDepartment, activeDesignation },
@@ -187,10 +187,17 @@ const AddEmployeeDetails = ({
   ) : (
     <Fragment>
       <div className="container container_align ">
-        <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-          <h2 className="heading_color">Add Employee Details </h2>
-          <hr />
+        <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
+          <div className=" col-lg-10 col-md-11 col-sm-12 col-12">
+            <h2 className="heading_color">Add Employee Details </h2>
+          </div>
+          <div className="col-lg-2 col-md-11 col-sm-12 col-12 py-2">
+            <Link className="btn btn_green_bg float-right" to="/all-staff">
+              Back
+            </Link>
+          </div>
         </div>
+        {/* <hr /> */}
         <section className="sub_reg">
           <Tabs selectedIndex={tabIndex}>
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12">

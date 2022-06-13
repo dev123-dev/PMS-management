@@ -49,17 +49,15 @@ const EditEmployeeDetails = ({
         : "",
 
     employeeDOB:
-      allEmployeedata && allEmployeedata.employeeDOB
-        ? allEmployeedata.employeeDOB
-        : "",
+      allEmployeedata && allEmployeedata.empDOB ? allEmployeedata.empDOB : "",
 
     employeeEmail:
       allEmployeedata && allEmployeedata.empEmail
         ? allEmployeedata.empEmail
         : "",
     employeeDOJ:
-      allEmployeedata && allEmployeedata.employeeDOJ
-        ? allEmployeedata.employeeDOJ
+      allEmployeedata && allEmployeedata.empJoiningDate
+        ? allEmployeedata.empJoiningDate
         : "",
 
     employeeDepartment:
@@ -166,12 +164,18 @@ const EditEmployeeDetails = ({
     isSubmitted,
   } = formData;
 
-  const [employeeDOJDate, setDOJDate] = useState("");
+  const [employeeDOJDate, setDOJDate] = useState(
+    allEmployeedata && allEmployeedata.empJoiningDate
+      ? allEmployeedata.empJoiningDate
+      : ""
+  );
   const onDateChange = (e) => {
     setDOJDate(e.target.value);
   };
 
-  const [employeeDOBDate, setDOBDDate] = useState("");
+  const [employeeDOBDate, setDOBDDate] = useState(
+    allEmployeedata && allEmployeedata.empDOB ? allEmployeedata.empDOB : ""
+  );
   const onDateChange1 = (e) => {
     setDOBDDate(e.target.value);
   };

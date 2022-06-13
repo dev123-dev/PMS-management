@@ -167,10 +167,17 @@ const AddClientDetails = ({
       {" "}
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
-          <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">Add Client Details </h2>
-            <hr />
+          <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
+            <div className="col-lg-10 col-md-11 col-sm-12 col-12">
+              <h2 className="heading_color">Add Client Details </h2>
+            </div>
+            <div className="col-lg-2 col-md-11 col-sm-12 col-12 py-2">
+              <Link className="btn btn_green_bg float-right" to="/all-clients">
+                Back
+              </Link>
+            </div>
           </div>
+          <hr />
           <section className="sub_reg">
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
