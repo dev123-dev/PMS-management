@@ -164,6 +164,7 @@ const EditEmployeeDetails = ({
     isSubmitted,
   } = formData;
 
+  const [color, setColor] = useState(null);
   const [employeeDOJDate, setDOJDate] = useState(
     allEmployeedata && allEmployeedata.empJoiningDate
       ? allEmployeedata.empJoiningDate
@@ -214,14 +215,26 @@ const EditEmployeeDetails = ({
     })
   );
 
-  const [designation, getdesignationData] = useState();
+  const [designation, getdesignationData] = useState(
+    allEmployeedata
+      ? alldesignation &&
+          alldesignation.filter(
+            (x) => x.designationId === allEmployeedata.designationId
+          )[0]
+      : ""
+  );
   const [designationId, setdesignationId] = useState();
-  const [color, setColor] = useState(null);
+  const [designationName, setdesignationName] = useState();
+
   const onDesigChange = (e) => {
     var designationId = "";
+    var designationName = "";
     getdesignationData(e);
     designationId = e.designationId;
+
+    designationName = e.designationName;
     setdesignationId(designationId);
+    setdesignationName(designationName);
   };
 
   // code for next previous tabing starts
