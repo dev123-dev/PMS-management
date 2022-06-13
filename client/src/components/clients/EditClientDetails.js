@@ -25,8 +25,11 @@ const EditClientDetails = ({
   //formData
 
   // console.log("paymentMode", paymentMode);
-  console.log("dd", allClientdata);
-
+  //console.log("dd", allClientdata);
+  const clientTypeVal = [
+    { value: "Regular", label: "Regular Client" },
+    { value: "Test", label: "Test Client" },
+  ];
   const [formData, setFormData] = useState({
     clientName:
       allClientdata && allClientdata.clientName ? allClientdata.clientName : "",
@@ -78,6 +81,13 @@ const EditClientDetails = ({
         ? allClientdata.clientWebsite
         : "",
 
+    clientType:
+      allClientdata && allClientdata.clientType
+        ? {
+            value: allClientdata.clientType,
+            label: allClientdata.clientType,
+          }
+        : "",
     isSubmitted: false,
   });
 
@@ -88,6 +98,7 @@ const EditClientDetails = ({
     clientContactNo2,
     clientAddress,
     clientCountry,
+    clientType,
     clientBelongsTo,
     clientFolderName,
     clientCurrency,
@@ -140,6 +151,23 @@ const EditClientDetails = ({
     clientsId = e.clientsId;
     setclientsId(clientsId);
   };
+
+  const onClientTypeChange = (e) => {
+    //Required Validation starts
+    // setError({
+    //   ...error,
+    //   TranscationIdChecker: true,
+    //   TranscationIdErrorStyle: { color: "#000" },
+    // });
+    //Required Validation ends
+
+    if (e) {
+      setFormData({
+        ...formData,
+        clientType: e,
+      });
+    }
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
@@ -154,7 +182,10 @@ const EditClientDetails = ({
       clientCurrency: clientCurrency,
       clientBelongsTo: clientBelongsTo,
       clientFolderName: clientFolderName,
+      clientType: clientType.value,
       clientCompanyName: clientCompanyName,
+      clientModeofPaymentId: paymentId,
+      clientModeofPaymentMode: paymentname,
       clientCompanyFounderName: clientCompanyFounderName,
       clientWebsite: clientWebsite,
     };
@@ -287,6 +318,32 @@ const EditClientDetails = ({
                   value={clients}
                   placeholder="Select Mode"
                   onChange={(e) => onBelongstoChange(e)}
+                  theme={(theme) => ({
+                    ...theme,
+                    height: 26,
+                    minHeight: 26,
+                    borderRadius: 1,
+                    colors: {
+                      ...theme.colors,
+                      primary: "black",
+                    },
+                  })}
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label
+                  className="label-control"
+                  // style={TranscationIdErrorStyle}
+                >
+                  Client Type :
+                </label>
+                <Select
+                  name="clientType"
+                  options={clientTypeVal}
+                  isSearchable={false}
+                  value={clientType}
+                  placeholder="Select Meeting Type"
+                  onChange={(e) => onClientTypeChange(e)}
                   theme={(theme) => ({
                     ...theme,
                     height: 26,
