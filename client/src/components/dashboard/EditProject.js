@@ -35,7 +35,7 @@ const EditProject = ({
   useEffect(() => {
     getActiveClientsFilter();
   }, [getActiveClientsFilter]);
-  console.log(allProjectdata);
+  // console.log(allProjectdata);
   const activeClientsOpt = [];
   activeClientFilter.map((clientsData) =>
     activeClientsOpt.push({
@@ -97,11 +97,6 @@ const EditProject = ({
 
   //formData
   const [formData, setFormData] = useState({
-    clientType:
-      allProjectdata && allProjectdata.clientType
-        ? allProjectdata.clientType
-        : "",
-
     clientName:
       allProjectdata && allProjectdata.clientName
         ? allProjectdata.clientName
@@ -147,6 +142,22 @@ const EditProject = ({
     Instructions:
       allProjectdata && allProjectdata.projectNotes
         ? allProjectdata.projectNotes
+        : "",
+
+    priority:
+      allProjectdata && allProjectdata.projectPriority
+        ? {
+            value: allProjectdata.projectPriority,
+            label: allProjectdata.projectPriority,
+          }
+        : "",
+
+    clientType:
+      allProjectdata && allProjectdata.clientTypeVal
+        ? {
+            value: allProjectdata.clientTypeVal,
+            label: allProjectdata.clientTypeVal,
+          }
         : "",
 
     isSubmitted: false,
@@ -287,6 +298,7 @@ const EditProject = ({
         projectQuantity: qty,
         // projectUnconfirmed
         // projectVendor
+        clientTypeVal: clientType.value,
         projectTime: projectTime,
         projectDate: startprojectDate,
         clientTime: clientTime,
@@ -479,8 +491,8 @@ const EditProject = ({
                   <label className="label-control">Priority :</label>
                   <Select
                     name="priority"
-                    value={priority}
-                    options={priorityVal}
+                    value={priorityVal}
+                    options={priority}
                     isSearchable={false}
                     placeholder="Select"
                     onChange={(e) => priorityToChange(e)}
