@@ -91,8 +91,8 @@ const AddClientDetails = ({
   paymentMode.map((payment) =>
     allpaymentmodes.push({
       paymentId: payment._id,
-      label: payment.paymentMode,
-      value: payment.paymentMode,
+      label: payment.paymentModeName,
+      value: payment.paymentModeName,
     })
   );
 
