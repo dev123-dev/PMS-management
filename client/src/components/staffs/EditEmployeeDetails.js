@@ -261,7 +261,7 @@ const EditEmployeeDetails = ({
       employeeDA: employeeDA,
       empColorCode: color,
     };
-    // console.log(finalData);
+    console.log(finalData);
     editEmployeeDetails(finalData);
     // setFormData({
     //   ...formData,
