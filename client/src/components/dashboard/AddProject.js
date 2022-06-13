@@ -239,6 +239,7 @@ const AddProject = ({
         projectQuantity: qty,
         // projectUnconfirmed
         // projectVendor
+        clientTypeVal: clientType.value,
         projectTime: projectTime,
         projectDate: startprojectDate,
         clientTime: clientTime,
@@ -248,7 +249,7 @@ const AddProject = ({
         // projectEntryTime
         // clientType: clientType.value,
       };
-      // console.log(finalData);
+      console.log(finalData);
       addProject(finalData);
       // setFormData({
       //   ...formData,
