@@ -25,8 +25,11 @@ const EditClientDetails = ({
   //formData
 
   // console.log("paymentMode", paymentMode);
-  console.log("dd", allClientdata);
-
+  // console.log("dd", allClientdata);
+  const clientTypeVal = [
+    { value: "Regular", label: "Regular Client" },
+    { value: "Test", label: "Test Client" },
+  ];
   const [formData, setFormData] = useState({
     clientName:
       allClientdata && allClientdata.clientName ? allClientdata.clientName : "",
@@ -78,6 +81,18 @@ const EditClientDetails = ({
         ? allClientdata.clientWebsite
         : "",
 
+    clientType:
+      allClientdata && allClientdata.clientType
+        ? {
+            value: allClientdata.clientType,
+            label: allClientdata.clientType,
+          }
+        : "",
+
+    paymentModeName:
+      allClientdata && allClientdata.paymentModeName
+        ? allClientdata.paymentModeName
+        : "",
     isSubmitted: false,
   });
 
@@ -88,6 +103,7 @@ const EditClientDetails = ({
     clientContactNo2,
     clientAddress,
     clientCountry,
+    clientType,
     clientBelongsTo,
     clientFolderName,
     clientCurrency,
@@ -99,27 +115,38 @@ const EditClientDetails = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  console.log(paymentMode);
   const allpaymentmodes = [];
   paymentMode.map((payment) =>
     allpaymentmodes.push({
       paymentId: payment._id,
-      label: payment.paymentMode,
-      value: payment.paymentMode,
+      label: payment.paymentModeName,
+      value: payment.paymentModeName,
     })
   );
 
-  const [payment, getStateData] = useState();
-  const [paymentId, setpaymentId] = useState();
-  const [paymentname, setpaymentname] = useState();
+  const [payment, getStateData] = useState(
+    allClientdata
+      ? allpaymentmodes &&
+          allpaymentmodes.filter(
+            (x) => x.paymentId === allClientdata.paymentId
+          )[0]
+      : ""
+  );
+
+  const [paymentId, setpaymentId] = useState(allClientdata.paymentId);
+  const [paymentModeName, setpaymentname] = useState(
+    allClientdata.paymentModeName
+  );
 
   const onPayModeChange = (e) => {
     var paymentId = "";
-    var paymentname = "";
+    var paymentModeName = "";
     getStateData(e);
     paymentId = e.paymentId;
-    paymentname = e.value;
+    paymentModeName = e.paymentModeName;
     setpaymentId(paymentId);
-    setpaymentname(paymentname);
+    setpaymentname(paymentModeName);
   };
 
   const allclientBelongsTo = [];
@@ -140,6 +167,23 @@ const EditClientDetails = ({
     clientsId = e.clientsId;
     setclientsId(clientsId);
   };
+
+  const onClientTypeChange = (e) => {
+    //Required Validation starts
+    // setError({
+    //   ...error,
+    //   TranscationIdChecker: true,
+    //   TranscationIdErrorStyle: { color: "#000" },
+    // });
+    //Required Validation ends
+
+    if (e) {
+      setFormData({
+        ...formData,
+        clientType: e,
+      });
+    }
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
@@ -154,7 +198,10 @@ const EditClientDetails = ({
       clientCurrency: clientCurrency,
       clientBelongsTo: clientBelongsTo,
       clientFolderName: clientFolderName,
+      clientType: clientType.value,
       clientCompanyName: clientCompanyName,
+      PaymentId: paymentId,
+      paymentModeName: paymentModeName,
       clientCompanyFounderName: clientCompanyFounderName,
       clientWebsite: clientWebsite,
     };
@@ -299,6 +346,32 @@ const EditClientDetails = ({
                   })}
                 />
               </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label
+                  className="label-control"
+                  // style={TranscationIdErrorStyle}
+                >
+                  Client Type :
+                </label>
+                <Select
+                  name="clientType"
+                  options={clientTypeVal}
+                  isSearchable={false}
+                  value={clientType}
+                  placeholder="Select Meeting Type"
+                  onChange={(e) => onClientTypeChange(e)}
+                  theme={(theme) => ({
+                    ...theme,
+                    height: 26,
+                    minHeight: 26,
+                    borderRadius: 1,
+                    colors: {
+                      ...theme.colors,
+                      primary: "black",
+                    },
+                  })}
+                />
+              </div>
             </div>
           </div>
 
@@ -348,7 +421,7 @@ const EditClientDetails = ({
                     <label className="label-control">Mode of Payment :</label>
 
                     <Select
-                      name="paymentMode"
+                      name="paymentModeName"
                       options={allpaymentmodes}
                       isSearchable={true}
                       value={payment}

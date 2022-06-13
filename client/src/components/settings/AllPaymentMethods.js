@@ -84,7 +84,7 @@ const AllPaymentMethods = ({
                         paymentMode.map((paymentMode, idx) => {
                           return (
                             <tr key={idx}>
-                              <td>{paymentMode.paymentMode}</td>
+                              <td>{paymentMode.paymentModeName}</td>
 
                               <td>
                                 <img

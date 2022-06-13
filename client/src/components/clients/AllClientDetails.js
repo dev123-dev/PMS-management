@@ -120,7 +120,7 @@ const AllClientDetails = ({
                               <td>{allClient.clientContactNo1}</td>
                               <td>{allClient.clientContactNo2}</td>
                               <td>{allClient.clientCurrency}</td>
-                              <td>{allClient.clientModeofPaymentMode}</td>
+                              <td>{allClient.paymentModeName}</td>
                               <td>{allClient.clientCountry}</td>
                               <td>
                                 <>
