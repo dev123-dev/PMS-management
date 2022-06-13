@@ -85,7 +85,7 @@ const AllPaymentMethods = ({
                           return (
                             <tr key={idx}>
                               <td>{paymentMode.paymentModeName}</td>
-
+                              {/*  */}
                               <td>
                                 <img
                                   className="img_icon_size log"
