@@ -129,6 +129,15 @@ const EmpDetailsSchema = new mongoose.Schema({
   empDA: {
     type: SchemaTypes.Double,
   },
+  proinc: {
+    type: SchemaTypes.Double,
+  },
+  cityallowance: {
+    type: SchemaTypes.Double,
+  },
+  Others: {
+    type: SchemaTypes.Double,
+  },
 });
 
 module.exports = empdetails = mongoose.model("empdetails", EmpDetailsSchema);
