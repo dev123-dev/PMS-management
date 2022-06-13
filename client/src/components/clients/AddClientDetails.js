@@ -43,7 +43,7 @@ const AddClientDetails = ({
     clientCompanyName: "",
     clientCompanyFounderName: "",
     clientWebsite: "",
-    clientModeofPaymentId: "",
+
     isSubmitted: false,
   });
 
@@ -60,8 +60,8 @@ const AddClientDetails = ({
     clientType,
     clientCompanyName,
     clientCompanyFounderName,
-    clientModeofPaymentId,
-    clientModeofPaymentMode,
+
+    PaymentMode,
     clientWebsite,
     isSubmitted,
   } = formData;
@@ -143,8 +143,8 @@ const AddClientDetails = ({
       clientFolderName: clientFolderName,
       clientType: clientType.value,
       clientCompanyName: clientCompanyName,
-      clientModeofPaymentId: paymentId,
-      clientModeofPaymentMode: paymentname,
+      paymentId: paymentId,
+      PaymentMode: paymentname,
       clientCompanyFounderName: clientCompanyFounderName,
       clientWebsite: clientWebsite,
     };

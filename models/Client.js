@@ -56,10 +56,10 @@ const ClientSchema = new mongoose.Schema({
   clientCurrency: {
     type: String,
   },
-  clientModeofPaymentId: {
+  PaymentId: {
     type: ObjectId,
   },
-  clientModeofPaymentMode: {
+  PaymentMode: {
     type: String,
   },
   clientType: {

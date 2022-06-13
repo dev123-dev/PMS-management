@@ -24,8 +24,8 @@ const EditClientDetails = ({
   }, [getActiveClients]);
   //formData
 
-  // console.log("paymentMode", paymentMode);
-  //console.log("dd", allClientdata);
+  console.log("paymentMode", paymentMode);
+  console.log("dd", allClientdata);
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
@@ -184,8 +184,8 @@ const EditClientDetails = ({
       clientFolderName: clientFolderName,
       clientType: clientType.value,
       clientCompanyName: clientCompanyName,
-      clientModeofPaymentId: paymentId,
-      clientModeofPaymentMode: paymentname,
+      PaymentId: paymentId,
+      PaymentMode: paymentname,
       clientCompanyFounderName: clientCompanyFounderName,
       clientWebsite: clientWebsite,
     };
