@@ -9,7 +9,7 @@ import { getActiveClients } from "../../actions/client";
 
 const EditClientDetails = ({
   auth: { isAuthenticated, user, users, loading },
-  settings: { paymentMode },
+  // settings: { paymentMode },
   client: { activeClient },
   allClientdata,
   onAddDistrictModalChange,
@@ -115,14 +115,28 @@ const EditClientDetails = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  console.log(paymentMode);
+  // console.log(paymentMode);
+  let allPaymentModeData = JSON.parse(
+    localStorage.getItem("allPaymentModeData")
+  );
+  console.log(allPaymentModeData);
   const allpaymentmodes = [];
-  paymentMode.map((payment) =>
-    allpaymentmodes.push({
-      paymentId: payment._id,
-      label: payment.paymentModeName,
-      value: payment.paymentModeName,
-    })
+  allPaymentModeData &&
+    allPaymentModeData.map((payment) =>
+      allpaymentmodes.push({
+        paymentId: payment._id,
+        label: payment.paymentModeName,
+        value: payment.paymentModeName,
+      })
+    );
+
+  const [paymentMode, setpaymentMode] = useState(
+    allpaymentmodes && allClientdata
+      ? allpaymentmodes &&
+          allpaymentmodes.filter(
+            (x) => x.value === allClientdata.paymentModeName
+          )[0]
+      : ""
   );
 
   const [payment, getStateData] = useState(
@@ -424,7 +438,7 @@ const EditClientDetails = ({
                       name="paymentModeName"
                       options={allpaymentmodes}
                       isSearchable={true}
-                      value={payment}
+                      value={paymentMode}
                       placeholder="Select Mode"
                       onChange={(e) => onPayModeChange(e)}
                       theme={(theme) => ({
