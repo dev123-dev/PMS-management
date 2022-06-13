@@ -6,6 +6,7 @@ import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
+import { editEmployeeDetails } from "../../actions/user";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
 
 const EditEmployeeDetails = ({
@@ -14,6 +15,7 @@ const EditEmployeeDetails = ({
   getALLDepartment,
   getActiveDesignation,
   allEmployeedata,
+  editEmployeeDetails,
 }) => {
   useEffect(() => {
     getALLDepartment();
@@ -21,7 +23,7 @@ const EditEmployeeDetails = ({
   useEffect(() => {
     getActiveDesignation();
   }, [getActiveDesignation]);
-  console.log(allEmployeedata);
+  // console.log(allEmployeedata);
   // console.log("allDeptartment", allDepartment);
   // console.log("activeDesignation", activeDesignation);
 
@@ -255,8 +257,8 @@ const EditEmployeeDetails = ({
       employeeDA: employeeDA,
       empColorCode: color,
     };
-    console.log(finalData);
-    // addProject(finalData);
+    // console.log(finalData);
+    editEmployeeDetails(finalData);
     // setFormData({
     //   ...formData,
     //   districtName: "",
@@ -683,6 +685,7 @@ EditEmployeeDetails.propTypes = {
   settings: PropTypes.object.isRequired,
   getALLDepartment: PropTypes.object.isRequired,
   getActiveDesignation: PropTypes.object.isRequired,
+  editEmployeeDetails: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -692,4 +695,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getALLDepartment,
   getActiveDesignation,
+  editEmployeeDetails,
 })(EditEmployeeDetails);
