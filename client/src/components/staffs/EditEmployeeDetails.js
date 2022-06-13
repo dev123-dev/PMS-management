@@ -26,7 +26,6 @@ const EditEmployeeDetails = ({
   }, [getActiveDesignation]);
   // console.log(allEmployeedata);
   // console.log("allDeptartment", allDepartment);
-  // console.log("activeDesignation", activeDesignation);
 
   const [formData, setFormData] = useState({
     empFullName:
@@ -221,8 +220,7 @@ const EditEmployeeDetails = ({
   };
   const activeDepartment = [];
   let allDepartmentData = JSON.parse(localStorage.getItem("allDepartmentData"));
-  console.log(allDepartmentData);
-  console.log(allEmployeedata);
+
   allDepartmentData &&
     allDepartmentData.map((department) =>
       activeDepartment.push({
@@ -266,12 +264,8 @@ const EditEmployeeDetails = ({
           )[0]
       : ""
   );
-  const [designationId, setdesignationId] = useState(
-    allEmployeedata.designationId
-  );
-  const [designationName, setdesignationName] = useState(
-    allEmployeedata.designationName
-  );
+  const [designationId, setdesignationId] = useState();
+  const [designationName, setdesignationName] = useState();
 
   const onDesigChange = (e) => {
     var designationId = "";
@@ -446,7 +440,7 @@ const EditEmployeeDetails = ({
       empEmail: employeeEmail,
       empJoiningDate: employeeDOJDate,
       departmentId: department,
-      empDesignationId: designation,
+      designationId: designation,
       empCode: employeeCode,
       empAddress: empAddress,
       empState: employeeState,
@@ -505,7 +499,6 @@ const EditEmployeeDetails = ({
             <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
               <form onSubmit={(e) => NextBackBtn(1)}>
                 <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
-                  {/* <div className=" card-new"> */}
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Personal Info</h5>
                   </div>
@@ -518,7 +511,6 @@ const EditEmployeeDetails = ({
                         value={empFullName}
                         className="form-control"
                         onChange={(e) => onInputChange(e)}
-                        //required
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
