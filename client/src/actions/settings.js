@@ -59,6 +59,7 @@ export const AddNewDesignation = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/add-designation", finalData, config);
+    dispatch(getALLDesignation());
     dispatch({
       type: SET_LOADING_FALSE,
     });

@@ -230,14 +230,17 @@ const EditEmployeeDetails = ({
       })
     );
 
-  const [department, getdepartmentData] = useState(
-    allEmployeedata
-      ? activeDepartment &&
-          activeDepartment.filter(
-            (x) => x.departmentId === allEmployeedata.departmentId
-          )[0]
-      : ""
-  );
+  const [department, getdepartmentData] = useState();
+  if (!department && activeDepartment.length > 0) {
+    getdepartmentData(
+      allEmployeedata
+        ? activeDepartment &&
+            activeDepartment.filter(
+              (x) => x.departmentId === allEmployeedata.departmentId
+            )[0]
+        : ""
+    );
+  }
   const [departmentId, setdepartmentId] = useState();
 
   const onDepartmentChange = (e) => {
@@ -331,7 +334,8 @@ const EditEmployeeDetails = ({
           });
           setFormData({ ...formData, [e.target.name]: "" });
         } else {
-          const pwdFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+          const pwdFilter =
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
           if (pwdFilter.test(value)) {
             setError({
               ...error,
