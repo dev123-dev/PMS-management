@@ -11,14 +11,14 @@ const EditPaymentMethod = ({
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    paymentMode:
-      paymentModeData && paymentModeData.paymentMode
-        ? paymentModeData.paymentMode
+    paymentModeName:
+      paymentModeData && paymentModeData.paymentModeName
+        ? paymentModeData.paymentModeName
         : "",
     isSubmitted: false,
   });
 
-  const { paymentMode } = formData;
+  const { paymentModeName } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,7 +29,7 @@ const EditPaymentMethod = ({
     // if (checkErrors()) {
     const finalData = {
       recordId: paymentModeData ? paymentModeData._id : "",
-      paymentModeName: paymentMode,
+      paymentModeName: paymentModeName,
 
       paymentModeEnteredById: user._id,
     };
@@ -55,8 +55,8 @@ const EditPaymentMethod = ({
             <label className="label-control">Payment Method Name* :</label>
             <input
               type="text"
-              name="paymentMode"
-              value={paymentMode}
+              name="paymentModeName"
+              value={paymentModeName}
               className="form-control"
               onChange={(e) => onInputChange(e)}
             />
