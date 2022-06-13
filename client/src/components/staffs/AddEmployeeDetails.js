@@ -158,22 +158,24 @@ const AddEmployeeDetails = ({
       empDOB: employeeDOBDate,
       empEmail: employeeEmail,
       empJoiningDate: employeeDOJDate,
-      empDepartmentId: department,
+      empDepartmentId: departmentId,
+      empDepartmentName: department.value,
       empDesignationId: designationId,
+      empDesignationName: designation.value,
       empCode: employeeCode,
       empAddress: employeeAddr,
       empState: employeeState,
       empPincode: employeePincode,
-      employeeBankName: employeeBankName,
-      employeeIFSCcode: employeeIFSCcode,
-      employeeAccountNo: employeeAccountNo,
-      employeeBranch: employeeBranch,
-      employeePFNo: employeePFNo,
-      employeeESI: employeeESI,
-      employeeUANNo: employeeUANNo,
-      employeeBasic: employeeBasic,
-      employeeHRA: employeeHRA,
-      employeeDA: employeeDA,
+      empBankName: employeeBankName,
+      empIFSCCode: employeeIFSCcode,
+      empAccountNo: employeeAccountNo,
+      empBankBranch: employeeBranch,
+      empPFNo: employeePFNo,
+      empESICNo: employeeESI,
+      empUANNo: employeeUANNo,
+      empBasic: employeeBasic,
+      empHRA: employeeHRA,
+      empDA: employeeDA,
       empColorCode: color,
     };
     console.log(finalData);
@@ -427,7 +429,7 @@ const AddEmployeeDetails = ({
                       <div className="col-lg-4 col-md-12 col-sm-12 col-12">
                         <label className="label-control">Pincode :</label>
                         <input
-                          type="text"
+                          type="number"
                           name="employeePincode"
                           value={employeePincode}
                           className="form-control"
@@ -516,7 +518,7 @@ const AddEmployeeDetails = ({
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                       <label className="label-control">ESI :</label>
                       <input
-                        type="text"
+                        type="number"
                         name="employeeESI"
                         value={employeeESI}
                         className="form-control"
@@ -526,7 +528,7 @@ const AddEmployeeDetails = ({
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                       <label className="label-control">UAN No :</label>
                       <input
-                        type="text"
+                        type="number"
                         name="employeeUANNo"
                         value={employeeUANNo}
                         className="form-control"
@@ -536,7 +538,7 @@ const AddEmployeeDetails = ({
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                       <label className="label-control">Basic :</label>
                       <input
-                        type="text"
+                        type="number"
                         name="employeeBasic"
                         value={employeeBasic}
                         className="form-control"
@@ -546,7 +548,7 @@ const AddEmployeeDetails = ({
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                       <label className="label-control">HRA :</label>
                       <input
-                        type="text"
+                        type="number"
                         name="employeeHRA"
                         value={employeeHRA}
                         className="form-control"
@@ -556,7 +558,7 @@ const AddEmployeeDetails = ({
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                       <label className="label-control">DA :</label>
                       <input
-                        type="text"
+                        type="number"
                         name="employeeDA"
                         value={employeeDA}
                         className="form-control"
