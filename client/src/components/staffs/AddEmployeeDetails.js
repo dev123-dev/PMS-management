@@ -146,7 +146,7 @@ const AddEmployeeDetails = ({
     setdesignationId(designationId);
     setdesignationName(designationName);
   };
-  console.log(designationId);
+  // console.log(designationId);
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
@@ -177,7 +177,7 @@ const AddEmployeeDetails = ({
       empColorCode: color,
     };
     console.log(finalData);
-    // AddEmployee(finalData);
+    AddEmployee(finalData);
     // setFormData({
     //   ...formData,
     //   districtName: "",
