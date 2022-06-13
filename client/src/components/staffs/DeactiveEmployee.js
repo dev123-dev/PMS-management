@@ -48,7 +48,7 @@ const DeactiveEmployee = ({
     };
     console.log(finalData);
     // editProjectStatus(finalData);
-
+    onDeactiveModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",
