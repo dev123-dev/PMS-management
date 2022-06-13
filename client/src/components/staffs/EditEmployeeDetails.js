@@ -250,23 +250,32 @@ const EditEmployeeDetails = ({
     setdepartmentId(departmentId);
   };
 
-  const alldesignation = [];
-  activeDesignation.map((designation) =>
-    alldesignation.push({
-      designationId: designation._id,
-      label: designation.designationName,
-      value: designation.designationName,
-    })
+  let allDesignationData = JSON.parse(
+    localStorage.getItem("allDesignationData")
   );
 
-  const [designation, getdesignationData] = useState(
-    allEmployeedata
-      ? alldesignation &&
-          alldesignation.filter(
-            (x) => x.designationId === allEmployeedata.designationId
-          )[0]
-      : ""
-  );
+  const alldesignation = [];
+
+  allDesignationData &&
+    allDesignationData.map((designation) =>
+      alldesignation.push({
+        designationId: designation._id,
+        label: designation.designationName,
+        value: designation.designationName,
+      })
+    );
+
+  const [designation, getdesignationData] = useState("");
+  if (!designation && alldesignation.length > 0) {
+    getdesignationData(
+      allEmployeedata
+        ? alldesignation &&
+            alldesignation.filter(
+              (x) => x.designationId === allEmployeedata.designationId
+            )[0]
+        : ""
+    );
+  }
   const [designationId, setdesignationId] = useState();
   const [designationName, setdesignationName] = useState();
 
