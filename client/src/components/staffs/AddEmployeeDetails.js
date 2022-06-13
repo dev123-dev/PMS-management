@@ -123,13 +123,14 @@ const AddEmployeeDetails = ({
   const activeDepartment = [];
   let allDepartmentData = JSON.parse(localStorage.getItem("allDepartmentData"));
 
-  // allDepartmentData.map((department) =>
-  //   activeDepartment.push({
-  //     departmentId: department._id,
-  //     label: department.departmentName,
-  //     value: department.departmentName,
-  //   })
-  // );
+  allDepartmentData &&
+    allDepartmentData.map((department) =>
+      activeDepartment.push({
+        departmentId: department._id,
+        label: department.departmentName,
+        value: department.departmentName,
+      })
+    );
 
   const [designation, getdesignationData] = useState();
   const [designationId, setdesignationId] = useState();
@@ -306,7 +307,7 @@ const AddEmployeeDetails = ({
                         <label className="label-control">Department :</label>
                         <Select
                           name="departmentName"
-                          // options={activeDepartment}
+                          options={activeDepartment}
                           isSearchable={true}
                           value={department}
                           placeholder="Select Mode"
