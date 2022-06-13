@@ -24,6 +24,9 @@ const ClientSchema = new mongoose.Schema({
   clientEmail: {
     type: String,
   },
+  clientBillingEmail: {
+    type: String,
+  },
   clientContactNo1: {
     type: Number,
   },
