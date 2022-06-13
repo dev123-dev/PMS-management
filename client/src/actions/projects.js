@@ -56,6 +56,7 @@ export const AddProjectTrack = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/projects/add-project-track", finalData, config);
+    dispatch(getJobQueueProjectDeatils());
     dispatch({
       type: SET_LOADING_FALSE,
     });
