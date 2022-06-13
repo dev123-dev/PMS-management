@@ -194,6 +194,7 @@ export const deactiveDesignationData = (finalData) => async (dispatch) => {
 export const getALLPaymentMode = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/settings/get-all-payment-mode");
+    localStorage.setItem("allPaymentModeData", JSON.stringify(res.data));
     dispatch({
       type: PAYMENT_MODE,
       payload: res.data,
