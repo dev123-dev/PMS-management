@@ -8,6 +8,9 @@ const ProjectTrackSchema = new mongoose.Schema({
   projectTrackStatusId: {
     type: ObjectId,
   },
+  projectStatusType: {
+    type: String,
+  },
   projectTrackEnteredById: {
     type: ObjectId,
   },

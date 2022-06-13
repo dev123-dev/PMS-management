@@ -2,10 +2,12 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import { AddProjectTrack } from "../../actions/projects";
 
 const ChangeProjectLifeCycle = ({
   auth: { isAuthenticated, user, users, loading },
   ProjectCycledata,
+  AddProjectTrack,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -55,20 +57,22 @@ const ChangeProjectLifeCycle = ({
         ? true
         : false,
   });
+  // console.log(ProjectCycledata);
   const { showTimerSection } = showHide;
 
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
-      Instructions: Instructions,
+      projectId: ProjectCycledata.projectId,
+      projectTrackLatestChange: Instructions,
       projectHour: projectHour,
       projectMinutes: projectMinutes,
       projectStatusType: ProjectCycledata.value,
-      projectStatusId: ProjectCycledata && ProjectCycledata.projectStatusId,
+      projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
     };
     // console.log(finalData);
-    // AddPaymentMode(finalData);
+    AddProjectTrack(finalData);
     setFormData({
       ...formData,
       Instructions: "",
@@ -178,10 +182,13 @@ const ChangeProjectLifeCycle = ({
 
 ChangeProjectLifeCycle.propTypes = {
   auth: PropTypes.object.isRequired,
+  AddProjectTrack: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(ChangeProjectLifeCycle);
+export default connect(mapStateToProps, { AddProjectTrack })(
+  ChangeProjectLifeCycle
+);
