@@ -103,7 +103,7 @@ const AddEmployeeDetails = ({
 
   const [department, getdepartmentData] = useState();
   const [departmentId, setdepartmentId] = useState();
-
+  const [designationName, setdesignationName] = useState();
   const onDepartmentChange = (e) => {
     var departmentId = "";
     getdepartmentData(e);
@@ -138,9 +138,13 @@ const AddEmployeeDetails = ({
 
   const onDesigChange = (e) => {
     var designationId = "";
+    var designationName = "";
     getdesignationData(e);
     designationId = e.designationId;
+
+    designationName = e.designationName;
     setdesignationId(designationId);
+    setdesignationName(designationName);
   };
 
   const onSubmit = (e) => {

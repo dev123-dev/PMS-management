@@ -23,7 +23,7 @@ const EditEmployeeDetails = ({
   useEffect(() => {
     getActiveDesignation();
   }, [getActiveDesignation]);
-  // console.log(allEmployeedata);
+  console.log(allEmployeedata);
   // console.log("allDeptartment", allDepartment);
   // console.log("activeDesignation", activeDesignation);
 
@@ -223,8 +223,12 @@ const EditEmployeeDetails = ({
           )[0]
       : ""
   );
-  const [designationId, setdesignationId] = useState();
-  const [designationName, setdesignationName] = useState();
+  const [designationId, setdesignationId] = useState(
+    allEmployeedata.designationId
+  );
+  const [designationName, setdesignationName] = useState(
+    allEmployeedata.designationName
+  );
 
   const onDesigChange = (e) => {
     var designationId = "";
