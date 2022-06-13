@@ -8,6 +8,7 @@ const ChangeProjectLifeCycle = ({
   auth: { isAuthenticated, user, users, loading },
   ProjectCycledata,
   AddProjectTrack,
+  onProjectCycleModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -80,6 +81,7 @@ const ChangeProjectLifeCycle = ({
       projectMinutes: "",
       isSubmitted: true,
     });
+    onProjectCycleModalChange(true);
     // }
   };
 
