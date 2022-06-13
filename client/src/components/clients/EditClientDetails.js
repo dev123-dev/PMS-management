@@ -24,8 +24,8 @@ const EditClientDetails = ({
   }, [getActiveClients]);
   //formData
 
-  console.log("paymentMode", paymentMode);
-  console.log("dd", allClientdata);
+  // console.log("paymentMode", paymentMode);
+  // console.log("dd", allClientdata);
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
@@ -88,6 +88,11 @@ const EditClientDetails = ({
             label: allClientdata.clientType,
           }
         : "",
+
+    paymentModeName:
+      allClientdata && allClientdata.paymentModeName
+        ? allClientdata.paymentModeName
+        : "",
     isSubmitted: false,
   });
 
@@ -110,27 +115,38 @@ const EditClientDetails = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  console.log(paymentMode);
   const allpaymentmodes = [];
   paymentMode.map((payment) =>
     allpaymentmodes.push({
       paymentId: payment._id,
-      label: payment.paymentMode,
-      value: payment.paymentMode,
+      label: payment.paymentModeName,
+      value: payment.paymentModeName,
     })
   );
 
-  const [payment, getStateData] = useState();
-  const [paymentId, setpaymentId] = useState();
-  const [paymentname, setpaymentname] = useState();
+  const [payment, getStateData] = useState(
+    allClientdata
+      ? allpaymentmodes &&
+          allpaymentmodes.filter(
+            (x) => x.paymentId === allClientdata.paymentId
+          )[0]
+      : ""
+  );
+
+  const [paymentId, setpaymentId] = useState(allClientdata.paymentId);
+  const [paymentModeName, setpaymentname] = useState(
+    allClientdata.paymentModeName
+  );
 
   const onPayModeChange = (e) => {
     var paymentId = "";
-    var paymentname = "";
+    var paymentModeName = "";
     getStateData(e);
     paymentId = e.paymentId;
-    paymentname = e.value;
+    paymentModeName = e.paymentModeName;
     setpaymentId(paymentId);
-    setpaymentname(paymentname);
+    setpaymentname(paymentModeName);
   };
 
   const allclientBelongsTo = [];
@@ -185,7 +201,7 @@ const EditClientDetails = ({
       clientType: clientType.value,
       clientCompanyName: clientCompanyName,
       PaymentId: paymentId,
-      PaymentMode: paymentname,
+      paymentModeName: paymentModeName,
       clientCompanyFounderName: clientCompanyFounderName,
       clientWebsite: clientWebsite,
     };
@@ -405,7 +421,7 @@ const EditClientDetails = ({
                     <label className="label-control">Mode of Payment :</label>
 
                     <Select
-                      name="paymentMode"
+                      name="paymentModeName"
                       options={allpaymentmodes}
                       isSearchable={true}
                       value={payment}

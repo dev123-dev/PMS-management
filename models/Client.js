@@ -59,7 +59,7 @@ const ClientSchema = new mongoose.Schema({
   PaymentId: {
     type: ObjectId,
   },
-  PaymentMode: {
+  paymentModeName: {
     type: String,
   },
   clientType: {

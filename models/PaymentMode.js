@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 ObjectId = mongoose.Schema.ObjectId;
 
 const PaymentModeSchema = new mongoose.Schema({
-  paymentMode: {
+  paymentModeName: {
     type: String,
   },
   paymentModeEnteredById: {

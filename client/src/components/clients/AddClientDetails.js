@@ -144,7 +144,7 @@ const AddClientDetails = ({
       clientType: clientType.value,
       clientCompanyName: clientCompanyName,
       paymentId: paymentId,
-      PaymentMode: paymentname,
+      paymentModeName: paymentname,
       clientCompanyFounderName: clientCompanyFounderName,
       clientWebsite: clientWebsite,
     };
