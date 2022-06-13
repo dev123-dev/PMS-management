@@ -32,6 +32,7 @@ const AddClientDetails = ({
   const [formData, setFormData] = useState({
     clientName: "",
     clientEmail: "",
+    clientBillingEmail: "",
     clientContactNo1: "",
     clientContactNo2: "",
     clientAddress: "",
@@ -50,6 +51,7 @@ const AddClientDetails = ({
   const {
     clientName,
     clientEmail,
+    clientBillingEmail,
     clientContactNo1,
     clientContactNo2,
     clientAddress,
@@ -60,7 +62,6 @@ const AddClientDetails = ({
     clientType,
     clientCompanyName,
     clientCompanyFounderName,
-
     PaymentMode,
     clientWebsite,
     isSubmitted,
@@ -110,6 +111,11 @@ const AddClientDetails = ({
     setpaymentname(paymentname);
   };
 
+  const [clients, getclientsData] = useState();
+  const [clientsId, setclientsId] = useState();
+  const [clientsName, setclientsName] = useState();
+  console.log(clients);
+
   const allclientBelongsTo = [];
   activeClient.map((clients) =>
     allclientBelongsTo.push({
@@ -119,27 +125,29 @@ const AddClientDetails = ({
     })
   );
 
-  const [clients, getclientsData] = useState();
-  const [clientsId, setclientsId] = useState();
-
   const onBelongstoChange = (e) => {
     var clientsId = "";
+    var clientsName = "";
     getclientsData(e);
     clientsId = e.clientsId;
+    clientsName = e.value;
     setclientsId(clientsId);
+    setclientsName(clientsName);
   };
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
       clientName: clientName,
+      clientBelongsToId: clientsId,
+      clientBelongsToName: clientsName,
       clientEmail: clientEmail,
+      clientBillingEmail: clientBillingEmail,
       clientContactNo1: clientContactNo1,
       clientContactNo2: clientContactNo2,
       clientAddress: clientAddress,
       clientCountry: clientCountry,
       clientCurrency: clientCurrency,
-      clientBelongsTo: clientBelongsTo,
       clientFolderName: clientFolderName,
       clientType: clientType.value,
       clientCompanyName: clientCompanyName,
@@ -148,7 +156,7 @@ const AddClientDetails = ({
       clientCompanyFounderName: clientCompanyFounderName,
       clientWebsite: clientWebsite,
     };
-    // console.log(finalData);
+    console.log(finalData);
     AddClient(finalData);
     setFormData({
       ...formData,
@@ -239,8 +247,8 @@ const AddClientDetails = ({
                     <label className="label-control">Billing Email :</label>
                     <input
                       type="text"
-                      // name="batchBankAccountNumber"
-                      // value={batchBankAccountNumber}
+                      name="clientBillingEmail"
+                      value={clientBillingEmail}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
