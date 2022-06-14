@@ -28,7 +28,7 @@ const EditEmployeeDetails = ({
   useEffect(() => {
     getALLUserGroups();
   }, [getALLUserGroups]);
-  console.log(allEmployeedata);
+  //console.log(allEmployeedata);
   // console.log("allDeptartment", allDepartment);
 
   const [formData, setFormData] = useState({
@@ -295,7 +295,7 @@ const EditEmployeeDetails = ({
   };
 
   let allUserGroupData = JSON.parse(localStorage.getItem("allUserGroupData"));
-  console.log(allUserGroupData);
+  //console.log(allUserGroupData);
 
   const allusergroups = [];
   allUserGroupData.map((usergroups) =>
@@ -314,6 +314,7 @@ const EditEmployeeDetails = ({
           )[0]
       : ""
   );
+
   const [usergroupsId, setusergroupsId] = useState();
   const [userGroupName, setsetusergroupsName] = useState();
 
