@@ -183,7 +183,14 @@ const EditClientDetails = ({
       })
     );
 
-  const [clients, getclientsData] = useState();
+  const [clients, getclientsData] = useState(
+    allClientdata
+      ? allclientBelongsTo &&
+          allclientBelongsTo.filter(
+            (x) => x.value === allClientdata.clientBelongsToName
+          )[0]
+      : ""
+  );
   const [clientsId, setclientsId] = useState();
 
   const onBelongstoChange = (e) => {
