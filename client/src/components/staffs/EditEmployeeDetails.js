@@ -28,7 +28,7 @@ const EditEmployeeDetails = ({
   useEffect(() => {
     getALLUserGroups();
   }, [getALLUserGroups]);
-  //console.log(allEmployeedata);
+  console.log(allEmployeedata);
   // console.log("allDeptartment", allDepartment);
 
   const [formData, setFormData] = useState({
@@ -186,6 +186,7 @@ const EditEmployeeDetails = ({
       ? allEmployeedata.empColorCode
       : ""
   );
+
   const [employeeDOJDate, setDOJDate] = useState(
     allEmployeedata && allEmployeedata.empJoiningDate
       ? allEmployeedata.empJoiningDate
@@ -517,7 +518,7 @@ const EditEmployeeDetails = ({
       usergroupsId: usergroupsId,
       userGroupName: usergroups.value,
     };
-    // console.log(finalData);
+    console.log(finalData);
     editEmployeeDetails(finalData);
     onEditModalChange(true);
     // setFormData({
