@@ -35,7 +35,6 @@ const EditProject = ({
   useEffect(() => {
     getActiveClientsFilter();
   }, [getActiveClientsFilter]);
-  console.log(allProjectdata);
 
   const activeClientsOpt = [];
   activeClientFilter.map((clientsData) =>
@@ -49,7 +48,6 @@ const EditProject = ({
     })
   );
 
-  console.log(allProjectStatus);
   const projectStatusOpt = [];
   allProjectStatus.map((projStatusData) =>
     projectStatusOpt.push({

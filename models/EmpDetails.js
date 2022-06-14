@@ -61,10 +61,10 @@ const EmpDetailsSchema = new mongoose.Schema({
   empPincode: {
     type: Number,
   },
-  empGroupId: {
+  usergroupsId: {
     type: ObjectId,
   },
-  empGroupName: {
+  userGroupName: {
     type: String,
   },
   empStatus: {

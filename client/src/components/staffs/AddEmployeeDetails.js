@@ -177,6 +177,30 @@ const AddEmployeeDetails = ({
     setdesignationName(designationName);
   };
 
+  const allusergroups = [];
+  userGroups.map((usergroups) =>
+    allusergroups.push({
+      usergroupsId: usergroups._id,
+      label: usergroups.userGroupName,
+      value: usergroups.userGroupName,
+    })
+  );
+
+  const [usergroups, getusergroupsData] = useState();
+  const [usergroupsId, setusergroupsId] = useState();
+  const [userGroupName, setsetusergroupsName] = useState();
+
+  const onUsergroupChange = (e) => {
+    var usergroupsId = "";
+    var userGroupName = "";
+    getusergroupsData(e);
+    usergroupsId = e.usergroupsId;
+
+    userGroupName = e.userGroupName;
+    setusergroupsId(usergroupsId);
+    setsetusergroupsName(userGroupName);
+  };
+
   const [error, setError] = useState({
     passwordValChecker: false,
     passwordValResult: "",
@@ -223,8 +247,7 @@ const AddEmployeeDetails = ({
           });
           setFormData({ ...formData, [e.target.name]: "" });
         } else {
-          const pwdFilter =
-            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+          const pwdFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
           if (pwdFilter.test(value)) {
             setError({
               ...error,
@@ -358,6 +381,8 @@ const AddEmployeeDetails = ({
       password: password,
       userName: userName,
       empCA: empCA,
+      usergroupsId: usergroupsId,
+      userGroupName: usergroups.value,
     };
     console.log(finalData);
     AddEmployee(finalData);
@@ -525,11 +550,11 @@ const AddEmployeeDetails = ({
                         </label>
                         <Select
                           name="departmentName"
-                          options={activeDepartment}
+                          options={allusergroups}
                           isSearchable={true}
-                          value={department}
+                          value={usergroups}
                           placeholder="Select UserGroup"
-                          onChange={(e) => onDepartmentChange(e)}
+                          onChange={(e) => onUsergroupChange(e)}
                           theme={(theme) => ({
                             ...theme,
                             height: 26,
