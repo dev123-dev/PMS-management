@@ -290,29 +290,29 @@ const EditEmployeeDetails = ({
     setdesignationName(designationName);
   };
 
-  const allusergroups = [];
-  userGroups.map((usergroups) =>
-    allusergroups.push({
-      usergroupsId: usergroups._id,
-      label: usergroups.userGroupName,
-      value: usergroups.userGroupName,
-    })
-  );
+  // const allusergroups = [];
+  // userGroups.map((usergroups) =>
+  //   allusergroups.push({
+  //     usergroupsId: usergroups._id,
+  //     label: usergroups.userGroupName,
+  //     value: usergroups.userGroupName,
+  //   })
+  // );
 
-  const [usergroups, getusergroupsData] = useState();
-  const [usergroupsId, setusergroupsId] = useState();
-  const [userGroupName, setsetusergroupsName] = useState();
+  // const [usergroups, getusergroupsData] = useState();
+  // const [usergroupsId, setusergroupsId] = useState();
+  // const [userGroupName, setsetusergroupsName] = useState();
 
-  const onUsergroupChange = (e) => {
-    var usergroupsId = "";
-    var userGroupName = "";
-    getusergroupsData(e);
-    usergroupsId = e.usergroupsId;
+  // const onUsergroupChange = (e) => {
+  //   var usergroupsId = "";
+  //   var userGroupName = "";
+  //   getusergroupsData(e);
+  //   usergroupsId = e.usergroupsId;
 
-    userGroupName = e.userGroupName;
-    setusergroupsId(usergroupsId);
-    setsetusergroupsName(userGroupName);
-  };
+  //   userGroupName = e.userGroupName;
+  //   setusergroupsId(usergroupsId);
+  //   setsetusergroupsName(userGroupName);
+  // };
 
   // code for next previous tabing starts
   const [tabIndex, setTabIndex] = useState(0);
@@ -499,8 +499,8 @@ const EditEmployeeDetails = ({
       proinc: proinc,
       password: password,
       userName: userName,
-      usergroupsId: usergroupsId,
-      userGroupName: usergroups.value,
+      // usergroupsId: usergroupsId,
+      // userGroupName: usergroups.value,
     };
     // console.log(finalData);
     editEmployeeDetails(finalData);
