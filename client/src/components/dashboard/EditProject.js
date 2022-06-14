@@ -56,7 +56,17 @@ const EditProject = ({
       value: projStatusData.projectStatusType,
     })
   );
-  const [clientData, setClientData] = useState();
+
+  console.log(activeClientsOpt);
+  console.log("allprojectdata", allProjectdata);
+  const [clientData, setClientData] = useState(
+    allProjectdata
+      ? activeClientsOpt &&
+          activeClientsOpt.filter(
+            (x) => x.value === allProjectdata.clientName
+          )[0]
+      : ""
+  );
   const [clientId, setClientId] = useState();
   // const [clientName, setClientName] = useState();
   const [clientBelongsTo, setBelongsToVal] = useState();
