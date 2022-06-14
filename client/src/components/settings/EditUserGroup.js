@@ -35,7 +35,6 @@ const EditUserGroup = ({
       userGroupEditedById: user._id,
     };
     editUserGroup(finalData);
-    console.log(finalData);
     onEditModalChange(true);
     // onAddDistrictModalChange(true);
     // setFormData({

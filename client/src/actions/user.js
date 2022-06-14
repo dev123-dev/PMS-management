@@ -136,6 +136,7 @@ export const getActiveEmployee = () => async (dispatch) => {
 export const getALLUserGroups = () => async (dispatch) => {
   try {
     const res = await axios.post("/api/users/get-all-user-groups");
+    localStorage.setItem("allUserGroupData", JSON.stringify(res.data));
     dispatch({
       type: USER_GROUPS,
       payload: res.data,

@@ -130,6 +130,7 @@ export const deactiveProjectStatus = (finalData) => async (dispatch) => {
       finalData,
       config
     );
+    dispatch(getAllProjectStatus());
     dispatch({
       type: SET_LOADING_FALSE,
     });

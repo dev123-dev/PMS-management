@@ -41,8 +41,9 @@ const EditProjectStatus = ({
       recordId: allProjectStatusdata ? allProjectStatusdata._id : "",
       projectStatusCategory: projectStatusCategory.value,
       projectStatusType: projectStatusType,
+      projectStutusEditedById: user._id,
     };
-    console.log(finalData);
+    // console.log(finalData);
     editProjectStatus(finalData);
     onEditModalChange(true);
     // setFormData({

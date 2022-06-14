@@ -6,7 +6,7 @@ import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
-import { editEmployeeDetails } from "../../actions/user";
+import { editEmployeeDetails, getALLUserGroups } from "../../actions/user";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
 
 const EditEmployeeDetails = ({
@@ -17,6 +17,7 @@ const EditEmployeeDetails = ({
   getActiveDesignation,
   allEmployeedata,
   editEmployeeDetails,
+  getALLUserGroups,
 }) => {
   useEffect(() => {
     getALLDepartment();
@@ -24,6 +25,9 @@ const EditEmployeeDetails = ({
   useEffect(() => {
     getActiveDesignation();
   }, [getActiveDesignation]);
+  useEffect(() => {
+    getALLUserGroups();
+  }, [getALLUserGroups]);
   // console.log(allEmployeedata);
   // console.log("allDeptartment", allDepartment);
 
@@ -290,6 +294,9 @@ const EditEmployeeDetails = ({
     setdesignationName(designationName);
   };
 
+  let allUserGroupData = JSON.parse(localStorage.getItem("allUserGroupData"));
+  console.log(allUserGroupData);
+
   // const allusergroups = [];
   // userGroups.map((usergroups) =>
   //   allusergroups.push({
@@ -367,7 +374,8 @@ const EditEmployeeDetails = ({
           });
           setFormData({ ...formData, [e.target.name]: "" });
         } else {
-          const pwdFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+          const pwdFilter =
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
           if (pwdFilter.test(value)) {
             setError({
               ...error,
@@ -1107,6 +1115,7 @@ EditEmployeeDetails.propTypes = {
   getALLDepartment: PropTypes.object.isRequired,
   getActiveDesignation: PropTypes.object.isRequired,
   editEmployeeDetails: PropTypes.object.isRequired,
+  getALLUserGroups: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -1117,4 +1126,5 @@ export default connect(mapStateToProps, {
   getALLDepartment,
   getActiveDesignation,
   editEmployeeDetails,
+  getALLUserGroups,
 })(EditEmployeeDetails);
