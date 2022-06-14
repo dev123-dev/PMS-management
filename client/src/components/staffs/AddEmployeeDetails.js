@@ -135,6 +135,13 @@ const AddEmployeeDetails = ({
   const [departmentId, setdepartmentId] = useState();
   const [designationName, setdesignationName] = useState();
   const onDepartmentChange = (e) => {
+    //Required Validation starts
+    setError({
+      ...error,
+      DepartmentIdChecker: true,
+      DepartmentErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
     var departmentId = "";
     getdepartmentData(e);
     departmentId = e.departmentId;
@@ -167,6 +174,12 @@ const AddEmployeeDetails = ({
   const [color, setColor] = useState(null);
 
   const onDesigChange = (e) => {
+    setError({
+      ...error,
+      DesignationIdChecker: true,
+      DesignationErrorStyle: { color: "#000" },
+    });
+
     var designationId = "";
     var designationName = "";
     getdesignationData(e);
@@ -191,6 +204,11 @@ const AddEmployeeDetails = ({
   const [userGroupName, setsetusergroupsName] = useState();
 
   const onUsergroupChange = (e) => {
+    setError({
+      ...error,
+      UserGroupIdChecker: true,
+      UserGroupErrorStyle: { color: "#000" },
+    });
     var usergroupsId = "";
     var userGroupName = "";
     getusergroupsData(e);
@@ -202,6 +220,15 @@ const AddEmployeeDetails = ({
   };
 
   const [error, setError] = useState({
+    DepartmentIdChecker: false,
+    DepartmentErrorStyle: {},
+
+    DesignationIdChecker: false,
+    DesignationErrorStyle: {},
+
+    UserGroupIdChecker: false,
+    UserGroupErrorStyle: {},
+
     passwordValChecker: false,
     passwordValResult: "",
     passwordValStyle: {},
@@ -214,6 +241,13 @@ const AddEmployeeDetails = ({
   });
 
   const {
+    DepartmentIdChecker,
+    DepartmentErrorStyle,
+    DesignationIdChecker,
+    DesignationErrorStyle,
+    UserGroupIdChecker,
+    UserGroupErrorStyle,
+
     passwordValChecker,
     passwordValResult,
     passwordValStyle,
@@ -307,6 +341,30 @@ const AddEmployeeDetails = ({
   };
 
   const checkErrors = (formData) => {
+    if (!DepartmentIdChecker) {
+      setError({
+        ...error,
+        DepartmentErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    if (!DesignationIdChecker) {
+      setError({
+        ...error,
+        DesignationErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    if (!UserGroupIdChecker) {
+      setError({
+        ...error,
+        UserGroupErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
     if (formData && formData.password === "") {
       setError({
         ...error,
@@ -345,53 +403,53 @@ const AddEmployeeDetails = ({
   // console.log(designationId);
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
-    const finalData = {
-      empFullName: empFullName,
-      empPhone: employeePhone,
-      empAadharNo: employeeAadharNo,
-      empPanNo: employeePanNo,
-      empDOB: employeeDOBDate,
-      empEmail: employeeEmail,
-      empJoiningDate: employeeDOJDate,
-      departmentId: departmentId,
-      departmentName: department.value,
-      designationId: designationId,
-      designationName: designation.value,
-      empCode: employeeCode,
-      empAddress: employeeAddr,
-      empState: employeeState,
-      empPincode: employeePincode,
-      empBankName: employeeBankName,
-      empIFSCCode: employeeIFSCcode,
-      empAccountNo: employeeAccountNo,
-      empBankBranch: employeeBranch,
-      empPFNo: employeePFNo,
-      empESICNo: employeeESI,
-      empUANNo: employeeUANNo,
-      empBasic: employeeBasic,
-      empHRA: employeeHRA,
-      empDA: employeeDA,
-      empColorCode: color,
-      empDesignationDate: employeeDesigDate,
-      empPFDate: employeePfDate,
-      cityallowance: cityallowance,
-      Others: Others,
-      proinc: proinc,
-      password: password,
-      userName: userName,
-      empCA: empCA,
-      usergroupsId: usergroupsId,
-      userGroupName: usergroups.value,
-    };
-    console.log(finalData);
-    AddEmployee(finalData);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // }
+    if (checkErrors()) {
+      const finalData = {
+        empFullName: empFullName,
+        empPhone: employeePhone,
+        empAadharNo: employeeAadharNo,
+        empPanNo: employeePanNo,
+        empDOB: employeeDOBDate,
+        empEmail: employeeEmail,
+        empJoiningDate: employeeDOJDate,
+        departmentId: departmentId,
+        departmentName: department.value,
+        designationId: designationId,
+        designationName: designation.value,
+        empCode: employeeCode,
+        empAddress: employeeAddr,
+        empState: employeeState,
+        empPincode: employeePincode,
+        empBankName: employeeBankName,
+        empIFSCCode: employeeIFSCcode,
+        empAccountNo: employeeAccountNo,
+        empBankBranch: employeeBranch,
+        empPFNo: employeePFNo,
+        empESICNo: employeeESI,
+        empUANNo: employeeUANNo,
+        empBasic: employeeBasic,
+        empHRA: employeeHRA,
+        empDA: employeeDA,
+        empColorCode: color,
+        empDesignationDate: employeeDesigDate,
+        empPFDate: employeePfDate,
+        cityallowance: cityallowance,
+        Others: Others,
+        proinc: proinc,
+        password: password,
+        userName: userName,
+        empCA: empCA,
+        usergroupsId: usergroupsId,
+        userGroupName: usergroups.value,
+      };
+      console.log(finalData);
+      AddEmployee(finalData);
+      // setFormData({
+      //   ...formData,
+      //   districtName: "",
+      //   isSubmitted: true,
+      // });
+    }
   };
   // code for next previous tabing ends
   return !isAuthenticated || !user || !users ? (
@@ -429,7 +487,9 @@ const AddEmployeeDetails = ({
                     </div>
                     <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">Employee Name :</label>
+                        <label className="label-control">
+                          Employee Name* :
+                        </label>
                         <input
                           type="text"
                           name="empFullName"
@@ -524,7 +584,12 @@ const AddEmployeeDetails = ({
                       </div>
 
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                        <label className="label-control">Department :</label>
+                        <label
+                          className="label-control"
+                          style={DepartmentErrorStyle}
+                        >
+                          Department* :
+                        </label>
                         <Select
                           name="departmentName"
                           options={activeDepartment}
@@ -545,11 +610,14 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                        <label className="label-control">
-                          Employee Group :
+                        <label
+                          className="label-control"
+                          style={UserGroupErrorStyle}
+                        >
+                          Employee Group* :
                         </label>
                         <Select
-                          name="departmentName"
+                          name="userGroupName"
                           options={allusergroups}
                           isSearchable={true}
                           value={usergroups}
@@ -568,7 +636,12 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                        <label className="label-control">Designation :</label>
+                        <label
+                          className="label-control"
+                          style={DesignationErrorStyle}
+                        >
+                          Designation* :
+                        </label>
 
                         <Select
                           name="designationName"
@@ -978,6 +1051,12 @@ const AddEmployeeDetails = ({
                       >
                         Previous
                       </button>
+                    </div>
+                    <div className="col-lg-8 col-md-6 col-sm-12 col-12">
+                      <label className="label-control colorRed">
+                        * Indicates mandatory fields, Please fill mandatory
+                        fields before Submit
+                      </label>
                     </div>
                   </form>
                 </div>
