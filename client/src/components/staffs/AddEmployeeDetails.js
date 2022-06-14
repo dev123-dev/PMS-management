@@ -5,15 +5,17 @@ import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
-import { AddEmployee } from "../../actions/user";
+import { AddEmployee, getALLUserGroups } from "../../actions/user";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
 import { Link } from "react-router-dom";
 const AddEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
+  user: { userGroups },
   settings: { allDepartment, activeDesignation },
   getALLDepartment,
   AddEmployee,
   getActiveDesignation,
+  getALLUserGroups,
 }) => {
   useEffect(() => {
     getALLDepartment();
@@ -21,6 +23,11 @@ const AddEmployeeDetails = ({
   useEffect(() => {
     getActiveDesignation();
   }, [getActiveDesignation]);
+  useEffect(() => {
+    getALLUserGroups();
+  }, [getALLUserGroups]);
+
+  console.log(userGroups);
 
   const [formData, setFormData] = useState({
     employeeName: "",
@@ -216,7 +223,8 @@ const AddEmployeeDetails = ({
           });
           setFormData({ ...formData, [e.target.name]: "" });
         } else {
-          const pwdFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+          const pwdFilter =
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
           if (pwdFilter.test(value)) {
             setError({
               ...error,
@@ -512,7 +520,9 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                        <label className="label-control">Emp Group :</label>
+                        <label className="label-control">
+                          Employee Group :
+                        </label>
                         <Select
                           name="departmentName"
                           options={activeDepartment}
@@ -573,7 +583,9 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                        <label className="label-control">Emp color :</label>
+                        <label className="label-control">
+                          Employee color :
+                        </label>
                         <br />
                         <input
                           className="form-control"
@@ -959,9 +971,11 @@ AddEmployeeDetails.propTypes = {
   getALLDepartment: PropTypes.object.isRequired,
   getActiveDesignation: PropTypes.object.isRequired,
   AddEmployee: PropTypes.func.isRequired,
+  getALLUserGroups: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  user: state.user,
   settings: state.settings,
 });
 
@@ -969,4 +983,5 @@ export default connect(mapStateToProps, {
   getALLDepartment,
   AddEmployee,
   getActiveDesignation,
+  getALLUserGroups,
 })(AddEmployeeDetails);
