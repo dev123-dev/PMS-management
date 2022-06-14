@@ -24,8 +24,11 @@ const DeactiveDesignation = ({
     isSubmitted: false,
   });
 
-  const { designationName, designationDesc, designationDeactiveReason } =
-    formData;
+  const {
+    designationName,
+    designationDesc,
+    designationDeactiveReason,
+  } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -59,7 +62,7 @@ const DeactiveDesignation = ({
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <label className="label-control">
               {" "}
-              Designation Name: {designationName}
+              Designation Name : {designationName}
             </label>
           </div>
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
@@ -69,7 +72,7 @@ const DeactiveDesignation = ({
           </div>
 
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-            <label className="label-control">Deactive Reason:</label>
+            <label className="label-control">Deactive Reason* :</label>
 
             <textarea
               name="designationDeactiveReason"
