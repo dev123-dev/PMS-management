@@ -1,14 +1,14 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-
 import Spinner from "../layout/Spinner";
+import { deactiveDesignationData } from "../../actions/settings";
 
 const DeactiveDesignation = ({
   auth: { isAuthenticated, user, users, loading },
-
   Designationdeactivedata,
   onDeactiveModalChange,
+  deactiveDesignationData,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -24,11 +24,8 @@ const DeactiveDesignation = ({
     isSubmitted: false,
   });
 
-  const {
-    designationName,
-    designationDesc,
-    designationDeactiveReason,
-  } = formData;
+  const { designationName, designationDesc, designationDeactiveReason } =
+    formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -42,10 +39,9 @@ const DeactiveDesignation = ({
       designationDeactiveById: user._id,
       designationDeactiveDateTime: new Date().toLocaleString(),
     };
+    // console.log(finalData);
+    deactiveDesignationData(finalData);
     onDeactiveModalChange(true);
-    console.log(finalData);
-    // editDesignation(finalData);
-
     // setFormData({
     //   ...formData,
     //   districtName: "",
@@ -113,10 +109,13 @@ const DeactiveDesignation = ({
 
 DeactiveDesignation.propTypes = {
   auth: PropTypes.object.isRequired,
+  deactiveDesignationData: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(DeactiveDesignation);
+export default connect(mapStateToProps, { deactiveDesignationData })(
+  DeactiveDesignation
+);

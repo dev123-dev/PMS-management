@@ -174,13 +174,18 @@ export const EditPaymentMode = (finalData) => async (dispatch) => {
 };
 
 //Deactive
+
 export const deactiveDesignationData = (finalData) => async (dispatch) => {
-  console.log(finalData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,
     });
-    await axios.post("/api/setting/deactive-designation", finalData, config);
+    await axios.post(
+      "/api/settings/deactive-designation-data",
+      finalData,
+      config
+    );
+    dispatch(getALLDesignation());
     dispatch({
       type: SET_LOADING_FALSE,
     });
