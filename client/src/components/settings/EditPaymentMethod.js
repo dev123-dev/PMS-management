@@ -33,7 +33,7 @@ const EditPaymentMethod = ({
       recordId: paymentModeData ? paymentModeData._id : "",
       paymentModeName: paymentModeName,
 
-      paymentModeEnteredById: user._id,
+      paymentModeEditedById: user._id,
     };
     // console.log(finalData);
     EditPaymentMode(finalData);
