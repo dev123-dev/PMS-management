@@ -35,7 +35,8 @@ const EditProject = ({
   useEffect(() => {
     getActiveClientsFilter();
   }, [getActiveClientsFilter]);
-  // console.log(allProjectdata);
+  console.log(allProjectdata);
+
   const activeClientsOpt = [];
   activeClientFilter.map((clientsData) =>
     activeClientsOpt.push({
@@ -47,10 +48,12 @@ const EditProject = ({
       value: clientsData.clientName,
     })
   );
+
+  console.log(allProjectStatus);
   const projectStatusOpt = [];
   allProjectStatus.map((projStatusData) =>
     projectStatusOpt.push({
-      projStatusId: projStatusData._id,
+      projectStatusId: projStatusData._id,
       label: projStatusData.projectStatusType,
       value: projStatusData.projectStatusType,
     })
@@ -83,7 +86,14 @@ const EditProject = ({
     setFolderNameVal(e.folderName);
   };
 
-  const [projectStatusData, setProjectStatusData] = useState();
+  const [projectStatusData, setProjectStatusData] = useState(
+    allProjectdata
+      ? projectStatusOpt &&
+          projectStatusOpt.filter(
+            (x) => x.projectStatusId === allProjectdata.projectStatusId
+          )[0]
+      : ""
+  );
   const onProjectStatusChange = (e) => {
     //Required Validation starts
     setError({
@@ -220,12 +230,18 @@ const EditProject = ({
       });
     }
   };
-  const [startprojectDate, setprojectDate] = useState("");
+  const [startprojectDate, setprojectDate] = useState(
+    allProjectdata && allProjectdata.projectDate
+      ? allProjectdata.projectDate
+      : ""
+  );
   const onDateChange = (e) => {
     setprojectDate(e.target.value);
   };
 
-  const [startclientDate, setclientDate] = useState("");
+  const [startclientDate, setclientDate] = useState(
+    allProjectdata && allProjectdata.clientDate ? allProjectdata.clientDate : ""
+  );
   const onDateChange1 = (e) => {
     setclientDate(e.target.value);
   };
