@@ -228,6 +228,7 @@ const EditProject = ({
       });
     }
   };
+
   const [startprojectDate, setprojectDate] = useState(
     allProjectdata && allProjectdata.projectDate
       ? allProjectdata.projectDate
