@@ -28,7 +28,7 @@ const EditEmployeeDetails = ({
   useEffect(() => {
     getALLUserGroups();
   }, [getALLUserGroups]);
-  // console.log(allEmployeedata);
+  console.log(allEmployeedata);
   // console.log("allDeptartment", allDepartment);
 
   const [formData, setFormData] = useState({
@@ -186,6 +186,7 @@ const EditEmployeeDetails = ({
       ? allEmployeedata.empColorCode
       : ""
   );
+
   const [employeeDOJDate, setDOJDate] = useState(
     allEmployeedata && allEmployeedata.empJoiningDate
       ? allEmployeedata.empJoiningDate
@@ -295,31 +296,39 @@ const EditEmployeeDetails = ({
   };
 
   let allUserGroupData = JSON.parse(localStorage.getItem("allUserGroupData"));
-  console.log(allUserGroupData);
+  //console.log(allUserGroupData);
 
-  // const allusergroups = [];
-  // userGroups.map((usergroups) =>
-  //   allusergroups.push({
-  //     usergroupsId: usergroups._id,
-  //     label: usergroups.userGroupName,
-  //     value: usergroups.userGroupName,
-  //   })
-  // );
+  const allusergroups = [];
+  allUserGroupData.map((usergroups) =>
+    allusergroups.push({
+      usergroupsId: usergroups._id,
+      label: usergroups.userGroupName,
+      value: usergroups.userGroupName,
+    })
+  );
 
-  // const [usergroups, getusergroupsData] = useState();
-  // const [usergroupsId, setusergroupsId] = useState();
-  // const [userGroupName, setsetusergroupsName] = useState();
+  const [usergroups, getusergroupsData] = useState(
+    allEmployeedata
+      ? allusergroups &&
+          allusergroups.filter(
+            (x) => x.usergroupsId === allEmployeedata.usergroupsId
+          )[0]
+      : ""
+  );
 
-  // const onUsergroupChange = (e) => {
-  //   var usergroupsId = "";
-  //   var userGroupName = "";
-  //   getusergroupsData(e);
-  //   usergroupsId = e.usergroupsId;
+  const [usergroupsId, setusergroupsId] = useState();
+  const [userGroupName, setsetusergroupsName] = useState();
 
-  //   userGroupName = e.userGroupName;
-  //   setusergroupsId(usergroupsId);
-  //   setsetusergroupsName(userGroupName);
-  // };
+  const onUsergroupChange = (e) => {
+    var usergroupsId = "";
+    var userGroupName = "";
+    getusergroupsData(e);
+    usergroupsId = e.usergroupsId;
+
+    userGroupName = e.userGroupName;
+    setusergroupsId(usergroupsId);
+    setsetusergroupsName(userGroupName);
+  };
 
   // code for next previous tabing starts
   const [tabIndex, setTabIndex] = useState(0);
@@ -374,8 +383,7 @@ const EditEmployeeDetails = ({
           });
           setFormData({ ...formData, [e.target.name]: "" });
         } else {
-          const pwdFilter =
-            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+          const pwdFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
           if (pwdFilter.test(value)) {
             setError({
               ...error,
@@ -507,10 +515,10 @@ const EditEmployeeDetails = ({
       proinc: proinc,
       password: password,
       userName: userName,
-      // usergroupsId: usergroupsId,
-      // userGroupName: usergroups.value,
+      usergroupsId: usergroupsId,
+      userGroupName: usergroups.value,
     };
-    // console.log(finalData);
+    console.log(finalData);
     editEmployeeDetails(finalData);
     onEditModalChange(true);
     // setFormData({
@@ -663,11 +671,11 @@ const EditEmployeeDetails = ({
                       <label className="label-control">Emp Group :</label>
                       <Select
                         name="departmentName"
-                        options={activeDepartment}
+                        options={allusergroups}
                         isSearchable={true}
-                        value={department}
+                        value={usergroups}
                         placeholder="Select UserGroup"
-                        onChange={(e) => onDepartmentChange(e)}
+                        onChange={(e) => onUsergroupChange(e)}
                         theme={(theme) => ({
                           ...theme,
                           height: 26,
