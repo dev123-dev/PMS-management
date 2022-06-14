@@ -194,13 +194,14 @@ const AddClientDetails = ({
                     <h5>Client Info </h5>
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client Name :</label>
+                    <label className="label-control">Client Name* :</label>
                     <input
                       type="text"
                       name="clientName"
                       value={clientName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -364,7 +365,6 @@ const AddClientDetails = ({
                           style={{ width: "100%" }}
                           value={clientAddress}
                           onChange={(e) => onInputChange(e)}
-                          required
                         ></textarea>
                       </div>
 
