@@ -225,6 +225,7 @@ export const getALLDepartment = () => async (dispatch) => {
 export const getALLDesignation = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/settings/get-all-designation");
+    // localStorage.setItem("allDesignationData", JSON.stringify(res.data));
     dispatch({
       type: ALL_DESIGNATION,
       payload: res.data,
@@ -239,6 +240,7 @@ export const getALLDesignation = () => async (dispatch) => {
 export const getActiveDesignation = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/settings/get-active-designation");
+    localStorage.setItem("allDesignationData", JSON.stringify(res.data));
     dispatch({
       type: ACTIVE_DESIGNATION,
       payload: res.data,

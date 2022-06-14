@@ -5,7 +5,7 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getALLPaymentMode } from "../../actions/settings";
-import { getActiveClients } from "../../actions/client";
+import { getActiveClients, EditClient } from "../../actions/client";
 
 const EditClientDetails = ({
   auth: { isAuthenticated, user, users, loading },
@@ -15,6 +15,7 @@ const EditClientDetails = ({
   onAddDistrictModalChange,
   getALLPaymentMode,
   getActiveClients,
+  EditClient,
 }) => {
   useEffect(() => {
     getALLPaymentMode();
@@ -36,6 +37,10 @@ const EditClientDetails = ({
     clientEmail:
       allClientdata && allClientdata.clientEmail
         ? allClientdata.clientEmail
+        : "",
+    clientBillingEmail:
+      allClientdata && allClientdata.clientBillingEmail
+        ? allClientdata.clientBillingEmail
         : "",
     clientContactNo1:
       allClientdata && allClientdata.clientContactNo1
@@ -99,6 +104,7 @@ const EditClientDetails = ({
   const {
     clientName,
     clientEmail,
+    clientBillingEmail,
     clientContactNo1,
     clientContactNo2,
     clientAddress,
@@ -115,11 +121,9 @@ const EditClientDetails = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  // console.log(paymentMode);
   let allPaymentModeData = JSON.parse(
     localStorage.getItem("allPaymentModeData")
   );
-  // console.log(allPaymentModeData);
   const allpaymentmodes = [];
   allPaymentModeData &&
     allPaymentModeData.map((payment) =>
@@ -129,10 +133,9 @@ const EditClientDetails = ({
         value: payment.paymentModeName,
       })
     );
+  const [paymentMode, setpaymentMode] = useState("");
 
-  const [paymentMode, setpaymentMode] = useState();
-
-  if (!paymentMode && allpaymentmodes) {
+  if (!paymentMode && allpaymentmodes.length > 0) {
     setpaymentMode(
       allpaymentmodes && allClientdata
         ? allpaymentmodes &&
@@ -208,6 +211,7 @@ const EditClientDetails = ({
       recordId: allClientdata ? allClientdata._id : "",
       clientName: clientName,
       clientEmail: clientEmail,
+      clientBillingEmail: clientBillingEmail,
       clientContactNo1: clientContactNo1,
       clientContactNo2: clientContactNo2,
       clientAddress: clientAddress,
@@ -223,7 +227,7 @@ const EditClientDetails = ({
       clientWebsite: clientWebsite,
     };
     // console.log(finalData);
-    // AddDistrict(finalData);
+    EditClient(finalData);
     // setFormData({
     //   ...formData,
     //   districtName: "",
@@ -288,8 +292,8 @@ const EditClientDetails = ({
                 <label className="label-control">Production Email :</label>
                 <input
                   type="text"
-                  //   name="batchBankIFSC"
-                  //  value={batchBankIFSC}
+                  name="clientEmail"
+                  value={clientEmail}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -298,8 +302,8 @@ const EditClientDetails = ({
                 <label className="label-control">Billing Email :</label>
                 <input
                   type="text"
-                  name="clientEmail"
-                  value={clientEmail}
+                  name="clientBillingEmail"
+                  value={clientBillingEmail}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -498,6 +502,7 @@ const EditClientDetails = ({
 EditClientDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
+  EditClient: PropTypes.object.isRequired,
   getALLPaymentMode: PropTypes.object.isRequired,
   getActiveClients: PropTypes.object.isRequired,
 };
@@ -511,4 +516,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getALLPaymentMode,
   getActiveClients,
+  EditClient,
 })(EditClientDetails);
