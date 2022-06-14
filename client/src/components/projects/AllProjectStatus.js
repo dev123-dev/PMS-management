@@ -107,7 +107,9 @@ const AllProjectStatus = ({
                               <td>{allProjectStatus.projectStatusCategory}</td>
 
                               <td>
-                                <>
+                                {allProjectStatus.projectStatusStatus &&
+                                allProjectStatus.projectStatusStatus !==
+                                  "Deactive" ? (
                                   <img
                                     className="img_icon_size log"
                                     onClick={() =>
@@ -117,17 +119,19 @@ const AllProjectStatus = ({
                                     alt="Deactivate"
                                     title="Deactivate"
                                   />
-                                  &nbsp;
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() =>
-                                      onUpdate(allProjectStatus, idx)
-                                    }
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  />
-                                </>
+                                ) : (
+                                  <Fragment></Fragment>
+                                )}
+                                &nbsp;
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() =>
+                                    onUpdate(allProjectStatus, idx)
+                                  }
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
+                                />
                               </td>
                             </tr>
                           );

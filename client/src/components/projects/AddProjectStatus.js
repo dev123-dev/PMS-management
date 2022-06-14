@@ -115,7 +115,6 @@ const AddProjectStatus = ({
           )}
         </div>
       </form>
-      Final Data not completed
     </Fragment>
   );
 };
