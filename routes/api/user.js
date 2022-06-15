@@ -30,15 +30,15 @@ router.post("/add-employee", async (req, res) => {
   let data = req.body;
 
   try {
-    // let userExists = await EmployeeDetails.findOne({ userName: data.userName });
-    // if (userExists) {
-    //   return res
-    //     .status(STATUS_CODE_400)
-    //     .json({ errors: [{ msg: USER_EXISTS }] });
-    // }
+    let userExists = await EmployeeDetails.findOne({ userName: data.userName });
+    if (userExists) {
+      return res
+        .status(STATUS_CODE_400)
+        .json({ errors: [{ msg: USER_EXISTS }] });
+    }
     let empDetails = new EmployeeDetails(data);
-    // const salt = await bcrypt.genSalt(10);
-    // empDetails.password = await bcrypt.hash(data.password, salt);
+    const salt = await bcrypt.genSalt(10);
+    empDetails.password = await bcrypt.hash(data.password, salt);
     output = await empDetails.save();
 
     return res.status(STATUS_CODE_200).json({
