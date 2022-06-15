@@ -41,6 +41,7 @@ export const EditClient = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/client/edit-client", finalData);
+    dispatch(getAllClients());
     dispatch({
       type: SET_LOADING_FALSE,
     });

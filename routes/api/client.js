@@ -21,7 +21,7 @@ router.post("/add-client", async (req, res) => {
 router.post("/edit-client", async (req, res) => {
   try {
     let data = req.body;
-    const updateEmployeeDetails = await EmployeeDetails.updateOne(
+    const updateClientDetails = await ClientDetails.updateOne(
       { _id: data.recordId },
       {
         $set: {
@@ -39,7 +39,7 @@ router.post("/edit-client", async (req, res) => {
         },
       }
     );
-    res.json(updateEmployeeDetails);
+    res.json(updateClientDetails);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
