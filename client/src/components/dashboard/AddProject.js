@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getActiveClientsFilter } from "../../actions/client";
 import { getAllProjectStatus, addProject } from "../../actions/projects";
-
+import { Redirect } from "react-router-dom";
 const clientTypeVal = [
   { value: "Regular", label: "Regular Client" },
   { value: "Test", label: "Test Client" },
@@ -117,6 +117,7 @@ const AddProject = ({
     clientTime,
     Instructions,
     clientType,
+    isSubmitted,
   } = formData;
 
   const onInputChange = (e) => {
@@ -239,6 +240,7 @@ const AddProject = ({
         projectQuantity: qty,
         // projectUnconfirmed
         // projectVendor
+        clientTypeVal: clientType.value,
         projectTime: projectTime,
         projectDate: startprojectDate,
         clientTime: clientTime,
@@ -248,16 +250,18 @@ const AddProject = ({
         // projectEntryTime
         // clientType: clientType.value,
       };
-      // console.log(finalData);
+      console.log(finalData);
       addProject(finalData);
-      // setFormData({
-      //   ...formData,
-      //   districtName: "",
-      //   isSubmitted: true,
-      // });
+      setFormData({
+        ...formData,
+
+        isSubmitted: true,
+      });
     }
   };
-
+  if (isSubmitted) {
+    return <Redirect to="/job-queue" />;
+  }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (

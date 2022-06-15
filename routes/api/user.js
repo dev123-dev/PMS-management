@@ -28,16 +28,17 @@ router.post("/add-user-group", async (req, res) => {
 });
 router.post("/add-employee", async (req, res) => {
   let data = req.body;
+
   try {
-    let userExists = await EmployeeDetails.findOne({ userName: data.userName });
-    if (userExists) {
-      return res
-        .status(STATUS_CODE_400)
-        .json({ errors: [{ msg: USER_EXISTS }] });
-    }
+    // let userExists = await EmployeeDetails.findOne({ userName: data.userName });
+    // if (userExists) {
+    //   return res
+    //     .status(STATUS_CODE_400)
+    //     .json({ errors: [{ msg: USER_EXISTS }] });
+    // }
     let empDetails = new EmployeeDetails(data);
-    const salt = await bcrypt.genSalt(10);
-    empDetails.password = await bcrypt.hash(data.password, salt);
+    // const salt = await bcrypt.genSalt(10);
+    // empDetails.password = await bcrypt.hash(data.password, salt);
     output = await empDetails.save();
 
     return res.status(STATUS_CODE_200).json({
@@ -55,17 +56,17 @@ router.post("/add-employee", async (req, res) => {
 router.post("/edit-employee", async (req, res) => {
   try {
     let data = req.body;
-
+    // console.log(data);
     const updateEmployeeDetails = await EmployeeDetails.updateOne(
       { _id: data.recordId },
       {
         $set: {
           empFullName: data.empFullName,
-          empDepartmentId: data.empDepartmentId,
-          empDesignationId: data.empDesignationId,
-          empDesignationDate: data.empDesignationDate,
-          empJoiningDate: data.empJoiningDate,
-          empDOB: data.empDOB,
+          // departmentId: data.departmentId,
+          // empDesignationId: data.empDesignationId,
+          // empDesignationDate: data.empDesignationDate,
+          // empJoiningDate: data.empJoiningDate,
+          // empDOB: data.empDOB,
           empAadharNo: data.empAadharNo,
           empPanNo: data.empPanNo,
           empPhone: data.empPhone,
@@ -73,27 +74,28 @@ router.post("/edit-employee", async (req, res) => {
           empAddress: data.empAddress,
           empState: data.empState,
           empPincode: data.empPincode,
-          empGroupId: data.empGroupId,
-          empStatus: data.empStatus,
-          empColorCode: data.empColorCode,
-          empEnteredById: data.empEnteredById,
-          empDate: data.empDate,
-          empDateTime: Date.now(),
+          // empGroupId: data.empGroupId,
+          // empStatus: data.empStatus,
+          // empColorCode: data.empColorCode,
+          // empEnteredById: data.empEnteredById,
+          // empDate: data.empDate,
+          // empDateTime: Date.now(),
           empBankName: data.empBankName,
-          empAccountNo: data.empAccountNo,
-          empBankBranch: data.empBankBranch,
-          empIFSCCode: data.empIFSCCode,
-          empPFNo: data.empPFNo,
-          empPFDate: data.empPFDate,
-          empUANNo: data.empUANNo,
-          empESICNo: data.empESICNo,
-          empBasic: data.empBasic,
-          empHRA: data.empHRA,
-          empCA: data.empCA,
+          // empAccountNo: data.empAccountNo,
+          // empBankBranch: data.empBankBranch,
+          // empIFSCCode: data.empIFSCCode,
+          // empPFNo: data.empPFNo,
+          // empPFDate: data.empPFDate,
+          // empUANNo: data.empUANNo,
+          // empESICNo: data.empESICNo,
+          // empBasic: data.empBasic,
+          // empHRA: data.empHRA,
+          // empCA: data.empCA,
         },
       }
     );
     res.json(updateEmployeeDetails);
+    console.log(updateEmployeeDetails);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }

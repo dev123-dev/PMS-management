@@ -6,14 +6,18 @@ import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
+import { editEmployeeDetails, getALLUserGroups } from "../../actions/user";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
 
 const EditEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
   settings: { allDepartment, activeDesignation },
   getALLDepartment,
+  onEditModalChange,
   getActiveDesignation,
   allEmployeedata,
+  editEmployeeDetails,
+  getALLUserGroups,
 }) => {
   useEffect(() => {
     getALLDepartment();
@@ -21,9 +25,11 @@ const EditEmployeeDetails = ({
   useEffect(() => {
     getActiveDesignation();
   }, [getActiveDesignation]);
+  useEffect(() => {
+    getALLUserGroups();
+  }, [getALLUserGroups]);
   console.log(allEmployeedata);
   // console.log("allDeptartment", allDepartment);
-  // console.log("activeDesignation", activeDesignation);
 
   const [formData, setFormData] = useState({
     empFullName:
@@ -47,17 +53,15 @@ const EditEmployeeDetails = ({
         : "",
 
     employeeDOB:
-      allEmployeedata && allEmployeedata.employeeDOB
-        ? allEmployeedata.employeeDOB
-        : "",
+      allEmployeedata && allEmployeedata.empDOB ? allEmployeedata.empDOB : "",
 
     employeeEmail:
       allEmployeedata && allEmployeedata.empEmail
         ? allEmployeedata.empEmail
         : "",
     employeeDOJ:
-      allEmployeedata && allEmployeedata.employeeDOJ
-        ? allEmployeedata.employeeDOJ
+      allEmployeedata && allEmployeedata.empJoiningDate
+        ? allEmployeedata.empJoiningDate
         : "",
 
     employeeDepartment:
@@ -71,9 +75,7 @@ const EditEmployeeDetails = ({
         : "",
 
     employeeCode:
-      allEmployeedata && allEmployeedata.empColorCode
-        ? allEmployeedata.empColorCode
-        : "",
+      allEmployeedata && allEmployeedata.empCode ? allEmployeedata.empCode : "",
 
     empAddress:
       allEmployeedata && allEmployeedata.empAddress
@@ -128,8 +130,16 @@ const EditEmployeeDetails = ({
     employeeHRA:
       allEmployeedata && allEmployeedata.empHRA ? allEmployeedata.empHRA : "",
     employeeDA:
-      allEmployeedata && allEmployeedata.employeeDA
-        ? allEmployeedata.employeeDA
+      allEmployeedata && allEmployeedata.empDA ? allEmployeedata.empDA : "",
+    proinc:
+      allEmployeedata && allEmployeedata.proinc ? allEmployeedata.proinc : "",
+    empCA:
+      allEmployeedata && allEmployeedata.empCA ? allEmployeedata.empCA : "",
+    Others:
+      allEmployeedata && allEmployeedata.Others ? allEmployeedata.Others : "",
+    cityallowance:
+      allEmployeedata && allEmployeedata.cityallowance
+        ? allEmployeedata.cityallowance
         : "",
 
     isSubmitted: false,
@@ -148,7 +158,6 @@ const EditEmployeeDetails = ({
     employeeDesignation,
     employeeCode,
     empAddress,
-    employeeAddr,
     employeeState,
     employeePincode,
     employeeBankName,
@@ -161,17 +170,54 @@ const EditEmployeeDetails = ({
     employeeBasic,
     employeeHRA,
     employeeDA,
+    cityallowance,
+    Others,
+    proinc,
+    empCA,
+    password,
+    rePassword,
+    userName,
+
     isSubmitted,
   } = formData;
 
-  const [employeeDOJDate, setDOJDate] = useState("");
+  const [color, setColor] = useState(
+    allEmployeedata && allEmployeedata.empColorCode
+      ? allEmployeedata.empColorCode
+      : ""
+  );
+
+  const [employeeDOJDate, setDOJDate] = useState(
+    allEmployeedata && allEmployeedata.empJoiningDate
+      ? allEmployeedata.empJoiningDate
+      : ""
+  );
   const onDateChange = (e) => {
     setDOJDate(e.target.value);
   };
 
-  const [employeeDOBDate, setDOBDDate] = useState("");
+  const [employeeDOBDate, setDOBDDate] = useState(
+    allEmployeedata && allEmployeedata.empDOB ? allEmployeedata.empDOB : ""
+  );
   const onDateChange1 = (e) => {
     setDOBDDate(e.target.value);
+  };
+  const [employeeDesigDate, setDesigDate] = useState(
+    allEmployeedata && allEmployeedata.empDesignationDate
+      ? allEmployeedata.empDesignationDate
+      : ""
+  );
+  const onDateChange2 = (e) => {
+    setDesigDate(e.target.value);
+  };
+
+  const [employeePfDate, setPfDate] = useState(
+    allEmployeedata && allEmployeedata.empPFDate
+      ? allEmployeedata.empPFDate
+      : ""
+  );
+  const onDateChange3 = (e) => {
+    setPfDate(e.target.value);
   };
 
   const onInputChange = (e) => {
@@ -190,6 +236,16 @@ const EditEmployeeDetails = ({
     );
 
   const [department, getdepartmentData] = useState();
+  if (!department && activeDepartment.length > 0) {
+    getdepartmentData(
+      allEmployeedata
+        ? activeDepartment &&
+            activeDepartment.filter(
+              (x) => x.departmentId === allEmployeedata.departmentId
+            )[0]
+        : ""
+    );
+  }
   const [departmentId, setdepartmentId] = useState();
 
   const onDepartmentChange = (e) => {
@@ -199,23 +255,79 @@ const EditEmployeeDetails = ({
     setdepartmentId(departmentId);
   };
 
+  let allDesignationData = JSON.parse(
+    localStorage.getItem("allDesignationData")
+  );
+
   const alldesignation = [];
-  activeDesignation.map((designation) =>
-    alldesignation.push({
-      departmentId: designation._id,
-      label: designation.designationName,
-      value: designation.designationName,
+
+  allDesignationData &&
+    allDesignationData.map((designation) =>
+      alldesignation.push({
+        designationId: designation._id,
+        label: designation.designationName,
+        value: designation.designationName,
+      })
+    );
+
+  const [designation, getdesignationData] = useState("");
+  if (!designation && alldesignation.length > 0) {
+    getdesignationData(
+      allEmployeedata
+        ? alldesignation &&
+            alldesignation.filter(
+              (x) => x.designationId === allEmployeedata.designationId
+            )[0]
+        : ""
+    );
+  }
+  const [designationId, setdesignationId] = useState();
+  const [designationName, setdesignationName] = useState();
+
+  const onDesigChange = (e) => {
+    var designationId = "";
+    var designationName = "";
+    getdesignationData(e);
+    designationId = e.designationId;
+
+    designationName = e.designationName;
+    setdesignationId(designationId);
+    setdesignationName(designationName);
+  };
+
+  let allUserGroupData = JSON.parse(localStorage.getItem("allUserGroupData"));
+  //console.log(allUserGroupData);
+
+  const allusergroups = [];
+  allUserGroupData.map((usergroups) =>
+    allusergroups.push({
+      usergroupsId: usergroups._id,
+      label: usergroups.userGroupName,
+      value: usergroups.userGroupName,
     })
   );
 
-  const [designation, getdesignationData] = useState();
-  const [designationId, setdesignationId] = useState();
-  const [color, setColor] = useState(null);
-  const onDesigChange = (e) => {
-    var designationId = "";
-    getdesignationData(e);
-    designationId = e.designationId;
-    setdesignationId(designationId);
+  const [usergroups, getusergroupsData] = useState(
+    allEmployeedata
+      ? allusergroups &&
+          allusergroups.filter(
+            (x) => x.usergroupsId === allEmployeedata.usergroupsId
+          )[0]
+      : ""
+  );
+
+  const [usergroupsId, setusergroupsId] = useState();
+  const [userGroupName, setsetusergroupsName] = useState();
+
+  const onUsergroupChange = (e) => {
+    var usergroupsId = "";
+    var userGroupName = "";
+    getusergroupsData(e);
+    usergroupsId = e.usergroupsId;
+
+    userGroupName = e.userGroupName;
+    setusergroupsId(usergroupsId);
+    setsetusergroupsName(userGroupName);
   };
 
   // code for next previous tabing starts
@@ -223,6 +335,148 @@ const EditEmployeeDetails = ({
 
   const NextBackBtn = (tabIndex) => {
     setTabIndex(tabIndex);
+  };
+
+  const [error, setError] = useState({
+    passwordValChecker: false,
+    passwordValResult: "",
+    passwordValStyle: {},
+    passwordInptErrStyle: {},
+
+    repwdValChecker: false,
+    repwdValResult: "",
+    repwdValStyle: {},
+    repwdInptErrStyle: {},
+  });
+
+  const {
+    passwordValChecker,
+    passwordValResult,
+    passwordValStyle,
+    passwordInptErrStyle,
+
+    repwdValChecker,
+    repwdValResult,
+    repwdValStyle,
+    repwdInptErrStyle,
+  } = error;
+
+  let passwrdTooltip = {
+    marginLeft: "-16em",
+    position: "absolute",
+    marginTop: "1.5em",
+    pointerEvents: "none",
+    zIndex: "999",
+    width: "300px",
+  };
+  const onInputChange3 = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "password":
+        if (value === "") {
+          setError({
+            ...error,
+            passwordValChecker: true,
+            passwordValResult: "REQUIRED",
+            passwordValStyle: { color: "#FF0000", marginTop: "30px" },
+            passwordInptErrStyle: { border: "1px solid #FF0000" },
+          });
+          setFormData({ ...formData, [e.target.name]: "" });
+        } else {
+          const pwdFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+          if (pwdFilter.test(value)) {
+            setError({
+              ...error,
+              passwordValChecker: true,
+              passwordValResult: "STRONG",
+              passwordValStyle: { color: "#43b90f", marginTop: "30px" },
+              passwordInptErrStyle: { border: "1px solid #43b90f" },
+            });
+          } else {
+            setError({
+              ...error,
+              passwordValChecker: true,
+              passwordValResult: "WEAK",
+              passwordValStyle: { color: "#FF0000", marginTop: "30px" },
+              passwordInptErrStyle: { border: "1px solid #FF0000" },
+            });
+          }
+          setFormData({ ...formData, [e.target.name]: value });
+        }
+        break;
+
+      case "rePassword":
+        if (value === "") {
+          setError({
+            ...error,
+            repwdValChecker: true,
+            repwdValResult: "REQUIRED",
+            repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+            repwdInptErrStyle: { border: "1px solid #FF0000" },
+          });
+          setFormData({ ...formData, [e.target.name]: "" });
+        } else {
+          if (value === formData.password) {
+            setError({
+              ...error,
+              repwdValChecker: true,
+              repwdValResult: "MATCHED",
+              repwdValStyle: { color: "#43b90f", marginTop: "30px" },
+              repwdInptErrStyle: { border: "1px solid #43b90f" },
+            });
+          } else {
+            setError({
+              ...error,
+              repwdValChecker: true,
+              repwdValResult: "DOES NOT MATCH",
+              repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+              repwdInptErrStyle: { border: "1px solid #FF0000" },
+            });
+          }
+          setFormData({ ...formData, [e.target.name]: value });
+        }
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const checkErrors = (formData) => {
+    if (formData && formData.password === "") {
+      setError({
+        ...error,
+        passwordValChecker: true,
+        passwordValResult: "REQUIRED",
+        passwordValStyle: { color: "#FF0000", marginTop: "30px" },
+        passwordInptErrStyle: { border: "1px solid #FF0000" },
+      });
+      return false;
+    }
+    if (formData && formData.rePassword !== formData.password) {
+      setError({
+        ...error,
+        repwdValChecker: true,
+        repwdValResult: "DOESNOT MATCH",
+        // repwdValResult: "REQUIRED",
+        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+        repwdInptErrStyle: { border: "1px solid #FF0000" },
+      });
+      return false;
+    }
+
+    if (formData && formData.rePassword === "") {
+      setError({
+        ...error,
+        repwdValChecker: true,
+        repwdValResult: "REQUIRED",
+        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+        repwdInptErrStyle: { border: "1px solid #FF0000" },
+      });
+      return false;
+    }
+
+    return true;
   };
 
   const onSubmit = (e) => {
@@ -237,26 +491,36 @@ const EditEmployeeDetails = ({
       empDOB: employeeDOBDate,
       empEmail: employeeEmail,
       empJoiningDate: employeeDOJDate,
-      empDepartmentId: department,
-      empDesignationId: designation,
+      departmentId: department,
+      designationId: designation,
       empCode: employeeCode,
-      empAddress: employeeAddr,
+      empAddress: empAddress,
       empState: employeeState,
       empPincode: employeePincode,
-      employeeBankName: employeeBankName,
-      employeeIFSCcode: employeeIFSCcode,
-      employeeAccountNo: employeeAccountNo,
+      empBankName: employeeBankName,
+      empIFSCCode: employeeIFSCcode,
+      empAccountNo: employeeAccountNo,
       employeeBranch: employeeBranch,
-      employeePFNo: employeePFNo,
-      employeeESI: employeeESI,
+      empPFNo: employeePFNo,
+      empESICNo: employeeESI,
       employeeUANNo: employeeUANNo,
-      employeeBasic: employeeBasic,
-      employeeHRA: employeeHRA,
-      employeeDA: employeeDA,
+      empBasic: employeeBasic,
+      empHRA: employeeHRA,
+      empCA: employeeDA,
       empColorCode: color,
+      empDesignationDate: employeeDesigDate,
+      empPFDate: employeePfDate,
+      cityallowance: cityallowance,
+      Others: Others,
+      proinc: proinc,
+      password: password,
+      userName: userName,
+      usergroupsId: usergroupsId,
+      userGroupName: usergroups.value,
     };
     console.log(finalData);
-    // addProject(finalData);
+    editEmployeeDetails(finalData);
+    onEditModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",
@@ -289,7 +553,6 @@ const EditEmployeeDetails = ({
             <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
               <form onSubmit={(e) => NextBackBtn(1)}>
                 <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
-                  {/* <div className=" card-new"> */}
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Personal Info</h5>
                   </div>
@@ -302,7 +565,6 @@ const EditEmployeeDetails = ({
                         value={empFullName}
                         className="form-control"
                         onChange={(e) => onInputChange(e)}
-                        //required
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -385,7 +647,7 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                      <label className="label-control">Department :</label>
+                      <label className="label-control">Department* :</label>
                       <Select
                         name="departmentName"
                         options={activeDepartment}
@@ -406,7 +668,28 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                      <label className="label-control">Designation :</label>
+                      <label className="label-control">Emp Group* :</label>
+                      <Select
+                        name="departmentName"
+                        options={allusergroups}
+                        isSearchable={true}
+                        value={usergroups}
+                        placeholder="Select UserGroup"
+                        onChange={(e) => onUsergroupChange(e)}
+                        theme={(theme) => ({
+                          ...theme,
+                          height: 26,
+                          minHeight: 26,
+                          borderRadius: 1,
+                          colors: {
+                            ...theme.colors,
+                            primary: "black",
+                          },
+                        })}
+                      />
+                    </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                      <label className="label-control">Designation* :</label>
                       <Select
                         name="designationName"
                         options={alldesignation}
@@ -426,6 +709,23 @@ const EditEmployeeDetails = ({
                         })}
                       />
                     </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
+                      <label> Designation Date :</label>
+                      <br />
+                      <input
+                        type="date"
+                        placeholder="dd/mm/yyyy"
+                        className="form-control cpp-input datevalidation"
+                        name="employeeDesigDate"
+                        value={employeeDesigDate}
+                        onChange={(e) => onDateChange2(e)}
+                        style={{
+                          width: "75%",
+                        }}
+
+                        // required
+                      />
+                    </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                       <label className="label-control">Emp color :</label>
                       <br />
@@ -439,7 +739,85 @@ const EditEmployeeDetails = ({
                   </div>
                   {/* </div> */}
                 </div>
+                <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
+                  <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                    <label className="label-control">UserName :</label>
+                    <input
+                      type="text"
+                      name="userName"
+                      value={userName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      autoComplete="false"
+                    />
+                  </div>
+                  <div className=" col-lg-3 col-md-9 col-sm-9 col-12 py-4">
+                    <label> Password* :</label>
+                    <div className="">
+                      <input
+                        type="password"
+                        name="password"
+                        className="form-control "
+                        value={password}
+                        style={passwordInptErrStyle}
+                        onChange={(e) => onInputChange3(e)}
+                        autoComplete="false"
+                      />
+                      {passwordValChecker && (
+                        <span
+                          className="form-input-info positioning"
+                          style={passwordValStyle}
+                        >
+                          {passwordValResult}
+                        </span>
+                      )}
+                      <div
+                        className="cstm-hint"
+                        id="pass_admin_help"
+                        //   style={{ top: "100px" }}
+                      >
+                        <img
+                          src={require("../../static/images/help1.png")}
+                          alt="help"
+                          id="img_tool_admin"
+                          className="pass_admin_help_icon_question"
+                        />
+                        <div
+                          id="tooltipPassAdmin"
+                          className="syle-hint"
+                          style={passwrdTooltip}
+                          data-hint="Password  at least 1 uppercase and 1 lowercase, 1 digit, 1 symbol, length from 8 to 20"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
 
+                  <div className="col-lg-3 col-md-9 col-sm-9 col-12 py-4">
+                    <label className="">Confirm Password</label>
+
+                    <div>
+                      <input
+                        type="password"
+                        name="rePassword"
+                        className="form-control "
+                        value={rePassword}
+                        style={repwdInptErrStyle}
+                        onChange={(e) => onInputChange3(e)}
+                        autoComplete="false"
+                      />
+                      {repwdValChecker && (
+                        <Fragment>
+                          <span
+                            className="form-input-info positioning"
+                            style={repwdValStyle}
+                          >
+                            {repwdValResult}
+                          </span>
+                        </Fragment>
+                      )}
+                    </div>
+                  </div>
+                </div>
                 <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
                   <input
                     type="submit"
@@ -586,6 +964,35 @@ const EditEmployeeDetails = ({
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
+
+                  <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                    <label className="label-control">City Allowance :</label>
+                    <input
+                      type="text"
+                      name="cityallowance"
+                      value={cityallowance}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+
+                  <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
+                    <label> PF Date :</label>
+                    <br />
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="employeePfDate"
+                      value={employeePfDate}
+                      onChange={(e) => onDateChange3(e)}
+                      style={{
+                        width: "75%",
+                      }}
+
+                      // required
+                    />
+                  </div>
                   <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                     <label className="label-control">ESI :</label>
                     <input
@@ -632,6 +1039,38 @@ const EditEmployeeDetails = ({
                       type="text"
                       name="employeeDA"
                       value={employeeDA}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+
+                  <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                    <label className="label-control">CA :</label>
+                    <input
+                      type="number"
+                      name="empCA"
+                      value={empCA}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+
+                  <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                    <label className="label-control">Others :</label>
+                    <input
+                      type="number"
+                      name="Others"
+                      value={Others}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                    <label className="label-control">Pro Inc :</label>
+                    <input
+                      type="number"
+                      name="proinc"
+                      value={proinc}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
@@ -683,6 +1122,8 @@ EditEmployeeDetails.propTypes = {
   settings: PropTypes.object.isRequired,
   getALLDepartment: PropTypes.object.isRequired,
   getActiveDesignation: PropTypes.object.isRequired,
+  editEmployeeDetails: PropTypes.object.isRequired,
+  getALLUserGroups: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -692,4 +1133,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getALLDepartment,
   getActiveDesignation,
+  editEmployeeDetails,
+  getALLUserGroups,
 })(EditEmployeeDetails);

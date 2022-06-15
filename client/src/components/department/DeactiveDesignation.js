@@ -1,14 +1,14 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-
 import Spinner from "../layout/Spinner";
+import { deactiveDesignationData } from "../../actions/settings";
 
 const DeactiveDesignation = ({
   auth: { isAuthenticated, user, users, loading },
-
   Designationdeactivedata,
   onDeactiveModalChange,
+  deactiveDesignationData,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -42,10 +42,9 @@ const DeactiveDesignation = ({
       designationDeactiveById: user._id,
       designationDeactiveDateTime: new Date().toLocaleString(),
     };
+    // console.log(finalData);
+    deactiveDesignationData(finalData);
     onDeactiveModalChange(true);
-    console.log(finalData);
-    // editDesignation(finalData);
-
     // setFormData({
     //   ...formData,
     //   districtName: "",
@@ -63,7 +62,7 @@ const DeactiveDesignation = ({
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <label className="label-control">
               {" "}
-              Designation Name: {designationName}
+              Designation Name : {designationName}
             </label>
           </div>
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
@@ -73,7 +72,7 @@ const DeactiveDesignation = ({
           </div>
 
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-            <label className="label-control">Deactive Reason:</label>
+            <label className="label-control">Deactive Reason* :</label>
 
             <textarea
               name="designationDeactiveReason"
@@ -113,10 +112,13 @@ const DeactiveDesignation = ({
 
 DeactiveDesignation.propTypes = {
   auth: PropTypes.object.isRequired,
+  deactiveDesignationData: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(DeactiveDesignation);
+export default connect(mapStateToProps, { deactiveDesignationData })(
+  DeactiveDesignation
+);

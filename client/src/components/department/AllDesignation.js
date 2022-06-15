@@ -101,7 +101,9 @@ const AllDesignation = ({
                               </td>
                               <td>{allDesignation.designationDesc}</td>
                               <td>
-                                <>
+                                {allDesignation.designationStatus &&
+                                allDesignation.designationStatus !==
+                                  "Deactive" ? (
                                   <img
                                     className="img_icon_size log"
                                     onClick={() =>
@@ -111,17 +113,17 @@ const AllDesignation = ({
                                     alt="Deactivate"
                                     title="Deactivate"
                                   />
-                                  &nbsp;
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() =>
-                                      onUpdate(allDesignation, idx)
-                                    }
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  />
-                                </>
+                                ) : (
+                                  <Fragment></Fragment>
+                                )}
+                                &nbsp;
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onUpdate(allDesignation, idx)}
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
+                                />
                               </td>
                             </tr>
                           );

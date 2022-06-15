@@ -258,7 +258,7 @@ const JobQueue = ({
 
         <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
-            <label className="radio-inline ">
+            {/* <label className="radio-inline ">
               <input
                 type="radio"
                 name="ProjCatType"
@@ -304,7 +304,7 @@ const JobQueue = ({
                 onClick={() => onstatuscategrorySelect("Don't Work")}
               />{" "}
               Don't Work
-            </label>
+            </label> */}
           </div>
           <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
             Projects:{jobQueueProjects.length}

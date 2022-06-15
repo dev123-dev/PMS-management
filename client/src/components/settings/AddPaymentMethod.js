@@ -24,7 +24,7 @@ const AddPaymentMethod = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
-      paymentMode: paymentMode,
+      paymentModeName: paymentMode,
       paymentModeEnteredById: user._id,
     };
     console.log(finalData);

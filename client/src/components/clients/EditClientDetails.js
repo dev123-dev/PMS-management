@@ -5,16 +5,17 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getALLPaymentMode } from "../../actions/settings";
-import { getActiveClients } from "../../actions/client";
+import { getActiveClients, EditClient } from "../../actions/client";
 
 const EditClientDetails = ({
   auth: { isAuthenticated, user, users, loading },
-  settings: { paymentMode },
+  // settings: { paymentMode },
   client: { activeClient },
   allClientdata,
   onAddDistrictModalChange,
   getALLPaymentMode,
   getActiveClients,
+  EditClient,
 }) => {
   useEffect(() => {
     getALLPaymentMode();
@@ -25,14 +26,21 @@ const EditClientDetails = ({
   //formData
 
   // console.log("paymentMode", paymentMode);
-  console.log("dd", allClientdata);
-
+  // console.log("dd", allClientdata);
+  const clientTypeVal = [
+    { value: "Regular", label: "Regular Client" },
+    { value: "Test", label: "Test Client" },
+  ];
   const [formData, setFormData] = useState({
     clientName:
       allClientdata && allClientdata.clientName ? allClientdata.clientName : "",
     clientEmail:
       allClientdata && allClientdata.clientEmail
         ? allClientdata.clientEmail
+        : "",
+    clientBillingEmail:
+      allClientdata && allClientdata.clientBillingEmail
+        ? allClientdata.clientBillingEmail
         : "",
     clientContactNo1:
       allClientdata && allClientdata.clientContactNo1
@@ -78,16 +86,30 @@ const EditClientDetails = ({
         ? allClientdata.clientWebsite
         : "",
 
+    clientType:
+      allClientdata && allClientdata.clientType
+        ? {
+            value: allClientdata.clientType,
+            label: allClientdata.clientType,
+          }
+        : "",
+
+    paymentModeName:
+      allClientdata && allClientdata.paymentModeName
+        ? allClientdata.paymentModeName
+        : "",
     isSubmitted: false,
   });
 
   const {
     clientName,
     clientEmail,
+    clientBillingEmail,
     clientContactNo1,
     clientContactNo2,
     clientAddress,
     clientCountry,
+    clientType,
     clientBelongsTo,
     clientFolderName,
     clientCurrency,
@@ -99,39 +121,76 @@ const EditClientDetails = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  let allPaymentModeData = JSON.parse(
+    localStorage.getItem("allPaymentModeData")
+  );
   const allpaymentmodes = [];
-  paymentMode.map((payment) =>
-    allpaymentmodes.push({
-      paymentId: payment._id,
-      label: payment.paymentMode,
-      value: payment.paymentMode,
-    })
+  allPaymentModeData &&
+    allPaymentModeData.map((payment) =>
+      allpaymentmodes.push({
+        paymentId: payment._id,
+        label: payment.paymentModeName,
+        value: payment.paymentModeName,
+      })
+    );
+  const [paymentMode, setpaymentMode] = useState("");
+
+  if (!paymentMode && allpaymentmodes.length > 0) {
+    setpaymentMode(
+      allpaymentmodes && allClientdata
+        ? allpaymentmodes &&
+            allpaymentmodes.filter(
+              (x) => x.value === allClientdata.paymentModeName
+            )[0]
+        : ""
+    );
+  }
+  const [payment, getStateData] = useState(
+    allClientdata
+      ? allpaymentmodes &&
+          allpaymentmodes.filter(
+            (x) => x.paymentId === allClientdata.paymentId
+          )[0]
+      : ""
   );
 
-  const [payment, getStateData] = useState();
-  const [paymentId, setpaymentId] = useState();
-  const [paymentname, setpaymentname] = useState();
+  const [paymentId, setpaymentId] = useState(allClientdata.paymentId);
+  const [paymentModeName, setpaymentname] = useState(
+    allClientdata.paymentModeName
+  );
 
   const onPayModeChange = (e) => {
     var paymentId = "";
-    var paymentname = "";
+    var paymentModeName = "";
     getStateData(e);
     paymentId = e.paymentId;
-    paymentname = e.value;
+    paymentModeName = e.paymentModeName;
     setpaymentId(paymentId);
-    setpaymentname(paymentname);
+    setpaymentname(paymentModeName);
   };
 
-  const allclientBelongsTo = [];
-  activeClient.map((clients) =>
-    allclientBelongsTo.push({
-      clientsId: clients._id,
-      label: clients.clientName,
-      value: clients.clientName,
-    })
+  let allClientBelongsToData = JSON.parse(
+    localStorage.getItem("allClientBelongsToData")
   );
+  // console.log(allClientBelongsToData);
+  const allclientBelongsTo = [];
+  allClientBelongsToData &&
+    allClientBelongsToData.map((clients) =>
+      allclientBelongsTo.push({
+        clientsId: clients._id,
+        label: clients.clientName,
+        value: clients.clientName,
+      })
+    );
 
-  const [clients, getclientsData] = useState();
+  const [clients, getclientsData] = useState(
+    allClientdata
+      ? allclientBelongsTo &&
+          allclientBelongsTo.filter(
+            (x) => x.value === allClientdata.clientBelongsToName
+          )[0]
+      : ""
+  );
   const [clientsId, setclientsId] = useState();
 
   const onBelongstoChange = (e) => {
@@ -140,6 +199,23 @@ const EditClientDetails = ({
     clientsId = e.clientsId;
     setclientsId(clientsId);
   };
+
+  const onClientTypeChange = (e) => {
+    //Required Validation starts
+    // setError({
+    //   ...error,
+    //   TranscationIdChecker: true,
+    //   TranscationIdErrorStyle: { color: "#000" },
+    // });
+    //Required Validation ends
+
+    if (e) {
+      setFormData({
+        ...formData,
+        clientType: e,
+      });
+    }
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
@@ -147,6 +223,7 @@ const EditClientDetails = ({
       recordId: allClientdata ? allClientdata._id : "",
       clientName: clientName,
       clientEmail: clientEmail,
+      clientBillingEmail: clientBillingEmail,
       clientContactNo1: clientContactNo1,
       clientContactNo2: clientContactNo2,
       clientAddress: clientAddress,
@@ -154,12 +231,15 @@ const EditClientDetails = ({
       clientCurrency: clientCurrency,
       clientBelongsTo: clientBelongsTo,
       clientFolderName: clientFolderName,
+      clientType: clientType.value,
       clientCompanyName: clientCompanyName,
+      PaymentId: paymentId,
+      paymentModeName: paymentModeName,
       clientCompanyFounderName: clientCompanyFounderName,
       clientWebsite: clientWebsite,
     };
     // console.log(finalData);
-    // AddDistrict(finalData);
+    EditClient(finalData);
     // setFormData({
     //   ...formData,
     //   districtName: "",
@@ -224,8 +304,8 @@ const EditClientDetails = ({
                 <label className="label-control">Production Email :</label>
                 <input
                   type="text"
-                  //   name="batchBankIFSC"
-                  //  value={batchBankIFSC}
+                  name="clientEmail"
+                  value={clientEmail}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -234,8 +314,8 @@ const EditClientDetails = ({
                 <label className="label-control">Billing Email :</label>
                 <input
                   type="text"
-                  name="clientEmail"
-                  value={clientEmail}
+                  name="clientBillingEmail"
+                  value={clientBillingEmail}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -299,6 +379,32 @@ const EditClientDetails = ({
                   })}
                 />
               </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label
+                  className="label-control"
+                  // style={TranscationIdErrorStyle}
+                >
+                  Client Type :
+                </label>
+                <Select
+                  name="clientType"
+                  options={clientTypeVal}
+                  isSearchable={false}
+                  value={clientType}
+                  placeholder="Select Meeting Type"
+                  onChange={(e) => onClientTypeChange(e)}
+                  theme={(theme) => ({
+                    ...theme,
+                    height: 26,
+                    minHeight: 26,
+                    borderRadius: 1,
+                    colors: {
+                      ...theme.colors,
+                      primary: "black",
+                    },
+                  })}
+                />
+              </div>
             </div>
           </div>
 
@@ -348,10 +454,10 @@ const EditClientDetails = ({
                     <label className="label-control">Mode of Payment :</label>
 
                     <Select
-                      name="paymentMode"
+                      name="paymentModeName"
                       options={allpaymentmodes}
                       isSearchable={true}
-                      value={payment}
+                      value={paymentMode}
                       placeholder="Select Mode"
                       onChange={(e) => onPayModeChange(e)}
                       theme={(theme) => ({
@@ -408,6 +514,7 @@ const EditClientDetails = ({
 EditClientDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
+  EditClient: PropTypes.object.isRequired,
   getALLPaymentMode: PropTypes.object.isRequired,
   getActiveClients: PropTypes.object.isRequired,
 };
@@ -421,4 +528,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getALLPaymentMode,
   getActiveClients,
+  EditClient,
 })(EditClientDetails);

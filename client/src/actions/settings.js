@@ -59,6 +59,7 @@ export const AddNewDesignation = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/add-designation", finalData, config);
+    dispatch(getALLDesignation());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -127,6 +128,7 @@ export const EditMenu = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/edit-menu", finalData);
+
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -160,6 +162,7 @@ export const EditPaymentMode = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/edit-payment-mode", finalData);
+    dispatch(getALLPaymentMode());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -171,9 +174,21 @@ export const EditPaymentMode = (finalData) => async (dispatch) => {
 };
 
 //Deactive
-export const deactiveDesignation = (finalData) => async (dispatch) => {
+
+export const deactiveDesignationData = (finalData) => async (dispatch) => {
   try {
-    await axios.post("/api/setting/deactive-designation", finalData, config);
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post(
+      "/api/settings/deactive-designation-data",
+      finalData,
+      config
+    );
+    dispatch(getALLDesignation());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
@@ -185,6 +200,7 @@ export const deactiveDesignation = (finalData) => async (dispatch) => {
 export const getALLPaymentMode = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/settings/get-all-payment-mode");
+    localStorage.setItem("allPaymentModeData", JSON.stringify(res.data));
     dispatch({
       type: PAYMENT_MODE,
       payload: res.data,
@@ -214,6 +230,7 @@ export const getALLDepartment = () => async (dispatch) => {
 export const getALLDesignation = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/settings/get-all-designation");
+    // localStorage.setItem("allDesignationData", JSON.stringify(res.data));
     dispatch({
       type: ALL_DESIGNATION,
       payload: res.data,
@@ -228,6 +245,7 @@ export const getALLDesignation = () => async (dispatch) => {
 export const getActiveDesignation = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/settings/get-active-designation");
+    localStorage.setItem("allDesignationData", JSON.stringify(res.data));
     dispatch({
       type: ACTIVE_DESIGNATION,
       payload: res.data,

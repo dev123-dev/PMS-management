@@ -11,6 +11,9 @@ const ProjectSchema = new mongoose.Schema({
   clientId: {
     type: ObjectId,
   },
+  clientName: {
+    type: String,
+  },
   parentClientId: {
     type: ObjectId,
   },
@@ -106,6 +109,10 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
     default: "Active",
   },
+  clientTypeVal: {
+    type: String,
+  },
+
   projectStatusId: {
     type: ObjectId,
   },

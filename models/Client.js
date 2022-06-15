@@ -24,6 +24,9 @@ const ClientSchema = new mongoose.Schema({
   clientEmail: {
     type: String,
   },
+  clientBillingEmail: {
+    type: String,
+  },
   clientContactNo1: {
     type: Number,
   },
@@ -56,10 +59,10 @@ const ClientSchema = new mongoose.Schema({
   clientCurrency: {
     type: String,
   },
-  clientModeofPaymentId: {
+  PaymentId: {
     type: ObjectId,
   },
-  clientModeofPaymentMode: {
+  paymentModeName: {
     type: String,
   },
   clientType: {

@@ -32,10 +32,9 @@ const EditUserGroup = ({
     const finalData = {
       recordId: userGroupsdata ? userGroupsdata._id : "",
       userGroupName: userGroupName,
-      userGroupEnteredById: user._id,
+      userGroupEditedById: user._id,
     };
     editUserGroup(finalData);
-    console.log(finalData);
     onEditModalChange(true);
     // onAddDistrictModalChange(true);
     // setFormData({

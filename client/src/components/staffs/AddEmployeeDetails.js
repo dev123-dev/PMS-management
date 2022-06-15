@@ -5,15 +5,17 @@ import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
-import { AddEmployee } from "../../actions/user";
+import { AddEmployee, getALLUserGroups } from "../../actions/user";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
-
+import { Link } from "react-router-dom";
 const AddEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
+  user: { userGroups },
   settings: { allDepartment, activeDesignation },
   getALLDepartment,
   AddEmployee,
   getActiveDesignation,
+  getALLUserGroups,
 }) => {
   useEffect(() => {
     getALLDepartment();
@@ -21,6 +23,11 @@ const AddEmployeeDetails = ({
   useEffect(() => {
     getActiveDesignation();
   }, [getActiveDesignation]);
+  useEffect(() => {
+    getALLUserGroups();
+  }, [getALLUserGroups]);
+
+  console.log(userGroups);
 
   const [formData, setFormData] = useState({
     employeeName: "",
@@ -47,7 +54,13 @@ const AddEmployeeDetails = ({
     employeeBasic: "",
     employeeHRA: "",
     employeeDA: "",
-    empDepartmentId: "",
+    departmentId: "",
+    cityallowance: "",
+    Others: "",
+    proinc: "",
+    empCA: "",
+    userName: "",
+
     isSubmitted: false,
   });
 
@@ -75,8 +88,15 @@ const AddEmployeeDetails = ({
     employeeUANNo,
     employeeBasic,
     employeeHRA,
-    empDepartmentId,
+
     employeeDA,
+    cityallowance,
+    Others,
+    proinc,
+    empCA,
+    password,
+    rePassword,
+    userName,
     isSubmitted,
   } = formData;
 
@@ -88,6 +108,16 @@ const AddEmployeeDetails = ({
   const [employeeDOBDate, setDOBDDate] = useState("");
   const onDateChange1 = (e) => {
     setDOBDDate(e.target.value);
+  };
+
+  const [employeeDesigDate, setDesigDate] = useState("");
+  const onDateChange2 = (e) => {
+    setDesigDate(e.target.value);
+  };
+
+  const [employeePfDate, setPfDate] = useState("");
+  const onDateChange3 = (e) => {
+    setPfDate(e.target.value);
   };
 
   const onInputChange = (e) => {
@@ -103,8 +133,15 @@ const AddEmployeeDetails = ({
 
   const [department, getdepartmentData] = useState();
   const [departmentId, setdepartmentId] = useState();
-
+  const [designationName, setdesignationName] = useState();
   const onDepartmentChange = (e) => {
+    //Required Validation starts
+    setError({
+      ...error,
+      DepartmentIdChecker: true,
+      DepartmentErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
     var departmentId = "";
     getdepartmentData(e);
     departmentId = e.departmentId;
@@ -114,7 +151,7 @@ const AddEmployeeDetails = ({
   const alldesignation = [];
   activeDesignation.map((designation) =>
     alldesignation.push({
-      departmentId: designation._id,
+      designationId: designation._id,
       label: designation.designationName,
       value: designation.designationName,
     })
@@ -137,49 +174,282 @@ const AddEmployeeDetails = ({
   const [color, setColor] = useState(null);
 
   const onDesigChange = (e) => {
+    setError({
+      ...error,
+      DesignationIdChecker: true,
+      DesignationErrorStyle: { color: "#000" },
+    });
+
     var designationId = "";
+    var designationName = "";
     getdesignationData(e);
     designationId = e.designationId;
+
+    designationName = e.designationName;
     setdesignationId(designationId);
+    setdesignationName(designationName);
   };
 
+  const allusergroups = [];
+  userGroups.map((usergroups) =>
+    allusergroups.push({
+      usergroupsId: usergroups._id,
+      label: usergroups.userGroupName,
+      value: usergroups.userGroupName,
+    })
+  );
+
+  const [usergroups, getusergroupsData] = useState();
+  const [usergroupsId, setusergroupsId] = useState();
+  const [userGroupName, setsetusergroupsName] = useState();
+
+  const onUsergroupChange = (e) => {
+    setError({
+      ...error,
+      UserGroupIdChecker: true,
+      UserGroupErrorStyle: { color: "#000" },
+    });
+    var usergroupsId = "";
+    var userGroupName = "";
+    getusergroupsData(e);
+    usergroupsId = e.usergroupsId;
+
+    userGroupName = e.userGroupName;
+    setusergroupsId(usergroupsId);
+    setsetusergroupsName(userGroupName);
+  };
+
+  const [error, setError] = useState({
+    DepartmentIdChecker: false,
+    DepartmentErrorStyle: {},
+
+    DesignationIdChecker: false,
+    DesignationErrorStyle: {},
+
+    UserGroupIdChecker: false,
+    UserGroupErrorStyle: {},
+
+    passwordValChecker: false,
+    passwordValResult: "",
+    passwordValStyle: {},
+    passwordInptErrStyle: {},
+
+    repwdValChecker: false,
+    repwdValResult: "",
+    repwdValStyle: {},
+    repwdInptErrStyle: {},
+  });
+
+  const {
+    DepartmentIdChecker,
+    DepartmentErrorStyle,
+    DesignationIdChecker,
+    DesignationErrorStyle,
+    UserGroupIdChecker,
+    UserGroupErrorStyle,
+
+    passwordValChecker,
+    passwordValResult,
+    passwordValStyle,
+    passwordInptErrStyle,
+
+    repwdValChecker,
+    repwdValResult,
+    repwdValStyle,
+    repwdInptErrStyle,
+  } = error;
+
+  let passwrdTooltip = {
+    marginLeft: "-16em",
+    position: "absolute",
+    marginTop: "1.5em",
+    pointerEvents: "none",
+    zIndex: "999",
+    width: "300px",
+  };
+  const onInputChange3 = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "password":
+        if (value === "") {
+          setError({
+            ...error,
+            passwordValChecker: true,
+            passwordValResult: "REQUIRED",
+            passwordValStyle: { color: "#FF0000", marginTop: "30px" },
+            passwordInptErrStyle: { border: "1px solid #FF0000" },
+          });
+          setFormData({ ...formData, [e.target.name]: "" });
+        } else {
+          const pwdFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+          if (pwdFilter.test(value)) {
+            setError({
+              ...error,
+              passwordValChecker: true,
+              passwordValResult: "STRONG",
+              passwordValStyle: { color: "#43b90f", marginTop: "30px" },
+              passwordInptErrStyle: { border: "1px solid #43b90f" },
+            });
+          } else {
+            setError({
+              ...error,
+              passwordValChecker: true,
+              passwordValResult: "WEAK",
+              passwordValStyle: { color: "#FF0000", marginTop: "30px" },
+              passwordInptErrStyle: { border: "1px solid #FF0000" },
+            });
+          }
+          setFormData({ ...formData, [e.target.name]: value });
+        }
+        break;
+
+      case "rePassword":
+        if (value === "") {
+          setError({
+            ...error,
+            repwdValChecker: true,
+            repwdValResult: "REQUIRED",
+            repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+            repwdInptErrStyle: { border: "1px solid #FF0000" },
+          });
+          setFormData({ ...formData, [e.target.name]: "" });
+        } else {
+          if (value === formData.password) {
+            setError({
+              ...error,
+              repwdValChecker: true,
+              repwdValResult: "MATCHED",
+              repwdValStyle: { color: "#43b90f", marginTop: "30px" },
+              repwdInptErrStyle: { border: "1px solid #43b90f" },
+            });
+          } else {
+            setError({
+              ...error,
+              repwdValChecker: true,
+              repwdValResult: "DOES NOT MATCH",
+              repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+              repwdInptErrStyle: { border: "1px solid #FF0000" },
+            });
+          }
+          setFormData({ ...formData, [e.target.name]: value });
+        }
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const checkErrors = (formData) => {
+    if (!DepartmentIdChecker) {
+      setError({
+        ...error,
+        DepartmentErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    if (!DesignationIdChecker) {
+      setError({
+        ...error,
+        DesignationErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    if (!UserGroupIdChecker) {
+      setError({
+        ...error,
+        UserGroupErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    if (formData && formData.password === "") {
+      setError({
+        ...error,
+        passwordValChecker: true,
+        passwordValResult: "REQUIRED",
+        passwordValStyle: { color: "#FF0000", marginTop: "30px" },
+        passwordInptErrStyle: { border: "1px solid #FF0000" },
+      });
+      return false;
+    }
+    if (formData && formData.rePassword !== formData.password) {
+      setError({
+        ...error,
+        repwdValChecker: true,
+        repwdValResult: "DOESNOT MATCH",
+        // repwdValResult: "REQUIRED",
+        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+        repwdInptErrStyle: { border: "1px solid #FF0000" },
+      });
+      return false;
+    }
+
+    if (formData && formData.rePassword === "") {
+      setError({
+        ...error,
+        repwdValChecker: true,
+        repwdValResult: "REQUIRED",
+        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+        repwdInptErrStyle: { border: "1px solid #FF0000" },
+      });
+      return false;
+    }
+
+    return true;
+  };
+  // console.log(designationId);
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
-    const finalData = {
-      empFullName: empFullName,
-      empPhone: employeePhone,
-      empAadharNo: employeeAadharNo,
-      empPanNo: employeePanNo,
-      empDOB: employeeDOBDate,
-      empEmail: employeeEmail,
-      empJoiningDate: employeeDOJDate,
-      empDepartmentId: department,
-      empDesignationId: designation,
-      empCode: employeeCode,
-      empAddress: employeeAddr,
-      empState: employeeState,
-      empPincode: employeePincode,
-      employeeBankName: employeeBankName,
-      employeeIFSCcode: employeeIFSCcode,
-      employeeAccountNo: employeeAccountNo,
-      employeeBranch: employeeBranch,
-      employeePFNo: employeePFNo,
-      employeeESI: employeeESI,
-      employeeUANNo: employeeUANNo,
-      employeeBasic: employeeBasic,
-      employeeHRA: employeeHRA,
-      employeeDA: employeeDA,
-      empColorCode: color,
-    };
-    console.log(finalData);
-    AddEmployee(finalData);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // }
+    if (checkErrors()) {
+      const finalData = {
+        empFullName: empFullName,
+        empPhone: employeePhone,
+        empAadharNo: employeeAadharNo,
+        empPanNo: employeePanNo,
+        empDOB: employeeDOBDate,
+        empEmail: employeeEmail,
+        empJoiningDate: employeeDOJDate,
+        departmentId: departmentId,
+        departmentName: department.value,
+        designationId: designationId,
+        designationName: designation.value,
+        empCode: employeeCode,
+        empAddress: employeeAddr,
+        empState: employeeState,
+        empPincode: employeePincode,
+        empBankName: employeeBankName,
+        empIFSCCode: employeeIFSCcode,
+        empAccountNo: employeeAccountNo,
+        empBankBranch: employeeBranch,
+        empPFNo: employeePFNo,
+        empESICNo: employeeESI,
+        empUANNo: employeeUANNo,
+        empBasic: employeeBasic,
+        empHRA: employeeHRA,
+        empDA: employeeDA,
+        empColorCode: color,
+        empDesignationDate: employeeDesigDate,
+        empPFDate: employeePfDate,
+        cityallowance: cityallowance,
+        Others: Others,
+        proinc: proinc,
+        password: password,
+        userName: userName,
+        empCA: empCA,
+        usergroupsId: usergroupsId,
+        userGroupName: usergroups.value,
+      };
+      console.log(finalData);
+      AddEmployee(finalData);
+      // setFormData({
+      //   ...formData,
+      //   districtName: "",
+      //   isSubmitted: true,
+      // });
+    }
   };
   // code for next previous tabing ends
   return !isAuthenticated || !user || !users ? (
@@ -187,10 +457,17 @@ const AddEmployeeDetails = ({
   ) : (
     <Fragment>
       <div className="container container_align ">
-        <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-          <h2 className="heading_color">Add Employee Details </h2>
-          <hr />
+        <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
+          <div className=" col-lg-10 col-md-11 col-sm-12 col-12">
+            <h2 className="heading_color">Add Employee Details </h2>
+          </div>
+          <div className="col-lg-2 col-md-11 col-sm-12 col-12 py-2">
+            <Link className="btn btn_green_bg float-right" to="/all-staff">
+              Back
+            </Link>
+          </div>
         </div>
+        {/* <hr /> */}
         <section className="sub_reg">
           <Tabs selectedIndex={tabIndex}>
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
@@ -210,14 +487,16 @@ const AddEmployeeDetails = ({
                     </div>
                     <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">Employee Name :</label>
+                        <label className="label-control">
+                          Employee Name* :
+                        </label>
                         <input
                           type="text"
                           name="empFullName"
                           value={empFullName}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
-                          //required
+                          required
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -303,8 +582,14 @@ const AddEmployeeDetails = ({
                           // required
                         />
                       </div>
+
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                        <label className="label-control">Department :</label>
+                        <label
+                          className="label-control"
+                          style={DepartmentErrorStyle}
+                        >
+                          Department* :
+                        </label>
                         <Select
                           name="departmentName"
                           options={activeDepartment}
@@ -325,7 +610,38 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                        <label className="label-control">Designation :</label>
+                        <label
+                          className="label-control"
+                          style={UserGroupErrorStyle}
+                        >
+                          Employee Group* :
+                        </label>
+                        <Select
+                          name="userGroupName"
+                          options={allusergroups}
+                          isSearchable={true}
+                          value={usergroups}
+                          placeholder="Select UserGroup"
+                          onChange={(e) => onUsergroupChange(e)}
+                          theme={(theme) => ({
+                            ...theme,
+                            height: 26,
+                            minHeight: 26,
+                            borderRadius: 1,
+                            colors: {
+                              ...theme.colors,
+                              primary: "black",
+                            },
+                          })}
+                        />
+                      </div>
+                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                        <label
+                          className="label-control"
+                          style={DesignationErrorStyle}
+                        >
+                          Designation* :
+                        </label>
 
                         <Select
                           name="designationName"
@@ -346,8 +662,28 @@ const AddEmployeeDetails = ({
                           })}
                         />
                       </div>
+
+                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
+                        <label> Designation Date :</label>
+                        <br />
+                        <input
+                          type="date"
+                          placeholder="dd/mm/yyyy"
+                          className="form-control cpp-input datevalidation"
+                          name="employeeDesigDate"
+                          value={employeeDesigDate}
+                          onChange={(e) => onDateChange2(e)}
+                          style={{
+                            width: "75%",
+                          }}
+
+                          // required
+                        />
+                      </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                        <label className="label-control">Emp color :</label>
+                        <label className="label-control">
+                          Employee color :
+                        </label>
                         <br />
                         <input
                           className="form-control"
@@ -355,6 +691,86 @@ const AddEmployeeDetails = ({
                           value={color}
                           onChange={(e) => setColor(e.target.value)}
                         />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                      <label className="label-control">UserName :</label>
+                      <input
+                        type="text"
+                        name="userName"
+                        value={userName}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                        autoComplete="false"
+                      />
+                    </div>
+                    <div className=" col-lg-3 col-md-9 col-sm-9 col-12 py-4">
+                      <label> Password* :</label>
+                      <div className="">
+                        <input
+                          type="password"
+                          name="password"
+                          className="form-control "
+                          value={password}
+                          style={passwordInptErrStyle}
+                          onChange={(e) => onInputChange3(e)}
+                          autoComplete="false"
+                        />
+                        {passwordValChecker && (
+                          <span
+                            className="form-input-info positioning"
+                            style={passwordValStyle}
+                          >
+                            {passwordValResult}
+                          </span>
+                        )}
+                        <div
+                          className="cstm-hint"
+                          id="pass_admin_help"
+                          //   style={{ top: "100px" }}
+                        >
+                          <img
+                            src={require("../../static/images/help1.png")}
+                            alt="help"
+                            id="img_tool_admin"
+                            className="pass_admin_help_icon_question"
+                          />
+                          <div
+                            id="tooltipPassAdmin"
+                            className="syle-hint"
+                            style={passwrdTooltip}
+                            data-hint="Password  at least 1 uppercase and 1 lowercase, 1 digit, 1 symbol, length from 8 to 20"
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-3 col-md-9 col-sm-9 col-12 py-4">
+                      <label className="">Confirm Password</label>
+
+                      <div>
+                        <input
+                          type="password"
+                          name="rePassword"
+                          className="form-control "
+                          value={rePassword}
+                          style={repwdInptErrStyle}
+                          onChange={(e) => onInputChange3(e)}
+                          autoComplete="false"
+                        />
+                        {repwdValChecker && (
+                          <Fragment>
+                            <span
+                              className="form-input-info positioning"
+                              style={repwdValStyle}
+                            >
+                              {repwdValResult}
+                            </span>
+                          </Fragment>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -416,7 +832,7 @@ const AddEmployeeDetails = ({
                       <div className="col-lg-4 col-md-12 col-sm-12 col-12">
                         <label className="label-control">Pincode :</label>
                         <input
-                          type="text"
+                          type="number"
                           name="employeePincode"
                           value={employeePincode}
                           className="form-control"
@@ -503,9 +919,37 @@ const AddEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">ESI :</label>
+                      <label className="label-control">City Allowance :</label>
                       <input
                         type="text"
+                        name="cityallowance"
+                        value={cityallowance}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
+                      <label> PF Date :</label>
+                      <br />
+                      <input
+                        type="date"
+                        placeholder="dd/mm/yyyy"
+                        className="form-control cpp-input datevalidation"
+                        name="employeePfDate"
+                        value={employeePfDate}
+                        onChange={(e) => onDateChange3(e)}
+                        style={{
+                          width: "75%",
+                        }}
+
+                        // required
+                      />
+                    </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">ESI :</label>
+                      <input
+                        type="number"
                         name="employeeESI"
                         value={employeeESI}
                         className="form-control"
@@ -515,7 +959,7 @@ const AddEmployeeDetails = ({
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                       <label className="label-control">UAN No :</label>
                       <input
-                        type="text"
+                        type="number"
                         name="employeeUANNo"
                         value={employeeUANNo}
                         className="form-control"
@@ -525,7 +969,7 @@ const AddEmployeeDetails = ({
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                       <label className="label-control">Basic :</label>
                       <input
-                        type="text"
+                        type="number"
                         name="employeeBasic"
                         value={employeeBasic}
                         className="form-control"
@@ -535,7 +979,7 @@ const AddEmployeeDetails = ({
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                       <label className="label-control">HRA :</label>
                       <input
-                        type="text"
+                        type="number"
                         name="employeeHRA"
                         value={employeeHRA}
                         className="form-control"
@@ -545,9 +989,40 @@ const AddEmployeeDetails = ({
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                       <label className="label-control">DA :</label>
                       <input
-                        type="text"
+                        type="number"
                         name="employeeDA"
                         value={employeeDA}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">CA :</label>
+                      <input
+                        type="number"
+                        name="empCA"
+                        value={empCA}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">Others :</label>
+                      <input
+                        type="number"
+                        name="Others"
+                        value={Others}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                    <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">Pro Inc :</label>
+                      <input
+                        type="number"
+                        name="proinc"
+                        value={proinc}
                         className="form-control"
                         onChange={(e) => onInputChange(e)}
                       />
@@ -577,6 +1052,12 @@ const AddEmployeeDetails = ({
                         Previous
                       </button>
                     </div>
+                    <div className="col-lg-8 col-md-6 col-sm-12 col-12">
+                      <label className="label-control colorRed">
+                        * Indicates mandatory fields, Please fill mandatory
+                        fields before Submit
+                      </label>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -594,9 +1075,11 @@ AddEmployeeDetails.propTypes = {
   getALLDepartment: PropTypes.object.isRequired,
   getActiveDesignation: PropTypes.object.isRequired,
   AddEmployee: PropTypes.func.isRequired,
+  getALLUserGroups: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  user: state.user,
   settings: state.settings,
 });
 
@@ -604,4 +1087,5 @@ export default connect(mapStateToProps, {
   getALLDepartment,
   AddEmployee,
   getActiveDesignation,
+  getALLUserGroups,
 })(AddEmployeeDetails);

@@ -34,13 +34,10 @@ const EditDesignation = ({
     e.preventDefault();
     const finalData = {
       recordId: allDeptartmentdata ? allDeptartmentdata._id : "",
-
       designationName: designationName,
       designationDesc: designationDesc,
       designationEditedById: user._id,
     };
-
-    console.log(finalData);
     editDesignation(finalData);
     onEditModalChange(true);
     // setFormData({

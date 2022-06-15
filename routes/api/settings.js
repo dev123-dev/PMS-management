@@ -142,13 +142,36 @@ router.post("/edit-payment-mode", async (req, res) => {
       { _id: data.recordId },
       {
         $set: {
-          paymentMode: data.paymentMode,
+          paymentModeName: data.paymentModeName,
           paymentModeEditedById: data.paymentModeEditedById,
           paymentModeEditedDateTime: Date.now(),
         },
       }
     );
     res.json(updatePaymentMode);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+//DEACTIVATE
+
+router.post("/deactive-designation-data", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactiveDesignationData = await Designation.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          designationStatus: "Deactive",
+          designationDeactiveReason: data.designationDeactiveReason,
+          designationDeactiveById: data.designationDeactiveById,
+          designationDeactiveDateTime: data.designationDeactiveDateTime,
+        },
+      }
+    );
+
+    res.json(deactiveDesignationData);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }

@@ -35,7 +35,7 @@ const EditProject = ({
   useEffect(() => {
     getActiveClientsFilter();
   }, [getActiveClientsFilter]);
-  console.log(allProjectdata);
+
   const activeClientsOpt = [];
   activeClientFilter.map((clientsData) =>
     activeClientsOpt.push({
@@ -47,15 +47,26 @@ const EditProject = ({
       value: clientsData.clientName,
     })
   );
+
   const projectStatusOpt = [];
   allProjectStatus.map((projStatusData) =>
     projectStatusOpt.push({
-      projStatusId: projStatusData._id,
+      projectStatusId: projStatusData._id,
       label: projStatusData.projectStatusType,
       value: projStatusData.projectStatusType,
     })
   );
-  const [clientData, setClientData] = useState();
+
+  console.log(activeClientsOpt);
+  console.log("allprojectdata", allProjectdata);
+  const [clientData, setClientData] = useState(
+    allProjectdata
+      ? activeClientsOpt &&
+          activeClientsOpt.filter(
+            (x) => x.value === allProjectdata.clientName
+          )[0]
+      : ""
+  );
   const [clientId, setClientId] = useState();
   // const [clientName, setClientName] = useState();
   const [clientBelongsTo, setBelongsToVal] = useState();
@@ -83,7 +94,14 @@ const EditProject = ({
     setFolderNameVal(e.folderName);
   };
 
-  const [projectStatusData, setProjectStatusData] = useState();
+  const [projectStatusData, setProjectStatusData] = useState(
+    allProjectdata
+      ? projectStatusOpt &&
+          projectStatusOpt.filter(
+            (x) => x.projectStatusId === allProjectdata.projectStatusId
+          )[0]
+      : ""
+  );
   const onProjectStatusChange = (e) => {
     //Required Validation starts
     setError({
@@ -97,11 +115,6 @@ const EditProject = ({
 
   //formData
   const [formData, setFormData] = useState({
-    clientType:
-      allProjectdata && allProjectdata.clientType
-        ? allProjectdata.clientType
-        : "",
-
     clientName:
       allProjectdata && allProjectdata.clientName
         ? allProjectdata.clientName
@@ -147,6 +160,22 @@ const EditProject = ({
     Instructions:
       allProjectdata && allProjectdata.projectNotes
         ? allProjectdata.projectNotes
+        : "",
+
+    priority:
+      allProjectdata && allProjectdata.projectPriority
+        ? {
+            value: allProjectdata.projectPriority,
+            label: allProjectdata.projectPriority,
+          }
+        : "",
+
+    clientType:
+      allProjectdata && allProjectdata.clientTypeVal
+        ? {
+            value: allProjectdata.clientTypeVal,
+            label: allProjectdata.clientTypeVal,
+          }
         : "",
 
     isSubmitted: false,
@@ -209,12 +238,19 @@ const EditProject = ({
       });
     }
   };
-  const [startprojectDate, setprojectDate] = useState("");
+
+  const [startprojectDate, setprojectDate] = useState(
+    allProjectdata && allProjectdata.projectDate
+      ? allProjectdata.projectDate
+      : ""
+  );
   const onDateChange = (e) => {
     setprojectDate(e.target.value);
   };
 
-  const [startclientDate, setclientDate] = useState("");
+  const [startclientDate, setclientDate] = useState(
+    allProjectdata && allProjectdata.clientDate ? allProjectdata.clientDate : ""
+  );
   const onDateChange1 = (e) => {
     setclientDate(e.target.value);
   };
@@ -287,6 +323,7 @@ const EditProject = ({
         projectQuantity: qty,
         // projectUnconfirmed
         // projectVendor
+        clientTypeVal: clientType.value,
         projectTime: projectTime,
         projectDate: startprojectDate,
         clientTime: clientTime,
@@ -479,8 +516,8 @@ const EditProject = ({
                   <label className="label-control">Priority :</label>
                   <Select
                     name="priority"
-                    value={priority}
-                    options={priorityVal}
+                    value={priorityVal}
+                    options={priority}
                     isSearchable={false}
                     placeholder="Select"
                     onChange={(e) => priorityToChange(e)}

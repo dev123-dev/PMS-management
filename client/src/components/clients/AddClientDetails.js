@@ -32,6 +32,7 @@ const AddClientDetails = ({
   const [formData, setFormData] = useState({
     clientName: "",
     clientEmail: "",
+    clientBillingEmail: "",
     clientContactNo1: "",
     clientContactNo2: "",
     clientAddress: "",
@@ -43,13 +44,14 @@ const AddClientDetails = ({
     clientCompanyName: "",
     clientCompanyFounderName: "",
     clientWebsite: "",
-    clientModeofPaymentId: "",
+
     isSubmitted: false,
   });
 
   const {
     clientName,
     clientEmail,
+    clientBillingEmail,
     clientContactNo1,
     clientContactNo2,
     clientAddress,
@@ -60,8 +62,7 @@ const AddClientDetails = ({
     clientType,
     clientCompanyName,
     clientCompanyFounderName,
-    clientModeofPaymentId,
-    clientModeofPaymentMode,
+    PaymentMode,
     clientWebsite,
     isSubmitted,
   } = formData;
@@ -91,8 +92,8 @@ const AddClientDetails = ({
   paymentMode.map((payment) =>
     allpaymentmodes.push({
       paymentId: payment._id,
-      label: payment.paymentMode,
-      value: payment.paymentMode,
+      label: payment.paymentModeName,
+      value: payment.paymentModeName,
     })
   );
 
@@ -110,6 +111,11 @@ const AddClientDetails = ({
     setpaymentname(paymentname);
   };
 
+  const [clients, getclientsData] = useState();
+  const [clientsId, setclientsId] = useState();
+  const [clientsName, setclientsName] = useState();
+  console.log(clients);
+
   const allclientBelongsTo = [];
   activeClient.map((clients) =>
     allclientBelongsTo.push({
@@ -119,36 +125,38 @@ const AddClientDetails = ({
     })
   );
 
-  const [clients, getclientsData] = useState();
-  const [clientsId, setclientsId] = useState();
-
   const onBelongstoChange = (e) => {
     var clientsId = "";
+    var clientsName = "";
     getclientsData(e);
     clientsId = e.clientsId;
+    clientsName = e.value;
     setclientsId(clientsId);
+    setclientsName(clientsName);
   };
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
       clientName: clientName,
+      clientBelongsToId: clientsId,
+      clientBelongsToName: clientsName,
       clientEmail: clientEmail,
+      clientBillingEmail: clientBillingEmail,
       clientContactNo1: clientContactNo1,
       clientContactNo2: clientContactNo2,
       clientAddress: clientAddress,
       clientCountry: clientCountry,
       clientCurrency: clientCurrency,
-      clientBelongsTo: clientBelongsTo,
       clientFolderName: clientFolderName,
       clientType: clientType.value,
       clientCompanyName: clientCompanyName,
-      clientModeofPaymentId: paymentId,
-      clientModeofPaymentMode: paymentname,
+      paymentId: paymentId,
+      paymentModeName: paymentname,
       clientCompanyFounderName: clientCompanyFounderName,
       clientWebsite: clientWebsite,
     };
-    // console.log(finalData);
+    console.log(finalData);
     AddClient(finalData);
     setFormData({
       ...formData,
@@ -167,10 +175,17 @@ const AddClientDetails = ({
       {" "}
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
-          <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">Add Client Details </h2>
-            <hr />
+          <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
+            <div className="col-lg-10 col-md-11 col-sm-12 col-12">
+              <h2 className="heading_color">Add Client Details </h2>
+            </div>
+            <div className="col-lg-2 col-md-11 col-sm-12 col-12 py-2">
+              <Link className="btn btn_green_bg float-right" to="/all-clients">
+                Back
+              </Link>
+            </div>
           </div>
+          <hr />
           <section className="sub_reg">
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
@@ -179,13 +194,14 @@ const AddClientDetails = ({
                     <h5>Client Info </h5>
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client Name :</label>
+                    <label className="label-control">Client Name* :</label>
                     <input
                       type="text"
                       name="clientName"
                       value={clientName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -232,8 +248,8 @@ const AddClientDetails = ({
                     <label className="label-control">Billing Email :</label>
                     <input
                       type="text"
-                      // name="batchBankAccountNumber"
-                      // value={batchBankAccountNumber}
+                      name="clientBillingEmail"
+                      value={clientBillingEmail}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
@@ -349,7 +365,6 @@ const AddClientDetails = ({
                           style={{ width: "100%" }}
                           value={clientAddress}
                           onChange={(e) => onInputChange(e)}
-                          required
                         ></textarea>
                       </div>
 

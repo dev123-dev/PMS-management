@@ -114,13 +114,13 @@ const AllClientDetails = ({
                               <td className="headcolstatic">
                                 {allClient.clientName}
                               </td>
-                              <td>{allClient.clientBelongsTo}</td>
+                              <td>{allClient.clientBelongsToName}</td>
                               <td>{allClient.clientFolderName}</td>
                               <td>{allClient.clientEmail}</td>
                               <td>{allClient.clientContactNo1}</td>
                               <td>{allClient.clientContactNo2}</td>
                               <td>{allClient.clientCurrency}</td>
-                              <td>{allClient.clientModeofPaymentMode}</td>
+                              <td>{allClient.paymentModeName}</td>
                               <td>{allClient.clientCountry}</td>
                               <td>
                                 <>

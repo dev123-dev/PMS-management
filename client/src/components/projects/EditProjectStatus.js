@@ -17,11 +17,14 @@ const EditProjectStatus = ({
       allProjectStatusdata && allProjectStatusdata.projectStatusType
         ? allProjectStatusdata.projectStatusType
         : "",
+
     projectStatusCategory:
       allProjectStatusdata && allProjectStatusdata.projectStatusCategory
-        ? allProjectStatusdata.projectStatusCategory
+        ? {
+            value: allProjectStatusdata.projectStatusCategory,
+            label: allProjectStatusdata.projectStatusCategory,
+          }
         : "",
-
     isSubmitted: false,
   });
 
@@ -36,10 +39,11 @@ const EditProjectStatus = ({
     // if (checkErrors()) {
     const finalData = {
       recordId: allProjectStatusdata ? allProjectStatusdata._id : "",
-      projectStatusCategory: projectStatusCategory,
+      projectStatusCategory: projectStatusCategory.value,
       projectStatusType: projectStatusType,
+      projectStutusEditedById: user._id,
     };
-    console.log(finalData);
+    // console.log(finalData);
     editProjectStatus(finalData);
     onEditModalChange(true);
     // setFormData({
