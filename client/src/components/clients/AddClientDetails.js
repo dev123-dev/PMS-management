@@ -114,7 +114,7 @@ const AddClientDetails = ({
   const [clients, getclientsData] = useState();
   const [clientsId, setclientsId] = useState();
   const [clientsName, setclientsName] = useState();
-  console.log(clients);
+  // console.log(clients);
 
   const allclientBelongsTo = [];
   activeClient.map((clients) =>
@@ -156,7 +156,7 @@ const AddClientDetails = ({
       clientCompanyFounderName: clientCompanyFounderName,
       clientWebsite: clientWebsite,
     };
-    console.log(finalData);
+    // console.log(finalData);
     AddClient(finalData);
     setFormData({
       ...formData,

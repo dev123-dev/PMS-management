@@ -647,7 +647,7 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                      <label className="label-control">Department :</label>
+                      <label className="label-control">Department* :</label>
                       <Select
                         name="departmentName"
                         options={activeDepartment}
@@ -668,7 +668,7 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                      <label className="label-control">Emp Group :</label>
+                      <label className="label-control">Emp Group* :</label>
                       <Select
                         name="departmentName"
                         options={allusergroups}
@@ -689,7 +689,7 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                      <label className="label-control">Designation :</label>
+                      <label className="label-control">Designation* :</label>
                       <Select
                         name="designationName"
                         options={alldesignation}

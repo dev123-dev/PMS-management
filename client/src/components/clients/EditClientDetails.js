@@ -169,16 +169,28 @@ const EditClientDetails = ({
     setpaymentname(paymentModeName);
   };
 
-  const allclientBelongsTo = [];
-  activeClient.map((clients) =>
-    allclientBelongsTo.push({
-      clientsId: clients._id,
-      label: clients.clientName,
-      value: clients.clientName,
-    })
+  let allClientBelongsToData = JSON.parse(
+    localStorage.getItem("allClientBelongsToData")
   );
+  // console.log(allClientBelongsToData);
+  const allclientBelongsTo = [];
+  allClientBelongsToData &&
+    allClientBelongsToData.map((clients) =>
+      allclientBelongsTo.push({
+        clientsId: clients._id,
+        label: clients.clientName,
+        value: clients.clientName,
+      })
+    );
 
-  const [clients, getclientsData] = useState();
+  const [clients, getclientsData] = useState(
+    allClientdata
+      ? allclientBelongsTo &&
+          allclientBelongsTo.filter(
+            (x) => x.value === allClientdata.clientBelongsToName
+          )[0]
+      : ""
+  );
   const [clientsId, setclientsId] = useState();
 
   const onBelongstoChange = (e) => {

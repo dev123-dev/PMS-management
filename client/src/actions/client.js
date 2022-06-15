@@ -22,6 +22,7 @@ export const AddClient = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/client/add-client", finalData, config);
+    dispatch(getAllClients());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -87,6 +88,7 @@ export const getAllClients = () => async (dispatch) => {
 export const getActiveClients = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/client/get-active-client");
+    localStorage.setItem("allClientBelongsToData", JSON.stringify(res.data));
     dispatch({
       type: ACTIVE_CLIENTS,
       payload: res.data,

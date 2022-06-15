@@ -29,26 +29,53 @@ const AddProjectStatus = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const [error, setError] = useState({
+    projectStatusCategoryIdChecker: false,
+    projectStatusCategoryErrorStyle: {},
+  });
+
+  const {
+    projectStatusCategoryIdChecker,
+    projectStatusCategoryErrorStyle,
+  } = error;
+  const checkErrors = (formData) => {
+    if (!projectStatusCategoryIdChecker) {
+      setError({
+        ...error,
+        projectStatusCategoryErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    return true;
+  };
   const onSubmit = (e) => {
     e.preventDefault();
 
-    // if (checkErrors()) {
-    const finalData = {
-      projectStatusCategory: projectStatusCategory.value,
-      projectStatusType: projectStatusType,
-      projectStutusEnteredById: user._id,
-    };
-    addProjectStatus(finalData);
-    onAddDistrictModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // }
+    if (checkErrors()) {
+      const finalData = {
+        projectStatusCategory: projectStatusCategory.value,
+        projectStatusType: projectStatusType,
+        projectStutusEnteredById: user._id,
+      };
+      addProjectStatus(finalData);
+      onAddDistrictModalChange(true);
+      // setFormData({
+      //   ...formData,
+      //   districtName: "",
+      //   isSubmitted: true,
+      // });
+    }
   };
 
   const onStatuscatChange = (e) => {
+    //Required Validation starts
+    setError({
+      ...error,
+      projectStatusCategoryIdChecker: true,
+      projectStatusCategoryErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
     if (e) {
       setFormData({
         ...formData,
@@ -75,7 +102,12 @@ const AddProjectStatus = ({
             />
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control">Project Status Category* :</label>
+            <label
+              className="label-control"
+              style={projectStatusCategoryErrorStyle}
+            >
+              Project Status Category* :
+            </label>
             <Select
               name="projectStatusCategory"
               options={StatusCategory}
