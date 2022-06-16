@@ -281,7 +281,8 @@ const AddEmployeeDetails = ({
           });
           setFormData({ ...formData, [e.target.name]: "" });
         } else {
-          const pwdFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+          const pwdFilter =
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
           if (pwdFilter.test(value)) {
             setError({
               ...error,
@@ -441,8 +442,8 @@ const AddEmployeeDetails = ({
         empCA: empCA,
         usergroupsId: usergroupsId,
         userGroupName: usergroups.value,
+        empEnteredById: user._id,
       };
-      console.log(finalData);
       AddEmployee(finalData);
       // setFormData({
       //   ...formData,

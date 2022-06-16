@@ -28,7 +28,7 @@ const EditEmployeeDetails = ({
   useEffect(() => {
     getALLUserGroups();
   }, [getALLUserGroups]);
-  console.log(allEmployeedata);
+  // console.log(allEmployeedata);
   // console.log("allDeptartment", allDepartment);
 
   const [formData, setFormData] = useState({
@@ -351,8 +351,10 @@ const EditEmployeeDetails = ({
       empDOB: employeeDOBDate,
       empEmail: employeeEmail,
       empJoiningDate: employeeDOJDate,
-      departmentId: department,
-      designationId: designation,
+      departmentId: department.departmentId,
+      departmentName: department.value,
+      designationId: designation.designationId,
+      designationName: designation.value,
       empCode: employeeCode,
       empAddress: empAddress,
       empState: employeeState,
@@ -366,17 +368,20 @@ const EditEmployeeDetails = ({
       employeeUANNo: employeeUANNo,
       empBasic: employeeBasic,
       empHRA: employeeHRA,
-      empCA: employeeDA,
+      empDA: employeeDA,
+      empCA: empCA,
       empColorCode: color,
       empDesignationDate: employeeDesigDate,
       empPFDate: employeePfDate,
       cityallowance: cityallowance,
       Others: Others,
       proinc: proinc,
-      usergroupsId: usergroupsId,
+      usergroupsId: usergroups.usergroupsId,
       userGroupName: usergroups.value,
+      empEditedById: user._id,
+      allEmployeedata: allEmployeedata,
     };
-    console.log("ewew", finalData);
+    // console.log("finalData", finalData);
     editEmployeeDetails(finalData);
     onEditModalChange(true);
     // setFormData({
