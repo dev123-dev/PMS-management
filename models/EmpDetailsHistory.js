@@ -9,7 +9,6 @@ const EmpDetailsHistorySchema = new mongoose.Schema({
   },
   edhFullName: {
     type: String,
-    required: true,
   },
   edhEmpCode: {
     type: String,
