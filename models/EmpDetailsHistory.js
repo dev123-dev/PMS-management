@@ -11,6 +11,9 @@ const EmpDetailsHistorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  edhEmpCode: {
+    type: String,
+  },
   edhDepartmentId: {
     type: ObjectId,
   },
@@ -50,9 +53,6 @@ const EmpDetailsHistorySchema = new mongoose.Schema({
   edhGroupId: {
     type: ObjectId,
   },
-  edhStatus: {
-    type: String,
-  },
   edhEditedById: {
     type: ObjectId,
   },
@@ -91,6 +91,18 @@ const EmpDetailsHistorySchema = new mongoose.Schema({
     type: SchemaTypes.Double,
   },
   edhCA: {
+    type: SchemaTypes.Double,
+  },
+  edhDA: {
+    type: SchemaTypes.Double,
+  },
+  edhproinc: {
+    type: SchemaTypes.Double,
+  },
+  edhCityallowance: {
+    type: SchemaTypes.Double,
+  },
+  edhOthers: {
     type: SchemaTypes.Double,
   },
 });

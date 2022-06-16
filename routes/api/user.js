@@ -57,42 +57,43 @@ router.post("/add-employee", async (req, res) => {
 router.post("/edit-employee", async (req, res) => {
   try {
     let data = req.body;
-    // console.log(data);
-    // let allEmployeedata = data.allEmployeedata;
-    // const historyData = {
-    //   edhId: allEmployeedata._id,
-    //   edhFullName: allEmployeedata.batchId,
-    //   bthBatchName: allEmployeedata.batchName,
-    //   bthSavingAmt: allEmployeedata.batchSavingAmt,
-    //   bthLoanPaid: allEmployeedata.batchLoanPaid,
-    //   bthInterestPaid: allEmployeedata.batchInterestPaid,
-    //   bthSubAmt: allEmployeedata.batchSubAmt,
-    //   bthBankInterest: allEmployeedata.bankInterest,
-    //   bthStationaryExpenses: allEmployeedata.stationaryExpenses,
-    //   bthCashInHand: allEmployeedata.cashInHand,
-    //   bthPaidToMahasangha: allEmployeedata.paidToMahasangha,
-    //   bthTravellingExpenses: allEmployeedata.travellingExpenses,
-    //   bthBankCommission: allEmployeedata.bankCommission,
-    //   bthOtherExpenses: allEmployeedata.otherExpenses,
-    //   bthServiceCharges: allEmployeedata.serviceCharges,
-    //   bthOtherContribution: allEmployeedata.batchOtherContribution,
-    //   bthLoanAmt: allEmployeedata.batchLoanAmt,
-    //   bthLoanStatus: allEmployeedata.batchLoanStatus,
-    //   batchMeetingHeldOnDate: allEmployeedata.batchMeetingHeldOnDate,
-    //   bthBankDeposit: allEmployeedata.batchBankDeposit,
-    //   bthNeftBalance: allEmployeedata.neftBalance,
-    //   bthSavingWithdrawals: allEmployeedata.batchSavingWithdrawals,
-    //   bthDividendDistributed: allEmployeedata.batchDividendDistributed,
-    //   bthOtherLoan: allEmployeedata.batchOtherLoanAmt,
-    //   bthOtherLoanPaid: allEmployeedata.batchOtherLoanPaid,
-    //   bthOtherLoanInterest: allEmployeedata.batchOtherLoanInterest,
-    //   btEnteredById: allEmployeedata.btEnteredById,
-    //   btEnteredByName: allEmployeedata.btEnteredByName,
-    //   btEnteredDateTime: allEmployeedata.btEnteredDateTime,
-    //   institutionId: allEmployeedata.institutionId,
-    // };
-    // let employeeDetailsHistory = new EmployeeDetailsHistory(historyData);
-    // await employeeDetailsHistory.save();
+    console.log(data);
+    let allEmployeedata = data.allEmployeedata;
+    const historyData = {
+      edhId: allEmployeedata._id,
+      edhFullName: allEmployeedata.empFullName,
+      edhEmpCode: allEmployeedata.empCode,
+      edhDepartmentId: allEmployeedata.departmentId,
+      edhDesignationId: allEmployeedata.designationId,
+      edhDesignationDate: allEmployeedata.empDesignationDate,
+      edhJoiningDate: allEmployeedata.empJoiningDate,
+      edhDOB: allEmployeedata.empDOB,
+      edhAadharNo: allEmployeedata.empAadharNo,
+      edhPanNo: allEmployeedata.empPanNo,
+      edhPhone: allEmployeedata.empPhone,
+      edhEmail: allEmployeedata.empEmail,
+      edhAddress: allEmployeedata.empAddress,
+      edhState: allEmployeedata.empState,
+      edhPincode: allEmployeedata.empPincode,
+      edhGroupId: allEmployeedata.usergroupsId,
+      edhBankName: allEmployeedata.empBankName,
+      edhAccountNo: allEmployeedata.empAccountNo,
+      edhBankBranch: allEmployeedata.edhBankBranch,
+      edhIFSCCode: allEmployeedata.edhIFSCCode,
+      edhPFNo: allEmployeedata.empPFNo,
+      edhPFDate: allEmployeedata.empPFDate,
+      edhUANNo: allEmployeedata.empUANNo,
+      edhESICNo: allEmployeedata.empESICNo,
+      edhBasic: allEmployeedata.empBasic,
+      edhHRA: allEmployeedata.empHRA,
+      edhCA: allEmployeedata.empCA,
+      edhDA: allEmployeedata.empDA,
+      edhproinc: allEmployeedata.proinc,
+      edhCityallowance: allEmployeedata.cityallowance,
+      edhOthers: allEmployeedata.Others,
+    };
+    let employeeDetailsHistory = new EmployeeDetailsHistory(historyData);
+    await employeeDetailsHistory.save();
     const updateEmployeeDetails = await EmployeeDetails.updateOne(
       { _id: data.recordId },
       {
