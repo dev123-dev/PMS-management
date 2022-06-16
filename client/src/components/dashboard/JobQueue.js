@@ -25,8 +25,6 @@ const JobQueue = ({
     getAllProjectStatus();
   }, [getAllProjectStatus]);
 
-  console.log(jobQueueProjects);
-
   function dhm(pDate, pTime) {
     let pStartDate = new Date(pDate + "," + pTime);
     let pEndDate = new Date();
