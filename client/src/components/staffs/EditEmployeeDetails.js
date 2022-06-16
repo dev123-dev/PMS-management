@@ -52,16 +52,20 @@ const EditEmployeeDetails = ({
         ? allEmployeedata.empPanNo
         : "",
 
-    employeeDOB:
+    empDOB:
       allEmployeedata && allEmployeedata.empDOB ? allEmployeedata.empDOB : "",
 
     employeeEmail:
       allEmployeedata && allEmployeedata.empEmail
         ? allEmployeedata.empEmail
         : "",
-    employeeDOJ:
+    empJoiningDate:
       allEmployeedata && allEmployeedata.empJoiningDate
         ? allEmployeedata.empJoiningDate
+        : "",
+    empDesignationDate:
+      allEmployeedata && allEmployeedata.empDesignationDate
+        ? allEmployeedata.empDesignationDate
         : "",
 
     employeeDepartment:
@@ -174,9 +178,6 @@ const EditEmployeeDetails = ({
     Others,
     proinc,
     empCA,
-    password,
-    rePassword,
-    userName,
 
     isSubmitted,
   } = formData;
@@ -202,6 +203,7 @@ const EditEmployeeDetails = ({
   const onDateChange1 = (e) => {
     setDOBDDate(e.target.value);
   };
+
   const [employeeDesigDate, setDesigDate] = useState(
     allEmployeedata && allEmployeedata.empDesignationDate
       ? allEmployeedata.empDesignationDate
@@ -337,148 +339,6 @@ const EditEmployeeDetails = ({
     setTabIndex(tabIndex);
   };
 
-  const [error, setError] = useState({
-    passwordValChecker: false,
-    passwordValResult: "",
-    passwordValStyle: {},
-    passwordInptErrStyle: {},
-
-    repwdValChecker: false,
-    repwdValResult: "",
-    repwdValStyle: {},
-    repwdInptErrStyle: {},
-  });
-
-  const {
-    passwordValChecker,
-    passwordValResult,
-    passwordValStyle,
-    passwordInptErrStyle,
-
-    repwdValChecker,
-    repwdValResult,
-    repwdValStyle,
-    repwdInptErrStyle,
-  } = error;
-
-  let passwrdTooltip = {
-    marginLeft: "-16em",
-    position: "absolute",
-    marginTop: "1.5em",
-    pointerEvents: "none",
-    zIndex: "999",
-    width: "300px",
-  };
-  const onInputChange3 = (e) => {
-    const { name, value } = e.target;
-    switch (name) {
-      case "password":
-        if (value === "") {
-          setError({
-            ...error,
-            passwordValChecker: true,
-            passwordValResult: "REQUIRED",
-            passwordValStyle: { color: "#FF0000", marginTop: "30px" },
-            passwordInptErrStyle: { border: "1px solid #FF0000" },
-          });
-          setFormData({ ...formData, [e.target.name]: "" });
-        } else {
-          const pwdFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
-          if (pwdFilter.test(value)) {
-            setError({
-              ...error,
-              passwordValChecker: true,
-              passwordValResult: "STRONG",
-              passwordValStyle: { color: "#43b90f", marginTop: "30px" },
-              passwordInptErrStyle: { border: "1px solid #43b90f" },
-            });
-          } else {
-            setError({
-              ...error,
-              passwordValChecker: true,
-              passwordValResult: "WEAK",
-              passwordValStyle: { color: "#FF0000", marginTop: "30px" },
-              passwordInptErrStyle: { border: "1px solid #FF0000" },
-            });
-          }
-          setFormData({ ...formData, [e.target.name]: value });
-        }
-        break;
-
-      case "rePassword":
-        if (value === "") {
-          setError({
-            ...error,
-            repwdValChecker: true,
-            repwdValResult: "REQUIRED",
-            repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-            repwdInptErrStyle: { border: "1px solid #FF0000" },
-          });
-          setFormData({ ...formData, [e.target.name]: "" });
-        } else {
-          if (value === formData.password) {
-            setError({
-              ...error,
-              repwdValChecker: true,
-              repwdValResult: "MATCHED",
-              repwdValStyle: { color: "#43b90f", marginTop: "30px" },
-              repwdInptErrStyle: { border: "1px solid #43b90f" },
-            });
-          } else {
-            setError({
-              ...error,
-              repwdValChecker: true,
-              repwdValResult: "DOES NOT MATCH",
-              repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-              repwdInptErrStyle: { border: "1px solid #FF0000" },
-            });
-          }
-          setFormData({ ...formData, [e.target.name]: value });
-        }
-        break;
-
-      default:
-        break;
-    }
-  };
-
-  const checkErrors = (formData) => {
-    if (formData && formData.password === "") {
-      setError({
-        ...error,
-        passwordValChecker: true,
-        passwordValResult: "REQUIRED",
-        passwordValStyle: { color: "#FF0000", marginTop: "30px" },
-        passwordInptErrStyle: { border: "1px solid #FF0000" },
-      });
-      return false;
-    }
-    if (formData && formData.rePassword !== formData.password) {
-      setError({
-        ...error,
-        repwdValChecker: true,
-        repwdValResult: "DOESNOT MATCH",
-        // repwdValResult: "REQUIRED",
-        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-        repwdInptErrStyle: { border: "1px solid #FF0000" },
-      });
-      return false;
-    }
-
-    if (formData && formData.rePassword === "") {
-      setError({
-        ...error,
-        repwdValChecker: true,
-        repwdValResult: "REQUIRED",
-        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-        repwdInptErrStyle: { border: "1px solid #FF0000" },
-      });
-      return false;
-    }
-
-    return true;
-  };
-
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
@@ -513,12 +373,10 @@ const EditEmployeeDetails = ({
       cityallowance: cityallowance,
       Others: Others,
       proinc: proinc,
-      password: password,
-      userName: userName,
       usergroupsId: usergroupsId,
       userGroupName: usergroups.value,
     };
-    console.log(finalData);
+    console.log("ewew", finalData);
     editEmployeeDetails(finalData);
     onEditModalChange(true);
     // setFormData({
@@ -558,17 +416,18 @@ const EditEmployeeDetails = ({
                   </div>
                   <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Employee Name :</label>
+                      <label className="label-control">Employee Name* :</label>
                       <input
                         type="text"
                         name="empFullName"
                         value={empFullName}
                         className="form-control"
                         onChange={(e) => onInputChange(e)}
+                        required
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Employee Phone* :</label>
+                      <label className="label-control">Employee Phone :</label>
                       <input
                         type="number"
                         name="employeePhone"
@@ -583,7 +442,7 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Adhaar Card No* :</label>
+                      <label className="label-control">Adhaar Card No :</label>
                       <input
                         type="text"
                         name="employeeAadharNo"
@@ -603,19 +462,19 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                      <label> DoB :</label>
+                      <label> DoB* :</label>
                       <br />
                       <input
                         type="date"
                         placeholder="dd/mm/yyyy"
                         className="form-control cpp-input datevalidation"
-                        name="employeeDOBDate"
+                        name="empDOB"
                         value={employeeDOBDate}
                         onChange={(e) => onDateChange1(e)}
                         style={{
                           width: "75%",
                         }}
-                        /// required
+                        required
                       />
                     </div>
 
@@ -630,20 +489,19 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                      <label> DoJ :</label>
+                      <label> DoJ* :</label>
                       <br />
                       <input
                         type="date"
                         placeholder="dd/mm/yyyy"
                         className="form-control cpp-input datevalidation"
-                        name="employeeDOJDate"
+                        name="empJoiningDate"
                         value={employeeDOJDate}
                         onChange={(e) => onDateChange(e)}
                         style={{
                           width: "75%",
                         }}
-
-                        // required
+                        required
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
@@ -710,20 +568,19 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                      <label> Designation Date :</label>
+                      <label> Designation Date* :</label>
                       <br />
                       <input
                         type="date"
                         placeholder="dd/mm/yyyy"
                         className="form-control cpp-input datevalidation"
-                        name="employeeDesigDate"
+                        name="empDesignationDate"
                         value={employeeDesigDate}
                         onChange={(e) => onDateChange2(e)}
                         style={{
                           width: "75%",
                         }}
-
-                        // required
+                        required
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
@@ -734,90 +591,13 @@ const EditEmployeeDetails = ({
                         type="color"
                         value={color}
                         onChange={(e) => setColor(e.target.value)}
+                        disabled
                       />
                     </div>
                   </div>
                   {/* </div> */}
                 </div>
-                <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
-                  <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                    <label className="label-control">UserName :</label>
-                    <input
-                      type="text"
-                      name="userName"
-                      value={userName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                      autoComplete="false"
-                    />
-                  </div>
-                  <div className=" col-lg-3 col-md-9 col-sm-9 col-12 py-4">
-                    <label> Password* :</label>
-                    <div className="">
-                      <input
-                        type="password"
-                        name="password"
-                        className="form-control "
-                        value={password}
-                        style={passwordInptErrStyle}
-                        onChange={(e) => onInputChange3(e)}
-                        autoComplete="false"
-                      />
-                      {passwordValChecker && (
-                        <span
-                          className="form-input-info positioning"
-                          style={passwordValStyle}
-                        >
-                          {passwordValResult}
-                        </span>
-                      )}
-                      <div
-                        className="cstm-hint"
-                        id="pass_admin_help"
-                        //   style={{ top: "100px" }}
-                      >
-                        <img
-                          src={require("../../static/images/help1.png")}
-                          alt="help"
-                          id="img_tool_admin"
-                          className="pass_admin_help_icon_question"
-                        />
-                        <div
-                          id="tooltipPassAdmin"
-                          className="syle-hint"
-                          style={passwrdTooltip}
-                          data-hint="Password  at least 1 uppercase and 1 lowercase, 1 digit, 1 symbol, length from 8 to 20"
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="col-lg-3 col-md-9 col-sm-9 col-12 py-4">
-                    <label className="">Confirm Password</label>
-
-                    <div>
-                      <input
-                        type="password"
-                        name="rePassword"
-                        className="form-control "
-                        value={rePassword}
-                        style={repwdInptErrStyle}
-                        onChange={(e) => onInputChange3(e)}
-                        autoComplete="false"
-                      />
-                      {repwdValChecker && (
-                        <Fragment>
-                          <span
-                            className="form-input-info positioning"
-                            style={repwdValStyle}
-                          >
-                            {repwdValResult}
-                          </span>
-                        </Fragment>
-                      )}
-                    </div>
-                  </div>
-                </div>
                 <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
                   <input
                     type="submit"

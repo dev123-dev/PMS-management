@@ -501,7 +501,7 @@ const AddEmployeeDetails = ({
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                         <label className="label-control">
-                          Employee Phone* :
+                          Employee Phone :
                         </label>
                         <input
                           type="number"
@@ -518,7 +518,7 @@ const AddEmployeeDetails = ({
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                         <label className="label-control">
-                          Adhaar Card No* :
+                          Adhaar Card No :
                         </label>
                         <input
                           type="text"
