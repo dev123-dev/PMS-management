@@ -17,6 +17,9 @@ const ProjectSchema = new mongoose.Schema({
   parentClientId: {
     type: ObjectId,
   },
+  parentClientName: {
+    type: String,
+  },
   projectLocation: {
     type: String,
   },

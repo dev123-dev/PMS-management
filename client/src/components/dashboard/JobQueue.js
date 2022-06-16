@@ -25,6 +25,8 @@ const JobQueue = ({
     getAllProjectStatus();
   }, [getAllProjectStatus]);
 
+  console.log(jobQueueProjects);
+
   function dhm(pDate, pTime) {
     let pStartDate = new Date(pDate + "," + pTime);
     let pEndDate = new Date();
@@ -161,7 +163,7 @@ const JobQueue = ({
               </button>
 
               <Link className="btn btn_green_bg float-right" to="/add-Project">
-                Add
+                Add Project
               </Link>
             </div>
           </div>

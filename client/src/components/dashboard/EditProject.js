@@ -57,8 +57,8 @@ const EditProject = ({
     })
   );
 
-  console.log(activeClientsOpt);
-  console.log("allprojectdata", allProjectdata);
+  // console.log(activeClientsOpt);
+  // console.log("allprojectdata", allProjectdata);
   const [clientData, setClientData] = useState(
     allProjectdata
       ? activeClientsOpt &&
@@ -70,6 +70,7 @@ const EditProject = ({
   const [clientId, setClientId] = useState();
   // const [clientName, setClientName] = useState();
   const [clientBelongsTo, setBelongsToVal] = useState();
+
   // allProjectdata && allProjectdata.parentClientId
   //   ? allProjectdata.parentClientId
   //   : ""
@@ -123,7 +124,6 @@ const EditProject = ({
       allProjectdata && allProjectdata.projectName
         ? allProjectdata.projectName
         : "",
-
     qty:
       allProjectdata && allProjectdata.projectQuantity
         ? allProjectdata.projectQuantity
