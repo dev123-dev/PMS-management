@@ -539,7 +539,7 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                        <label> DoB :</label>
+                        <label> DoB* :</label>
                         <br />
                         <input
                           type="date"
@@ -551,7 +551,7 @@ const AddEmployeeDetails = ({
                           style={{
                             width: "75%",
                           }}
-                          /// required
+                          required
                         />
                       </div>
 
@@ -566,7 +566,7 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                        <label> DoJ :</label>
+                        <label> DoJ* :</label>
                         <br />
                         <input
                           type="date"
@@ -578,8 +578,7 @@ const AddEmployeeDetails = ({
                           style={{
                             width: "75%",
                           }}
-
-                          // required
+                          required
                         />
                       </div>
 
@@ -664,7 +663,7 @@ const AddEmployeeDetails = ({
                       </div>
 
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                        <label> Designation Date :</label>
+                        <label> Designation Date* :</label>
                         <br />
                         <input
                           type="date"
@@ -676,8 +675,7 @@ const AddEmployeeDetails = ({
                           style={{
                             width: "75%",
                           }}
-
-                          // required
+                          required
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
