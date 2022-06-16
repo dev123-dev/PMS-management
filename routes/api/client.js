@@ -4,6 +4,7 @@ const config = require("config");
 const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const ClientDetails = require("../../models/Client");
+const ClientHistoryDetails = require("../../models/ClientHistory");
 
 //ADD
 router.post("/add-client", async (req, res) => {
@@ -21,21 +22,50 @@ router.post("/add-client", async (req, res) => {
 router.post("/edit-client", async (req, res) => {
   try {
     let data = req.body;
+    let allClientdata = data.allClientdata;
+    const historyData = {
+      chId: allClientdata._id,
+      chName: allClientdata.clientName,
+      chCompanyName: allClientdata.clientCompanyName,
+      chCompanyFounderName: allClientdata.clientCompanyFounderName,
+      chWebsite: allClientdata.clientWebsite,
+      chBelongsToId: allClientdata.clientBelongsToId,
+      chBelongsToName: allClientdata.clientBelongsToName,
+      chEmail: allClientdata.clientEmail,
+      chBillingEmail: allClientdata.clientBillingEmail,
+      chContactNo1: allClientdata.clientContactNo1,
+      chContactNo2: allClientdata.clientContactNo2,
+      chAddress: allClientdata.clientAddress,
+      chCountry: allClientdata.clientCountry,
+      chFolderName: allClientdata.clientFolderName,
+      chCurrency: allClientdata.clientCurrency,
+      chPaymentId: allClientdata.PaymentId,
+      chpaymentModeName: allClientdata.paymentModeName,
+      chclientType: allClientdata.clientType,
+    };
+    let clientHistoryDetails = new ClientHistoryDetails(historyData);
+    await clientHistoryDetails.save();
     const updateClientDetails = await ClientDetails.updateOne(
       { _id: data.recordId },
       {
         $set: {
           clientName: data.clientName,
+          clientCompanyName: data.clientCompanyName,
+          clientCompanyFounderName: data.clientCompanyFounderName,
+          clientWebsite: data.clientWebsite,
           clientEmail: data.clientEmail,
+          clientBillingEmail: data.clientBillingEmail,
           clientContactNo1: data.clientContactNo1,
           clientContactNo2: data.clientContactNo2,
+          clientFolderName: data.clientFolderName,
+          clientBelongsToId: data.clientBelongsToId,
+          clientBelongsToName: data.clientBelongsToName,
+          clientType: data.clientType,
           clientAddress: data.clientAddress,
           clientCountry: data.clientCountry,
-          clientBelongsTo: data.clientBelongsTo,
-          clientFolderName: data.clientFolderName,
           clientCurrency: data.clientCurrency,
-          clientModeofPaymentId: data.clientModeofPaymentId,
-          testClient: data.testClient,
+          paymentId: data.paymentId,
+          paymentModeName: data.paymentModeName,
         },
       }
     );

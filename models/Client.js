@@ -59,7 +59,7 @@ const ClientSchema = new mongoose.Schema({
   clientCurrency: {
     type: String,
   },
-  PaymentId: {
+  paymentId: {
     type: ObjectId,
   },
   paymentModeName: {
