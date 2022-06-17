@@ -408,9 +408,7 @@ const EditEmployeeDetails = ({
   let allDesignationData = JSON.parse(
     localStorage.getItem("allDesignationData")
   );
-
   const alldesignation = [];
-
   allDesignationData &&
     allDesignationData.map((designation) =>
       alldesignation.push({

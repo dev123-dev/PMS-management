@@ -63,14 +63,23 @@ const ChangeProjectLifeCycle = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
+    let estimatedWorkTime = "";
+    let ptEstimatedDateTimeVal = "";
+    if (projectHour || projectMinutes) {
+      estimatedWorkTime =
+        (projectHour ? projectHour : 0) +
+        ":" +
+        (projectMinutes ? projectMinutes : 0);
+      ptEstimatedDateTimeVal = new Date().toISOString();
+    }
     // if (checkErrors()) {
     const finalData = {
       projectId: ProjectCycledata.projectId,
       projectTrackLatestChange: Instructions,
-      projectHour: projectHour,
-      projectMinutes: projectMinutes,
+      ptEstimatedTime: estimatedWorkTime,
       projectStatusType: ProjectCycledata.value,
       projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
+      ptEstimatedDateTime: ptEstimatedDateTimeVal,
     };
     // console.log(finalData);
     AddProjectTrack(finalData);

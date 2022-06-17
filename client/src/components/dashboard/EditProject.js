@@ -50,9 +50,9 @@ const EditProject = ({
 
   // console.log(activeClientsOpt);
   // console.log("allprojectdata", allProjectdata);
+  const activeClientsOpt = [];
   let activeClientData = JSON.parse(localStorage.getItem("activeClientData"));
 
-  const activeClientsOpt = [];
   activeClientData.map((clientsData) =>
     activeClientsOpt.push({
       clientId: clientsData._id,
@@ -63,16 +63,22 @@ const EditProject = ({
       value: clientsData.clientName,
     })
   );
-
-  const [clientData, setClientData] = useState(
-    allProjectdata
-      ? activeClientsOpt &&
-          activeClientsOpt.filter(
-            (x) => x.value === allProjectdata.clientName
-          )[0]
-      : ""
+  // console.log(activeClientsOpt);
+  const [clientData, setClientData] = useState();
+  if (!clientData && activeClientsOpt.length > 0) {
+    setClientData(
+      allProjectdata
+        ? activeClientsOpt &&
+            activeClientsOpt.filter(
+              (x) => x.clientName === allProjectdata.clientName
+            )[0]
+        : ""
+    );
+  }
+  console.log(clientData);
+  const [clientId, setClientId] = useState(
+    allProjectdata && allProjectdata.clientId ? allProjectdata.clientId : ""
   );
-  const [clientId, setClientId] = useState();
   // const [clientName, setClientName] = useState();
   const [clientBelongsTo, setBelongsToVal] = useState(
     allProjectdata && allProjectdata.parentClientName
@@ -319,6 +325,7 @@ const EditProject = ({
       clientId: clientId,
       clientName: clientData.value,
       parentClientId: clientData.belongsToId,
+      parentClientName: clientBelongsTo,
       // projectLocation:
       clientFolderName: clientData.folderName,
       projectPriority: priority.value,
