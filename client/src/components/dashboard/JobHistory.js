@@ -9,23 +9,34 @@ const JobHistory = ({
   auth: { isAuthenticated, user, users, loading },
   allDeptartmentdata,
   onEditModalChange,
+  allProjectdata,
   editDepartment,
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    departmentName:
-      allDeptartmentdata && allDeptartmentdata.departmentName
-        ? allDeptartmentdata.departmentName
+    projectName:
+      allProjectdata && allProjectdata.projectName
+        ? allProjectdata.projectName
         : "",
-    departmentDesc:
-      allDeptartmentdata && allDeptartmentdata.departmentDesc
-        ? allDeptartmentdata.departmentDesc
+
+    projectEnteredByName:
+      allProjectdata && allProjectdata.projectEnteredByName
+        ? allProjectdata.projectEnteredByName
+        : "",
+
+    projectEnteredDateTime:
+      allProjectdata && allProjectdata.projectEnteredDateTime
+        ? allProjectdata.projectEnteredDateTime
         : "",
 
     isSubmitted: false,
   });
-
-  const { departmentName, departmentDesc } = formData;
+  console.log(allProjectdata);
+  const {
+    projectName,
+    projectEnteredByName,
+    projectEnteredDateTime,
+  } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -35,8 +46,7 @@ const JobHistory = ({
     e.preventDefault();
     const finalData = {
       recordId: allDeptartmentdata ? allDeptartmentdata._id : "",
-      departmentName: departmentName,
-      departmentDesc: departmentDesc,
+
       departmentEditedById: user._id,
     };
 
@@ -57,14 +67,20 @@ const JobHistory = ({
     <Fragment>
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> Last Changed By :</label>
+          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+            <label className="label-control">
+              Project Name : <strong> {projectName}</strong>
+            </label>
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> Time :</label>
+            <label className="label-control">
+              Last Changed By :<strong>{projectEnteredByName}</strong>
+            </label>
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> Status :</label>
+            <label className="label-control">
+              Date&Time :<strong>{projectEnteredDateTime}</strong>
+            </label>
           </div>
 
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -74,7 +90,6 @@ const JobHistory = ({
               id="clientAddress"
               className="textarea form-control"
               rows="3"
-              placeholder="Client Address"
               style={{ width: "100%" }}
               onChange={(e) => onInputChange(e)}
               disabled

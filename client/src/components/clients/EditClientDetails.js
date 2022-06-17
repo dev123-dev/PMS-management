@@ -12,7 +12,7 @@ const EditClientDetails = ({
   // settings: { paymentMode },
   client: { activeClient },
   allClientdata,
-  onAddDistrictModalChange,
+  onEditModalChange,
   getALLPaymentMode,
   getActiveClients,
   EditClient,
@@ -290,6 +290,7 @@ const EditClientDetails = ({
     };
     // console.log(finalData);
     EditClient(finalData);
+    onEditModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",
@@ -399,13 +400,14 @@ const EditClientDetails = ({
                 />
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Client Folder Name :</label>
+                <label className="label-control">Client Folder Name* :</label>
                 <input
                   type="text"
                   name="clientFolderName"
                   value={clientFolderName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
+                  required
                 />
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -477,7 +479,6 @@ const EditClientDetails = ({
                       style={{ width: "100%" }}
                       value={clientAddress}
                       onChange={(e) => onInputChange(e)}
-                      required
                     ></textarea>
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">

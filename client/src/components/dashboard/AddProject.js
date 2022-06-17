@@ -34,7 +34,7 @@ const AddProject = ({
   useEffect(() => {
     getActiveClientsFilter();
   }, [getActiveClientsFilter]);
-
+  console.log(user);
   const activeClientsOpt = [];
   activeClientFilter.map((clientsData) =>
     activeClientsOpt.push({
@@ -117,6 +117,7 @@ const AddProject = ({
     clientTime,
     Instructions,
     clientType,
+    projectEnteredByName,
     isSubmitted,
   } = formData;
 
@@ -247,10 +248,12 @@ const AddProject = ({
         clientTime: clientTime,
         clientDate: startclientDate,
         projectEnteredById: user._id,
+        projectEnteredByName: user.empFullName,
         // projectEnteredDate:
         // projectEntryTime
         // clientType: clientType.value,
       };
+      console.log(finalData);
       addProject(finalData);
       setFormData({
         ...formData,
