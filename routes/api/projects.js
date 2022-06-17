@@ -186,15 +186,19 @@ router.post("/get-job-queue-project-details", async (req, res) => {
       projectStatus: {
         $eq: "Active",
       },
-      projectStatusType: {
-        $ne: "Uploaded",
-      },
-      projectStatusType: {
-        $ne: "Amend_Uploaded",
-      },
-      projectStatusType: {
-        $ne: "AI_Uploaded",
-      },
+      $or: [
+        {
+          projectStatusType: {
+            $ne: "Uploaded",
+          },
+          projectStatusType: {
+            $ne: "Amend_Uploaded",
+          },
+          projectStatusType: {
+            $ne: "AI_Uploaded",
+          },
+        },
+      ],
     });
     res.json(getJobQueueDetails);
   } catch (err) {
