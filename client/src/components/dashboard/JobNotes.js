@@ -25,7 +25,7 @@ const JobNotes = ({
     <Spinner />
   ) : (
     <Fragment>
-      <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
+      <div className=" col-lg-12 col-md-12 col-sm-12 col-12">
         <textarea
           className="textarea form-control"
           rows="10"
