@@ -381,7 +381,6 @@ const EditEmployeeDetails = ({
       empEditedById: user._id,
       allEmployeedata: allEmployeedata,
     };
-    // console.log("finalData", finalData);
     editEmployeeDetails(finalData);
     onEditModalChange(true);
     // setFormData({

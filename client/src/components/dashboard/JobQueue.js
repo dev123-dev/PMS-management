@@ -175,7 +175,7 @@ const JobQueue = ({
               </button>
 
               <Link className="btn btn_green_bg float-right" to="/add-Project">
-                Add
+                Add Project
               </Link>
             </div>
           </div>

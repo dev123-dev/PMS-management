@@ -124,27 +124,70 @@ const EditClientDetails = ({
   let allPaymentModeData = JSON.parse(
     localStorage.getItem("allPaymentModeData")
   );
-  const allpaymentmodes = [];
-  allPaymentModeData &&
-    allPaymentModeData.map((payment) =>
-      allpaymentmodes.push({
-        paymentId: payment._id,
-        label: payment.paymentModeName,
-        value: payment.paymentModeName,
-      })
-    );
-  const [paymentMode, setpaymentMode] = useState("");
+  // const allpaymentmodes = [];
+  // allPaymentModeData &&
+  //   allPaymentModeData.map((payment) =>
+  //     allpaymentmodes.push({
+  //       paymentId: payment._id,
+  //       label: payment.paymentModeName,
+  //       value: payment.paymentModeName,
+  //     })
+  //   );
+  // const [paymentMode, setpaymentMode] = useState(
+  //   allClientdata
+  //     ? allpaymentmodes &&
+  //         allpaymentmodes.filter(
+  //           (x) => x.paymentId === allClientdata.paymentId
+  //         )[0]
+  //     : ""
+  // );
 
-  if (!paymentMode && allpaymentmodes.length > 0) {
-    setpaymentMode(
-      allpaymentmodes && allClientdata
-        ? allpaymentmodes &&
-            allpaymentmodes.filter(
-              (x) => x.value === allClientdata.paymentModeName
-            )[0]
-        : ""
-    );
-  }
+  // if (!paymentMode && allpaymentmodes.length > 0) {
+  //   setpaymentMode(
+  //     allpaymentmodes && allClientdata
+  //       ? allpaymentmodes &&
+  //           allpaymentmodes.filter(
+  //             (x) => x.value === allClientdata.paymentModeName
+  //           )[0]
+  //       : ""
+  //   );
+  // }
+  // const [payment, getStateData] = useState(
+  //   allClientdata
+  //     ? allpaymentmodes &&
+  //         allpaymentmodes.filter(
+  //           (x) => x.paymentId === allClientdata.paymentId
+  //         )[0]
+  //     : ""
+  // );
+  // console.log(allClientdata);
+  // console.log(allpaymentmodes);
+  // const [paymentId, setpaymentId] = useState();
+  // const [paymentModeName, setpaymentname] = useState();
+
+  // const onPayModeChange = (e) => {
+  //   var paymentId = "";
+  //   var paymentModeName = "";
+  //   getStateData(e);
+  //   paymentId = e.paymentId;
+  //   paymentModeName = e.paymentModeName;
+  //   setpaymentId(paymentId);
+  //   setpaymentname(paymentModeName);
+  //   console.log(paymentId);
+  //   console.log(paymentId);
+  // };
+
+  ///////////////////////////////////////////////////////////////
+
+  const allpaymentmodes = [];
+  allPaymentModeData.map((payment) =>
+    allpaymentmodes.push({
+      paymentId: payment._id,
+      label: payment.paymentModeName,
+      value: payment.paymentModeName,
+    })
+  );
+
   const [payment, getStateData] = useState(
     allClientdata
       ? allpaymentmodes &&
@@ -153,26 +196,25 @@ const EditClientDetails = ({
           )[0]
       : ""
   );
-
-  const [paymentId, setpaymentId] = useState(allClientdata.paymentId);
-  const [paymentModeName, setpaymentname] = useState(
-    allClientdata.paymentModeName
-  );
+  const [paymentId, setpaymentId] = useState();
+  const [paymentModeName, setpaymentname] = useState();
 
   const onPayModeChange = (e) => {
     var paymentId = "";
     var paymentModeName = "";
     getStateData(e);
     paymentId = e.paymentId;
-    paymentModeName = e.paymentModeName;
+    paymentModeName = e.value;
     setpaymentId(paymentId);
     setpaymentname(paymentModeName);
+    console.log(paymentId);
+    console.log(paymentModeName);
   };
 
+  // console.log(paymentModeName);
   let allClientBelongsToData = JSON.parse(
     localStorage.getItem("allClientBelongsToData")
   );
-  // console.log(allClientBelongsToData);
   const allclientBelongsTo = [];
   allClientBelongsToData &&
     allClientBelongsToData.map((clients) =>
@@ -191,13 +233,19 @@ const EditClientDetails = ({
           )[0]
       : ""
   );
-  const [clientsId, setclientsId] = useState();
+  const [clientsId, setclientsId] = useState(allClientdata.clientBelongsToId);
+  const [clientsName, setclientsName] = useState(
+    allClientdata.clientBelongsToName
+  );
 
   const onBelongstoChange = (e) => {
     var clientsId = "";
+    var clientsName = "";
     getclientsData(e);
     clientsId = e.clientsId;
+    clientsName = e.value;
     setclientsId(clientsId);
+    setclientsName(clientsName);
   };
 
   const onClientTypeChange = (e) => {
@@ -222,21 +270,23 @@ const EditClientDetails = ({
     const finalData = {
       recordId: allClientdata ? allClientdata._id : "",
       clientName: clientName,
+      clientCompanyName: clientCompanyName,
+      clientCompanyFounderName: clientCompanyFounderName,
+      clientWebsite: clientWebsite,
       clientEmail: clientEmail,
       clientBillingEmail: clientBillingEmail,
       clientContactNo1: clientContactNo1,
       clientContactNo2: clientContactNo2,
+      clientFolderName: clientFolderName,
+      clientBelongsToId: clientsId,
+      clientBelongsToName: clientsName,
+      clientType: clientType.value,
       clientAddress: clientAddress,
       clientCountry: clientCountry,
       clientCurrency: clientCurrency,
-      clientBelongsTo: clientBelongsTo,
-      clientFolderName: clientFolderName,
-      clientType: clientType.value,
-      clientCompanyName: clientCompanyName,
-      PaymentId: paymentId,
+      paymentId: paymentId,
       paymentModeName: paymentModeName,
-      clientCompanyFounderName: clientCompanyFounderName,
-      clientWebsite: clientWebsite,
+      allClientdata: allClientdata,
     };
     // console.log(finalData);
     EditClient(finalData);
@@ -457,7 +507,7 @@ const EditClientDetails = ({
                       name="paymentModeName"
                       options={allpaymentmodes}
                       isSearchable={true}
-                      value={paymentMode}
+                      value={payment}
                       placeholder="Select Mode"
                       onChange={(e) => onPayModeChange(e)}
                       theme={(theme) => ({

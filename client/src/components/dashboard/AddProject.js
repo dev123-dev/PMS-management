@@ -227,6 +227,7 @@ const AddProject = ({
         clientId: clientId,
         clientName: clientData.value,
         parentClientId: clientData.belongsToId,
+        parentClientName: clientBelongsTo,
         // projectLocation:
         clientFolderName: clientData.folderName,
         projectPriority: priority.value,
@@ -250,7 +251,6 @@ const AddProject = ({
         // projectEntryTime
         // clientType: clientType.value,
       };
-      console.log(finalData);
       addProject(finalData);
       setFormData({
         ...formData,
@@ -367,8 +367,8 @@ const AddProject = ({
                       className="form-control"
                       name="projectTime"
                       value={projectTime}
-                      min="09:00"
-                      max="18:00"
+                      min="00:00"
+                      max="23:00"
                       onChange={(e) => onInputChange(e)}
                       // required
                     />
@@ -396,8 +396,8 @@ const AddProject = ({
                       name="clientTime"
                       value={clientTime}
                       className="form-control"
-                      min="09:00"
-                      max="18:00"
+                      min="00:00"
+                      max="23:00"
                       onChange={(e) => onInputChange(e)}
                       // required
                     />
