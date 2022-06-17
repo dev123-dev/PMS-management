@@ -183,21 +183,11 @@ router.get("/get-active-project-status", async (req, res) => {
 router.post("/get-job-queue-project-details", async (req, res) => {
   try {
     const getJobQueueDetails = await Project.find({
-      projectStatus: {
-        $eq: "Active",
-      },
-      $or: [
-        {
-          projectStatusType: {
-            $ne: "Uploaded",
-          },
-          projectStatusType: {
-            $ne: "Amend_Uploaded",
-          },
-          projectStatusType: {
-            $ne: "AI_Uploaded",
-          },
-        },
+      $and: [
+        { projectStatusType: { $ne: "Uploaded" } },
+        { projectStatusType: { $ne: "Amend_Uploaded" } },
+        { projectStatusType: { $ne: "AI_Uploaded" } },
+        { projectStatus: { $eq: "Active" } },
       ],
     });
     res.json(getJobQueueDetails);
