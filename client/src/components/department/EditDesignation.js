@@ -66,17 +66,13 @@ const EditDesignation = ({
             />
           </div>
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-            <label className="label-control">
-              {" "}
-              Designation Description * :
-            </label>
+            <label className="label-control"> Designation Description :</label>
             <input
               type="text"
               name="designationDesc"
               value={designationDesc}
               className="form-control"
               onChange={(e) => onInputChange(e)}
-              required
             />
           </div>
         </div>
