@@ -5,7 +5,7 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getActiveClientsFilter } from "../../actions/client";
-import { getAllProjectStatus, addProject } from "../../actions/projects";
+import { getAllProjectStatus, EditProjectData } from "../../actions/projects";
 
 const clientTypeVal = [
   { value: "Regular", label: "Regular Client" },
@@ -33,20 +33,11 @@ const EditProject = ({
     getAllProjectStatus();
   }, [getAllProjectStatus]);
   useEffect(() => {
-    getActiveClientsFilter();
+    let clientTypeVal = {
+      clientTypeinfo: allProjectdata && allProjectdata.clientTypeVal,
+    };
+    getActiveClientsFilter(clientTypeVal);
   }, [getActiveClientsFilter]);
-
-  const activeClientsOpt = [];
-  activeClientFilter.map((clientsData) =>
-    activeClientsOpt.push({
-      clientId: clientsData._id,
-      belongsToId: clientsData.clientBelongsToId,
-      belongsTo: clientsData.clientBelongsToName,
-      folderName: clientsData.clientFolderName,
-      label: clientsData.clientName,
-      value: clientsData.clientName,
-    })
-  );
 
   const projectStatusOpt = [];
   allProjectStatus.map((projStatusData) =>
@@ -59,6 +50,20 @@ const EditProject = ({
 
   // console.log(activeClientsOpt);
   // console.log("allprojectdata", allProjectdata);
+  let activeClientData = JSON.parse(localStorage.getItem("activeClientData"));
+
+  const activeClientsOpt = [];
+  activeClientData.map((clientsData) =>
+    activeClientsOpt.push({
+      clientId: clientsData._id,
+      belongsToId: clientsData.clientBelongsToId,
+      belongsTo: clientsData.clientBelongsToName,
+      folderName: clientsData.clientFolderName,
+      label: clientsData.clientName,
+      value: clientsData.clientName,
+    })
+  );
+
   const [clientData, setClientData] = useState(
     allProjectdata
       ? activeClientsOpt &&
@@ -69,7 +74,11 @@ const EditProject = ({
   );
   const [clientId, setClientId] = useState();
   // const [clientName, setClientName] = useState();
-  const [clientBelongsTo, setBelongsToVal] = useState();
+  const [clientBelongsTo, setBelongsToVal] = useState(
+    allProjectdata && allProjectdata.parentClientName
+      ? allProjectdata.parentClientName
+      : ""
+  );
 
   // allProjectdata && allProjectdata.parentClientId
   //   ? allProjectdata.parentClientId
@@ -82,11 +91,11 @@ const EditProject = ({
 
   const onClientChange = (e) => {
     //Required Validation starts
-    setError({
-      ...error,
-      clientnameIdChecker: true,
-      clientnameIdErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   clientnameIdChecker: true,
+    //   clientnameIdErrorStyle: { color: "#000" },
+    // });
     //Required Validation ends
 
     setClientData(e);
@@ -105,11 +114,11 @@ const EditProject = ({
   );
   const onProjectStatusChange = (e) => {
     //Required Validation starts
-    setError({
-      ...error,
-      projectstatusChecker: true,
-      projectstatusErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   projectstatusChecker: true,
+    //   projectstatusErrorStyle: { color: "#000" },
+    // });
     //Required Validation ends
     setProjectStatusData(e);
   };
@@ -128,8 +137,8 @@ const EditProject = ({
       allProjectdata && allProjectdata.projectQuantity
         ? allProjectdata.projectQuantity
         : "",
-    priority:
-      allProjectdata && allProjectdata.priority ? allProjectdata.priority : "",
+    // priority:
+    //   allProjectdata && allProjectdata.priority ? allProjectdata.priority : "",
     deadline:
       allProjectdata && allProjectdata.projectDeadline
         ? allProjectdata.projectDeadline
@@ -202,11 +211,11 @@ const EditProject = ({
 
   const onClientTypeChange = (e) => {
     //Required Validation starts
-    setError({
-      ...error,
-      ClientIdChecker: true,
-      ClientErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   ClientIdChecker: true,
+    //   ClientErrorStyle: { color: "#000" },
+    // });
     //Required Validation ends
     if (e) {
       setFormData({
@@ -256,92 +265,92 @@ const EditProject = ({
   };
 
   //Required Validation Starts
-  const [error, setError] = useState({
-    clientnameIdChecker: false,
-    clientnameIdErrorStyle: {},
+  // const [error, setError] = useState({
+  //   clientnameIdChecker: false,
+  //   clientnameIdErrorStyle: {},
 
-    ClientIdChecker: false,
-    ClientErrorStyle: {},
-    projectstatusChecker: false,
-    projectstatusErrorStyle: {},
-  });
-  const {
-    clientnameIdChecker,
-    clientnameIdErrorStyle,
+  //   ClientIdChecker: false,
+  //   ClientErrorStyle: {},
+  //   projectstatusChecker: false,
+  //   projectstatusErrorStyle: {},
+  // });
+  // const {
+  //   clientnameIdChecker,
+  //   clientnameIdErrorStyle,
 
-    ClientIdChecker,
-    ClientErrorStyle,
-    projectstatusChecker,
-    projectstatusErrorStyle,
-  } = error;
+  //   ClientIdChecker,
+  //   ClientErrorStyle,
+  //   projectstatusChecker,
+  //   projectstatusErrorStyle,
+  // } = error;
 
-  const checkErrors = () => {
-    if (!ClientIdChecker) {
-      setError({
-        ...error,
-        ClientErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+  // const checkErrors = () => {
+  //   if (!ClientIdChecker) {
+  //     setError({
+  //       ...error,
+  //       ClientErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
 
-    if (!clientnameIdChecker) {
-      setError({
-        ...error,
-        clientnameIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+  //   if (!clientnameIdChecker) {
+  //     setError({
+  //       ...error,
+  //       clientnameIdErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
 
-    if (!projectstatusChecker) {
-      setError({
-        ...error,
-        projectstatusErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+  //   if (!projectstatusChecker) {
+  //     setError({
+  //       ...error,
+  //       projectstatusErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
 
-    return true;
-  };
+  //   return true;
+  // };
   const onSubmit = (e) => {
     e.preventDefault();
-    if (checkErrors()) {
-      const finalData = {
-        projectName: projectName,
-        clientId: clientId,
-        clientName: clientData.value,
-        parentClientId: clientData.belongsToId,
-        // projectLocation:
-        clientFolderName: clientData.folderName,
-        projectPriority: priority.value,
-        // projectJobtype
-        // projectHours
-        projectNotes: Instructions,
-        projectDeadline: deadline,
-        projectStatusType: projectStatusData.value,
-        projectStatusId: projectStatusData.projStatusId,
-        // projectPrice:
-        projectQuantity: qty,
-        // projectUnconfirmed
-        // projectVendor
-        clientTypeVal: clientType.value,
-        projectTime: projectTime,
-        projectDate: startprojectDate,
-        clientTime: clientTime,
-        clientDate: startclientDate,
-        projectEnteredById: user._id,
-        // projectEnteredDate:
-        // projectEntryTime
-        // clientType: clientType.value,
-      };
-      // console.log(finalData);
-      addProject(finalData);
-      onEditModalChange(true);
-      // setFormData({
-      //   ...formData,
-      //   districtName: "",
-      //   isSubmitted: true,
-      // });
-    }
+    // if (checkErrors()) {
+    const finalData = {
+      projectName: projectName,
+      clientId: clientId,
+      clientName: clientData.value,
+      parentClientId: clientData.belongsToId,
+      // projectLocation:
+      clientFolderName: clientData.folderName,
+      projectPriority: priority.value,
+      // projectJobtype
+      // projectHours
+      projectNotes: Instructions,
+      projectDeadline: deadline,
+      projectStatusType: projectStatusData.value,
+      projectStatusId: projectStatusData.projStatusId,
+      // projectPrice:
+      projectQuantity: qty,
+      // projectUnconfirmed
+      // projectVendor
+      clientTypeVal: clientType.value,
+      projectTime: projectTime,
+      projectDate: startprojectDate,
+      clientTime: clientTime,
+      clientDate: startclientDate,
+      projectEnteredById: user._id,
+      // projectEnteredDate:
+      // projectEntryTime
+      // clientType: clientType.value,
+    };
+    console.log(finalData);
+    // EditProjectData(finalData);
+    onEditModalChange(true);
+    // setFormData({
+    //   ...formData,
+    //   districtName: "",
+    //   isSubmitted: true,
+    // });
+    // }
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -359,7 +368,10 @@ const EditProject = ({
                 </div>
 
                 <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
-                  <label className="label-control" style={ClientErrorStyle}>
+                  <label
+                    className="label-control"
+                    //  style={ClientErrorStyle}
+                  >
                     Client Type* :
                   </label>
                   <Select
@@ -374,7 +386,7 @@ const EditProject = ({
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <label
                     className="label-control"
-                    style={clientnameIdErrorStyle}
+                    // style={clientnameIdErrorStyle}
                   >
                     Client Name* :
                   </label>
@@ -442,8 +454,8 @@ const EditProject = ({
                     className="form-control"
                     name="projectTime"
                     value={projectTime}
-                    min="09:00"
-                    max="18:00"
+                    min="00:00"
+                    max="23:00"
                     onChange={(e) => onInputChange(e)}
                     // required
                   />
@@ -471,8 +483,8 @@ const EditProject = ({
                     name="clientTime"
                     value={clientTime}
                     className="form-control"
-                    min="09:00"
-                    max="18:00"
+                    min="00:00"
+                    max="23:00"
                     onChange={(e) => onInputChange(e)}
                     // required
                   />
@@ -516,8 +528,8 @@ const EditProject = ({
                   <label className="label-control">Priority :</label>
                   <Select
                     name="priority"
-                    value={priorityVal}
-                    options={priority}
+                    options={priorityVal}
+                    value={priority}
                     isSearchable={false}
                     placeholder="Select"
                     onChange={(e) => priorityToChange(e)}
@@ -528,7 +540,7 @@ const EditProject = ({
 
             <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
               <div className="row card-new  py-3">
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <label
                     className="label-control"
                     style={projectstatusErrorStyle}
@@ -543,7 +555,7 @@ const EditProject = ({
                     placeholder="Select"
                     onChange={(e) => onProjectStatusChange(e)}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Deadline :</label>
                   <input
@@ -619,6 +631,7 @@ EditProject.propTypes = {
   client: PropTypes.object.isRequired,
   getAllProjectStatus: PropTypes.object.isRequired,
   getActiveClientsFilter: PropTypes.object.isRequired,
+  EditProjectData: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -631,5 +644,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getAllProjectStatus,
   getActiveClientsFilter,
-  addProject,
+  EditProjectData,
 })(EditProject);

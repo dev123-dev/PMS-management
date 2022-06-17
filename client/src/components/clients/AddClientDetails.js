@@ -68,13 +68,13 @@ const AddClientDetails = ({
   } = formData;
 
   const onClientTypeChange = (e) => {
-    //Required Validation starts
-    // setError({
-    //   ...error,
-    //   TranscationIdChecker: true,
-    //   TranscationIdErrorStyle: { color: "#000" },
-    // });
-    //Required Validation ends
+    //  Required Validation starts
+    setError({
+      ...error,
+      clienttypeIdChecker: true,
+      clienttypeIdErrorStyle: { color: "#000" },
+    });
+    // Required Validation ends
 
     if (e) {
       setFormData({
@@ -147,10 +147,25 @@ const AddClientDetails = ({
   const [error, setError] = useState({
     paymentmodeIdChecker: false,
     paymentmodeIdErrorStyle: {},
+    clienttypeIdChecker: false,
+
+    clienttypeIdErrorStyle: {},
   });
-  const { paymentmodeIdChecker, paymentmodeIdErrorStyle } = error;
+  const {
+    paymentmodeIdChecker,
+    paymentmodeIdErrorStyle,
+    clienttypeIdChecker,
+    clienttypeIdErrorStyle,
+  } = error;
 
   const checkErrors = () => {
+    if (!clienttypeIdChecker) {
+      setError({
+        ...error,
+        clienttypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
     if (!paymentmodeIdChecker) {
       setError({
         ...error,
@@ -313,7 +328,7 @@ const AddClientDetails = ({
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">
-                      Client Folder Name :
+                      Client Folder Name* :
                     </label>
                     <input
                       type="text"
@@ -321,6 +336,7 @@ const AddClientDetails = ({
                       value={clientFolderName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -348,7 +364,7 @@ const AddClientDetails = ({
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label
                       className="label-control"
-                      // style={TranscationIdErrorStyle}
+                      style={clienttypeIdErrorStyle}
                     >
                       Client Type :
                     </label>

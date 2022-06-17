@@ -63,6 +63,9 @@ const ProjectSchema = new mongoose.Schema({
   projectEnteredById: {
     type: ObjectId,
   },
+  projectEnteredByName: {
+    type: String,
+  },
   // projectEnteredDate: {
   //   type: String,
   // },
@@ -133,7 +136,6 @@ const ProjectSchema = new mongoose.Schema({
   },
   projectDeactiveDateTime: {
     type: Date,
-    default: Date.now(),
   },
 });
 

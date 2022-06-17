@@ -123,7 +123,7 @@ const JobQueue = ({
   const [userDatas1, setUserDatas1] = useState(null);
   const onhistory = (jobQueueProjects, idx) => {
     setshowhistoryModal(true);
-    setUserDatas(jobQueueProjects);
+    setUserDatas1(jobQueueProjects);
   };
   const { radioselect } = formData;
   const onstatuscategrorySelect = (statuscategrory) => {
@@ -366,7 +366,9 @@ const JobQueue = ({
         >
           <Modal.Header>
             <div className="col-lg-10">
-              <h3 className="modal-title text-center">Project Life Cycle</h3>
+              <center>
+                <h3 className="modal-title text-center">Project Life Cycle</h3>
+              </center>
             </div>
             <div className="col-lg-">
               <button onClick={handleProjectCycleModalClose} className="close">
@@ -427,7 +429,7 @@ const JobQueue = ({
       >
         <Modal.Header>
           <div className="col-lg-10 col-md-10 col-sm-10 col-10">
-            <h3 className="modal-title text-center">Latest Changes Details</h3>
+            <h3 className="modal-title text-center">Latest Changes </h3>
           </div>
           <div className="col-lg-2 col-md-2 col-sm-2 col-2">
             <button onClick={handlehistoryModalClose} className="close">
@@ -442,7 +444,7 @@ const JobQueue = ({
         <Modal.Body>
           <JobHistory
             onhistoryModalChange={onhistoryModalChange}
-            allClientdata={userDatas}
+            allProjectdata={userDatas1}
           />
         </Modal.Body>
       </Modal>

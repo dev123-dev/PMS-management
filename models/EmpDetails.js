@@ -10,11 +10,11 @@ const EmpDetailsSchema = new mongoose.Schema({
   },
   userName: {
     type: String,
-    // required: true,
+    required: true,
   },
   password: {
     type: String,
-    // required: true,
+    required: true,
   },
   empCode: {
     type: String,

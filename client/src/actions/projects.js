@@ -69,7 +69,7 @@ export const AddProjectTrack = (finalData) => async (dispatch) => {
 
 //EDIT
 
-export const EditProject = (finalData) => async (dispatch) => {
+export const EditProjectData = (finalData) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING_FALSE,
