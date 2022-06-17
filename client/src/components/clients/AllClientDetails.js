@@ -73,14 +73,6 @@ const AllClientDetails = ({
               <h5 className="heading_color">All Client Details </h5>
             </div>
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
-              {/* <Link to="/add-client">
-                <img
-                  className="img_icon_size log float-right"
-                  src={require("../../static/images/add-icon.png")}
-                  alt="Add Staff"
-                  title="Add Staff"
-                />
-              </Link> */}
               <Link className="btn btn_green_bg float-right" to="/add-client">
                 Add client
               </Link>
@@ -151,6 +143,13 @@ const AllClientDetails = ({
                   </table>
                 </div>
               </section>
+            </div>
+          </div>
+
+          <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
+            <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
+              <strong> No of Clients:{allClient.length}</strong>
             </div>
           </div>
         </section>
