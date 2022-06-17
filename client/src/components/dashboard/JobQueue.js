@@ -24,7 +24,7 @@ const JobQueue = ({
   useEffect(() => {
     getAllProjectStatus();
   }, [getAllProjectStatus]);
-
+  console.log(user);
   function dhm(pDateTime) {
     let pStartDate = new Date(pDateTime);
     let pEndDate = new Date();
@@ -188,19 +188,19 @@ const JobQueue = ({
                   >
                     <thead>
                       <tr>
-                        <th>Client Name</th>
-                        <th>Folder Name</th>
-                        <th>Project Name</th>
-                        <th>Queue Duration</th>
-                        <th>Estimated Time</th>
-                        <th>Job Time</th>
-                        <th>Priority</th>
-                        <th>Deadline</th>
-                        <th>Qty</th>
-                        <th style={{ width: "20%" }}>Status</th>
-                        <th>Latest Change</th>
-                        <th>Job Notes</th>
-                        <th>OP</th>
+                        <th style={{ width: "10%" }}>Client Name</th>
+                        <th style={{ width: "5%" }}>Folder </th>
+                        <th style={{ width: "10%" }}>Project Name</th>
+                        <th style={{ width: "10%" }}>Queue Duration</th>
+                        <th style={{ width: "10%" }}>Estimated Time</th>
+                        <th style={{ width: "10%" }}>Job Time</th>
+                        <th style={{ width: "2%" }}>Priority</th>
+                        <th style={{ width: "2%" }}>Deadline</th>
+                        <th style={{ width: "2%" }}>Qty</th>
+                        <th style={{ width: "13%" }}>Status</th>
+                        <th style={{ width: "10%" }}>Latest Change</th>
+                        <th style={{ width: "10%" }}>Job Notes</th>
+                        <th style={{ width: "2%" }}>OP</th>
                       </tr>
                     </thead>
                     <tbody>

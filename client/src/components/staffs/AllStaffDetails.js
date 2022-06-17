@@ -90,6 +90,7 @@ const AllStaffDetails = ({
                   >
                     <thead>
                       <tr>
+                        <th>Sl No.</th>
                         <th>Staff Name</th>
                         <th>Phone</th>
                         <th>Address</th>
@@ -108,9 +109,8 @@ const AllStaffDetails = ({
                           }
                           return (
                             <tr key={idx}>
-                              <td className="headcolstatic">
-                                {allEmployee.empFullName}
-                              </td>
+                              <td>{idx + 1}</td>
+                              <td>{allEmployee.empFullName}</td>
                               <td>{allEmployee.empPhone}</td>
                               <td>{allEmployee.empAddress}</td>
                               <td>{allEmployee.empCode}</td>
@@ -142,6 +142,13 @@ const AllStaffDetails = ({
                   </table>
                 </div>
               </section>
+            </div>
+          </div>
+
+          <div className="row col-md-12 col-lg-12 col-sm-12 col-12  ">
+            <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
+              <strong> No of Staff:{allEmployee.length}</strong>
             </div>
           </div>
         </section>

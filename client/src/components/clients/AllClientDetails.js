@@ -89,6 +89,7 @@ const AllClientDetails = ({
                   >
                     <thead>
                       <tr>
+                        <th>Sl No.</th>
                         <th>Client Name</th>
                         <th>Belongs To</th>
                         <th>Folder Name</th>
@@ -106,9 +107,8 @@ const AllClientDetails = ({
                         allClient.map((allClient, idx) => {
                           return (
                             <tr key={idx}>
-                              <td className="headcolstatic">
-                                {allClient.clientName}
-                              </td>
+                              <td>{idx + 1}</td>
+                              <td>{allClient.clientName}</td>
                               <td>{allClient.clientBelongsToName}</td>
                               <td>{allClient.clientFolderName}</td>
                               <td>{allClient.clientEmail}</td>
