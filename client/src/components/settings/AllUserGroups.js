@@ -2,6 +2,7 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getALLUserGroups } from "../../actions/user";
 import AddUserGroup from "./AddUserGroup";
@@ -55,13 +56,20 @@ const AllUserGroups = ({
               <h5 className="heading_color">All Groups</h5>
             </div>
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
-              <img
+              {/* <img
                 className="img_icon_size log float-right"
                 onClick={() => onClickHandler()}
                 src={require("../../static/images/add-icon.png")}
                 alt="Add UserGroup"
                 title="Add UserGroup"
-              />
+              /> */}
+
+              <Link
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickHandler()}
+              >
+                Add User Group
+              </Link>
             </div>
           </div>
 

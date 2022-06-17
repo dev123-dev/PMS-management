@@ -1,5 +1,6 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Modal } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
@@ -67,13 +68,20 @@ const AllDesignation = ({
               <h5 className="heading_color">All Designation Details </h5>
             </div>
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
-              <img
+              {/* <img
                 className="img_icon_size log float-right"
                 onClick={() => onClickHandler()}
                 src={require("../../static/images/add-icon.png")}
                 alt="Add Designation"
                 title="Add Designation"
-              />
+              /> */}
+
+              <Link
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickHandler()}
+              >
+                Add Designation
+              </Link>
             </div>
           </div>
           <div className="row">

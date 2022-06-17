@@ -59,15 +59,17 @@ const AllStaffDetails = ({
               <h5 className="heading_color">All Staff Details </h5>
             </div>
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
-              <Link to="/add-Staff">
+              {/* <Link to="/add-Staff">
                 <img
                   className="img_icon_size log float-right"
                   src={require("../../static/images/add-icon.png")}
                   alt="Add Staff"
                   title="Add Staff"
                 />
+              </Link> */}
+              <Link className="btn btn_green_bg float-right" to="/add-Staff">
+                Add Staff
               </Link>
-
               {/* <Link to="/edit-Staff">
                 <img
                   className="img_icon_size log float-right"

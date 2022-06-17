@@ -73,13 +73,16 @@ const AllClientDetails = ({
               <h5 className="heading_color">All Client Details </h5>
             </div>
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
-              <Link to="/add-client">
+              {/* <Link to="/add-client">
                 <img
                   className="img_icon_size log float-right"
                   src={require("../../static/images/add-icon.png")}
                   alt="Add Staff"
                   title="Add Staff"
                 />
+              </Link> */}
+              <Link className="btn btn_green_bg float-right" to="/add-client">
+                Add client
               </Link>
             </div>
           </div>
