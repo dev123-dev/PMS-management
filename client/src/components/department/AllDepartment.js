@@ -119,7 +119,7 @@ const AllDepartment = ({
                 Add Department Details
               </h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleAddDistrictModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -150,7 +150,7 @@ const AllDepartment = ({
                 Edit Department Details
               </h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleEditModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}

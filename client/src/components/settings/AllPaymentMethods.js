@@ -117,7 +117,7 @@ const AllPaymentMethods = ({
             <div className="col-lg-10">
               <h3 className="modal-title text-center">Add Payment Method</h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleAddDistrictModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -146,7 +146,7 @@ const AllPaymentMethods = ({
             <div className="col-lg-10">
               <h3 className="modal-title text-center">Edit Payment Method</h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleEditModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}

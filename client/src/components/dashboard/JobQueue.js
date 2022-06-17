@@ -368,7 +368,7 @@ const JobQueue = ({
             <div className="col-lg-10">
               <h3 className="modal-title text-center">Project Life Cycle</h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-">
               <button onClick={handleProjectCycleModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -399,7 +399,7 @@ const JobQueue = ({
           <div className="col-lg-10">
             <h3 className="modal-title text-center">Edit Project Details</h3>
           </div>
-          <div className="col-lg-2">
+          <div className="col-lg-1">
             <button onClick={handleEditModalClose} className="close">
               <img
                 src={require("../../static/images/close.png")}

@@ -185,7 +185,7 @@ const AllStaffDetails = ({
             <div className="col-lg-10">
               <h3 className="modal-title text-center">Deactivate Staff</h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleDeactiveModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}

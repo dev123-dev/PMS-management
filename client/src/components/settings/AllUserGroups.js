@@ -119,7 +119,7 @@ const AllUserGroups = ({
             <div className="col-lg-10">
               <h3 className="modal-title text-center">Add User Group</h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleAddDistrictModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -149,7 +149,7 @@ const AllUserGroups = ({
             <div className="col-lg-10">
               <h3 className="modal-title text-center">Edit User Group</h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleEditModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}

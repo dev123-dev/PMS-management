@@ -155,7 +155,7 @@ const AllProjectStatus = ({
             <div className="col-lg-10">
               <h3 className="modal-title text-center">Add Project Status</h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleAddDistrictModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -184,7 +184,7 @@ const AllProjectStatus = ({
             <div className="col-lg-10">
               <h3 className="modal-title text-center">Edit Project Status</h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleEditModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -216,7 +216,7 @@ const AllProjectStatus = ({
                 Deactivate Project Status
               </h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleDeactiveModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}

@@ -149,7 +149,7 @@ const AllDesignation = ({
                 Add Designation Details
               </h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleAddDistrictModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -180,7 +180,7 @@ const AllDesignation = ({
                 Edit Designation Details
               </h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleEditModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -212,7 +212,7 @@ const AllDesignation = ({
                 Deactivate Designation
               </h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleDeactiveModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}

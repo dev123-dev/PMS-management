@@ -165,7 +165,7 @@ const AllClientDetails = ({
                 Add Department Details
               </h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleAddDistrictModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -225,7 +225,7 @@ const AllClientDetails = ({
           <div className="col-lg-10">
             <h3 className="modal-title text-center">Deactivate Client</h3>
           </div>
-          <div className="col-lg-2">
+          <div className="col-lg-1">
             <button onClick={handleDeactiveModalClose} className="close">
               <img
                 src={require("../../static/images/close.png")}
