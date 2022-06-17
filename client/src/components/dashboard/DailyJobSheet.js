@@ -11,7 +11,7 @@ import {
   getDailyJobsheetProjectDeatils,
   getAllProjectStatus,
 } from "../../actions/projects";
-
+import JobNotes from "./JobNotes";
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
   project: { dailyJobsheetProjects, allProjectStatus },
@@ -127,8 +127,21 @@ const DailyJobSheet = ({
       });
     }
   };
-  console.log(radioselect);
+  // console.log(radioselect);
+  const [shownotesModal, setshownotesModal] = useState(false);
+  const handlenotesModalClose = () => setshownotesModal(false);
 
+  const onnotesModalChange = (e) => {
+    if (e) {
+      handlenotesModalClose();
+    }
+  };
+
+  const [userDatas2, setUserDatas2] = useState(null);
+  const onnotes = (dailyJobsheetProjects, idx) => {
+    setshownotesModal(true);
+    setUserDatas2(dailyJobsheetProjects);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -240,7 +253,17 @@ const DailyJobSheet = ({
                                   />
                                 </td>
                                 <td></td>
-                                <td>{dailyJobsheetProjects.projectNotes}</td>
+                                <td>
+                                  <Link
+                                    className="btnLink"
+                                    onClick={() =>
+                                      onnotes(dailyJobsheetProjects, idx)
+                                    }
+                                  >
+                                    Notes
+                                  </Link>
+                                  {/* {dailyJobsheetProjects.projectNotes} */}
+                                </td>
                                 {/* <td></td> */}
                                 <td>
                                   <img
@@ -336,6 +359,36 @@ const DailyJobSheet = ({
           <EditProject
             onEditModalChange={onEditModalChange}
             allProjectdata={userDatas}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={shownotesModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Notes </h3>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handlenotesModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <JobNotes
+            onnotesModalChange={onnotesModalChange}
+            allnotesdata={userDatas2}
           />
         </Modal.Body>
       </Modal>
