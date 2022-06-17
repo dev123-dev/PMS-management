@@ -45,9 +45,7 @@ const JobHistory = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      recordId: allDeptartmentdata ? allDeptartmentdata._id : "",
-
-      departmentEditedById: user._id,
+      recordId: allProjectdata ? allProjectdata._id : "",
     };
 
     console.log(finalData);
