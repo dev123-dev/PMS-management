@@ -90,7 +90,7 @@ const JobHistory = ({
               rows="3"
               style={{ width: "100%" }}
               onChange={(e) => onInputChange(e)}
-              disabled
+              readOnly
             ></textarea>
           </div>
         </div>
