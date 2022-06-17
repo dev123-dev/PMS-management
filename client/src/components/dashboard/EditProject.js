@@ -5,7 +5,7 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getActiveClientsFilter } from "../../actions/client";
-import { getAllProjectStatus, addProject } from "../../actions/projects";
+import { getAllProjectStatus, EditProjectData } from "../../actions/projects";
 
 const clientTypeVal = [
   { value: "Regular", label: "Regular Client" },
@@ -33,20 +33,11 @@ const EditProject = ({
     getAllProjectStatus();
   }, [getAllProjectStatus]);
   useEffect(() => {
-    getActiveClientsFilter();
+    let clientTypeVal = {
+      clientTypeinfo: allProjectdata && allProjectdata.clientTypeVal,
+    };
+    getActiveClientsFilter(clientTypeVal);
   }, [getActiveClientsFilter]);
-
-  const activeClientsOpt = [];
-  activeClientFilter.map((clientsData) =>
-    activeClientsOpt.push({
-      clientId: clientsData._id,
-      belongsToId: clientsData.clientBelongsToId,
-      belongsTo: clientsData.clientBelongsToName,
-      folderName: clientsData.clientFolderName,
-      label: clientsData.clientName,
-      value: clientsData.clientName,
-    })
-  );
 
   const projectStatusOpt = [];
   allProjectStatus.map((projStatusData) =>
@@ -59,6 +50,20 @@ const EditProject = ({
 
   // console.log(activeClientsOpt);
   // console.log("allprojectdata", allProjectdata);
+  let activeClientData = JSON.parse(localStorage.getItem("activeClientData"));
+
+  const activeClientsOpt = [];
+  activeClientData.map((clientsData) =>
+    activeClientsOpt.push({
+      clientId: clientsData._id,
+      belongsToId: clientsData.clientBelongsToId,
+      belongsTo: clientsData.clientBelongsToName,
+      folderName: clientsData.clientFolderName,
+      label: clientsData.clientName,
+      value: clientsData.clientName,
+    })
+  );
+
   const [clientData, setClientData] = useState(
     allProjectdata
       ? activeClientsOpt &&
@@ -69,7 +74,11 @@ const EditProject = ({
   );
   const [clientId, setClientId] = useState();
   // const [clientName, setClientName] = useState();
-  const [clientBelongsTo, setBelongsToVal] = useState();
+  const [clientBelongsTo, setBelongsToVal] = useState(
+    allProjectdata && allProjectdata.parentClientName
+      ? allProjectdata.parentClientName
+      : ""
+  );
 
   // allProjectdata && allProjectdata.parentClientId
   //   ? allProjectdata.parentClientId
@@ -128,8 +137,8 @@ const EditProject = ({
       allProjectdata && allProjectdata.projectQuantity
         ? allProjectdata.projectQuantity
         : "",
-    priority:
-      allProjectdata && allProjectdata.priority ? allProjectdata.priority : "",
+    // priority:
+    //   allProjectdata && allProjectdata.priority ? allProjectdata.priority : "",
     deadline:
       allProjectdata && allProjectdata.projectDeadline
         ? allProjectdata.projectDeadline
@@ -333,8 +342,8 @@ const EditProject = ({
         // projectEntryTime
         // clientType: clientType.value,
       };
-      // console.log(finalData);
-      addProject(finalData);
+      console.log(finalData);
+      // EditProjectData(finalData);
       onEditModalChange(true);
       // setFormData({
       //   ...formData,
@@ -442,8 +451,8 @@ const EditProject = ({
                     className="form-control"
                     name="projectTime"
                     value={projectTime}
-                    min="09:00"
-                    max="18:00"
+                    min="00:00"
+                    max="23:00"
                     onChange={(e) => onInputChange(e)}
                     // required
                   />
@@ -471,8 +480,8 @@ const EditProject = ({
                     name="clientTime"
                     value={clientTime}
                     className="form-control"
-                    min="09:00"
-                    max="18:00"
+                    min="00:00"
+                    max="23:00"
                     onChange={(e) => onInputChange(e)}
                     // required
                   />
@@ -516,8 +525,8 @@ const EditProject = ({
                   <label className="label-control">Priority :</label>
                   <Select
                     name="priority"
-                    value={priorityVal}
-                    options={priority}
+                    options={priorityVal}
+                    value={priority}
                     isSearchable={false}
                     placeholder="Select"
                     onChange={(e) => priorityToChange(e)}
@@ -528,7 +537,7 @@ const EditProject = ({
 
             <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
               <div className="row card-new  py-3">
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <label
                     className="label-control"
                     style={projectstatusErrorStyle}
@@ -543,7 +552,7 @@ const EditProject = ({
                     placeholder="Select"
                     onChange={(e) => onProjectStatusChange(e)}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Deadline :</label>
                   <input
@@ -619,6 +628,7 @@ EditProject.propTypes = {
   client: PropTypes.object.isRequired,
   getAllProjectStatus: PropTypes.object.isRequired,
   getActiveClientsFilter: PropTypes.object.isRequired,
+  EditProjectData: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -631,5 +641,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getAllProjectStatus,
   getActiveClientsFilter,
-  addProject,
+  EditProjectData,
 })(EditProject);

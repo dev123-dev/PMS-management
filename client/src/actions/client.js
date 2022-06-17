@@ -107,6 +107,7 @@ export const getActiveClientsFilter = (clientTypeVal) => async (dispatch) => {
       "/api/client/get-active-client-filter",
       clientTypeVal
     );
+    localStorage.setItem("activeClientData", JSON.stringify(res.data));
     dispatch({
       type: ACTIVE_CLIENT_FILTER,
       payload: res.data,
