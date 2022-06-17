@@ -11,7 +11,7 @@ import {
   getJobQueueProjectDeatils,
   getAllProjectStatus,
 } from "../../actions/projects";
-
+import JobHistory from "./JobHistory";
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
   project: { jobQueueProjects, allProjectStatus },
@@ -111,6 +111,20 @@ const JobQueue = ({
     isSubmitted: false,
   });
 
+  const [showhistoryModal, setshowhistoryModal] = useState(false);
+  const handlehistoryModalClose = () => setshowhistoryModal(false);
+
+  const onhistoryModalChange = (e) => {
+    if (e) {
+      handlehistoryModalClose();
+    }
+  };
+
+  const [userDatas1, setUserDatas1] = useState(null);
+  const onhistory = (jobQueueProjects, idx) => {
+    setshowhistoryModal(true);
+    setUserDatas(jobQueueProjects);
+  };
   const { radioselect } = formData;
   const onstatuscategrorySelect = (statuscategrory) => {
     if (statuscategrory === "Normal") {
@@ -204,7 +218,17 @@ const JobQueue = ({
 
                           return (
                             <tr key={idx}>
-                              <td>{jobQueueProjects.clientName}</td>
+                              <td>
+                                {" "}
+                                <Link
+                                  className="btnLink"
+                                  onClick={() =>
+                                    onhistory(jobQueueProjects, idx)
+                                  }
+                                >
+                                  {jobQueueProjects.clientName}
+                                </Link>
+                              </td>
                               <td>{jobQueueProjects.clientFolderName}</td>
                               <td>{jobQueueProjects.projectName}</td>
                               <td>
@@ -231,7 +255,17 @@ const JobQueue = ({
                                   onChange={onSliderChange(jobQueueProjects)}
                                 />
                               </td>
-                              <td>{jobQueueProjects.projectStatusType}</td>
+                              <td>
+                                {" "}
+                                <Link
+                                  className="btnLink"
+                                  onClick={() =>
+                                    onhistory(jobQueueProjects, idx)
+                                  }
+                                >
+                                  {jobQueueProjects.projectStatusType}
+                                </Link>
+                              </td>
                               <td>{jobQueueProjects.projectNotes}</td>
                               {/* <td></td> */}
                               <td>
@@ -379,6 +413,36 @@ const JobQueue = ({
           <EditProject
             onEditModalChange={onEditModalChange}
             allProjectdata={userDatas}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showhistoryModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Latest Changes Details</h3>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handlehistoryModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <JobHistory
+            onhistoryModalChange={onhistoryModalChange}
+            allClientdata={userDatas}
           />
         </Modal.Body>
       </Modal>
