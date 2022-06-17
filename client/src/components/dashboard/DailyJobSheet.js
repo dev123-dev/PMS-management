@@ -367,7 +367,7 @@ const DailyJobSheet = ({
         show={shownotesModal}
         backdrop="static"
         keyboard={false}
-        size="md"
+        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
