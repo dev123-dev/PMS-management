@@ -7,6 +7,7 @@ import HomePage from "./components/layout/HomePage";
 
 import RoutesFile from "./components/routing/RoutesFile";
 
+import Chat from "./pages/Chat";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
@@ -41,6 +42,7 @@ const App = () => {
                 <Route exact path="/" component={HomePage} />
                 <Route exact path="/login" component={Login} />
                 <Route component={RoutesFile} />
+                <Route path="/" element={<Chat />} />
               </Switch>
             </div>
           </div>

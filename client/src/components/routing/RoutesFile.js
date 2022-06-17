@@ -11,6 +11,7 @@ import DailyJobSheet from "../dashboard/DailyJobSheet";
 import JobQueue from "../dashboard/JobQueue";
 import AddProject from "../dashboard/AddProject";
 import ChangeProjectLifeCycle from "../dashboard/ChangeProjectLifeCycle";
+import Chat from "../../pages/Chat";
 
 // staff
 import AddEmployeeDetails from "../staffs/AddEmployeeDetails";
@@ -48,6 +49,7 @@ const RoutesFile = () => {
     <section>
       <Switch>
         <PrivateRoute exact path="/daily-job-sheet" component={DailyJobSheet} />
+        <PrivateRoute exact path="/chat" component={Chat} />
         <PrivateRoute exact path="/job-queue" component={JobQueue} />
         <PrivateRoute exact path="/add-project" component={AddProject} />
         <PrivateRoute
