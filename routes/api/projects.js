@@ -42,6 +42,8 @@ router.post("/add-project-track", async (req, res) => {
         $set: {
           projectStatusId: data.projectTrackStatusId,
           projectStatusType: data.projectStatusType,
+          ptEstimatedTime: data.ptEstimatedTime,
+          ptEstimatedDateTime: data.ptEstimatedDateTime,
         },
       }
     );

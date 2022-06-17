@@ -25,8 +25,8 @@ const JobQueue = ({
     getAllProjectStatus();
   }, [getAllProjectStatus]);
 
-  function dhm(pDate, pTime) {
-    let pStartDate = new Date(pDate + "," + pTime);
+  function dhm(pDateTime) {
+    let pStartDate = new Date(pDateTime);
     let pEndDate = new Date();
     let ms = Math.abs(pStartDate - pEndDate);
     const days = Math.floor(ms / (24 * 60 * 60 * 1000));
@@ -154,7 +154,6 @@ const JobQueue = ({
       });
     }
   };
-  console.log(radioselect);
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -215,7 +214,11 @@ const JobQueue = ({
                           if (statusType === "QC Pending") QCPendingQty += 1;
                           if (statusType === "QC Estimate") QCEstimateQty += 1;
                           if (statusType === "Uploading") UploadingQty += 1;
-
+                          let estimatedTimeVal = "";
+                          if (jobQueueProjects.ptEstimatedTime) {
+                            estimatedTimeVal =
+                              jobQueueProjects.ptEstimatedTime.split(":");
+                          }
                           return (
                             <tr key={idx}>
                               <td>
@@ -233,12 +236,22 @@ const JobQueue = ({
                               <td>{jobQueueProjects.projectName}</td>
                               <td>
                                 {dhm(
-                                  jobQueueProjects.projectDate,
-                                  jobQueueProjects.projectTime
+                                  jobQueueProjects.projectDate +
+                                    ", " +
+                                    jobQueueProjects.projectTime
                                 )}
                               </td>
-                              <td></td>
-                              <td></td>
+                              <td>
+                                {jobQueueProjects.ptEstimatedTime &&
+                                  estimatedTimeVal[0] +
+                                    " hr : " +
+                                    estimatedTimeVal[1] +
+                                    " min"}
+                              </td>
+                              <td>
+                                {jobQueueProjects.ptEstimatedDateTime &&
+                                  dhm(jobQueueProjects.ptEstimatedDateTime)}
+                              </td>
                               <td>{jobQueueProjects.projectPriority}</td>
                               <td>{jobQueueProjects.projectDeadline}</td>
                               <td>{jobQueueProjects.projectQuantity}</td>
