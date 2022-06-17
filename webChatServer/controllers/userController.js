@@ -1,4 +1,4 @@
-const User = require("../models/userModel");
+// const User = require("../models/userModel");
 const EmployeeDetails = require("../models/EmpDetails");
 
 const bcrypt = require("bcrypt");
@@ -47,6 +47,7 @@ module.exports.getAllUsers = async (req, res, next) => {
       _id: { $ne: req.params.id },
       empStatus: { $eq: "Active" },
     }).select(["userName", "_id"]);
+    console.log(empData);
     return res.json(empData);
   } catch (ex) {
     next(ex);
