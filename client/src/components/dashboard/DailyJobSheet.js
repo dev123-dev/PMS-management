@@ -190,7 +190,12 @@ const DailyJobSheet = ({
                   >
                     <thead>
                       <tr>
-                        <th>Client Name</th>
+                        {user.userGroupName &&
+                        user.userGroupName === "Admin" ? (
+                          <th>Client Name</th>
+                        ) : (
+                          <></>
+                        )}
                         <th>Folder Name</th>
                         <th>Project Name</th>
                         <th>Queue Duration</th>
@@ -223,7 +228,12 @@ const DailyJobSheet = ({
 
                             return (
                               <tr key={idx}>
-                                <td>{dailyJobsheetProjects.clientName}</td>
+                                {user.userGroupName &&
+                                user.userGroupName === "Admin" ? (
+                                  <td>{dailyJobsheetProjects.clientName}</td>
+                                ) : (
+                                  <></>
+                                )}
                                 <td>
                                   {dailyJobsheetProjects.clientFolderName}
                                 </td>
@@ -266,7 +276,7 @@ const DailyJobSheet = ({
                                 </td>
                                 {/* <td></td> */}
                                 <td>
-                                  <img
+                                  {/* <img
                                     className="img_icon_size log"
                                     onClick={() =>
                                       onUpdate(dailyJobsheetProjects, idx)
@@ -274,7 +284,7 @@ const DailyJobSheet = ({
                                     src={require("../../static/images/edit_icon.png")}
                                     alt="Edit"
                                     title="Edit"
-                                  />
+                                  /> */}
                                 </td>
                               </tr>
                             );
