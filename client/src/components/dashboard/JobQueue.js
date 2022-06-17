@@ -12,6 +12,7 @@ import {
   getAllProjectStatus,
 } from "../../actions/projects";
 import JobHistory from "./JobHistory";
+import JobNotes from "./JobNotes";
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
   project: { jobQueueProjects, allProjectStatus },
@@ -24,7 +25,7 @@ const JobQueue = ({
   useEffect(() => {
     getAllProjectStatus();
   }, [getAllProjectStatus]);
-  console.log(user);
+
   function dhm(pDateTime) {
     let pStartDate = new Date(pDateTime);
     let pEndDate = new Date();
@@ -125,6 +126,21 @@ const JobQueue = ({
     setshowhistoryModal(true);
     setUserDatas1(jobQueueProjects);
   };
+
+  const [shownotesModal, setshownotesModal] = useState(false);
+  const handlenotesModalClose = () => setshownotesModal(false);
+
+  const onnotesModalChange = (e) => {
+    if (e) {
+      handlenotesModalClose();
+    }
+  };
+
+  const [userDatas2, setUserDatas2] = useState(null);
+  const onnotes = (jobQueueProjects, idx) => {
+    setshownotesModal(true);
+    setUserDatas2(jobQueueProjects);
+  };
   const { radioselect } = formData;
   const onstatuscategrorySelect = (statuscategrory) => {
     if (statuscategrory === "Normal") {
@@ -188,7 +204,12 @@ const JobQueue = ({
                   >
                     <thead>
                       <tr>
-                        <th style={{ width: "10%" }}>Client Name</th>
+                        {user.userGroupName &&
+                        user.userGroupName === "Admin" ? (
+                          <th style={{ width: "10%" }}>Client Name</th>
+                        ) : (
+                          <></>
+                        )}
                         <th style={{ width: "5%" }}>Folder </th>
                         <th style={{ width: "10%" }}>Project Name</th>
                         <th style={{ width: "10%" }}>Queue Duration</th>
@@ -222,17 +243,22 @@ const JobQueue = ({
                           }
                           return (
                             <tr key={idx}>
-                              <td>
-                                {" "}
-                                <Link
-                                  className="btnLink"
-                                  onClick={() =>
-                                    onhistory(jobQueueProjects, idx)
-                                  }
-                                >
-                                  {jobQueueProjects.clientName}
-                                </Link>
-                              </td>
+                              {user.userGroupName &&
+                              user.userGroupName === "Admin" ? (
+                                <td>
+                                  {" "}
+                                  <Link
+                                    className="btnLink"
+                                    onClick={() =>
+                                      onhistory(jobQueueProjects, idx)
+                                    }
+                                  >
+                                    {jobQueueProjects.clientName}
+                                  </Link>
+                                </td>
+                              ) : (
+                                <></>
+                              )}
                               <td>{jobQueueProjects.clientFolderName}</td>
                               <td>{jobQueueProjects.projectName}</td>
                               <td>
@@ -280,7 +306,16 @@ const JobQueue = ({
                                   {jobQueueProjects.projectStatusType}
                                 </Link>
                               </td>
-                              <td>{jobQueueProjects.projectNotes}</td>
+                              <td>
+                                {" "}
+                                <Link
+                                  className="btnLink"
+                                  onClick={() => onnotes(jobQueueProjects, idx)}
+                                >
+                                  Notes
+                                </Link>
+                                {/* {jobQueueProjects.projectNotes} */}
+                              </td>
                               {/* <td></td> */}
                               <td>
                                 {/* <img
@@ -459,6 +494,36 @@ const JobQueue = ({
           <JobHistory
             onhistoryModalChange={onhistoryModalChange}
             allProjectdata={userDatas1}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={shownotesModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Notes </h3>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handlenotesModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <JobNotes
+            onnotesModalChange={onnotesModalChange}
+            allnotesdata={userDatas2}
           />
         </Modal.Body>
       </Modal>
