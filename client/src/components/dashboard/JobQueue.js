@@ -510,7 +510,7 @@ const JobQueue = ({
           <div className="col-lg-10 col-md-10 col-sm-10 col-10">
             <h3 className="modal-title text-center">Notes </h3>
           </div>
-          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+          <div className="col-lg-1 col-md-2 col-sm-2 col-2">
             <button onClick={handlenotesModalClose} className="close">
               <img
                 src={require("../../static/images/close.png")}

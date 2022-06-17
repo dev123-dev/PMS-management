@@ -26,7 +26,15 @@ const JobNotes = ({
   ) : (
     <Fragment>
       <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-        <p>{allnotesdata.projectNotes}</p>
+        <textarea
+          className="textarea form-control"
+          rows="10"
+          placeholder="Client Address"
+          style={{ width: "100%" }}
+          readOnly
+        >
+          {allnotesdata.projectNotes}
+        </textarea>
       </div>
     </Fragment>
   );
