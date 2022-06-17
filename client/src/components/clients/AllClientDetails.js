@@ -146,7 +146,7 @@ const AllClientDetails = ({
             </div>
           </div>
 
-          <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
+          <div className="row col-md-12 col-lg-12 col-sm-12 col-12  ">
             <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
               <strong> No of Clients:{allClient.length}</strong>
