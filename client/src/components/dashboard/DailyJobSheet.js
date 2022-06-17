@@ -8,19 +8,19 @@ import ChangeProjectLifeCycle from "./ChangeProjectLifeCycle";
 import Spinner from "../layout/Spinner";
 import EditProject from "./EditProject";
 import {
-  getJobQueueProjectDeatils,
+  getDailyJobsheetProjectDeatils,
   getAllProjectStatus,
 } from "../../actions/projects";
 
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
-  project: { jobQueueProjects, allProjectStatus },
-  getJobQueueProjectDeatils,
+  project: { dailyJobsheetProjects, allProjectStatus },
+  getDailyJobsheetProjectDeatils,
   getAllProjectStatus,
 }) => {
   useEffect(() => {
-    getJobQueueProjectDeatils();
-  }, [getJobQueueProjectDeatils]);
+    getDailyJobsheetProjectDeatils();
+  }, [getDailyJobsheetProjectDeatils]);
   useEffect(() => {
     getAllProjectStatus();
   }, [getAllProjectStatus]);
@@ -45,14 +45,14 @@ const DailyJobSheet = ({
   );
 
   const [statusChangeValue, setStatusChange] = useState();
-  const onSliderChange = (jobQueueProjects) => (e) => {
+  const onSliderChange = (dailyJobsheetProjects) => (e) => {
     // console.log("id", id);
     // console.log("e", e);
 
     let newStatusData = {
       statusId: e.value,
       value: e.label,
-      projectId: jobQueueProjects._id,
+      projectId: dailyJobsheetProjects._id,
     };
 
     setStatusChange(newStatusData);
@@ -80,7 +80,7 @@ const DailyJobSheet = ({
   const handleEditModalClose = () => setShowEditModal(false);
 
   const onClickReset = () => {
-    getJobQueueProjectDeatils("");
+    getDailyJobsheetProjectDeatils("");
   };
 
   const onEditModalChange = (e) => {
@@ -89,9 +89,9 @@ const DailyJobSheet = ({
     }
   };
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (jobQueueProjects, idx) => {
+  const onUpdate = (dailyJobsheetProjects, idx) => {
     setShowEditModal(true);
-    setUserDatas(jobQueueProjects);
+    setUserDatas(dailyJobsheetProjects);
   };
   const [formData, setFormData] = useState({
     radioselect: "",
@@ -193,59 +193,70 @@ const DailyJobSheet = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {jobQueueProjects &&
-                        jobQueueProjects.map((jobQueueProjects, idx) => {
-                          projectQty += jobQueueProjects.projectQuantity;
-                          let statusType = jobQueueProjects.projectStatusType;
-                          if (statusType === "Downloading") downloadingQty += 1;
-                          if (statusType === "Working") WorkingQty += 1;
-                          if (statusType === "Pending") PendingQty += 1;
-                          if (statusType === "QC Pending") QCPendingQty += 1;
-                          if (statusType === "QC Estimate") QCEstimateQty += 1;
-                          if (statusType === "Uploading") UploadingQty += 1;
+                      {dailyJobsheetProjects &&
+                        dailyJobsheetProjects.map(
+                          (dailyJobsheetProjects, idx) => {
+                            projectQty += dailyJobsheetProjects.projectQuantity;
+                            let statusType =
+                              dailyJobsheetProjects.projectStatusType;
+                            if (statusType === "Downloading")
+                              downloadingQty += 1;
+                            if (statusType === "Working") WorkingQty += 1;
+                            if (statusType === "Pending") PendingQty += 1;
+                            if (statusType === "QC Pending") QCPendingQty += 1;
+                            if (statusType === "QC Estimate")
+                              QCEstimateQty += 1;
+                            if (statusType === "Uploading") UploadingQty += 1;
 
-                          return (
-                            <tr key={idx}>
-                              <td>{jobQueueProjects.clientName}</td>
-                              <td>{jobQueueProjects.clientFolderName}</td>
-                              <td>{jobQueueProjects.projectName}</td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td>{jobQueueProjects.projectPriority}</td>
-                              <td>{jobQueueProjects.projectDeadline}</td>
-                              <td>{jobQueueProjects.projectQuantity}</td>
-                              {/* <td>{jobQueueProjects.projectStatusType}</td> */}
-                              <td>
-                                <Select
-                                  name="projectStatusData"
-                                  value={{
-                                    label: jobQueueProjects.projectStatusType,
-                                    value: jobQueueProjects.projectStatusId,
-                                  }}
-                                  options={projectStatusOpt}
-                                  isSearchable={false}
-                                  placeholder="Select"
-                                  onChange={onSliderChange(jobQueueProjects)}
-                                />
-                              </td>
-                              <td></td>
-                              <td>{jobQueueProjects.projectNotes}</td>
-                              {/* <td></td> */}
-                              <td>
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() =>
-                                    onUpdate(jobQueueProjects, idx)
-                                  }
-                                  src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
-                                />
-                              </td>
-                            </tr>
-                          );
-                        })}
+                            return (
+                              <tr key={idx}>
+                                <td>{dailyJobsheetProjects.clientName}</td>
+                                <td>
+                                  {dailyJobsheetProjects.clientFolderName}
+                                </td>
+                                <td>{dailyJobsheetProjects.projectName}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{dailyJobsheetProjects.projectPriority}</td>
+                                <td>{dailyJobsheetProjects.projectDeadline}</td>
+                                <td>{dailyJobsheetProjects.projectQuantity}</td>
+                                {/* <td>{dailyJobsheetProjects.projectStatusType}</td> */}
+                                <td>
+                                  <Select
+                                    name="projectStatusData"
+                                    value={{
+                                      label:
+                                        dailyJobsheetProjects.projectStatusType,
+                                      value:
+                                        dailyJobsheetProjects.projectStatusId,
+                                    }}
+                                    options={projectStatusOpt}
+                                    isSearchable={false}
+                                    placeholder="Select"
+                                    onChange={onSliderChange(
+                                      dailyJobsheetProjects
+                                    )}
+                                  />
+                                </td>
+                                <td></td>
+                                <td>{dailyJobsheetProjects.projectNotes}</td>
+                                {/* <td></td> */}
+                                <td>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() =>
+                                      onUpdate(dailyJobsheetProjects, idx)
+                                    }
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </td>
+                              </tr>
+                            );
+                          }
+                        )}
                     </tbody>
                   </table>
                 </div>
@@ -335,7 +346,7 @@ const DailyJobSheet = ({
 DailyJobSheet.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
-  getJobQueueProjectDeatils: PropTypes.object.isRequired,
+  getDailyJobsheetProjectDeatils: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -343,6 +354,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getJobQueueProjectDeatils,
+  getDailyJobsheetProjectDeatils,
   getAllProjectStatus,
 })(DailyJobSheet);
