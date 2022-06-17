@@ -283,7 +283,7 @@ const JobQueue = ({
                               <td>{jobQueueProjects.projectNotes}</td>
                               {/* <td></td> */}
                               <td>
-                                <img
+                                {/* <img
                                   className="img_icon_size log"
                                   onClick={() =>
                                     onUpdate(jobQueueProjects, idx)
@@ -291,7 +291,7 @@ const JobQueue = ({
                                   src={require("../../static/images/edit_icon.png")}
                                   alt="Edit"
                                   title="Edit"
-                                />
+                                /> */}
                               </td>
                             </tr>
                           );
