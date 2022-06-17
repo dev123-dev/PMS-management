@@ -91,11 +91,11 @@ const EditProject = ({
 
   const onClientChange = (e) => {
     //Required Validation starts
-    setError({
-      ...error,
-      clientnameIdChecker: true,
-      clientnameIdErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   clientnameIdChecker: true,
+    //   clientnameIdErrorStyle: { color: "#000" },
+    // });
     //Required Validation ends
 
     setClientData(e);
@@ -211,11 +211,11 @@ const EditProject = ({
 
   const onClientTypeChange = (e) => {
     //Required Validation starts
-    setError({
-      ...error,
-      ClientIdChecker: true,
-      ClientErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   ClientIdChecker: true,
+    //   ClientErrorStyle: { color: "#000" },
+    // });
     //Required Validation ends
     if (e) {
       setFormData({
@@ -265,52 +265,52 @@ const EditProject = ({
   };
 
   //Required Validation Starts
-  const [error, setError] = useState({
-    clientnameIdChecker: false,
-    clientnameIdErrorStyle: {},
+  // const [error, setError] = useState({
+  //   clientnameIdChecker: false,
+  //   clientnameIdErrorStyle: {},
 
-    ClientIdChecker: false,
-    ClientErrorStyle: {},
-    projectstatusChecker: false,
-    projectstatusErrorStyle: {},
-  });
-  const {
-    clientnameIdChecker,
-    clientnameIdErrorStyle,
+  //   ClientIdChecker: false,
+  //   ClientErrorStyle: {},
+  //   projectstatusChecker: false,
+  //   projectstatusErrorStyle: {},
+  // });
+  // const {
+  //   clientnameIdChecker,
+  //   clientnameIdErrorStyle,
 
-    ClientIdChecker,
-    ClientErrorStyle,
-    projectstatusChecker,
-    projectstatusErrorStyle,
-  } = error;
+  //   ClientIdChecker,
+  //   ClientErrorStyle,
+  //   projectstatusChecker,
+  //   projectstatusErrorStyle,
+  // } = error;
 
-  const checkErrors = () => {
-    if (!ClientIdChecker) {
-      setError({
-        ...error,
-        ClientErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+  // const checkErrors = () => {
+  //   if (!ClientIdChecker) {
+  //     setError({
+  //       ...error,
+  //       ClientErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
 
-    if (!clientnameIdChecker) {
-      setError({
-        ...error,
-        clientnameIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+  //   if (!clientnameIdChecker) {
+  //     setError({
+  //       ...error,
+  //       clientnameIdErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
 
-    if (!projectstatusChecker) {
-      setError({
-        ...error,
-        projectstatusErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+  //   if (!projectstatusChecker) {
+  //     setError({
+  //       ...error,
+  //       projectstatusErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
 
-    return true;
-  };
+  //   return true;
+  // };
   const onSubmit = (e) => {
     e.preventDefault();
     if (checkErrors()) {
@@ -368,7 +368,10 @@ const EditProject = ({
                 </div>
 
                 <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
-                  <label className="label-control" style={ClientErrorStyle}>
+                  <label
+                    className="label-control"
+                    //  style={ClientErrorStyle}
+                  >
                     Client Type* :
                   </label>
                   <Select
@@ -383,7 +386,7 @@ const EditProject = ({
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <label
                     className="label-control"
-                    style={clientnameIdErrorStyle}
+                    // style={clientnameIdErrorStyle}
                   >
                     Client Name* :
                   </label>
