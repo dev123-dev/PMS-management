@@ -1101,8 +1101,8 @@ const EditEmployeeDetails = ({
                         ) : ( */}
                     <input
                       type="submit"
-                      name="Save"
-                      value="Submit"
+                      name="submit"
+                      value="Update"
                       className="btn sub_form btn_continue Save float-right"
                     />
                     {/* )} */}

@@ -92,7 +92,7 @@ const EditDepartment = ({
             <input
               type="submit"
               name="Submit"
-              value="Submit"
+              value="Update"
               className="btn sub_form btn_continue Save float-right"
             />
           )}
