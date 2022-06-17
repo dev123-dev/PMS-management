@@ -197,7 +197,7 @@ const JobQueue = ({
                         <th>Priority</th>
                         <th>Deadline</th>
                         <th>Qty</th>
-                        <th>Status</th>
+                        <th style={{ width: "20%" }}>Status</th>
                         <th>Latest Change</th>
                         <th>Job Notes</th>
                         <th>OP</th>
@@ -216,8 +216,9 @@ const JobQueue = ({
                           if (statusType === "Uploading") UploadingQty += 1;
                           let estimatedTimeVal = "";
                           if (jobQueueProjects.ptEstimatedTime) {
-                            estimatedTimeVal =
-                              jobQueueProjects.ptEstimatedTime.split(":");
+                            estimatedTimeVal = jobQueueProjects.ptEstimatedTime.split(
+                              ":"
+                            );
                           }
                           return (
                             <tr key={idx}>
