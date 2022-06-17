@@ -68,13 +68,13 @@ const AddClientDetails = ({
   } = formData;
 
   const onClientTypeChange = (e) => {
-    //Required Validation starts
-    // setError({
-    //   ...error,
-    //   TranscationIdChecker: true,
-    //   TranscationIdErrorStyle: { color: "#000" },
-    // });
-    //Required Validation ends
+    //  Required Validation starts
+    setError({
+      ...error,
+      clienttypeIdChecker: true,
+      clienttypeIdErrorStyle: { color: "#000" },
+    });
+    // Required Validation ends
 
     if (e) {
       setFormData({
@@ -102,6 +102,14 @@ const AddClientDetails = ({
   const [paymentname, setpaymentname] = useState();
 
   const onPayModeChange = (e) => {
+    //Required Validation starts
+    setError({
+      ...error,
+      paymentmodeIdChecker: true,
+      paymentmodeIdErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
+
     var paymentId = "";
     var paymentname = "";
     getStateData(e);
@@ -134,36 +142,71 @@ const AddClientDetails = ({
     setclientsId(clientsId);
     setclientsName(clientsName);
   };
+
+  //Required Validation Starts
+  const [error, setError] = useState({
+    paymentmodeIdChecker: false,
+    paymentmodeIdErrorStyle: {},
+    clienttypeIdChecker: false,
+
+    clienttypeIdErrorStyle: {},
+  });
+  const {
+    paymentmodeIdChecker,
+    paymentmodeIdErrorStyle,
+    clienttypeIdChecker,
+    clienttypeIdErrorStyle,
+  } = error;
+
+  const checkErrors = () => {
+    if (!clienttypeIdChecker) {
+      setError({
+        ...error,
+        clienttypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!paymentmodeIdChecker) {
+      setError({
+        ...error,
+        paymentmodeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    return true;
+  };
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
-    const finalData = {
-      clientName: clientName,
-      clientBelongsToId: clientsId,
-      clientBelongsToName: clientsName,
-      clientEmail: clientEmail,
-      clientBillingEmail: clientBillingEmail,
-      clientContactNo1: clientContactNo1,
-      clientContactNo2: clientContactNo2,
-      clientAddress: clientAddress,
-      clientCountry: clientCountry,
-      clientCurrency: clientCurrency,
-      clientFolderName: clientFolderName,
-      clientType: clientType.value,
-      clientCompanyName: clientCompanyName,
-      paymentId: paymentId,
-      paymentModeName: paymentname,
-      clientCompanyFounderName: clientCompanyFounderName,
-      clientWebsite: clientWebsite,
-    };
-    // console.log(finalData);
-    AddClient(finalData);
-    setFormData({
-      ...formData,
+    if (checkErrors()) {
+      // if (checkErrors()) {
+      const finalData = {
+        clientName: clientName,
+        clientBelongsToId: clientsId,
+        clientBelongsToName: clientsName,
+        clientEmail: clientEmail,
+        clientBillingEmail: clientBillingEmail,
+        clientContactNo1: clientContactNo1,
+        clientContactNo2: clientContactNo2,
+        clientAddress: clientAddress,
+        clientCountry: clientCountry,
+        clientCurrency: clientCurrency,
+        clientFolderName: clientFolderName,
+        clientType: clientType.value,
+        clientCompanyName: clientCompanyName,
+        paymentId: paymentId,
+        paymentModeName: paymentname,
+        clientCompanyFounderName: clientCompanyFounderName,
+        clientWebsite: clientWebsite,
+        clientEnteredById: user._id,
+      };
+      AddClient(finalData);
+      setFormData({
+        ...formData,
 
-      isSubmitted: true,
-    });
-    // }
+        isSubmitted: true,
+      });
+    }
   };
   if (isSubmitted) {
     return <Redirect to="/all-clients" />;
@@ -285,7 +328,7 @@ const AddClientDetails = ({
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">
-                      Client Folder Name :
+                      Client Folder Name* :
                     </label>
                     <input
                       type="text"
@@ -293,6 +336,7 @@ const AddClientDetails = ({
                       value={clientFolderName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -320,7 +364,7 @@ const AddClientDetails = ({
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label
                       className="label-control"
-                      // style={TranscationIdErrorStyle}
+                      style={clienttypeIdErrorStyle}
                     >
                       Client Type :
                     </label>
@@ -389,8 +433,11 @@ const AddClientDetails = ({
                         />
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                        <label className="label-control">
-                          Mode of Payment :
+                        <label
+                          className="label-control"
+                          style={paymentmodeIdErrorStyle}
+                        >
+                          Mode of Payment* :
                         </label>
 
                         <Select

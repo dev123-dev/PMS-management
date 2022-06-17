@@ -23,12 +23,12 @@ app.use("/api/client", require("./routes/api/client"));
 //   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 // });
 
-const PORT = process.env.PORT || 5433;
+const PORT = process.env.PORT || 5439;
 
 // step 3: Heroku
 
 // while adding below colde for deployment
-//  "proxy": "http://localhost:5433"
+//  "proxy": "http://localhost:5439"
 //  this above code removed from client>package.json last line
 
 // Inside main package.json we removed this below code and placed other script code

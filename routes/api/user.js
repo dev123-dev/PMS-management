@@ -6,6 +6,7 @@ const config = require("config");
 const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const EmployeeDetails = require("../../models/EmpDetails");
+const EmployeeDetailsHistory = require("../../models/EmpDetailsHistory");
 const UserGroup = require("../../models/UserGroups");
 
 const {
@@ -56,46 +57,87 @@ router.post("/add-employee", async (req, res) => {
 router.post("/edit-employee", async (req, res) => {
   try {
     let data = req.body;
-    // console.log(data);
+    let allEmployeedata = data.allEmployeedata;
+    const historyData = {
+      edhId: allEmployeedata._id,
+      edhFullName: allEmployeedata.empFullName,
+      edhEmpCode: allEmployeedata.empCode,
+      edhDepartmentId: allEmployeedata.departmentId,
+      edhDesignationId: allEmployeedata.designationId,
+      edhDesignationDate: allEmployeedata.empDesignationDate,
+      edhJoiningDate: allEmployeedata.empJoiningDate,
+      edhDOB: allEmployeedata.empDOB,
+      edhAadharNo: allEmployeedata.empAadharNo,
+      edhPanNo: allEmployeedata.empPanNo,
+      edhPhone: allEmployeedata.empPhone,
+      edhEmail: allEmployeedata.empEmail,
+      edhAddress: allEmployeedata.empAddress,
+      edhState: allEmployeedata.empState,
+      edhPincode: allEmployeedata.empPincode,
+      edhGroupId: allEmployeedata.usergroupsId,
+      edhBankName: allEmployeedata.empBankName,
+      edhAccountNo: allEmployeedata.empAccountNo,
+      edhBankBranch: allEmployeedata.edhBankBranch,
+      edhIFSCCode: allEmployeedata.edhIFSCCode,
+      edhPFNo: allEmployeedata.empPFNo,
+      edhPFDate: allEmployeedata.empPFDate,
+      edhUANNo: allEmployeedata.empUANNo,
+      edhESICNo: allEmployeedata.empESICNo,
+      edhBasic: allEmployeedata.empBasic,
+      edhHRA: allEmployeedata.empHRA,
+      edhCA: allEmployeedata.empCA,
+      edhDA: allEmployeedata.empDA,
+      edhproinc: allEmployeedata.proinc,
+      edhCityallowance: allEmployeedata.cityallowance,
+      edhOthers: allEmployeedata.Others,
+    };
+    let employeeDetailsHistory = new EmployeeDetailsHistory(historyData);
+    await employeeDetailsHistory.save();
     const updateEmployeeDetails = await EmployeeDetails.updateOne(
       { _id: data.recordId },
       {
         $set: {
           empFullName: data.empFullName,
-          // departmentId: data.departmentId,
-          // empDesignationId: data.empDesignationId,
-          // empDesignationDate: data.empDesignationDate,
-          // empJoiningDate: data.empJoiningDate,
-          // empDOB: data.empDOB,
+          empPhone: data.empPhone,
           empAadharNo: data.empAadharNo,
           empPanNo: data.empPanNo,
-          empPhone: data.empPhone,
+          empDOB: data.empDOB,
           empEmail: data.empEmail,
+          empJoiningDate: data.empJoiningDate,
+          departmentId: data.departmentId,
+          departmentName: data.departmentName,
+          empGroupId: data.empGroupId,
+          empDesignationId: data.empDesignationId,
+          designationName: data.designationName,
+          usergroupsId: data.usergroupsId,
+          userGroupName: data.userGroupName,
+          empDesignationDate: data.empDesignationDate,
+          empCode: data.empCode,
           empAddress: data.empAddress,
           empState: data.empState,
           empPincode: data.empPincode,
-          // empGroupId: data.empGroupId,
-          // empStatus: data.empStatus,
-          // empColorCode: data.empColorCode,
-          // empEnteredById: data.empEnteredById,
-          // empDate: data.empDate,
-          // empDateTime: Date.now(),
           empBankName: data.empBankName,
-          // empAccountNo: data.empAccountNo,
-          // empBankBranch: data.empBankBranch,
-          // empIFSCCode: data.empIFSCCode,
-          // empPFNo: data.empPFNo,
-          // empPFDate: data.empPFDate,
-          // empUANNo: data.empUANNo,
-          // empESICNo: data.empESICNo,
-          // empBasic: data.empBasic,
-          // empHRA: data.empHRA,
-          // empCA: data.empCA,
+          empIFSCCode: data.empIFSCCode,
+          empAccountNo: data.empAccountNo,
+          empBankBranch: data.empBankBranch,
+          empPFNo: data.empPFNo,
+          cityallowance: data.cityallowance,
+          empPFDate: data.empPFDate,
+          empESICNo: data.empESICNo,
+          empUANNo: data.empUANNo,
+          empBasic: data.empBasic,
+          empHRA: data.empHRA,
+          empDA: data.empDA,
+          empCA: data.empCA,
+          Others: data.Others,
+          proinc: data.proinc,
+          empEditedById: data.empEditedById,
+          empEditedDateTime: Date.now(),
         },
       }
     );
     res.json(updateEmployeeDetails);
-    console.log(updateEmployeeDetails);
+    // console.log(updateEmployeeDetails);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
@@ -175,7 +217,9 @@ router.post("/get-active-employee", async (req, res) => {
 //Get All User Groups
 router.post("/get-all-user-groups", async (req, res) => {
   try {
-    const allUserGroup = await UserGroup.find({});
+    const allUserGroup = await UserGroup.find({
+      userGroupName: { $ne: "Super Admin" },
+    });
     res.json(allUserGroup);
   } catch (err) {
     console.error(err.message);

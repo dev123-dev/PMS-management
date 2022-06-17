@@ -11,7 +11,8 @@ import {
   getJobQueueProjectDeatils,
   getAllProjectStatus,
 } from "../../actions/projects";
-
+import JobHistory from "./JobHistory";
+import JobNotes from "./JobNotes";
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
   project: { jobQueueProjects, allProjectStatus },
@@ -25,8 +26,8 @@ const JobQueue = ({
     getAllProjectStatus();
   }, [getAllProjectStatus]);
 
-  function dhm(pDate, pTime) {
-    let pStartDate = new Date(pDate + "," + pTime);
+  function dhm(pDateTime) {
+    let pStartDate = new Date(pDateTime);
     let pEndDate = new Date();
     let ms = Math.abs(pStartDate - pEndDate);
     const days = Math.floor(ms / (24 * 60 * 60 * 1000));
@@ -111,6 +112,35 @@ const JobQueue = ({
     isSubmitted: false,
   });
 
+  const [showhistoryModal, setshowhistoryModal] = useState(false);
+  const handlehistoryModalClose = () => setshowhistoryModal(false);
+
+  const onhistoryModalChange = (e) => {
+    if (e) {
+      handlehistoryModalClose();
+    }
+  };
+
+  const [userDatas1, setUserDatas1] = useState(null);
+  const onhistory = (jobQueueProjects, idx) => {
+    setshowhistoryModal(true);
+    setUserDatas1(jobQueueProjects);
+  };
+
+  const [shownotesModal, setshownotesModal] = useState(false);
+  const handlenotesModalClose = () => setshownotesModal(false);
+
+  const onnotesModalChange = (e) => {
+    if (e) {
+      handlenotesModalClose();
+    }
+  };
+
+  const [userDatas2, setUserDatas2] = useState(null);
+  const onnotes = (jobQueueProjects, idx) => {
+    setshownotesModal(true);
+    setUserDatas2(jobQueueProjects);
+  };
   const { radioselect } = formData;
   const onstatuscategrorySelect = (statuscategrory) => {
     if (statuscategrory === "Normal") {
@@ -140,7 +170,6 @@ const JobQueue = ({
       });
     }
   };
-  console.log(radioselect);
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -161,33 +190,38 @@ const JobQueue = ({
               </button>
 
               <Link className="btn btn_green_bg float-right" to="/add-Project">
-                Add
+                Add Project
               </Link>
             </div>
           </div>
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
-                <div className=" body-inner no-padding table-responsive">
+                <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
                     className="table table-bordered table-striped table-hover"
                     id="datatable2"
                   >
                     <thead>
                       <tr>
-                        <th>Client Name</th>
-                        <th>Folder Name</th>
-                        <th>Project Name</th>
-                        <th>Queue Duration</th>
-                        <th>Estimated Time</th>
-                        <th>Job Time</th>
-                        <th>Priority</th>
-                        <th>Deadline</th>
-                        <th>Qty</th>
-                        <th>Status</th>
-                        <th>Latest Change</th>
-                        <th>Job Notes</th>
-                        <th>OP</th>
+                        {user.userGroupName &&
+                        user.userGroupName === "Admin" ? (
+                          <th style={{ width: "10%" }}>Client Name</th>
+                        ) : (
+                          <></>
+                        )}
+                        <th style={{ width: "5%" }}>Folder </th>
+                        <th style={{ width: "10%" }}>Project Name</th>
+                        <th style={{ width: "10%" }}>Queue Duration</th>
+                        <th style={{ width: "10%" }}>Estimated Time</th>
+                        <th style={{ width: "10%" }}>Job Time</th>
+                        <th style={{ width: "2%" }}>Priority</th>
+                        <th style={{ width: "2%" }}>Deadline</th>
+                        <th style={{ width: "2%" }}>Qty</th>
+                        <th style={{ width: "13%" }}>Status</th>
+                        <th style={{ width: "10%" }}>Latest Change</th>
+                        <th style={{ width: "10%" }}>Job Notes</th>
+                        <th style={{ width: "2%" }}>OP</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -201,20 +235,50 @@ const JobQueue = ({
                           if (statusType === "QC Pending") QCPendingQty += 1;
                           if (statusType === "QC Estimate") QCEstimateQty += 1;
                           if (statusType === "Uploading") UploadingQty += 1;
-
+                          let estimatedTimeVal = "";
+                          if (jobQueueProjects.ptEstimatedTime) {
+                            estimatedTimeVal = jobQueueProjects.ptEstimatedTime.split(
+                              ":"
+                            );
+                          }
                           return (
                             <tr key={idx}>
-                              <td>{jobQueueProjects.clientName}</td>
+                              {user.userGroupName &&
+                              user.userGroupName === "Admin" ? (
+                                <td>
+                                  {" "}
+                                  <Link
+                                    className="btnLink"
+                                    onClick={() =>
+                                      onhistory(jobQueueProjects, idx)
+                                    }
+                                  >
+                                    {jobQueueProjects.clientName}
+                                  </Link>
+                                </td>
+                              ) : (
+                                <></>
+                              )}
                               <td>{jobQueueProjects.clientFolderName}</td>
                               <td>{jobQueueProjects.projectName}</td>
                               <td>
                                 {dhm(
-                                  jobQueueProjects.projectDate,
-                                  jobQueueProjects.projectTime
+                                  jobQueueProjects.projectDate +
+                                    ", " +
+                                    jobQueueProjects.projectTime
                                 )}
                               </td>
-                              <td></td>
-                              <td></td>
+                              <td>
+                                {jobQueueProjects.ptEstimatedTime &&
+                                  estimatedTimeVal[0] +
+                                    " hr : " +
+                                    estimatedTimeVal[1] +
+                                    " min"}
+                              </td>
+                              <td>
+                                {jobQueueProjects.ptEstimatedDateTime &&
+                                  dhm(jobQueueProjects.ptEstimatedDateTime)}
+                              </td>
                               <td>{jobQueueProjects.projectPriority}</td>
                               <td>{jobQueueProjects.projectDeadline}</td>
                               <td>{jobQueueProjects.projectQuantity}</td>
@@ -231,11 +295,30 @@ const JobQueue = ({
                                   onChange={onSliderChange(jobQueueProjects)}
                                 />
                               </td>
-                              <td>{jobQueueProjects.projectStatusType}</td>
-                              <td>{jobQueueProjects.projectNotes}</td>
+                              <td>
+                                {" "}
+                                <Link
+                                  className="btnLink"
+                                  onClick={() =>
+                                    onhistory(jobQueueProjects, idx)
+                                  }
+                                >
+                                  {jobQueueProjects.projectStatusType}
+                                </Link>
+                              </td>
+                              <td>
+                                {" "}
+                                <Link
+                                  className="btnLink"
+                                  onClick={() => onnotes(jobQueueProjects, idx)}
+                                >
+                                  Notes
+                                </Link>
+                                {/* {jobQueueProjects.projectNotes} */}
+                              </td>
                               {/* <td></td> */}
                               <td>
-                                <img
+                                {/* <img
                                   className="img_icon_size log"
                                   onClick={() =>
                                     onUpdate(jobQueueProjects, idx)
@@ -243,7 +326,7 @@ const JobQueue = ({
                                   src={require("../../static/images/edit_icon.png")}
                                   alt="Edit"
                                   title="Edit"
-                                />
+                                /> */}
                               </td>
                             </tr>
                           );
@@ -332,9 +415,11 @@ const JobQueue = ({
         >
           <Modal.Header>
             <div className="col-lg-10">
-              <h3 className="modal-title text-center">Project Life Cycle</h3>
+              <center>
+                <h3 className="modal-title text-center">Project Life Cycle</h3>
+              </center>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-">
               <button onClick={handleProjectCycleModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -365,7 +450,7 @@ const JobQueue = ({
           <div className="col-lg-10">
             <h3 className="modal-title text-center">Edit Project Details</h3>
           </div>
-          <div className="col-lg-2">
+          <div className="col-lg-1">
             <button onClick={handleEditModalClose} className="close">
               <img
                 src={require("../../static/images/close.png")}
@@ -379,6 +464,66 @@ const JobQueue = ({
           <EditProject
             onEditModalChange={onEditModalChange}
             allProjectdata={userDatas}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showhistoryModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Latest Changes </h3>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handlehistoryModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <JobHistory
+            onhistoryModalChange={onhistoryModalChange}
+            allProjectdata={userDatas1}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={shownotesModal}
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-11 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Notes </h3>
+          </div>
+          <div className="col-lg-1 col-md-2 col-sm-2 col-2">
+            <button onClick={handlenotesModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <JobNotes
+            onnotesModalChange={onnotesModalChange}
+            allnotesdata={userDatas2}
           />
         </Modal.Body>
       </Modal>

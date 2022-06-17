@@ -2,6 +2,7 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import AddDepartment from "./AddDepartment";
 import EditDepartment from "./EditDepartment";
@@ -53,19 +54,26 @@ const AllDepartment = ({
               <h5 className="heading_color">All Department Details </h5>
             </div>
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
-              <img
+              {/* <img
                 className="img_icon_size log float-right"
                 onClick={() => onClickHandler()}
                 src={require("../../static/images/add-icon.png")}
                 alt="Add Department"
                 title="Add Department"
-              />
+              /> */}
+
+              <Link
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickHandler()}
+              >
+                Add Department
+              </Link>
             </div>
           </div>
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
-                <div className=" body-inner no-padding table-responsive">
+                <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
                     className="table table-bordered table-striped table-hover"
                     id="datatable2"
@@ -119,7 +127,7 @@ const AllDepartment = ({
                 Add Department Details
               </h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleAddDistrictModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -150,7 +158,7 @@ const AllDepartment = ({
                 Edit Department Details
               </h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleEditModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}

@@ -42,6 +42,8 @@ router.post("/add-project-track", async (req, res) => {
         $set: {
           projectStatusId: data.projectTrackStatusId,
           projectStatusType: data.projectStatusType,
+          ptEstimatedTime: data.ptEstimatedTime,
+          ptEstimatedDateTime: data.ptEstimatedDateTime,
         },
       }
     );
@@ -181,18 +183,12 @@ router.get("/get-active-project-status", async (req, res) => {
 router.post("/get-job-queue-project-details", async (req, res) => {
   try {
     const getJobQueueDetails = await Project.find({
-      projectStatus: {
-        $eq: "Active",
-      },
-      projectStatusType: {
-        $ne: "Uploaded",
-      },
-      projectStatusType: {
-        $ne: "Amend_Uploaded",
-      },
-      projectStatusType: {
-        $ne: "AI_Uploaded",
-      },
+      $and: [
+        { projectStatusType: { $ne: "Uploaded" } },
+        { projectStatusType: { $ne: "Amend_Uploaded" } },
+        { projectStatusType: { $ne: "AI_Uploaded" } },
+        { projectStatus: { $eq: "Active" } },
+      ],
     });
     res.json(getJobQueueDetails);
   } catch (err) {

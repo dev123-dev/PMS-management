@@ -41,6 +41,7 @@ export const EditClient = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/client/edit-client", finalData);
+    dispatch(getAllClients());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -106,6 +107,7 @@ export const getActiveClientsFilter = (clientTypeVal) => async (dispatch) => {
       "/api/client/get-active-client-filter",
       clientTypeVal
     );
+    localStorage.setItem("activeClientData", JSON.stringify(res.data));
     dispatch({
       type: ACTIVE_CLIENT_FILTER,
       payload: res.data,

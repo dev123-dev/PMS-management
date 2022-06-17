@@ -59,15 +59,17 @@ const AllStaffDetails = ({
               <h5 className="heading_color">All Staff Details </h5>
             </div>
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
-              <Link to="/add-Staff">
+              {/* <Link to="/add-Staff">
                 <img
                   className="img_icon_size log float-right"
                   src={require("../../static/images/add-icon.png")}
                   alt="Add Staff"
                   title="Add Staff"
                 />
+              </Link> */}
+              <Link className="btn btn_green_bg float-right" to="/add-Staff">
+                Add Staff
               </Link>
-
               {/* <Link to="/edit-Staff">
                 <img
                   className="img_icon_size log float-right"
@@ -81,13 +83,14 @@ const AllStaffDetails = ({
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
-                <div className=" body-inner no-padding table-responsive">
+                <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
                     className="table table-bordered table-striped table-hover"
                     id="datatable2"
                   >
                     <thead>
                       <tr>
+                        <th>Sl No.</th>
                         <th>Staff Name</th>
                         <th>Phone</th>
                         <th>Address</th>
@@ -106,9 +109,8 @@ const AllStaffDetails = ({
                           }
                           return (
                             <tr key={idx}>
-                              <td className="headcolstatic">
-                                {allEmployee.empFullName}
-                              </td>
+                              <td>{idx + 1}</td>
+                              <td>{allEmployee.empFullName}</td>
                               <td>{allEmployee.empPhone}</td>
                               <td>{allEmployee.empAddress}</td>
                               <td>{allEmployee.empCode}</td>
@@ -140,6 +142,13 @@ const AllStaffDetails = ({
                   </table>
                 </div>
               </section>
+            </div>
+          </div>
+
+          <div className="row col-md-12 col-lg-12 col-sm-12 col-12  ">
+            <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
+              <strong> No of Staff:{allEmployee.length}</strong>
             </div>
           </div>
         </section>
@@ -185,7 +194,7 @@ const AllStaffDetails = ({
             <div className="col-lg-10">
               <h3 className="modal-title text-center">Deactivate Staff</h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleDeactiveModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}

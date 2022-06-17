@@ -17,6 +17,9 @@ const ProjectSchema = new mongoose.Schema({
   parentClientId: {
     type: ObjectId,
   },
+  parentClientName: {
+    type: String,
+  },
   projectLocation: {
     type: String,
   },
@@ -60,6 +63,9 @@ const ProjectSchema = new mongoose.Schema({
   projectEnteredById: {
     type: ObjectId,
   },
+  projectEnteredByName: {
+    type: String,
+  },
   // projectEnteredDate: {
   //   type: String,
   // },
@@ -99,6 +105,9 @@ const ProjectSchema = new mongoose.Schema({
   ptEstimatedTime: {
     type: String,
   },
+  ptEstimatedDateTime: {
+    type: Date,
+  },
   projectEditedById: {
     type: ObjectId,
   },
@@ -130,7 +139,6 @@ const ProjectSchema = new mongoose.Schema({
   },
   projectDeactiveDateTime: {
     type: Date,
-    default: Date.now(),
   },
 });
 

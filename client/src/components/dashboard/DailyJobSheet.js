@@ -8,19 +8,19 @@ import ChangeProjectLifeCycle from "./ChangeProjectLifeCycle";
 import Spinner from "../layout/Spinner";
 import EditProject from "./EditProject";
 import {
-  getJobQueueProjectDeatils,
+  getDailyJobsheetProjectDeatils,
   getAllProjectStatus,
 } from "../../actions/projects";
-
+import JobNotes from "./JobNotes";
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
-  project: { jobQueueProjects, allProjectStatus },
-  getJobQueueProjectDeatils,
+  project: { dailyJobsheetProjects, allProjectStatus },
+  getDailyJobsheetProjectDeatils,
   getAllProjectStatus,
 }) => {
   useEffect(() => {
-    getJobQueueProjectDeatils();
-  }, [getJobQueueProjectDeatils]);
+    getDailyJobsheetProjectDeatils();
+  }, [getDailyJobsheetProjectDeatils]);
   useEffect(() => {
     getAllProjectStatus();
   }, [getAllProjectStatus]);
@@ -45,14 +45,14 @@ const DailyJobSheet = ({
   );
 
   const [statusChangeValue, setStatusChange] = useState();
-  const onSliderChange = (jobQueueProjects) => (e) => {
+  const onSliderChange = (dailyJobsheetProjects) => (e) => {
     // console.log("id", id);
     // console.log("e", e);
 
     let newStatusData = {
       statusId: e.value,
       value: e.label,
-      projectId: jobQueueProjects._id,
+      projectId: dailyJobsheetProjects._id,
     };
 
     setStatusChange(newStatusData);
@@ -80,7 +80,7 @@ const DailyJobSheet = ({
   const handleEditModalClose = () => setShowEditModal(false);
 
   const onClickReset = () => {
-    getJobQueueProjectDeatils("");
+    getDailyJobsheetProjectDeatils("");
   };
 
   const onEditModalChange = (e) => {
@@ -89,9 +89,9 @@ const DailyJobSheet = ({
     }
   };
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (jobQueueProjects, idx) => {
+  const onUpdate = (dailyJobsheetProjects, idx) => {
     setShowEditModal(true);
-    setUserDatas(jobQueueProjects);
+    setUserDatas(dailyJobsheetProjects);
   };
   const [formData, setFormData] = useState({
     radioselect: "",
@@ -127,8 +127,21 @@ const DailyJobSheet = ({
       });
     }
   };
-  console.log(radioselect);
+  // console.log(radioselect);
+  const [shownotesModal, setshownotesModal] = useState(false);
+  const handlenotesModalClose = () => setshownotesModal(false);
 
+  const onnotesModalChange = (e) => {
+    if (e) {
+      handlenotesModalClose();
+    }
+  };
+
+  const [userDatas2, setUserDatas2] = useState(null);
+  const onnotes = (dailyJobsheetProjects, idx) => {
+    setshownotesModal(true);
+    setUserDatas2(dailyJobsheetProjects);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -170,14 +183,19 @@ const DailyJobSheet = ({
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
-                <div className=" body-inner no-padding table-responsive">
+                <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
                     className="table table-bordered table-striped table-hover"
                     id="datatable2"
                   >
                     <thead>
                       <tr>
-                        <th>Client Name</th>
+                        {user.userGroupName &&
+                        user.userGroupName === "Admin" ? (
+                          <th>Client Name</th>
+                        ) : (
+                          <></>
+                        )}
                         <th>Folder Name</th>
                         <th>Project Name</th>
                         <th>Queue Duration</th>
@@ -193,59 +211,85 @@ const DailyJobSheet = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {jobQueueProjects &&
-                        jobQueueProjects.map((jobQueueProjects, idx) => {
-                          projectQty += jobQueueProjects.projectQuantity;
-                          let statusType = jobQueueProjects.projectStatusType;
-                          if (statusType === "Downloading") downloadingQty += 1;
-                          if (statusType === "Working") WorkingQty += 1;
-                          if (statusType === "Pending") PendingQty += 1;
-                          if (statusType === "QC Pending") QCPendingQty += 1;
-                          if (statusType === "QC Estimate") QCEstimateQty += 1;
-                          if (statusType === "Uploading") UploadingQty += 1;
+                      {dailyJobsheetProjects &&
+                        dailyJobsheetProjects.map(
+                          (dailyJobsheetProjects, idx) => {
+                            projectQty += dailyJobsheetProjects.projectQuantity;
+                            let statusType =
+                              dailyJobsheetProjects.projectStatusType;
+                            if (statusType === "Downloading")
+                              downloadingQty += 1;
+                            if (statusType === "Working") WorkingQty += 1;
+                            if (statusType === "Pending") PendingQty += 1;
+                            if (statusType === "QC Pending") QCPendingQty += 1;
+                            if (statusType === "QC Estimate")
+                              QCEstimateQty += 1;
+                            if (statusType === "Uploading") UploadingQty += 1;
 
-                          return (
-                            <tr key={idx}>
-                              <td>{jobQueueProjects.clientName}</td>
-                              <td>{jobQueueProjects.clientFolderName}</td>
-                              <td>{jobQueueProjects.projectName}</td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td>{jobQueueProjects.projectPriority}</td>
-                              <td>{jobQueueProjects.projectDeadline}</td>
-                              <td>{jobQueueProjects.projectQuantity}</td>
-                              {/* <td>{jobQueueProjects.projectStatusType}</td> */}
-                              <td>
-                                <Select
-                                  name="projectStatusData"
-                                  value={{
-                                    label: jobQueueProjects.projectStatusType,
-                                    value: jobQueueProjects.projectStatusId,
-                                  }}
-                                  options={projectStatusOpt}
-                                  isSearchable={false}
-                                  placeholder="Select"
-                                  onChange={onSliderChange(jobQueueProjects)}
-                                />
-                              </td>
-                              <td></td>
-                              <td>{jobQueueProjects.projectNotes}</td>
-                              {/* <td></td> */}
-                              <td>
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() =>
-                                    onUpdate(jobQueueProjects, idx)
-                                  }
-                                  src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
-                                />
-                              </td>
-                            </tr>
-                          );
-                        })}
+                            return (
+                              <tr key={idx}>
+                                {user.userGroupName &&
+                                user.userGroupName === "Admin" ? (
+                                  <td>{dailyJobsheetProjects.clientName}</td>
+                                ) : (
+                                  <></>
+                                )}
+                                <td>
+                                  {dailyJobsheetProjects.clientFolderName}
+                                </td>
+                                <td>{dailyJobsheetProjects.projectName}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{dailyJobsheetProjects.projectPriority}</td>
+                                <td>{dailyJobsheetProjects.projectDeadline}</td>
+                                <td>{dailyJobsheetProjects.projectQuantity}</td>
+                                {/* <td>{dailyJobsheetProjects.projectStatusType}</td> */}
+                                <td>
+                                  <Select
+                                    name="projectStatusData"
+                                    value={{
+                                      label:
+                                        dailyJobsheetProjects.projectStatusType,
+                                      value:
+                                        dailyJobsheetProjects.projectStatusId,
+                                    }}
+                                    options={projectStatusOpt}
+                                    isSearchable={false}
+                                    placeholder="Select"
+                                    onChange={onSliderChange(
+                                      dailyJobsheetProjects
+                                    )}
+                                  />
+                                </td>
+                                <td></td>
+                                <td>
+                                  <Link
+                                    className="btnLink"
+                                    onClick={() =>
+                                      onnotes(dailyJobsheetProjects, idx)
+                                    }
+                                  >
+                                    Notes
+                                  </Link>
+                                  {/* {dailyJobsheetProjects.projectNotes} */}
+                                </td>
+                                {/* <td></td> */}
+                                <td>
+                                  {/* <img
+                                    className="img_icon_size log"
+                                    onClick={() =>
+                                      onUpdate(dailyJobsheetProjects, idx)
+                                    }
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  /> */}
+                                </td>
+                              </tr>
+                            );
+                          }
+                        )}
                     </tbody>
                   </table>
                 </div>
@@ -280,7 +324,7 @@ const DailyJobSheet = ({
             <div className="col-lg-10">
               <h3 className="modal-title text-center">Project Life Cycle</h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleProjectCycleModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -311,7 +355,7 @@ const DailyJobSheet = ({
           <div className="col-lg-10">
             <h3 className="modal-title text-center">Edit Project Details</h3>
           </div>
-          <div className="col-lg-2">
+          <div className="col-lg-1">
             <button onClick={handleEditModalClose} className="close">
               <img
                 src={require("../../static/images/close.png")}
@@ -328,6 +372,36 @@ const DailyJobSheet = ({
           />
         </Modal.Body>
       </Modal>
+
+      <Modal
+        show={shownotesModal}
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-11 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Notes </h3>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handlenotesModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <JobNotes
+            onnotesModalChange={onnotesModalChange}
+            allnotesdata={userDatas2}
+          />
+        </Modal.Body>
+      </Modal>
     </Fragment>
   );
 };
@@ -335,7 +409,7 @@ const DailyJobSheet = ({
 DailyJobSheet.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
-  getJobQueueProjectDeatils: PropTypes.object.isRequired,
+  getDailyJobsheetProjectDeatils: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -343,6 +417,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getJobQueueProjectDeatils,
+  getDailyJobsheetProjectDeatils,
   getAllProjectStatus,
 })(DailyJobSheet);

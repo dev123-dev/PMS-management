@@ -50,7 +50,7 @@ const AddDesignation = ({
     <Fragment>
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-10 col-md-12 col-sm-12 col-12">
             <label className="label-control"> Designation Name * :</label>
             <input
               type="text"
@@ -61,18 +61,14 @@ const AddDesignation = ({
               required
             />
           </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-            <label className="label-control">
-              {" "}
-              Designation Description * :
-            </label>
+          <div className="col-lg-10 col-md-12 col-sm-12 col-12">
+            <label className="label-control"> Designation Description :</label>
             <input
               type="text"
               name="designationDesc"
               value={designationDesc}
               className="form-control"
               onChange={(e) => onInputChange(e)}
-              required
             />
           </div>
         </div>

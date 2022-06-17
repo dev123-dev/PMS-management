@@ -1,11 +1,31 @@
 const mongoose = require("mongoose");
 ObjectId = mongoose.Schema.ObjectId;
 const ClientHistorySchema = new mongoose.Schema({
+  chId: {
+    type: ObjectId,
+  },
   chName: {
     type: String,
-    required: true,
+  },
+  chCompanyName: {
+    type: String,
+  },
+  chCompanyFounderName: {
+    type: String,
+  },
+  chWebsite: {
+    type: String,
+  },
+  chBelongsToId: {
+    type: ObjectId,
+  },
+  chBelongsToName: {
+    type: String,
   },
   chEmail: {
+    type: String,
+  },
+  chBillingEmail: {
     type: String,
   },
   chContactNo1: {
@@ -20,30 +40,21 @@ const ClientHistorySchema = new mongoose.Schema({
   chCountry: {
     type: String,
   },
-  chDate: {
-    type: String,
-  },
-  chDateTime: {
-    type: Date,
-    default: Date.now(),
-  },
-  chEnteredById: {
-    type: ObjectId,
-  },
-  chBelongsTo: {
-    type: ObjectId,
-  },
+
   chFolderName: {
     type: String,
   },
   chCurrency: {
     type: String,
   },
-  chModeofPaymentId: {
+  chPaymentId: {
     type: ObjectId,
   },
-  chTestClient: {
-    type: Number,
+  chpaymentModeName: {
+    type: String,
+  },
+  chclientType: {
+    type: String,
   },
   chEnteredById: {
     type: ObjectId,
@@ -54,6 +65,13 @@ const ClientHistorySchema = new mongoose.Schema({
   chEnteredDateTime: {
     type: Date,
     default: Date.now(),
+  },
+  chDateTime: {
+    type: Date,
+    default: Date.now(),
+  },
+  chEnteredById: {
+    type: ObjectId,
   },
 });
 

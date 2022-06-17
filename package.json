@@ -1,5 +1,5 @@
 {
-  "name": "staff-management",
+  "name": "PMS-management",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -39,12 +39,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dev123-dev/staff-management.git"
+    "url": "git+https://github.com/dev123-dev/PMS-management.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dev123-dev/staff-management/issues"
+    "url": "https://github.com/dev123-dev/PMS-management/issues"
   },
-  "homepage": "https://github.com/dev123-dev/staff-management#readme"
+  "homepage": "https://github.com/dev123-dev/PMS-management#readme"
 }

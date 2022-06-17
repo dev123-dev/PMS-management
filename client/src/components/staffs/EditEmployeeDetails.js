@@ -28,7 +28,7 @@ const EditEmployeeDetails = ({
   useEffect(() => {
     getALLUserGroups();
   }, [getALLUserGroups]);
-  console.log(allEmployeedata);
+  // console.log(allEmployeedata);
   // console.log("allDeptartment", allDepartment);
 
   const [formData, setFormData] = useState({
@@ -52,16 +52,20 @@ const EditEmployeeDetails = ({
         ? allEmployeedata.empPanNo
         : "",
 
-    employeeDOB:
+    empDOB:
       allEmployeedata && allEmployeedata.empDOB ? allEmployeedata.empDOB : "",
 
     employeeEmail:
       allEmployeedata && allEmployeedata.empEmail
         ? allEmployeedata.empEmail
         : "",
-    employeeDOJ:
+    empJoiningDate:
       allEmployeedata && allEmployeedata.empJoiningDate
         ? allEmployeedata.empJoiningDate
+        : "",
+    empDesignationDate:
+      allEmployeedata && allEmployeedata.empDesignationDate
+        ? allEmployeedata.empDesignationDate
         : "",
 
     employeeDepartment:
@@ -141,10 +145,18 @@ const EditEmployeeDetails = ({
       allEmployeedata && allEmployeedata.cityallowance
         ? allEmployeedata.cityallowance
         : "",
+    userName:
+      allEmployeedata && allEmployeedata.userName
+        ? allEmployeedata.userName
+        : "",
+    password:
+      allEmployeedata && allEmployeedata.password
+        ? allEmployeedata.password
+        : "",
 
     isSubmitted: false,
   });
-
+  console.log(allEmployeedata.password);
   const {
     employeeName,
     empFullName,
@@ -174,169 +186,21 @@ const EditEmployeeDetails = ({
     Others,
     proinc,
     empCA,
-    password,
-    rePassword,
-    userName,
 
+    userName,
+    rePassword,
+    password,
+    passwordValChecker,
+    passwordValResult,
+    passwordValStyle,
+    passwordInptErrStyle,
+
+    repwdValChecker,
+    repwdValResult,
+    repwdValStyle,
+    repwdInptErrStyle,
     isSubmitted,
   } = formData;
-
-  const [color, setColor] = useState(
-    allEmployeedata && allEmployeedata.empColorCode
-      ? allEmployeedata.empColorCode
-      : ""
-  );
-
-  const [employeeDOJDate, setDOJDate] = useState(
-    allEmployeedata && allEmployeedata.empJoiningDate
-      ? allEmployeedata.empJoiningDate
-      : ""
-  );
-  const onDateChange = (e) => {
-    setDOJDate(e.target.value);
-  };
-
-  const [employeeDOBDate, setDOBDDate] = useState(
-    allEmployeedata && allEmployeedata.empDOB ? allEmployeedata.empDOB : ""
-  );
-  const onDateChange1 = (e) => {
-    setDOBDDate(e.target.value);
-  };
-  const [employeeDesigDate, setDesigDate] = useState(
-    allEmployeedata && allEmployeedata.empDesignationDate
-      ? allEmployeedata.empDesignationDate
-      : ""
-  );
-  const onDateChange2 = (e) => {
-    setDesigDate(e.target.value);
-  };
-
-  const [employeePfDate, setPfDate] = useState(
-    allEmployeedata && allEmployeedata.empPFDate
-      ? allEmployeedata.empPFDate
-      : ""
-  );
-  const onDateChange3 = (e) => {
-    setPfDate(e.target.value);
-  };
-
-  const onInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-  const activeDepartment = [];
-  let allDepartmentData = JSON.parse(localStorage.getItem("allDepartmentData"));
-
-  allDepartmentData &&
-    allDepartmentData.map((department) =>
-      activeDepartment.push({
-        departmentId: department._id,
-        label: department.departmentName,
-        value: department.departmentName,
-      })
-    );
-
-  const [department, getdepartmentData] = useState();
-  if (!department && activeDepartment.length > 0) {
-    getdepartmentData(
-      allEmployeedata
-        ? activeDepartment &&
-            activeDepartment.filter(
-              (x) => x.departmentId === allEmployeedata.departmentId
-            )[0]
-        : ""
-    );
-  }
-  const [departmentId, setdepartmentId] = useState();
-
-  const onDepartmentChange = (e) => {
-    var departmentId = "";
-    getdepartmentData(e);
-    departmentId = e.departmentId;
-    setdepartmentId(departmentId);
-  };
-
-  let allDesignationData = JSON.parse(
-    localStorage.getItem("allDesignationData")
-  );
-
-  const alldesignation = [];
-
-  allDesignationData &&
-    allDesignationData.map((designation) =>
-      alldesignation.push({
-        designationId: designation._id,
-        label: designation.designationName,
-        value: designation.designationName,
-      })
-    );
-
-  const [designation, getdesignationData] = useState("");
-  if (!designation && alldesignation.length > 0) {
-    getdesignationData(
-      allEmployeedata
-        ? alldesignation &&
-            alldesignation.filter(
-              (x) => x.designationId === allEmployeedata.designationId
-            )[0]
-        : ""
-    );
-  }
-  const [designationId, setdesignationId] = useState();
-  const [designationName, setdesignationName] = useState();
-
-  const onDesigChange = (e) => {
-    var designationId = "";
-    var designationName = "";
-    getdesignationData(e);
-    designationId = e.designationId;
-
-    designationName = e.designationName;
-    setdesignationId(designationId);
-    setdesignationName(designationName);
-  };
-
-  let allUserGroupData = JSON.parse(localStorage.getItem("allUserGroupData"));
-  //console.log(allUserGroupData);
-
-  const allusergroups = [];
-  allUserGroupData.map((usergroups) =>
-    allusergroups.push({
-      usergroupsId: usergroups._id,
-      label: usergroups.userGroupName,
-      value: usergroups.userGroupName,
-    })
-  );
-
-  const [usergroups, getusergroupsData] = useState(
-    allEmployeedata
-      ? allusergroups &&
-          allusergroups.filter(
-            (x) => x.usergroupsId === allEmployeedata.usergroupsId
-          )[0]
-      : ""
-  );
-
-  const [usergroupsId, setusergroupsId] = useState();
-  const [userGroupName, setsetusergroupsName] = useState();
-
-  const onUsergroupChange = (e) => {
-    var usergroupsId = "";
-    var userGroupName = "";
-    getusergroupsData(e);
-    usergroupsId = e.usergroupsId;
-
-    userGroupName = e.userGroupName;
-    setusergroupsId(usergroupsId);
-    setsetusergroupsName(userGroupName);
-  };
-
-  // code for next previous tabing starts
-  const [tabIndex, setTabIndex] = useState(0);
-
-  const NextBackBtn = (tabIndex) => {
-    setTabIndex(tabIndex);
-  };
-
   const [error, setError] = useState({
     passwordValChecker: false,
     passwordValResult: "",
@@ -348,19 +212,6 @@ const EditEmployeeDetails = ({
     repwdValStyle: {},
     repwdInptErrStyle: {},
   });
-
-  const {
-    passwordValChecker,
-    passwordValResult,
-    passwordValStyle,
-    passwordInptErrStyle,
-
-    repwdValChecker,
-    repwdValResult,
-    repwdValStyle,
-    repwdInptErrStyle,
-  } = error;
-
   let passwrdTooltip = {
     marginLeft: "-16em",
     position: "absolute",
@@ -383,7 +234,7 @@ const EditEmployeeDetails = ({
           });
           setFormData({ ...formData, [e.target.name]: "" });
         } else {
-          const pwdFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+          const pwdFilter = /^(?=.*\d)(?=.*[a-z])/;
           if (pwdFilter.test(value)) {
             setError({
               ...error,
@@ -479,6 +330,161 @@ const EditEmployeeDetails = ({
     return true;
   };
 
+  const [color, setColor] = useState(
+    allEmployeedata && allEmployeedata.empColorCode
+      ? allEmployeedata.empColorCode
+      : ""
+  );
+
+  const [employeeDOJDate, setDOJDate] = useState(
+    allEmployeedata && allEmployeedata.empJoiningDate
+      ? allEmployeedata.empJoiningDate
+      : ""
+  );
+  const onDateChange = (e) => {
+    setDOJDate(e.target.value);
+  };
+
+  const [employeeDOBDate, setDOBDDate] = useState(
+    allEmployeedata && allEmployeedata.empDOB ? allEmployeedata.empDOB : ""
+  );
+  const onDateChange1 = (e) => {
+    setDOBDDate(e.target.value);
+  };
+
+  const [employeeDesigDate, setDesigDate] = useState(
+    allEmployeedata && allEmployeedata.empDesignationDate
+      ? allEmployeedata.empDesignationDate
+      : ""
+  );
+  const onDateChange2 = (e) => {
+    setDesigDate(e.target.value);
+  };
+
+  const [employeePfDate, setPfDate] = useState(
+    allEmployeedata && allEmployeedata.empPFDate
+      ? allEmployeedata.empPFDate
+      : ""
+  );
+  const onDateChange3 = (e) => {
+    setPfDate(e.target.value);
+  };
+
+  const onInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const activeDepartment = [];
+  let allDepartmentData = JSON.parse(localStorage.getItem("allDepartmentData"));
+
+  allDepartmentData &&
+    allDepartmentData.map((department) =>
+      activeDepartment.push({
+        departmentId: department._id,
+        label: department.departmentName,
+        value: department.departmentName,
+      })
+    );
+
+  const [department, getdepartmentData] = useState();
+  if (!department && activeDepartment.length > 0) {
+    getdepartmentData(
+      allEmployeedata
+        ? activeDepartment &&
+            activeDepartment.filter(
+              (x) => x.departmentId === allEmployeedata.departmentId
+            )[0]
+        : ""
+    );
+  }
+  const [departmentId, setdepartmentId] = useState();
+
+  const onDepartmentChange = (e) => {
+    var departmentId = "";
+    getdepartmentData(e);
+    departmentId = e.departmentId;
+    setdepartmentId(departmentId);
+  };
+
+  let allDesignationData = JSON.parse(
+    localStorage.getItem("allDesignationData")
+  );
+  const alldesignation = [];
+  allDesignationData &&
+    allDesignationData.map((designation) =>
+      alldesignation.push({
+        designationId: designation._id,
+        label: designation.designationName,
+        value: designation.designationName,
+      })
+    );
+
+  const [designation, getdesignationData] = useState("");
+  if (!designation && alldesignation.length > 0) {
+    getdesignationData(
+      allEmployeedata
+        ? alldesignation &&
+            alldesignation.filter(
+              (x) => x.designationId === allEmployeedata.designationId
+            )[0]
+        : ""
+    );
+  }
+  const [designationId, setdesignationId] = useState();
+  const [designationName, setdesignationName] = useState();
+
+  const onDesigChange = (e) => {
+    var designationId = "";
+    var designationName = "";
+    getdesignationData(e);
+    designationId = e.designationId;
+
+    designationName = e.designationName;
+    setdesignationId(designationId);
+    setdesignationName(designationName);
+  };
+
+  let allUserGroupData = JSON.parse(localStorage.getItem("allUserGroupData"));
+  //console.log(allUserGroupData);
+
+  const allusergroups = [];
+  allUserGroupData.map((usergroups) =>
+    allusergroups.push({
+      usergroupsId: usergroups._id,
+      label: usergroups.userGroupName,
+      value: usergroups.userGroupName,
+    })
+  );
+
+  const [usergroups, getusergroupsData] = useState(
+    allEmployeedata
+      ? allusergroups &&
+          allusergroups.filter(
+            (x) => x.usergroupsId === allEmployeedata.usergroupsId
+          )[0]
+      : ""
+  );
+
+  const [usergroupsId, setusergroupsId] = useState();
+  const [userGroupName, setsetusergroupsName] = useState();
+
+  const onUsergroupChange = (e) => {
+    var usergroupsId = "";
+    var userGroupName = "";
+    getusergroupsData(e);
+    usergroupsId = e.usergroupsId;
+
+    userGroupName = e.userGroupName;
+    setusergroupsId(usergroupsId);
+    setsetusergroupsName(userGroupName);
+  };
+
+  // code for next previous tabing starts
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const NextBackBtn = (tabIndex) => {
+    setTabIndex(tabIndex);
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
@@ -491,8 +497,10 @@ const EditEmployeeDetails = ({
       empDOB: employeeDOBDate,
       empEmail: employeeEmail,
       empJoiningDate: employeeDOJDate,
-      departmentId: department,
-      designationId: designation,
+      departmentId: department.departmentId,
+      departmentName: department.value,
+      designationId: designation.designationId,
+      designationName: designation.value,
       empCode: employeeCode,
       empAddress: empAddress,
       empState: employeeState,
@@ -500,25 +508,25 @@ const EditEmployeeDetails = ({
       empBankName: employeeBankName,
       empIFSCCode: employeeIFSCcode,
       empAccountNo: employeeAccountNo,
-      employeeBranch: employeeBranch,
+      empBankBranch: employeeBranch,
       empPFNo: employeePFNo,
       empESICNo: employeeESI,
-      employeeUANNo: employeeUANNo,
+      empUANNo: employeeUANNo,
       empBasic: employeeBasic,
       empHRA: employeeHRA,
-      empCA: employeeDA,
+      empDA: employeeDA,
+      empCA: empCA,
       empColorCode: color,
       empDesignationDate: employeeDesigDate,
       empPFDate: employeePfDate,
       cityallowance: cityallowance,
       Others: Others,
       proinc: proinc,
-      password: password,
-      userName: userName,
-      usergroupsId: usergroupsId,
+      usergroupsId: usergroups.usergroupsId,
       userGroupName: usergroups.value,
+      empEditedById: user._id,
+      allEmployeedata: allEmployeedata,
     };
-    console.log(finalData);
     editEmployeeDetails(finalData);
     onEditModalChange(true);
     // setFormData({
@@ -558,17 +566,18 @@ const EditEmployeeDetails = ({
                   </div>
                   <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Employee Name :</label>
+                      <label className="label-control">Employee Name* :</label>
                       <input
                         type="text"
                         name="empFullName"
                         value={empFullName}
                         className="form-control"
                         onChange={(e) => onInputChange(e)}
+                        required
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Employee Phone* :</label>
+                      <label className="label-control">Employee Phone :</label>
                       <input
                         type="number"
                         name="employeePhone"
@@ -583,7 +592,7 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Adhaar Card No* :</label>
+                      <label className="label-control">Adhaar Card No :</label>
                       <input
                         type="text"
                         name="employeeAadharNo"
@@ -603,19 +612,19 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                      <label> DoB :</label>
+                      <label> DoB* :</label>
                       <br />
                       <input
                         type="date"
                         placeholder="dd/mm/yyyy"
                         className="form-control cpp-input datevalidation"
-                        name="employeeDOBDate"
+                        name="empDOB"
                         value={employeeDOBDate}
                         onChange={(e) => onDateChange1(e)}
                         style={{
                           width: "75%",
                         }}
-                        /// required
+                        required
                       />
                     </div>
 
@@ -630,20 +639,19 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                      <label> DoJ :</label>
+                      <label> DoJ* :</label>
                       <br />
                       <input
                         type="date"
                         placeholder="dd/mm/yyyy"
                         className="form-control cpp-input datevalidation"
-                        name="employeeDOJDate"
+                        name="empJoiningDate"
                         value={employeeDOJDate}
                         onChange={(e) => onDateChange(e)}
                         style={{
                           width: "75%",
                         }}
-
-                        // required
+                        required
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
@@ -710,20 +718,19 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                      <label> Designation Date :</label>
+                      <label> Designation Date* :</label>
                       <br />
                       <input
                         type="date"
                         placeholder="dd/mm/yyyy"
                         className="form-control cpp-input datevalidation"
-                        name="employeeDesigDate"
+                        name="empDesignationDate"
                         value={employeeDesigDate}
                         onChange={(e) => onDateChange2(e)}
                         style={{
                           width: "75%",
                         }}
-
-                        // required
+                        required
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
@@ -734,14 +741,16 @@ const EditEmployeeDetails = ({
                         type="color"
                         value={color}
                         onChange={(e) => setColor(e.target.value)}
+                        disabled
                       />
                     </div>
                   </div>
                   {/* </div> */}
                 </div>
+
                 <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
                   <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                    <label className="label-control">UserName :</label>
+                    <label className="label-control">UserName* :</label>
                     <input
                       type="text"
                       name="userName"
@@ -749,6 +758,7 @@ const EditEmployeeDetails = ({
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                       autoComplete="false"
+                      required
                     />
                   </div>
                   <div className=" col-lg-3 col-md-9 col-sm-9 col-12 py-4">
@@ -762,6 +772,7 @@ const EditEmployeeDetails = ({
                         style={passwordInptErrStyle}
                         onChange={(e) => onInputChange3(e)}
                         autoComplete="false"
+                        required
                       />
                       {passwordValChecker && (
                         <span
@@ -793,7 +804,7 @@ const EditEmployeeDetails = ({
                   </div>
 
                   <div className="col-lg-3 col-md-9 col-sm-9 col-12 py-4">
-                    <label className="">Confirm Password</label>
+                    <label className="">Confirm Password* :</label>
 
                     <div>
                       <input
@@ -804,6 +815,7 @@ const EditEmployeeDetails = ({
                         style={repwdInptErrStyle}
                         onChange={(e) => onInputChange3(e)}
                         autoComplete="false"
+                        required
                       />
                       {repwdValChecker && (
                         <Fragment>
@@ -818,6 +830,7 @@ const EditEmployeeDetails = ({
                     </div>
                   </div>
                 </div>
+
                 <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
                   <input
                     type="submit"
@@ -1088,8 +1101,8 @@ const EditEmployeeDetails = ({
                         ) : ( */}
                     <input
                       type="submit"
-                      name="Save"
-                      value="Submit"
+                      name="submit"
+                      value="Update"
                       className="btn sub_form btn_continue Save float-right"
                     />
                     {/* )} */}

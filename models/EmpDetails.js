@@ -10,11 +10,11 @@ const EmpDetailsSchema = new mongoose.Schema({
   },
   userName: {
     type: String,
-    // required: true,
+    required: true,
   },
   password: {
     type: String,
-    // required: true,
+    required: true,
   },
   empCode: {
     type: String,
@@ -77,12 +77,15 @@ const EmpDetailsSchema = new mongoose.Schema({
   empEnteredById: {
     type: ObjectId,
   },
-  empDate: {
-    type: String,
+  empEditedById: {
+    type: ObjectId,
   },
   empDateTime: {
     type: Date,
     default: Date.now(),
+  },
+  empEditedDateTime: {
+    type: Date,
   },
   empDeactiveReason: {
     type: String,

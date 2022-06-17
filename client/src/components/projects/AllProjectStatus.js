@@ -3,6 +3,7 @@ import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import { Link } from "react-router-dom";
 import { getAllProjectStatus } from "../../actions/projects";
 import EditProjectStatus from "./EditProjectStatus";
 import AddProjectStatus from "./AddProjectStatus";
@@ -71,20 +72,27 @@ const AllProjectStatus = ({
               <h5 className="heading_color">All Project Status Details </h5>
             </div>
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
-              <img
+              {/* <img
                 className="img_icon_size log float-right"
                 onClick={() => onClickHandler()}
                 src={require("../../static/images/add-icon.png")}
                 alt="Add Department"
                 title="Add Department"
-              />
+              /> */}
+
+              <Link
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickHandler()}
+              >
+                Add Project Status
+              </Link>
             </div>
           </div>
 
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
-                <div className=" body-inner no-padding table-responsive">
+                <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
                     className="table table-bordered table-striped table-hover"
                     id="datatable2"
@@ -155,7 +163,7 @@ const AllProjectStatus = ({
             <div className="col-lg-10">
               <h3 className="modal-title text-center">Add Project Status</h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleAddDistrictModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -184,7 +192,7 @@ const AllProjectStatus = ({
             <div className="col-lg-10">
               <h3 className="modal-title text-center">Edit Project Status</h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleEditModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
@@ -216,7 +224,7 @@ const AllProjectStatus = ({
                 Deactivate Project Status
               </h3>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <button onClick={handleDeactiveModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}

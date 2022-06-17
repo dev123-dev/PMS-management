@@ -7,7 +7,7 @@ import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
 import { AddEmployee, getALLUserGroups } from "../../actions/user";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 const AddEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
   user: { userGroups },
@@ -60,7 +60,6 @@ const AddEmployeeDetails = ({
     proinc: "",
     empCA: "",
     userName: "",
-
     isSubmitted: false,
   });
 
@@ -281,7 +280,7 @@ const AddEmployeeDetails = ({
           });
           setFormData({ ...formData, [e.target.name]: "" });
         } else {
-          const pwdFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+          const pwdFilter = /^(?=.*\d)(?=.*[a-z])/;
           if (pwdFilter.test(value)) {
             setError({
               ...error,
@@ -441,16 +440,19 @@ const AddEmployeeDetails = ({
         empCA: empCA,
         usergroupsId: usergroupsId,
         userGroupName: usergroups.value,
+        empEnteredById: user._id,
       };
-      console.log(finalData);
       AddEmployee(finalData);
-      // setFormData({
-      //   ...formData,
-      //   districtName: "",
-      //   isSubmitted: true,
-      // });
+      setFormData({
+        ...formData,
+        isSubmitted: true,
+      });
     }
   };
+
+  if (isSubmitted) {
+    return <Redirect to="/all-staff" />;
+  }
   // code for next previous tabing ends
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -501,7 +503,7 @@ const AddEmployeeDetails = ({
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                         <label className="label-control">
-                          Employee Phone* :
+                          Employee Phone :
                         </label>
                         <input
                           type="number"
@@ -518,7 +520,7 @@ const AddEmployeeDetails = ({
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                         <label className="label-control">
-                          Adhaar Card No* :
+                          Adhaar Card No :
                         </label>
                         <input
                           type="text"
@@ -539,7 +541,7 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                        <label> DoB :</label>
+                        <label> DoB* :</label>
                         <br />
                         <input
                           type="date"
@@ -551,7 +553,7 @@ const AddEmployeeDetails = ({
                           style={{
                             width: "75%",
                           }}
-                          /// required
+                          required
                         />
                       </div>
 
@@ -566,7 +568,7 @@ const AddEmployeeDetails = ({
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                        <label> DoJ :</label>
+                        <label> DoJ* :</label>
                         <br />
                         <input
                           type="date"
@@ -578,8 +580,7 @@ const AddEmployeeDetails = ({
                           style={{
                             width: "75%",
                           }}
-
-                          // required
+                          required
                         />
                       </div>
 
@@ -664,7 +665,7 @@ const AddEmployeeDetails = ({
                       </div>
 
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
-                        <label> Designation Date :</label>
+                        <label> Designation Date* :</label>
                         <br />
                         <input
                           type="date"
@@ -676,8 +677,7 @@ const AddEmployeeDetails = ({
                           style={{
                             width: "75%",
                           }}
-
-                          // required
+                          required
                         />
                       </div>
                       <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
@@ -697,7 +697,7 @@ const AddEmployeeDetails = ({
 
                   <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                      <label className="label-control">UserName :</label>
+                      <label className="label-control">UserName* :</label>
                       <input
                         type="text"
                         name="userName"
@@ -705,6 +705,7 @@ const AddEmployeeDetails = ({
                         className="form-control"
                         onChange={(e) => onInputChange(e)}
                         autoComplete="false"
+                        required
                       />
                     </div>
                     <div className=" col-lg-3 col-md-9 col-sm-9 col-12 py-4">
@@ -718,6 +719,7 @@ const AddEmployeeDetails = ({
                           style={passwordInptErrStyle}
                           onChange={(e) => onInputChange3(e)}
                           autoComplete="false"
+                          required
                         />
                         {passwordValChecker && (
                           <span
@@ -749,7 +751,7 @@ const AddEmployeeDetails = ({
                     </div>
 
                     <div className="col-lg-3 col-md-9 col-sm-9 col-12 py-4">
-                      <label className="">Confirm Password</label>
+                      <label className="">Confirm Password* :</label>
 
                       <div>
                         <input
@@ -760,6 +762,7 @@ const AddEmployeeDetails = ({
                           style={repwdInptErrStyle}
                           onChange={(e) => onInputChange3(e)}
                           autoComplete="false"
+                          required
                         />
                         {repwdValChecker && (
                           <Fragment>
