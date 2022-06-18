@@ -180,13 +180,14 @@ const EditClientDetails = ({
   ///////////////////////////////////////////////////////////////
 
   const allpaymentmodes = [];
-  allPaymentModeData.map((payment) =>
-    allpaymentmodes.push({
-      paymentId: payment._id,
-      label: payment.paymentModeName,
-      value: payment.paymentModeName,
-    })
-  );
+  allPaymentModeData &&
+    allPaymentModeData.map((payment) =>
+      allpaymentmodes.push({
+        paymentId: payment._id,
+        label: payment.paymentModeName,
+        value: payment.paymentModeName,
+      })
+    );
 
   const [payment, getStateData] = useState(
     allClientdata
