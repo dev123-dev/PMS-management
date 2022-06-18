@@ -128,9 +128,10 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                           <Link to="/all-clients">All Clients</Link>
                         </li>
 
-                        {user &&
-                        user.userGroupName &&
-                        user.userGroupName === "Adminstrator" ? (
+                        {(user &&
+                          user.userGroupName &&
+                          user.userGroupName === "Administrator") ||
+                        user.userGroupName === "software" ? (
                           <Fragment>
                             {" "}
                             <li>
