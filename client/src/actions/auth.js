@@ -81,6 +81,10 @@ export const loadUser = () => async (dispatch) => {
       type: USER_LOADED,
       payload: res.data,
     });
+    localStorage.setItem(
+      process.env.REACT_APP_LOCALHOST_KEY,
+      JSON.stringify(res.data)
+    );
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,

@@ -86,6 +86,18 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
+                <NavItem>
+                  {!loading && isAuthenticated && user ? (
+                    <NavLink
+                      to="/chat"
+                      activeStyle={{ color: "Black", textDecoration: "none" }}
+                    >
+                      Chat
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>
