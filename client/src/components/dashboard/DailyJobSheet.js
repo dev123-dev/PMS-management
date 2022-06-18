@@ -7,6 +7,7 @@ import Select from "react-select";
 import ChangeProjectLifeCycle from "./ChangeProjectLifeCycle";
 import Spinner from "../layout/Spinner";
 import EditProject from "./EditProject";
+import JobHistory from "./JobHistory";
 import {
   getDailyJobsheetProjectDeatils,
   getAllProjectStatus,
@@ -142,6 +143,21 @@ const DailyJobSheet = ({
     setshownotesModal(true);
     setUserDatas2(dailyJobsheetProjects);
   };
+
+  const [showhistoryModal, setshowhistoryModal] = useState(false);
+  const handlehistoryModalClose = () => setshowhistoryModal(false);
+
+  const onhistoryModalChange = (e) => {
+    if (e) {
+      handlehistoryModalClose();
+    }
+  };
+
+  const [userDatas1, setUserDatas1] = useState(null);
+  const onhistory = (dailyJobsheetProjects, idx) => {
+    setshowhistoryModal(true);
+    setUserDatas1(dailyJobsheetProjects);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -176,7 +192,7 @@ const DailyJobSheet = ({
               </button>
 
               <Link className="btn btn_green_bg float-right" to="/add-Project">
-                Add
+                Add Project
               </Link>
             </div>
           </div>
@@ -192,22 +208,22 @@ const DailyJobSheet = ({
                       <tr>
                         {user.userGroupName &&
                         user.userGroupName === "Admin" ? (
-                          <th>Client Name</th>
+                          <th style={{ width: "10%" }}>Client Name</th>
                         ) : (
                           <></>
                         )}
-                        <th>Folder Name</th>
-                        <th>Project Name</th>
-                        <th>Queue Duration</th>
-                        <th>Estimated Time</th>
-                        <th>Job Time</th>
-                        <th>Priority</th>
-                        <th>Deadline</th>
-                        <th>Qty</th>
-                        <th>Status</th>
-                        <th>Latest Change</th>
-                        <th>Job Notes</th>
-                        <th>OP</th>
+                        <th style={{ width: "5%" }}>Folder</th>
+                        <th style={{ width: "10%" }}>Project Name</th>
+                        <th style={{ width: "10%" }}>Queue Duration</th>
+                        <th style={{ width: "10%" }}>Estimated Time</th>
+                        <th style={{ width: "10%" }}>Job Time</th>
+                        <th style={{ width: "2%" }}>Priority</th>
+                        <th style={{ width: "2%" }}>Deadline</th>
+                        <th style={{ width: "2%" }}>Qty</th>
+                        <th style={{ width: "13%" }}>Status</th>
+                        <th style={{ width: "10%" }}>Latest Change</th>
+                        <th style={{ width: "10%" }}>Job Notes</th>
+                        <th style={{ width: "2%" }}>OP</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -262,7 +278,16 @@ const DailyJobSheet = ({
                                     )}
                                   />
                                 </td>
-                                <td></td>
+                                <td>
+                                  <Link
+                                    className="btnLink"
+                                    onClick={() =>
+                                      onhistory(dailyJobsheetProjects, idx)
+                                    }
+                                  >
+                                    {dailyJobsheetProjects.projectStatusType}
+                                  </Link>
+                                </td>
                                 <td>
                                   <Link
                                     className="btnLink"
@@ -399,6 +424,36 @@ const DailyJobSheet = ({
           <JobNotes
             onnotesModalChange={onnotesModalChange}
             allnotesdata={userDatas2}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showhistoryModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Latest Changes </h3>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handlehistoryModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <JobHistory
+            onhistoryModalChange={onhistoryModalChange}
+            allProjectdata={userDatas1}
           />
         </Modal.Body>
       </Modal>

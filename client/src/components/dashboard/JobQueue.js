@@ -13,10 +13,12 @@ import {
 } from "../../actions/projects";
 import JobHistory from "./JobHistory";
 import JobNotes from "./JobNotes";
+import { AddProjectTrack } from "../../actions/projects";
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
   project: { jobQueueProjects, allProjectStatus },
   getJobQueueProjectDeatils,
+  AddProjectTrack,
   getAllProjectStatus,
 }) => {
   useEffect(() => {
@@ -62,16 +64,31 @@ const JobQueue = ({
   const [statusChangeValue, setStatusChange] = useState();
   const [statusValue, setStatusValue] = useState();
   const onSliderChange = (jobQueueProjects) => (e) => {
-    setStatusValue(e);
-    let newStatusData = {
-      statusId: e.value,
-      value: e.label,
-      projectId: jobQueueProjects._id,
-    };
-
-    setStatusChange(newStatusData);
-    // console.log("statusChangeValue", statusChangeValue);
-    setShowProjectCycleModal(true);
+    if (
+      e.label === "Downloaded" ||
+      e.label === "Uploaded" ||
+      e.label === "Amend_Uploaded"
+    ) {
+      setStatusValue(e);
+      let finalData = {
+        projectTrackStatusId: e.value,
+        projectStatusType: e.label,
+        projectId: jobQueueProjects._id,
+      };
+      // console.log("page", finalData);
+      AddProjectTrack(finalData);
+      // setStatusChange(finalData);
+      // setShowProjectCycleModal(false);
+    } else {
+      setStatusValue(e);
+      let newStatusData = {
+        statusId: e.value,
+        value: e.label,
+        projectId: jobQueueProjects._id,
+      };
+      setStatusChange(newStatusData);
+      setShowProjectCycleModal(true);
+    }
   };
 
   const onRadioProjCatTypeChange = (e) => {
@@ -535,6 +552,7 @@ JobQueue.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
   getJobQueueProjectDeatils: PropTypes.object.isRequired,
+  AddProjectTrack: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -542,6 +560,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
+  AddProjectTrack,
   getJobQueueProjectDeatils,
   getAllProjectStatus,
 })(JobQueue);

@@ -51,12 +51,14 @@ export const addProjectStatus = (finalData) => async (dispatch) => {
 };
 
 export const AddProjectTrack = (finalData) => async (dispatch) => {
+  // console.log("action", finalData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/projects/add-project-track", finalData, config);
     dispatch(getJobQueueProjectDeatils());
+    dispatch(getDailyJobsheetProjectDeatils());
     dispatch({
       type: SET_LOADING_FALSE,
     });
