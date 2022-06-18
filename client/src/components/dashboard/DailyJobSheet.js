@@ -12,11 +12,13 @@ import {
   getDailyJobsheetProjectDeatils,
   getAllProjectStatus,
 } from "../../actions/projects";
+import { AddProjectTrack } from "../../actions/projects";
 import JobNotes from "./JobNotes";
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
   project: { dailyJobsheetProjects, allProjectStatus },
   getDailyJobsheetProjectDeatils,
+  AddProjectTrack,
   getAllProjectStatus,
 }) => {
   useEffect(() => {
@@ -46,21 +48,43 @@ const DailyJobSheet = ({
   );
 
   const [statusChangeValue, setStatusChange] = useState();
+  // const onSliderChange = (dailyJobsheetProjects) => (e) => {
+  //   let newStatusData = {
+  //     statusId: e.value,
+  //     value: e.label,
+  //     projectId: dailyJobsheetProjects._id,
+  //   };
+
+  //   setStatusChange(newStatusData);
+
+  //   setShowProjectCycleModal(true);
+  // };
+
   const onSliderChange = (dailyJobsheetProjects) => (e) => {
-    // console.log("id", id);
-    // console.log("e", e);
+    if (
+      e.label === "Downloaded" ||
+      e.label === "Uploaded" ||
+      e.label === "Amend_Uploaded"
+    ) {
+      let finalData = {
+        projectTrackStatusId: e.value,
+        projectStatusType: e.label,
+        projectId: dailyJobsheetProjects._id,
+      };
 
-    let newStatusData = {
-      statusId: e.value,
-      value: e.label,
-      projectId: dailyJobsheetProjects._id,
-    };
-
-    setStatusChange(newStatusData);
-    // console.log("statusChangeValue", statusChangeValue);
-    setShowProjectCycleModal(true);
+      AddProjectTrack(finalData);
+      // setStatusChange(finalData);
+      // setShowProjectCycleModal(false);
+    } else {
+      let newStatusData = {
+        statusId: e.value,
+        value: e.label,
+        projectId: dailyJobsheetProjects._id,
+      };
+      setStatusChange(newStatusData);
+      setShowProjectCycleModal(true);
+    }
   };
-
   const onRadioProjCatTypeChange = (e) => {
     // console.log(e.target.value);
     // if (e.target.value === "student") {
@@ -465,6 +489,7 @@ DailyJobSheet.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
   getDailyJobsheetProjectDeatils: PropTypes.object.isRequired,
+  AddProjectTrack: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -473,5 +498,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getDailyJobsheetProjectDeatils,
+  AddProjectTrack,
   getAllProjectStatus,
 })(DailyJobSheet);
