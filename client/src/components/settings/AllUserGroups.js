@@ -27,13 +27,9 @@ const AllUserGroups = ({
     }
   };
 
-  console.log(userGroups);
-
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
-  const onClickHandler1 = () => {
-    setShowEditModal(true);
-  };
+
   const onEditModalChange = (e) => {
     if (e) {
       handleEditModalClose();

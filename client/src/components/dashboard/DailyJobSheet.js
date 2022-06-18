@@ -192,7 +192,7 @@ const DailyJobSheet = ({
               </button>
 
               <Link className="btn btn_green_bg float-right" to="/add-Project">
-                Add
+                Add Project
               </Link>
             </div>
           </div>
@@ -212,7 +212,7 @@ const DailyJobSheet = ({
                         ) : (
                           <></>
                         )}
-                        <th style={{ width: "5%" }}>Folder Name</th>
+                        <th style={{ width: "5%" }}>Folder</th>
                         <th style={{ width: "10%" }}>Project Name</th>
                         <th style={{ width: "10%" }}>Queue Duration</th>
                         <th style={{ width: "10%" }}>Estimated Time</th>
