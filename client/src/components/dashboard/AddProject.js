@@ -290,9 +290,9 @@ const AddProject = ({
                     </label>
                     <Select
                       name="clientType"
+                      isSearchable={true}
                       options={clientTypeVal}
                       value={clientType}
-                      isSearchable={false}
                       placeholder="Select"
                       onChange={(e) => onClientTypeChange(e)}
                     />
@@ -306,9 +306,9 @@ const AddProject = ({
                     </label>
                     <Select
                       name="clientData"
+                      isSearchable={true}
                       value={clientData}
                       options={activeClientsOpt}
-                      isSearchable={false}
                       placeholder="Select"
                       onChange={(e) => onClientChange(e)}
                     />
@@ -467,7 +467,7 @@ const AddProject = ({
                       name="projectStatusData"
                       value={projectStatusData}
                       options={projectStatusOpt}
-                      isSearchable={false}
+                      isSearchable={true}
                       placeholder="Select"
                       onChange={(e) => onProjectStatusChange(e)}
                     />
