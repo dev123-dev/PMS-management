@@ -34,6 +34,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     }
   };
 
+  console.log(user);
   return (
     <Fragment>
       <header>
@@ -86,18 +87,28 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-                <NavItem>
-                  {!loading && isAuthenticated && user ? (
-                    <NavLink
-                      to="/chat"
-                      activeStyle={{ color: "Black", textDecoration: "none" }}
-                    >
-                      Chat
-                    </NavLink>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </NavItem>
+
+                {user &&
+                user.userGroupName &&
+                user.userGroupName === "Adminstrator" ? (
+                  <NavItem>
+                    {!loading && isAuthenticated && user ? (
+                      <NavLink
+                        to="/chat"
+                        activeStyle={{
+                          color: "#ffd037",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Chat
+                      </NavLink>
+                    ) : (
+                      <NavItem></NavItem>
+                    )}
+                  </NavItem>
+                ) : (
+                  <></>
+                )}
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>
@@ -116,32 +127,42 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                         <li>
                           <Link to="/all-clients">All Clients</Link>
                         </li>
-                        <li>
-                          <Link to="/all-staff">All Staff</Link>
-                        </li>
-                        <li>
-                          <Link to="/all-department">All Departments</Link>
-                        </li>
-                        <li>
-                          <Link to="/all-designation">All Designation</Link>
-                        </li>
-                        <li>
-                          <Link to="/all-payment-methods">
-                            All Payment Method
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/all-project-status">
-                            All Project Status
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/all-usergroups">Groups</Link>
-                        </li>
 
-                        <li>
-                          <Link to="/change-password">Change Password</Link>
-                        </li>
+                        {user &&
+                        user.userGroupName &&
+                        user.userGroupName === "Adminstrator" ? (
+                          <Fragment>
+                            {" "}
+                            <li>
+                              <Link to="/all-staff">All Staff</Link>
+                            </li>
+                            <li>
+                              <Link to="/all-department">All Departments</Link>
+                            </li>
+                            <li>
+                              <Link to="/all-designation">All Designation</Link>
+                            </li>
+                            <li>
+                              <Link to="/all-payment-methods">
+                                All Payment Method
+                              </Link>
+                            </li>
+                            <li>
+                              <Link to="/all-project-status">
+                                All Project Status
+                              </Link>
+                            </li>
+                            <li>
+                              <Link to="/all-usergroups">Groups</Link>
+                            </li>
+                            <li>
+                              <Link to="/change-password">Change Password</Link>
+                            </li>
+                          </Fragment>
+                        ) : (
+                          <></>
+                        )}
+
                         <li>
                           <Link to="#" onClick={() => handleLogoutModalShow()}>
                             Logout
