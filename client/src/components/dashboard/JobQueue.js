@@ -254,9 +254,8 @@ const JobQueue = ({
                           if (statusType === "Uploading") UploadingQty += 1;
                           let estimatedTimeVal = "";
                           if (jobQueueProjects.ptEstimatedTime) {
-                            estimatedTimeVal = jobQueueProjects.ptEstimatedTime.split(
-                              ":"
-                            );
+                            estimatedTimeVal =
+                              jobQueueProjects.ptEstimatedTime.split(":");
                           }
                           return (
                             <tr key={idx}>
@@ -277,7 +276,11 @@ const JobQueue = ({
                                 <></>
                               )}
                               <td>{jobQueueProjects.clientFolderName}</td>
-                              <td>{jobQueueProjects.projectName}</td>
+                              <td>
+                                <Link to="/AllLatestChange">
+                                  {jobQueueProjects.projectName}
+                                </Link>
+                              </td>
                               <td>
                                 {dhm(
                                   jobQueueProjects.projectDate +
@@ -331,7 +334,6 @@ const JobQueue = ({
                                 >
                                   Notes
                                 </Link>
-                                {/* {jobQueueProjects.projectNotes} */}
                               </td>
                               {/* <td></td> */}
                               <td>
