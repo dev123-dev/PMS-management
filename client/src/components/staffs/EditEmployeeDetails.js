@@ -447,13 +447,14 @@ const EditEmployeeDetails = ({
   //console.log(allUserGroupData);
 
   const allusergroups = [];
-  allUserGroupData.map((usergroups) =>
-    allusergroups.push({
-      usergroupsId: usergroups._id,
-      label: usergroups.userGroupName,
-      value: usergroups.userGroupName,
-    })
-  );
+  allUserGroupData &&
+    allUserGroupData.map((usergroups) =>
+      allusergroups.push({
+        usergroupsId: usergroups._id,
+        label: usergroups.userGroupName,
+        value: usergroups.userGroupName,
+      })
+    );
 
   const [usergroups, getusergroupsData] = useState(
     allEmployeedata
