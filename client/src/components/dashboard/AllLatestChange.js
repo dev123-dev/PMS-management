@@ -31,9 +31,9 @@ const AllLatestChange = ({ auth: { isAuthenticated, user, users } }) => {
                   >
                     <thead>
                       <tr>
-                        <th>Department Name</th>
-                        <th>Department Description</th>
-                        <th>Op</th>
+                        <th>Last Changed By</th>
+                        <th>Date&Time</th>
+                        <th>Comments</th>
                       </tr>
                     </thead>
                     <tbody></tbody>

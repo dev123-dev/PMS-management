@@ -32,11 +32,8 @@ const JobHistory = ({
     isSubmitted: false,
   });
   console.log(allProjectdata);
-  const {
-    projectName,
-    projectEnteredByName,
-    projectEnteredDateTime,
-  } = formData;
+  const { projectName, projectEnteredByName, projectEnteredDateTime } =
+    formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -70,12 +67,12 @@ const JobHistory = ({
               Project Name : <strong> {projectName}</strong>
             </label>
           </div>
-          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <label className="label-control">
               Last Changed By :<strong>{projectEnteredByName}</strong>
             </label>
           </div>
-          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <label className="label-control">
               Date&Time :<strong>{projectEnteredDateTime}</strong>
             </label>
