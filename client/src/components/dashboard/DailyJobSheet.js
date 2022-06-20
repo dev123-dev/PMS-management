@@ -182,6 +182,17 @@ const DailyJobSheet = ({
     setshowhistoryModal(true);
     setUserDatas1(dailyJobsheetProjects);
   };
+
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const onDateChange = (e) => {
+    setSelectedDate(e.target.value);
+    const selDateData = {
+      selDate: e.target.value,
+    };
+    getDailyJobsheetProjectDeatils(selDateData);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -197,9 +208,9 @@ const DailyJobSheet = ({
                 type="date"
                 placeholder="dd/mm/yyyy"
                 className="form-control cpp-input datevalidation"
-                // name="projectDate"
-                // value={startprojectDate}
-                // onChange={(e) => onDateChange(e)}
+                name="projectDate"
+                value={selectedDate}
+                onChange={(e) => onDateChange(e)}
                 style={{
                   width: "75%",
                 }}
