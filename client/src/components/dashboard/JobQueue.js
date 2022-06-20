@@ -14,7 +14,7 @@ import {
 import JobHistory from "./JobHistory";
 import JobNotes from "./JobNotes";
 import { AddProjectTrack, getAllchanges } from "../../actions/projects";
-
+import AllLatestChange from "./AllLatestChange";
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
   project: { jobQueueProjects, allProjectStatus },
@@ -146,6 +146,21 @@ const JobQueue = ({
     setUserDatas1(jobQueueProjects);
   };
 
+  const [showAllChangeModal, setshowAllChangeModal] = useState(false);
+  const handleAllChangeModalClose = () => setshowAllChangeModal(false);
+
+  const onAllChange = (e) => {
+    if (e) {
+      handleAllChangeModalClose();
+    }
+  };
+
+  const [userDatas3, setUserDatas3] = useState(null);
+  const handleGoToAllLatestChange = (jobQueueProjects, idx) => {
+    setshowAllChangeModal(true);
+    setUserDatas3(jobQueueProjects);
+  };
+
   const [shownotesModal, setshownotesModal] = useState(false);
   const handlenotesModalClose = () => setshownotesModal(false);
 
@@ -189,16 +204,17 @@ const JobQueue = ({
       });
     }
   };
-  const [isSubmitted, setSubmitted] = useState(false);
-  const handleGoToAllLatestChange = (jobQueueProjects) => {
-    const finalData = {
-      projectId: jobQueueProjects._id,
-      // batchName: jobQueueProjects.batchName,
-    };
-    // console.log("page", finalData);
-    getAllchanges(finalData);
-    setSubmitted(true);
-  };
+  // console.log(radioselect);
+
+  // const [isSubmitted, setSubmitted] = useState(false);
+  // const handleGoToAllLatestChange1 = (jobQueueProjects) => {
+  //   const finalData = {
+  //     projectId: jobQueueProjects._id,
+  //   };
+
+  //   getAllchanges(finalData);
+  //   setSubmitted(true);
+  // };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -289,7 +305,7 @@ const JobQueue = ({
                               <td>{jobQueueProjects.clientFolderName}</td>
                               <td>
                                 <Link
-                                  to="/AllLatestChange"
+                                  // to="/AllLatestChange"
                                   onClick={() =>
                                     handleGoToAllLatestChange(jobQueueProjects)
                                   }
@@ -351,9 +367,9 @@ const JobQueue = ({
                                   Notes
                                 </Link>
                               </td>
-                              {/* <td></td> */}
+
                               <td>
-                                {/* <img
+                                <img
                                   className="img_icon_size log"
                                   onClick={() =>
                                     onUpdate(jobQueueProjects, idx)
@@ -361,7 +377,7 @@ const JobQueue = ({
                                   src={require("../../static/images/edit_icon.png")}
                                   alt="Edit"
                                   title="Edit"
-                                /> */}
+                                />
                               </td>
                             </tr>
                           );
@@ -376,13 +392,13 @@ const JobQueue = ({
 
         <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
-            {/* <label className="radio-inline ">
+            <label className="radio-inline ">
               <input
                 type="radio"
                 name="ProjCatType"
                 className="radio_style"
                 value="Normal"
-                onChange={(e) => onRadioProjCatTypeChange(e)}
+                //onChange={(e) => onRadioProjCatTypeChange(e)}
                 onClick={() => onstatuscategrorySelect("Normal")}
               />{" "}
               Normal
@@ -394,7 +410,7 @@ const JobQueue = ({
                 name="ProjCatType"
                 className="radio_style"
                 value="Amendment"
-                onChange={(e) => onRadioProjCatTypeChange(e)}
+                //  onChange={(e) => onRadioProjCatTypeChange(e)}
                 onClick={() => onstatuscategrorySelect("Amendment")}
               />{" "}
               Amendment
@@ -405,7 +421,7 @@ const JobQueue = ({
                 name="ProjCatType"
                 className="radio_style"
                 value="Additional Instruction"
-                onChange={(e) => onRadioProjCatTypeChange(e)}
+                //onChange={(e) => onRadioProjCatTypeChange(e)}
                 onClick={() =>
                   onstatuscategrorySelect("Additional Instruction")
                 }
@@ -418,11 +434,11 @@ const JobQueue = ({
                 name="ProjCatType"
                 className="radio_style"
                 value="Don't Work"
-                onChange={(e) => onRadioProjCatTypeChange(e)}
+                // onChange={(e) => onRadioProjCatTypeChange(e)}
                 onClick={() => onstatuscategrorySelect("Don't Work")}
               />{" "}
               Don't Work
-            </label> */}
+            </label>
           </div>
           <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
             Projects:{jobQueueProjects.length}
@@ -559,6 +575,36 @@ const JobQueue = ({
           <JobNotes
             onnotesModalChange={onnotesModalChange}
             allnotesdata={userDatas2}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showAllChangeModal}
+        backdrop="static"
+        keyboard={false}
+        size="xl"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">All Latest Changes </h3>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handleAllChangeModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <AllLatestChange
+            onAllChange={onAllChange}
+            AllChangedata={userDatas3}
           />
         </Modal.Body>
       </Modal>

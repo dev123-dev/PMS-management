@@ -14,6 +14,7 @@ import {
 } from "../../actions/projects";
 import { AddProjectTrack } from "../../actions/projects";
 import JobNotes from "./JobNotes";
+import AllLatestChange from "./AllLatestChange";
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
   project: { dailyJobsheetProjects, allProjectStatus },
@@ -106,6 +107,7 @@ const DailyJobSheet = ({
 
   const onClickReset = () => {
     getDailyJobsheetProjectDeatils("");
+    setSelectedDate(new Date().toISOString().split("T")[0]);
   };
 
   const onEditModalChange = (e) => {
@@ -192,6 +194,21 @@ const DailyJobSheet = ({
       selDate: e.target.value,
     };
     getDailyJobsheetProjectDeatils(selDateData);
+  };
+
+  const [showAllChangeModal, setshowAllChangeModal] = useState(false);
+  const handleAllChangeModalClose = () => setshowAllChangeModal(false);
+
+  const onAllChange = (e) => {
+    if (e) {
+      handleAllChangeModalClose();
+    }
+  };
+
+  const [userDatas3, setUserDatas3] = useState(null);
+  const handleGoToAllLatestChange = (dailyJobsheetProjects, idx) => {
+    setshowAllChangeModal(true);
+    setUserDatas3(dailyJobsheetProjects);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -288,14 +305,23 @@ const DailyJobSheet = ({
                                 <td>
                                   {dailyJobsheetProjects.clientFolderName}
                                 </td>
-                                <td>{dailyJobsheetProjects.projectName}</td>
+                                <td>
+                                  <Link
+                                    onClick={() =>
+                                      handleGoToAllLatestChange(
+                                        dailyJobsheetProjects
+                                      )
+                                    }
+                                  >
+                                    {dailyJobsheetProjects.projectName}
+                                  </Link>
+                                </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td>{dailyJobsheetProjects.projectPriority}</td>
                                 <td>{dailyJobsheetProjects.projectDeadline}</td>
                                 <td>{dailyJobsheetProjects.projectQuantity}</td>
-                                {/* <td>{dailyJobsheetProjects.projectStatusType}</td> */}
                                 <td>
                                   <Select
                                     name="projectStatusData"
@@ -332,11 +358,9 @@ const DailyJobSheet = ({
                                   >
                                     Notes
                                   </Link>
-                                  {/* {dailyJobsheetProjects.projectNotes} */}
                                 </td>
-                                {/* <td></td> */}
                                 <td>
-                                  {/* <img
+                                  <img
                                     className="img_icon_size log"
                                     onClick={() =>
                                       onUpdate(dailyJobsheetProjects, idx)
@@ -344,7 +368,7 @@ const DailyJobSheet = ({
                                     src={require("../../static/images/edit_icon.png")}
                                     alt="Edit"
                                     title="Edit"
-                                  /> */}
+                                  />
                                 </td>
                               </tr>
                             );
@@ -489,6 +513,36 @@ const DailyJobSheet = ({
           <JobHistory
             onhistoryModalChange={onhistoryModalChange}
             allProjectdata={userDatas1}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showAllChangeModal}
+        backdrop="static"
+        keyboard={false}
+        size="xl"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">All Latest Changes </h3>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handleAllChangeModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <AllLatestChange
+            onAllChange={onAllChange}
+            AllChangedata={userDatas3}
           />
         </Modal.Body>
       </Modal>
