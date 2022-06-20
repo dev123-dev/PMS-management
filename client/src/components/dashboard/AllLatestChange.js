@@ -1,21 +1,18 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { AddProjectTrack, getAllchanges } from "../../actions/projects";
+import { getAllchanges } from "../../actions/projects";
 const AllLatestChange = ({
   auth: { isAuthenticated, user, users },
   project: { getAllChangesData },
   getAllchanges,
 }) => {
-  useEffect(() => {
-    getAllchanges();
-  }, [getAllchanges]);
   let getAllChangesDetails = JSON.parse(
     localStorage.getItem("getAllChangesDetails")
   );
-  console.log(getAllChangesDetails);
+  console.log("getAllChangesDetails", getAllChangesDetails);
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -49,7 +46,7 @@ const AllLatestChange = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {getAllChangesDetails &&
+                      {/* {getAllChangesDetails &&
                         getAllChangesDetails.map((getAllChangesData, idx) => {
                           return (
                             <tr key={idx}>
@@ -65,15 +62,13 @@ const AllLatestChange = ({
                                     .projectEnteredDateTime
                                 }
                               </td>
-                              <td>
-                                {getAllChangesData.output[0].projectStatusType}
-                              </td>
+                              <td>{getAllChangesData.projectStatusType}</td>
                               <td>
                                 {getAllChangesData.output[0].projectNotes}
                               </td>
                             </tr>
                           );
-                        })}
+                        })} */}
                     </tbody>
                   </table>
                 </div>
