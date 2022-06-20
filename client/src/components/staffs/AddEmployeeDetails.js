@@ -446,8 +446,8 @@ const AddEmployeeDetails = ({
         profilephoto: profilephoto,
         empEnteredById: user._id,
       };
-      console.log(finalData);
-      //  AddEmployee(finalData);
+      // console.log(finalData);
+      AddEmployee(finalData);
       setFormData({
         ...formData,
         isSubmitted: true,
