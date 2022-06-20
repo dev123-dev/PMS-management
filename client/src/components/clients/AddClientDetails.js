@@ -366,7 +366,7 @@ const AddClientDetails = ({
                       className="label-control"
                       style={clienttypeIdErrorStyle}
                     >
-                      Client Type :
+                      Client Type* :
                     </label>
                     <Select
                       name="clientType"

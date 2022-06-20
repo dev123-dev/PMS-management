@@ -46,7 +46,7 @@ const AllLatestChange = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {getAllChangesDetails &&
+                      {/* {getAllChangesDetails &&
                         getAllChangesDetails.map((getAllChangesData, idx) => {
                           return (
                             <tr key={idx}>
@@ -68,7 +68,7 @@ const AllLatestChange = ({
                               </td>
                             </tr>
                           );
-                        })}
+                        })} */}
                     </tbody>
                   </table>
                 </div>
