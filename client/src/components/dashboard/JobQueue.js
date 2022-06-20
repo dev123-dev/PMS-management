@@ -190,12 +190,12 @@ const JobQueue = ({
     }
   };
   const [isSubmitted, setSubmitted] = useState(false);
-  const handleGoToAllMember = (jobQueueProjects) => {
+  const handleGoToAllLatestChange = (jobQueueProjects) => {
     const finalData = {
       projectId: jobQueueProjects._id,
       // batchName: jobQueueProjects.batchName,
     };
-    console.log("page", finalData);
+    // console.log("page", finalData);
     getAllchanges(finalData);
     setSubmitted(true);
   };
@@ -291,7 +291,7 @@ const JobQueue = ({
                                 <Link
                                   to="/AllLatestChange"
                                   onClick={() =>
-                                    handleGoToAllMember(jobQueueProjects)
+                                    handleGoToAllLatestChange(jobQueueProjects)
                                   }
                                 >
                                   {jobQueueProjects.projectName}

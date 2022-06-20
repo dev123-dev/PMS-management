@@ -213,8 +213,9 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
 
 router.post("/get-all-changes", async (req, res) => {
   const { projectId } = req.body;
+  console.log("projectId", projectId);
   try {
-    const ProjectTrackDetails = await ProjectTrack.aggregate([
+    const ProjectLatestChangeDetails = await ProjectTrack.aggregate([
       {
         $lookup: {
           from: "projects",
@@ -232,8 +233,8 @@ router.post("/get-all-changes", async (req, res) => {
         },
       },
     ]);
-    res.json(ProjectTrackDetails);
-    // console.log(ProjectTrackDetails);
+    res.json(ProjectLatestChangeDetails);
+    console.log(ProjectLatestChangeDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
