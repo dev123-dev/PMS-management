@@ -38,7 +38,7 @@ const EditProject = ({
     };
     getActiveClientsFilter(clientTypeVal);
   }, [getActiveClientsFilter]);
-  console.log(allProjectdata);
+  // console.log(allProjectdata);
 
   //formData
   const [formData, setFormData] = useState({
@@ -72,8 +72,6 @@ const EditProject = ({
       allProjectdata && allProjectdata.projectQuantity
         ? allProjectdata.projectQuantity
         : "",
-    // priority:
-    //   allProjectdata && allProjectdata.priority ? allProjectdata.priority : "",
 
     projectStatus:
       allProjectdata && allProjectdata.projectStatus
@@ -349,6 +347,7 @@ const EditProject = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
+      recordId: allProjectdata ? allProjectdata._id : "",
       projectName: projectName,
       clientId: clientId,
       clientName: clientData.value,
@@ -378,7 +377,7 @@ const EditProject = ({
       // clientType: clientType.value,
     };
     console.log(finalData);
-    // EditProjectData(finalData);
+    EditProjectData(finalData);
     onEditModalChange(true);
     // setFormData({
     //   ...formData,

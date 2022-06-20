@@ -1944,7 +1944,7 @@ input[type="number"]::-webkit-outer-spin-button {
   position: relative;
   list-style: none;
   padding: 6px 12px;
-  cursor: none;
+  cursor: pointer;
 }
 
 .react-tabs__tab--selected {
@@ -1956,3 +1956,42 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 /*React tab css end*/
 
+/* chat button css */
+.ChatBtn {
+  height: 170px;
+  width:40px;
+  z-index: 999;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #000;
+  border-radius: 4px;
+  position: fixed;
+  font-size: 18px;
+  background-color: #456792;
+  color: #000;
+  top: 50%;
+  left: 0%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+/* .chat_div{
+  height: 65vh;
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  background-color: #131324;
+}
+.chat_div .container {
+  height: 65vh;
+  width: 85vw;
+  background-color: #00000076;
+  display: grid;
+ 
+} */
+/* chat btn css ends */
