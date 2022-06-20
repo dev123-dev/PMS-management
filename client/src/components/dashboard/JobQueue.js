@@ -29,7 +29,7 @@ const JobQueue = ({
   useEffect(() => {
     getAllProjectStatus();
   }, [getAllProjectStatus]);
-  getJobQueueProjectDeatils();
+  // getJobQueueProjectDeatils();
 
   // const [sliderValue, setSliderValue] = useState([]);
 
