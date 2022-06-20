@@ -90,7 +90,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 
                 {user &&
                 user.userGroupName &&
-                user.userGroupName === "Adminstrator" ? (
+                (user.userGroupName === "Administrator" ||
+                  user.userGroupName === "software") ? (
                   <NavItem>
                     {!loading && isAuthenticated && user ? (
                       <NavLink
