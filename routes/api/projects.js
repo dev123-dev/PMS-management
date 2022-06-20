@@ -198,10 +198,17 @@ router.post("/get-job-queue-project-details", async (req, res) => {
 });
 
 router.post("/get-daily-jobsheet-project-details", async (req, res) => {
+  const { selDate } = req.body;
+
+  if (selDate) selDateVal = selDate;
+  else selDateVal = new Date().toISOString().split("T")[0];
   try {
     const getDailyJobSheetDetails = await Project.find({
       projectStatus: {
         $eq: "Active",
+      },
+      projectDate: {
+        $eq: selDateVal,
       },
     });
     res.json(getDailyJobSheetDetails);
