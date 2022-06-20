@@ -123,6 +123,7 @@ const JobQueue = ({
   };
   const [userDatas, setUserDatas] = useState(null);
   const onUpdate = (jobQueueProjects, idx) => {
+    localStorage.removeItem("activeClientData");
     setShowEditModal(true);
     setUserDatas(jobQueueProjects);
   };
