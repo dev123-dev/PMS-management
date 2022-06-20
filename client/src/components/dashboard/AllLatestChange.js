@@ -3,8 +3,19 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-
-const AllLatestChange = ({ auth: { isAuthenticated, user, users } }) => {
+import { AddProjectTrack, getAllchanges } from "../../actions/projects";
+const AllLatestChange = ({
+  auth: { isAuthenticated, user, users },
+  project: { getAllChangesData },
+  getAllchanges,
+}) => {
+  useEffect(() => {
+    getAllchanges();
+  }, [getAllchanges]);
+  let getAllChangesDetails = JSON.parse(
+    localStorage.getItem("getAllChangesDetails")
+  );
+  console.log(getAllChangesDetails);
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -31,12 +42,39 @@ const AllLatestChange = ({ auth: { isAuthenticated, user, users } }) => {
                   >
                     <thead>
                       <tr>
-                        <th>Last Changed By</th>
+                        <th>Changed By</th>
                         <th>Date&Time</th>
-                        <th>Comments</th>
+                        <th>Status</th>
+                        <th>Notes</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {getAllChangesDetails &&
+                        getAllChangesDetails.map((getAllChangesData, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td>
+                                {
+                                  getAllChangesData.output[0]
+                                    .projectEnteredByName
+                                }
+                              </td>
+                              <td>
+                                {
+                                  getAllChangesData.output[0]
+                                    .projectEnteredDateTime
+                                }
+                              </td>
+                              <td>
+                                {getAllChangesData.output[0].projectStatusType}
+                              </td>
+                              <td>
+                                {getAllChangesData.output[0].projectNotes}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>
@@ -50,10 +88,15 @@ const AllLatestChange = ({ auth: { isAuthenticated, user, users } }) => {
 
 AllLatestChange.propTypes = {
   auth: PropTypes.object.isRequired,
+  project: PropTypes.object.isRequired,
+
+  AddProjectTrack: PropTypes.object.isRequired,
+  getAllchanges: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  project: state.project,
   settings: state.settings,
 });
 
-export default connect(mapStateToProps, {})(AllLatestChange);
+export default connect(mapStateToProps, { getAllchanges })(AllLatestChange);

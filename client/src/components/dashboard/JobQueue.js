@@ -13,12 +13,14 @@ import {
 } from "../../actions/projects";
 import JobHistory from "./JobHistory";
 import JobNotes from "./JobNotes";
-import { AddProjectTrack } from "../../actions/projects";
+import { AddProjectTrack, getAllchanges } from "../../actions/projects";
+
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
   project: { jobQueueProjects, allProjectStatus },
   getJobQueueProjectDeatils,
   AddProjectTrack,
+  getAllchanges,
   getAllProjectStatus,
 }) => {
   useEffect(() => {
@@ -187,7 +189,16 @@ const JobQueue = ({
       });
     }
   };
-
+  const [isSubmitted, setSubmitted] = useState(false);
+  const handleGoToAllMember = (jobQueueProjects) => {
+    const finalData = {
+      projectId: jobQueueProjects._id,
+      // batchName: jobQueueProjects.batchName,
+    };
+    console.log("page", finalData);
+    getAllchanges(finalData);
+    setSubmitted(true);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -277,7 +288,12 @@ const JobQueue = ({
                               )}
                               <td>{jobQueueProjects.clientFolderName}</td>
                               <td>
-                                <Link to="/AllLatestChange">
+                                <Link
+                                  to="/AllLatestChange"
+                                  onClick={() =>
+                                    handleGoToAllMember(jobQueueProjects)
+                                  }
+                                >
                                   {jobQueueProjects.projectName}
                                 </Link>
                               </td>
@@ -555,6 +571,7 @@ JobQueue.propTypes = {
   project: PropTypes.object.isRequired,
   getJobQueueProjectDeatils: PropTypes.object.isRequired,
   AddProjectTrack: PropTypes.object.isRequired,
+  getAllchanges: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -563,6 +580,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   AddProjectTrack,
+  getAllchanges,
   getJobQueueProjectDeatils,
   getAllProjectStatus,
 })(JobQueue);

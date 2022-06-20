@@ -211,4 +211,32 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
   }
 });
 
+router.post("/get-all-changes", async (req, res) => {
+  const { projectId } = req.body;
+  try {
+    const ProjectTrackDetails = await ProjectTrack.aggregate([
+      {
+        $lookup: {
+          from: "projects",
+          localField: "projectId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      // { $unwind: "$output" },
+      {
+        $match: {
+          "output._id": {
+            $eq: mongoose.Types.ObjectId(projectId),
+          },
+        },
+      },
+    ]);
+    res.json(ProjectTrackDetails);
+    // console.log(ProjectTrackDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 module.exports = router;
