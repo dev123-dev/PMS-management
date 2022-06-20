@@ -2,12 +2,14 @@ import {
   ALL_PROJECT_STATUS,
   JOB_QUEUE_PROJECTS,
   DAILY_JOBSHEET_PROJECTS,
+  GET_ALL_CHANGES,
 } from "../actions/types";
 
 const initialState = {
   allProjectStatus: [],
   jobQueueProjects: [],
   dailyJobsheetProjects: [],
+  getAllChanges: [],
 };
 
 const settings = (state = initialState, action) => {
@@ -29,6 +31,12 @@ const settings = (state = initialState, action) => {
         ...state,
         dailyJobsheetProjects: payload,
       };
+    case GET_ALL_CHANGES:
+      return {
+        ...state,
+        getAllChangesData: payload,
+      };
+
     default:
       return state;
   }

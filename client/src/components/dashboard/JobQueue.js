@@ -13,12 +13,14 @@ import {
 } from "../../actions/projects";
 import JobHistory from "./JobHistory";
 import JobNotes from "./JobNotes";
-import { AddProjectTrack } from "../../actions/projects";
+import { AddProjectTrack, getAllchanges } from "../../actions/projects";
+
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
   project: { jobQueueProjects, allProjectStatus },
   getJobQueueProjectDeatils,
   AddProjectTrack,
+  getAllchanges,
   getAllProjectStatus,
 }) => {
   useEffect(() => {
@@ -187,7 +189,16 @@ const JobQueue = ({
       });
     }
   };
-
+  const [isSubmitted, setSubmitted] = useState(false);
+  const handleGoToAllMember = (jobQueueProjects) => {
+    const finalData = {
+      projectId: jobQueueProjects._id,
+      // batchName: jobQueueProjects.batchName,
+    };
+    console.log("page", finalData);
+    getAllchanges(finalData);
+    setSubmitted(true);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -254,9 +265,8 @@ const JobQueue = ({
                           if (statusType === "Uploading") UploadingQty += 1;
                           let estimatedTimeVal = "";
                           if (jobQueueProjects.ptEstimatedTime) {
-                            estimatedTimeVal = jobQueueProjects.ptEstimatedTime.split(
-                              ":"
-                            );
+                            estimatedTimeVal =
+                              jobQueueProjects.ptEstimatedTime.split(":");
                           }
                           return (
                             <tr key={idx}>
@@ -277,7 +287,16 @@ const JobQueue = ({
                                 <></>
                               )}
                               <td>{jobQueueProjects.clientFolderName}</td>
-                              <td>{jobQueueProjects.projectName}</td>
+                              <td>
+                                <Link
+                                  to="/AllLatestChange"
+                                  onClick={() =>
+                                    handleGoToAllMember(jobQueueProjects)
+                                  }
+                                >
+                                  {jobQueueProjects.projectName}
+                                </Link>
+                              </td>
                               <td>
                                 {dhm(
                                   jobQueueProjects.projectDate +
@@ -331,7 +350,6 @@ const JobQueue = ({
                                 >
                                   Notes
                                 </Link>
-                                {/* {jobQueueProjects.projectNotes} */}
                               </td>
                               {/* <td></td> */}
                               <td>
@@ -553,6 +571,7 @@ JobQueue.propTypes = {
   project: PropTypes.object.isRequired,
   getJobQueueProjectDeatils: PropTypes.object.isRequired,
   AddProjectTrack: PropTypes.object.isRequired,
+  getAllchanges: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -561,6 +580,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   AddProjectTrack,
+  getAllchanges,
   getJobQueueProjectDeatils,
   getAllProjectStatus,
 })(JobQueue);

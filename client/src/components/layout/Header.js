@@ -34,7 +34,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     }
   };
 
-  console.log(user);
+  // console.log(user);
   return (
     <Fragment>
       <header>

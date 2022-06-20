@@ -11,6 +11,7 @@ import DailyJobSheet from "../dashboard/DailyJobSheet";
 import JobQueue from "../dashboard/JobQueue";
 import AddProject from "../dashboard/AddProject";
 import ChangeProjectLifeCycle from "../dashboard/ChangeProjectLifeCycle";
+import AllLatestChange from "../dashboard/AllLatestChange";
 import Chat from "../../pages/Chat";
 
 // staff
@@ -57,7 +58,11 @@ const RoutesFile = () => {
           path="/change-project-life-cycle"
           component={ChangeProjectLifeCycle}
         />
-
+        <PrivateRoute
+          exact
+          path="/AllLatestChange"
+          component={AllLatestChange}
+        />
         {/* staff */}
         <PrivateRoute exact path="/add-staff" component={AddEmployeeDetails} />
         <PrivateRoute exact path="/all-staff" component={AllStaffDetails} />
