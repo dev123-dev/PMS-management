@@ -19,9 +19,6 @@ export default function Contacts({ contacts, changeChat }) {
     <>
       {currentUserName && currentUserName && (
         <Container>
-          <div className="brand">
-            {/* <img src={Logo} alt="logo" /> */}
-          </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
               return (
@@ -39,7 +36,7 @@ export default function Contacts({ contacts, changeChat }) {
                     />
                   </div> */}
                   <div className="username">
-                    <h3>{contact.userName}</h3>
+                    <h5>{contact.userName}</h5>
                   </div>
                 </div>
               );
@@ -53,7 +50,7 @@ export default function Contacts({ contacts, changeChat }) {
               />
             </div> */}
             <div className="username">
-              <h2>{currentUserName}</h2>
+              <h4>{currentUserName}</h4>
             </div>
           </div>
         </Container>
@@ -63,22 +60,10 @@ export default function Contacts({ contacts, changeChat }) {
 }
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 10% 75% 15%;
+  grid-template-rows: 90% 10%;
   overflow: hidden;
-  background-color: #080420;
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    justify-content: center;
-    img {
-      height: 2rem;
-    }
-    h3 {
-      color: white;
-      text-transform: uppercase;
-    }
-  }
+  background-color: #000;
+
   .contacts {
     display: flex;
     flex-direction: column;
@@ -95,7 +80,7 @@ const Container = styled.div`
     }
     .contact {
       background-color: #ffffff34;
-      min-height: 5rem;
+      min-height: 1rem;
       cursor: pointer;
       width: 90%;
       border-radius: 0.2rem;
@@ -110,13 +95,13 @@ const Container = styled.div`
         }
       }
       .username {
-        h3 {
+        h5 {
           color: white;
         }
       }
     }
     .selected {
-      background-color: #9a86f3;
+      background-color: #456792;
     }
   }
 
@@ -133,7 +118,7 @@ const Container = styled.div`
       }
     }
     .username {
-      h2 {
+      h4 {
         color: white;
       }
     }
@@ -141,7 +126,7 @@ const Container = styled.div`
       gap: 0.5rem;
       .username {
         h2 {
-          font-size: 1rem;
+          font-size: 15px;
         }
       }
     }

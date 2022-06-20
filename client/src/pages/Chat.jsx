@@ -7,6 +7,7 @@ import { allUsersRoute, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
+import Draggable from "react-draggable";
 
 export default function Chat() {
   // const navigate = useNavigate();
@@ -16,11 +17,11 @@ export default function Chat() {
   const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(async () => {
-      setCurrentUser(
-        await JSON.parse(
-          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-        )
-      );
+    setCurrentUser(
+      await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      )
+    );
   }, []);
   useEffect(() => {
     if (currentUser) {
@@ -34,32 +35,43 @@ export default function Chat() {
       if (currentUser.userName) {
         const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
         setContacts(data.data);
-      } 
+      }
     }
   }, [currentUser]);
-  
+
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
   };
   return (
     <>
-      <Container>
-        <div className="container">
-          <Contacts contacts={contacts} changeChat={handleChatChange} />
-          {currentChat === undefined ? (
-            <Welcome />
-          ) : (
-            <ChatContainer currentChat={currentChat} socket={socket} />
-          )}
+      <Draggable>
+        <div className="container container_align ">
+          <section className="sub_reg">
+            <div
+              className="row col-lg-12 col-md-12 col-sm-12 col-12 pt-3"
+              style={{ height: "70%" }}
+            >
+              <Container>
+                <div className="container">
+                  <Contacts contacts={contacts} changeChat={handleChatChange} />
+                  {currentChat === undefined ? (
+                    <Welcome />
+                  ) : (
+                    <ChatContainer currentChat={currentChat} socket={socket} />
+                  )}
+                </div>
+              </Container>
+            </div>
+          </section>
         </div>
-      </Container>
+      </Draggable>
     </>
   );
 }
 
 const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
+  height: 65vh;
+  width: 50vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -67,7 +79,7 @@ const Container = styled.div`
   align-items: center;
   background-color: #131324;
   .container {
-    height: 85vh;
+    height: 65vh;
     width: 85vw;
     background-color: #00000076;
     display: grid;
