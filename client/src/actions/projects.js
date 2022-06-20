@@ -187,21 +187,23 @@ export const getJobQueueProjectDeatils = () => async (dispatch) => {
   }
 };
 
-export const getDailyJobsheetProjectDeatils = () => async (dispatch) => {
-  try {
-    const res = await axios.post(
-      "/api/projects/get-daily-jobsheet-project-details"
-    );
-    dispatch({
-      type: DAILY_JOBSHEET_PROJECTS,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: AUTH_ERROR,
-    });
-  }
-};
+export const getDailyJobsheetProjectDeatils =
+  (selDateData) => async (dispatch) => {
+    try {
+      const res = await axios.post(
+        "/api/projects/get-daily-jobsheet-project-details",
+        selDateData
+      );
+      dispatch({
+        type: DAILY_JOBSHEET_PROJECTS,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: AUTH_ERROR,
+      });
+    }
+  };
 
 export const getAllchanges = (finalData) => async (dispatch) => {
   try {
