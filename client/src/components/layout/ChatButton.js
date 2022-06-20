@@ -3,15 +3,44 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Button } from "react-bootstrap";
-
+import Chat from "../../pages/Chat";
 const ChatButton = ({ auth: { isAuthenticated, loading, user } }) => {
-  // console.log(user);
+  const [error, setError] = useState({
+    showchatbox: false,
+  });
+
+  const [chatBtnState, setchatboxBtnState] = useState(false);
+  const { showchatbox } = error;
+
+  function chatbox_visibility(e, id) {
+    e.preventDefault();
+    if (id === "chatbox") {
+      if (chatBtnState === true) {
+        setchatboxBtnState(false);
+        setError({
+          ...error,
+          showchatbox: false,
+        });
+      } else {
+        setchatboxBtnState(true);
+        setError({
+          ...error,
+          showchatbox: true,
+        });
+      }
+    }
+  }
   return (
     <Fragment>
       {!loading && isAuthenticated && user ? (
-        <Link className="ChatBtn" to="/chat">
-          {/*  */}
-        </Link>
+        <>
+          <Link
+            className="ChatBtn"
+            to="#"
+            onClick={(e) => chatbox_visibility(e, "chatbox")}
+          ></Link>
+          {showchatbox && <Chat />}
+        </>
       ) : (
         <></>
       )}
