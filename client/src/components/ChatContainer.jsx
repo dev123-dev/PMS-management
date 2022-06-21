@@ -55,6 +55,15 @@ export default function ChatContainer({ currentChat, socket }) {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-recieve", (data) => {
+        if (Notification.permission === "granted") {
+          showNotification();
+        } else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+              showNotification();
+            }
+          });
+        }
         let curChatVal = JSON.parse(
           localStorage.getItem("curChat")
         );        
@@ -64,6 +73,16 @@ export default function ChatContainer({ currentChat, socket }) {
       });
     }
   }, []);
+
+  function showNotification(data) {
+    const notification = new Notification("New Message " , {
+      body: "Hey, You got A New Message",
+      icon: "logo192.png",
+    });
+    notification.onclick = (e) => {
+      window.location.href = "http://localhost:2001/chat";
+    };
+  }
 
   useEffect(() => {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
