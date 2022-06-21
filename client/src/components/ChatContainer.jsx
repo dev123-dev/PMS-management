@@ -51,7 +51,7 @@ export default function ChatContainer({ currentChat, socket }) {
     msgs.push({ fromSelf: true, message: msg });
     setMessages(msgs);
   };
-  
+
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-recieve", (data) => {
@@ -134,9 +134,7 @@ const Container = styled.div`
   grid-template-rows: 10% 80% 10%;
   gap: 0.1rem;
   overflow: hidden;
-  @media screen and (min-width: 720px) and (max-width: 1080px) {
-    grid-template-rows: 15% 70% 15%;
-  }
+
   .chat-box-space {
     margin-top: -1px;
     margin-bottom: -5px;
@@ -149,7 +147,7 @@ const Container = styled.div`
     .user-details {
       display: flex;
       align-items: left;
-      gap: 1rem;
+
       .avatar {
         img {
           height: 3rem;
@@ -167,7 +165,7 @@ const Container = styled.div`
     padding: 5px 5px;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.7rem;
     overflow: auto;
     &::-webkit-scrollbar {
       width: 0.2rem;

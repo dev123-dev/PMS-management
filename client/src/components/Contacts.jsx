@@ -81,15 +81,15 @@ const Container = styled.div`
       }
     }
     .contact {
-      min-height: 1rem;
+      min-height: 1.1rem;
       cursor: pointer;
       width: 90%;
       border-radius: 0.2rem;
-      padding: 0.4rem;
+      padding: 0.1rem;
       display: flex;
-      gap: 1rem;
       align-items: center;
       transition: 0.5s ease-in-out;
+
       .avatar {
         img {
           height: 3rem;
@@ -99,6 +99,7 @@ const Container = styled.div`
         label {
           color: white;
           cursor: pointer;
+          font-size: 14px;
         }
       }
     }
@@ -112,20 +113,11 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+
     .avatar {
       img {
         height: 4rem;
         max-inline-size: 100%;
-      }
-    }
-
-    @media screen and (min-width: 720px) and (max-width: 1080px) {
-      gap: 0.5rem;
-      .username {
-        h2 {
-          font-size: 15px;
-        }
       }
     }
   }
