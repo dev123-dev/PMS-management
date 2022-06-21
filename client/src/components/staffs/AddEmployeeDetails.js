@@ -108,6 +108,47 @@ const AddEmployeeDetails = ({
     isSubmitted,
   } = formData;
 
+  // console.log(lastEnteredEmpCode[0].empCode);
+  let lastEnteredCodeData = JSON.parse(localStorage.getItem("lastEnteredCode"));
+  // console.log(lastEnteredCodeData);
+
+  const [memberCounter, setMemberCounter] = useState("01");
+  // const str = memberCounter.toString();
+
+  const [empCode, setempCode] = useState();
+  if (
+    lastEnteredCodeData &&
+    lastEnteredCodeData[0] &&
+    lastEnteredCodeData[0]._id &&
+    !empCode
+  ) {
+    setempCode(lastEnteredCodeData && lastEnteredCodeData[0].empCode);
+  }
+  if (
+    lastEnteredCodeData &&
+    lastEnteredCodeData[0] &&
+    lastEnteredCodeData[0]._id &&
+    empCode
+  ) {
+    var name = empCode;
+    var new_str = name.substr(-2);
+    var NewCode = Number(new_str) + 1;
+    var str = name.slice(0, -2);
+
+    if (NewCode > 99) {
+      new_str = name.substr(-3);
+      str = name.slice(0, -3);
+      // console.log("new_str", new_str);
+    }
+    if (NewCode > 999) {
+      new_str = name.substr(-4);
+      str = name.slice(0, -4);
+    }
+  }
+  const currentEmpCode = str + NewCode;
+
+  // console.log(currentEmpCode);
+
   const [employeeDOJDate, setDOJDate] = useState("");
   const onDateChange = (e) => {
     setDOJDate(e.target.value);
@@ -452,7 +493,7 @@ const AddEmployeeDetails = ({
         profilephoto: profilephoto,
         empEnteredById: user._id,
       };
-      // console.log(finalData);
+      console.log(finalData);
       AddEmployee(finalData);
       setFormData({
         ...formData,
@@ -460,46 +501,6 @@ const AddEmployeeDetails = ({
       });
     }
   };
-  // console.log(lastEnteredEmpCode[0].empCode);
-  let lastEnteredCodeData = JSON.parse(localStorage.getItem("lastEnteredCode"));
-  console.log(lastEnteredCodeData);
-
-  const [memberCounter, setMemberCounter] = useState("01");
-  // const str = memberCounter.toString();
-
-  const [empCode, setempCode] = useState();
-  if (
-    lastEnteredCodeData &&
-    lastEnteredCodeData[0] &&
-    lastEnteredCodeData[0]._id &&
-    !empCode
-  ) {
-    setempCode(lastEnteredCodeData && lastEnteredCodeData[0].empCode);
-  }
-  if (
-    lastEnteredCodeData &&
-    lastEnteredCodeData[0] &&
-    lastEnteredCodeData[0]._id &&
-    empCode
-  ) {
-    var name = empCode;
-    var new_str = name.substr(-2);
-    var NewCode = Number(new_str) + 1;
-    var str = name.slice(0, -2);
-
-    if (NewCode > 99) {
-      new_str = name.substr(-3);
-      str = name.slice(0, -3);
-      // console.log("new_str", new_str);
-    }
-    if (NewCode > 999) {
-      new_str = name.substr(-4);
-      str = name.slice(0, -4);
-    }
-  }
-  const currentEmpCode = str + NewCode;
-
-  // console.log(currentEmpCode);
 
   if (isSubmitted) {
     return <Redirect to="/all-staff" />;
