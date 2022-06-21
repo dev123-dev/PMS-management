@@ -51,11 +51,16 @@ export default function ChatContainer({ currentChat, socket }) {
     msgs.push({ fromSelf: true, message: msg });
     setMessages(msgs);
   };
-
+  
   useEffect(() => {
     if (socket.current) {
-      socket.current.on("msg-recieve", (msg) => {
-        setArrivalMessage({ fromSelf: false, message: msg });
+      socket.current.on("msg-recieve", (data) => {
+        let curChatVal = JSON.parse(
+          localStorage.getItem("curChat")
+        );        
+        if(curChatVal._id===data.from){
+          setArrivalMessage({ fromSelf: false, message: data.msg });
+        }
       });
     }
   }, []);
