@@ -182,9 +182,6 @@ const EditProject = ({
       : ""
   );
 
-  // allProjectdata && allProjectdata.parentClientId
-  //   ? allProjectdata.parentClientId
-  //   : ""
   const [clientFolderName, setFolderNameVal] = useState(
     allProjectdata && allProjectdata.clientFolderName
       ? allProjectdata.clientFolderName
