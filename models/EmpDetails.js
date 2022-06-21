@@ -16,6 +16,9 @@ const EmpDetailsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  profilephoto: {
+    type: String,
+  },
   empCode: {
     type: String,
   },
