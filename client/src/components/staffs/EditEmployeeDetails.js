@@ -198,7 +198,6 @@ const EditEmployeeDetails = ({
     passwordValResult,
     passwordValStyle,
     passwordInptErrStyle,
-
     repwdValChecker,
     repwdValResult,
     repwdValStyle,
