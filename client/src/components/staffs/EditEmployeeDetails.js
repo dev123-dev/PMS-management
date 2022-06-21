@@ -8,7 +8,7 @@ import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
 import { editEmployeeDetails, getALLUserGroups } from "../../actions/user";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
-
+import FileBase64 from "react-file-base64";
 const EditEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
   settings: { allDepartment, activeDesignation },
@@ -153,10 +153,14 @@ const EditEmployeeDetails = ({
       allEmployeedata && allEmployeedata.password
         ? allEmployeedata.password
         : "",
+    profilephoto:
+      allEmployeedata && allEmployeedata.profilephoto
+        ? allEmployeedata.profilephoto
+        : "",
 
     isSubmitted: false,
   });
-  console.log(allEmployeedata.password);
+  // console.log(allEmployeedata.password);
   const {
     employeeName,
     empFullName,
@@ -186,7 +190,7 @@ const EditEmployeeDetails = ({
     Others,
     proinc,
     empCA,
-
+    profilephoto,
     userName,
     rePassword,
     password,
@@ -194,7 +198,6 @@ const EditEmployeeDetails = ({
     passwordValResult,
     passwordValStyle,
     passwordInptErrStyle,
-
     repwdValChecker,
     repwdValResult,
     repwdValStyle,
@@ -526,8 +529,10 @@ const EditEmployeeDetails = ({
       usergroupsId: usergroups.usergroupsId,
       userGroupName: usergroups.value,
       empEditedById: user._id,
+      profilephoto: profilephoto,
       allEmployeedata: allEmployeedata,
     };
+    console.log(finalData);
     editEmployeeDetails(finalData);
     onEditModalChange(true);
     // setFormData({
@@ -744,6 +749,29 @@ const EditEmployeeDetails = ({
                         onChange={(e) => setColor(e.target.value)}
                         disabled
                       />
+                    </div>
+
+                    <div className=" col-lg-12 col-md-12 col-sm-12 col-12 py-3">
+                      <label className="label-control">Profile Photo:</label>
+
+                      <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
+                        <FileBase64
+                          type="file"
+                          multiple={false}
+                          onDone={({ base64 }) =>
+                            setFormData({
+                              ...formData,
+                              profilephoto: base64,
+                            })
+                          }
+                        />
+
+                        <img
+                          className="log_size"
+                          alt="Preview"
+                          src={`${profilephoto}`}
+                        />
+                      </div>
                     </div>
                   </div>
                   {/* </div> */}

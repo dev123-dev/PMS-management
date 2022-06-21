@@ -11,6 +11,7 @@ import {
   getLastEnteredEmpCode,
 } from "../../actions/user";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
+import FileBase64 from "react-file-base64";
 import { Link, Redirect } from "react-router-dom";
 const AddEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
@@ -66,6 +67,7 @@ const AddEmployeeDetails = ({
     proinc: "",
     empCA: "",
     userName: "",
+    profilephoto: "",
     isSubmitted: false,
   });
 
@@ -102,6 +104,7 @@ const AddEmployeeDetails = ({
     password,
     rePassword,
     userName,
+    profilephoto,
     isSubmitted,
   } = formData;
 
@@ -446,8 +449,10 @@ const AddEmployeeDetails = ({
         empCA: empCA,
         usergroupsId: usergroupsId,
         userGroupName: usergroups.value,
+        profilephoto: profilephoto,
         empEnteredById: user._id,
       };
+      // console.log(finalData);
       AddEmployee(finalData);
       setFormData({
         ...formData,
@@ -737,6 +742,28 @@ const AddEmployeeDetails = ({
                           value={color}
                           onChange={(e) => setColor(e.target.value)}
                         />
+                      </div>
+                      <div className=" col-lg-12 col-md-12 col-sm-12 col-12 py-3">
+                        <label className="label-control">Profile Photo:</label>
+
+                        <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
+                          <FileBase64
+                            type="file"
+                            multiple={false}
+                            onDone={({ base64 }) =>
+                              setFormData({
+                                ...formData,
+                                profilephoto: base64,
+                              })
+                            }
+                          />
+
+                          <img
+                            className="log_size"
+                            alt="Preview"
+                            src={`${profilephoto}`}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>

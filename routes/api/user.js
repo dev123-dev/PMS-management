@@ -131,6 +131,7 @@ router.post("/edit-employee", async (req, res) => {
           empCA: data.empCA,
           Others: data.Others,
           proinc: data.proinc,
+          profilephoto: data.profilephoto,
           empEditedById: data.empEditedById,
           empEditedDateTime: Date.now(),
         },
