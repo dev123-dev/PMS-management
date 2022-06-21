@@ -227,4 +227,20 @@ router.post("/get-all-user-groups", async (req, res) => {
   }
 });
 
+router.post("/get-last-entered-emp-code", async (req, res) => {
+  try {
+    const getActiveEmployeeEmpCode = await EmployeeDetails.find({
+      empStatus: {
+        $eq: "Active",
+      },
+    })
+      .limit(1)
+      .sort({ _id: -1 });
+    res.json(getActiveEmployeeEmpCode);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;

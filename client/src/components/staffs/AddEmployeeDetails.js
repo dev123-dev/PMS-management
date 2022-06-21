@@ -5,17 +5,22 @@ import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
-import { AddEmployee, getALLUserGroups } from "../../actions/user";
+import {
+  AddEmployee,
+  getALLUserGroups,
+  getLastEnteredEmpCode,
+} from "../../actions/user";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
 import { Link, Redirect } from "react-router-dom";
 const AddEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
-  user: { userGroups },
+  user: { userGroups, lastEnteredEmpCode },
   settings: { allDepartment, activeDesignation },
   getALLDepartment,
   AddEmployee,
   getActiveDesignation,
   getALLUserGroups,
+  getLastEnteredEmpCode,
 }) => {
   useEffect(() => {
     getALLDepartment();
@@ -26,8 +31,9 @@ const AddEmployeeDetails = ({
   useEffect(() => {
     getALLUserGroups();
   }, [getALLUserGroups]);
-
-  console.log(userGroups);
+  useEffect(() => {
+    getLastEnteredEmpCode();
+  }, [getLastEnteredEmpCode]);
 
   const [formData, setFormData] = useState({
     employeeName: "",
@@ -415,7 +421,7 @@ const AddEmployeeDetails = ({
         departmentName: department.value,
         designationId: designationId,
         designationName: designation.value,
-        empCode: employeeCode,
+        empCode: currentEmpCode,
         empAddress: employeeAddr,
         empState: employeeState,
         empPincode: employeePincode,
@@ -449,6 +455,46 @@ const AddEmployeeDetails = ({
       });
     }
   };
+  // console.log(lastEnteredEmpCode[0].empCode);
+  let lastEnteredCodeData = JSON.parse(localStorage.getItem("lastEnteredCode"));
+  console.log(lastEnteredCodeData);
+
+  const [memberCounter, setMemberCounter] = useState("01");
+  // const str = memberCounter.toString();
+
+  const [empCode, setempCode] = useState();
+  if (
+    lastEnteredCodeData &&
+    lastEnteredCodeData[0] &&
+    lastEnteredCodeData[0]._id &&
+    !empCode
+  ) {
+    setempCode(lastEnteredCodeData && lastEnteredCodeData[0].empCode);
+  }
+  if (
+    lastEnteredCodeData &&
+    lastEnteredCodeData[0] &&
+    lastEnteredCodeData[0]._id &&
+    empCode
+  ) {
+    var name = empCode;
+    var new_str = name.substr(-2);
+    var NewCode = Number(new_str) + 1;
+    var str = name.slice(0, -2);
+
+    if (NewCode > 99) {
+      new_str = name.substr(-3);
+      str = name.slice(0, -3);
+      // console.log("new_str", new_str);
+    }
+    if (NewCode > 999) {
+      new_str = name.substr(-4);
+      str = name.slice(0, -4);
+    }
+  }
+  const currentEmpCode = str + NewCode;
+
+  // console.log(currentEmpCode);
 
   if (isSubmitted) {
     return <Redirect to="/all-staff" />;
@@ -803,10 +849,10 @@ const AddEmployeeDetails = ({
                         <input
                           type="text"
                           name="employeeCode"
-                          value={employeeCode}
+                          value={currentEmpCode}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
-                          // required
+                          disabled
                         />
                       </div>
                       <div className="col-lg-6 col-md-12 col-sm-12 col-12">
@@ -1079,6 +1125,7 @@ AddEmployeeDetails.propTypes = {
   getActiveDesignation: PropTypes.object.isRequired,
   AddEmployee: PropTypes.func.isRequired,
   getALLUserGroups: PropTypes.func.isRequired,
+  getLastEnteredEmpCode: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -1091,4 +1138,5 @@ export default connect(mapStateToProps, {
   AddEmployee,
   getActiveDesignation,
   getALLUserGroups,
+  getLastEnteredEmpCode,
 })(AddEmployeeDetails);
