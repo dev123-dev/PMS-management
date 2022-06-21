@@ -1,4 +1,8 @@
-import { ALL_EMPLOYEE, USER_GROUPS } from "../actions/types";
+import {
+  ALL_EMPLOYEE,
+  USER_GROUPS,
+  LAST_ENTERED_EMP_CODE,
+} from "../actions/types";
 
 const initialState = {
   token: localStorage.getItem("token"),
@@ -10,6 +14,7 @@ const initialState = {
   savedMessage: "",
   allEmployee: [],
   userGroups: [],
+  lastEnteredEmpCode: [],
 };
 
 const user = (state = initialState, action) => {
@@ -25,6 +30,11 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         userGroups: payload,
+      };
+    case LAST_ENTERED_EMP_CODE:
+      return {
+        ...state,
+        lastEnteredEmpCode: payload,
       };
 
     default:
