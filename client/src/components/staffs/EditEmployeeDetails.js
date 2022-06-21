@@ -189,134 +189,134 @@ const EditEmployeeDetails = ({
     empCA,
     profilephoto,
   } = formData;
-  const [error, setError] = useState({
-    passwordValChecker: false,
-    passwordValResult: "",
-    passwordValStyle: {},
-    passwordInptErrStyle: {},
+  // const [error, setError] = useState({
+  //   passwordValChecker: false,
+  //   passwordValResult: "",
+  //   passwordValStyle: {},
+  //   passwordInptErrStyle: {},
 
-    repwdValChecker: false,
-    repwdValResult: "",
-    repwdValStyle: {},
-    repwdInptErrStyle: {},
-  });
-  let passwrdTooltip = {
-    marginLeft: "-16em",
-    position: "absolute",
-    marginTop: "1.5em",
-    pointerEvents: "none",
-    zIndex: "999",
-    width: "300px",
-  };
-  const onInputChange3 = (e) => {
-    const { name, value } = e.target;
-    switch (name) {
-      case "password":
-        if (value === "") {
-          setError({
-            ...error,
-            passwordValChecker: true,
-            passwordValResult: "REQUIRED",
-            passwordValStyle: { color: "#FF0000", marginTop: "30px" },
-            passwordInptErrStyle: { border: "1px solid #FF0000" },
-          });
-          setFormData({ ...formData, [e.target.name]: "" });
-        } else {
-          const pwdFilter = /^(?=.*\d)(?=.*[a-z])/;
-          if (pwdFilter.test(value)) {
-            setError({
-              ...error,
-              passwordValChecker: true,
-              passwordValResult: "STRONG",
-              passwordValStyle: { color: "#43b90f", marginTop: "30px" },
-              passwordInptErrStyle: { border: "1px solid #43b90f" },
-            });
-          } else {
-            setError({
-              ...error,
-              passwordValChecker: true,
-              passwordValResult: "WEAK",
-              passwordValStyle: { color: "#FF0000", marginTop: "30px" },
-              passwordInptErrStyle: { border: "1px solid #FF0000" },
-            });
-          }
-          setFormData({ ...formData, [e.target.name]: value });
-        }
-        break;
+  //   repwdValChecker: false,
+  //   repwdValResult: "",
+  //   repwdValStyle: {},
+  //   repwdInptErrStyle: {},
+  // });
+  // let passwrdTooltip = {
+  //   marginLeft: "-16em",
+  //   position: "absolute",
+  //   marginTop: "1.5em",
+  //   pointerEvents: "none",
+  //   zIndex: "999",
+  //   width: "300px",
+  // };
+  // const onInputChange3 = (e) => {
+  //   const { name, value } = e.target;
+  //   switch (name) {
+  //     case "password":
+  //       if (value === "") {
+  //         setError({
+  //           ...error,
+  //           passwordValChecker: true,
+  //           passwordValResult: "REQUIRED",
+  //           passwordValStyle: { color: "#FF0000", marginTop: "30px" },
+  //           passwordInptErrStyle: { border: "1px solid #FF0000" },
+  //         });
+  //         setFormData({ ...formData, [e.target.name]: "" });
+  //       } else {
+  //         const pwdFilter = /^(?=.*\d)(?=.*[a-z])/;
+  //         if (pwdFilter.test(value)) {
+  //           setError({
+  //             ...error,
+  //             passwordValChecker: true,
+  //             passwordValResult: "STRONG",
+  //             passwordValStyle: { color: "#43b90f", marginTop: "30px" },
+  //             passwordInptErrStyle: { border: "1px solid #43b90f" },
+  //           });
+  //         } else {
+  //           setError({
+  //             ...error,
+  //             passwordValChecker: true,
+  //             passwordValResult: "WEAK",
+  //             passwordValStyle: { color: "#FF0000", marginTop: "30px" },
+  //             passwordInptErrStyle: { border: "1px solid #FF0000" },
+  //           });
+  //         }
+  //         setFormData({ ...formData, [e.target.name]: value });
+  //       }
+  //       break;
 
-      case "rePassword":
-        if (value === "") {
-          setError({
-            ...error,
-            repwdValChecker: true,
-            repwdValResult: "REQUIRED",
-            repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-            repwdInptErrStyle: { border: "1px solid #FF0000" },
-          });
-          setFormData({ ...formData, [e.target.name]: "" });
-        } else {
-          if (value === formData.password) {
-            setError({
-              ...error,
-              repwdValChecker: true,
-              repwdValResult: "MATCHED",
-              repwdValStyle: { color: "#43b90f", marginTop: "30px" },
-              repwdInptErrStyle: { border: "1px solid #43b90f" },
-            });
-          } else {
-            setError({
-              ...error,
-              repwdValChecker: true,
-              repwdValResult: "DOES NOT MATCH",
-              repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-              repwdInptErrStyle: { border: "1px solid #FF0000" },
-            });
-          }
-          setFormData({ ...formData, [e.target.name]: value });
-        }
-        break;
+  //     case "rePassword":
+  //       if (value === "") {
+  //         setError({
+  //           ...error,
+  //           repwdValChecker: true,
+  //           repwdValResult: "REQUIRED",
+  //           repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+  //           repwdInptErrStyle: { border: "1px solid #FF0000" },
+  //         });
+  //         setFormData({ ...formData, [e.target.name]: "" });
+  //       } else {
+  //         if (value === formData.password) {
+  //           setError({
+  //             ...error,
+  //             repwdValChecker: true,
+  //             repwdValResult: "MATCHED",
+  //             repwdValStyle: { color: "#43b90f", marginTop: "30px" },
+  //             repwdInptErrStyle: { border: "1px solid #43b90f" },
+  //           });
+  //         } else {
+  //           setError({
+  //             ...error,
+  //             repwdValChecker: true,
+  //             repwdValResult: "DOES NOT MATCH",
+  //             repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+  //             repwdInptErrStyle: { border: "1px solid #FF0000" },
+  //           });
+  //         }
+  //         setFormData({ ...formData, [e.target.name]: value });
+  //       }
+  //       break;
 
-      default:
-        break;
-    }
-  };
+  //     default:
+  //       break;
+  //   }
+  // };
 
-  const checkErrors = (formData) => {
-    if (formData && formData.password === "") {
-      setError({
-        ...error,
-        passwordValChecker: true,
-        passwordValResult: "REQUIRED",
-        passwordValStyle: { color: "#FF0000", marginTop: "30px" },
-        passwordInptErrStyle: { border: "1px solid #FF0000" },
-      });
-      return false;
-    }
-    if (formData && formData.rePassword !== formData.password) {
-      setError({
-        ...error,
-        repwdValChecker: true,
-        repwdValResult: "DOESNOT MATCH",
-        // repwdValResult: "REQUIRED",
-        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-        repwdInptErrStyle: { border: "1px solid #FF0000" },
-      });
-      return false;
-    }
+  // const checkErrors = (formData) => {
+  //   if (formData && formData.password === "") {
+  //     setError({
+  //       ...error,
+  //       passwordValChecker: true,
+  //       passwordValResult: "REQUIRED",
+  //       passwordValStyle: { color: "#FF0000", marginTop: "30px" },
+  //       passwordInptErrStyle: { border: "1px solid #FF0000" },
+  //     });
+  //     return false;
+  //   }
+  //   if (formData && formData.rePassword !== formData.password) {
+  //     setError({
+  //       ...error,
+  //       repwdValChecker: true,
+  //       repwdValResult: "DOESNOT MATCH",
+  //       // repwdValResult: "REQUIRED",
+  //       repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+  //       repwdInptErrStyle: { border: "1px solid #FF0000" },
+  //     });
+  //     return false;
+  //   }
 
-    if (formData && formData.rePassword === "") {
-      setError({
-        ...error,
-        repwdValChecker: true,
-        repwdValResult: "REQUIRED",
-        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-        repwdInptErrStyle: { border: "1px solid #FF0000" },
-      });
-      return false;
-    }
+  //   if (formData && formData.rePassword === "") {
+  //     setError({
+  //       ...error,
+  //       repwdValChecker: true,
+  //       repwdValResult: "REQUIRED",
+  //       repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+  //       repwdInptErrStyle: { border: "1px solid #FF0000" },
+  //     });
+  //     return false;
+  //   }
 
-    return true;
-  };
+  //   return true;
+  // };
 
   const [color, setColor] = useState(
     allEmployeedata && allEmployeedata.empColorCode
