@@ -40,7 +40,7 @@ export default function Chat() {
 
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
-    localStorage.setItem("curChat",JSON.stringify(chat));
+    localStorage.setItem("curChat", JSON.stringify(chat));
   };
   return (
     <>
@@ -63,9 +63,8 @@ export default function Chat() {
 }
 
 const Container = styled.div`
-  height: 55vh;
-  width: 24vw;
-  transition: width 10s;
+  height: 500px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -73,12 +72,25 @@ const Container = styled.div`
   align-items: center;
   background-color: #456792;
   color: #fff;
+
+  animation: mymove 100ms;
+  animation-fill-mode: forwards;
+
+  @keyframes mymove {
+    from {
+      width: 0;
+    }
+    to {
+      width: 400px;
+    }
+  }
   .container {
-    height: 50vh;
-    width: 75vw;
+    height: 90%;
+    width: 100%;
+    padding-left: 0;
     background-color: #00000076;
     display: grid;
-    grid-template-columns: 25% 75%;
+    grid-template-columns: 26% 75%;
   }
   label {
     color: white;

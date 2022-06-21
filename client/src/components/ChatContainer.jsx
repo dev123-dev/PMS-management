@@ -51,14 +51,12 @@ export default function ChatContainer({ currentChat, socket }) {
     msgs.push({ fromSelf: true, message: msg });
     setMessages(msgs);
   };
-  
+
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-recieve", (data) => {
-        let curChatVal = JSON.parse(
-          localStorage.getItem("curChat")
-        );        
-        if(curChatVal._id===data.from){
+        let curChatVal = JSON.parse(localStorage.getItem("curChat"));
+        if (curChatVal._id === data.from) {
           setArrivalMessage({ fromSelf: false, message: data.msg });
         }
       });
@@ -115,9 +113,7 @@ const Container = styled.div`
   grid-template-rows: 10% 80% 10%;
   gap: 0.1rem;
   overflow: hidden;
-  @media screen and (min-width: 720px) and (max-width: 1080px) {
-    grid-template-rows: 15% 70% 15%;
-  }
+
   .chat-box-space {
     margin-top: -1px;
     margin-bottom: -5px;
