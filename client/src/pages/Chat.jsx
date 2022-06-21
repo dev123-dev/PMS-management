@@ -40,6 +40,7 @@ export default function Chat() {
 
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
+    localStorage.setItem("curChat",JSON.stringify(chat));
   };
   return (
     <>
