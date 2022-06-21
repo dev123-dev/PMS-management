@@ -125,7 +125,7 @@ const Container = styled.div`
     .user-details {
       display: flex;
       align-items: left;
-      gap: 1rem;
+
       .avatar {
         img {
           height: 3rem;
@@ -143,7 +143,7 @@ const Container = styled.div`
     padding: 5px 5px;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.7rem;
     overflow: auto;
     &::-webkit-scrollbar {
       width: 0.2rem;

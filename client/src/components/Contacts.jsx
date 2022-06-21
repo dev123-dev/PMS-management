@@ -87,7 +87,7 @@ const Container = styled.div`
       border-radius: 0.2rem;
       padding: 0.4rem;
       display: flex;
-      gap: 1rem;
+
       align-items: center;
       transition: 0.5s ease-in-out;
       .avatar {
@@ -112,7 +112,7 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+
     .avatar {
       img {
         height: 4rem;

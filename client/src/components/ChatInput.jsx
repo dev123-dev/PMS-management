@@ -54,10 +54,7 @@ const Container = styled.div`
   grid-template-columns: 10% 90%;
   background-color: #15171a2e;
   padding: 0 5px;
-  @media screen and (min-width: 720px) and (max-width: 1080px) {
-    padding: 0 1rem;
-    gap: 1rem;
-  }
+
   .button-container {
     display: flex;
     align-items: center;
