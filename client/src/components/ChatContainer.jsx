@@ -79,14 +79,14 @@ export default function ChatContainer({ currentChat, socket }) {
             /> */}
           </div>
           <div className="username">
-            <h3>{currentChat.userName}</h3>
+            <h4>{currentChat.userName}</h4>
           </div>
         </div>
       </div>
       <div className="chat-messages">
         {messages.map((message) => {
           return (
-            <div ref={scrollRef} key={uuidv4()}>
+            <div ref={scrollRef} key={uuidv4()} className="chat-box-space">
               <div
                 className={`message ${
                   message.fromSelf ? "sended" : "recieved"
@@ -113,14 +113,18 @@ const Container = styled.div`
   @media screen and (min-width: 720px) and (max-width: 1080px) {
     grid-template-rows: 15% 70% 15%;
   }
+  .chat-box-space {
+    margin-top: -1px;
+    margin-bottom: -5px;
+  }
   .chat-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 2rem;
+    padding: 0 5px;
     .user-details {
       display: flex;
-      align-items: center;
+      align-items: left;
       gap: 1rem;
       .avatar {
         img {
@@ -135,7 +139,8 @@ const Container = styled.div`
     }
   }
   .chat-messages {
-    padding: 1rem 2rem;
+    background-color: #fff;
+    padding: 5px 5px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -152,27 +157,31 @@ const Container = styled.div`
       display: flex;
       align-items: center;
       .content {
-        max-width: 40%;
+        max-width: 80%;
         overflow-wrap: break-word;
-        padding: 1rem;
+        padding: 5px;
         font-size: 1.1rem;
-        border-radius: 1rem;
-        color: #d1d1d1;
-        @media screen and (min-width: 720px) and (max-width: 1080px) {
-          max-width: 70%;
-        }
+        border-radius: 5px;
+        color: #fff;
+      }
+      .content p {
+        font-size: 16px;
+        margin-bottom: 0em;
+        line-height: 1.2rem;
       }
     }
     .sended {
       justify-content: flex-end;
       .content {
-        background-color: #4f04ff21;
+        background-color: #4f5b6b;
+        text-align: right;
       }
     }
     .recieved {
       justify-content: flex-start;
       .content {
-        background-color: #9900ff20;
+        text-align: left;
+        background-color: #456792;
       }
     }
   }

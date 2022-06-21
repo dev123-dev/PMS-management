@@ -36,7 +36,7 @@ export default function Contacts({ contacts, changeChat }) {
                     />
                   </div> */}
                   <div className="username">
-                    <h5>{contact.userName}</h5>
+                    <label>{contact.userName}</label>
                   </div>
                 </div>
               );
@@ -62,9 +62,11 @@ const Container = styled.div`
   display: grid;
   grid-template-rows: 90% 10%;
   overflow: hidden;
-  background-color: #000;
+  background-color: #25374e;
+  padding-top: 10px;
 
   .contacts {
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -79,7 +81,6 @@ const Container = styled.div`
       }
     }
     .contact {
-      background-color: #ffffff34;
       min-height: 1rem;
       cursor: pointer;
       width: 90%;
@@ -95,18 +96,19 @@ const Container = styled.div`
         }
       }
       .username {
-        h5 {
+        label {
           color: white;
+          cursor: pointer;
         }
       }
     }
-    .selected {
-      background-color: #456792;
-    }
+    // .selected {
+    //   background-color: #456792;
+    // }
   }
 
   .current-user {
-    background-color: #0d0d30;
+    background-color: #456792;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -117,11 +119,7 @@ const Container = styled.div`
         max-inline-size: 100%;
       }
     }
-    .username {
-      h4 {
-        color: white;
-      }
-    }
+
     @media screen and (min-width: 720px) and (max-width: 1080px) {
       gap: 0.5rem;
       .username {

@@ -1977,17 +1977,14 @@ input[type="number"]::-webkit-outer-spin-button {
   transform: translateX(-50%) translateY(-50%);
 }
 
-/* .chat_div{
-  height: 65vh;
-  width: 50vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1rem;
-  align-items: center;
-  background-color: #131324;
+.chat_div{
+  position: fixed;
+    bottom: 155px;
+    left: 10px;
+    z-index: 99999;
+    border-bottom: 24px solid #25374e;
 }
-.chat_div .container {
+/*.chat_div .container {
   height: 65vh;
   width: 85vw;
   background-color: #00000076;

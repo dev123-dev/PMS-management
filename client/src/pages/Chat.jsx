@@ -7,7 +7,6 @@ import { allUsersRoute, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
-import Draggable from "react-draggable";
 
 export default function Chat() {
   // const navigate = useNavigate();
@@ -44,48 +43,40 @@ export default function Chat() {
   };
   return (
     <>
-      <Draggable>
-        <div className="container container_align ">
-          <section className="sub_reg">
-            <div
-              className="row col-lg-12 col-md-12 col-sm-12 col-12 pt-3"
-              style={{ height: "70%" }}
-            >
-              <Container>
-                <div className="container">
-                  <Contacts contacts={contacts} changeChat={handleChatChange} />
-                  {currentChat === undefined ? (
-                    <Welcome />
-                  ) : (
-                    <ChatContainer currentChat={currentChat} socket={socket} />
-                  )}
-                </div>
-              </Container>
-            </div>
-          </section>
-        </div>
-      </Draggable>
+      <div className="chat_div">
+        <Container>
+          <div>
+            <h5>Chat</h5>
+          </div>
+          <div className="container">
+            <Contacts contacts={contacts} changeChat={handleChatChange} />
+            {currentChat === undefined ? (
+              <Welcome />
+            ) : (
+              <ChatContainer currentChat={currentChat} socket={socket} />
+            )}
+          </div>
+        </Container>
+      </div>
     </>
   );
 }
 
 const Container = styled.div`
-  height: 65vh;
-  width: 50vw;
+  height: 55vh;
+  width: 24vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #131324;
+  background-color: #456792;
+  color: #fff;
   .container {
-    height: 65vh;
-    width: 85vw;
+    height: 50vh;
+    width: 75vw;
     background-color: #00000076;
     display: grid;
     grid-template-columns: 25% 75%;
-    @media screen and (min-width: 720px) and (max-width: 1080px) {
-      grid-template-columns: 35% 65%;
-    }
   }
 `;
