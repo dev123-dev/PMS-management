@@ -73,16 +73,13 @@ const AddEmployeeDetails = ({
 
   const {
     empFullName,
-    employeeName,
+
     employeePhone,
     employeeAadharNo,
     employeePanNo,
-    employeeDOB,
+
     employeeEmail,
-    employeeDOJ,
-    employeeDepartment,
-    employeeDesignation,
-    employeeCode,
+
     employeeAddr,
     employeeState,
     employeePincode,

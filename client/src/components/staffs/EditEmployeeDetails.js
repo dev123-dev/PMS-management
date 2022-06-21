@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Link, Redirect } from "react-router-dom";
+
 import { connect } from "react-redux";
 import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -162,16 +162,13 @@ const EditEmployeeDetails = ({
   });
   // console.log(allEmployeedata.password);
   const {
-    employeeName,
     empFullName,
     employeePhone,
     employeeAadharNo,
     employeePanNo,
-    employeeDOB,
+
     employeeEmail,
-    employeeDOJ,
-    employeeDepartment,
-    employeeDesignation,
+
     employeeCode,
     empAddress,
     employeeState,
@@ -191,18 +188,6 @@ const EditEmployeeDetails = ({
     proinc,
     empCA,
     profilephoto,
-    userName,
-    rePassword,
-    password,
-    passwordValChecker,
-    passwordValResult,
-    passwordValStyle,
-    passwordInptErrStyle,
-    repwdValChecker,
-    repwdValResult,
-    repwdValStyle,
-    repwdInptErrStyle,
-    isSubmitted,
   } = formData;
   const [error, setError] = useState({
     passwordValChecker: false,
