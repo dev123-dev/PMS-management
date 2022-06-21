@@ -55,13 +55,34 @@ export default function ChatContainer({ currentChat, socket }) {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-recieve", (data) => {
-        let curChatVal = JSON.parse(localStorage.getItem("curChat"));
-        if (curChatVal._id === data.from) {
+        if (Notification.permission === "granted") {
+          showNotification();
+        } else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+              showNotification();
+            }
+          });
+        }
+        let curChatVal = JSON.parse(
+          localStorage.getItem("curChat")
+        );        
+        if(curChatVal._id===data.from){
           setArrivalMessage({ fromSelf: false, message: data.msg });
         }
       });
     }
   }, []);
+
+  function showNotification(data) {
+    const notification = new Notification("New Message " , {
+      body: "Hey, You got A New Message",
+      icon: "logo192.png",
+    });
+    notification.onclick = (e) => {
+      window.location.href = "http://localhost:2001/chat";
+    };
+  }
 
   useEffect(() => {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
