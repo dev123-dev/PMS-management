@@ -505,7 +505,7 @@ const EditEmployeeDetails = ({
       departmentName: department.value,
       designationId: designation.designationId,
       designationName: designation.value,
-      empCode: employeeCode,
+
       empAddress: empAddress,
       empState: employeeState,
       empPincode: employeePincode,
@@ -547,11 +547,6 @@ const EditEmployeeDetails = ({
     <Spinner />
   ) : (
     <Fragment>
-      {/* <div className="container container_align "> */}
-      {/* <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-          <h2 className="heading_color">Add Employee Details </h2>
-          <hr />
-        </div> */}
       <section className="sub_reg">
         <Tabs selectedIndex={tabIndex}>
           <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
@@ -774,10 +769,9 @@ const EditEmployeeDetails = ({
                       </div>
                     </div>
                   </div>
-                  {/* </div> */}
                 </div>
 
-                <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
+                {/* <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
                   <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                     <label className="label-control">UserName* :</label>
                     <input
@@ -811,11 +805,7 @@ const EditEmployeeDetails = ({
                           {passwordValResult}
                         </span>
                       )}
-                      <div
-                        className="cstm-hint"
-                        id="pass_admin_help"
-                        //   style={{ top: "100px" }}
-                      >
+                      <div className="cstm-hint" id="pass_admin_help">
                         <img
                           src={require("../../static/images/help1.png")}
                           alt="help"
@@ -858,7 +848,7 @@ const EditEmployeeDetails = ({
                       )}
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
                   <input
@@ -888,7 +878,7 @@ const EditEmployeeDetails = ({
                         value={employeeCode}
                         className="form-control"
                         onChange={(e) => onInputChange(e)}
-                        // required
+                        disabled
                       />
                     </div>
                     <div className="col-lg-6 col-md-12 col-sm-12 col-12">
