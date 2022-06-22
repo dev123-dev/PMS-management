@@ -343,14 +343,27 @@ const JobQueue = ({
                               )}
                               <td>{jobQueueProjects.clientFolderName}</td>
                               <td>
-                                <Link
-                                  // to="/AllLatestChange"
-                                  onClick={() =>
-                                    handleGoToAllLatestChange(jobQueueProjects)
-                                  }
-                                >
-                                  {jobQueueProjects.projectName}
-                                </Link>
+                                {(user.userGroupName &&
+                                  user.userGroupName === "Administrator") ||
+                                user.userGroupName === "Super Admin" ||
+                                user.userGroupName === "Clarical Admins" ? (
+                                  <Link
+                                    // to="/AllLatestChange"
+                                    onClick={() =>
+                                      handleGoToAllLatestChange(
+                                        jobQueueProjects
+                                      )
+                                    }
+                                  >
+                                    {jobQueueProjects.projectName}
+                                  </Link>
+                                ) : (
+                                  <>
+                                    <label>
+                                      {jobQueueProjects.projectName}
+                                    </label>
+                                  </>
+                                )}
                               </td>
                               <td>
                                 {/* <input

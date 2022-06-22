@@ -69,17 +69,17 @@ const JobHistory = ({
           </div>
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <label className="label-control">
-              Last Changed By :<strong>{projectEnteredByName}</strong>
+              Last Changed By : <strong>{projectEnteredByName}</strong>
             </label>
           </div>
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <label className="label-control">
-              Date&Time :<strong>{projectEnteredDateTime}</strong>
+              Date&Time : <strong>{projectEnteredDateTime}</strong>
             </label>
           </div>
 
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> Notes :</label>
+            <label className="label-control"> Notes : </label>
             <textarea
               name="clientAddress"
               id="clientAddress"

@@ -332,15 +332,26 @@ const DailyJobSheet = ({
                                   {dailyJobsheetProjects.clientFolderName}
                                 </td>
                                 <td>
-                                  <Link
-                                    onClick={() =>
-                                      handleGoToAllLatestChange(
-                                        dailyJobsheetProjects
-                                      )
-                                    }
-                                  >
-                                    {dailyJobsheetProjects.projectName}
-                                  </Link>
+                                  {(user.userGroupName &&
+                                    user.userGroupName === "Administrator") ||
+                                  user.userGroupName === "Super Admin" ||
+                                  user.userGroupName === "Clarical Admins" ? (
+                                    <Link
+                                      onClick={() =>
+                                        handleGoToAllLatestChange(
+                                          dailyJobsheetProjects
+                                        )
+                                      }
+                                    >
+                                      {dailyJobsheetProjects.projectName}
+                                    </Link>
+                                  ) : (
+                                    <>
+                                      <label>
+                                        {dailyJobsheetProjects.projectName}
+                                      </label>
+                                    </>
+                                  )}
                                 </td>
                                 <td></td>
                                 <td></td>
