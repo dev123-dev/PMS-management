@@ -348,22 +348,38 @@ const DailyJobSheet = ({
                                 <td>{dailyJobsheetProjects.projectPriority}</td>
                                 <td>{dailyJobsheetProjects.projectDeadline}</td>
                                 <td>{dailyJobsheetProjects.projectQuantity}</td>
+
                                 <td>
-                                  <Select
-                                    name="projectStatusData"
-                                    value={{
-                                      label:
-                                        dailyJobsheetProjects.projectStatusType,
-                                      value:
-                                        dailyJobsheetProjects.projectStatusId,
-                                    }}
-                                    options={projectStatusOpt}
-                                    isSearchable={true}
-                                    placeholder="Select"
-                                    onChange={onSliderChange(
-                                      dailyJobsheetProjects
-                                    )}
-                                  />
+                                  {(user.userGroupName &&
+                                    user.userGroupName === "Administrator") ||
+                                  user.userGroupName === "Super Admin" ||
+                                  user.userGroupName === "Clarical Admins" ||
+                                  user.userGroupName === "Quality Controller" ||
+                                  user.userGroupName === "Distributors" ? (
+                                    <Select
+                                      name="projectStatusData"
+                                      value={{
+                                        label:
+                                          dailyJobsheetProjects.projectStatusType,
+                                        value:
+                                          dailyJobsheetProjects.projectStatusId,
+                                      }}
+                                      options={projectStatusOpt}
+                                      isSearchable={true}
+                                      placeholder="Select"
+                                      onChange={onSliderChange(
+                                        dailyJobsheetProjects
+                                      )}
+                                    />
+                                  ) : (
+                                    <>
+                                      <label>
+                                        {
+                                          dailyJobsheetProjects.projectStatusType
+                                        }
+                                      </label>
+                                    </>
+                                  )}
                                 </td>
                                 <td>
                                   <Link
