@@ -258,8 +258,9 @@ const JobQueue = ({
                   >
                     <thead>
                       <tr>
-                        {user.userGroupName &&
-                        user.userGroupName === "Administrator" ? (
+                        {(user.userGroupName &&
+                          user.userGroupName === "Administrator") ||
+                        user.userGroupName === "Super Administrator" ? (
                           <th style={{ width: "10%" }}>Client Name</th>
                         ) : (
                           <></>
@@ -296,8 +297,9 @@ const JobQueue = ({
                           }
                           return (
                             <tr key={idx}>
-                              {user.userGroupName &&
-                              user.userGroupName === "Admin" ? (
+                              {(user.userGroupName &&
+                                user.userGroupName === "Administrator") ||
+                              user.userGroupName === "Super Administrator" ? (
                                 <td>
                                   {" "}
                                   <Link
