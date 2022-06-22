@@ -255,7 +255,7 @@ const AddUser = ({
             <Select
               name="usergroup"
               options={UserGroups}
-              isSearchable={false}
+              isSearchable={true}
               placeholder="Select"
               onChange={(e) => onPaymentModeChange(e)}
               theme={(theme) => ({

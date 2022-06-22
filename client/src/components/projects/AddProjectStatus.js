@@ -34,10 +34,8 @@ const AddProjectStatus = ({
     projectStatusCategoryErrorStyle: {},
   });
 
-  const {
-    projectStatusCategoryIdChecker,
-    projectStatusCategoryErrorStyle,
-  } = error;
+  const { projectStatusCategoryIdChecker, projectStatusCategoryErrorStyle } =
+    error;
   const checkErrors = (formData) => {
     if (!projectStatusCategoryIdChecker) {
       setError({
@@ -111,7 +109,7 @@ const AddProjectStatus = ({
             <Select
               name="projectStatusCategory"
               options={StatusCategory}
-              isSearchable={false}
+              isSearchable={true}
               value={projectStatusCategory}
               placeholder="Select"
               onChange={(e) => onStatuscatChange(e)}

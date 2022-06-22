@@ -193,7 +193,9 @@ router.get("/get-all-payment-mode", async (req, res) => {
 //ALL Department
 router.get("/get-all-department", async (req, res) => {
   try {
-    const allDepartment = await Department.find({departmentName:{$ne:"Super Administrator"}});
+    const allDepartment = await Department.find({
+      departmentName: { $ne: "Super Admin" },
+    });
     res.json(allDepartment);
   } catch (err) {
     console.error(err.message);
@@ -204,7 +206,9 @@ router.get("/get-all-department", async (req, res) => {
 //ALL Designation
 router.get("/get-all-designation", async (req, res) => {
   try {
-    const allDesignation = await Designation.find({designationName:{$ne:"Super Admin"}});
+    const allDesignation = await Designation.find({
+      designationName: { $ne: "Super Admin" },
+    });
     res.json(allDesignation);
   } catch (err) {
     console.error(err.message);
@@ -219,7 +223,7 @@ router.get("/get-active-designation", async (req, res) => {
       designationStatus: {
         $eq: "Active",
       },
-      designationName:{$ne:"Super Admin"}
+      designationName: { $ne: "Super Admin" },
     });
     res.json(activeDesignation);
   } catch (err) {
