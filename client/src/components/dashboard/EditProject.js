@@ -26,6 +26,7 @@ const EditProject = ({
   allProjectdata,
   onEditModalChange,
   addProject,
+  EditProjectData,
 }) => {
   useEffect(() => {
     getAllProjectStatus();
@@ -206,6 +207,7 @@ const EditProject = ({
     setClientData(e);
     setClientId(e.clientId);
     setClientName(e.clientName);
+    setBelongsToValId(e.belongsToId);
     setBelongsToVal(e.belongsTo);
     setFolderNameVal(e.folderName);
   };
@@ -348,12 +350,13 @@ const EditProject = ({
         projectDate: startprojectDate,
         clientTime: clientTime,
         clientDate: startclientDate,
-        projectEnteredById: user._id,
+        projectEditedById: user._id,
+        // projectEnteredByName: user.empFullName,
         // projectEnteredDate:
         // projectEntryTime
         // clientType: clientType.value,
       };
-      console.log(finalData);
+      // console.log(finalData);
       EditProjectData(finalData);
       onEditModalChange(true);
       // setFormData({

@@ -78,6 +78,8 @@ export const EditProjectData = (finalData) => async (dispatch) => {
       type: SET_LOADING_FALSE,
     });
     await axios.post("/api/projects/edit-project", finalData);
+    dispatch(getJobQueueProjectDeatils());
+    dispatch(getDailyJobsheetProjectDeatils());
     dispatch({
       type: SET_LOADING_FALSE,
     });
