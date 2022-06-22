@@ -79,6 +79,11 @@ router.post(
         }
         res.json({ token });
       });
+
+      await EmployeeDetails.updateOne(
+        { _id: userDetails._id },
+        { $set: { empLoginStatus: 1 } }
+      );
       // let ipAddress = "";
       // for (const name of Object.keys(nets)) {
       //   for (const net of nets[name]) {
@@ -163,4 +168,17 @@ router.post(
     }
   }
 );
+
+router.post("/logout-done", auth, async (req, res) => {
+  try {
+    console.log(req.user.id);
+    await EmployeeDetails.updateOne(
+      { _id: req.user.id },
+      { $set: { empLoginStatus: 0 } }
+    );
+    res.json("Success");
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
 module.exports = router;

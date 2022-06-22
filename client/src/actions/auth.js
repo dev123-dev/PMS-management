@@ -172,6 +172,7 @@ export const changePwd = (formData) => async (dispatch) => {
 
 // Logout
 export const logout = () => async (dispatch) => {
+  await axios.post("/api/auth/logout-done");
   dispatch({ type: LOGOUT });
 };
 

@@ -48,6 +48,7 @@ module.exports.getAllUsers = async (req, res, next) => {
     const empData = await EmployeeDetails.find({
       _id: { $ne: req.params.id },
       empStatus: { $eq: "Active" },
+      empLoginStatus: { $eq: 1 },
     }).select(["userName", "_id"]);
 
     return res.json(empData);
@@ -57,12 +58,10 @@ module.exports.getAllUsers = async (req, res, next) => {
 };
 
 module.exports.getAllUsersMsgCount = async (req, res, next) => {
-  console.log(req.params.id);
   try {
     const msgCountData = await Messages.aggregate([
       {
         $match: {
-          // users: { $elemMatch: { $eq: "62a9a93ad7754d3a216211e2" } },
           receiver: { $eq: req.params.id },
         },
       },
