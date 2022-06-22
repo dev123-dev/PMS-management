@@ -109,7 +109,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                         {(user &&
                           user.userGroupName &&
                           user.userGroupName === "Administrator") ||
-                        user.userGroupName === "software" ? (
+                        user.userGroupName === "Super Admin" ? (
                           <Fragment>
                             {" "}
                             <li>

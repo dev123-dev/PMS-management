@@ -303,7 +303,14 @@ const JobQueue = ({
                         <th style={{ width: "13%" }}>Status</th>
                         <th style={{ width: "10%" }}>Latest Change</th>
                         <th style={{ width: "10%" }}>Job Notes</th>
-                        <th style={{ width: "2%" }}>OP</th>
+                        {(user.userGroupName &&
+                          user.userGroupName === "Administrator") ||
+                        user.userGroupName === "Super Admin" ||
+                        user.userGroupName === "Clarical Admins" ? (
+                          <th style={{ width: "2%" }}>OP</th>
+                        ) : (
+                          <></>
+                        )}
                       </tr>
                     </thead>
                     <tbody>
@@ -440,18 +447,24 @@ const JobQueue = ({
                                   Notes
                                 </Link>
                               </td>
-
-                              <td>
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() =>
-                                    onUpdate(jobQueueProjects, idx)
-                                  }
-                                  src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
-                                />
-                              </td>
+                              {(user.userGroupName &&
+                                user.userGroupName === "Administrator") ||
+                              user.userGroupName === "Super Admin" ||
+                              user.userGroupName === "Clarical Admins" ? (
+                                <td>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() =>
+                                      onUpdate(jobQueueProjects, idx)
+                                    }
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </td>
+                              ) : (
+                                <></>
+                              )}
                             </tr>
                           );
                         })}
