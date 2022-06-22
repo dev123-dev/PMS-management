@@ -362,7 +362,7 @@ const JobQueue = ({
                                     value: jobQueueProjects.projectStatusId,
                                   }}
                                   options={projectStatusOpt}
-                                  isSearchable={false}
+                                  isSearchable={true}
                                   placeholder="Select"
                                   onChange={onSliderChange(jobQueueProjects)}
                                 />

@@ -441,7 +441,7 @@ const AddProject = ({
                       name="priority"
                       value={priority}
                       options={priorityVal}
-                      isSearchable={false}
+                      isSearchable={true}
                       placeholder="Select"
                       onChange={(e) => priorityToChange(e)}
                     />
