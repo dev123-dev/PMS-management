@@ -1,5 +1,7 @@
 // const User = require("../models/userModel");
 const EmployeeDetails = require("../models/EmpDetails");
+const Messages = require("../models/messageModel");
+const mongoose = require("mongoose");
 
 const bcrypt = require("bcrypt");
 
@@ -47,8 +49,32 @@ module.exports.getAllUsers = async (req, res, next) => {
       _id: { $ne: req.params.id },
       empStatus: { $eq: "Active" },
     }).select(["userName", "_id"]);
-    // console.log(empData);
+
     return res.json(empData);
+  } catch (ex) {
+    next(ex);
+  }
+};
+
+module.exports.getAllUsersMsgCount = async (req, res, next) => {
+  console.log(req.params.id);
+  try {
+    const msgCountData = await Messages.aggregate([
+      {
+        $match: {
+          // users: { $elemMatch: { $eq: "62a9a93ad7754d3a216211e2" } },
+          receiver: { $eq: req.params.id },
+        },
+      },
+      {
+        $group: {
+          _id: "$sender",
+          msgCnt: { $sum: "$msgViewed" },
+        },
+      },
+    ]);
+
+    return res.json(msgCountData);
   } catch (ex) {
     next(ex);
   }
