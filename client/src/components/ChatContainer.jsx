@@ -4,6 +4,7 @@ import ChatInput from "./ChatInput";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
+import Notifier from "react-desktop-notification"
 
 export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
@@ -75,13 +76,15 @@ export default function ChatContainer({ currentChat, socket }) {
   }, []);
 
   function showNotification(data) {
-    const notification = new Notification("New Message " , {
-      body: "Hey, You got A New Message",
-      icon: "logo192.png",
-    });
-    notification.onclick = (e) => {
-      window.location.href = "http://localhost:2001/chat";
-    };
+    // const notification = new Notification("New Message " , {
+    //   body: "Hey, You got A New Message",
+    //   icon: "logo192.png",
+    // });
+    // const notification =
+     new Notifier.start("New Message","Here is context","http://localhost:2001/chat","logo192.png");
+    // notification.onclick = (e) => {
+    //   window.location.href = "http://localhost:2001/chat";
+    // };
   }
 
   useEffect(() => {
