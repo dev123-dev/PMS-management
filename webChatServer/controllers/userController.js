@@ -47,7 +47,7 @@ module.exports.getAllUsers = async (req, res, next) => {
       _id: { $ne: req.params.id },
       empStatus: { $eq: "Active" },
     }).select(["userName", "_id"]);
-    console.log(empData);
+    // console.log(empData);
     return res.json(empData);
   } catch (ex) {
     next(ex);

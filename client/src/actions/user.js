@@ -7,6 +7,7 @@ import {
   ALL_EMPLOYEE,
   ACTIVE_EMPLOYEE,
   USER_GROUPS,
+  LAST_ENTERED_EMP_CODE,
 } from "./types";
 
 const config = {
@@ -139,6 +140,21 @@ export const getALLUserGroups = () => async (dispatch) => {
     localStorage.setItem("allUserGroupData", JSON.stringify(res.data));
     dispatch({
       type: USER_GROUPS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getLastEnteredEmpCode = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/users/get-last-entered-emp-code");
+    localStorage.setItem("lastEnteredCode", JSON.stringify(res.data));
+    dispatch({
+      type: LAST_ENTERED_EMP_CODE,
       payload: res.data,
     });
   } catch (err) {

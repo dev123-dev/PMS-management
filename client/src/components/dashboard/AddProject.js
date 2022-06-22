@@ -54,11 +54,11 @@ const AddProject = ({
       value: projStatusData.projectStatusType,
     })
   );
-  const [clientData, setClientData] = useState();
-  const [clientId, setClientId] = useState();
+  const [clientData, setClientData] = useState("");
+  const [clientId, setClientId] = useState("");
   // const [clientName, setClientName] = useState();
-  const [clientBelongsTo, setBelongsToVal] = useState();
-  const [clientFolderName, setFolderNameVal] = useState();
+  const [clientBelongsTo, setBelongsToVal] = useState("");
+  const [clientFolderName, setFolderNameVal] = useState("");
 
   const onClientChange = (e) => {
     //Required Validation starts
@@ -105,19 +105,14 @@ const AddProject = ({
   });
 
   const {
-    clientName,
     projectName,
     qty,
     priority,
     deadline,
-    projectStatus,
-    projectDate,
     projectTime,
-    clientDate,
     clientTime,
     Instructions,
     clientType,
-    projectEnteredByName,
     isSubmitted,
   } = formData;
 

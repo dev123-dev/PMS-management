@@ -198,10 +198,17 @@ router.post("/get-job-queue-project-details", async (req, res) => {
 });
 
 router.post("/get-daily-jobsheet-project-details", async (req, res) => {
+  const { selDate } = req.body;
+
+  if (selDate) selDateVal = selDate;
+  else selDateVal = new Date().toISOString().split("T")[0];
   try {
     const getDailyJobSheetDetails = await Project.find({
       projectStatus: {
         $eq: "Active",
+      },
+      projectDate: {
+        $eq: selDateVal,
       },
     });
     res.json(getDailyJobSheetDetails);
@@ -211,4 +218,33 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
   }
 });
 
+router.post("/get-all-changes", async (req, res) => {
+  const { projectId } = req.body;
+  console.log("projectId", projectId);
+  try {
+    const ProjectLatestChangeDetails = await ProjectTrack.aggregate([
+      {
+        $lookup: {
+          from: "projects",
+          localField: "projectId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      // { $unwind: "$output" },
+      {
+        $match: {
+          "output._id": {
+            $eq: mongoose.Types.ObjectId(projectId),
+          },
+        },
+      },
+    ]);
+    res.json(ProjectLatestChangeDetails);
+    console.log(ProjectLatestChangeDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 module.exports = router;

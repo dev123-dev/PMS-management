@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Link, Redirect } from "react-router-dom";
+
 import { connect } from "react-redux";
 import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -8,7 +8,7 @@ import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
 import { editEmployeeDetails, getALLUserGroups } from "../../actions/user";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
-
+import FileBase64 from "react-file-base64";
 const EditEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
   settings: { allDepartment, activeDesignation },
@@ -153,21 +153,22 @@ const EditEmployeeDetails = ({
       allEmployeedata && allEmployeedata.password
         ? allEmployeedata.password
         : "",
+    profilephoto:
+      allEmployeedata && allEmployeedata.profilephoto
+        ? allEmployeedata.profilephoto
+        : "",
 
     isSubmitted: false,
   });
-  console.log(allEmployeedata.password);
+  // console.log(allEmployeedata.password);
   const {
-    employeeName,
     empFullName,
     employeePhone,
     employeeAadharNo,
     employeePanNo,
-    employeeDOB,
+
     employeeEmail,
-    employeeDOJ,
-    employeeDepartment,
-    employeeDesignation,
+
     employeeCode,
     empAddress,
     employeeState,
@@ -186,149 +187,136 @@ const EditEmployeeDetails = ({
     Others,
     proinc,
     empCA,
-
-    userName,
-    rePassword,
-    password,
-    passwordValChecker,
-    passwordValResult,
-    passwordValStyle,
-    passwordInptErrStyle,
-
-    repwdValChecker,
-    repwdValResult,
-    repwdValStyle,
-    repwdInptErrStyle,
-    isSubmitted,
+    profilephoto,
   } = formData;
-  const [error, setError] = useState({
-    passwordValChecker: false,
-    passwordValResult: "",
-    passwordValStyle: {},
-    passwordInptErrStyle: {},
+  // const [error, setError] = useState({
+  //   passwordValChecker: false,
+  //   passwordValResult: "",
+  //   passwordValStyle: {},
+  //   passwordInptErrStyle: {},
 
-    repwdValChecker: false,
-    repwdValResult: "",
-    repwdValStyle: {},
-    repwdInptErrStyle: {},
-  });
-  let passwrdTooltip = {
-    marginLeft: "-16em",
-    position: "absolute",
-    marginTop: "1.5em",
-    pointerEvents: "none",
-    zIndex: "999",
-    width: "300px",
-  };
-  const onInputChange3 = (e) => {
-    const { name, value } = e.target;
-    switch (name) {
-      case "password":
-        if (value === "") {
-          setError({
-            ...error,
-            passwordValChecker: true,
-            passwordValResult: "REQUIRED",
-            passwordValStyle: { color: "#FF0000", marginTop: "30px" },
-            passwordInptErrStyle: { border: "1px solid #FF0000" },
-          });
-          setFormData({ ...formData, [e.target.name]: "" });
-        } else {
-          const pwdFilter = /^(?=.*\d)(?=.*[a-z])/;
-          if (pwdFilter.test(value)) {
-            setError({
-              ...error,
-              passwordValChecker: true,
-              passwordValResult: "STRONG",
-              passwordValStyle: { color: "#43b90f", marginTop: "30px" },
-              passwordInptErrStyle: { border: "1px solid #43b90f" },
-            });
-          } else {
-            setError({
-              ...error,
-              passwordValChecker: true,
-              passwordValResult: "WEAK",
-              passwordValStyle: { color: "#FF0000", marginTop: "30px" },
-              passwordInptErrStyle: { border: "1px solid #FF0000" },
-            });
-          }
-          setFormData({ ...formData, [e.target.name]: value });
-        }
-        break;
+  //   repwdValChecker: false,
+  //   repwdValResult: "",
+  //   repwdValStyle: {},
+  //   repwdInptErrStyle: {},
+  // });
+  // let passwrdTooltip = {
+  //   marginLeft: "-16em",
+  //   position: "absolute",
+  //   marginTop: "1.5em",
+  //   pointerEvents: "none",
+  //   zIndex: "999",
+  //   width: "300px",
+  // };
+  // const onInputChange3 = (e) => {
+  //   const { name, value } = e.target;
+  //   switch (name) {
+  //     case "password":
+  //       if (value === "") {
+  //         setError({
+  //           ...error,
+  //           passwordValChecker: true,
+  //           passwordValResult: "REQUIRED",
+  //           passwordValStyle: { color: "#FF0000", marginTop: "30px" },
+  //           passwordInptErrStyle: { border: "1px solid #FF0000" },
+  //         });
+  //         setFormData({ ...formData, [e.target.name]: "" });
+  //       } else {
+  //         const pwdFilter = /^(?=.*\d)(?=.*[a-z])/;
+  //         if (pwdFilter.test(value)) {
+  //           setError({
+  //             ...error,
+  //             passwordValChecker: true,
+  //             passwordValResult: "STRONG",
+  //             passwordValStyle: { color: "#43b90f", marginTop: "30px" },
+  //             passwordInptErrStyle: { border: "1px solid #43b90f" },
+  //           });
+  //         } else {
+  //           setError({
+  //             ...error,
+  //             passwordValChecker: true,
+  //             passwordValResult: "WEAK",
+  //             passwordValStyle: { color: "#FF0000", marginTop: "30px" },
+  //             passwordInptErrStyle: { border: "1px solid #FF0000" },
+  //           });
+  //         }
+  //         setFormData({ ...formData, [e.target.name]: value });
+  //       }
+  //       break;
 
-      case "rePassword":
-        if (value === "") {
-          setError({
-            ...error,
-            repwdValChecker: true,
-            repwdValResult: "REQUIRED",
-            repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-            repwdInptErrStyle: { border: "1px solid #FF0000" },
-          });
-          setFormData({ ...formData, [e.target.name]: "" });
-        } else {
-          if (value === formData.password) {
-            setError({
-              ...error,
-              repwdValChecker: true,
-              repwdValResult: "MATCHED",
-              repwdValStyle: { color: "#43b90f", marginTop: "30px" },
-              repwdInptErrStyle: { border: "1px solid #43b90f" },
-            });
-          } else {
-            setError({
-              ...error,
-              repwdValChecker: true,
-              repwdValResult: "DOES NOT MATCH",
-              repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-              repwdInptErrStyle: { border: "1px solid #FF0000" },
-            });
-          }
-          setFormData({ ...formData, [e.target.name]: value });
-        }
-        break;
+  //     case "rePassword":
+  //       if (value === "") {
+  //         setError({
+  //           ...error,
+  //           repwdValChecker: true,
+  //           repwdValResult: "REQUIRED",
+  //           repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+  //           repwdInptErrStyle: { border: "1px solid #FF0000" },
+  //         });
+  //         setFormData({ ...formData, [e.target.name]: "" });
+  //       } else {
+  //         if (value === formData.password) {
+  //           setError({
+  //             ...error,
+  //             repwdValChecker: true,
+  //             repwdValResult: "MATCHED",
+  //             repwdValStyle: { color: "#43b90f", marginTop: "30px" },
+  //             repwdInptErrStyle: { border: "1px solid #43b90f" },
+  //           });
+  //         } else {
+  //           setError({
+  //             ...error,
+  //             repwdValChecker: true,
+  //             repwdValResult: "DOES NOT MATCH",
+  //             repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+  //             repwdInptErrStyle: { border: "1px solid #FF0000" },
+  //           });
+  //         }
+  //         setFormData({ ...formData, [e.target.name]: value });
+  //       }
+  //       break;
 
-      default:
-        break;
-    }
-  };
+  //     default:
+  //       break;
+  //   }
+  // };
 
-  const checkErrors = (formData) => {
-    if (formData && formData.password === "") {
-      setError({
-        ...error,
-        passwordValChecker: true,
-        passwordValResult: "REQUIRED",
-        passwordValStyle: { color: "#FF0000", marginTop: "30px" },
-        passwordInptErrStyle: { border: "1px solid #FF0000" },
-      });
-      return false;
-    }
-    if (formData && formData.rePassword !== formData.password) {
-      setError({
-        ...error,
-        repwdValChecker: true,
-        repwdValResult: "DOESNOT MATCH",
-        // repwdValResult: "REQUIRED",
-        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-        repwdInptErrStyle: { border: "1px solid #FF0000" },
-      });
-      return false;
-    }
+  // const checkErrors = (formData) => {
+  //   if (formData && formData.password === "") {
+  //     setError({
+  //       ...error,
+  //       passwordValChecker: true,
+  //       passwordValResult: "REQUIRED",
+  //       passwordValStyle: { color: "#FF0000", marginTop: "30px" },
+  //       passwordInptErrStyle: { border: "1px solid #FF0000" },
+  //     });
+  //     return false;
+  //   }
+  //   if (formData && formData.rePassword !== formData.password) {
+  //     setError({
+  //       ...error,
+  //       repwdValChecker: true,
+  //       repwdValResult: "DOESNOT MATCH",
+  //       // repwdValResult: "REQUIRED",
+  //       repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+  //       repwdInptErrStyle: { border: "1px solid #FF0000" },
+  //     });
+  //     return false;
+  //   }
 
-    if (formData && formData.rePassword === "") {
-      setError({
-        ...error,
-        repwdValChecker: true,
-        repwdValResult: "REQUIRED",
-        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-        repwdInptErrStyle: { border: "1px solid #FF0000" },
-      });
-      return false;
-    }
+  //   if (formData && formData.rePassword === "") {
+  //     setError({
+  //       ...error,
+  //       repwdValChecker: true,
+  //       repwdValResult: "REQUIRED",
+  //       repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+  //       repwdInptErrStyle: { border: "1px solid #FF0000" },
+  //     });
+  //     return false;
+  //   }
 
-    return true;
-  };
+  //   return true;
+  // };
 
   const [color, setColor] = useState(
     allEmployeedata && allEmployeedata.empColorCode
@@ -502,7 +490,7 @@ const EditEmployeeDetails = ({
       departmentName: department.value,
       designationId: designation.designationId,
       designationName: designation.value,
-      empCode: employeeCode,
+
       empAddress: empAddress,
       empState: employeeState,
       empPincode: employeePincode,
@@ -526,8 +514,10 @@ const EditEmployeeDetails = ({
       usergroupsId: usergroups.usergroupsId,
       userGroupName: usergroups.value,
       empEditedById: user._id,
+      profilephoto: profilephoto,
       allEmployeedata: allEmployeedata,
     };
+    console.log(finalData);
     editEmployeeDetails(finalData);
     onEditModalChange(true);
     // setFormData({
@@ -542,11 +532,6 @@ const EditEmployeeDetails = ({
     <Spinner />
   ) : (
     <Fragment>
-      {/* <div className="container container_align "> */}
-      {/* <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-          <h2 className="heading_color">Add Employee Details </h2>
-          <hr />
-        </div> */}
       <section className="sub_reg">
         <Tabs selectedIndex={tabIndex}>
           <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
@@ -745,11 +730,33 @@ const EditEmployeeDetails = ({
                         disabled
                       />
                     </div>
+
+                    <div className=" col-lg-12 col-md-12 col-sm-12 col-12 py-3">
+                      <label className="label-control">Profile Photo:</label>
+
+                      <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
+                        <FileBase64
+                          type="file"
+                          multiple={false}
+                          onDone={({ base64 }) =>
+                            setFormData({
+                              ...formData,
+                              profilephoto: base64,
+                            })
+                          }
+                        />
+
+                        <img
+                          className="log_size"
+                          alt="Preview"
+                          src={`${profilephoto}`}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  {/* </div> */}
                 </div>
 
-                <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
+                {/* <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
                   <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
                     <label className="label-control">UserName* :</label>
                     <input
@@ -783,11 +790,7 @@ const EditEmployeeDetails = ({
                           {passwordValResult}
                         </span>
                       )}
-                      <div
-                        className="cstm-hint"
-                        id="pass_admin_help"
-                        //   style={{ top: "100px" }}
-                      >
+                      <div className="cstm-hint" id="pass_admin_help">
                         <img
                           src={require("../../static/images/help1.png")}
                           alt="help"
@@ -830,7 +833,7 @@ const EditEmployeeDetails = ({
                       )}
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
                   <input
@@ -860,7 +863,7 @@ const EditEmployeeDetails = ({
                         value={employeeCode}
                         className="form-control"
                         onChange={(e) => onInputChange(e)}
-                        // required
+                        disabled
                       />
                     </div>
                     <div className="col-lg-6 col-md-12 col-sm-12 col-12">

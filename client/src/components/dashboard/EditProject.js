@@ -20,8 +20,6 @@ const priorityVal = [
 
 const EditProject = ({
   auth: { isAuthenticated, user, users, loading },
-  settings: { paymentMode },
-  client: { activeClientFilter },
   project: { allProjectStatus },
   getActiveClientsFilter,
   getAllProjectStatus,
@@ -38,125 +36,44 @@ const EditProject = ({
     };
     getActiveClientsFilter(clientTypeVal);
   }, [getActiveClientsFilter]);
-
-  const projectStatusOpt = [];
-  allProjectStatus.map((projStatusData) =>
-    projectStatusOpt.push({
-      projectStatusId: projStatusData._id,
-      label: projStatusData.projectStatusType,
-      value: projStatusData.projectStatusType,
-    })
-  );
-
-  // console.log(activeClientsOpt);
-  // console.log("allprojectdata", allProjectdata);
-  const activeClientsOpt = [];
-  let activeClientData = JSON.parse(localStorage.getItem("activeClientData"));
-
-  activeClientData.map((clientsData) =>
-    activeClientsOpt.push({
-      clientId: clientsData._id,
-      belongsToId: clientsData.clientBelongsToId,
-      belongsTo: clientsData.clientBelongsToName,
-      folderName: clientsData.clientFolderName,
-      label: clientsData.clientName,
-      value: clientsData.clientName,
-    })
-  );
-  // console.log(activeClientsOpt);
-  const [clientData, setClientData] = useState();
-  if (!clientData && activeClientsOpt.length > 0) {
-    setClientData(
-      allProjectdata
-        ? activeClientsOpt &&
-            activeClientsOpt.filter(
-              (x) => x.clientName === allProjectdata.clientName
-            )[0]
-        : ""
-    );
-  }
-  console.log(clientData);
-  const [clientId, setClientId] = useState(
-    allProjectdata && allProjectdata.clientId ? allProjectdata.clientId : ""
-  );
-  // const [clientName, setClientName] = useState();
-  const [clientBelongsTo, setBelongsToVal] = useState(
-    allProjectdata && allProjectdata.parentClientName
-      ? allProjectdata.parentClientName
-      : ""
-  );
-
-  // allProjectdata && allProjectdata.parentClientId
-  //   ? allProjectdata.parentClientId
-  //   : ""
-  const [clientFolderName, setFolderNameVal] = useState(
-    allProjectdata && allProjectdata.clientFolderName
-      ? allProjectdata.clientFolderName
-      : ""
-  );
-
-  const onClientChange = (e) => {
-    //Required Validation starts
-    // setError({
-    //   ...error,
-    //   clientnameIdChecker: true,
-    //   clientnameIdErrorStyle: { color: "#000" },
-    // });
-    //Required Validation ends
-
-    setClientData(e);
-    setClientId(e.clientId);
-    setBelongsToVal(e.belongsTo);
-    setFolderNameVal(e.folderName);
-  };
-
-  const [projectStatusData, setProjectStatusData] = useState(
-    allProjectdata
-      ? projectStatusOpt &&
-          projectStatusOpt.filter(
-            (x) => x.projectStatusId === allProjectdata.projectStatusId
-          )[0]
-      : ""
-  );
-  const onProjectStatusChange = (e) => {
-    //Required Validation starts
-    // setError({
-    //   ...error,
-    //   projectstatusChecker: true,
-    //   projectstatusErrorStyle: { color: "#000" },
-    // });
-    //Required Validation ends
-    setProjectStatusData(e);
-  };
+  // console.log(allProjectdata);
 
   //formData
   const [formData, setFormData] = useState({
+    projectName:
+      allProjectdata && allProjectdata.projectName
+        ? allProjectdata.projectName
+        : "",
+    clientId:
+      allProjectdata && allProjectdata.clientId ? allProjectdata.clientId : "",
     clientName:
       allProjectdata && allProjectdata.clientName
         ? allProjectdata.clientName
         : "",
-    projectName:
-      allProjectdata && allProjectdata.projectName
-        ? allProjectdata.projectName
+    parentClientId:
+      allProjectdata && allProjectdata.parentClientId
+        ? allProjectdata.parentClientId
+        : "",
+    parentClientName:
+      allProjectdata && allProjectdata.parentClientId
+        ? allProjectdata.parentClientId
+        : "",
+    projectDate:
+      allProjectdata && allProjectdata.projectDate
+        ? allProjectdata.projectDate
+        : "",
+    deadline:
+      allProjectdata && allProjectdata.projectDeadline
+        ? allProjectdata.projectDeadline
         : "",
     qty:
       allProjectdata && allProjectdata.projectQuantity
         ? allProjectdata.projectQuantity
         : "",
-    // priority:
-    //   allProjectdata && allProjectdata.priority ? allProjectdata.priority : "",
-    deadline:
-      allProjectdata && allProjectdata.projectDeadline
-        ? allProjectdata.projectDeadline
-        : "",
+
     projectStatus:
       allProjectdata && allProjectdata.projectStatus
         ? allProjectdata.projectStatus
-        : "",
-
-    projectDate:
-      allProjectdata && allProjectdata.projectDate
-        ? allProjectdata.projectDate
         : "",
 
     projectTime:
@@ -184,7 +101,6 @@ const EditProject = ({
             label: allProjectdata.projectPriority,
           }
         : "",
-
     clientType:
       allProjectdata && allProjectdata.clientTypeVal
         ? {
@@ -197,19 +113,121 @@ const EditProject = ({
   });
 
   const {
-    clientName,
     projectName,
     qty,
     priority,
     deadline,
-    projectStatus,
-    projectDate,
     projectTime,
-    clientDate,
     clientTime,
     Instructions,
     clientType,
   } = formData;
+
+  const projectStatusOpt = [];
+  allProjectStatus.map((projStatusData) =>
+    projectStatusOpt.push({
+      projectStatusId: projStatusData._id,
+      label: projStatusData.projectStatusType,
+      value: projStatusData.projectStatusType,
+    })
+  );
+
+  // console.log("allprojectdata", allProjectdata);
+  let activeClientData = JSON.parse(localStorage.getItem("activeClientData"));
+  const activeClientsOpt = [];
+
+  activeClientData &&
+    activeClientData.map((clientsData) =>
+      activeClientsOpt.push({
+        clientId: clientsData._id,
+        belongsToId: clientsData.clientBelongsToId,
+        belongsTo: clientsData.clientBelongsToName,
+        folderName: clientsData.clientFolderName,
+        label: clientsData.clientName,
+        value: clientsData.clientName,
+      })
+    );
+
+  const [clientData, setClientData] = useState("");
+  if (
+    !clientData &&
+    allProjectdata &&
+    activeClientsOpt &&
+    activeClientsOpt.length > 0
+  ) {
+    setClientData(
+      allProjectdata
+        ? activeClientsOpt &&
+            activeClientsOpt.filter(
+              (x) => x.value === allProjectdata.clientName
+            )
+        : ""
+    );
+  }
+
+  const [clientBelongsTo, setBelongsToVal] = useState(
+    allProjectdata && allProjectdata.parentClientName
+      ? allProjectdata.parentClientName
+      : ""
+  );
+
+  const [clientBelongsToId, setBelongsToValId] = useState(
+    allProjectdata && allProjectdata.parentClientId
+      ? allProjectdata.parentClientId
+      : ""
+  );
+
+  const [clientFolderName, setFolderNameVal] = useState(
+    allProjectdata && allProjectdata.clientFolderName
+      ? allProjectdata.clientFolderName
+      : ""
+  );
+  const [clientId, setClientId] = useState(
+    allProjectdata && allProjectdata.clientId ? allProjectdata.clientId : ""
+  );
+  const [clientName, setClientName] = useState(
+    allProjectdata && allProjectdata.clientName ? allProjectdata.clientName : ""
+  );
+  const onClientChange = (e) => {
+    //Required Validation starts
+    // setError({
+    //   ...error,
+    //   clientnameIdChecker: true,
+    //   clientnameIdErrorStyle: { color: "#000" },
+    // });
+    //Required Validation ends
+    // var clientId = "";
+    // var clientName = "";
+    setClientData(e);
+    // clientId = e.clientId;
+
+    // clientName = e.clientName;
+
+    setClientData(e);
+    setClientId(e.clientId);
+    setClientName(e.clientName);
+    setBelongsToVal(e.belongsTo);
+    setFolderNameVal(e.folderName);
+  };
+
+  // const [projectStatusData, setProjectStatusData] = useState(
+  //   allProjectdata
+  //     ? projectStatusOpt &&
+  //         projectStatusOpt.filter(
+  //           (x) => x.projectStatusId === allProjectdata.projectStatusId
+  //         )[0]
+  //     : ""
+  // );
+  // const onProjectStatusChange = (e) => {
+  //   //Required Validation starts
+  //   // setError({
+  //   //   ...error,
+  //   //   projectstatusChecker: true,
+  //   //   projectstatusErrorStyle: { color: "#000" },
+  //   // });
+  //   //Required Validation ends
+  //   setProjectStatusData(e);
+  // };
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -321,20 +339,21 @@ const EditProject = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
+      recordId: allProjectdata ? allProjectdata._id : "",
       projectName: projectName,
       clientId: clientId,
       clientName: clientData.value,
-      parentClientId: clientData.belongsToId,
+      parentClientId: clientBelongsToId,
       parentClientName: clientBelongsTo,
       // projectLocation:
-      clientFolderName: clientData.folderName,
+      clientFolderName: clientFolderName,
       projectPriority: priority.value,
       // projectJobtype
       // projectHours
       projectNotes: Instructions,
       projectDeadline: deadline,
-      projectStatusType: projectStatusData.value,
-      projectStatusId: projectStatusData.projStatusId,
+      //  projectStatusType: projectStatusData.value,
+      //  projectStatusId: projectStatusData.projectStatusId,
       // projectPrice:
       projectQuantity: qty,
       // projectUnconfirmed
@@ -350,7 +369,7 @@ const EditProject = ({
       // clientType: clientType.value,
     };
     console.log(finalData);
-    // EditProjectData(finalData);
+    EditProjectData(finalData);
     onEditModalChange(true);
     // setFormData({
     //   ...formData,

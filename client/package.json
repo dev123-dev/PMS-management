@@ -15,6 +15,8 @@
     "react-bootstrap-range-slider": "^3.0.3",
     "react-datepicker": "^4.6.0",
     "react-dom": "^17.0.2",
+    "react-draggable": "^4.4.5",
+    "react-file-base64": "^1.0.3",
     "react-icons": "^4.3.1",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.1.2",
@@ -33,7 +35,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "set PORT=3526 && react-scripts start",
+    "start": "set PORT=2001 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

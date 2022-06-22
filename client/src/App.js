@@ -4,10 +4,12 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import HomePage from "./components/layout/HomePage";
+import ChatButton from "./components/layout/ChatButton";
 
 import RoutesFile from "./components/routing/RoutesFile";
 
 import Chat from "./pages/Chat";
+
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
@@ -36,6 +38,7 @@ const App = () => {
         <Fragment>
           <Header />
           <div className="row ">
+            <ChatButton />
             {/* <Alert /> */}
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
               <Switch>

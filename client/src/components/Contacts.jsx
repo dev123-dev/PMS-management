@@ -19,9 +19,6 @@ export default function Contacts({ contacts, changeChat }) {
     <>
       {currentUserName && currentUserName && (
         <Container>
-          <div className="brand">
-            {/* <img src={Logo} alt="logo" /> */}
-          </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
               return (
@@ -39,7 +36,7 @@ export default function Contacts({ contacts, changeChat }) {
                     />
                   </div> */}
                   <div className="username">
-                    <h3>{contact.userName}</h3>
+                    <label>{contact.userName}</label>
                   </div>
                 </div>
               );
@@ -53,7 +50,7 @@ export default function Contacts({ contacts, changeChat }) {
               />
             </div> */}
             <div className="username">
-              <h2>{currentUserName}</h2>
+              <h4>{currentUserName}</h4>
             </div>
           </div>
         </Container>
@@ -63,23 +60,13 @@ export default function Contacts({ contacts, changeChat }) {
 }
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 10% 75% 15%;
+  grid-template-rows: 90% 10%;
   overflow: hidden;
-  background-color: #080420;
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    justify-content: center;
-    img {
-      height: 2rem;
-    }
-    h3 {
-      color: white;
-      text-transform: uppercase;
-    }
-  }
+  background-color: #25374e;
+  padding-top: 10px;
+
   .contacts {
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -94,55 +81,43 @@ const Container = styled.div`
       }
     }
     .contact {
-      background-color: #ffffff34;
-      min-height: 5rem;
+      min-height: 1.1rem;
       cursor: pointer;
       width: 90%;
       border-radius: 0.2rem;
-      padding: 0.4rem;
+      padding: 0.1rem;
       display: flex;
-      gap: 1rem;
       align-items: center;
       transition: 0.5s ease-in-out;
+
       .avatar {
         img {
           height: 3rem;
         }
       }
       .username {
-        h3 {
+        label {
           color: white;
+          cursor: pointer;
+          font-size: 14px;
         }
       }
     }
-    .selected {
-      background-color: #9a86f3;
-    }
+    // .selected {
+    //   background-color: #456792;
+    // }
   }
 
   .current-user {
-    background-color: #0d0d30;
+    background-color: #456792;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+
     .avatar {
       img {
         height: 4rem;
         max-inline-size: 100%;
-      }
-    }
-    .username {
-      h2 {
-        color: white;
-      }
-    }
-    @media screen and (min-width: 720px) and (max-width: 1080px) {
-      gap: 0.5rem;
-      .username {
-        h2 {
-          font-size: 1rem;
-        }
       }
     }
   }

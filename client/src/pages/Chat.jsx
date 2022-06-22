@@ -16,11 +16,11 @@ export default function Chat() {
   const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(async () => {
-      setCurrentUser(
-        await JSON.parse(
-          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-        )
-      );
+    setCurrentUser(
+      await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      )
+    );
   }, []);
   useEffect(() => {
     if (currentUser) {
@@ -34,46 +34,65 @@ export default function Chat() {
       if (currentUser.userName) {
         const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
         setContacts(data.data);
-      } 
+      }
     }
   }, [currentUser]);
-  
+
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
+    localStorage.setItem("curChat", JSON.stringify(chat));
   };
   return (
     <>
-      <Container>
-        <div className="container">
-          <Contacts contacts={contacts} changeChat={handleChatChange} />
-          {currentChat === undefined ? (
-            <Welcome />
-          ) : (
-            <ChatContainer currentChat={currentChat} socket={socket} />
-          )}
-        </div>
-      </Container>
+      <div className="chat_div">
+        <Container>
+          <label>Chat</label>
+
+          <div className="container">
+            <Contacts contacts={contacts} changeChat={handleChatChange} />
+            {currentChat === undefined ? (
+              <Welcome />
+            ) : (
+              <ChatContainer currentChat={currentChat} socket={socket} />
+            )}
+          </div>
+        </Container>
+      </div>
     </>
   );
 }
 
 const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
+  height: 500px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1rem;
+
   align-items: center;
-  background-color: #131324;
+  background-color: #456792;
+  color: #fff;
+
+  animation: mymove 100ms;
+  animation-fill-mode: forwards;
+
+  @keyframes mymove {
+    from {
+      width: 0;
+    }
+    to {
+      width: 400px;
+    }
+  }
   .container {
-    height: 85vh;
-    width: 85vw;
+    height: 90%;
+    width: 100%;
+    padding-left: 0;
     background-color: #00000076;
     display: grid;
-    grid-template-columns: 25% 75%;
-    @media screen and (min-width: 720px) and (max-width: 1080px) {
-      grid-template-columns: 35% 65%;
-    }
+    grid-template-columns: 26% 75%;
+  }
+  label {
+    color: white;
   }
 `;

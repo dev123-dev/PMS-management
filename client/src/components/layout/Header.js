@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import { Container, Navbar, Nav, NavItem, Modal } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
@@ -34,7 +34,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     }
   };
 
-  console.log(user);
+  // console.log(user);
   return (
     <Fragment>
       <header>
@@ -87,28 +87,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-
-                {user &&
-                user.userGroupName &&
-                user.userGroupName === "Adminstrator" ? (
-                  <NavItem>
-                    {!loading && isAuthenticated && user ? (
-                      <NavLink
-                        to="/chat"
-                        activeStyle={{
-                          color: "#ffd037",
-                          textDecoration: "none",
-                        }}
-                      >
-                        Chat
-                      </NavLink>
-                    ) : (
-                      <NavItem></NavItem>
-                    )}
-                  </NavItem>
-                ) : (
-                  <></>
-                )}
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>

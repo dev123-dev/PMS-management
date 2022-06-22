@@ -7,6 +7,7 @@ import {
   ACTIVE_PROJECT_STATUS,
   JOB_QUEUE_PROJECTS,
   DAILY_JOBSHEET_PROJECTS,
+  GET_ALL_CHANGES,
 } from "./types";
 
 const config = {
@@ -186,13 +187,30 @@ export const getJobQueueProjectDeatils = () => async (dispatch) => {
   }
 };
 
-export const getDailyJobsheetProjectDeatils = () => async (dispatch) => {
+export const getDailyJobsheetProjectDeatils =
+  (selDateData) => async (dispatch) => {
+    try {
+      const res = await axios.post(
+        "/api/projects/get-daily-jobsheet-project-details",
+        selDateData
+      );
+      dispatch({
+        type: DAILY_JOBSHEET_PROJECTS,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: AUTH_ERROR,
+      });
+    }
+  };
+
+export const getAllchanges = (finalData) => async (dispatch) => {
   try {
-    const res = await axios.post(
-      "/api/projects/get-daily-jobsheet-project-details"
-    );
+    const res = await axios.post("/api/projects/get-all-changes", finalData);
+    localStorage.setItem("getAllChangesDetails", JSON.stringify(res.data));
     dispatch({
-      type: DAILY_JOBSHEET_PROJECTS,
+      type: GET_ALL_CHANGES,
       payload: res.data,
     });
   } catch (err) {
