@@ -260,7 +260,7 @@ const DailyJobSheet = ({
                       <tr>
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
-                        user.userGroupName === "Super Administrator" ? (
+                        user.userGroupName === "Super Admin" ? (
                           <th style={{ width: "10%" }}>Client Name</th>
                         ) : (
                           <></>
@@ -299,7 +299,7 @@ const DailyJobSheet = ({
                               <tr key={idx}>
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
-                                user.userGroupName === "Super Administrator" ? (
+                                user.userGroupName === "Super Admin" ? (
                                   <td>{dailyJobsheetProjects.clientName}</td>
                                 ) : (
                                   <></>

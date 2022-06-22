@@ -194,7 +194,7 @@ router.get("/get-all-payment-mode", async (req, res) => {
 router.get("/get-all-department", async (req, res) => {
   try {
     const allDepartment = await Department.find({
-      departmentName: { $ne: "Super Administrator" },
+      departmentName: { $ne: "Super Admin" },
     });
     res.json(allDepartment);
   } catch (err) {
