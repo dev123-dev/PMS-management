@@ -32,7 +32,8 @@
     "socket.io-client": "^4.4.1",
     "styled-components": "^5.3.3",
     "uuid": "^8.3.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "websocket": "^1.0.34"
   },
   "scripts": {
     "start": "set PORT=2001 && react-scripts start",

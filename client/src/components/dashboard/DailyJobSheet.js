@@ -12,16 +12,34 @@ import {
   getDailyJobsheetProjectDeatils,
   getAllProjectStatus,
 } from "../../actions/projects";
-import { AddProjectTrack } from "../../actions/projects";
+import {
+  AddProjectTrack,
+  getUpdatedProjectStausForDailyJobSheet,
+} from "../../actions/projects";
 import JobNotes from "./JobNotes";
 import AllLatestChange from "./AllLatestChange";
+import { w3cwebsocket } from "websocket";
+
+//client in websocket
+const client = new w3cwebsocket("ws://192.168.6.140:8000");
+
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
   project: { dailyJobsheetProjects, allProjectStatus },
   getDailyJobsheetProjectDeatils,
   AddProjectTrack,
   getAllProjectStatus,
+  getUpdatedProjectStausForDailyJobSheet,
 }) => {
+  useEffect(() => {
+    client.onopen = () => {
+      console.log("webSocket client connected");
+    };
+    client.onmessage = (message) => {
+      getUpdatedProjectStausForDailyJobSheet();
+      setSelectedDate(new Date().toISOString().split("T")[0]);
+    };
+  }, []);
   useEffect(() => {
     getDailyJobsheetProjectDeatils();
   }, [getDailyJobsheetProjectDeatils]);
@@ -74,6 +92,12 @@ const DailyJobSheet = ({
       };
 
       AddProjectTrack(finalData);
+      client.send(
+        JSON.stringify({
+          type: "message",
+          msg: "/JobQueue",
+        })
+      );
       // setStatusChange(finalData);
       // setShowProjectCycleModal(false);
     } else {
@@ -555,6 +579,7 @@ DailyJobSheet.propTypes = {
   project: PropTypes.object.isRequired,
   getDailyJobsheetProjectDeatils: PropTypes.object.isRequired,
   AddProjectTrack: PropTypes.object.isRequired,
+  getUpdatedProjectStausForDailyJobSheet: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -565,4 +590,5 @@ export default connect(mapStateToProps, {
   getDailyJobsheetProjectDeatils,
   AddProjectTrack,
   getAllProjectStatus,
+  getUpdatedProjectStausForDailyJobSheet,
 })(DailyJobSheet);

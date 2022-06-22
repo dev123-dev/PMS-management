@@ -13,8 +13,18 @@ import {
 } from "../../actions/projects";
 import JobHistory from "./JobHistory";
 import JobNotes from "./JobNotes";
-import { AddProjectTrack, getAllchanges } from "../../actions/projects";
+import {
+  AddProjectTrack,
+  getAllchanges,
+  getUpdatedProjectStaus,
+  // getUpdatedProjectStausForDailyJobSheet,
+} from "../../actions/projects";
 import AllLatestChange from "./AllLatestChange";
+import { w3cwebsocket } from "websocket";
+
+//client in websocket
+const client = new w3cwebsocket("ws://192.168.6.140:8000");
+
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
   project: { jobQueueProjects, allProjectStatus },
@@ -22,7 +32,18 @@ const JobQueue = ({
   AddProjectTrack,
   getAllchanges,
   getAllProjectStatus,
+  getUpdatedProjectStaus,
+  // getUpdatedProjectStausForDailyJobSheet,
 }) => {
+  useEffect(() => {
+    client.onopen = () => {
+      console.log("webSocket client connected");
+    };
+    client.onmessage = (message) => {
+      getUpdatedProjectStaus();
+      // getUpdatedProjectStausForDailyJobSheet();
+    };
+  }, []);
   useEffect(() => {
     getJobQueueProjectDeatils();
   }, [getJobQueueProjectDeatils]);
@@ -88,6 +109,12 @@ const JobQueue = ({
       };
       // console.log("page", finalData);
       AddProjectTrack(finalData);
+      client.send(
+        JSON.stringify({
+          type: "message",
+          msg: "/JobQueue",
+        })
+      );
       // setStatusChange(finalData);
       // setShowProjectCycleModal(false);
     } else {
@@ -647,4 +674,6 @@ export default connect(mapStateToProps, {
   getAllchanges,
   getJobQueueProjectDeatils,
   getAllProjectStatus,
+  getUpdatedProjectStaus,
+  // getUpdatedProjectStausForDailyJobSheet,
 })(JobQueue);

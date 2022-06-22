@@ -145,6 +145,27 @@ export const deactiveProjectStatus = (finalData) => async (dispatch) => {
 };
 
 //SELECT
+export const getUpdatedProjectStaus = () => async (dispatch) => {
+  try {
+    dispatch(getJobQueueProjectDeatils());
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getUpdatedProjectStausForDailyJobSheet =
+  () => async (dispatch) => {
+    try {
+      dispatch(getDailyJobsheetProjectDeatils());
+    } catch (err) {
+      dispatch({
+        type: AUTH_ERROR,
+      });
+    }
+  };
+
 export const getAllProjectStatus = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/projects/get-all-project-status");

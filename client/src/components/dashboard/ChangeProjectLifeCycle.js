@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { AddProjectTrack } from "../../actions/projects";
+import { w3cwebsocket } from "websocket";
 
 const ChangeProjectLifeCycle = ({
   auth: { isAuthenticated, user, users, loading },
@@ -60,6 +61,8 @@ const ChangeProjectLifeCycle = ({
   });
   // console.log(ProjectCycledata);
   const { showTimerSection } = showHide;
+  //client in websocket
+  const client = new w3cwebsocket("ws://192.168.6.140:8000");
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -83,6 +86,13 @@ const ChangeProjectLifeCycle = ({
     };
     // console.log(finalData);
     AddProjectTrack(finalData);
+    client.send(
+      JSON.stringify({
+        type: "message",
+        msg: "/JobQueue",
+        msg1: "/DailyJobSheet`",
+      })
+    );
     setFormData({
       ...formData,
       Instructions: "",
