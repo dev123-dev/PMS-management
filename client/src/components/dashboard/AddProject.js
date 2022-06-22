@@ -105,19 +105,14 @@ const AddProject = ({
   });
 
   const {
-    clientName,
     projectName,
     qty,
     priority,
     deadline,
-    projectStatus,
-    projectDate,
     projectTime,
-    clientDate,
     clientTime,
     Instructions,
     clientType,
-    projectEnteredByName,
     isSubmitted,
   } = formData;
 

@@ -87,27 +87,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-
-                <NavItem>
-                  {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  user.userGroupName &&
-                  (user.userGroupName === "Administrator" ||
-                    user.userGroupName === "software") ? (
-                    <NavLink
-                      to="/chat"
-                      activeStyle={{
-                        color: "#ffd037",
-                        textDecoration: "none",
-                      }}
-                    >
-                      Chat
-                    </NavLink>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </NavItem>
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>

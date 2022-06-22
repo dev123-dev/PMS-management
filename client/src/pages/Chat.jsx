@@ -70,9 +70,8 @@ export default function Chat() {
     <>
       <div className="chat_div">
         <Container>
-          <div>
-            <h5>Chat</h5>
-          </div>
+          <label>Chat</label>
+
           <div className="container">
             <Contacts contacts={contacts} changeChat={handleChatChange} contactsMsgCount={contactsMsgCount} />
             {currentChat === undefined ? (
@@ -88,20 +87,36 @@ export default function Chat() {
 }
 
 const Container = styled.div`
-  height: 55vh;
-  width: 24vw;
+  height: 500px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1rem;
+
   align-items: center;
   background-color: #456792;
   color: #fff;
+
+  animation: mymove 100ms;
+  animation-fill-mode: forwards;
+
+  @keyframes mymove {
+    from {
+      width: 0;
+    }
+    to {
+      width: 400px;
+    }
+  }
   .container {
-    height: 50vh;
-    width: 75vw;
+    height: 90%;
+    width: 100%;
+    padding-left: 0;
     background-color: #00000076;
     display: grid;
-    grid-template-columns: 25% 75%;
+    grid-template-columns: 26% 75%;
+  }
+  label {
+    color: white;
   }
 `;

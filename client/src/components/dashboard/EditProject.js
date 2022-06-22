@@ -20,8 +20,6 @@ const priorityVal = [
 
 const EditProject = ({
   auth: { isAuthenticated, user, users, loading },
-  settings: { paymentMode },
-  client: { activeClientFilter },
   project: { allProjectStatus },
   getActiveClientsFilter,
   getAllProjectStatus,
@@ -119,10 +117,7 @@ const EditProject = ({
     qty,
     priority,
     deadline,
-    projectStatus,
-    projectDate,
     projectTime,
-    clientDate,
     clientTime,
     Instructions,
     clientType,
@@ -215,24 +210,24 @@ const EditProject = ({
     setFolderNameVal(e.folderName);
   };
 
-  const [projectStatusData, setProjectStatusData] = useState(
-    allProjectdata
-      ? projectStatusOpt &&
-          projectStatusOpt.filter(
-            (x) => x.projectStatusId === allProjectdata.projectStatusId
-          )[0]
-      : ""
-  );
-  const onProjectStatusChange = (e) => {
-    //Required Validation starts
-    // setError({
-    //   ...error,
-    //   projectstatusChecker: true,
-    //   projectstatusErrorStyle: { color: "#000" },
-    // });
-    //Required Validation ends
-    setProjectStatusData(e);
-  };
+  // const [projectStatusData, setProjectStatusData] = useState(
+  //   allProjectdata
+  //     ? projectStatusOpt &&
+  //         projectStatusOpt.filter(
+  //           (x) => x.projectStatusId === allProjectdata.projectStatusId
+  //         )[0]
+  //     : ""
+  // );
+  // const onProjectStatusChange = (e) => {
+  //   //Required Validation starts
+  //   // setError({
+  //   //   ...error,
+  //   //   projectstatusChecker: true,
+  //   //   projectstatusErrorStyle: { color: "#000" },
+  //   // });
+  //   //Required Validation ends
+  //   setProjectStatusData(e);
+  // };
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -357,8 +352,8 @@ const EditProject = ({
       // projectHours
       projectNotes: Instructions,
       projectDeadline: deadline,
-      projectStatusType: projectStatusData.value,
-      projectStatusId: projectStatusData.projectStatusId,
+      //  projectStatusType: projectStatusData.value,
+      //  projectStatusId: projectStatusData.projectStatusId,
       // projectPrice:
       projectQuantity: qty,
       // projectUnconfirmed
