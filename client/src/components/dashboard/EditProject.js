@@ -404,7 +404,7 @@ const EditProject = ({
                     name="clientType"
                     options={clientTypeVal}
                     value={clientType}
-                    isSearchable={false}
+                    isSearchable={true}
                     placeholder="Select"
                     onChange={(e) => onClientTypeChange(e)}
                   />
@@ -420,7 +420,7 @@ const EditProject = ({
                     name="clientData"
                     value={clientData}
                     options={activeClientsOpt}
-                    isSearchable={false}
+                    isSearchable={true}
                     placeholder="Select"
                     onChange={(e) => onClientChange(e)}
                   />
@@ -556,7 +556,7 @@ const EditProject = ({
                     name="priority"
                     options={priorityVal}
                     value={priority}
-                    isSearchable={false}
+                    isSearchable={true}
                     placeholder="Select"
                     onChange={(e) => priorityToChange(e)}
                   />
