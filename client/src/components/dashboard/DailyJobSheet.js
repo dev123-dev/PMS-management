@@ -259,7 +259,7 @@ const DailyJobSheet = ({
                     <thead>
                       <tr>
                         {user.userGroupName &&
-                        user.userGroupName === "Admin" ? (
+                        user.userGroupName === "Administrator" ? (
                           <th style={{ width: "10%" }}>Client Name</th>
                         ) : (
                           <></>
