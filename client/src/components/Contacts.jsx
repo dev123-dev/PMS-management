@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 // import Logo from "../assets/logo.svg";
 
-export default function Contacts({ contacts, changeChat }) {
+export default function Contacts({ contacts, changeChat,contactsMsgCount }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
   useEffect(async () => {
@@ -21,6 +21,13 @@ export default function Contacts({ contacts, changeChat }) {
         <Container>
           <div className="contacts">
             {contacts.map((contact, index) => {
+                let msgCntVal="";
+              contactsMsgCount.map((contactsMsgCnt) => {
+                if(contactsMsgCnt._id===contact._id){
+                  msgCntVal=contactsMsgCnt.msgCnt;
+                }
+                return (<></>);
+              })
               return (
                 <div
                   key={contact._id}
@@ -35,9 +42,13 @@ export default function Contacts({ contacts, changeChat }) {
                       alt=""
                     />
                   </div> */}
-                  <div className="username">
-                    <label>{contact.userName}</label>
-                  </div>
+                  <a href="#" class="notification">
+                    <span>{contact.userName}</span>
+                    {msgCntVal>0 && <span class="badge">{msgCntVal}</span>}
+                  </a>
+                  {/* <div className="username">
+                    <span >{msgCntVal}</span> <label>{contact.userName}</label>
+                  </div> */}
                 </div>
               );
             })}

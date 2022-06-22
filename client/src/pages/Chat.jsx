@@ -3,7 +3,7 @@ import axios from "axios";
 // import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import styled from "styled-components";
-import { allUsersRoute, host } from "../utils/APIRoutes";
+import { allUsersRoute, host,allUsersMsgCountRoute,updateChatViewRoute } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
@@ -12,6 +12,7 @@ export default function Chat() {
   // const navigate = useNavigate();
   const socket = useRef();
   const [contacts, setContacts] = useState([]);
+  const [contactsMsgCount, setContactsMsgCount] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
 
@@ -34,12 +35,35 @@ export default function Chat() {
       if (currentUser.userName) {
         const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
         setContacts(data.data);
+        const dataCount = await axios.get(`${allUsersMsgCountRoute}/${currentUser._id}`);
+        setContactsMsgCount(dataCount.data);
       }
     }
   }, [currentUser]);
 
-  const handleChatChange = (chat) => {
+  useEffect(async() => {
+    if (currentUser) {
+      if (currentUser.userName) {
+        if (socket.current) {
+          socket.current.on("msg-recieve",async(data) => {
+            const dataCount = await axios.get(`${allUsersMsgCountRoute}/${currentUser._id}`);
+            setContactsMsgCount(dataCount.data);    
+          });
+        }
+      }
+    }
+  }, [currentUser]);
+
+
+
+  const handleChatChange =async (chat) => {
     setCurrentChat(chat);
+    await axios.post(updateChatViewRoute, {
+      chatUserId: chat._id,
+      currentUserId:currentUser._id,
+    });
+    const dataCount = await axios.get(`${allUsersMsgCountRoute}/${currentUser._id}`);
+    setContactsMsgCount(dataCount.data);    
     localStorage.setItem("curChat",JSON.stringify(chat));
   };
   return (
@@ -50,7 +74,7 @@ export default function Chat() {
             <h5>Chat</h5>
           </div>
           <div className="container">
-            <Contacts contacts={contacts} changeChat={handleChatChange} />
+            <Contacts contacts={contacts} changeChat={handleChatChange} contactsMsgCount={contactsMsgCount} />
             {currentChat === undefined ? (
               <Welcome />
             ) : (
