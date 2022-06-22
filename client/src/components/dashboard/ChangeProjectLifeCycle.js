@@ -111,6 +111,11 @@ const ChangeProjectLifeCycle = ({
       {" "}
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
+          <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+            <label className="label-control">
+              <strong> Status : {ProjectCycledata.value}</strong>
+            </label>
+          </div>
           {showTimerSection && (
             <>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">

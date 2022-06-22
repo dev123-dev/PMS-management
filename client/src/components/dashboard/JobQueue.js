@@ -285,8 +285,9 @@ const JobQueue = ({
                   >
                     <thead>
                       <tr>
-                        {user.userGroupName &&
-                        user.userGroupName === "Admin" ? (
+                        {(user.userGroupName &&
+                          user.userGroupName === "Administrator") ||
+                        user.userGroupName === "Super Admin" ? (
                           <th style={{ width: "10%" }}>Client Name</th>
                         ) : (
                           <></>
@@ -323,8 +324,9 @@ const JobQueue = ({
                           }
                           return (
                             <tr key={idx}>
-                              {user.userGroupName &&
-                              user.userGroupName === "Admin" ? (
+                              {(user.userGroupName &&
+                                user.userGroupName === "Administrator") ||
+                              user.userGroupName === "Super Admin" ? (
                                 <td>
                                   {" "}
                                   <Link
@@ -387,7 +389,7 @@ const JobQueue = ({
                                     value: jobQueueProjects.projectStatusId,
                                   }}
                                   options={projectStatusOpt}
-                                  isSearchable={false}
+                                  isSearchable={true}
                                   placeholder="Select"
                                   onChange={onSliderChange(jobQueueProjects)}
                                 />

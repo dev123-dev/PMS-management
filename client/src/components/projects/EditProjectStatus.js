@@ -91,7 +91,7 @@ const EditProjectStatus = ({
             <Select
               name="projectStatusCategory"
               options={StatusCategory}
-              isSearchable={false}
+              isSearchable={true}
               value={projectStatusCategory}
               placeholder="Select"
               onChange={(e) => onStatuscatChange(e)}

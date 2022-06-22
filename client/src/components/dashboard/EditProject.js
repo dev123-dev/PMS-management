@@ -26,6 +26,7 @@ const EditProject = ({
   allProjectdata,
   onEditModalChange,
   addProject,
+  EditProjectData,
 }) => {
   useEffect(() => {
     getAllProjectStatus();
@@ -150,7 +151,7 @@ const EditProject = ({
 
   const [clientData, setClientData] = useState("");
   if (
-    !clientData &&
+    clientData === "" &&
     allProjectdata &&
     activeClientsOpt &&
     activeClientsOpt.length > 0
@@ -190,15 +191,15 @@ const EditProject = ({
   );
   const onClientChange = (e) => {
     //Required Validation starts
-    // setError({
-    //   ...error,
-    //   clientnameIdChecker: true,
-    //   clientnameIdErrorStyle: { color: "#000" },
-    // });
+    setError({
+      ...error,
+      // clientnameIdChecker: true,
+      clientnameIdErrorStyle: { color: "#000" },
+    });
     //Required Validation ends
     // var clientId = "";
     // var clientName = "";
-    setClientData(e);
+    // setClientData(e);
     // clientId = e.clientId;
 
     // clientName = e.clientName;
@@ -206,6 +207,7 @@ const EditProject = ({
     setClientData(e);
     setClientId(e.clientId);
     setClientName(e.clientName);
+    setBelongsToValId(e.belongsToId);
     setBelongsToVal(e.belongsTo);
     setFolderNameVal(e.folderName);
   };
@@ -251,7 +253,7 @@ const EditProject = ({
       };
       getActiveClientsFilter(clientTypeVal);
     }
-    setClientData("");
+    setClientData(null);
     setBelongsToVal("");
     setFolderNameVal("");
   };
@@ -289,94 +291,80 @@ const EditProject = ({
   };
 
   //Required Validation Starts
-  // const [error, setError] = useState({
-  //   clientnameIdChecker: false,
-  //   clientnameIdErrorStyle: {},
+  const [error, setError] = useState({
+    clientnameIdChecker: false,
+    clientnameIdErrorStyle: {},
 
-  //   ClientIdChecker: false,
-  //   ClientErrorStyle: {},
-  //   projectstatusChecker: false,
-  //   projectstatusErrorStyle: {},
-  // });
-  // const {
-  //   clientnameIdChecker,
-  //   clientnameIdErrorStyle,
+    ClientIdChecker: false,
+    ClientErrorStyle: {},
+    projectstatusChecker: false,
+    projectstatusErrorStyle: {},
+  });
+  const {
+    clientnameIdChecker,
+    clientnameIdErrorStyle,
 
-  //   ClientIdChecker,
-  //   ClientErrorStyle,
-  //   projectstatusChecker,
-  //   projectstatusErrorStyle,
-  // } = error;
+    ClientIdChecker,
+    ClientErrorStyle,
+    projectstatusChecker,
+    projectstatusErrorStyle,
+  } = error;
 
-  // const checkErrors = () => {
-  //   if (!ClientIdChecker) {
-  //     setError({
-  //       ...error,
-  //       ClientErrorStyle: { color: "#F00" },
-  //     });
-  //     return false;
-  //   }
+  console.log(clientData);
+  const checkErrors = () => {
+    if (!clientData) {
+      setError({
+        ...error,
+        clientnameIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
 
-  //   if (!clientnameIdChecker) {
-  //     setError({
-  //       ...error,
-  //       clientnameIdErrorStyle: { color: "#F00" },
-  //     });
-  //     return false;
-  //   }
-
-  //   if (!projectstatusChecker) {
-  //     setError({
-  //       ...error,
-  //       projectstatusErrorStyle: { color: "#F00" },
-  //     });
-  //     return false;
-  //   }
-
-  //   return true;
-  // };
+    return true;
+  };
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
-    const finalData = {
-      recordId: allProjectdata ? allProjectdata._id : "",
-      projectName: projectName,
-      clientId: clientId,
-      clientName: clientData.value,
-      parentClientId: clientBelongsToId,
-      parentClientName: clientBelongsTo,
-      // projectLocation:
-      clientFolderName: clientFolderName,
-      projectPriority: priority.value,
-      // projectJobtype
-      // projectHours
-      projectNotes: Instructions,
-      projectDeadline: deadline,
-      //  projectStatusType: projectStatusData.value,
-      //  projectStatusId: projectStatusData.projectStatusId,
-      // projectPrice:
-      projectQuantity: qty,
-      // projectUnconfirmed
-      // projectVendor
-      clientTypeVal: clientType.value,
-      projectTime: projectTime,
-      projectDate: startprojectDate,
-      clientTime: clientTime,
-      clientDate: startclientDate,
-      projectEnteredById: user._id,
-      // projectEnteredDate:
-      // projectEntryTime
-      // clientType: clientType.value,
-    };
-    console.log(finalData);
-    EditProjectData(finalData);
-    onEditModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // }
+    if (checkErrors()) {
+      const finalData = {
+        recordId: allProjectdata ? allProjectdata._id : "",
+        projectName: projectName,
+        clientId: clientId,
+        clientName: clientData.value,
+        parentClientId: clientBelongsToId,
+        parentClientName: clientBelongsTo,
+        // projectLocation:
+        clientFolderName: clientFolderName,
+        projectPriority: priority.value,
+        // projectJobtype
+        // projectHours
+        projectNotes: Instructions,
+        projectDeadline: deadline,
+        //  projectStatusType: projectStatusData.value,
+        //  projectStatusId: projectStatusData.projectStatusId,
+        // projectPrice:
+        projectQuantity: qty,
+        // projectUnconfirmed
+        // projectVendor
+        clientTypeVal: clientType.value,
+        projectTime: projectTime,
+        projectDate: startprojectDate,
+        clientTime: clientTime,
+        clientDate: startclientDate,
+        projectEditedById: user._id,
+        // projectEnteredByName: user.empFullName,
+        // projectEnteredDate:
+        // projectEntryTime
+        // clientType: clientType.value,
+      };
+      // console.log(finalData);
+      EditProjectData(finalData);
+      onEditModalChange(true);
+      // setFormData({
+      //   ...formData,
+      //   districtName: "",
+      //   isSubmitted: true,
+      // });
+    }
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -404,7 +392,7 @@ const EditProject = ({
                     name="clientType"
                     options={clientTypeVal}
                     value={clientType}
-                    isSearchable={false}
+                    isSearchable={true}
                     placeholder="Select"
                     onChange={(e) => onClientTypeChange(e)}
                   />
@@ -412,7 +400,7 @@ const EditProject = ({
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <label
                     className="label-control"
-                    // style={clientnameIdErrorStyle}
+                    style={clientnameIdErrorStyle}
                   >
                     Client Name* :
                   </label>
@@ -420,7 +408,7 @@ const EditProject = ({
                     name="clientData"
                     value={clientData}
                     options={activeClientsOpt}
-                    isSearchable={false}
+                    isSearchable={true}
                     placeholder="Select"
                     onChange={(e) => onClientChange(e)}
                   />
@@ -556,7 +544,7 @@ const EditProject = ({
                     name="priority"
                     options={priorityVal}
                     value={priority}
-                    isSearchable={false}
+                    isSearchable={true}
                     placeholder="Select"
                     onChange={(e) => priorityToChange(e)}
                   />
