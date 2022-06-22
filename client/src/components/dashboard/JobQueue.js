@@ -382,17 +382,30 @@ const JobQueue = ({
                               <td>{jobQueueProjects.projectDeadline}</td>
                               <td>{jobQueueProjects.projectQuantity}</td>
                               <td>
-                                <Select
-                                  name="projectStatusData"
-                                  value={{
-                                    label: jobQueueProjects.projectStatusType,
-                                    value: jobQueueProjects.projectStatusId,
-                                  }}
-                                  options={projectStatusOpt}
-                                  isSearchable={true}
-                                  placeholder="Select"
-                                  onChange={onSliderChange(jobQueueProjects)}
-                                />
+                                {(user.userGroupName &&
+                                  user.userGroupName === "Administrator") ||
+                                user.userGroupName === "Super Admin" ||
+                                user.userGroupName === "Clarical Admins" ||
+                                user.userGroupName === "Quality Controller" ||
+                                user.userGroupName === "Distributors" ? (
+                                  <Select
+                                    name="projectStatusData"
+                                    value={{
+                                      label: jobQueueProjects.projectStatusType,
+                                      value: jobQueueProjects.projectStatusId,
+                                    }}
+                                    options={projectStatusOpt}
+                                    isSearchable={true}
+                                    placeholder="Select"
+                                    onChange={onSliderChange(jobQueueProjects)}
+                                  />
+                                ) : (
+                                  <>
+                                    <label>
+                                      {jobQueueProjects.projectStatusType}
+                                    </label>
+                                  </>
+                                )}
                               </td>
                               <td>
                                 {" "}
