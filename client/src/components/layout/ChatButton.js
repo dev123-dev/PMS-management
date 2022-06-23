@@ -51,7 +51,6 @@ const ChatButton = ({ auth: { isAuthenticated, loading, user } }) => {
   );
 };
 ChatButton.propTypes = {
-  logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
