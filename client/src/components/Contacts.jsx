@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Select from "react-select";
+
 // import Logo from "../assets/logo.svg";
 
-export default function Contacts({ contacts, changeChat,contactsMsgCount }) {
+export default function Contacts({ contacts, changeChat, contactsMsgCount }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
   useEffect(async () => {
@@ -15,19 +17,38 @@ export default function Contacts({ contacts, changeChat,contactsMsgCount }) {
     setCurrentSelected(index);
     changeChat(contact);
   };
+
+  const contactFilterOpt = [];
+  contacts.map((contact) =>
+    contactFilterOpt.push({
+      label: contact.userName,
+      value: contact._id,
+    })
+  );
+
   return (
     <>
       {currentUserName && currentUserName && (
         <Container>
+          <div className="contactFilterStyle">
+            <Select
+              name="contactFilterData"
+              value=""
+              options={contactFilterOpt}
+              isSearchable={true}
+              placeholder="Select"
+              // onChange={onSliderChange(jobQueueProjects)}
+            />
+          </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
-                let msgCntVal="";
+              let msgCntVal = "";
               contactsMsgCount.map((contactsMsgCnt) => {
-                if(contactsMsgCnt._id===contact._id){
-                  msgCntVal=contactsMsgCnt.msgCnt;
+                if (contactsMsgCnt._id === contact._id) {
+                  msgCntVal = contactsMsgCnt.msgCnt;
                 }
-                return (<></>);
-              })
+                return <></>;
+              });
               return (
                 <div
                   key={contact._id}
@@ -44,7 +65,7 @@ export default function Contacts({ contacts, changeChat,contactsMsgCount }) {
                   </div> */}
                   <a href="#" class="notification">
                     <span>{contact.userName}</span>
-                    {msgCntVal>0 && <span class="badge">{msgCntVal}</span>}
+                    {msgCntVal > 0 && <span class="badge">{msgCntVal}</span>}
                   </a>
                   {/* <div className="username">
                     <span >{msgCntVal}</span> <label>{contact.userName}</label>
@@ -71,10 +92,13 @@ export default function Contacts({ contacts, changeChat,contactsMsgCount }) {
 }
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 90% 10%;
+  grid-template-rows: 10% 80% 10%;
   overflow: hidden;
   background-color: #25374e;
   padding-top: 10px;
+  .contactFilterStyle {
+    color: #000;
+  }
 
   .contacts {
     cursor: pointer;
@@ -96,7 +120,7 @@ const Container = styled.div`
       cursor: pointer;
       width: 90%;
       border-radius: 0.2rem;
-      padding: 0.1rem;
+      padding: 0.9rem;
       display: flex;
       align-items: center;
       transition: 0.5s ease-in-out;
