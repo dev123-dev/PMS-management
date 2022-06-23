@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login, removeError } from "../../actions/auth";
+import { w3cwebsocket } from "websocket";
 
 const Login = ({
   login,
@@ -130,12 +131,19 @@ const Login = ({
     }
     return true;
   };
-
+  //client in websocket
+  const client = new w3cwebsocket("ws://192.168.6.128:8000");
   const onSubmit = async (e) => {
     e.preventDefault();
     if (checkErrors(formData)) {
       login(userName, password);
     }
+    client.send(
+      JSON.stringify({
+        type: "message",
+        msg: "../../pages/Chat.jsx",
+      })
+    );
     setFormData({ ...formData, submitted: true });
   };
 

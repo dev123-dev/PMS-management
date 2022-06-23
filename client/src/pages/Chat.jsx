@@ -7,6 +7,7 @@ import { allUsersRoute, host,allUsersMsgCountRoute,updateChatViewRoute } from ".
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
+import { w3cwebsocket } from "websocket";
 
 export default function Chat() {
   // const navigate = useNavigate();
@@ -23,6 +24,24 @@ export default function Chat() {
       )
     );
   }, []);
+
+  const client = new w3cwebsocket("ws://192.168.6.128:8000");
+
+  // useEffect(async() => {
+    client.onopen = () => {
+      console.log("webSocket client connected");
+    };
+    client.onmessage = async(message) => {
+      if (currentUser) {
+        if (currentUser.userName) {
+          const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
+          console.log("data.data",data.data)
+          setContacts(data.data);
+        }
+      }
+    };
+  // }, []);
+
   useEffect(() => {
     if (currentUser) {
       socket.current = io(host);
