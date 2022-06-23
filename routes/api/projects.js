@@ -13,6 +13,16 @@ router.post("/add-project", async (req, res) => {
   try {
     let ProjectDetails = new Project(data);
     output = await ProjectDetails.save();
+    const trackData = {
+      projectId: output._id,
+      projectTrackLatestChange: data.projectNotes,
+      projectStatusType: data.projectStatusType,
+      projectTrackStatusId: data.projectStatusId,
+    };
+    console.log(trackData);
+    let ProjectTrackDetails = new ProjectTrack(trackData);
+    output = await ProjectTrackDetails.save();
+
     res.send(output);
   } catch (err) {
     console.error(err.message);
