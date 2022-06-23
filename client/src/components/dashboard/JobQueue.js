@@ -50,13 +50,12 @@ const JobQueue = ({
   useEffect(() => {
     getAllProjectStatus();
   }, [getAllProjectStatus]);
-  // getJobQueueProjectDeatils();
+
+  getJobQueueProjectDeatils();
 
   // const [sliderValue, setSliderValue] = useState([]);
 
-  function dhm(pDateTime, idx) {
-    // let myInterval = setInterval(function () {
-    // let newSliderArr = [...sliderValue];
+  function dhm(pDateTime) {
     let pStartDate = new Date(pDateTime);
     let pEndDate = new Date();
     let ms = Math.abs(pStartDate - pEndDate);
@@ -67,11 +66,7 @@ const JobQueue = ({
     const minutes = Math.floor(hoursms / (60 * 1000));
     const minutesms = ms % (60 * 1000);
     const sec = Math.floor(minutesms / 1000);
-    // newSliderArr[idx] =
-    // days + " d : " + hours + " h : " + minutes + " m : " + sec + " s";
-    // setSliderValue(newSliderArr);
     return days + " d : " + hours + " h : " + minutes + " m : " + sec + " s";
-    // }, 5000);
   }
 
   // On change ProjectCycle
@@ -401,8 +396,8 @@ const JobQueue = ({
                                     " min"}
                               </td>
                               <td>
-                                {/* {jobQueueProjects.ptEstimatedDateTime &&
-                                  dhm(jobQueueProjects.ptEstimatedDateTime)} */}
+                                {jobQueueProjects.ptEstimatedDateTime &&
+                                  dhm(jobQueueProjects.ptEstimatedDateTime)}
                               </td>
                               <td>{jobQueueProjects.projectPriority}</td>
                               <td>{jobQueueProjects.projectDeadline}</td>
