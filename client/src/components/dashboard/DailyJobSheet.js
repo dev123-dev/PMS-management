@@ -45,7 +45,21 @@ const DailyJobSheet = ({
   useEffect(() => {
     getAllProjectStatus();
   }, [getAllProjectStatus]);
+  getDailyJobsheetProjectDeatils();
 
+  function dhm(pDateTime) {
+    let pStartDate = new Date(pDateTime);
+    let pEndDate = new Date();
+    let ms = Math.abs(pStartDate - pEndDate);
+    const days = Math.floor(ms / (24 * 60 * 60 * 1000));
+    const daysms = ms % (24 * 60 * 60 * 1000);
+    const hours = Math.floor(daysms / (60 * 60 * 1000));
+    const hoursms = ms % (60 * 60 * 1000);
+    const minutes = Math.floor(hoursms / (60 * 1000));
+    const minutesms = ms % (60 * 1000);
+    const sec = Math.floor(minutesms / 1000);
+    return days + " d : " + hours + " h : " + minutes + " m : " + sec + " s";
+  }
   // On change ProjectCycle
   const [showProjectCycleModal, setShowProjectCycleModal] = useState(false);
   const handleProjectCycleModalClose = () => setShowProjectCycleModal(false);
@@ -281,19 +295,18 @@ const DailyJobSheet = ({
   const onSearch = (e) => {
     let selDateData = {
       selDate: singledate,
+      dateType: "singleDate",
     };
-
     getDailyJobsheetProjectDeatils(selDateData);
-
-    // console.log(selDateData);
   };
 
   const onSearchmultidate = (e) => {
-    let finalData1 = {
-      todate: todate,
+    let selDateData = {
       fromdate: fromdate,
+      todate: todate,
+      dateType: "multiDate",
     };
-    //  console.log(finalData1);
+    getDailyJobsheetProjectDeatils(selDateData);
   };
   const [showAllChangeModal, setshowAllChangeModal] = useState(false);
   const handleAllChangeModalClose = () => setshowAllChangeModal(false);
@@ -506,7 +519,13 @@ const DailyJobSheet = ({
                             if (statusType === "QC Estimate")
                               QCEstimateQty += 1;
                             if (statusType === "Uploading") UploadingQty += 1;
-
+                            let estimatedTimeVal = "";
+                            if (dailyJobsheetProjects.ptEstimatedTime) {
+                              estimatedTimeVal =
+                                dailyJobsheetProjects.ptEstimatedTime.split(
+                                  ":"
+                                );
+                            }
                             return (
                               <tr key={idx}>
                                 {(user.userGroupName &&
@@ -541,9 +560,27 @@ const DailyJobSheet = ({
                                     </>
                                   )}
                                 </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>
+                                  {dhm(
+                                    dailyJobsheetProjects.projectDate +
+                                      ", " +
+                                      dailyJobsheetProjects.projectTime,
+                                    idx
+                                  )}
+                                </td>
+                                <td>
+                                  {dailyJobsheetProjects.ptEstimatedTime &&
+                                    estimatedTimeVal[0] +
+                                      " hr : " +
+                                      estimatedTimeVal[1] +
+                                      " min"}
+                                </td>
+                                <td>
+                                  {dailyJobsheetProjects.ptEstimatedDateTime &&
+                                    dhm(
+                                      dailyJobsheetProjects.ptEstimatedDateTime
+                                    )}
+                                </td>
                                 <td>{dailyJobsheetProjects.projectPriority}</td>
                                 <td>{dailyJobsheetProjects.projectDeadline}</td>
                                 <td>{dailyJobsheetProjects.projectQuantity}</td>

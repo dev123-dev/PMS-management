@@ -209,19 +209,42 @@ router.post("/get-job-queue-project-details", async (req, res) => {
 });
 
 router.post("/get-daily-jobsheet-project-details", async (req, res) => {
-  const { selDate } = req.body;
-
-  if (selDate) selDateVal = selDate;
-  else selDateVal = new Date().toISOString().split("T")[0];
-  try {
-    const getDailyJobSheetDetails = await Project.find({
+  const { selDate, fromdate, todate, dateType } = req.body;
+  let query = {};
+  if (dateType === "multiDate") {
+    query = {
+      projectStatus: {
+        $eq: "Active",
+      },
+      projectDate: {
+        $gte: fromdate,
+        $lte: todate,
+      },
+    };
+  } else if (dateType === "singleDate") {
+    if (selDate) selDateVal = selDate;
+    else selDateVal = new Date().toISOString().split("T")[0];
+    query = {
       projectStatus: {
         $eq: "Active",
       },
       projectDate: {
         $eq: selDateVal,
       },
-    });
+    };
+  } else {
+    query = {
+      projectStatus: {
+        $eq: "Active",
+      },
+      projectDate: {
+        $eq: new Date().toISOString().split("T")[0],
+      },
+    };
+  }
+
+  try {
+    const getDailyJobSheetDetails = await Project.find(query);
     res.json(getDailyJobSheetDetails);
   } catch (err) {
     console.error(err.message);
