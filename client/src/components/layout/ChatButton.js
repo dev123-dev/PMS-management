@@ -34,7 +34,12 @@ const ChatButton = ({ auth: { isAuthenticated, loading, user } }) => {
   }
   return (
     <Fragment>
-      {!loading && isAuthenticated && user ? (
+      {!loading &&
+      isAuthenticated &&
+      user &&
+      user.userGroupName &&
+      user.designationName !== "Tr. Graphic Artist" &&
+      user.designationName !== "Jr. Graphic Artist" ? (
         <>
           <Link
             className="ChatBtn"
@@ -51,7 +56,6 @@ const ChatButton = ({ auth: { isAuthenticated, loading, user } }) => {
   );
 };
 ChatButton.propTypes = {
-  logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
