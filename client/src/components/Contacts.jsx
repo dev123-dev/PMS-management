@@ -23,8 +23,13 @@ export default function Contacts({ contacts, changeChat, contactsMsgCount }) {
     contactFilterOpt.push({
       label: contact.userName,
       value: contact._id,
+      
     })
   );
+  const [contact, getcontact] = useState();
+  const changeCurrentChatSearch = (e) => {
+    changeChat({id:e.value,userName:e.label});
+  }
 
   return (
     <>
@@ -33,11 +38,11 @@ export default function Contacts({ contacts, changeChat, contactsMsgCount }) {
           <div className="contactFilterStyle">
             <Select
               name="contactFilterData"
-              value=""
               options={contactFilterOpt}
+              value={contact}
               isSearchable={true}
               placeholder="Select"
-              // onChange={onSliderChange(jobQueueProjects)}
+              onChange={(e) => changeCurrentChatSearch(e)}
             />
           </div>
           <div className="contacts">
