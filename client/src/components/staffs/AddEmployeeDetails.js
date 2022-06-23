@@ -142,10 +142,7 @@ const AddEmployeeDetails = ({
       str = name.slice(0, -4);
     }
   }
-  const currentEmpCode = str + NewCode;
-
-  // console.log(currentEmpCode);
-
+  var currentEmpCode = str + NewCode;
   const [employeeDOJDate, setDOJDate] = useState("");
   const onDateChange = (e) => {
     setDOJDate(e.target.value);
@@ -491,6 +488,7 @@ const AddEmployeeDetails = ({
         empEnteredById: user._id,
       };
       console.log(finalData);
+      localStorage.removeItem("lastEnteredCode");
       AddEmployee(finalData);
       setFormData({
         ...formData,

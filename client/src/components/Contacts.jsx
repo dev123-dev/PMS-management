@@ -18,8 +18,6 @@ export default function Contacts({ contacts, changeChat, contactsMsgCount }) {
     changeChat(contact);
   };
 
-  
-
   const contactFilterOpt = [];
   contacts.map((contact) =>
     contactFilterOpt.push({
