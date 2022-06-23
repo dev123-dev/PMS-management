@@ -19,6 +19,7 @@ import {
 import JobNotes from "./JobNotes";
 import AllLatestChange from "./AllLatestChange";
 import { w3cwebsocket } from "websocket";
+import { CSVLink, CSVDownload } from "react-csv";
 
 //client in websocket
 const client = new w3cwebsocket("ws://192.168.6.140:8000");
@@ -65,6 +66,12 @@ const DailyJobSheet = ({
       value: projStatusData._id,
     })
   );
+  // const csvData = [
+  //   ["firstname", "lastname", "email"],
+  //   ["Ahmed", "Tomi", "ah@smthing.co.com"],
+  //   ["Raed", "Labes", "rl@smthing.co.com"],
+  //   ["Yezzi", "Min l3b", "ymin@cocococo.com"],
+  // ];
 
   const [statusChangeValue, setStatusChange] = useState();
   // const onSliderChange = (dailyJobsheetProjects) => (e) => {
@@ -146,10 +153,11 @@ const DailyJobSheet = ({
   };
   const [formData, setFormData] = useState({
     radioselect: "",
+    Dateselectmode: "",
     isSubmitted: false,
   });
 
-  const { radioselect } = formData;
+  const { radioselect, Dateselectmode } = formData;
   const onstatuscategrorySelect = (statuscategrory) => {
     if (statuscategrory === "Normal") {
       setFormData({
@@ -212,14 +220,53 @@ const DailyJobSheet = ({
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
-  const onDateChange = (e) => {
-    setSelectedDate(e.target.value);
-    const selDateData = {
-      selDate: e.target.value,
-    };
-    getDailyJobsheetProjectDeatils(selDateData);
+  // const onDateChange = (e) => {
+  //   setSelectedDate(e.target.value);
+  //   const selDateData = {
+  //     selDate: e.target.value,
+  //   };
+  //   // getDailyJobsheetProjectDeatils(selDateData);
+  // };
+  const [singledate, setsingledate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  //
+  const onDateChange2 = (e) => {
+    setsingledate(e.target.value);
+
+    // setsingledate(e.target.value);
+    // const selDateData = {
+    //   selDate: e.target.value,
+    // };
+    // getDailyJobsheetProjectDeatils(selDateData);
+  };
+  const [todate, settodate] = useState("");
+  const onDateChange1 = (e) => {
+    settodate(e.target.value);
   };
 
+  const [fromdate, setfromdate] = useState("");
+  const onDateChange = (e) => {
+    setfromdate(e.target.value);
+  };
+
+  const onSearch = (e) => {
+    let selDateData = {
+      selDate: singledate,
+    };
+
+    getDailyJobsheetProjectDeatils(selDateData);
+
+    // console.log(selDateData);
+  };
+
+  const onSearchmultidate = (e) => {
+    let finalData1 = {
+      todate: todate,
+      fromdate: fromdate,
+    };
+    //  console.log(finalData1);
+  };
   const [showAllChangeModal, setshowAllChangeModal] = useState(false);
   const handleAllChangeModalClose = () => setshowAllChangeModal(false);
 
@@ -234,6 +281,38 @@ const DailyJobSheet = ({
     setshowAllChangeModal(true);
     setUserDatas3(dailyJobsheetProjects);
   };
+
+  const DateMethods = [
+    { value: "Single Date", label: "Single Date" },
+    { value: "Multi Date", label: "Multi Date" },
+  ];
+
+  const [showHide, setShowHide] = useState({
+    showChequenoSection: false,
+    showChequenoSection1: true,
+  });
+  const { showChequenoSection, showChequenoSection1 } = showHide;
+  const onDateModeChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        Dateselectmode: e,
+      });
+    }
+    if (e.value === "Multi Date") {
+      setShowHide({
+        ...showHide,
+        showChequenoSection: true,
+        showChequenoSection1: false,
+      });
+    } else {
+      setShowHide({
+        ...showHide,
+        showChequenoSection: false,
+        showChequenoSection1: true,
+      });
+    }
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -241,25 +320,99 @@ const DailyJobSheet = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Daily Job Sheet</h5>
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <input
-                type="date"
-                placeholder="dd/mm/yyyy"
-                className="form-control cpp-input datevalidation"
-                name="projectDate"
-                value={selectedDate}
-                onChange={(e) => onDateChange(e)}
-                style={{
-                  width: "75%",
-                }}
-                required
+            <CSVLink data={dailyJobsheetProjects}>
+              <button className="btn contact_reg">Export</button>
+            </CSVLink>
+            {/* <CSVDownload data={dailyJobsheetProjects} target="_blank" />; */}
+            <div className="col-lg-2 col-md-4 col-sm-4 col-12 py-3">
+              <Select
+                name="Dateselectmode"
+                options={DateMethods}
+                isSearchable={true}
+                defaultValue={DateMethods[0]}
+                value={DateMethods.value}
+                placeholder="Select"
+                onChange={(e) => onDateModeChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
               />
             </div>
-
-            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-3">
+            {showChequenoSection && (
+              <>
+                <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                  <input
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
+                    name="fromdate"
+                    value={fromdate}
+                    onChange={(e) => onDateChange(e)}
+                    style={{
+                      width: "75%",
+                    }}
+                    required
+                  />
+                </div>
+                <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                  <input
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
+                    name="todate"
+                    value={todate}
+                    onChange={(e) => onDateChange1(e)}
+                    style={{
+                      width: "75%",
+                    }}
+                    required
+                  />
+                </div>
+                <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                  <img
+                    className="img_icon_size log"
+                    onClick={() => onSearchmultidate()}
+                    src={require("../../static/images/Search_Icon.png")}
+                    alt="Edit"
+                    title="Edit"
+                  />
+                </div>
+              </>
+            )}
+            {showChequenoSection1 && (
+              <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                <input
+                  type="date"
+                  placeholder="dd/mm/yyyy"
+                  className="form-control cpp-input datevalidation"
+                  name="singledate"
+                  value={singledate}
+                  onChange={(e) => onDateChange2(e)}
+                  style={{
+                    width: "75%",
+                  }}
+                  required
+                />
+                <img
+                  className="img_icon_size log"
+                  onClick={() => onSearch()}
+                  src={require("../../static/images/Search_Icon.png")}
+                  alt="Edit"
+                  title="Edit"
+                />
+              </div>
+            )}
+            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
