@@ -34,7 +34,12 @@ const ChatButton = ({ auth: { isAuthenticated, loading, user } }) => {
   }
   return (
     <Fragment>
-      {!loading && isAuthenticated && user ? (
+      {!loading &&
+      isAuthenticated &&
+      user &&
+      user.userGroupName &&
+      user.designationName !== "Tr. Graphic Artist" &&
+      user.designationName !== "Jr. Graphic Artist" ? (
         <>
           <Link
             className="ChatBtn"
