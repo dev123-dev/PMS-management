@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
 import Login from "../auth/Login";
 import "react-datepicker/dist/react-datepicker.css";
+import { w3cwebsocket } from "websocket";
 
 const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const [showLogin, setShowLogin] = useState(false);
@@ -13,10 +14,17 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 
   const handleLogoutModalClose = () => setShowLogout(false);
   const handleLogoutModalShow = () => setShowLogout(true);
-
+  //client in websocket
+  const client = new w3cwebsocket("ws://192.168.6.128:8000");
   const LogoutModalClose = () => {
     handleLogoutModalClose();
     logout();
+    client.send(
+      JSON.stringify({
+        type: "message",
+        msg: "../../pages/Chat.jsx",
+      })
+    );
   };
 
   const openSecondLevelMenu2 = () => {
@@ -76,7 +84,13 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                 </NavItem>
 
                 <NavItem>
-                  {!loading && isAuthenticated && user ? (
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  user.userGroupName &&
+                  user.userGroupName !== "Graphic Artists" &&
+                  user.userGroupName !== "Software" &&
+                  user.userGroupName !== "Quality Controller" ? (
                     <NavLink
                       to="/daily-job-sheet"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}

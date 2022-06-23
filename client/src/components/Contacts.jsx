@@ -57,6 +57,8 @@ export default function Contacts({ contacts, changeChat, contactsMsgCount }) {
                 return <></>;
               });
               return (
+                <>
+                {msgCntVal ? (
                 <div
                   key={contact._id}
                   className={`contact ${
@@ -74,10 +76,9 @@ export default function Contacts({ contacts, changeChat, contactsMsgCount }) {
                     <span>{contact.userName}</span>
                     {msgCntVal > 0 && <span class="badge">{msgCntVal}</span>}
                   </a>
-                  {/* <div className="username">
-                    <span >{msgCntVal}</span> <label>{contact.userName}</label>
-                  </div> */}
                 </div>
+                ):(<></>)}
+                </>
               );
             })}
           </div>
