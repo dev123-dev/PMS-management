@@ -11,8 +11,6 @@ import JobHistory from "./JobHistory";
 import {
   getDailyJobsheetProjectDeatils,
   getAllProjectStatus,
-} from "../../actions/projects";
-import {
   AddProjectTrack,
   getUpdatedProjectStausForDailyJobSheet,
 } from "../../actions/projects";
@@ -66,12 +64,40 @@ const DailyJobSheet = ({
       value: projStatusData._id,
     })
   );
-  // const csvData = [
-  //   ["firstname", "lastname", "email"],
-  //   ["Ahmed", "Tomi", "ah@smthing.co.com"],
-  //   ["Raed", "Labes", "rl@smthing.co.com"],
-  //   ["Yezzi", "Min l3b", "ymin@cocococo.com"],
-  // ];
+  const csvData = [
+    [
+      "Project Name",
+      "Client Name",
+      "Folder Name",
+      "Notes",
+      "Project Deadline",
+      "Qty",
+      "Project Date Time",
+      "Entered By",
+      "Client Date Time",
+      "Project Status",
+      "Client Type",
+      "Project Working Status",
+      "projectPriority",
+    ],
+  ];
+  dailyJobsheetProjects.map((dailyJobsheetData) =>
+    csvData.push([
+      dailyJobsheetData.projectName,
+      dailyJobsheetData.clientName,
+      dailyJobsheetData.clientFolderName,
+      dailyJobsheetData.projectNotes,
+      dailyJobsheetData.projectDeadline,
+      dailyJobsheetData.projectQuantity,
+      dailyJobsheetData.projectDate + " : " + dailyJobsheetData.projectTime,
+      dailyJobsheetData.projectEnteredByName,
+      dailyJobsheetData.clientDate + " : " + dailyJobsheetData.clientTime,
+      dailyJobsheetData.projectStatus,
+      dailyJobsheetData.clientTypeVal,
+      dailyJobsheetData.projectStatusType,
+      dailyJobsheetData.projectPriority,
+    ])
+  );
 
   const [statusChangeValue, setStatusChange] = useState();
   // const onSliderChange = (dailyJobsheetProjects) => (e) => {
@@ -323,7 +349,7 @@ const DailyJobSheet = ({
             <div className="col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Daily Job Sheet</h5>
             </div>
-            <CSVLink data={dailyJobsheetProjects}>
+            <CSVLink data={csvData}>
               <button className="btn contact_reg">Export</button>
             </CSVLink>
             {/* <CSVDownload data={dailyJobsheetProjects} target="_blank" />; */}
