@@ -220,7 +220,6 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
 
 router.post("/get-all-changes", async (req, res) => {
   const { projectId } = req.body;
-  console.log("projectId", projectId);
   try {
     const ProjectLatestChangeDetails = await ProjectTrack.aggregate([
       {

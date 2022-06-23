@@ -106,6 +106,8 @@ const JobQueue = ({
         projectTrackStatusId: e.value,
         projectStatusType: e.label,
         projectId: jobQueueProjects._id,
+        projectStatusChangedbyName: user.empFullName,
+        projectStatusChangedById: user._id,
       };
       // console.log("page", finalData);
       AddProjectTrack(finalData);
@@ -194,6 +196,10 @@ const JobQueue = ({
 
   const [userDatas3, setUserDatas3] = useState(null);
   const handleGoToAllLatestChange = (jobQueueProjects, idx) => {
+    const finalData = {
+      projectId: jobQueueProjects._id,
+    };
+    getAllchanges(finalData);
     setshowAllChangeModal(true);
     setUserDatas3(jobQueueProjects);
   };
@@ -244,7 +250,7 @@ const JobQueue = ({
   // console.log(radioselect);
 
   // const [isSubmitted, setSubmitted] = useState(false);
-  // const handleGoToAllLatestChange1 = (jobQueueProjects) => {
+  // const handleGoToAllLatestChange = (jobQueueProjects) => {
   //   const finalData = {
   //     projectId: jobQueueProjects._id,
   //   };
