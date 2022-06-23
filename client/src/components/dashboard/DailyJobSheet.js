@@ -52,7 +52,9 @@ const DailyJobSheet = ({
   useEffect(() => {
     getAllClients();
   }, [getAllClients]);
-  getDailyJobsheetProjectDeatils();
+
+  const [selDateDataVal, setSelDateDataVal] = useState();
+  getDailyJobsheetProjectDeatils(selDateDataVal);
 
   function dhm(pDateTime) {
     let pStartDate = new Date(pDateTime);
@@ -187,6 +189,8 @@ const DailyJobSheet = ({
 
   const onClickReset = () => {
     getDailyJobsheetProjectDeatils("");
+    setSelDateDataVal("");
+    setsingledate(new Date().toISOString().split("T")[0]);
     setSelectedDate(new Date().toISOString().split("T")[0]);
   };
 
@@ -269,25 +273,13 @@ const DailyJobSheet = ({
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
-  // const onDateChange = (e) => {
-  //   setSelectedDate(e.target.value);
-  //   const selDateData = {
-  //     selDate: e.target.value,
-  //   };
-  //   // getDailyJobsheetProjectDeatils(selDateData);
-  // };
+
   const [singledate, setsingledate] = useState(
     new Date().toISOString().split("T")[0]
   );
   //
   const onDateChange2 = (e) => {
     setsingledate(e.target.value);
-
-    // setsingledate(e.target.value);
-    // const selDateData = {
-    //   selDate: e.target.value,
-    // };
-    // getDailyJobsheetProjectDeatils(selDateData);
   };
   const [todate, settodate] = useState("");
   const onDateChange1 = (e) => {
@@ -304,6 +296,7 @@ const DailyJobSheet = ({
       selDate: singledate,
       dateType: "singleDate",
     };
+    setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
   };
 
@@ -313,6 +306,7 @@ const DailyJobSheet = ({
       todate: todate,
       dateType: "multiDate",
     };
+    setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
   };
   const [showAllChangeModal, setshowAllChangeModal] = useState(false);
@@ -361,6 +355,24 @@ const DailyJobSheet = ({
       });
     }
   };
+  const [clientData, setClientData] = useState("");
+  const [clientId, setClientId] = useState("");
+  const [clientName, setClientName] = useState("");
+
+  const activeClientsOpt = [];
+  allClient.map((clientsData) =>
+    activeClientsOpt.push({
+      clientId: clientsData._id,
+      label: clientsData.clientName,
+      value: clientsData.clientName,
+    })
+  );
+  const onClientChange = (e) => {
+    setClientData(e);
+    setClientId(e.clientId);
+    console.log(setClientId);
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -451,6 +463,16 @@ const DailyJobSheet = ({
                   </div>
                 </>
               )}
+              <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                <Select
+                  name="clientData"
+                  isSearchable={true}
+                  value={clientData}
+                  options={activeClientsOpt}
+                  placeholder="Select"
+                  onChange={(e) => onClientChange(e)}
+                />
+              </div>
             </div>
 
             {/* <CSVDownload data={dailyJobsheetProjects} target="_blank" />; */}
