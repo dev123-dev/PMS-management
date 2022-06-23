@@ -76,7 +76,13 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                 </NavItem>
 
                 <NavItem>
-                  {!loading && isAuthenticated && user ? (
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  user.userGroupName &&
+                  user.userGroupName !== "Graphic Artists" &&
+                  user.userGroupName !== "Software" &&
+                  user.userGroupName !== "Quality Controller" ? (
                     <NavLink
                       to="/daily-job-sheet"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
