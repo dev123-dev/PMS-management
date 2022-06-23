@@ -14,21 +14,25 @@ import {
   AddProjectTrack,
   getUpdatedProjectStausForDailyJobSheet,
 } from "../../actions/projects";
+
+import { getAllClients } from "../../actions/client";
 import JobNotes from "./JobNotes";
 import AllLatestChange from "./AllLatestChange";
 import { w3cwebsocket } from "websocket";
 import { CSVLink, CSVDownload } from "react-csv";
 
 //client in websocket
-const client = new w3cwebsocket("ws://192.168.6.140:8000");
+const client = new w3cwebsocket("ws://192.168.6.128:8000");
 
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
   project: { dailyJobsheetProjects, allProjectStatus },
+  client: { allClient },
   getDailyJobsheetProjectDeatils,
   AddProjectTrack,
   getAllProjectStatus,
   getUpdatedProjectStausForDailyJobSheet,
+  getAllClients,
 }) => {
   useEffect(() => {
     client.onopen = () => {
@@ -45,6 +49,9 @@ const DailyJobSheet = ({
   useEffect(() => {
     getAllProjectStatus();
   }, [getAllProjectStatus]);
+  useEffect(() => {
+    getAllClients();
+  }, [getAllClients]);
   getDailyJobsheetProjectDeatils();
 
   function dhm(pDateTime) {
@@ -838,6 +845,7 @@ const DailyJobSheet = ({
 DailyJobSheet.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
+  client: PropTypes.object.isRequired,
   getDailyJobsheetProjectDeatils: PropTypes.object.isRequired,
   AddProjectTrack: PropTypes.object.isRequired,
   getUpdatedProjectStausForDailyJobSheet: PropTypes.object.isRequired,
@@ -845,6 +853,7 @@ DailyJobSheet.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   project: state.project,
+  client: state.client,
 });
 
 export default connect(mapStateToProps, {
@@ -852,4 +861,5 @@ export default connect(mapStateToProps, {
   AddProjectTrack,
   getAllProjectStatus,
   getUpdatedProjectStausForDailyJobSheet,
+  getAllClients,
 })(DailyJobSheet);
