@@ -351,96 +351,94 @@ const DailyJobSheet = ({
             <div className="col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Daily Job Sheet</h5>
             </div>
-            <CSVLink data={csvData}>
-              <button className="btn contact_reg">Export</button>
-            </CSVLink>
-            {/* <CSVDownload data={dailyJobsheetProjects} target="_blank" />; */}
-            <div className="col-lg-2 col-md-4 col-sm-4 col-12 py-3">
-              <Select
-                name="Dateselectmode"
-                options={DateMethods}
-                isSearchable={true}
-                defaultValue={DateMethods[0]}
-                value={DateMethods.value}
-                placeholder="Select"
-                onChange={(e) => onDateModeChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
-              />
-            </div>
-            {showChequenoSection && (
-              <>
-                <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-                  <input
-                    type="date"
-                    placeholder="dd/mm/yyyy"
-                    className="form-control cpp-input datevalidation"
-                    name="fromdate"
-                    value={fromdate}
-                    onChange={(e) => onDateChange(e)}
-                    style={{
-                      width: "75%",
-                    }}
-                    required
-                  />
-                </div>
-                <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-                  <input
-                    type="date"
-                    placeholder="dd/mm/yyyy"
-                    className="form-control cpp-input datevalidation"
-                    name="todate"
-                    value={todate}
-                    onChange={(e) => onDateChange1(e)}
-                    style={{
-                      width: "75%",
-                    }}
-                    required
-                  />
-                </div>
-                <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-                  <img
-                    className="img_icon_size log"
-                    onClick={() => onSearchmultidate()}
-                    src={require("../../static/images/Search_Icon.png")}
-                    alt="Edit"
-                    title="Edit"
-                  />
-                </div>
-              </>
-            )}
-            {showChequenoSection1 && (
-              <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-                <input
-                  type="date"
-                  placeholder="dd/mm/yyyy"
-                  className="form-control cpp-input datevalidation"
-                  name="singledate"
-                  value={singledate}
-                  onChange={(e) => onDateChange2(e)}
-                  style={{
-                    width: "75%",
-                  }}
-                  required
-                />
-                <img
-                  className="img_icon_size log"
-                  onClick={() => onSearch()}
-                  src={require("../../static/images/Search_Icon.png")}
-                  alt="Edit"
-                  title="Edit"
+            <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
+              <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-3">
+                <Select
+                  name="Dateselectmode"
+                  options={DateMethods}
+                  isSearchable={true}
+                  defaultValue={DateMethods[0]}
+                  value={DateMethods.value}
+                  placeholder="Select"
+                  onChange={(e) => onDateModeChange(e)}
                 />
               </div>
-            )}
-            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-3">
+              {showChequenoSection && (
+                <>
+                  <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="fromdate"
+                      value={fromdate}
+                      onChange={(e) => onDateChange(e)}
+                      style={{
+                        width: "100%",
+                      }}
+                      required
+                    />
+                  </div>
+                  <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="todate"
+                      value={todate}
+                      onChange={(e) => onDateChange1(e)}
+                      style={{
+                        width: "100%",
+                      }}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+                    <img
+                      className="img_icon_size log"
+                      onClick={() => onSearchmultidate()}
+                      src={require("../../static/images/Search_Icon.png")}
+                      alt="Search_Icon"
+                      title="Search_Icon"
+                    />
+                  </div>
+                </>
+              )}
+              {showChequenoSection1 && (
+                <>
+                  <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="singledate"
+                      value={singledate}
+                      onChange={(e) => onDateChange2(e)}
+                      style={{
+                        width: "100%",
+                      }}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+                    <img
+                      className="img_icon_size log"
+                      onClick={() => onSearch()}
+                      src={require("../../static/images/Search_Icon.png")}
+                      alt="Search_Icon"
+                      title="Search_Icon"
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* <CSVDownload data={dailyJobsheetProjects} target="_blank" />; */}
+
+            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+              <CSVLink data={csvData}>
+                <button className="btn btn_green_bg float-right">Export</button>
+              </CSVLink>
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
