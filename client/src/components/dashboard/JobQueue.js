@@ -194,6 +194,10 @@ const JobQueue = ({
 
   const [userDatas3, setUserDatas3] = useState(null);
   const handleGoToAllLatestChange = (jobQueueProjects, idx) => {
+    const finalData = {
+      projectId: jobQueueProjects._id,
+    };
+    getAllchanges(finalData);
     setshowAllChangeModal(true);
     setUserDatas3(jobQueueProjects);
   };
@@ -244,7 +248,7 @@ const JobQueue = ({
   // console.log(radioselect);
 
   // const [isSubmitted, setSubmitted] = useState(false);
-  // const handleGoToAllLatestChange1 = (jobQueueProjects) => {
+  // const handleGoToAllLatestChange = (jobQueueProjects) => {
   //   const finalData = {
   //     projectId: jobQueueProjects._id,
   //   };

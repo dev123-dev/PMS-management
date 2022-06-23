@@ -10,10 +10,9 @@ const AllLatestChange = ({
   AllChangedata,
   getAllchanges,
 }) => {
-  let getAllChangesDetails = JSON.parse(
+  let getAllChangesDetailsData = JSON.parse(
     localStorage.getItem("getAllChangesDetails")
   );
-  // console.log("getAllChangesDetails", getAllChangesDetails);
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -35,8 +34,8 @@ const AllLatestChange = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {getAllChangesDetails &&
-                    getAllChangesDetails.map((getAllChangesData, idx) => {
+                  {getAllChangesDetailsData &&
+                    getAllChangesDetailsData.map((getAllChangesData, idx) => {
                       return (
                         <tr key={idx}>
                           <td>
