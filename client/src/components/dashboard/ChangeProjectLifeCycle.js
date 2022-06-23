@@ -83,6 +83,8 @@ const ChangeProjectLifeCycle = ({
       projectStatusType: ProjectCycledata.value,
       projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
       ptEstimatedDateTime: ptEstimatedDateTimeVal,
+      projectStatusChangedbyName: user.empFullName,
+      projectStatusChangedById: user._id,
     };
     // console.log(finalData);
     AddProjectTrack(finalData);

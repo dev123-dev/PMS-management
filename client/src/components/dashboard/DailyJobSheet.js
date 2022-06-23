@@ -122,6 +122,8 @@ const DailyJobSheet = ({
         projectTrackStatusId: e.value,
         projectStatusType: e.label,
         projectId: dailyJobsheetProjects._id,
+        projectStatusChangedbyName: user.empFullName,
+        projectStatusChangedById: user._id,
       };
 
       AddProjectTrack(finalData);

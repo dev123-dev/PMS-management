@@ -63,8 +63,6 @@ const AllLatestChange = ({
 AllLatestChange.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
-
-  AddProjectTrack: PropTypes.object.isRequired,
   getAllchanges: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({

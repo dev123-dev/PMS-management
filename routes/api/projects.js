@@ -18,8 +18,9 @@ router.post("/add-project", async (req, res) => {
       projectTrackLatestChange: data.projectNotes,
       projectStatusType: data.projectStatusType,
       projectTrackStatusId: data.projectStatusId,
+      projectStatusChangedbyName: data.projectEnteredByName,
+      projectStatusChangedById: data.projectEnteredById,
     };
-    console.log(trackData);
     let ProjectTrackDetails = new ProjectTrack(trackData);
     output = await ProjectTrackDetails.save();
 
