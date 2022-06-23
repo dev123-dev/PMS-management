@@ -106,6 +106,8 @@ const JobQueue = ({
         projectTrackStatusId: e.value,
         projectStatusType: e.label,
         projectId: jobQueueProjects._id,
+        projectStatusChangedbyName: user.empFullName,
+        projectStatusChangedById: user._id,
       };
       // console.log("page", finalData);
       AddProjectTrack(finalData);

@@ -13,6 +13,7 @@ const AllLatestChange = ({
   let getAllChangesDetailsData = JSON.parse(
     localStorage.getItem("getAllChangesDetails")
   );
+  // console.log(getAllChangesDetailsData);
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -39,7 +40,7 @@ const AllLatestChange = ({
                       return (
                         <tr key={idx}>
                           <td>
-                            {getAllChangesData.output[0].projectEnteredByName}
+                            {getAllChangesData.projectStatusChangedbyName}
                           </td>
                           <td>
                             {getAllChangesData.output[0].projectEnteredDateTime}

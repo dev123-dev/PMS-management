@@ -14,6 +14,12 @@ const ProjectTrackSchema = new mongoose.Schema({
   ptEstimatedTime: {
     type: String,
   },
+  projectStatusChangedbyName: {
+    type: String,
+  },
+  projectStatusChangedById: {
+    type: ObjectId,
+  },
   projectTrackEnteredById: {
     type: ObjectId,
   },
