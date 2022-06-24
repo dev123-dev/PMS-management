@@ -298,7 +298,7 @@ const JobQueue = ({
                 onChange={(e) => onClientChange(e)}
               />
             </div>
-            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-9 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
