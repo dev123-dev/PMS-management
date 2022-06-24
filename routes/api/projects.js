@@ -45,7 +45,6 @@ router.post("/add-project-status", async (req, res) => {
 
 router.post("/add-project-track", async (req, res) => {
   let data = req.body;
-  // console.log(data);
   try {
     const updateProject = await Project.updateOne(
       { _id: data.projectId },
@@ -209,9 +208,9 @@ router.post("/get-job-queue-project-details", async (req, res) => {
 });
 
 router.post("/get-daily-jobsheet-project-details", async (req, res) => {
-  const { selDate, fromdate, todate, dateType } = req.body;
+  const { selDate, fromdate, todate, dateType, clientId } = req.body;
   let query = {};
-  if (dateType === "multiDate") {
+  if (dateType === "Multi Date") {
     query = {
       projectStatus: {
         $eq: "Active",
@@ -221,7 +220,7 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
         $lte: todate,
       },
     };
-  } else if (dateType === "singleDate") {
+  } else if (dateType === "Single Date") {
     if (selDate) selDateVal = selDate;
     else selDateVal = new Date().toISOString().split("T")[0];
     query = {
@@ -274,7 +273,6 @@ router.post("/get-all-changes", async (req, res) => {
       },
     ]);
     res.json(ProjectLatestChangeDetails);
-    console.log(ProjectLatestChangeDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
