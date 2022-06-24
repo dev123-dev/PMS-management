@@ -19,16 +19,17 @@ export default function Contacts({ contacts, changeChat, contactsMsgCount }) {
   };
 
   const contactFilterOpt = [];
-  contacts.map((contact) =>
+  contacts.map((contact, index) =>
     contactFilterOpt.push({
       label: contact.userName,
       value: contact._id,
-      
+      index: index,
     })
   );
   const [contact, getcontact] = useState();
   const changeCurrentChatSearch = (e) => {
-    changeChat({id:e.value,userName:e.label});
+    setCurrentSelected(e.index);
+    changeChat({_id:e.value,userName:e.label});
   }
 
   return (

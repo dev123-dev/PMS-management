@@ -329,9 +329,9 @@ const EditProject = ({
         recordId: allProjectdata ? allProjectdata._id : "",
         projectName: projectName,
         clientId: clientId,
-        clientName: clientData.value,
-        parentClientId: clientBelongsToId,
-        parentClientName: clientBelongsTo,
+        clientName: clientData[0] ? clientData[0].value : clientData.value,
+        parentClientId: clientBelongsToId ? clientBelongsToId : null,
+        parentClientName: clientBelongsTo ? clientBelongsTo : null,
         // projectLocation:
         clientFolderName: clientFolderName,
         projectPriority: priority.value,

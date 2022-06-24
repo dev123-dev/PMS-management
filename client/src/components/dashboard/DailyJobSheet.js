@@ -193,6 +193,11 @@ const DailyJobSheet = ({
     setSelDateDataVal("");
     setsingledate(new Date().toISOString().split("T")[0]);
     setSelectedDate(new Date().toISOString().split("T")[0]);
+    setShowHide({
+      ...showHide,
+      showChequenoSection: false,
+      showChequenoSection1: true,
+    });
   };
 
   const onEditModalChange = (e) => {
@@ -295,7 +300,7 @@ const DailyJobSheet = ({
   const onSearch = (e) => {
     let selDateData = {
       selDate: singledate,
-      dateType: "singleDate",
+      dateType: "Single Date",
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
@@ -305,7 +310,7 @@ const DailyJobSheet = ({
     let selDateData = {
       fromdate: fromdate,
       todate: todate,
-      dateType: "multiDate",
+      dateType: "Multi Date",
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
@@ -371,6 +376,15 @@ const DailyJobSheet = ({
   const onClientChange = (e) => {
     setClientData(e);
     setClientId(e.clientId);
+    let selDateData = {
+      selDate: singledate,
+      fromdate: fromdate,
+      todate: todate,
+      dateType: Dateselectmode.value,
+      clientId: e.clientId,
+    };
+    setSelDateDataVal(selDateData);
+    getDailyJobsheetProjectDeatils(selDateData);
     console.log(setClientId);
   };
 
@@ -386,19 +400,25 @@ const DailyJobSheet = ({
             </div>
             <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
               <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-3">
-                <Select
-                  name="Dateselectmode"
-                  options={DateMethods}
-                  isSearchable={true}
-                  defaultValue={DateMethods[0]}
-                  value={DateMethods.value}
-                  placeholder="Select"
-                  onChange={(e) => onDateModeChange(e)}
-                />
+                {(user.userGroupName &&
+                  user.userGroupName === "Administrator") ||
+                user.userGroupName === "Super Admin" ? (
+                  <Select
+                    name="Dateselectmode"
+                    options={DateMethods}
+                    isSearchable={true}
+                    defaultValue={DateMethods[0]}
+                    value={DateMethods.value}
+                    placeholder="Select"
+                    onChange={(e) => onDateModeChange(e)}
+                  />
+                ) : (
+                  <></>
+                )}
               </div>
               {showChequenoSection && (
                 <>
-                  <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                  <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
                     <input
                       type="date"
                       placeholder="dd/mm/yyyy"
@@ -407,12 +427,12 @@ const DailyJobSheet = ({
                       value={fromdate}
                       onChange={(e) => onDateChange(e)}
                       style={{
-                        width: "100%",
+                        width: "110%",
                       }}
                       required
                     />
                   </div>
-                  <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                  <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
                     <input
                       type="date"
                       placeholder="dd/mm/yyyy"
@@ -421,12 +441,12 @@ const DailyJobSheet = ({
                       value={todate}
                       onChange={(e) => onDateChange1(e)}
                       style={{
-                        width: "100%",
+                        width: "110%",
                       }}
                       required
                     />
                   </div>
-                  <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+                  <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-3">
                     <img
                       className="img_icon_size log"
                       onClick={() => onSearchmultidate()}
@@ -453,7 +473,7 @@ const DailyJobSheet = ({
                       required
                     />
                   </div>
-                  <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+                  <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-3">
                     <img
                       className="img_icon_size log"
                       onClick={() => onSearch()}
@@ -464,7 +484,7 @@ const DailyJobSheet = ({
                   </div>
                 </>
               )}
-              <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+              <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-3">
                 <Select
                   name="clientData"
                   isSearchable={true}
