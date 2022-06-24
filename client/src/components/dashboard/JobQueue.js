@@ -99,10 +99,8 @@ const JobQueue = ({
     );
   const onClientChange = (e) => {
     setClientData(e);
-    setClientId(e.clientId);
-    // console.log(setClientId);
   };
-
+  // console.log(clientData);
   // Modal
   const projectStatusOpt = [];
   allProjectStatus.map((projStatusData) =>
@@ -325,21 +323,21 @@ const JobQueue = ({
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ? (
-                          <th style={{ width: "10%" }}>Client Name</th>
+                          <th style={{ width: "5%" }}>Client Name</th>
                         ) : (
                           <></>
                         )}
-                        <th style={{ width: "5%" }}>Folder </th>
-                        <th style={{ width: "10%" }}>Project Name</th>
-                        <th style={{ width: "10%" }}>Queue Duration</th>
-                        <th style={{ width: "10%" }}>Estimated Time</th>
-                        <th style={{ width: "10%" }}>Job Time</th>
+                        <th style={{ width: "6%" }}>Folder </th>
+                        <th style={{ width: "25%" }}>Project Name</th>
+                        <th style={{ width: "12%" }}>Queue Duration</th>
+                        <th style={{ width: "12%" }}>Estimated Time</th>
+                        <th style={{ width: "12%" }}>Job Time</th>
                         <th style={{ width: "2%" }}>Priority</th>
                         <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "2%" }}>Qty</th>
                         <th style={{ width: "13%" }}>Status</th>
-                        <th style={{ width: "10%" }}>Latest Change</th>
-                        <th style={{ width: "10%" }}>Job Notes</th>
+                        <th style={{ width: "5%" }}>Latest Change</th>
+                        <th style={{ width: "5%" }}>Job Notes</th>
                         {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
