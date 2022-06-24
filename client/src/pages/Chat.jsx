@@ -24,7 +24,7 @@ export default function Chat() {
       )
     );
   }, []);
-
+//SLAP IP
   const client = new w3cwebsocket("ws://192.168.6.128:8000");
 
   // useEffect(async() => {

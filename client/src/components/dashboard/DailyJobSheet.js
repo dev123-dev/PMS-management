@@ -22,6 +22,7 @@ import { w3cwebsocket } from "websocket";
 import { CSVLink, CSVDownload } from "react-csv";
 
 //client in websocket
+//SLAP IP
 const client = new w3cwebsocket("ws://192.168.6.128:8000");
 
 const DailyJobSheet = ({
@@ -503,6 +504,7 @@ const DailyJobSheet = ({
                   >
                     <thead>
                       <tr>
+                        {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ? (
@@ -521,6 +523,7 @@ const DailyJobSheet = ({
                         <th style={{ width: "13%" }}>Status</th>
                         <th style={{ width: "10%" }}>Latest Change</th>
                         <th style={{ width: "10%" }}>Job Notes</th>
+                        {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ||
@@ -555,6 +558,7 @@ const DailyJobSheet = ({
                             }
                             return (
                               <tr key={idx}>
+                                {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
                                 user.userGroupName === "Super Admin" ? (
@@ -566,6 +570,7 @@ const DailyJobSheet = ({
                                   {dailyJobsheetProjects.clientFolderName}
                                 </td>
                                 <td>
+                                  {/* SLAP UserGroupRights */}
                                   {(user.userGroupName &&
                                     user.userGroupName === "Administrator") ||
                                   user.userGroupName === "Super Admin" ||
@@ -613,6 +618,7 @@ const DailyJobSheet = ({
                                 <td>{dailyJobsheetProjects.projectQuantity}</td>
 
                                 <td>
+                                  {/* SLAP UserGroupRights */}
                                   {(user.userGroupName &&
                                     user.userGroupName === "Administrator") ||
                                   user.userGroupName === "Super Admin" ||
@@ -664,6 +670,7 @@ const DailyJobSheet = ({
                                     Notes
                                   </Link>
                                 </td>
+                                {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
                                 user.userGroupName === "Super Admin" ||

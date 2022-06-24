@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const Project = require("../../models/Project");
 const ProjectStatus = require("../../models/ProjectStatus");
 const ProjectTrack = require("../../models/ProjectTrack");
+const ClientDetails = require("../../models/Client");
 
 //ADD
 router.post("/add-project", async (req, res) => {
@@ -171,6 +172,18 @@ router.get("/get-all-project-status", async (req, res) => {
   try {
     const allProjectStatus = await ProjectStatus.find({});
     res.json(allProjectStatus);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.get("/get-all-folder-name", async (req, res) => {
+  try {
+    const allClientDetails = await ClientDetails.find({}).select(
+      "clientFolderName"
+    );
+    res.json(allClientDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

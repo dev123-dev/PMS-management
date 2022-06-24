@@ -132,6 +132,7 @@ const Login = ({
     return true;
   };
   //client in websocket
+  //SLAP IP
   const client = new w3cwebsocket("ws://192.168.6.128:8000");
   const onSubmit = async (e) => {
     e.preventDefault();

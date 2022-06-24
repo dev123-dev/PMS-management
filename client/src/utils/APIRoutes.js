@@ -1,3 +1,4 @@
+//SLAP IP
 export const host = "http://192.168.6.128:5000";
 export const loginRoute = `${host}/api/auth/login`;
 export const registerRoute = `${host}/api/auth/register`;

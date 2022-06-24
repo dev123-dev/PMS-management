@@ -1,5 +1,6 @@
 import {
   ALL_PROJECT_STATUS,
+  ALL_FOLDER_NAMES,
   JOB_QUEUE_PROJECTS,
   DAILY_JOBSHEET_PROJECTS,
   GET_ALL_CHANGES,
@@ -21,6 +22,12 @@ const settings = (state = initialState, action) => {
         ...state,
         allProjectStatus: payload,
       };
+    case ALL_FOLDER_NAMES:
+      return {
+        ...state,
+        allFolderName: payload,
+      };
+
     case JOB_QUEUE_PROJECTS:
       return {
         ...state,

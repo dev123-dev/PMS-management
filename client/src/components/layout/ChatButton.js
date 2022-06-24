@@ -34,6 +34,7 @@ const ChatButton = ({ auth: { isAuthenticated, loading, user } }) => {
   }
   return (
     <Fragment>
+      {/* SLAP UserGroupRights */}
       {!loading &&
       isAuthenticated &&
       user &&

@@ -4,6 +4,7 @@ import {
   SET_LOADING_TRUE,
   SET_LOADING_FALSE,
   ALL_PROJECT_STATUS,
+  ALL_FOLDER_NAMES,
   ACTIVE_PROJECT_STATUS,
   JOB_QUEUE_PROJECTS,
   DAILY_JOBSHEET_PROJECTS,
@@ -173,6 +174,19 @@ export const getAllProjectStatus = () => async (dispatch) => {
     const res = await axios.get("/api/projects/get-all-project-status");
     dispatch({
       type: ALL_PROJECT_STATUS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+export const getAllFolder = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/projects/get-all-folder-name");
+    dispatch({
+      type: ALL_FOLDER_NAMES,
       payload: res.data,
     });
   } catch (err) {

@@ -10,6 +10,7 @@ import EditProject from "./EditProject";
 import {
   getJobQueueProjectDeatils,
   getAllProjectStatus,
+  getAllFolder,
 } from "../../actions/projects";
 import JobHistory from "./JobHistory";
 import JobNotes from "./JobNotes";
@@ -23,15 +24,17 @@ import AllLatestChange from "./AllLatestChange";
 import { w3cwebsocket } from "websocket";
 
 //client in websocket
+//SLAP IP
 const client = new w3cwebsocket("ws://192.168.6.140:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
-  project: { jobQueueProjects, allProjectStatus },
+  project: { jobQueueProjects, allProjectStatus, allFolderName },
   getJobQueueProjectDeatils,
   AddProjectTrack,
   getAllchanges,
   getAllProjectStatus,
+  getAllFolder,
   getUpdatedProjectStaus,
   // getUpdatedProjectStausForDailyJobSheet,
 }) => {
@@ -50,7 +53,9 @@ const JobQueue = ({
   useEffect(() => {
     getAllProjectStatus();
   }, [getAllProjectStatus]);
-
+  useEffect(() => {
+    getAllFolder();
+  }, [getAllFolder]);
   getJobQueueProjectDeatils();
 
   // const [sliderValue, setSliderValue] = useState([]);
@@ -77,6 +82,25 @@ const JobQueue = ({
     if (e) {
       handleProjectCycleModalClose();
     }
+  };
+  // console.log(allFolderName);
+  const [clientData, setClientData] = useState("");
+  const [clientId, setClientId] = useState("");
+  const [clientFolderName, setClientName] = useState("");
+
+  const activeClientsOpt = [];
+  allFolderName &&
+    allFolderName.map((clientsData) =>
+      activeClientsOpt.push({
+        clientId: clientsData._id,
+        label: clientsData.clientFolderName,
+        value: clientsData.clientFolderName,
+      })
+    );
+  const onClientChange = (e) => {
+    setClientData(e);
+    setClientId(e.clientId);
+    // console.log(setClientId);
   };
 
   // Modal
@@ -253,6 +277,7 @@ const JobQueue = ({
   //   getAllchanges(finalData);
   //   setSubmitted(true);
   // };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -260,8 +285,18 @@ const JobQueue = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className=" col-lg-5 col-md-11 col-sm-10 col-10">
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Job Queue</h5>
+            </div>
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+              <Select
+                name="clientData"
+                isSearchable={true}
+                value={clientData}
+                options={activeClientsOpt}
+                placeholder="Select"
+                onChange={(e) => onClientChange(e)}
+              />
             </div>
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
               <button
@@ -286,6 +321,7 @@ const JobQueue = ({
                   >
                     <thead>
                       <tr>
+                        {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ? (
@@ -304,6 +340,7 @@ const JobQueue = ({
                         <th style={{ width: "13%" }}>Status</th>
                         <th style={{ width: "10%" }}>Latest Change</th>
                         <th style={{ width: "10%" }}>Job Notes</th>
+                        {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ||
@@ -332,6 +369,7 @@ const JobQueue = ({
                           }
                           return (
                             <tr key={idx}>
+                              {/* SLAP UserGroupRights */}
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
                               user.userGroupName === "Super Admin" ? (
@@ -351,6 +389,7 @@ const JobQueue = ({
                               )}
                               <td>{jobQueueProjects.clientFolderName}</td>
                               <td>
+                                {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
                                 user.userGroupName === "Super Admin" ||
@@ -403,6 +442,7 @@ const JobQueue = ({
                               <td>{jobQueueProjects.projectDeadline}</td>
                               <td>{jobQueueProjects.projectQuantity}</td>
                               <td>
+                                {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
                                 user.userGroupName === "Super Admin" ||
@@ -448,6 +488,7 @@ const JobQueue = ({
                                   Notes
                                 </Link>
                               </td>
+                              {/* SLAP UserGroupRights */}
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
                               user.userGroupName === "Super Admin" ||
@@ -716,6 +757,7 @@ export default connect(mapStateToProps, {
   getAllchanges,
   getJobQueueProjectDeatils,
   getAllProjectStatus,
+  getAllFolder,
   getUpdatedProjectStaus,
   // getUpdatedProjectStausForDailyJobSheet,
 })(JobQueue);

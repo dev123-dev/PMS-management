@@ -310,7 +310,7 @@ const EditProject = ({
     projectstatusErrorStyle,
   } = error;
 
-  console.log(clientData);
+  // console.log(clientData);
   const checkErrors = () => {
     if (!clientData) {
       setError({
@@ -627,7 +627,7 @@ const EditProject = ({
               )}
               <Link
                 className="btn sub_form btn_continue blackbrd float-right"
-                to="/job-queue"
+                onClick={() => onEditModalChange(true)}
               >
                 Cancel
               </Link>

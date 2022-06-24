@@ -788,7 +788,7 @@ label {
 
 .fixTableHead {
   overflow-y: auto;
-  height: 740px;
+  height: 74vh;
 }
 
 @media (min-width: 992px) {

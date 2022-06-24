@@ -15,6 +15,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const handleLogoutModalClose = () => setShowLogout(false);
   const handleLogoutModalShow = () => setShowLogout(true);
   //client in websocket
+  //SLAP IP
   const client = new w3cwebsocket("ws://192.168.6.128:8000");
   const LogoutModalClose = () => {
     handleLogoutModalClose();
@@ -84,6 +85,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                 </NavItem>
 
                 <NavItem>
+                  {/* SLAP UserGroupRights */}
                   {!loading &&
                   isAuthenticated &&
                   user &&
@@ -116,10 +118,18 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       </Link>
 
                       <ul className="dropdown-menu second-level-menu ">
-                        <li>
-                          <Link to="/all-clients">All Clients</Link>
-                        </li>
-
+                        {(user &&
+                          user.userGroupName &&
+                          user.userGroupName === "Administrator") ||
+                        user.userGroupName === "Super Admin" ||
+                        user.userGroupName === "Clarical Admins" ? (
+                          <li>
+                            <Link to="/all-clients">All Clients</Link>
+                          </li>
+                        ) : (
+                          <></>
+                        )}
+                        {/* SLAP UserGroupRights */}
                         {(user &&
                           user.userGroupName &&
                           user.userGroupName === "Administrator") ||
