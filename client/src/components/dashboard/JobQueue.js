@@ -75,7 +75,11 @@ const JobQueue = ({
     const sec = Math.floor(minutesms / 1000);
     return [
       days + " d : " + hours + " h : " + minutes + " m : " + sec + " s",
-      hours + "" + minutes,
+      hours.length === 1
+        ? "0" + hours
+        : hours + "" + minutes.length === 1
+        ? "0" + minutes
+        : minutes,
     ];
   }
 
@@ -314,19 +318,10 @@ const JobQueue = ({
               >
                 Refresh
               </button>
-              {/* SLAP UserGroupRights */}
-              {(user.userGroupName && user.userGroupName === "Administrator") ||
-              user.userGroupName === "Super Admin" ||
-              user.userGroupName === "Clarical Admins" ? (
-                <Link
-                  className="btn btn_green_bg float-right"
-                  to="/add-Project"
-                >
-                  Add Project
-                </Link>
-              ) : (
-                <></>
-              )}
+
+              <Link className="btn btn_green_bg float-right" to="/add-Project">
+                Add Project
+              </Link>
             </div>
           </div>
           <div className="row">

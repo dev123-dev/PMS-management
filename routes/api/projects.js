@@ -193,7 +193,6 @@ router.get("/get-all-folder-name", async (req, res) => {
       { $group: { _id: "$clientFolderName" } },
     ]);
     res.json(allClientFolderDetails);
-    console.log(allClientFolderDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -324,6 +323,7 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
       };
     }
   }
+  // get-dailyjobsheet-client
   try {
     const getDailyJobSheetDetails = await Project.find(query);
     res.json(getDailyJobSheetDetails);
