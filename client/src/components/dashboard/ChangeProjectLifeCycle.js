@@ -55,7 +55,8 @@ const ChangeProjectLifeCycle = ({
     showTimerSection:
       (ProjectCycledata && ProjectCycledata.value === "Working") ||
       ProjectCycledata.value === "Amend_Working" ||
-      ProjectCycledata.value === "AI_Working"
+      ProjectCycledata.value === "AI_Working" ||
+      ProjectCycledata.value === "QC Estimate"
         ? true
         : false,
   });
@@ -89,6 +90,7 @@ const ChangeProjectLifeCycle = ({
     };
     // console.log(finalData);
     AddProjectTrack(finalData);
+    onProjectCycleModalChange(true);
     client.send(
       JSON.stringify({
         type: "message",
@@ -96,6 +98,7 @@ const ChangeProjectLifeCycle = ({
         msg1: "/DailyJobSheet`",
       })
     );
+
     setFormData({
       ...formData,
       Instructions: "",
@@ -103,7 +106,7 @@ const ChangeProjectLifeCycle = ({
       projectMinutes: "",
       isSubmitted: true,
     });
-    onProjectCycleModalChange(true);
+
     // }
   };
 

@@ -43,7 +43,9 @@ const AllLatestChange = ({
                             {getAllChangesData.projectStatusChangedbyName}
                           </td>
                           <td>
-                            {getAllChangesData.output[0].projectEnteredDateTime}
+                            {new Date(
+                              getAllChangesData.projectTrackDateTime
+                            ).toLocaleString("en-GB")}
                           </td>
                           <td>{getAllChangesData.projectStatusType}</td>
                           <td>{getAllChangesData.projectTrackLatestChange}</td>
