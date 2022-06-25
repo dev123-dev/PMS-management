@@ -56,7 +56,7 @@ const JobQueue = ({
   useEffect(() => {
     getAllFolder();
   }, [getAllFolder]);
-
+  // console.log(user);
   const [filterData, setFilterData] = useState();
   getJobQueueProjectDeatils(filterData);
 
@@ -129,7 +129,8 @@ const JobQueue = ({
     if (
       e.label === "Downloaded" ||
       e.label === "Uploaded" ||
-      e.label === "Amend_Uploaded"
+      e.label === "Amend_Uploaded" ||
+      e.label === "QC DONE"
     ) {
       setStatusValue(e);
       let finalData = {
@@ -357,7 +358,8 @@ const JobQueue = ({
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ||
-                        user.userGroupName === "Clarical Admins" ? (
+                        user.userGroupName === "Clarical Admins" ||
+                        user.userGroupName === "Quality Controller" ? (
                           <th style={{ width: "2%" }}>OP</th>
                         ) : (
                           <></>
@@ -519,7 +521,8 @@ const JobQueue = ({
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
                               user.userGroupName === "Super Admin" ||
-                              user.userGroupName === "Clarical Admins" ? (
+                              user.userGroupName === "Clarical Admins" ||
+                              user.userGroupName === "Quality Controller" ? (
                                 <td>
                                   <img
                                     className="img_icon_size log"
