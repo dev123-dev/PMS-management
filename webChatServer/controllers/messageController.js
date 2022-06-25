@@ -8,7 +8,7 @@ module.exports.getMessages = async (req, res, next) => {
       users: {
         $all: [from, to],
       },
-    }).sort({ updatedAt: 1 });
+    }).sort({ _id: 1 });
 
     const projectedMessages = messages.map((msg) => {
       return {

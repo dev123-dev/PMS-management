@@ -68,7 +68,14 @@ const DailyJobSheet = ({
     const minutes = Math.floor(hoursms / (60 * 1000));
     const minutesms = ms % (60 * 1000);
     const sec = Math.floor(minutesms / 1000);
-    return days + " d : " + hours + " h : " + minutes + " m : " + sec + " s";
+    return [
+      days + " d : " + hours + " h : " + minutes + " m : " + sec + " s",
+      hours.length === 1
+        ? "0" + hours
+        : hours + "" + minutes.length === 1
+        ? "0" + minutes
+        : minutes,
+    ];
   }
   // On change ProjectCycle
   const [showProjectCycleModal, setShowProjectCycleModal] = useState(false);
@@ -577,12 +584,25 @@ const DailyJobSheet = ({
                             if (statusType === "QC Estimate")
                               QCEstimateQty += 1;
                             if (statusType === "Uploading") UploadingQty += 1;
-                            let estimatedTimeVal = "";
+                            let estimatedTimeVal = "",
+                              jobTime = "",
+                              timeOut = false;
                             if (dailyJobsheetProjects.ptEstimatedTime) {
                               estimatedTimeVal =
                                 dailyJobsheetProjects.ptEstimatedTime.split(
                                   ":"
                                 );
+                              jobTime = dhm(
+                                dailyJobsheetProjects.ptEstimatedDateTime
+                              );
+                              if (
+                                Number(jobTime[1]) >=
+                                Number(
+                                  estimatedTimeVal[0] + "" + estimatedTimeVal[1]
+                                )
+                              ) {
+                                timeOut = true;
+                              }
                             }
                             return (
                               <tr key={idx}>
@@ -636,10 +656,17 @@ const DailyJobSheet = ({
                                       " min"}
                                 </td>
                                 <td>
-                                  {dailyJobsheetProjects.ptEstimatedDateTime &&
-                                    dhm(
-                                      dailyJobsheetProjects.ptEstimatedDateTime
-                                    )}
+                                  {timeOut ? (
+                                    <span style={{ color: "red" }}>
+                                      {dailyJobsheetProjects.ptEstimatedDateTime &&
+                                        jobTime[0]}
+                                    </span>
+                                  ) : (
+                                    <span>
+                                      {dailyJobsheetProjects.ptEstimatedDateTime &&
+                                        jobTime[0]}
+                                    </span>
+                                  )}
                                 </td>
                                 <td>{dailyJobsheetProjects.projectPriority}</td>
                                 <td>{dailyJobsheetProjects.projectDeadline}</td>
