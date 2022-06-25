@@ -73,7 +73,10 @@ const JobQueue = ({
     const minutes = Math.floor(hoursms / (60 * 1000));
     const minutesms = ms % (60 * 1000);
     const sec = Math.floor(minutesms / 1000);
-    return days + " d : " + hours + " h : " + minutes + " m : " + sec + " s";
+    return [
+      days + " d : " + hours + " h : " + minutes + " m : " + sec + " s",
+      hours + "" + minutes,
+    ];
   }
 
   // On change ProjectCycle
@@ -368,11 +371,23 @@ const JobQueue = ({
                           if (statusType === "QC Pending") QCPendingQty += 1;
                           if (statusType === "QC Estimate") QCEstimateQty += 1;
                           if (statusType === "Uploading") UploadingQty += 1;
-                          let estimatedTimeVal = "";
+                          let estimatedTimeVal = "",
+                            jobTime = "",
+                            timeOut = false;
                           if (jobQueueProjects.ptEstimatedTime) {
                             estimatedTimeVal =
                               jobQueueProjects.ptEstimatedTime.split(":");
+                            jobTime = dhm(jobQueueProjects.ptEstimatedDateTime);
+                            if (
+                              Number(jobTime[1]) >=
+                              Number(
+                                estimatedTimeVal[0] + "" + estimatedTimeVal[1]
+                              )
+                            ) {
+                              timeOut = true;
+                            }
                           }
+
                           return (
                             <tr key={idx}>
                               {/* SLAP UserGroupRights */}
@@ -419,13 +434,6 @@ const JobQueue = ({
                                 )}
                               </td>
                               <td>
-                                {/* <input
-                                  type="text"
-                                  name="timerIndex"
-                                  value={sliderValue[idx]}
-                                  className="form-control"
-                                  // onChange={(e) => onInputChange(e)}
-                                /> */}
                                 {dhm(
                                   jobQueueProjects.projectDate +
                                     ", " +
@@ -441,8 +449,17 @@ const JobQueue = ({
                                     " min"}
                               </td>
                               <td>
-                                {jobQueueProjects.ptEstimatedDateTime &&
-                                  dhm(jobQueueProjects.ptEstimatedDateTime)}
+                                {timeOut ? (
+                                  <span style={{ color: "red" }}>
+                                    {jobQueueProjects.ptEstimatedDateTime &&
+                                      jobTime[0]}
+                                  </span>
+                                ) : (
+                                  <span>
+                                    {jobQueueProjects.ptEstimatedDateTime &&
+                                      jobTime[0]}
+                                  </span>
+                                )}
                               </td>
                               <td>{jobQueueProjects.projectPriority}</td>
                               <td>{jobQueueProjects.projectDeadline}</td>

@@ -15,7 +15,7 @@ import {
   getUpdatedProjectStausForDailyJobSheet,
 } from "../../actions/projects";
 
-import { getAllClients } from "../../actions/client";
+import { getDailyjobSheetClients } from "../../actions/client";
 import JobNotes from "./JobNotes";
 import AllLatestChange from "./AllLatestChange";
 import { w3cwebsocket } from "websocket";
@@ -28,12 +28,12 @@ const client = new w3cwebsocket("ws://192.168.6.109:8000");
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
   project: { dailyJobsheetProjects, allProjectStatus },
-  client: { allClient },
+  client: { activeDailyJobSheetClients },
   getDailyJobsheetProjectDeatils,
   AddProjectTrack,
   getAllProjectStatus,
   getUpdatedProjectStausForDailyJobSheet,
-  getAllClients,
+  getDailyjobSheetClients,
 }) => {
   useEffect(() => {
     client.onopen = () => {
@@ -51,8 +51,8 @@ const DailyJobSheet = ({
     getAllProjectStatus();
   }, [getAllProjectStatus]);
   useEffect(() => {
-    getAllClients();
-  }, [getAllClients]);
+    getDailyjobSheetClients();
+  }, [getDailyjobSheetClients]);
 
   const [selDateDataVal, setSelDateDataVal] = useState();
   getDailyJobsheetProjectDeatils(selDateDataVal);
@@ -190,6 +190,7 @@ const DailyJobSheet = ({
 
   const onClickReset = () => {
     getDailyJobsheetProjectDeatils("");
+    getDailyjobSheetClients("");
     setSelDateDataVal("");
     setClientData("");
     setsingledate(new Date().toISOString().split("T")[0]);
@@ -306,6 +307,7 @@ const DailyJobSheet = ({
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
+    getDailyjobSheetClients(selDateData);
   };
 
   const onSearchmultidate = (e) => {
@@ -316,6 +318,7 @@ const DailyJobSheet = ({
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
+    getDailyjobSheetClients(selDateData);
   };
   const [showAllChangeModal, setshowAllChangeModal] = useState(false);
   const handleAllChangeModalClose = () => setshowAllChangeModal(false);
@@ -369,7 +372,7 @@ const DailyJobSheet = ({
   const [clientName, setClientName] = useState("");
 
   const activeClientsOpt = [];
-  allClient.map((clientsData) =>
+  activeDailyJobSheetClients.map((clientsData) =>
     activeClientsOpt.push({
       clientId: clientsData._id,
       label: clientsData.clientName,
@@ -911,5 +914,5 @@ export default connect(mapStateToProps, {
   AddProjectTrack,
   getAllProjectStatus,
   getUpdatedProjectStausForDailyJobSheet,
-  getAllClients,
+  getDailyjobSheetClients,
 })(DailyJobSheet);

@@ -5,6 +5,7 @@ const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const ClientDetails = require("../../models/Client");
 const ClientHistoryDetails = require("../../models/ClientHistory");
+const Project = require("../../models/Project");
 
 //ADD
 router.post("/add-client", async (req, res) => {
@@ -154,4 +155,52 @@ router.post("/get-active-client-filter", async (req, res) => {
   }
 });
 
+router.post("/get-dailyjobsheet-client", async (req, res) => {
+  const { selDate, fromdate, todate, dateType } = req.body;
+  let query = {};
+  if (dateType === "Multi Date") {
+    query = {
+      projectStatus: {
+        $eq: "Active",
+      },
+      projectDate: {
+        $gte: fromdate,
+        $lte: todate,
+      },
+    };
+  } else if (dateType === "Single Date") {
+    if (selDate) selDateVal = selDate;
+    else selDateVal = new Date().toISOString().split("T")[0];
+
+    query = {
+      projectStatus: {
+        $eq: "Active",
+      },
+      projectDate: {
+        $eq: selDateVal,
+      },
+    };
+  } else {
+    query = {
+      projectStatus: {
+        $eq: "Active",
+      },
+      projectDate: {
+        $eq: new Date().toISOString().split("T")[0],
+      },
+    };
+  }
+  try {
+    const getDJSClientDetails = await Project.aggregate([
+      {
+        $match: query,
+      },
+      { $group: { _id: "$clientId", clientName: { $first: "$clientName" } } },
+    ]);
+    res.json(getDJSClientDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 module.exports = router;

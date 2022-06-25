@@ -2,12 +2,14 @@ import {
   ALL_CLIENTS,
   ACTIVE_CLIENTS,
   ACTIVE_CLIENT_FILTER,
+  ALL_DJS_CLIENTS,
 } from "../actions/types";
 
 const initialState = {
   allClient: [],
   activeClient: [],
   activeClientFilter: [],
+  activeDailyJobSheetClients: [],
 };
 
 const client = (state = initialState, action) => {
@@ -27,6 +29,11 @@ const client = (state = initialState, action) => {
       return {
         ...state,
         activeClientFilter: payload,
+      };
+    case ALL_DJS_CLIENTS:
+      return {
+        ...state,
+        activeDailyJobSheetClients: payload,
       };
     default:
       return state;

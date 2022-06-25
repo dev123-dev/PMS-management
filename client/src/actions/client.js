@@ -6,6 +6,7 @@ import {
   ALL_CLIENTS,
   ACTIVE_CLIENTS,
   ACTIVE_CLIENT_FILTER,
+  ALL_DJS_CLIENTS,
 } from "./types";
 
 const config = {
@@ -110,6 +111,23 @@ export const getActiveClientsFilter = (clientTypeVal) => async (dispatch) => {
     localStorage.setItem("activeClientData", JSON.stringify(res.data));
     dispatch({
       type: ACTIVE_CLIENT_FILTER,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getDailyjobSheetClients = (selDateData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/client/get-dailyjobsheet-client",
+      selDateData
+    );
+    dispatch({
+      type: ALL_DJS_CLIENTS,
       payload: res.data,
     });
   } catch (err) {
