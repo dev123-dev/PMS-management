@@ -45,6 +45,7 @@ const DeactiveEmployee = ({
       empDeactiveReason: empDeactiveReason,
       empDeactiveById: user._id,
       empDeactiveDateTime: new Date().toLocaleString(),
+      empStatus: "Deactive",
     };
     console.log(finalData);
     // editProjectStatus(finalData);
