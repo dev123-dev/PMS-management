@@ -179,10 +179,21 @@ router.get("/get-all-project-status", async (req, res) => {
 
 router.get("/get-all-folder-name", async (req, res) => {
   try {
-    const allClientDetails = await ClientDetails.find({}).select(
-      "clientFolderName"
-    );
-    res.json(allClientDetails);
+    const allClientFolderDetails = await Project.aggregate([
+      {
+        $match: {
+          $and: [
+            { projectStatusType: { $ne: "Uploaded" } },
+            { projectStatusType: { $ne: "Amend_Uploaded" } },
+            { projectStatusType: { $ne: "AI_Uploaded" } },
+            { projectStatus: { $eq: "Active" } },
+          ],
+        },
+      },
+      { $group: { _id: "$clientFolderName" } },
+    ]);
+    res.json(allClientFolderDetails);
+    console.log(allClientFolderDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -239,37 +250,80 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
   const { selDate, fromdate, todate, dateType, clientId } = req.body;
   let query = {};
   if (dateType === "Multi Date") {
-    query = {
-      projectStatus: {
-        $eq: "Active",
-      },
-      projectDate: {
-        $gte: fromdate,
-        $lte: todate,
-      },
-    };
+    if (clientId) {
+      query = {
+        projectStatus: {
+          $eq: "Active",
+        },
+        projectDate: {
+          $gte: fromdate,
+          $lte: todate,
+        },
+        clientId: {
+          $eq: mongoose.Types.ObjectId(clientId),
+        },
+      };
+    } else {
+      query = {
+        projectStatus: {
+          $eq: "Active",
+        },
+        projectDate: {
+          $gte: fromdate,
+          $lte: todate,
+        },
+      };
+    }
   } else if (dateType === "Single Date") {
     if (selDate) selDateVal = selDate;
     else selDateVal = new Date().toISOString().split("T")[0];
-    query = {
-      projectStatus: {
-        $eq: "Active",
-      },
-      projectDate: {
-        $eq: selDateVal,
-      },
-    };
-  } else {
-    query = {
-      projectStatus: {
-        $eq: "Active",
-      },
-      projectDate: {
-        $eq: new Date().toISOString().split("T")[0],
-      },
-    };
-  }
 
+    if (clientId) {
+      query = {
+        projectStatus: {
+          $eq: "Active",
+        },
+        projectDate: {
+          $eq: selDateVal,
+        },
+        clientId: {
+          $eq: mongoose.Types.ObjectId(clientId),
+        },
+      };
+    } else {
+      query = {
+        projectStatus: {
+          $eq: "Active",
+        },
+        projectDate: {
+          $eq: selDateVal,
+        },
+      };
+    }
+  } else {
+    if (clientId) {
+      query = {
+        projectStatus: {
+          $eq: "Active",
+        },
+        projectDate: {
+          $eq: new Date().toISOString().split("T")[0],
+        },
+        clientId: {
+          $eq: mongoose.Types.ObjectId(clientId),
+        },
+      };
+    } else {
+      query = {
+        projectStatus: {
+          $eq: "Active",
+        },
+        projectDate: {
+          $eq: new Date().toISOString().split("T")[0],
+        },
+      };
+    }
+  }
   try {
     const getDailyJobSheetDetails = await Project.find(query);
     res.json(getDailyJobSheetDetails);

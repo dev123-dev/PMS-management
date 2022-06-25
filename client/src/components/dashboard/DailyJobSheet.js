@@ -23,7 +23,7 @@ import { CSVLink, CSVDownload } from "react-csv";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.128:8000");
+const client = new w3cwebsocket("ws://192.168.6.109:8000");
 
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
@@ -191,6 +191,7 @@ const DailyJobSheet = ({
   const onClickReset = () => {
     getDailyJobsheetProjectDeatils("");
     setSelDateDataVal("");
+    setClientData("");
     setsingledate(new Date().toISOString().split("T")[0]);
     setSelectedDate(new Date().toISOString().split("T")[0]);
     setShowHide({
@@ -285,6 +286,7 @@ const DailyJobSheet = ({
   );
   //
   const onDateChange2 = (e) => {
+    setClientData("");
     setsingledate(e.target.value);
   };
   const [todate, settodate] = useState("");
@@ -341,6 +343,7 @@ const DailyJobSheet = ({
   });
   const { showChequenoSection, showChequenoSection1 } = showHide;
   const onDateModeChange = (e) => {
+    setClientData("");
     if (e) {
       setFormData({
         ...formData,
@@ -380,12 +383,11 @@ const DailyJobSheet = ({
       selDate: singledate,
       fromdate: fromdate,
       todate: todate,
-      dateType: Dateselectmode.value,
+      dateType: Dateselectmode.value ? Dateselectmode.value : "Single Date",
       clientId: e.clientId,
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
-    console.log(setClientId);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -403,15 +405,16 @@ const DailyJobSheet = ({
                 {(user.userGroupName &&
                   user.userGroupName === "Administrator") ||
                 user.userGroupName === "Super Admin" ? (
-                  <Select
-                    name="Dateselectmode"
-                    options={DateMethods}
-                    isSearchable={true}
-                    defaultValue={DateMethods[0]}
-                    value={DateMethods.value}
-                    placeholder="Select"
-                    onChange={(e) => onDateModeChange(e)}
-                  />
+                  // <Select
+                  //   name="Dateselectmode"
+                  //   options={DateMethods}
+                  //   isSearchable={true}
+                  //   defaultValue={DateMethods[0]}
+                  //   value={DateMethods.value}
+                  //   placeholder="Select"
+                  //   onChange={(e) => onDateModeChange(e)}
+                  // />
+                  <></>
                 ) : (
                   <></>
                 )}
