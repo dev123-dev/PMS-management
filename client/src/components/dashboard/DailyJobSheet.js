@@ -402,6 +402,7 @@ const DailyJobSheet = ({
             </div>
             <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
               <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-3">
+                {/* SLAP UserGroupRights */}
                 {(user.userGroupName &&
                   user.userGroupName === "Administrator") ||
                 user.userGroupName === "Super Admin" ? (
