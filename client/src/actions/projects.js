@@ -210,9 +210,12 @@ export const getActiveProjectStatus = () => async (dispatch) => {
   }
 };
 
-export const getJobQueueProjectDeatils = () => async (dispatch) => {
+export const getJobQueueProjectDeatils = (finalData) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/projects/get-job-queue-project-details");
+    const res = await axios.post(
+      "/api/projects/get-job-queue-project-details",
+      finalData
+    );
     dispatch({
       type: JOB_QUEUE_PROJECTS,
       payload: res.data,
