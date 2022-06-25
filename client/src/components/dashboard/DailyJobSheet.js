@@ -140,7 +140,8 @@ const DailyJobSheet = ({
     if (
       e.label === "Downloaded" ||
       e.label === "Uploaded" ||
-      e.label === "Amend_Uploaded"
+      e.label === "Amend_Uploaded" ||
+      e.label === "QC DONE"
     ) {
       let finalData = {
         projectTrackStatusId: e.value,
@@ -649,9 +650,7 @@ const DailyJobSheet = ({
                                   {(user.userGroupName &&
                                     user.userGroupName === "Administrator") ||
                                   user.userGroupName === "Super Admin" ||
-                                  user.userGroupName === "Clarical Admins" ||
-                                  user.userGroupName === "Quality Controller" ||
-                                  user.userGroupName === "Distributors" ? (
+                                  user.userGroupName === "Clarical Admins" ? (
                                     <Select
                                       name="projectStatusData"
                                       value={{

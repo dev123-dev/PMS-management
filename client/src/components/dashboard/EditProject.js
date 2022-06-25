@@ -37,7 +37,7 @@ const EditProject = ({
     };
     getActiveClientsFilter(clientTypeVal);
   }, [getActiveClientsFilter]);
-  // console.log(allProjectdata);
+  // console.log(user);
 
   //formData
   const [formData, setFormData] = useState({
@@ -374,231 +374,259 @@ const EditProject = ({
       {" "}
       <form className="row" onSubmit={(e) => onSubmit(e)}>
         <section className="sub_reg">
-          <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-            <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-              <div className="row card-new  py-3">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                  <h5>Client Info</h5>
-                </div>
+          {(user.userGroupName && user.userGroupName === "Administrator") ||
+          user.userGroupName === "Super Admin" ||
+          user.userGroupName === "Clarical Admins" ? (
+            <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                <div className="row card-new  py-3">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h5>Client Info</h5>
+                  </div>
 
-                <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
-                  <label
-                    className="label-control"
-                    //  style={ClientErrorStyle}
-                  >
-                    Client Type* :
-                  </label>
-                  <Select
-                    name="clientType"
-                    options={clientTypeVal}
-                    value={clientType}
-                    isSearchable={true}
-                    placeholder="Select"
-                    onChange={(e) => onClientTypeChange(e)}
-                  />
+                  <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
+                    <label
+                      className="label-control"
+                      //  style={ClientErrorStyle}
+                    >
+                      Client Type* :
+                    </label>
+                    <Select
+                      name="clientType"
+                      options={clientTypeVal}
+                      value={clientType}
+                      isSearchable={true}
+                      placeholder="Select"
+                      onChange={(e) => onClientTypeChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label
+                      className="label-control"
+                      style={clientnameIdErrorStyle}
+                    >
+                      Client Name* :
+                    </label>
+                    <Select
+                      name="clientData"
+                      value={clientData}
+                      options={activeClientsOpt}
+                      isSearchable={true}
+                      placeholder="Select"
+                      onChange={(e) => onClientChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Belongs to :</label>
+                    <input
+                      type="text"
+                      name="clientBelongsTo"
+                      value={clientBelongsTo}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      disabled
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">
+                      Client folder Name :
+                    </label>
+                    <input
+                      type="text"
+                      name="clientFolderName"
+                      value={clientFolderName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      disabled
+                    />
+                  </div>
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label
-                    className="label-control"
-                    style={clientnameIdErrorStyle}
-                  >
-                    Client Name* :
-                  </label>
-                  <Select
-                    name="clientData"
-                    value={clientData}
-                    options={activeClientsOpt}
-                    isSearchable={true}
-                    placeholder="Select"
-                    onChange={(e) => onClientChange(e)}
-                  />
+              </div>
+
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                <div className="row card-new  py-3">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h5>Project Dates</h5>
+                  </div>
+
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Project Date* :</label>
+                    <br />
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="projectDate"
+                      value={startprojectDate}
+                      onChange={(e) => onDateChange(e)}
+                      style={{
+                        width: "75%",
+                      }}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Project Time* :</label>
+                    <br />
+                    <input
+                      type="time"
+                      className="form-control"
+                      name="projectTime"
+                      value={projectTime}
+                      min="00:00"
+                      max="23:00"
+                      onChange={(e) => onInputChange(e)}
+                      // required
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Client Date* :</label>
+                    <br />
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="clientDate"
+                      value={startclientDate}
+                      onChange={(e) => onDateChange1(e)}
+                      style={{
+                        width: "75%",
+                      }}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Client Time :</label>
+                    <input
+                      type="time"
+                      name="clientTime"
+                      value={clientTime}
+                      className="form-control"
+                      min="00:00"
+                      max="23:00"
+                      onChange={(e) => onInputChange(e)}
+                      // required
+                    />
+                  </div>
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Belongs to :</label>
-                  <input
-                    type="text"
-                    name="clientBelongsTo"
-                    value={clientBelongsTo}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
-                    disabled
-                  />
+              </div>
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                <div className="row card-new  py-3">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h5>Project Info</h5>
+                  </div>
+
+                  <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Project Name* :</label>
+                    <input
+                      type="text"
+                      name="projectName"
+                      value={projectName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Qty* :</label>
+
+                    <input
+                      type="Number"
+                      name="qty"
+                      value={qty}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Priority :</label>
+                    <Select
+                      name="priority"
+                      options={priorityVal}
+                      value={priority}
+                      isSearchable={true}
+                      placeholder="Select"
+                      onChange={(e) => priorityToChange(e)}
+                    />
+                  </div>
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Client folder Name :</label>
-                  <input
-                    type="text"
-                    name="clientFolderName"
-                    value={clientFolderName}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
-                    disabled
-                  />
+              </div>
+
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                <div className="row card-new  py-3">
+                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                        <label
+                          className="label-control"
+                          style={projectstatusErrorStyle}
+                        >
+                          Project Status* :
+                        </label>
+                        <Select
+                          name="projectStatusData"
+                          value={projectStatusData}
+                          options={projectStatusOpt}
+                          isSearchable={false}
+                          placeholder="Select"
+                          onChange={(e) => onProjectStatusChange(e)}
+                        />
+                      </div> */}
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Deadline :</label>
+                    <input
+                      type="text"
+                      name="deadline"
+                      value={deadline}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+
+                  <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
+                    <label className="label-control">Instructions* :</label>
+                    <textarea
+                      name="Instructions"
+                      id="Instructions"
+                      className="textarea form-control"
+                      rows="4"
+                      placeholder="Instructions"
+                      style={{ width: "100%" }}
+                      value={Instructions}
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    ></textarea>
+                  </div>
                 </div>
               </div>
             </div>
+          ) : (
+            <></>
+          )}
+          {(user.designationName &&
+            user.designationName === "Shift Incharge & QC") ||
+          user.designationName === "Shift & Distribution Incharge" ? (
+            <div className="row col-lg-6 col-md-6 col-sm-6 col-12">
+              <label className="label-control">Qty* :</label>
 
-            <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-              <div className="row card-new  py-3">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                  <h5>Project Dates</h5>
-                </div>
-
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Project Date* :</label>
-                  <br />
-                  <input
-                    type="date"
-                    placeholder="dd/mm/yyyy"
-                    className="form-control cpp-input datevalidation"
-                    name="projectDate"
-                    value={startprojectDate}
-                    onChange={(e) => onDateChange(e)}
-                    style={{
-                      width: "75%",
-                    }}
-                    required
-                  />
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Project Time* :</label>
-                  <br />
-                  <input
-                    type="time"
-                    className="form-control"
-                    name="projectTime"
-                    value={projectTime}
-                    min="00:00"
-                    max="23:00"
-                    onChange={(e) => onInputChange(e)}
-                    // required
-                  />
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Client Date* :</label>
-                  <br />
-                  <input
-                    type="date"
-                    placeholder="dd/mm/yyyy"
-                    className="form-control cpp-input datevalidation"
-                    name="clientDate"
-                    value={startclientDate}
-                    onChange={(e) => onDateChange1(e)}
-                    style={{
-                      width: "75%",
-                    }}
-                    required
-                  />
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Client Time :</label>
-                  <input
-                    type="time"
-                    name="clientTime"
-                    value={clientTime}
-                    className="form-control"
-                    min="00:00"
-                    max="23:00"
-                    onChange={(e) => onInputChange(e)}
-                    // required
-                  />
-                </div>
-              </div>
+              <input
+                type="Number"
+                name="qty"
+                value={qty}
+                className="form-control"
+                onChange={(e) => onInputChange(e)}
+                onKeyDown={(e) =>
+                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+                }
+                required
+              />
             </div>
-            <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-              <div className="row card-new  py-3">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                  <h5>Project Info</h5>
-                </div>
-
-                <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Project Name* :</label>
-                  <input
-                    type="text"
-                    name="projectName"
-                    value={projectName}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
-                    required
-                  />
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Qty* :</label>
-
-                  <input
-                    type="Number"
-                    name="qty"
-                    value={qty}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
-                    onKeyDown={(e) =>
-                      (e.keyCode === 69 || e.keyCode === 190) &&
-                      e.preventDefault()
-                    }
-                    required
-                  />
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Priority :</label>
-                  <Select
-                    name="priority"
-                    options={priorityVal}
-                    value={priority}
-                    isSearchable={true}
-                    placeholder="Select"
-                    onChange={(e) => priorityToChange(e)}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-              <div className="row card-new  py-3">
-                {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label
-                    className="label-control"
-                    style={projectstatusErrorStyle}
-                  >
-                    Project Status* :
-                  </label>
-                  <Select
-                    name="projectStatusData"
-                    value={projectStatusData}
-                    options={projectStatusOpt}
-                    isSearchable={false}
-                    placeholder="Select"
-                    onChange={(e) => onProjectStatusChange(e)}
-                  />
-                </div> */}
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Deadline :</label>
-                  <input
-                    type="text"
-                    name="deadline"
-                    value={deadline}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
-                  />
-                </div>
-
-                <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
-                  <label className="label-control">Instructions* :</label>
-                  <textarea
-                    name="Instructions"
-                    id="Instructions"
-                    className="textarea form-control"
-                    rows="4"
-                    placeholder="Instructions"
-                    style={{ width: "100%" }}
-                    value={Instructions}
-                    onChange={(e) => onInputChange(e)}
-                    required
-                  ></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          ) : (
+            <></>
+          )}
           <div
             className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
             size="lg"
@@ -609,7 +637,7 @@ const EditProject = ({
                 before Submit
               </label>
             </div>
-            <div className="col-lg-4 col-md-6 col-sm-12 col-12">
+            <div className="col-lg-12 col-md-6 col-sm-12 col-12">
               {loading ? (
                 <button
                   className="btn sub_form btn_continue blackbrd Save float-right"
