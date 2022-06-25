@@ -204,15 +204,30 @@ router.get("/get-active-project-status", async (req, res) => {
 });
 
 router.post("/get-job-queue-project-details", async (req, res) => {
-  try {
-    const getJobQueueDetails = await Project.find({
+  const { folderNameSearch } = req.body;
+  let query = {};
+  if (folderNameSearch) {
+    query = {
+      $and: [
+        { projectStatusType: { $ne: "Uploaded" } },
+        { projectStatusType: { $ne: "Amend_Uploaded" } },
+        { projectStatusType: { $ne: "AI_Uploaded" } },
+        { projectStatus: { $eq: "Active" } },
+        { clientFolderName: { $eq: folderNameSearch } },
+      ],
+    };
+  } else {
+    query = {
       $and: [
         { projectStatusType: { $ne: "Uploaded" } },
         { projectStatusType: { $ne: "Amend_Uploaded" } },
         { projectStatusType: { $ne: "AI_Uploaded" } },
         { projectStatus: { $eq: "Active" } },
       ],
-    });
+    };
+  }
+  try {
+    const getJobQueueDetails = await Project.find(query);
     res.json(getJobQueueDetails);
   } catch (err) {
     console.error(err.message);

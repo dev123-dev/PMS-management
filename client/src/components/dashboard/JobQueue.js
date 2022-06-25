@@ -56,7 +56,9 @@ const JobQueue = ({
   useEffect(() => {
     getAllFolder();
   }, [getAllFolder]);
-  getJobQueueProjectDeatils();
+
+  const [filterData, setFilterData] = useState();
+  getJobQueueProjectDeatils(filterData);
 
   // const [sliderValue, setSliderValue] = useState([]);
 
@@ -97,10 +99,15 @@ const JobQueue = ({
         value: clientsData.clientFolderName,
       })
     );
-  const onClientChange = (e) => {
-    setClientData(e);
-  };
-  // console.log(clientData);
+  // const onClientChange = (e) => {
+  //   setClientData(e);
+  //   const finalData = {
+  //     folderNameSearch: e.value,
+  //   };
+  //   setFilterData(finalData);
+  //   getJobQueueProjectDeatils(finalData);
+  // };
+
   // Modal
   const projectStatusOpt = [];
   allProjectStatus.map((projStatusData) =>
@@ -169,6 +176,7 @@ const JobQueue = ({
 
   const onClickReset = () => {
     getJobQueueProjectDeatils("");
+    setClientData("");
   };
 
   const onEditModalChange = (e) => {
@@ -293,7 +301,7 @@ const JobQueue = ({
                 value={clientData}
                 options={activeClientsOpt}
                 placeholder="Select"
-                onChange={(e) => onClientChange(e)}
+                // onChange={(e) => onClientChange(e)}
               />
             </div>
             <div className="col-lg-9 col-md-11 col-sm-12 col-11 py-3">
