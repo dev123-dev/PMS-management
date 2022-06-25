@@ -94,9 +94,8 @@ const JobQueue = ({
   allFolderName &&
     allFolderName.map((clientsData) =>
       activeClientsOpt.push({
-        clientId: clientsData._id,
-        label: clientsData.clientFolderName,
-        value: clientsData.clientFolderName,
+        label: clientsData._id,
+        value: clientsData._id,
       })
     );
   const onClientChange = (e) => {

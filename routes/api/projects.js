@@ -179,10 +179,21 @@ router.get("/get-all-project-status", async (req, res) => {
 
 router.get("/get-all-folder-name", async (req, res) => {
   try {
-    const allClientDetails = await ClientDetails.find({}).select(
-      "clientFolderName"
-    );
-    res.json(allClientDetails);
+    const allClientFolderDetails = await Project.aggregate([
+      {
+        $match: {
+          $and: [
+            { projectStatusType: { $ne: "Uploaded" } },
+            { projectStatusType: { $ne: "Amend_Uploaded" } },
+            { projectStatusType: { $ne: "AI_Uploaded" } },
+            { projectStatus: { $eq: "Active" } },
+          ],
+        },
+      },
+      { $group: { _id: "$clientFolderName" } },
+    ]);
+    res.json(allClientFolderDetails);
+    console.log(allClientFolderDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
