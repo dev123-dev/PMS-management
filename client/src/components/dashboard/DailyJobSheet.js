@@ -191,6 +191,7 @@ const DailyJobSheet = ({
   const onClickReset = () => {
     getDailyJobsheetProjectDeatils("");
     setSelDateDataVal("");
+    setClientData("");
     setsingledate(new Date().toISOString().split("T")[0]);
     setSelectedDate(new Date().toISOString().split("T")[0]);
     setShowHide({
@@ -341,6 +342,7 @@ const DailyJobSheet = ({
   });
   const { showChequenoSection, showChequenoSection1 } = showHide;
   const onDateModeChange = (e) => {
+    setClientData("");
     if (e) {
       setFormData({
         ...formData,
@@ -380,12 +382,11 @@ const DailyJobSheet = ({
       selDate: singledate,
       fromdate: fromdate,
       todate: todate,
-      dateType: Dateselectmode.value,
+      dateType: Dateselectmode.value ? Dateselectmode.value : "Single Date",
       clientId: e.clientId,
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
-    console.log(setClientId);
   };
 
   return !isAuthenticated || !user || !users ? (
