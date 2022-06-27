@@ -9,6 +9,7 @@ import {
   JOB_QUEUE_PROJECTS,
   DAILY_JOBSHEET_PROJECTS,
   GET_ALL_CHANGES,
+  GET_LATEST_CHANGES,
 } from "./types";
 
 const config = {
@@ -251,6 +252,20 @@ export const getAllchanges = (finalData) => async (dispatch) => {
     localStorage.setItem("getAllChangesDetails", JSON.stringify(res.data));
     dispatch({
       type: GET_ALL_CHANGES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+export const getLatestChanges = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/projects/get-latest-change", finalData);
+    localStorage.setItem("getLatestChangesDetails", JSON.stringify(res.data));
+    dispatch({
+      type: GET_LATEST_CHANGES,
       payload: res.data,
     });
   } catch (err) {

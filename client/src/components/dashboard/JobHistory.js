@@ -1,39 +1,66 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { editDepartment } from "../../actions/settings";
-
+import { getLatestChanges } from "../../actions/projects";
 import Spinner from "../layout/Spinner";
 
 const JobHistory = ({
   auth: { isAuthenticated, user, users, loading },
+  project: { getLatestChangesValue },
   allDeptartmentdata,
   onEditModalChange,
   allProjectdata,
   editDepartment,
+  getLatestChanges,
 }) => {
+  let getLatestChangesDetails = JSON.parse(
+    localStorage.getItem("getLatestChangesDetails")
+  );
+  console.log(getLatestChangesDetails);
   //formData
   const [formData, setFormData] = useState({
-    projectName:
-      allProjectdata && allProjectdata.projectName
-        ? allProjectdata.projectName
-        : "",
-
-    projectEnteredByName:
-      allProjectdata && allProjectdata.projectEnteredByName
-        ? allProjectdata.projectEnteredByName
-        : "",
-
-    projectEnteredDateTime:
-      allProjectdata && allProjectdata.projectEnteredDateTime
-        ? allProjectdata.projectEnteredDateTime
-        : "",
-
+    projectName: "",
+    projectEnteredByName: "",
+    projectEnteredDateTime: "",
+    projectTrackLatestChange: "",
     isSubmitted: false,
   });
-  console.log(allProjectdata);
-  const { projectName, projectEnteredByName, projectEnteredDateTime } =
-    formData;
+  const {
+    projectName,
+    projectEnteredByName,
+    projectEnteredDateTime,
+    projectTrackLatestChange,
+  } = formData;
+
+  if (getLatestChangesDetails && !projectName) {
+    setFormData({
+      ...formData,
+      projectName:
+        getLatestChangesDetails &&
+        getLatestChangesDetails[0].output &&
+        getLatestChangesDetails[0].output.projectName
+          ? getLatestChangesDetails[0].output.projectName
+          : "",
+
+      projectEnteredByName:
+        getLatestChangesDetails &&
+        getLatestChangesDetails[0].projectStatusChangedbyName
+          ? getLatestChangesDetails[0].projectStatusChangedbyName
+          : "",
+
+      projectEnteredDateTime:
+        getLatestChangesDetails &&
+        getLatestChangesDetails[0].projectTrackDateTime
+          ? getLatestChangesDetails[0].projectTrackDateTime
+          : "",
+      projectTrackLatestChange:
+        getLatestChangesDetails &&
+        getLatestChangesDetails[0].projectTrackLatestChange
+          ? getLatestChangesDetails[0].projectTrackLatestChange
+          : "",
+    });
+  }
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -74,7 +101,10 @@ const JobHistory = ({
           </div>
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <label className="label-control">
-              Date&Time : <strong>{projectEnteredDateTime}</strong>
+              Date&Time :{" "}
+              <strong>
+                {new Date(projectEnteredDateTime).toLocaleString("en-GB")}
+              </strong>
             </label>
           </div>
 
@@ -88,7 +118,9 @@ const JobHistory = ({
               style={{ width: "100%" }}
               onChange={(e) => onInputChange(e)}
               readOnly
-            ></textarea>
+            >
+              {projectTrackLatestChange}
+            </textarea>
           </div>
         </div>
       </form>
@@ -98,10 +130,15 @@ const JobHistory = ({
 
 JobHistory.propTypes = {
   auth: PropTypes.object.isRequired,
+  project: PropTypes.object.isRequired,
+  getLatestChanges: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  project: state.project,
 });
 
-export default connect(mapStateToProps, { editDepartment })(JobHistory);
+export default connect(mapStateToProps, { editDepartment, getLatestChanges })(
+  JobHistory
+);

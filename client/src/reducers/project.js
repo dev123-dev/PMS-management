@@ -4,6 +4,7 @@ import {
   JOB_QUEUE_PROJECTS,
   DAILY_JOBSHEET_PROJECTS,
   GET_ALL_CHANGES,
+  GET_LATEST_CHANGES,
 } from "../actions/types";
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   jobQueueProjects: [],
   dailyJobsheetProjects: [],
   getAllChanges: [],
+  getLatestChangesValue: [],
 };
 
 const settings = (state = initialState, action) => {
@@ -42,6 +44,11 @@ const settings = (state = initialState, action) => {
       return {
         ...state,
         getAllChangesData: payload,
+      };
+    case GET_LATEST_CHANGES:
+      return {
+        ...state,
+        getLatestChangesValue: payload,
       };
 
     default:
