@@ -193,7 +193,6 @@ router.get("/get-all-folder-name", async (req, res) => {
       { $group: { _id: "$clientFolderName" } },
     ]);
     res.json(allClientFolderDetails);
-    console.log(allClientFolderDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -360,4 +359,36 @@ router.post("/get-all-changes", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/get-latest-change", async (req, res) => {
+  const { projectId } = req.body;
+  try {
+    const ProjectLatestChangeData = await ProjectTrack.aggregate([
+      {
+        $lookup: {
+          from: "projects",
+          localField: "projectId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      {
+        $match: {
+          "output._id": {
+            $eq: mongoose.Types.ObjectId(projectId),
+          },
+        },
+      },
+      { $unwind: "$output" },
+      { $sort: { _id: -1 } },
+      { $limit: 1 },
+    ]);
+    res.json(ProjectLatestChangeData);
+    console.log(ProjectLatestChangeData);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;

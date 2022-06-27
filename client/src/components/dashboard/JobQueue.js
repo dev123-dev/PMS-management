@@ -11,6 +11,7 @@ import {
   getJobQueueProjectDeatils,
   getAllProjectStatus,
   getAllFolder,
+  getLatestChanges,
 } from "../../actions/projects";
 import JobHistory from "./JobHistory";
 import JobNotes from "./JobNotes";
@@ -36,6 +37,7 @@ const JobQueue = ({
   getAllProjectStatus,
   getAllFolder,
   getUpdatedProjectStaus,
+  getLatestChanges,
   // getUpdatedProjectStausForDailyJobSheet,
 }) => {
   useEffect(() => {
@@ -210,6 +212,10 @@ const JobQueue = ({
 
   const [userDatas1, setUserDatas1] = useState(null);
   const onhistory = (jobQueueProjects, idx) => {
+    const finalData = {
+      projectId: jobQueueProjects._id,
+    };
+    getLatestChanges(finalData);
     setshowhistoryModal(true);
     setUserDatas1(jobQueueProjects);
   };
@@ -794,5 +800,6 @@ export default connect(mapStateToProps, {
   getAllProjectStatus,
   getAllFolder,
   getUpdatedProjectStaus,
+  getLatestChanges,
   // getUpdatedProjectStausForDailyJobSheet,
 })(JobQueue);
