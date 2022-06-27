@@ -26,7 +26,7 @@ import { w3cwebsocket } from "websocket";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.140:8000");
+const client = new w3cwebsocket("ws://192.168.6.159:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -449,9 +449,8 @@ const JobQueue = ({
                                 {dhm(
                                   jobQueueProjects.projectDate +
                                     ", " +
-                                    jobQueueProjects.projectTime,
-                                  idx
-                                )}
+                                    jobQueueProjects.projectTime
+                                )[0]}
                               </td>
                               <td>
                                 {jobQueueProjects.ptEstimatedTime &&
