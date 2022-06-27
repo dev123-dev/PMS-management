@@ -323,6 +323,7 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
       };
     }
   }
+  // get-dailyjobsheet-client
   try {
     const getDailyJobSheetDetails = await Project.find(query);
     res.json(getDailyJobSheetDetails);

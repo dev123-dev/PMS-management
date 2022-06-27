@@ -72,9 +72,17 @@ const ChangeProjectLifeCycle = ({
     let ptEstimatedDateTimeVal = "";
     if (projectHour || projectMinutes) {
       estimatedWorkTime =
-        (projectHour ? projectHour : 0) +
+        (projectHour
+          ? projectHour.length === 1
+            ? "0" + projectHour
+            : projectHour
+          : "00") +
         ":" +
-        (projectMinutes ? projectMinutes : 0);
+        (projectMinutes
+          ? projectMinutes.length === 1
+            ? "0" + projectMinutes
+            : projectMinutes
+          : "00");
       ptEstimatedDateTimeVal = new Date().toISOString();
     }
     // if (checkErrors()) {
