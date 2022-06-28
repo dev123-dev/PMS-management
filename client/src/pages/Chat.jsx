@@ -24,7 +24,19 @@ export default function Chat() {
       )
     );
   }, []);
-//SLAP IP
+
+  useEffect(async () => {
+    if (currentUser) {
+      if (currentUser.userName) {
+        const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
+        setContacts(data.data);
+        const dataCount = await axios.get(`${allUsersMsgCountRoute}/${currentUser._id}`);
+        setContactsMsgCount(dataCount.data);
+      }
+    }
+  }, [currentUser]);
+
+  //SLAP IP
   const client = new w3cwebsocket("ws://192.168.6.128:8000");
 
   // useEffect(async() => {
@@ -46,17 +58,6 @@ export default function Chat() {
     if (currentUser) {
       socket.current = io(host);
       socket.current.emit("add-user", currentUser._id);
-    }
-  }, [currentUser]);
-
-  useEffect(async () => {
-    if (currentUser) {
-      if (currentUser.userName) {
-        const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
-        setContacts(data.data);
-        const dataCount = await axios.get(`${allUsersMsgCountRoute}/${currentUser._id}`);
-        setContactsMsgCount(dataCount.data);
-      }
     }
   }, [currentUser]);
 

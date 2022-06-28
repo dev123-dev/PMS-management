@@ -90,6 +90,7 @@ router.post("/edit-project", async (req, res) => {
           projectDate: data.projectDate,
           clientTime: data.clientTime,
           clientDate: data.clientDate,
+          projectUnconfirmed: data.projectUnconfirmed,
           projectEditedById: data.projectEditedById,
           projectEditedDateTime: Date.now(),
         },
@@ -385,7 +386,7 @@ router.post("/get-latest-change", async (req, res) => {
       { $limit: 1 },
     ]);
     res.json(ProjectLatestChangeData);
-    console.log(ProjectLatestChangeData);
+    // console.log(ProjectLatestChangeData);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

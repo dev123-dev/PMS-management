@@ -670,7 +670,13 @@ const DailyJobSheet = ({
                                 </td>
                                 <td>{dailyJobsheetProjects.projectPriority}</td>
                                 <td>{dailyJobsheetProjects.projectDeadline}</td>
-                                <td>{dailyJobsheetProjects.projectQuantity}</td>
+                                <td>
+                                  {dailyJobsheetProjects.projectQuantity}&nbsp;
+                                  {dailyJobsheetProjects.projectUnconfirmed ===
+                                    true && (
+                                    <span style={{ color: "red" }}>*</span>
+                                  )}
+                                </td>
 
                                 <td>
                                   {/* SLAP UserGroupRights */}

@@ -446,11 +446,13 @@ const JobQueue = ({
                                 )}
                               </td>
                               <td>
-                                {dhm(
-                                  jobQueueProjects.projectDate +
-                                    ", " +
-                                    jobQueueProjects.projectTime
-                                )[0]}
+                                {
+                                  dhm(
+                                    jobQueueProjects.projectDate +
+                                      ", " +
+                                      jobQueueProjects.projectTime
+                                  )[0]
+                                }
                               </td>
                               <td>
                                 {jobQueueProjects.ptEstimatedTime &&
@@ -474,7 +476,13 @@ const JobQueue = ({
                               </td>
                               <td>{jobQueueProjects.projectPriority}</td>
                               <td>{jobQueueProjects.projectDeadline}</td>
-                              <td>{jobQueueProjects.projectQuantity}</td>
+                              <td>
+                                {jobQueueProjects.projectQuantity}&nbsp;
+                                {jobQueueProjects.projectUnconfirmed ===
+                                  true && (
+                                  <span style={{ color: "red" }}>*</span>
+                                )}
+                              </td>
                               <td>
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&

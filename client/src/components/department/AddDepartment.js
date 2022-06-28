@@ -30,7 +30,7 @@ const AddDepartment = ({
       departmentDesc: departmentDesc,
       departmentEnteredById: user._id,
     };
-    console.log(finalData);
+    // console.log(finalData);
     AddNewDepartment(finalData);
     onAddDistrictModalChange(true);
     // setFormData({

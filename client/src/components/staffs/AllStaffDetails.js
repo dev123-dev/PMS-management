@@ -7,6 +7,7 @@ import Spinner from "../layout/Spinner";
 import { getAllEmployee } from "../../actions/user";
 import EditEmployeeDetails from "./EditEmployeeDetails";
 import DeactiveEmployee from "./DeactiveEmployee";
+import EditPassword from "./EditPassword";
 const AllStaffDetails = ({
   auth: { allUser, isAuthenticated, user, users },
   user: { allEmployee },
@@ -46,6 +47,21 @@ const AllStaffDetails = ({
   const onDeactive = (allEmployee, idx) => {
     setShowDeactiveModal(true);
     setUserDatadeactive(allEmployee);
+  };
+
+  //changepwd
+
+  const [showChangePwdModal, setShowChangePwdModal] = useState(false);
+  const handleChangePwdModalClose = () => setShowChangePwdModal(false);
+  const onChangePwdModalChange = (e) => {
+    if (e) {
+      handleChangePwdModalClose();
+    }
+  };
+  const [userDataChangePwd, setUserDataChangePwd] = useState(null);
+  const onChangePwd = (allEmployee, idx) => {
+    setShowChangePwdModal(true);
+    setUserDataChangePwd(allEmployee);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -133,6 +149,15 @@ const AllStaffDetails = ({
                                     alt="Edit"
                                     title="Edit"
                                   />
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() =>
+                                      onChangePwd(allEmployee, idx)
+                                    }
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
                                 </>
                               </td>
                             </tr>
@@ -208,6 +233,36 @@ const AllStaffDetails = ({
             <DeactiveEmployee
               onDeactiveModalChange={onDeactiveModalChange}
               staffDeactivedata={userDatadeactive}
+            />
+          </Modal.Body>
+        </Modal>
+
+        <Modal
+          show={showChangePwdModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">Change Password</h3>
+            </div>
+            <div className="col-lg-1">
+              <button onClick={handleChangePwdModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <EditPassword
+              onChangePwdModalChange={onChangePwdModalChange}
+              staffChangePwddata={userDataChangePwd}
             />
           </Modal.Body>
         </Modal>

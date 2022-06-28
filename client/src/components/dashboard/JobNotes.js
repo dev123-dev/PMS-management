@@ -10,7 +10,7 @@ const JobNotes = ({
   allnotesdata,
   onnotesModalChange,
 }) => {
-  console.log(allnotesdata);
+  // console.log(allnotesdata);
   //formData
   const [formData, setFormData] = useState({
     projectNotes:

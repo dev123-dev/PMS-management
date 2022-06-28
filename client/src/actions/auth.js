@@ -170,6 +170,28 @@ export const changePwd = (formData) => async (dispatch) => {
   }
 };
 
+export const editPwd = (formData) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const res = await axios.post("/api/auth/edit-pwd", formData, config);
+    // dispatch({
+    //   type: LOGOUT,
+    // });
+    dispatch(setAlert(res.data.msg, "danger"));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    dispatch({
+      type: CHANGE_PWD_FAIL,
+      payload: errors[0].msg,
+    });
+  }
+};
+
 // Logout
 export const logout = () => async (dispatch) => {
   await axios.post("/api/auth/logout-done");

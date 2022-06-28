@@ -51,7 +51,6 @@ module.exports.updateChatView = async (req, res, next) => {
       }
     );
     res.json("Success");
-    return res.json(messagesData);
   } catch (ex) {
     next(ex);
   }

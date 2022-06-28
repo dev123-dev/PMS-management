@@ -81,9 +81,9 @@ export default function ChatContainer({ currentChat, socket }) {
     //   icon: "logo192.png",
     // });
     // const notification =
-     new Notifier.start("New Message","Here is context","http://localhost:2001/chat","logo192.png");
+     new Notifier.start("New Message is Here","Hey, You got A New Message","","logo192.png");
     // notification.onclick = (e) => {
-    //   window.location.href = "http://localhost:2001/chat";
+    //   window.location.href = "https://www.google.com";
     // };
   }
 

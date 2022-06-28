@@ -27,7 +27,7 @@ const AddPaymentMethod = ({
       paymentModeName: paymentMode,
       paymentModeEnteredById: user._id,
     };
-    console.log(finalData);
+    // console.log(finalData);
     AddPaymentMode(finalData);
     // setFormData({
     //   ...formData,

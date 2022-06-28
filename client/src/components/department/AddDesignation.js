@@ -32,7 +32,7 @@ const AddDesignation = ({
       designationDesc: designationDesc,
       designationEnteredById: user._id,
     };
-    console.log(finalData);
+    // console.log(finalData);
     AddNewDesignation(finalData);
     onAddDistrictModalChange(true);
 

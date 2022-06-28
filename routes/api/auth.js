@@ -169,6 +169,37 @@ router.post(
   }
 );
 
+router.post(
+  "/edit-pwd",
+  auth,
+  [check("password", "Invalid Request").not().isEmpty()],
+  async (req, res) => {
+    const { userId, password } = req.body;
+    //validating the Request
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(STATUS_CODE_400).json({ errors: errors.array() });
+    }
+    //assigning the data from body
+    let data = req.body;
+    try {
+      //Preparing The Salt
+      const salt = await bcrypt.genSalt(10);
+      //Hashing the Password
+      const password = await bcrypt.hash(data.password, salt);
+
+      await EmployeeDetails.findOneAndUpdate(
+        { _id: userId },
+        { password: password }
+      );
+      res.json({ msg: "Password changed succesfully" });
+    } catch (err) {
+      console.error(err.message);
+      res.status(STATUS_CODE_500).send(SERVER_ERROR);
+    }
+  }
+);
+
 router.post("/logout-done", auth, async (req, res) => {
   try {
     console.log(req.user.id);

@@ -289,7 +289,15 @@ const EditProject = ({
   const onDateChange1 = (e) => {
     setclientDate(e.target.value);
   };
+  const [isChecked, setIsChecked] = useState(
+    allProjectdata && allProjectdata.projectUnconfirmed
+      ? allProjectdata.projectUnconfirmed
+      : false
+  );
 
+  const handleOnChange = () => {
+    setIsChecked(!isChecked);
+  };
   //Required Validation Starts
   const [error, setError] = useState({
     clientnameIdChecker: false,
@@ -343,7 +351,7 @@ const EditProject = ({
         //  projectStatusId: projectStatusData.projectStatusId,
         // projectPrice:
         projectQuantity: qty,
-        // projectUnconfirmed
+        projectUnconfirmed: isChecked,
         // projectVendor
         clientTypeVal: clientType.value,
         projectTime: projectTime,
@@ -527,7 +535,7 @@ const EditProject = ({
                       required
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Qty* :</label>
 
                     <input
@@ -543,7 +551,16 @@ const EditProject = ({
                       required
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Unconfirmed :</label>
+                    <input
+                      type="checkbox"
+                      id="Unconfirmed"
+                      checked={isChecked}
+                      onChange={handleOnChange}
+                    />
+                  </div>
+                  <div className="col-lg-5 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Priority :</label>
                     <Select
                       name="priority"

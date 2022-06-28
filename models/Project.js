@@ -45,7 +45,7 @@ const ProjectSchema = new mongoose.Schema({
     type: Number,
   },
   projectUnconfirmed: {
-    type: String,
+    type: Boolean,
   },
   projectVendor: {
     type: String,

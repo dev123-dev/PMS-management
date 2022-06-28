@@ -75,7 +75,9 @@ const AddProject = ({
     setFolderNameVal(e.folderName);
   };
 
-  const [projectStatusData, setProjectStatusData] = useState();
+  const [projectStatusData, setProjectStatusData] = useState(
+    projectStatusOpt[1]
+  );
   const onProjectStatusChange = (e) => {
     //Required Validation starts
     setError({
@@ -89,7 +91,7 @@ const AddProject = ({
 
   //formData
   const [formData, setFormData] = useState({
-    clientType: "",
+    clientType: clientTypeVal[0],
     clientName: "",
     projectName: "",
     qty: "",
@@ -168,14 +170,20 @@ const AddProject = ({
     setclientDate(e.target.value);
   };
 
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleOnChange = () => {
+    setIsChecked(!isChecked);
+  };
+
   //Required Validation Starts
   const [error, setError] = useState({
     clientnameIdChecker: false,
     clientnameIdErrorStyle: {},
 
-    ClientIdChecker: false,
+    ClientIdChecker: true,
     ClientErrorStyle: {},
-    projectstatusChecker: false,
+    projectstatusChecker: true,
     projectstatusErrorStyle: {},
   });
   const {
@@ -235,7 +243,7 @@ const AddProject = ({
         projectStatusId: projectStatusData.projStatusId,
         // projectPrice:
         projectQuantity: qty,
-        // projectUnconfirmed
+        projectUnconfirmed: isChecked,
         // projectVendor
         clientTypeVal: clientType.value,
         projectTime: projectTime,
@@ -248,7 +256,7 @@ const AddProject = ({
         // projectEntryTime
         // clientType: clientType.value,
       };
-      console.log(finalData);
+      // console.log(finalData);
       addProject(finalData);
       setFormData({
         ...formData,
@@ -287,7 +295,7 @@ const AddProject = ({
                       name="clientType"
                       isSearchable={true}
                       options={clientTypeVal}
-                      value={clientType}
+                      value={clientType || clientTypeVal[0]}
                       placeholder="Select"
                       onChange={(e) => onClientTypeChange(e)}
                     />
@@ -419,9 +427,8 @@ const AddProject = ({
                       required
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Qty* :</label>
-
                     <input
                       type="Number"
                       name="qty"
@@ -435,7 +442,15 @@ const AddProject = ({
                       required
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Unconfirmed :</label>
+                    <input
+                      type="checkbox"
+                      id="Unconfirmed"
+                      onChange={handleOnChange}
+                    />
+                  </div>
+                  <div className="col-lg-5 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Priority :</label>
                     <Select
                       name="priority"
@@ -460,7 +475,7 @@ const AddProject = ({
                     </label>
                     <Select
                       name="projectStatusData"
-                      value={projectStatusData}
+                      value={projectStatusData || projectStatusOpt[1]}
                       options={projectStatusOpt}
                       isSearchable={true}
                       placeholder="Select"

@@ -17,7 +17,7 @@ const JobHistory = ({
   let getLatestChangesDetails = JSON.parse(
     localStorage.getItem("getLatestChangesDetails")
   );
-  console.log(getLatestChangesDetails);
+  // console.log(getLatestChangesDetails);
   //formData
   const [formData, setFormData] = useState({
     projectName: "",
@@ -72,7 +72,7 @@ const JobHistory = ({
       recordId: allProjectdata ? allProjectdata._id : "",
     };
 
-    console.log(finalData);
+    // console.log(finalData);
     editDepartment(finalData);
     onEditModalChange(true);
     // setFormData({

@@ -487,7 +487,7 @@ const AddEmployeeDetails = ({
         profilephoto: profilephoto,
         empEnteredById: user._id,
       };
-      console.log(finalData);
+      // console.log(finalData);
       localStorage.removeItem("lastEnteredCode");
       AddEmployee(finalData);
       setFormData({
