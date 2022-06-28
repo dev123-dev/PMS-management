@@ -87,6 +87,11 @@ const DailyJobSheet = ({
     }
   };
 
+  const DateMethods = [
+    { value: "Single Date", label: "Single Date" },
+    { value: "Multi Date", label: "Multi Date" },
+  ];
+
   // Modal
   const projectStatusOpt = [];
   allProjectStatus.map((projStatusData) =>
@@ -130,6 +135,11 @@ const DailyJobSheet = ({
     ])
   );
 
+  const [formData, setFormData] = useState({
+    radioselect: "",
+    Dateselectmode: DateMethods[0],
+    isSubmitted: false,
+  });
   const [statusChangeValue, setStatusChange] = useState();
   // const onSliderChange = (dailyJobsheetProjects) => (e) => {
   //   let newStatusData = {
@@ -198,6 +208,9 @@ const DailyJobSheet = ({
 
   const onClickReset = () => {
     getDailyJobsheetProjectDeatils("");
+    setFormData({
+      Dateselectmode: DateMethods[0],
+    });
     getDailyjobSheetClients("");
     setSelDateDataVal("");
     setClientData("");
@@ -220,11 +233,6 @@ const DailyJobSheet = ({
     setShowEditModal(true);
     setUserDatas(dailyJobsheetProjects);
   };
-  const [formData, setFormData] = useState({
-    radioselect: "",
-    Dateselectmode: "",
-    isSubmitted: false,
-  });
 
   const { radioselect, Dateselectmode } = formData;
   const onstatuscategrorySelect = (statuscategrory) => {
@@ -343,11 +351,6 @@ const DailyJobSheet = ({
     setUserDatas3(dailyJobsheetProjects);
   };
 
-  const DateMethods = [
-    { value: "Single Date", label: "Single Date" },
-    { value: "Multi Date", label: "Multi Date" },
-  ];
-
   const [showHide, setShowHide] = useState({
     showChequenoSection: false,
     showChequenoSection1: true,
@@ -423,8 +426,8 @@ const DailyJobSheet = ({
                       name="Dateselectmode"
                       options={DateMethods}
                       isSearchable={true}
-                      defaultValue={DateMethods[0]}
-                      value={DateMethods.value}
+                      // defaultValue={DateMethods[0]}
+                      value={Dateselectmode}
                       placeholder="Select"
                       onChange={(e) => onDateModeChange(e)}
                     />
