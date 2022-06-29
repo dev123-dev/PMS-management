@@ -374,7 +374,7 @@ const AddProject = ({
                       name="projectTime"
                       value={projectTime}
                       min="00:00"
-                      max="23:00"
+                      max="24:00"
                       onChange={(e) => onInputChange(e)}
                       // required
                     />
@@ -403,7 +403,7 @@ const AddProject = ({
                       value={clientTime}
                       className="form-control"
                       min="00:00"
-                      max="23:00"
+                      max="24:00"
                       onChange={(e) => onInputChange(e)}
                       // required
                     />
