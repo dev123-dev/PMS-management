@@ -81,6 +81,7 @@ const AllProjectStatus = ({
               /> */}
 
               <Link
+                to="#"
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickHandler()}
               >
@@ -249,7 +250,7 @@ const AllProjectStatus = ({
 AllProjectStatus.propTypes = {
   auth: PropTypes.object.isRequired,
   projects: PropTypes.object.isRequired,
-  getAllProjectStatus: PropTypes.object.isRequired,
+  getAllProjectStatus: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,

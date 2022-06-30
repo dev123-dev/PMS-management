@@ -97,9 +97,9 @@ const AddClientDetails = ({
     })
   );
 
-  const [payment, getStateData] = useState();
-  const [paymentId, setpaymentId] = useState();
-  const [paymentname, setpaymentname] = useState();
+  const [payment, getStateData] = useState("");
+  const [paymentId, setpaymentId] = useState("");
+  const [paymentname, setpaymentname] = useState("");
 
   const onPayModeChange = (e) => {
     //Required Validation starts
@@ -119,9 +119,9 @@ const AddClientDetails = ({
     setpaymentname(paymentname);
   };
 
-  const [clients, getclientsData] = useState();
-  const [clientsId, setclientsId] = useState();
-  const [clientsName, setclientsName] = useState();
+  const [clients, getclientsData] = useState("");
+  const [clientsId, setclientsId] = useState("");
+  const [clientsName, setclientsName] = useState("");
   // console.log(clients);
 
   const allclientBelongsTo = [];
@@ -510,9 +510,9 @@ AddClientDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
-  AddClient: PropTypes.object.isRequired,
-  getALLPaymentMode: PropTypes.object.isRequired,
-  getActiveClients: PropTypes.object.isRequired,
+  AddClient: PropTypes.func.isRequired,
+  getALLPaymentMode: PropTypes.func.isRequired,
+  getActiveClients: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

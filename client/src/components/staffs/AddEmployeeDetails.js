@@ -112,7 +112,7 @@ const AddEmployeeDetails = ({
   const [memberCounter, setMemberCounter] = useState("01");
   // const str = memberCounter.toString();
 
-  const [empCode, setempCode] = useState();
+  const [empCode, setempCode] = useState("");
   if (
     lastEnteredCodeData &&
     lastEnteredCodeData[0] &&
@@ -174,9 +174,9 @@ const AddEmployeeDetails = ({
     setTabIndex(tabIndex);
   };
 
-  const [department, getdepartmentData] = useState();
-  const [departmentId, setdepartmentId] = useState();
-  const [designationName, setdesignationName] = useState();
+  const [department, getdepartmentData] = useState("");
+  const [departmentId, setdepartmentId] = useState("");
+  const [designationName, setdesignationName] = useState("");
   const onDepartmentChange = (e) => {
     //Required Validation starts
     setError({
@@ -212,8 +212,8 @@ const AddEmployeeDetails = ({
       })
     );
 
-  const [designation, getdesignationData] = useState();
-  const [designationId, setdesignationId] = useState();
+  const [designation, getdesignationData] = useState("");
+  const [designationId, setdesignationId] = useState("");
   const [color, setColor] = useState(null);
 
   const onDesigChange = (e) => {
@@ -242,9 +242,9 @@ const AddEmployeeDetails = ({
     })
   );
 
-  const [usergroups, getusergroupsData] = useState();
-  const [usergroupsId, setusergroupsId] = useState();
-  const [userGroupName, setsetusergroupsName] = useState();
+  const [usergroups, getusergroupsData] = useState("");
+  const [usergroupsId, setusergroupsId] = useState("");
+  const [userGroupName, setsetusergroupsName] = useState("");
 
   const onUsergroupChange = (e) => {
     setError({
@@ -1144,8 +1144,8 @@ const AddEmployeeDetails = ({
 AddEmployeeDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  getALLDepartment: PropTypes.object.isRequired,
-  getActiveDesignation: PropTypes.object.isRequired,
+  getALLDepartment: PropTypes.func.isRequired,
+  getActiveDesignation: PropTypes.func.isRequired,
   AddEmployee: PropTypes.func.isRequired,
   getALLUserGroups: PropTypes.func.isRequired,
   getLastEnteredEmpCode: PropTypes.func.isRequired,

@@ -59,7 +59,7 @@ const JobQueue = ({
     getAllFolder();
   }, [getAllFolder]);
   // console.log(user);
-  const [filterData, setFilterData] = useState();
+  const [filterData, setFilterData] = useState("");
   getJobQueueProjectDeatils(filterData);
 
   // const [sliderValue, setSliderValue] = useState([]);
@@ -125,8 +125,8 @@ const JobQueue = ({
     })
   );
 
-  const [statusChangeValue, setStatusChange] = useState();
-  const [statusValue, setStatusValue] = useState();
+  const [statusChangeValue, setStatusChange] = useState("");
+  const [statusValue, setStatusValue] = useState("");
   const onSliderChange = (jobQueueProjects) => (e) => {
     if (
       e.label === "Downloaded" ||
@@ -786,8 +786,8 @@ const JobQueue = ({
 JobQueue.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
-  getJobQueueProjectDeatils: PropTypes.object.isRequired,
-  AddProjectTrack: PropTypes.object.isRequired,
+  getJobQueueProjectDeatils: PropTypes.func.isRequired,
+  AddProjectTrack: PropTypes.func.isRequired,
   getAllchanges: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({

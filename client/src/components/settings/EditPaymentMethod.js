@@ -99,7 +99,7 @@ const EditPaymentMethod = ({
 
 EditPaymentMethod.propTypes = {
   auth: PropTypes.object.isRequired,
-  EditPaymentMode: PropTypes.object.isRequired,
+  EditPaymentMode: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

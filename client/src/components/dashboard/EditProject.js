@@ -690,7 +690,7 @@ EditProject.propTypes = {
   settings: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
   getAllProjectStatus: PropTypes.object.isRequired,
-  getActiveClientsFilter: PropTypes.object.isRequired,
+  getActiveClientsFilter: PropTypes.func.isRequired,
   EditProjectData: PropTypes.object.isRequired,
 };
 

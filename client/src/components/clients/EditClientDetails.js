@@ -162,8 +162,8 @@ const EditClientDetails = ({
   // );
   // console.log(allClientdata);
   // console.log(allpaymentmodes);
-  // const [paymentId, setpaymentId] = useState();
-  // const [paymentModeName, setpaymentname] = useState();
+  // const [paymentId, setpaymentId] = useState("");
+  // const [paymentModeName, setpaymentname] = useState("");
 
   // const onPayModeChange = (e) => {
   //   var paymentId = "";
@@ -197,8 +197,8 @@ const EditClientDetails = ({
           )[0]
       : ""
   );
-  const [paymentId, setpaymentId] = useState();
-  const [paymentModeName, setpaymentname] = useState();
+  const [paymentId, setpaymentId] = useState("");
+  const [paymentModeName, setpaymentname] = useState("");
 
   const onPayModeChange = (e) => {
     var paymentId = "";
@@ -566,7 +566,7 @@ const EditClientDetails = ({
 EditClientDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  EditClient: PropTypes.object.isRequired,
+  EditClient: PropTypes.func.isRequired,
   getALLPaymentMode: PropTypes.object.isRequired,
   getActiveClients: PropTypes.object.isRequired,
 };

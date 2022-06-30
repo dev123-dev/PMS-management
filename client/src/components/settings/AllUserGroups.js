@@ -61,6 +61,7 @@ const AllUserGroups = ({
               /> */}
 
               <Link
+                to="#"
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickHandler()}
               >
@@ -178,7 +179,7 @@ const AllUserGroups = ({
 AllUserGroups.propTypes = {
   auth: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  getALLUserGroups: PropTypes.object.isRequired,
+  getALLUserGroups: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,

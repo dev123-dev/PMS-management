@@ -117,7 +117,7 @@ const DeactiveProjectStatus = ({
 
 DeactiveProjectStatus.propTypes = {
   auth: PropTypes.object.isRequired,
-  deactiveProjectStatus: PropTypes.object.isRequired,
+  deactiveProjectStatus: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

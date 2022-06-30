@@ -26,7 +26,7 @@ export default function Contacts({ contacts, changeChat, contactsMsgCount }) {
       index: index,
     })
   );
-  const [contact, getcontact] = useState();
+  const [contact, getcontact] = useState("");
   const changeCurrentChatSearch = (e) => {
     setCurrentSelected(e.index);
     changeChat({_id:e.value,userName:e.label});

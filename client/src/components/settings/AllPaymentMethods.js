@@ -63,6 +63,7 @@ const AllPaymentMethods = ({
               /> */}
 
               <Link
+                to="#"
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickHandler()}
               >
@@ -177,7 +178,7 @@ const AllPaymentMethods = ({
 AllPaymentMethods.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  getALLPaymentMode: PropTypes.object.isRequired,
+  getALLPaymentMode: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,

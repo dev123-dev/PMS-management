@@ -99,7 +99,7 @@ const EditUserGroup = ({
 EditUserGroup.propTypes = {
   auth: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  editUserGroup: PropTypes.object.isRequired,
+  editUserGroup: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

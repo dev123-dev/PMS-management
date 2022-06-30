@@ -373,7 +373,7 @@ const EditEmployeeDetails = ({
       })
     );
 
-  const [department, getdepartmentData] = useState();
+  const [department, getdepartmentData] = useState("");
   if (!department && activeDepartment.length > 0) {
     getdepartmentData(
       allEmployeedata
@@ -384,7 +384,7 @@ const EditEmployeeDetails = ({
         : ""
     );
   }
-  const [departmentId, setdepartmentId] = useState();
+  const [departmentId, setdepartmentId] = useState("");
 
   const onDepartmentChange = (e) => {
     var departmentId = "";
@@ -417,8 +417,8 @@ const EditEmployeeDetails = ({
         : ""
     );
   }
-  const [designationId, setdesignationId] = useState();
-  const [designationName, setdesignationName] = useState();
+  const [designationId, setdesignationId] = useState("");
+  const [designationName, setdesignationName] = useState("");
 
   const onDesigChange = (e) => {
     var designationId = "";
@@ -453,8 +453,8 @@ const EditEmployeeDetails = ({
       : ""
   );
 
-  const [usergroupsId, setusergroupsId] = useState();
-  const [userGroupName, setsetusergroupsName] = useState();
+  const [usergroupsId, setusergroupsId] = useState("");
+  const [userGroupName, setsetusergroupsName] = useState("");
 
   const onUsergroupChange = (e) => {
     var usergroupsId = "";
@@ -1137,10 +1137,10 @@ const EditEmployeeDetails = ({
 EditEmployeeDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  getALLDepartment: PropTypes.object.isRequired,
-  getActiveDesignation: PropTypes.object.isRequired,
-  editEmployeeDetails: PropTypes.object.isRequired,
-  getALLUserGroups: PropTypes.object.isRequired,
+  getALLDepartment: PropTypes.func.isRequired,
+  getActiveDesignation: PropTypes.func.isRequired,
+  editEmployeeDetails: PropTypes.func.isRequired,
+  getALLUserGroups: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,

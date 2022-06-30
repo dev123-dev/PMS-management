@@ -124,7 +124,7 @@ const DeactivateClient = ({
 
 DeactivateClient.propTypes = {
   auth: PropTypes.object.isRequired,
-  deactiveClient: PropTypes.object.isRequired,
+  deactiveClient: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

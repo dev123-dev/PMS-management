@@ -56,7 +56,7 @@ const AddProject = ({
   );
   const [clientData, setClientData] = useState("");
   const [clientId, setClientId] = useState("");
-  // const [clientName, setClientName] = useState();
+  // const [clientName, setClientName] = useState("");
   const [clientBelongsTo, setBelongsToVal] = useState("");
   const [clientFolderName, setFolderNameVal] = useState("");
 
@@ -556,8 +556,8 @@ AddProject.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
-  getAllProjectStatus: PropTypes.object.isRequired,
-  getActiveClientsFilter: PropTypes.object.isRequired,
+  getAllProjectStatus: PropTypes.func.isRequired,
+  getActiveClientsFilter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

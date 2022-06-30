@@ -24,11 +24,8 @@ const DeactiveDesignation = ({
     isSubmitted: false,
   });
 
-  const {
-    designationName,
-    designationDesc,
-    designationDeactiveReason,
-  } = formData;
+  const { designationName, designationDesc, designationDeactiveReason } =
+    formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -112,7 +109,7 @@ const DeactiveDesignation = ({
 
 DeactiveDesignation.propTypes = {
   auth: PropTypes.object.isRequired,
-  deactiveDesignationData: PropTypes.object.isRequired,
+  deactiveDesignationData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

@@ -274,7 +274,7 @@ const AllStaffDetails = ({
 AllStaffDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  getAllEmployee: PropTypes.object.isRequired,
+  getAllEmployee: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
