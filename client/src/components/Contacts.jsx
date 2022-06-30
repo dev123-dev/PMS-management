@@ -71,9 +71,9 @@ export default function Contacts({ contacts, changeChat, contactsMsgCount }) {
                       alt=""
                     />
                   </div> */}
-                  <a href="#" class="notification">
+                  <a href="#" className="notification">
                     <span>{contact.userName}</span>
-                    {msgCntVal > 0 && <span class="badge">{msgCntVal}</span>}
+                    {msgCntVal > 0 && <span className="badge">{msgCntVal}</span>}
                   </a>
                 </div>
                 ):(<></>)}

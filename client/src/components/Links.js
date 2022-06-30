@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 // import styled from 'styled-components'
 
-import Logo from './Logo'
-import Links from './Links'
+import Logo from "./Logo";
+import Links from "./Links";
 
 // const Container = styled.div.attrs({
 //     className: 'container',
@@ -17,21 +17,20 @@ import Links from './Links'
 // `
 
 class NavBar extends Component {
-    render() {
-        return (
-            <>
-        <div class="container"></div>
+  render() {
+    return (
+      <>
+        <div className="container"></div>
 
-            {/* <container >
+        {/* <container >
                 <Nav>
                     <Logo />
                     <Links />
                 </Nav>
             </container> */}
-            </>
-          
-        )
-    }
+      </>
+    );
+  }
 }
 
-export default NavBar
+export default NavBar;

@@ -625,7 +625,8 @@ const EditProject = ({
           )}
           {(user.designationName &&
             user.designationName === "Shift Incharge & QC") ||
-          user.designationName === "Shift & Distribution Incharge" ? (
+          user.designationName === "Shift & Distribution Incharge" ||
+          user.designationName === "Qc Incharge" ? (
             <div className="row col-lg-6 col-md-6 col-sm-6 col-12">
               <label className="label-control">Qty* :</label>
 
