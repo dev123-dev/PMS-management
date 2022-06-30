@@ -64,7 +64,7 @@ const ChangeProjectLifeCycle = ({
   const { showTimerSection } = showHide;
   //client in websocket
   //SLAP IP
-  const client = new w3cwebsocket("ws://192.168.6.140:8000");
+  const client = new w3cwebsocket("ws://192.168.6.109:8000");
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -222,7 +222,7 @@ const ChangeProjectLifeCycle = ({
 
 ChangeProjectLifeCycle.propTypes = {
   auth: PropTypes.object.isRequired,
-  AddProjectTrack: PropTypes.object.isRequired,
+  AddProjectTrack: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
