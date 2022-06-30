@@ -222,9 +222,11 @@ export const getJobQueueProjectDeatils = (finalData) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    dispatch({
-      type: AUTH_ERROR,
-    });
+    // dispatch({
+    //   type: AUTH_ERROR,
+    // });
+    console.log(err);
+    dispatch(getJobQueueProjectDeatils(finalData));
   }
 };
 
@@ -240,9 +242,11 @@ export const getDailyJobsheetProjectDeatils =
         payload: res.data,
       });
     } catch (err) {
-      dispatch({
-        type: AUTH_ERROR,
-      });
+      // dispatch({
+      //   type: AUTH_ERROR,
+      // });
+      console.log(err);
+      dispatch(getDailyJobsheetProjectDeatils(finalData));
     }
   };
 
