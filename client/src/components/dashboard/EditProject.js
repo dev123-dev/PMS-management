@@ -691,7 +691,7 @@ EditProject.propTypes = {
   client: PropTypes.object.isRequired,
   getAllProjectStatus: PropTypes.object.isRequired,
   getActiveClientsFilter: PropTypes.func.isRequired,
-  EditProjectData: PropTypes.object.isRequired,
+  EditProjectData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
