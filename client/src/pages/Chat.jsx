@@ -17,6 +17,7 @@ export default function Chat() {
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
     setCurrentUser(
       await JSON.parse(
@@ -25,6 +26,7 @@ export default function Chat() {
     );
   }, []);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
     if (currentUser) {
       if (currentUser.userName) {
@@ -61,6 +63,7 @@ export default function Chat() {
     }
   }, [currentUser]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async() => {
     if (currentUser) {
       if (currentUser.userName) {

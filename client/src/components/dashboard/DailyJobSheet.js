@@ -937,8 +937,8 @@ DailyJobSheet.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
-  getDailyJobsheetProjectDeatils: PropTypes.object.isRequired,
-  AddProjectTrack: PropTypes.object.isRequired,
+  getDailyJobsheetProjectDeatils: PropTypes.func.isRequired,
+  AddProjectTrack: PropTypes.func.isRequired,
   getUpdatedProjectStausForDailyJobSheet: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
