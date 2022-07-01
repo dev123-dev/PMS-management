@@ -19,7 +19,8 @@ import { getDailyjobSheetClients } from "../../actions/client";
 import JobNotes from "./JobNotes";
 import AllLatestChange from "./AllLatestChange";
 import { w3cwebsocket } from "websocket";
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
+// CSVDownload
 import DeactiveProject from "./DeactiveProject";
 //client in websocket
 //SLAP IP

@@ -25,7 +25,6 @@ const EditProject = ({
   getAllProjectStatus,
   allProjectdata,
   onEditModalChange,
-  addProject,
   EditProjectData,
 }) => {
   useEffect(() => {
@@ -193,7 +192,7 @@ const EditProject = ({
     //Required Validation starts
     setError({
       ...error,
-      // clientnameIdChecker: true,
+
       clientnameIdErrorStyle: { color: "#000" },
     });
     //Required Validation ends
@@ -225,7 +224,7 @@ const EditProject = ({
   //   // setError({
   //   //   ...error,
   //   //   projectstatusChecker: true,
-  //   //   projectstatusErrorStyle: { color: "#000" },
+  //   //
   //   // });
   //   //Required Validation ends
   //   setProjectStatusData(e);
@@ -236,13 +235,6 @@ const EditProject = ({
   };
 
   const onClientTypeChange = (e) => {
-    //Required Validation starts
-    // setError({
-    //   ...error,
-    //   ClientIdChecker: true,
-    //   ClientErrorStyle: { color: "#000" },
-    // });
-    //Required Validation ends
     if (e) {
       setFormData({
         ...formData,
@@ -259,13 +251,6 @@ const EditProject = ({
   };
 
   const priorityToChange = (e) => {
-    //Required Validation starts
-    // setError({
-    //   ...error,
-    //   ClientIdChecker: true,
-    //   ClientErrorStyle: { color: "#000" },
-    // });
-    //Required Validation ends
     if (e) {
       setFormData({
         ...formData,
@@ -300,23 +285,9 @@ const EditProject = ({
   };
   //Required Validation Starts
   const [error, setError] = useState({
-    clientnameIdChecker: false,
     clientnameIdErrorStyle: {},
-
-    ClientIdChecker: false,
-    ClientErrorStyle: {},
-    projectstatusChecker: false,
-    projectstatusErrorStyle: {},
   });
-  const {
-    clientnameIdChecker,
-    clientnameIdErrorStyle,
-
-    ClientIdChecker,
-    ClientErrorStyle,
-    projectstatusChecker,
-    projectstatusErrorStyle,
-  } = error;
+  const { clientnameIdErrorStyle } = error;
 
   // console.log(clientData);
   const checkErrors = () => {
@@ -393,12 +364,7 @@ const EditProject = ({
                   </div>
 
                   <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
-                    <label
-                      className="label-control"
-                      //  style={ClientErrorStyle}
-                    >
-                      Client Type* :
-                    </label>
+                    <label className="label-control">Client Type* :</label>
                     <Select
                       name="clientType"
                       options={clientTypeVal}
@@ -579,7 +545,7 @@ const EditProject = ({
                   {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                         <label
                           className="label-control"
-                          style={projectstatusErrorStyle}
+                          
                         >
                           Project Status* :
                         </label>
