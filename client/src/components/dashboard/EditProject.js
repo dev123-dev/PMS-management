@@ -672,6 +672,7 @@ const EditProject = ({
                 />
               )}
               <Link
+                to="#"
                 className="btn sub_form btn_continue blackbrd float-right"
                 onClick={() => onEditModalChange(true)}
               >

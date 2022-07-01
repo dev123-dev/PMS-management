@@ -33,12 +33,6 @@ const AddDepartment = ({
     // console.log(finalData);
     AddNewDepartment(finalData);
     onAddDistrictModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // getStateData("");
   };
 
   return !isAuthenticated || !user || !users ? (

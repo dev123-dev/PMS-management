@@ -2,13 +2,13 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-// import { deactiveProjectData } from "../../actions/settings";
+import { deactiveProjectData } from "../../actions/projects";
 import { Link } from "react-router-dom";
 const DeactiveProject = ({
   auth: { isAuthenticated, user, users, loading },
   Projectdeavtivedata,
   onDeactiveModalChange,
-  // deactiveProjectData,
+  deactiveProjectData,
 }) => {
   //formData
   // console.log("data", Projectdeavtivedata);
@@ -35,10 +35,12 @@ const DeactiveProject = ({
     e.preventDefault();
     const finalData = {
       recordId: Projectdeavtivedata ? Projectdeavtivedata._id : "",
+      projectDeleteById: user._id,
+      projectDeleteDateTime: Date.now(),
     };
-    console.log(finalData);
-    // deactiveProjectData(finalData);
-    // onDeactiveModalChange(true);
+    // console.log(finalData);
+    deactiveProjectData(finalData);
+    onDeactiveModalChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -99,7 +101,7 @@ const DeactiveProject = ({
 
 DeactiveProject.propTypes = {
   auth: PropTypes.object.isRequired,
-  // deactiveProjectData: PropTypes.func.isRequired,
+  deactiveProjectData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -107,5 +109,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  //  deactiveProjectData
+  deactiveProjectData,
 })(DeactiveProject);

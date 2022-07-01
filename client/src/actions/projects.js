@@ -36,6 +36,25 @@ export const addProject = (finalData) => async (dispatch) => {
   }
 };
 
+//Deactive
+
+export const deactiveProjectData = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/projects/deactive-project-data", finalData, config);
+
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
 export const addProjectStatus = (finalData) => async (dispatch) => {
   try {
     dispatch({

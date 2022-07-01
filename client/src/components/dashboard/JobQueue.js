@@ -431,6 +431,7 @@ const JobQueue = ({
                                 <td>
                                   {" "}
                                   <Link
+                                    to="#"
                                     className="btnLink"
                                     onClick={() =>
                                       onhistory(jobQueueProjects, idx)
@@ -450,7 +451,7 @@ const JobQueue = ({
                                 user.userGroupName === "Super Admin" ||
                                 user.userGroupName === "Clarical Admins" ? (
                                   <Link
-                                    // to="/AllLatestChange"
+                                    to="#"
                                     onClick={() =>
                                       handleGoToAllLatestChange(
                                         jobQueueProjects
@@ -535,6 +536,7 @@ const JobQueue = ({
                               <td>
                                 {" "}
                                 <Link
+                                  to="#"
                                   className="btnLink"
                                   onClick={() =>
                                     onhistory(jobQueueProjects, idx)
@@ -546,6 +548,7 @@ const JobQueue = ({
                               <td>
                                 {" "}
                                 <Link
+                                  to="#"
                                   className="btnLink"
                                   onClick={() => onnotes(jobQueueProjects, idx)}
                                 >
@@ -559,15 +562,22 @@ const JobQueue = ({
                               user.userGroupName === "Clarical Admins" ||
                               user.userGroupName === "Quality Controller" ? (
                                 <td>
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() =>
-                                      onDeactive(jobQueueProjects, idx)
-                                    }
-                                    src={require("../../static/images/delete.png")}
-                                    alt="Delete Project"
-                                    title="Delete Project"
-                                  />
+                                  {(user.userGroupName &&
+                                    user.userGroupName === "Administrator") ||
+                                  user.userGroupName === "Super Admin" ||
+                                  user.userGroupName === "Clarical Admins" ? (
+                                    <img
+                                      className="img_icon_size log"
+                                      onClick={() =>
+                                        onDeactive(jobQueueProjects, idx)
+                                      }
+                                      src={require("../../static/images/delete.png")}
+                                      alt="Delete Project"
+                                      title="Delete Project"
+                                    />
+                                  ) : (
+                                    <></>
+                                  )}
                                   <img
                                     className="img_icon_size log ml-2"
                                     onClick={() =>

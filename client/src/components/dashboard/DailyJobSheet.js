@@ -20,10 +20,10 @@ import JobNotes from "./JobNotes";
 import AllLatestChange from "./AllLatestChange";
 import { w3cwebsocket } from "websocket";
 import { CSVLink, CSVDownload } from "react-csv";
-
+import DeactiveProject from "./DeactiveProject";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.109:8000");
+const client = new w3cwebsocket("ws://192.168.6.216:8000");
 
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
@@ -404,6 +404,21 @@ const DailyJobSheet = ({
     getDailyJobsheetProjectDeatils(selDateData);
   };
 
+  const [userDatadeactive, setUserDatadeactive] = useState(null);
+  const onDeactive = (dailyJobsheetProjects, idx) => {
+    setShowDeactiveModal(true);
+    setUserDatadeactive(dailyJobsheetProjects);
+  };
+
+  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
+
+  const onDeactiveModalChange = (e) => {
+    if (e) {
+      handleDeactiveModalClose();
+    }
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -568,7 +583,7 @@ const DailyJobSheet = ({
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ||
                         user.userGroupName === "Clarical Admins" ? (
-                          <th style={{ width: "2%" }}>OP</th>
+                          <th style={{ width: "10%" }}>OP</th>
                         ) : (
                           <></>
                         )}
@@ -629,6 +644,7 @@ const DailyJobSheet = ({
                                   user.userGroupName === "Super Admin" ||
                                   user.userGroupName === "Clarical Admins" ? (
                                     <Link
+                                      to="#"
                                       onClick={() =>
                                         handleGoToAllLatestChange(
                                           dailyJobsheetProjects
@@ -716,6 +732,7 @@ const DailyJobSheet = ({
                                 </td>
                                 <td>
                                   <Link
+                                    to="#"
                                     className="btnLink"
                                     onClick={() =>
                                       onhistory(dailyJobsheetProjects, idx)
@@ -726,6 +743,7 @@ const DailyJobSheet = ({
                                 </td>
                                 <td>
                                   <Link
+                                    to="#"
                                     className="btnLink"
                                     onClick={() =>
                                       onnotes(dailyJobsheetProjects, idx)
@@ -740,8 +758,24 @@ const DailyJobSheet = ({
                                 user.userGroupName === "Super Admin" ||
                                 user.userGroupName === "Clarical Admins" ? (
                                   <td>
+                                    {(user.userGroupName &&
+                                      user.userGroupName === "Administrator") ||
+                                    user.userGroupName === "Super Admin" ||
+                                    user.userGroupName === "Clarical Admins" ? (
+                                      <img
+                                        className="img_icon_size log"
+                                        onClick={() =>
+                                          onDeactive(dailyJobsheetProjects, idx)
+                                        }
+                                        src={require("../../static/images/delete.png")}
+                                        alt="Delete Project"
+                                        title="Delete Project"
+                                      />
+                                    ) : (
+                                      <></>
+                                    )}
                                     <img
-                                      className="img_icon_size log"
+                                      className="img_icon_size log ml-2"
                                       onClick={() =>
                                         onUpdate(dailyJobsheetProjects, idx)
                                       }
@@ -926,6 +960,35 @@ const DailyJobSheet = ({
           <AllLatestChange
             onAllChange={onAllChange}
             AllChangedata={userDatas3}
+          />
+        </Modal.Body>
+      </Modal>
+      <Modal
+        show={showDeactiveModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Deactivate Project</h3>
+          </div>
+          <div className="col-lg-1">
+            <button onClick={handleDeactiveModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <DeactiveProject
+            onDeactiveModalChange={onDeactiveModalChange}
+            Projectdeavtivedata={userDatadeactive}
           />
         </Modal.Body>
       </Modal>

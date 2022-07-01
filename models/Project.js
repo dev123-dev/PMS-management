@@ -131,13 +131,13 @@ const ProjectSchema = new mongoose.Schema({
   projectDeactiveReason: {
     type: String,
   },
-  projectDeactiveById: {
+  projectDeleteById: {
     type: ObjectId,
   },
-  projectDeactiveDate: {
+  projectDeleteDate: {
     type: String,
   },
-  projectDeactiveDateTime: {
+  projectDeleteDateTime: {
     type: Date,
   },
 });

@@ -167,6 +167,26 @@ router.post("/deactive-project-status", async (req, res) => {
   }
 });
 
+router.post("/deactive-project-data", async (req, res) => {
+  try {
+    let data = req.body;
+
+    const deactiveProject = await Project.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          projectStatus: "Delete",
+          projectDeleteById: data.projectDeleteById,
+          projectDeleteDateTime: data.projectDeleteDateTime,
+        },
+      }
+    );
+    res.json(deactiveProject);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 //***************SELECT***************
 router.get("/get-all-project-status", async (req, res) => {
   try {
