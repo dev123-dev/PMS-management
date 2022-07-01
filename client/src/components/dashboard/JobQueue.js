@@ -23,10 +23,10 @@ import {
 } from "../../actions/projects";
 import AllLatestChange from "./AllLatestChange";
 import { w3cwebsocket } from "websocket";
-
+import DeactiveProject from "./DeactiveProject";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.159:8000");
+const client = new w3cwebsocket("ws://192.168.6.216:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -297,6 +297,20 @@ const JobQueue = ({
   //   getAllchanges(finalData);
   //   setSubmitted(true);
   // };
+  const [userDatadeactive, setUserDatadeactive] = useState(null);
+  const onDeactive = (jobQueueProjects, idx) => {
+    setShowDeactiveModal(true);
+    setUserDatadeactive(jobQueueProjects);
+  };
+
+  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
+
+  const onDeactiveModalChange = (e) => {
+    if (e) {
+      handleDeactiveModalClose();
+    }
+  };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -359,9 +373,9 @@ const JobQueue = ({
                         )}
                         <th style={{ width: "6%" }}>Folder </th>
                         <th style={{ width: "25%" }}>Project Name</th>
-                        <th style={{ width: "12%" }}>Queue Duration</th>
-                        <th style={{ width: "12%" }}>Estimated Time</th>
-                        <th style={{ width: "12%" }}>Job Time</th>
+                        <th style={{ width: "10%" }}>Queue Duration</th>
+                        <th style={{ width: "10%" }}>Estimated Time</th>
+                        <th style={{ width: "10%" }}>Job Time</th>
                         <th style={{ width: "2%" }}>Priority</th>
                         <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "2%" }}>Qty</th>
@@ -374,7 +388,7 @@ const JobQueue = ({
                         user.userGroupName === "Super Admin" ||
                         user.userGroupName === "Clarical Admins" ||
                         user.userGroupName === "Quality Controller" ? (
-                          <th style={{ width: "2%" }}>OP</th>
+                          <th style={{ width: "10%" }}>OP</th>
                         ) : (
                           <></>
                         )}
@@ -547,6 +561,15 @@ const JobQueue = ({
                                 <td>
                                   <img
                                     className="img_icon_size log"
+                                    onClick={() =>
+                                      onDeactive(jobQueueProjects, idx)
+                                    }
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Delete Project"
+                                    title="Delete Project"
+                                  />
+                                  <img
+                                    className="img_icon_size log ml-2"
                                     onClick={() =>
                                       onUpdate(jobQueueProjects, idx)
                                     }
@@ -784,6 +807,36 @@ const JobQueue = ({
           <AllLatestChange
             onAllChange={onAllChange}
             AllChangedata={userDatas3}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showDeactiveModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Deactivate Project</h3>
+          </div>
+          <div className="col-lg-1">
+            <button onClick={handleDeactiveModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <DeactiveProject
+            onDeactiveModalChange={onDeactiveModalChange}
+            Projectdeavtivedata={userDatadeactive}
           />
         </Modal.Body>
       </Modal>
