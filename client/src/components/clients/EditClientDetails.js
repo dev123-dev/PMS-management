@@ -2,7 +2,6 @@ import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
-import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getALLPaymentMode } from "../../actions/settings";
 import { getActiveClients, EditClient } from "../../actions/client";
@@ -61,10 +60,7 @@ const EditClientDetails = ({
       allClientdata && allClientdata.clientCountry
         ? allClientdata.clientCountry
         : "",
-    clientBelongsTo:
-      allClientdata && allClientdata.clientBelongsTo
-        ? allClientdata.clientBelongsTo
-        : "",
+
     clientFolderName:
       allClientdata && allClientdata.clientFolderName
         ? allClientdata.clientFolderName
@@ -110,7 +106,6 @@ const EditClientDetails = ({
     clientAddress,
     clientCountry,
     clientType,
-    clientBelongsTo,
     clientFolderName,
     clientCurrency,
     clientCompanyName,
