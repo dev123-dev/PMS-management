@@ -150,13 +150,13 @@ const AllStaffDetails = ({
                                     title="Edit"
                                   />
                                   <img
-                                    className="img_icon_size log"
+                                    className="img_icon_size log ml-1"
                                     onClick={() =>
                                       onChangePwd(allEmployee, idx)
                                     }
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
+                                    src={require("../../static/images/key.png")}
+                                    alt="Change Password"
+                                    title="Change Password"
                                   />
                                 </>
                               </td>
