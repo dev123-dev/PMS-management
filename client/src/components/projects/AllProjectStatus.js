@@ -249,7 +249,7 @@ const AllProjectStatus = ({
 
 AllProjectStatus.propTypes = {
   auth: PropTypes.object.isRequired,
-  projects: PropTypes.object.isRequired,
+  project: PropTypes.object.isRequired,
   getAllProjectStatus: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
