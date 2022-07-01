@@ -325,10 +325,18 @@ const JobQueue = ({
               >
                 Refresh
               </button>
-
-              <Link className="btn btn_green_bg float-right" to="/add-Project">
-                Add Project
-              </Link>
+              {(user.userGroupName && user.userGroupName === "Administrator") ||
+              user.userGroupName === "Super Admin" ||
+              user.userGroupName === "Clarical Admins" ? (
+                <Link
+                  className="btn btn_green_bg float-right"
+                  to="/add-Project"
+                >
+                  Add Project
+                </Link>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
           <div className="row">

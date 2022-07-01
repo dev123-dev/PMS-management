@@ -246,7 +246,7 @@ export const getDailyJobsheetProjectDeatils =
       //   type: AUTH_ERROR,
       // });
       console.log(err);
-      dispatch(getDailyJobsheetProjectDeatils(finalData));
+      dispatch(getDailyJobsheetProjectDeatils(selDateData));
     }
   };
 
