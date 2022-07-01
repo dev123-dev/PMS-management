@@ -35,9 +35,7 @@ const AllStaffDetails = ({
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
   const handleDeactiveModalClose = () => setShowDeactiveModal(false);
-  const onClickHandler2 = () => {
-    setShowDeactiveModal(true);
-  };
+
   const onDeactiveModalChange = (e) => {
     if (e) {
       handleDeactiveModalClose();

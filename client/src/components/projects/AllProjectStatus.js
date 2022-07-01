@@ -31,9 +31,7 @@ const AllProjectStatus = ({
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
-  const onClickHandler1 = () => {
-    setShowEditModal(true);
-  };
+
   const onEditModalChange = (e) => {
     if (e) {
       handleEditModalClose();
@@ -47,9 +45,7 @@ const AllProjectStatus = ({
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
   const handleDeactiveModalClose = () => setShowDeactiveModal(false);
-  const onClickHandler2 = () => {
-    setShowDeactiveModal(true);
-  };
+
   const onDeactiveModalChange = (e) => {
     if (e) {
       handleDeactiveModalClose();
