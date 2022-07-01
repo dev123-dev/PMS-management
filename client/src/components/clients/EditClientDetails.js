@@ -567,8 +567,8 @@ EditClientDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   EditClient: PropTypes.func.isRequired,
-  getALLPaymentMode: PropTypes.object.isRequired,
-  getActiveClients: PropTypes.object.isRequired,
+  getALLPaymentMode: PropTypes.func.isRequired,
+  getActiveClients: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
