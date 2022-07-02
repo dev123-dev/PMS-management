@@ -182,7 +182,7 @@ const AddClientDetails = ({
       // if (checkErrors()) {
       const finalData = {
         clientName: clientName,
-        clientBelongsToId: clientsId,
+        clientBelongsToId: clientsId ? clientsId : null,
         clientBelongsToName: clientsName,
         clientEmail: clientEmail,
         clientBillingEmail: clientBillingEmail,
@@ -200,6 +200,7 @@ const AddClientDetails = ({
         clientWebsite: clientWebsite,
         clientEnteredById: user._id,
       };
+
       AddClient(finalData);
       setFormData({
         ...formData,
