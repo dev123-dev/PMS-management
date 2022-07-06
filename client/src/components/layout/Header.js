@@ -105,7 +105,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                 </NavItem>
 
                 <NavItem>
-                  {!loading && isAuthenticated && user ? (
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
                     <NavLink
                       to="/job-verification"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
