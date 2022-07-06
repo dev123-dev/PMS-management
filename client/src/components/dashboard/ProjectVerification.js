@@ -653,7 +653,7 @@ const ProjectVerification = ({
       >
         <Modal.Header>
           <div className="col-lg-10">
-            <h3 className="modal-title text-center">Edit Project Details</h3>
+            <h3 className="modal-title text-center">Verification Project</h3>
           </div>
           <div className="col-lg-1">
             <button onClick={handleEditModalClose} className="close">
