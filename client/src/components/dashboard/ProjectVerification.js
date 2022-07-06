@@ -1,11 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 // import { Link } from "react-router-dom";
 // import Select from "react-select";
 // import ChangeProjectLifeCycle from "./ChangeProjectLifeCycle";
 import Spinner from "../layout/Spinner";
+import VerificationModal from "./VerificationModal";
 // import EditProject from "./EditProject";
 import {
   getverificationProjectDeatils,
@@ -64,26 +65,26 @@ const ProjectVerification = ({
 
   // const [sliderValue, setSliderValue] = useState([]);
 
-  function dhm(pDateTime) {
-    let pStartDate = new Date(pDateTime);
-    let pEndDate = new Date();
-    let ms = Math.abs(pStartDate - pEndDate);
-    const days = Math.floor(ms / (24 * 60 * 60 * 1000));
-    const daysms = ms % (24 * 60 * 60 * 1000);
-    const hours = Math.floor(daysms / (60 * 60 * 1000));
-    const hoursms = ms % (60 * 60 * 1000);
-    const minutes = Math.floor(hoursms / (60 * 1000));
-    const minutesms = ms % (60 * 1000);
-    const sec = Math.floor(minutesms / 1000);
-    return [
-      days + " d : " + hours + " h : " + minutes + " m : " + sec + " s",
-      hours.length === 1
-        ? "0" + hours
-        : hours + "" + minutes.length === 1
-        ? "0" + minutes
-        : minutes,
-    ];
-  }
+  // function dhm(pDateTime) {
+  //   let pStartDate = new Date(pDateTime);
+  //   let pEndDate = new Date();
+  //   let ms = Math.abs(pStartDate - pEndDate);
+  //   const days = Math.floor(ms / (24 * 60 * 60 * 1000));
+  //   const daysms = ms % (24 * 60 * 60 * 1000);
+  //   const hours = Math.floor(daysms / (60 * 60 * 1000));
+  //   const hoursms = ms % (60 * 60 * 1000);
+  //   const minutes = Math.floor(hoursms / (60 * 1000));
+  //   const minutesms = ms % (60 * 1000);
+  //   const sec = Math.floor(minutesms / 1000);
+  //   return [
+  //     days + " d : " + hours + " h : " + minutes + " m : " + sec + " s",
+  //     hours.length === 1
+  //       ? "0" + hours
+  //       : hours + "" + minutes.length === 1
+  //       ? "0" + minutes
+  //       : minutes,
+  //   ];
+  // }
 
   // On change ProjectCycle
   // const [showProjectCycleModal, setShowProjectCycleModal] = useState(false);
@@ -178,21 +179,28 @@ const ProjectVerification = ({
     QCEstimateQty = 0,
     UploadingQty = 0;
 
-  // const [showEditModal, setShowEditModal] = useState(false);
-  // const handleEditModalClose = () => setShowEditModal(false);
-
+  const [showEditModal, setShowEditModal] = useState(false);
+  const handleEditModalClose = () => setShowEditModal(false);
+  const onEditModalChange = (e) => {
+    if (e) {
+      handleEditModalClose();
+    }
+  };
   const onClickReset = () => {
     getverificationProjectDeatils("");
     // setClientData("");
     setFilterData("");
   };
+  const [loggedStaffData, setLoggedStaffData] = useState(null);
+  const [userDatas, setUserDatas] = useState(null);
+  const onClickVerify = (unVerifiedProjects, idx) => {
+    setUserDatas(unVerifiedProjects);
+    setShowEditModal(true);
+    if (user) {
+      setLoggedStaffData(user);
+    }
+  };
 
-  // const onEditModalChange = (e) => {
-  //   if (e) {
-  //     handleEditModalClose();
-  //   }
-  // };
-  // const [userDatas, setUserDatas] = useState(null);
   // const onUpdate = (unVerifiedProjects, idx) => {
   //   localStorage.removeItem("activeClientData");
   //   setShowEditModal(true);
@@ -365,7 +373,7 @@ const ProjectVerification = ({
                         <th style={{ width: "2%" }}>Priority</th>
                         <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "2%" }}>Qty</th>
-                        <th style={{ width: "13%" }}>Status</th>
+                        <th style={{ width: "5%" }}>Status</th>
                         {/* <th style={{ width: "5%" }}>Latest Change</th>
                         <th style={{ width: "5%" }}>Job Notes</th> */}
                         {/* SLAP UserGroupRights */}
@@ -374,7 +382,7 @@ const ProjectVerification = ({
                         user.userGroupName === "Super Admin" ||
                         user.userGroupName === "Clarical Admins" ||
                         user.userGroupName === "Quality Controller" ? (
-                          <th style={{ width: "10%" }}>OP</th>
+                          <th style={{ width: "5%" }}>OP</th>
                         ) : (
                           <></>
                         )}
@@ -512,7 +520,16 @@ const ProjectVerification = ({
                               user.userGroupName === "Super Admin" ||
                               user.userGroupName === "Clarical Admins" ||
                               user.userGroupName === "Quality Controller" ? (
-                                <td></td>
+                                <td>
+                                  <button
+                                    className="btn btn_green_bg"
+                                    onClick={() =>
+                                      onClickVerify(unVerifiedProjects, idx)
+                                    }
+                                  >
+                                    Verify
+                                  </button>
+                                </td>
                               ) : (
                                 <></>
                               )}
@@ -626,11 +643,11 @@ const ProjectVerification = ({
         </Modal> */}
       </div>
 
-      {/* <Modal
+      <Modal
         show={showEditModal}
         backdrop="static"
         keyboard={false}
-        size="xl"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -649,12 +666,13 @@ const ProjectVerification = ({
           </div>
         </Modal.Header>
         <Modal.Body>
-          <EditProject
+          <VerificationModal
             onEditModalChange={onEditModalChange}
-            allProjectdata={userDatas}
+            allVerifydata={userDatas}
+            loggedStaff={loggedStaffData}
           />
         </Modal.Body>
-      </Modal> */}
+      </Modal>
 
       {/* <Modal
         show={showhistoryModal}

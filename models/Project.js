@@ -143,7 +143,7 @@ const ProjectSchema = new mongoose.Schema({
   projectVerificationStatus: {
     type: String,
   },
-  projectVerifiedBy: {
+  projectVerifiedById: {
     type: ObjectId,
   },
   projectVerifiedDateTime: {

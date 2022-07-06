@@ -127,12 +127,13 @@ router.post("/edit-project-status", async (req, res) => {
 router.post("/verify-project", async (req, res) => {
   try {
     let data = req.body;
+
     await Project.updateOne(
       { _id: data.recordId },
       {
         $set: {
           projectVerificationStatus: "Verified",
-          projectVerifiedBy: data.userId,
+          projectVerifiedById: data.projectVerifiedById,
           projectVerifiedDateTime: Date.now(),
         },
       }
