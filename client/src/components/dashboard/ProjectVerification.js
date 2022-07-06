@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 // import EditProject from "./EditProject";
 import {
-  getJobQueueProjectDeatils,
+  getverificationProjectDeatils,
   getAllProjectStatus,
   getAllFolder,
   getLatestChanges,
@@ -30,14 +30,14 @@ const client = new w3cwebsocket("ws://192.168.6.216:8000");
 
 const ProjectVerification = ({
   auth: { isAuthenticated, user, users },
-  project: { jobQueueProjects, allProjectStatus, allFolderName },
-  getJobQueueProjectDeatils,
-  AddProjectTrack,
-  getAllchanges,
+  project: { unVerifiedProjects, allProjectStatus, allFolderName },
+  getverificationProjectDeatils,
+  // AddProjectTrack,
+  //  getAllchanges,
   getAllProjectStatus,
   getAllFolder,
   getUpdatedProjectStaus,
-  getLatestChanges,
+  // getLatestChanges,
   // getUpdatedProjectStausForDailyJobSheet,
 }) => {
   useEffect(() => {
@@ -50,8 +50,8 @@ const ProjectVerification = ({
     };
   }, []);
   useEffect(() => {
-    getJobQueueProjectDeatils();
-  }, [getJobQueueProjectDeatils]);
+    getverificationProjectDeatils();
+  }, [getverificationProjectDeatils]);
   useEffect(() => {
     getAllProjectStatus();
   }, [getAllProjectStatus]);
@@ -60,7 +60,7 @@ const ProjectVerification = ({
   }, [getAllFolder]);
   // console.log(user);
   const [filterData, setFilterData] = useState("");
-  getJobQueueProjectDeatils(filterData);
+  getverificationProjectDeatils(filterData);
 
   // const [sliderValue, setSliderValue] = useState([]);
 
@@ -113,7 +113,7 @@ const ProjectVerification = ({
   //     folderNameSearch: e.value,
   //   };
   //   setFilterData(finalData);
-  //   getJobQueueProjectDeatils(finalData);
+  //   getverificationProjectDeatils(finalData);
   // };
 
   // Modal
@@ -127,7 +127,7 @@ const ProjectVerification = ({
 
   // const [statusChangeValue, setStatusChange] = useState("");
   // const [statusValue, setStatusValue] = useState("");
-  // const onSliderChange = (jobQueueProjects) => (e) => {
+  // const onSliderChange = (unVerifiedProjects) => (e) => {
   //   if (
   //     e.label === "Downloaded" ||
   //     e.label === "Uploaded" ||
@@ -138,7 +138,7 @@ const ProjectVerification = ({
   //     let finalData = {
   //       projectTrackStatusId: e.value,
   //       projectStatusType: e.label,
-  //       projectId: jobQueueProjects._id,
+  //       projectId: unVerifiedProjects._id,
   //       projectStatusChangedbyName: user.empFullName,
   //       projectStatusChangedById: user._id,
   //     };
@@ -155,7 +155,7 @@ const ProjectVerification = ({
   //     let newStatusData = {
   //       statusId: e.value,
   //       value: e.label,
-  //       projectId: jobQueueProjects._id,
+  //       projectId: unVerifiedProjects._id,
   //     };
   //     setStatusChange(newStatusData);
   //     setShowProjectCycleModal(true);
@@ -182,7 +182,7 @@ const ProjectVerification = ({
   // const handleEditModalClose = () => setShowEditModal(false);
 
   const onClickReset = () => {
-    getJobQueueProjectDeatils("");
+    getverificationProjectDeatils("");
     // setClientData("");
     setFilterData("");
   };
@@ -193,10 +193,10 @@ const ProjectVerification = ({
   //   }
   // };
   // const [userDatas, setUserDatas] = useState(null);
-  // const onUpdate = (jobQueueProjects, idx) => {
+  // const onUpdate = (unVerifiedProjects, idx) => {
   //   localStorage.removeItem("activeClientData");
   //   setShowEditModal(true);
-  //   setUserDatas(jobQueueProjects);
+  //   setUserDatas(unVerifiedProjects);
   // };
   const [formData, setFormData] = useState({
     radioselect: "",
@@ -213,13 +213,13 @@ const ProjectVerification = ({
   // };
 
   // const [userDatas1, setUserDatas1] = useState(null);
-  // const onhistory = (jobQueueProjects, idx) => {
+  // const onhistory = (unVerifiedProjects, idx) => {
   //   const finalData = {
-  //     projectId: jobQueueProjects._id,
+  //     projectId: unVerifiedProjects._id,
   //   };
   //   getLatestChanges(finalData);
   //   setshowhistoryModal(true);
-  //   setUserDatas1(jobQueueProjects);
+  //   setUserDatas1(unVerifiedProjects);
   // };
 
   // const [showAllChangeModal, setshowAllChangeModal] = useState(false);
@@ -232,13 +232,13 @@ const ProjectVerification = ({
   // };
 
   // const [userDatas3, setUserDatas3] = useState(null);
-  // const handleGoToAllLatestChange = (jobQueueProjects, idx) => {
+  // const handleGoToAllLatestChange = (unVerifiedProjects, idx) => {
   //   const finalData = {
-  //     projectId: jobQueueProjects._id,
+  //     projectId: unVerifiedProjects._id,
   //   };
   //   getAllchanges(finalData);
   //   setshowAllChangeModal(true);
-  //   setUserDatas3(jobQueueProjects);
+  //   setUserDatas3(unVerifiedProjects);
   // };
 
   // const [shownotesModal, setshownotesModal] = useState(false);
@@ -251,9 +251,9 @@ const ProjectVerification = ({
   // };
 
   // const [userDatas2, setUserDatas2] = useState(null);
-  // const onnotes = (jobQueueProjects, idx) => {
+  // const onnotes = (unVerifiedProjects, idx) => {
   //   setshownotesModal(true);
-  //   setUserDatas2(jobQueueProjects);
+  //   setUserDatas2(unVerifiedProjects);
   // };
   const { radioselect } = formData;
   const onstatuscategrorySelect = (statuscategrory) => {
@@ -287,18 +287,18 @@ const ProjectVerification = ({
   // console.log(radioselect);
 
   // const [isSubmitted, setSubmitted] = useState(false);
-  // const handleGoToAllLatestChange = (jobQueueProjects) => {
+  // const handleGoToAllLatestChange = (unVerifiedProjects) => {
   //   const finalData = {
-  //     projectId: jobQueueProjects._id,
+  //     projectId: unVerifiedProjects._id,
   //   };
 
   //   getAllchanges(finalData);
   //   setSubmitted(true);
   // };
   // const [userDatadeactive, setUserDatadeactive] = useState(null);
-  // const onDeactive = (jobQueueProjects, idx) => {
+  // const onDeactive = (unVerifiedProjects, idx) => {
   //   setShowDeactiveModal(true);
-  //   setUserDatadeactive(jobQueueProjects);
+  //   setUserDatadeactive(unVerifiedProjects);
   // };
 
   // const [showDeactiveModal, setShowDeactiveModal] = useState(false);
@@ -381,10 +381,10 @@ const ProjectVerification = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {jobQueueProjects &&
-                        jobQueueProjects.map((jobQueueProjects, idx) => {
-                          projectQty += jobQueueProjects.projectQuantity;
-                          let statusType = jobQueueProjects.projectStatusType;
+                      {unVerifiedProjects &&
+                        unVerifiedProjects.map((unVerifiedProjects, idx) => {
+                          projectQty += unVerifiedProjects.projectQuantity;
+                          let statusType = unVerifiedProjects.projectStatusType;
                           if (statusType === "Downloading") downloadingQty += 1;
                           if (statusType === "Working") WorkingQty += 1;
                           if (statusType === "Pending") PendingQty += 1;
@@ -394,10 +394,10 @@ const ProjectVerification = ({
                           // let estimatedTimeVal = "",
                           //   jobTime = "",
                           //   timeOut = false;
-                          // if (jobQueueProjects.ptEstimatedTime) {
+                          // if (unVerifiedProjects.ptEstimatedTime) {
                           //   estimatedTimeVal =
-                          //     jobQueueProjects.ptEstimatedTime.split(":");
-                          //   jobTime = dhm(jobQueueProjects.ptEstimatedDateTime);
+                          //     unVerifiedProjects.ptEstimatedTime.split(":");
+                          //   jobTime = dhm(unVerifiedProjects.ptEstimatedDateTime);
                           //   if (
                           //     Number(jobTime[1]) >=
                           //     Number(
@@ -414,11 +414,11 @@ const ProjectVerification = ({
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
                               user.userGroupName === "Super Admin" ? (
-                                <td>{jobQueueProjects.clientName}</td>
+                                <td>{unVerifiedProjects.clientName}</td>
                               ) : (
                                 <></>
                               )}
-                              <td>{jobQueueProjects.clientFolderName}</td>
+                              <td>{unVerifiedProjects.clientFolderName}</td>
                               <td>
                                 {/* SLAP UserGroupRights */}
                                 {/* {(user.userGroupName &&
@@ -429,29 +429,29 @@ const ProjectVerification = ({
                                     to="#"
                                     onClick={() =>
                                       handleGoToAllLatestChange(
-                                        jobQueueProjects
+                                        unVerifiedProjects
                                       )
                                     }
                                   >
-                                    {jobQueueProjects.projectName}
+                                    {unVerifiedProjects.projectName}
                                   </Link>
                                 ) : (
                                   <> */}
-                                <label>{jobQueueProjects.projectName}</label>
+                                <label>{unVerifiedProjects.projectName}</label>
                                 {/* </>
                                 )} */}
                               </td>
                               {/* <td>
                                 {
                                   dhm(
-                                    jobQueueProjects.projectDate +
+                                    unVerifiedProjects.projectDate +
                                       ", " +
-                                      jobQueueProjects.projectTime
+                                      unVerifiedProjects.projectTime
                                   )[0]
                                 }
                               </td>
                               <td>
-                                {jobQueueProjects.ptEstimatedTime &&
+                                {unVerifiedProjects.ptEstimatedTime &&
                                   estimatedTimeVal[0] +
                                     " hr : " +
                                     estimatedTimeVal[1] +
@@ -460,28 +460,28 @@ const ProjectVerification = ({
                               <td>
                                 {timeOut ? (
                                   <span style={{ color: "red" }}>
-                                    {jobQueueProjects.ptEstimatedDateTime &&
+                                    {unVerifiedProjects.ptEstimatedDateTime &&
                                       jobTime[0]}
                                   </span>
                                 ) : (
                                   <span>
-                                    {jobQueueProjects.ptEstimatedDateTime &&
+                                    {unVerifiedProjects.ptEstimatedDateTime &&
                                       jobTime[0]}
                                   </span>
                                 )}
                               </td> */}
-                              <td>{jobQueueProjects.projectPriority}</td>
-                              <td>{jobQueueProjects.projectDeadline}</td>
+                              <td>{unVerifiedProjects.projectPriority}</td>
+                              <td>{unVerifiedProjects.projectDeadline}</td>
                               <td>
-                                {jobQueueProjects.projectQuantity}&nbsp;
-                                {jobQueueProjects.projectUnconfirmed ===
+                                {unVerifiedProjects.projectQuantity}&nbsp;
+                                {unVerifiedProjects.projectUnconfirmed ===
                                   true && (
                                   <span style={{ color: "red" }}>*</span>
                                 )}
                               </td>
                               <td>
                                 <label>
-                                  {jobQueueProjects.projectStatusType}
+                                  {unVerifiedProjects.projectStatusType}
                                 </label>
                               </td>
                               {/* <td>
@@ -490,10 +490,10 @@ const ProjectVerification = ({
                                   to="#"
                                   className="btnLink"
                                   onClick={() =>
-                                    onhistory(jobQueueProjects, idx)
+                                    onhistory(unVerifiedProjects, idx)
                                   }
                                 >
-                                  {jobQueueProjects.projectStatusType}
+                                  {unVerifiedProjects.projectStatusType}
                                 </Link>
                               </td>
                               <td>
@@ -501,7 +501,7 @@ const ProjectVerification = ({
                                 <Link
                                   to="#"
                                   className="btnLink"
-                                  onClick={() => onnotes(jobQueueProjects, idx)}
+                                  onClick={() => onnotes(unVerifiedProjects, idx)}
                                 >
                                   Notes
                                 </Link>
@@ -578,7 +578,7 @@ const ProjectVerification = ({
             </label> */}
           </div>
           <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
-            Projects:{jobQueueProjects.length}
+            Projects:{unVerifiedProjects.length}
           </div>
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
             <label>Downloading:{downloadingQty} &emsp;</label>
@@ -782,7 +782,7 @@ const ProjectVerification = ({
 ProjectVerification.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
-  getJobQueueProjectDeatils: PropTypes.func.isRequired,
+  getverificationProjectDeatils: PropTypes.func.isRequired,
   AddProjectTrack: PropTypes.func.isRequired,
   getAllchanges: PropTypes.func.isRequired,
 };
@@ -794,7 +794,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   AddProjectTrack,
   getAllchanges,
-  getJobQueueProjectDeatils,
+  getverificationProjectDeatils,
   getAllProjectStatus,
   getAllFolder,
   getUpdatedProjectStaus,
