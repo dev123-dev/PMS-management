@@ -16,7 +16,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const handleLogoutModalShow = () => setShowLogout(true);
   //client in websocket
   //SLAP IP
-  const client = new w3cwebsocket("ws://192.168.6.128:8000");
+  const client = new w3cwebsocket("ws://192.168.6.216:8000");
   const LogoutModalClose = () => {
     handleLogoutModalClose();
     logout();
@@ -98,6 +98,19 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       Daily Job Sheet
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
+
+                <NavItem>
+                  {!loading && isAuthenticated && user ? (
+                    <NavLink
+                      to="/job-verification"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Job Verification
                     </NavLink>
                   ) : (
                     <NavItem></NavItem>
