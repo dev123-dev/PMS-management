@@ -5,6 +5,7 @@ import {
   DAILY_JOBSHEET_PROJECTS,
   GET_ALL_CHANGES,
   GET_LATEST_CHANGES,
+  UNVERIFIED_PROJECTS,
 } from "../actions/types";
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
   dailyJobsheetProjects: [],
   getAllChanges: [],
   getLatestChangesValue: [],
+  unVerifiedProjects: [],
 };
 
 const settings = (state = initialState, action) => {
@@ -50,7 +52,11 @@ const settings = (state = initialState, action) => {
         ...state,
         getLatestChangesValue: payload,
       };
-
+    case UNVERIFIED_PROJECTS:
+      return {
+        ...state,
+        unVerifiedProjects: payload,
+      };
     default:
       return state;
   }
