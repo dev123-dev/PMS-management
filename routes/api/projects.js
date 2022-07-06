@@ -132,6 +132,8 @@ router.post("/verify-project", async (req, res) => {
       {
         $set: {
           projectVerificationStatus: "Verified",
+          projectVerifiedBy: data.userId,
+          projectVerifiedDateTime: Date.now(),
         },
       }
     );

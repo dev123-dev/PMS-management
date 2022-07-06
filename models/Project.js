@@ -143,6 +143,12 @@ const ProjectSchema = new mongoose.Schema({
   projectVerificationStatus: {
     type: String,
   },
+  projectVerifiedBy: {
+    type: ObjectId,
+  },
+  projectVerifiedDateTime: {
+    type: Date,
+  },
 });
 
 module.exports = project = mongoose.model("project", ProjectSchema);
