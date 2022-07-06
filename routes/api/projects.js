@@ -124,6 +124,21 @@ router.post("/edit-project-status", async (req, res) => {
   }
 });
 
+router.post("/verify-project", async (req, res) => {
+  try {
+    let data = req.body;
+    await Project.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          projectVerificationStatus: "Verified",
+        },
+      }
+    );
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
 //DEACTIVATE
 router.post("/deactive-project", async (req, res) => {
   try {

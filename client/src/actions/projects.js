@@ -129,6 +129,23 @@ export const editProjectStatus = (finalData) => async (dispatch) => {
   }
 };
 
+export const VerifyProject = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/projects/verify-project", finalData, config);
+    dispatch(getverificationProjectDeatils());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
 //DEACTIVE
 
 export const deactiveProject = (finalData) => async (dispatch) => {
