@@ -1,43 +1,43 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Modal } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import Select from "react-select";
-import ChangeProjectLifeCycle from "./ChangeProjectLifeCycle";
+// import { Modal } from "react-bootstrap";
+// import { Link } from "react-router-dom";
+// import Select from "react-select";
+// import ChangeProjectLifeCycle from "./ChangeProjectLifeCycle";
 import Spinner from "../layout/Spinner";
-import EditProject from "./EditProject";
+// import EditProject from "./EditProject";
 import {
-  getJobQueueProjectDeatils,
+  getverificationProjectDeatils,
   getAllProjectStatus,
   getAllFolder,
   getLatestChanges,
 } from "../../actions/projects";
-import JobHistory from "./JobHistory";
-import JobNotes from "./JobNotes";
+// import JobHistory from "./JobHistory";
+// import JobNotes from "./JobNotes";
 import {
   AddProjectTrack,
   getAllchanges,
   getUpdatedProjectStaus,
   // getUpdatedProjectStausForDailyJobSheet,
 } from "../../actions/projects";
-import AllLatestChange from "./AllLatestChange";
+// import AllLatestChange from "./AllLatestChange";
 import { w3cwebsocket } from "websocket";
-import DeactiveProject from "./DeactiveProject";
+// import DeactiveProject from "./DeactiveProject";
 //client in websocket
 //SLAP IP
 const client = new w3cwebsocket("ws://192.168.6.216:8000");
 
-const JobQueue = ({
+const ProjectVerification = ({
   auth: { isAuthenticated, user, users },
-  project: { jobQueueProjects, allProjectStatus, allFolderName },
-  getJobQueueProjectDeatils,
-  AddProjectTrack,
-  getAllchanges,
+  project: { unVerifiedProjects, allProjectStatus, allFolderName },
+  getverificationProjectDeatils,
+  // AddProjectTrack,
+  //  getAllchanges,
   getAllProjectStatus,
   getAllFolder,
   getUpdatedProjectStaus,
-  getLatestChanges,
+  // getLatestChanges,
   // getUpdatedProjectStausForDailyJobSheet,
 }) => {
   useEffect(() => {
@@ -50,8 +50,8 @@ const JobQueue = ({
     };
   }, []);
   useEffect(() => {
-    getJobQueueProjectDeatils();
-  }, [getJobQueueProjectDeatils]);
+    getverificationProjectDeatils();
+  }, [getverificationProjectDeatils]);
   useEffect(() => {
     getAllProjectStatus();
   }, [getAllProjectStatus]);
@@ -60,7 +60,7 @@ const JobQueue = ({
   }, [getAllFolder]);
   // console.log(user);
   const [filterData, setFilterData] = useState("");
-  getJobQueueProjectDeatils(filterData);
+  getverificationProjectDeatils(filterData);
 
   // const [sliderValue, setSliderValue] = useState([]);
 
@@ -86,83 +86,81 @@ const JobQueue = ({
   }
 
   // On change ProjectCycle
-  const [showProjectCycleModal, setShowProjectCycleModal] = useState(false);
-  const handleProjectCycleModalClose = () => setShowProjectCycleModal(false);
+  // const [showProjectCycleModal, setShowProjectCycleModal] = useState(false);
+  // const handleProjectCycleModalClose = () => setShowProjectCycleModal(false);
 
-  const onProjectCycleModalChange = (e) => {
-    if (e) {
-      handleProjectCycleModalClose();
-    }
-  };
+  // const onProjectCycleModalChange = (e) => {
+  //   if (e) {
+  //     handleProjectCycleModalClose();
+  //   }
+  // };
   // console.log(allFolderName);
-  const [clientData, setClientData] = useState("");
-  const [clientId, setClientId] = useState("");
-  const [clientFolderName, setClientName] = useState("");
+  // const [clientData, setClientData] = useState("");
+  // const [clientId, setClientId] = useState("");
+  // const [clientFolderName, setClientName] = useState("");
 
-  const activeClientsOpt = [];
-  allFolderName &&
-    allFolderName.map((clientsData) =>
-      activeClientsOpt.push({
-        label: clientsData._id,
-        value: clientsData._id,
-      })
-    );
-  const onClientChange = (e) => {
-    setClientData(e);
-    const finalData = {
-      folderNameSearch: e.value,
-    };
-    setFilterData(finalData);
-    getJobQueueProjectDeatils(finalData);
-  };
+  // const activeClientsOpt = [];
+  // allFolderName &&
+  //   allFolderName.map((clientsData) =>
+  //     activeClientsOpt.push({
+  //       label: clientsData._id,
+  //       value: clientsData._id,
+  //     })
+  //   );
+  // const onClientChange = (e) => {
+  //   setClientData(e);
+  //   const finalData = {
+  //     folderNameSearch: e.value,
+  //   };
+  //   setFilterData(finalData);
+  //   getverificationProjectDeatils(finalData);
+  // };
 
   // Modal
-  const projectStatusOpt = [];
-  allProjectStatus.map((projStatusData) =>
-    projectStatusOpt.push({
-      label: projStatusData.projectStatusType,
-      value: projStatusData._id,
-    })
-  );
+  // const projectStatusOpt = [];
+  // allProjectStatus.map((projStatusData) =>
+  //   projectStatusOpt.push({
+  //     label: projStatusData.projectStatusType,
+  //     value: projStatusData._id,
+  //   })
+  // );
 
-  const [statusChangeValue, setStatusChange] = useState("");
-  const [statusValue, setStatusValue] = useState("");
-  const onSliderChange = (jobQueueProjects) => (e) => {
-    if (
-      e.label === "Downloaded" ||
-      e.label === "Uploaded" ||
-      e.label === "Amend_Uploaded" ||
-      e.label === "QC DONE"
-    ) {
-      setStatusValue(e);
-      let finalData = {
-        projectTrackStatusId: e.value,
-        projectStatusType: e.label,
-        projectId: jobQueueProjects._id,
-        projectStatusChangedbyName: user.empFullName,
-        projectStatusChangedById: user._id,
-      };
-      // console.log("page", finalData);
-      AddProjectTrack(finalData);
-      client.send(
-        JSON.stringify({
-          type: "message",
-          msg: "/JobQueue",
-        })
-      );
-      // setStatusChange(finalData);
-      // setShowProjectCycleModal(false);
-    } else {
-      setStatusValue(e);
-      let newStatusData = {
-        statusId: e.value,
-        value: e.label,
-        projectId: jobQueueProjects._id,
-      };
-      setStatusChange(newStatusData);
-      setShowProjectCycleModal(true);
-    }
-  };
+  // const [statusChangeValue, setStatusChange] = useState("");
+  // const [statusValue, setStatusValue] = useState("");
+  // const onSliderChange = (unVerifiedProjects) => (e) => {
+  //   if (
+  //     e.label === "Downloaded" ||
+  //     e.label === "Uploaded" ||
+  //     e.label === "Amend_Uploaded" ||
+  //     e.label === "QC DONE"
+  //   ) {
+  //     setStatusValue(e);
+  //     let finalData = {
+  //       projectTrackStatusId: e.value,
+  //       projectStatusType: e.label,
+  //       projectId: unVerifiedProjects._id,
+  //       projectStatusChangedbyName: user.empFullName,
+  //       projectStatusChangedById: user._id,
+  //     };
+
+  //     AddProjectTrack(finalData);
+  //     client.send(
+  //       JSON.stringify({
+  //         type: "message",
+  //         msg: "/JobQueue",
+  //       })
+  //     );
+  //   } else {
+  //     setStatusValue(e);
+  //     let newStatusData = {
+  //       statusId: e.value,
+  //       value: e.label,
+  //       projectId: unVerifiedProjects._id,
+  //     };
+  //     setStatusChange(newStatusData);
+  //     setShowProjectCycleModal(true);
+  //   }
+  // };
 
   const onRadioProjCatTypeChange = (e) => {
     // console.log(e.target.value);
@@ -180,83 +178,83 @@ const JobQueue = ({
     QCEstimateQty = 0,
     UploadingQty = 0;
 
-  const [showEditModal, setShowEditModal] = useState(false);
-  const handleEditModalClose = () => setShowEditModal(false);
+  // const [showEditModal, setShowEditModal] = useState(false);
+  // const handleEditModalClose = () => setShowEditModal(false);
 
   const onClickReset = () => {
-    getJobQueueProjectDeatils("");
-    setClientData("");
+    getverificationProjectDeatils("");
+    // setClientData("");
     setFilterData("");
   };
 
-  const onEditModalChange = (e) => {
-    if (e) {
-      handleEditModalClose();
-    }
-  };
-  const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (jobQueueProjects, idx) => {
-    localStorage.removeItem("activeClientData");
-    setShowEditModal(true);
-    setUserDatas(jobQueueProjects);
-  };
+  // const onEditModalChange = (e) => {
+  //   if (e) {
+  //     handleEditModalClose();
+  //   }
+  // };
+  // const [userDatas, setUserDatas] = useState(null);
+  // const onUpdate = (unVerifiedProjects, idx) => {
+  //   localStorage.removeItem("activeClientData");
+  //   setShowEditModal(true);
+  //   setUserDatas(unVerifiedProjects);
+  // };
   const [formData, setFormData] = useState({
     radioselect: "",
     isSubmitted: false,
   });
 
-  const [showhistoryModal, setshowhistoryModal] = useState(false);
-  const handlehistoryModalClose = () => setshowhistoryModal(false);
+  // const [showhistoryModal, setshowhistoryModal] = useState(false);
+  // const handlehistoryModalClose = () => setshowhistoryModal(false);
 
-  const onhistoryModalChange = (e) => {
-    if (e) {
-      handlehistoryModalClose();
-    }
-  };
+  // const onhistoryModalChange = (e) => {
+  //   if (e) {
+  //     handlehistoryModalClose();
+  //   }
+  // };
 
-  const [userDatas1, setUserDatas1] = useState(null);
-  const onhistory = (jobQueueProjects, idx) => {
-    const finalData = {
-      projectId: jobQueueProjects._id,
-    };
-    getLatestChanges(finalData);
-    setshowhistoryModal(true);
-    setUserDatas1(jobQueueProjects);
-  };
+  // const [userDatas1, setUserDatas1] = useState(null);
+  // const onhistory = (unVerifiedProjects, idx) => {
+  //   const finalData = {
+  //     projectId: unVerifiedProjects._id,
+  //   };
+  //   getLatestChanges(finalData);
+  //   setshowhistoryModal(true);
+  //   setUserDatas1(unVerifiedProjects);
+  // };
 
-  const [showAllChangeModal, setshowAllChangeModal] = useState(false);
-  const handleAllChangeModalClose = () => setshowAllChangeModal(false);
+  // const [showAllChangeModal, setshowAllChangeModal] = useState(false);
+  // const handleAllChangeModalClose = () => setshowAllChangeModal(false);
 
-  const onAllChange = (e) => {
-    if (e) {
-      handleAllChangeModalClose();
-    }
-  };
+  // const onAllChange = (e) => {
+  //   if (e) {
+  //     handleAllChangeModalClose();
+  //   }
+  // };
 
-  const [userDatas3, setUserDatas3] = useState(null);
-  const handleGoToAllLatestChange = (jobQueueProjects, idx) => {
-    const finalData = {
-      projectId: jobQueueProjects._id,
-    };
-    getAllchanges(finalData);
-    setshowAllChangeModal(true);
-    setUserDatas3(jobQueueProjects);
-  };
+  // const [userDatas3, setUserDatas3] = useState(null);
+  // const handleGoToAllLatestChange = (unVerifiedProjects, idx) => {
+  //   const finalData = {
+  //     projectId: unVerifiedProjects._id,
+  //   };
+  //   getAllchanges(finalData);
+  //   setshowAllChangeModal(true);
+  //   setUserDatas3(unVerifiedProjects);
+  // };
 
-  const [shownotesModal, setshownotesModal] = useState(false);
-  const handlenotesModalClose = () => setshownotesModal(false);
+  // const [shownotesModal, setshownotesModal] = useState(false);
+  // const handlenotesModalClose = () => setshownotesModal(false);
 
-  const onnotesModalChange = (e) => {
-    if (e) {
-      handlenotesModalClose();
-    }
-  };
+  // const onnotesModalChange = (e) => {
+  //   if (e) {
+  //     handlenotesModalClose();
+  //   }
+  // };
 
-  const [userDatas2, setUserDatas2] = useState(null);
-  const onnotes = (jobQueueProjects, idx) => {
-    setshownotesModal(true);
-    setUserDatas2(jobQueueProjects);
-  };
+  // const [userDatas2, setUserDatas2] = useState(null);
+  // const onnotes = (unVerifiedProjects, idx) => {
+  //   setshownotesModal(true);
+  //   setUserDatas2(unVerifiedProjects);
+  // };
   const { radioselect } = formData;
   const onstatuscategrorySelect = (statuscategrory) => {
     if (statuscategrory === "Normal") {
@@ -289,28 +287,28 @@ const JobQueue = ({
   // console.log(radioselect);
 
   // const [isSubmitted, setSubmitted] = useState(false);
-  // const handleGoToAllLatestChange = (jobQueueProjects) => {
+  // const handleGoToAllLatestChange = (unVerifiedProjects) => {
   //   const finalData = {
-  //     projectId: jobQueueProjects._id,
+  //     projectId: unVerifiedProjects._id,
   //   };
 
   //   getAllchanges(finalData);
   //   setSubmitted(true);
   // };
-  const [userDatadeactive, setUserDatadeactive] = useState(null);
-  const onDeactive = (jobQueueProjects, idx) => {
-    setShowDeactiveModal(true);
-    setUserDatadeactive(jobQueueProjects);
-  };
+  // const [userDatadeactive, setUserDatadeactive] = useState(null);
+  // const onDeactive = (unVerifiedProjects, idx) => {
+  //   setShowDeactiveModal(true);
+  //   setUserDatadeactive(unVerifiedProjects);
+  // };
 
-  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
-  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
+  // const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  // const handleDeactiveModalClose = () => setShowDeactiveModal(false);
 
-  const onDeactiveModalChange = (e) => {
-    if (e) {
-      handleDeactiveModalClose();
-    }
-  };
+  // const onDeactiveModalChange = (e) => {
+  //   if (e) {
+  //     handleDeactiveModalClose();
+  //   }
+  // };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -319,10 +317,10 @@ const JobQueue = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Job Queue</h5>
+            <div className=" col-lg-3 col-md-11 col-sm-10 col-10">
+              <h5 className="heading_color">Job Verification</h5>
             </div>
-            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            {/* <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="clientData"
                 isSearchable={true}
@@ -331,7 +329,7 @@ const JobQueue = ({
                 placeholder="Select"
                 onChange={(e) => onClientChange(e)}
               />
-            </div>
+            </div> */}
             <div className="col-lg-9 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
@@ -339,18 +337,6 @@ const JobQueue = ({
               >
                 Refresh
               </button>
-              {(user.userGroupName && user.userGroupName === "Administrator") ||
-              user.userGroupName === "Super Admin" ||
-              user.userGroupName === "Clarical Admins" ? (
-                <Link
-                  className="btn btn_green_bg float-right"
-                  to="/add-Project"
-                >
-                  Add Project
-                </Link>
-              ) : (
-                <></>
-              )}
             </div>
           </div>
           <div className="row">
@@ -373,15 +359,15 @@ const JobQueue = ({
                         )}
                         <th style={{ width: "6%" }}>Folder </th>
                         <th style={{ width: "25%" }}>Project Name</th>
-                        <th style={{ width: "10%" }}>Queue Duration</th>
-                        <th style={{ width: "10%" }}>Estimated Time</th>
-                        <th style={{ width: "10%" }}>Job Time</th>
+                        {/* <th style={{ width: "10%" }}>Queue Duration</th> */}
+                        {/* <th style={{ width: "10%" }}>Estimated Time</th> */}
+                        {/* <th style={{ width: "10%" }}>Job Time</th> */}
                         <th style={{ width: "2%" }}>Priority</th>
                         <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "2%" }}>Qty</th>
                         <th style={{ width: "13%" }}>Status</th>
-                        <th style={{ width: "5%" }}>Latest Change</th>
-                        <th style={{ width: "5%" }}>Job Notes</th>
+                        {/* <th style={{ width: "5%" }}>Latest Change</th>
+                        <th style={{ width: "5%" }}>Job Notes</th> */}
                         {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
@@ -395,32 +381,32 @@ const JobQueue = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {jobQueueProjects &&
-                        jobQueueProjects.map((jobQueueProjects, idx) => {
-                          projectQty += jobQueueProjects.projectQuantity;
-                          let statusType = jobQueueProjects.projectStatusType;
+                      {unVerifiedProjects &&
+                        unVerifiedProjects.map((unVerifiedProjects, idx) => {
+                          projectQty += unVerifiedProjects.projectQuantity;
+                          let statusType = unVerifiedProjects.projectStatusType;
                           if (statusType === "Downloading") downloadingQty += 1;
                           if (statusType === "Working") WorkingQty += 1;
                           if (statusType === "Pending") PendingQty += 1;
                           if (statusType === "QC Pending") QCPendingQty += 1;
                           if (statusType === "QC Estimate") QCEstimateQty += 1;
                           if (statusType === "Uploading") UploadingQty += 1;
-                          let estimatedTimeVal = "",
-                            jobTime = "",
-                            timeOut = false;
-                          if (jobQueueProjects.ptEstimatedTime) {
-                            estimatedTimeVal =
-                              jobQueueProjects.ptEstimatedTime.split(":");
-                            jobTime = dhm(jobQueueProjects.ptEstimatedDateTime);
-                            if (
-                              Number(jobTime[1]) >=
-                              Number(
-                                estimatedTimeVal[0] + "" + estimatedTimeVal[1]
-                              )
-                            ) {
-                              timeOut = true;
-                            }
-                          }
+                          // let estimatedTimeVal = "",
+                          //   jobTime = "",
+                          //   timeOut = false;
+                          // if (unVerifiedProjects.ptEstimatedTime) {
+                          //   estimatedTimeVal =
+                          //     unVerifiedProjects.ptEstimatedTime.split(":");
+                          //   jobTime = dhm(unVerifiedProjects.ptEstimatedDateTime);
+                          //   if (
+                          //     Number(jobTime[1]) >=
+                          //     Number(
+                          //       estimatedTimeVal[0] + "" + estimatedTimeVal[1]
+                          //     )
+                          //   ) {
+                          //     timeOut = true;
+                          //   }
+                          // }
 
                           return (
                             <tr key={idx}>
@@ -428,14 +414,14 @@ const JobQueue = ({
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
                               user.userGroupName === "Super Admin" ? (
-                                <td>{jobQueueProjects.clientName}</td>
+                                <td>{unVerifiedProjects.clientName}</td>
                               ) : (
                                 <></>
                               )}
-                              <td>{jobQueueProjects.clientFolderName}</td>
+                              <td>{unVerifiedProjects.clientFolderName}</td>
                               <td>
                                 {/* SLAP UserGroupRights */}
-                                {(user.userGroupName &&
+                                {/* {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
                                 user.userGroupName === "Super Admin" ||
                                 user.userGroupName === "Clarical Admins" ? (
@@ -443,31 +429,29 @@ const JobQueue = ({
                                     to="#"
                                     onClick={() =>
                                       handleGoToAllLatestChange(
-                                        jobQueueProjects
+                                        unVerifiedProjects
                                       )
                                     }
                                   >
-                                    {jobQueueProjects.projectName}
+                                    {unVerifiedProjects.projectName}
                                   </Link>
                                 ) : (
-                                  <>
-                                    <label>
-                                      {jobQueueProjects.projectName}
-                                    </label>
-                                  </>
-                                )}
+                                  <> */}
+                                <label>{unVerifiedProjects.projectName}</label>
+                                {/* </>
+                                )} */}
                               </td>
-                              <td>
+                              {/* <td>
                                 {
                                   dhm(
-                                    jobQueueProjects.projectDate +
+                                    unVerifiedProjects.projectDate +
                                       ", " +
-                                      jobQueueProjects.projectTime
+                                      unVerifiedProjects.projectTime
                                   )[0]
                                 }
                               </td>
                               <td>
-                                {jobQueueProjects.ptEstimatedTime &&
+                                {unVerifiedProjects.ptEstimatedTime &&
                                   estimatedTimeVal[0] +
                                     " hr : " +
                                     estimatedTimeVal[1] +
@@ -476,62 +460,40 @@ const JobQueue = ({
                               <td>
                                 {timeOut ? (
                                   <span style={{ color: "red" }}>
-                                    {jobQueueProjects.ptEstimatedDateTime &&
+                                    {unVerifiedProjects.ptEstimatedDateTime &&
                                       jobTime[0]}
                                   </span>
                                 ) : (
                                   <span>
-                                    {jobQueueProjects.ptEstimatedDateTime &&
+                                    {unVerifiedProjects.ptEstimatedDateTime &&
                                       jobTime[0]}
                                   </span>
                                 )}
-                              </td>
-                              <td>{jobQueueProjects.projectPriority}</td>
-                              <td>{jobQueueProjects.projectDeadline}</td>
+                              </td> */}
+                              <td>{unVerifiedProjects.projectPriority}</td>
+                              <td>{unVerifiedProjects.projectDeadline}</td>
                               <td>
-                                {jobQueueProjects.projectQuantity}&nbsp;
-                                {jobQueueProjects.projectUnconfirmed ===
+                                {unVerifiedProjects.projectQuantity}&nbsp;
+                                {unVerifiedProjects.projectUnconfirmed ===
                                   true && (
                                   <span style={{ color: "red" }}>*</span>
                                 )}
                               </td>
                               <td>
-                                {/* SLAP UserGroupRights */}
-                                {(user.userGroupName &&
-                                  user.userGroupName === "Administrator") ||
-                                user.userGroupName === "Super Admin" ||
-                                user.userGroupName === "Clarical Admins" ||
-                                user.userGroupName === "Quality Controller" ||
-                                user.userGroupName === "Distributors" ? (
-                                  <Select
-                                    name="projectStatusData"
-                                    value={{
-                                      label: jobQueueProjects.projectStatusType,
-                                      value: jobQueueProjects.projectStatusId,
-                                    }}
-                                    options={projectStatusOpt}
-                                    isSearchable={true}
-                                    placeholder="Select"
-                                    onChange={onSliderChange(jobQueueProjects)}
-                                  />
-                                ) : (
-                                  <>
-                                    <label>
-                                      {jobQueueProjects.projectStatusType}
-                                    </label>
-                                  </>
-                                )}
+                                <label>
+                                  {unVerifiedProjects.projectStatusType}
+                                </label>
                               </td>
-                              <td>
+                              {/* <td>
                                 {" "}
                                 <Link
                                   to="#"
                                   className="btnLink"
                                   onClick={() =>
-                                    onhistory(jobQueueProjects, idx)
+                                    onhistory(unVerifiedProjects, idx)
                                   }
                                 >
-                                  {jobQueueProjects.projectStatusType}
+                                  {unVerifiedProjects.projectStatusType}
                                 </Link>
                               </td>
                               <td>
@@ -539,44 +501,18 @@ const JobQueue = ({
                                 <Link
                                   to="#"
                                   className="btnLink"
-                                  onClick={() => onnotes(jobQueueProjects, idx)}
+                                  onClick={() => onnotes(unVerifiedProjects, idx)}
                                 >
                                   Notes
                                 </Link>
-                              </td>
+                              </td> */}
                               {/* SLAP UserGroupRights */}
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
                               user.userGroupName === "Super Admin" ||
                               user.userGroupName === "Clarical Admins" ||
                               user.userGroupName === "Quality Controller" ? (
-                                <td>
-                                  {(user.userGroupName &&
-                                    user.userGroupName === "Administrator") ||
-                                  user.userGroupName === "Super Admin" ||
-                                  user.userGroupName === "Clarical Admins" ? (
-                                    <img
-                                      className="img_icon_size log"
-                                      onClick={() =>
-                                        onDeactive(jobQueueProjects, idx)
-                                      }
-                                      src={require("../../static/images/delete.png")}
-                                      alt="Delete Project"
-                                      title="Delete Project"
-                                    />
-                                  ) : (
-                                    <></>
-                                  )}
-                                  <img
-                                    className="img_icon_size log ml-2"
-                                    onClick={() =>
-                                      onUpdate(jobQueueProjects, idx)
-                                    }
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  />
-                                </td>
+                                <td></td>
                               ) : (
                                 <></>
                               )}
@@ -593,7 +529,7 @@ const JobQueue = ({
 
         <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
-            <label className="radio-inline ">
+            {/* <label className="radio-inline ">
               <input
                 type="radio"
                 name="ProjCatType"
@@ -639,10 +575,10 @@ const JobQueue = ({
                 onClick={() => onstatuscategrorySelect("Don't Work")}
               />{" "}
               Don't Work
-            </label>
+            </label> */}
           </div>
           <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
-            Projects:{jobQueueProjects.length}
+            Projects:{unVerifiedProjects.length}
           </div>
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
             <label>Downloading:{downloadingQty} &emsp;</label>
@@ -657,7 +593,7 @@ const JobQueue = ({
           </div>
         </div>
 
-        <Modal
+        {/* <Modal
           show={showProjectCycleModal}
           backdrop="static"
           keyboard={false}
@@ -687,10 +623,10 @@ const JobQueue = ({
               ProjectCycledata={statusChangeValue}
             />
           </Modal.Body>
-        </Modal>
+        </Modal> */}
       </div>
 
-      <Modal
+      {/* <Modal
         show={showEditModal}
         backdrop="static"
         keyboard={false}
@@ -718,9 +654,9 @@ const JobQueue = ({
             allProjectdata={userDatas}
           />
         </Modal.Body>
-      </Modal>
+      </Modal> */}
 
-      <Modal
+      {/* <Modal
         show={showhistoryModal}
         backdrop="static"
         keyboard={false}
@@ -748,9 +684,9 @@ const JobQueue = ({
             allProjectdata={userDatas1}
           />
         </Modal.Body>
-      </Modal>
+      </Modal> */}
 
-      <Modal
+      {/* <Modal
         show={shownotesModal}
         backdrop="static"
         keyboard={false}
@@ -778,9 +714,9 @@ const JobQueue = ({
             allnotesdata={userDatas2}
           />
         </Modal.Body>
-      </Modal>
+      </Modal> */}
 
-      <Modal
+      {/* <Modal
         show={showAllChangeModal}
         backdrop="static"
         keyboard={false}
@@ -808,9 +744,9 @@ const JobQueue = ({
             AllChangedata={userDatas3}
           />
         </Modal.Body>
-      </Modal>
+      </Modal> */}
 
-      <Modal
+      {/* <Modal
         show={showDeactiveModal}
         backdrop="static"
         keyboard={false}
@@ -838,15 +774,15 @@ const JobQueue = ({
             Projectdeavtivedata={userDatadeactive}
           />
         </Modal.Body>
-      </Modal>
+      </Modal> */}
     </Fragment>
   );
 };
 
-JobQueue.propTypes = {
+ProjectVerification.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
-  getJobQueueProjectDeatils: PropTypes.func.isRequired,
+  getverificationProjectDeatils: PropTypes.func.isRequired,
   AddProjectTrack: PropTypes.func.isRequired,
   getAllchanges: PropTypes.func.isRequired,
 };
@@ -858,10 +794,10 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   AddProjectTrack,
   getAllchanges,
-  getJobQueueProjectDeatils,
+  getverificationProjectDeatils,
   getAllProjectStatus,
   getAllFolder,
   getUpdatedProjectStaus,
   getLatestChanges,
   // getUpdatedProjectStausForDailyJobSheet,
-})(JobQueue);
+})(ProjectVerification);

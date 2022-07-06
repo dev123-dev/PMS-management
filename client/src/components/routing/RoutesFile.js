@@ -13,6 +13,7 @@ import AddProject from "../dashboard/AddProject";
 import ChangeProjectLifeCycle from "../dashboard/ChangeProjectLifeCycle";
 import AllLatestChange from "../dashboard/AllLatestChange";
 import Chat from "../../pages/Chat";
+import ProjectVerification from "../dashboard/ProjectVerification";
 
 // staff
 import AddEmployeeDetails from "../staffs/AddEmployeeDetails";
@@ -52,6 +53,13 @@ const RoutesFile = () => {
         <PrivateRoute exact path="/daily-job-sheet" component={DailyJobSheet} />
         <PrivateRoute exact path="/chat" component={Chat} />
         <PrivateRoute exact path="/job-queue" component={JobQueue} />
+        <PrivateRoute exact path="/job-queue" component={JobQueue} />
+        <PrivateRoute
+          exact
+          path="/job-verification"
+          component={ProjectVerification}
+        />
+
         <PrivateRoute exact path="/add-project" component={AddProject} />
         <PrivateRoute
           exact
