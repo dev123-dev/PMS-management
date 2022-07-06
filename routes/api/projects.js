@@ -354,6 +354,23 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
   }
 });
 
+router.post("/get-verification-project-details", async (req, res) => {
+  let query = {};
+  query = {
+    $and: [
+      { projectVerificationStatus: { $ne: "Verified" } },
+      { projectStatus: { $eq: "Active" } },
+    ],
+  };
+  try {
+    const getVerificationProjectDetails = await Project.find(query);
+    res.json(getVerificationProjectDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 router.post("/get-all-changes", async (req, res) => {
   const { projectId } = req.body;
   try {

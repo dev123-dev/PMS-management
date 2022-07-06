@@ -140,6 +140,9 @@ const ProjectSchema = new mongoose.Schema({
   projectDeleteDateTime: {
     type: Date,
   },
+  projectVerificationStatus: {
+    type: String,
+  },
 });
 
 module.exports = project = mongoose.model("project", ProjectSchema);

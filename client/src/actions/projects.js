@@ -10,6 +10,7 @@ import {
   DAILY_JOBSHEET_PROJECTS,
   GET_ALL_CHANGES,
   GET_LATEST_CHANGES,
+  UNVERIFIED_PROJECTS,
 } from "./types";
 
 const config = {
@@ -245,7 +246,7 @@ export const getJobQueueProjectDeatils = (finalData) => async (dispatch) => {
     //   type: AUTH_ERROR,
     // });
     console.log(err);
-    dispatch(getJobQueueProjectDeatils(finalData));
+    // dispatch(getJobQueueProjectDeatils(finalData));
   }
 };
 
@@ -265,7 +266,26 @@ export const getDailyJobsheetProjectDeatils =
       //   type: AUTH_ERROR,
       // });
       console.log(err);
-      dispatch(getDailyJobsheetProjectDeatils(selDateData));
+      // dispatch(getDailyJobsheetProjectDeatils(selDateData));
+    }
+  };
+//verifivation
+export const getverificationProjectDeatils =
+  (finalData) => async (dispatch) => {
+    try {
+      const res = await axios.post(
+        "/api/projects/get-verification-project-details",
+        finalData
+      );
+      dispatch({
+        type: UNVERIFIED_PROJECTS,
+        payload: res.data,
+      });
+    } catch (err) {
+      // dispatch({
+      //   type: AUTH_ERROR,
+      // });
+      console.log(err);
     }
   };
 
