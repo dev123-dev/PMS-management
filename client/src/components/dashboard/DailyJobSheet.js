@@ -24,7 +24,7 @@ import { CSVLink } from "react-csv";
 import DeactiveProject from "./DeactiveProject";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.216:8000");
+const client = new w3cwebsocket("ws://192.168.6.140:8000");
 
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
@@ -663,12 +663,13 @@ const DailyJobSheet = ({
                                   )}
                                 </td>
                                 <td>
-                                  {dhm(
-                                    dailyJobsheetProjects.projectDate +
-                                      ", " +
-                                      dailyJobsheetProjects.projectTime,
-                                    idx
-                                  )}
+                                  {
+                                    dhm(
+                                      dailyJobsheetProjects.projectDate +
+                                        ", " +
+                                        dailyJobsheetProjects.projectTime
+                                    )[0]
+                                  }
                                 </td>
                                 <td>
                                   {dailyJobsheetProjects.ptEstimatedTime &&

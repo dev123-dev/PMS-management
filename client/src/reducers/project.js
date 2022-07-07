@@ -6,6 +6,7 @@ import {
   GET_ALL_CHANGES,
   GET_LATEST_CHANGES,
   UNVERIFIED_PROJECTS,
+  ALL_STATUS_VERIFICATION,
 } from "../actions/types";
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   getAllChanges: [],
   getLatestChangesValue: [],
   unVerifiedProjects: [],
+  allStatusVerification: [],
 };
 
 const settings = (state = initialState, action) => {
@@ -57,6 +59,12 @@ const settings = (state = initialState, action) => {
         ...state,
         unVerifiedProjects: payload,
       };
+    case ALL_STATUS_VERIFICATION:
+      return {
+        ...state,
+        allStatusVerification: payload,
+      };
+
     default:
       return state;
   }

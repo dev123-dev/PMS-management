@@ -11,6 +11,7 @@ import {
   GET_ALL_CHANGES,
   GET_LATEST_CHANGES,
   UNVERIFIED_PROJECTS,
+  ALL_STATUS_VERIFICATION,
 } from "./types";
 
 const config = {
@@ -220,6 +221,23 @@ export const getAllProjectStatus = () => async (dispatch) => {
     });
   }
 };
+
+export const getAllProjectStatusVerification = () => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      "/api/projects/get-project-status-verification"
+    );
+    dispatch({
+      type: ALL_STATUS_VERIFICATION,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
 export const getAllFolder = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/projects/get-all-folder-name");
@@ -299,9 +317,6 @@ export const getverificationProjectDeatils =
         payload: res.data,
       });
     } catch (err) {
-      // dispatch({
-      //   type: AUTH_ERROR,
-      // });
       console.log(err);
     }
   };

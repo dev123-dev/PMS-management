@@ -3,6 +3,7 @@ import {
   ACTIVE_CLIENTS,
   ACTIVE_CLIENT_FILTER,
   ALL_DJS_CLIENTS,
+  ALL_VERF_CLIENTS,
 } from "../actions/types";
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
   activeClient: [],
   activeClientFilter: [],
   activeDailyJobSheetClients: [],
+  activeVerfificationClients: [],
 };
 
 const client = (state = initialState, action) => {
@@ -35,6 +37,12 @@ const client = (state = initialState, action) => {
         ...state,
         activeDailyJobSheetClients: payload,
       };
+    case ALL_VERF_CLIENTS:
+      return {
+        ...state,
+        activeVerfificationClients: payload,
+      };
+
     default:
       return state;
   }
