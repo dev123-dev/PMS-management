@@ -87,10 +87,34 @@ const AllFeedback = ({
                         <th>Changes</th>
                         <th>Priority</th>
                         <th>Status</th>
+                        <th>Notes</th>
                         <th>OP</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {allFeedback &&
+                        allFeedback.map((allFeedback, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td>{allFeedback.feedbackProblem}</td>
+                              <td>{allFeedback.feedbackEnteredByName}</td>
+                              <td>{allFeedback.feedbackCategory}</td>
+                              <td>{allFeedback.feedbackPriority}</td>
+                              <td></td>
+                              <td>{allFeedback.feedbackNotes}</td>
+                              <td>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onUpdate(allFeedback, idx)}
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>

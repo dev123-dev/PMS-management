@@ -13,10 +13,13 @@ const EditFeedback = ({
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    problem: feedbackData && feedbackData.problem ? feedbackData.problem : "",
-    feedbacknotes:
-      feedbackData && feedbackData.feedbacknotes
-        ? feedbackData.feedbacknotes
+    feedbackProblem:
+      feedbackData && feedbackData.feedbackProblem
+        ? feedbackData.feedbackProblem
+        : "",
+    feedbackNotes:
+      feedbackData && feedbackData.feedbackNotes
+        ? feedbackData.feedbackNotes
         : "",
 
     feedbackCategory:
@@ -26,18 +29,18 @@ const EditFeedback = ({
             label: feedbackData.feedbackCategory,
           }
         : "",
-    feedbackpriority:
-      feedbackData && feedbackData.feedbackpriority
+    feedbackPriority:
+      feedbackData && feedbackData.feedbackPriority
         ? {
-            value: feedbackData.feedbackpriority,
-            label: feedbackData.feedbackpriority,
+            value: feedbackData.feedbackPriority,
+            label: feedbackData.feedbackPriority,
           }
         : "",
 
     isSubmitted: false,
   });
 
-  const { problem, feedbackCategory, feedbackpriority, feedbacknotes } =
+  const { feedbackProblem, feedbackCategory, feedbackPriority, feedbackNotes } =
     formData;
 
   const ChangesCategory = [
@@ -75,9 +78,10 @@ const EditFeedback = ({
     // if (checkErrors()) {
     const finalData = {
       recordId: feedbackData ? feedbackData._id : "",
-      problem: problem,
+      feedbackProblem: feedbackProblem,
       feedbackCategory: feedbackCategory,
-      feedbackpriority: feedbackpriority,
+      feedbackPriority: feedbackPriority,
+      feedbackNotes: feedbackNotes,
       feedbackEnteredById: user._id,
     };
     // console.log(finalData);
@@ -97,8 +101,8 @@ const EditFeedback = ({
             <label className="label-control">Problem :</label>
             <input
               type="text"
-              name="problem"
-              value={problem}
+              name="feedbackProblem"
+              value={feedbackProblem}
               className="form-control"
               onChange={(e) => onInputChange(e)}
               required
@@ -128,10 +132,10 @@ const EditFeedback = ({
           <div className="col-lg-6 col-md-6 col-sm-6 col-12">
             <label className="label-control">Priority :</label>
             <Select
-              name="feedbackpriority"
+              name="feedbackPriority"
               options={priorityCategory}
               isSearchable={true}
-              value={feedbackpriority}
+              value={feedbackPriority}
               placeholder="Select"
               onChange={(e) => onfeedbackpriorityChange(e)}
               theme={(theme) => ({
@@ -149,13 +153,13 @@ const EditFeedback = ({
           <div className="col-lg-6 col-md-6 col-sm-6 col-12">
             <label className="label-control">Notes :</label>
             <textarea
-              name="feedbacknotes"
-              id="feedbacknotes"
+              name="feedbackNotes"
+              id="feedbackNotes"
               className="textarea form-control"
               rows="3"
               placeholder="Notes"
               style={{ width: "100%" }}
-              value={feedbacknotes}
+              value={feedbackNotes}
               onChange={(e) => onInputChange(e)}
             ></textarea>
           </div>
