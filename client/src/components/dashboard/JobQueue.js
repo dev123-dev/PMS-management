@@ -311,7 +311,25 @@ const JobQueue = ({
       handleDeactiveModalClose();
     }
   };
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
 
+      borderBottom: "1px  black",
+      color: "red",
+      // padding: 20,
+    }),
+    control: () => ({
+      // none of react-select's styles are passed to <Control />
+      width: 200,
+    }),
+    singleValue: (provided, state) => {
+      const opacity = state.isDisabled ? 0.5 : 1;
+      const transition = "opacity 300ms";
+
+      return { ...provided, opacity, transition };
+    },
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -504,6 +522,19 @@ const JobQueue = ({
                                 user.userGroupName === "Quality Controller" ||
                                 user.userGroupName === "Distributors" ? (
                                   <Select
+                                    // styles={customStyles}
+                                    styles={{
+                                      // ...styles,
+                                      control: (base, state) => ({
+                                        ...base,
+                                        "&:hover": { borderColor: "blue" }, // border style on hover
+                                        border: "2px solid blue", // default border color
+                                        height: "2px",
+                                        // background: "#456792",
+                                        boxShadow: "none",
+                                        // no box-shadow
+                                      }),
+                                    }}
                                     name="projectStatusData"
                                     value={{
                                       label: jobQueueProjects.projectStatusType,
