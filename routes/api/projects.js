@@ -230,7 +230,7 @@ router.get("/get-all-folder-name", async (req, res) => {
         },
       },
       { $group: { _id: "$clientFolderName" } },
-    ]);
+    ]).sort({ _id: 1 });
     res.json(allClientFolderDetails);
   } catch (err) {
     console.error(err.message);
@@ -253,30 +253,66 @@ router.get("/get-active-project-status", async (req, res) => {
 });
 
 router.post("/get-job-queue-project-details", async (req, res) => {
-  const { folderNameSearch } = req.body;
+  const { folderNameSearch, statusCategory } = req.body;
   let query = {};
-  if (folderNameSearch) {
-    query = {
-      $and: [
-        { projectStatusType: { $ne: "Uploaded" } },
-        { projectStatusType: { $ne: "Amend_Uploaded" } },
-        { projectStatusType: { $ne: "AI_Uploaded" } },
-        { projectStatus: { $eq: "Active" } },
-        { clientFolderName: { $eq: folderNameSearch } },
-      ],
-    };
+  if (statusCategory) {
+    if (folderNameSearch) {
+      query = {
+        $and: [
+          { projectStatusType: { $ne: "Uploaded" } },
+          { projectStatusType: { $ne: "Amend_Uploaded" } },
+          { projectStatusType: { $ne: "AI_Uploaded" } },
+          { projectStatus: { $eq: "Active" } },
+          { clientFolderName: { $eq: folderNameSearch } },
+          { "output.projectStatusCategory": { $eq: statusCategory } },
+        ],
+      };
+    } else {
+      query = {
+        $and: [
+          { projectStatusType: { $ne: "Uploaded" } },
+          { projectStatusType: { $ne: "Amend_Uploaded" } },
+          { projectStatusType: { $ne: "AI_Uploaded" } },
+          { projectStatus: { $eq: "Active" } },
+          { "output.projectStatusCategory": { $eq: statusCategory } },
+        ],
+      };
+    }
   } else {
-    query = {
-      $and: [
-        { projectStatusType: { $ne: "Uploaded" } },
-        { projectStatusType: { $ne: "Amend_Uploaded" } },
-        { projectStatusType: { $ne: "AI_Uploaded" } },
-        { projectStatus: { $eq: "Active" } },
-      ],
-    };
+    if (folderNameSearch) {
+      query = {
+        $and: [
+          { projectStatusType: { $ne: "Uploaded" } },
+          { projectStatusType: { $ne: "Amend_Uploaded" } },
+          { projectStatusType: { $ne: "AI_Uploaded" } },
+          { projectStatus: { $eq: "Active" } },
+          { clientFolderName: { $eq: folderNameSearch } },
+        ],
+      };
+    } else {
+      query = {
+        $and: [
+          { projectStatusType: { $ne: "Uploaded" } },
+          { projectStatusType: { $ne: "Amend_Uploaded" } },
+          { projectStatusType: { $ne: "AI_Uploaded" } },
+          { projectStatus: { $eq: "Active" } },
+        ],
+      };
+    }
   }
   try {
-    const getJobQueueDetails = await Project.find(query);
+    const getJobQueueDetails = await Project.aggregate([
+      {
+        $lookup: {
+          from: "projectstatuses",
+          localField: "projectStatusId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $unwind: "$output" },
+      { $match: query },
+    ]);
     res.json(getJobQueueDetails);
   } catch (err) {
     console.error(err.message);

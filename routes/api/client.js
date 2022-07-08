@@ -196,7 +196,7 @@ router.post("/get-dailyjobsheet-client", async (req, res) => {
         $match: query,
       },
       { $group: { _id: "$clientId", clientName: { $first: "$clientName" } } },
-    ]);
+    ]).sort({ clientName: 1 });
     res.json(getDJSClientDetails);
   } catch (err) {
     console.error(err.message);

@@ -220,6 +220,13 @@ const ProjectVerification = ({
                     <tbody>
                       {unVerifiedProjects &&
                         unVerifiedProjects.map((unVerifiedProjects, idx) => {
+                          var projectDate = "";
+                          if (unVerifiedProjects.projectDate) {
+                            var ED =
+                              unVerifiedProjects.projectDate.split(/\D/g);
+                            projectDate = [ED[2], ED[1], ED[0]].join("-");
+                          }
+
                           projectQty += unVerifiedProjects.projectQuantity;
                           let statusType = unVerifiedProjects.projectStatusType;
                           if (statusType === "Downloading") downloadingQty += 1;
@@ -243,7 +250,7 @@ const ProjectVerification = ({
                               <td>
                                 <label>{unVerifiedProjects.projectName}</label>
                               </td>
-                              <td>{unVerifiedProjects.projectDate}</td>
+                              <td>{projectDate}</td>
                               <td>{unVerifiedProjects.projectPriority}</td>
                               <td>{unVerifiedProjects.projectDeadline}</td>
                               <td>
@@ -289,9 +296,6 @@ const ProjectVerification = ({
         </section>
 
         <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
-          <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
-            Projects:{unVerifiedProjects.length}
-          </div>
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
             <label>Downloading:{downloadingQty} &emsp;</label>
             <label>Working : {WorkingQty}&emsp;</label>
@@ -300,7 +304,10 @@ const ProjectVerification = ({
             <label>QC Estimate : {QCEstimateQty}&emsp;</label>
             <label>Uploading: {UploadingQty}&emsp;</label>
           </div>
-          <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
+          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
+            Projects:{unVerifiedProjects.length}
+          </div>
+          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             Quantity:{projectQty}
           </div>
         </div>

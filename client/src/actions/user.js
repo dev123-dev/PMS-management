@@ -5,6 +5,7 @@ import {
   SET_LOADING_TRUE,
   SET_LOADING_FALSE,
   ALL_EMPLOYEE,
+  ALL_STAFF_NAMES,
   ACTIVE_EMPLOYEE,
   USER_GROUPS,
   LAST_ENTERED_EMP_CODE,
@@ -117,6 +118,36 @@ export const getAllEmployee = () => async (dispatch) => {
     dispatch({
       type: AUTH_ERROR,
     });
+  }
+};
+
+export const getAllStaff = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/users/get-all-staff-name");
+    dispatch({
+      type: ALL_STAFF_NAMES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getFilterEmpDetails = (finalData) => async (dispatch) => {
+  // console.log("action", finalData);
+  try {
+    const res = await axios.post(
+      "/api/users/get-filter-emp-details",
+      finalData
+    );
+    dispatch({
+      type: ALL_EMPLOYEE,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
   }
 };
 

@@ -103,36 +103,38 @@ const DailyJobSheet = ({
   );
   const csvData = [
     [
-      "Project Name",
       "Client Name",
-      "Folder Name",
-      "Notes",
-      "Project Deadline",
+      "Project Name",
+      "Project Date ",
       "Qty",
-      "Project Date Time",
-      "Entered By",
-      "Client Date Time",
-      "Project Status",
-      "Client Type",
-      "Project Working Status",
-      "projectPriority",
+      "Price",
+      "Notes",
+      // "Folder Name",
+      // "Project Deadline",
+      // "Entered By",
+      // "Client Date Time",
+      // "Project Status",
+      // "Client Type",
+      // "Project Working Status",
+      // "projectPriority",
     ],
   ];
   dailyJobsheetProjects.map((dailyJobsheetData) =>
     csvData.push([
-      dailyJobsheetData.projectName,
       dailyJobsheetData.clientName,
-      dailyJobsheetData.clientFolderName,
-      dailyJobsheetData.projectNotes,
-      dailyJobsheetData.projectDeadline,
+      dailyJobsheetData.projectName,
+      dailyJobsheetData.projectDate,
       dailyJobsheetData.projectQuantity,
-      dailyJobsheetData.projectDate + " : " + dailyJobsheetData.projectTime,
-      dailyJobsheetData.projectEnteredByName,
-      dailyJobsheetData.clientDate + " : " + dailyJobsheetData.clientTime,
-      dailyJobsheetData.projectStatus,
-      dailyJobsheetData.clientTypeVal,
-      dailyJobsheetData.projectStatusType,
-      dailyJobsheetData.projectPriority,
+      ,
+      dailyJobsheetData.projectNotes,
+      // dailyJobsheetData.clientFolderName,
+      // dailyJobsheetData.projectDeadline,
+      // dailyJobsheetData.projectEnteredByName,
+      // dailyJobsheetData.clientDate + " : " + dailyJobsheetData.clientTime,
+      // dailyJobsheetData.projectStatus,
+      // dailyJobsheetData.clientTypeVal,
+      // dailyJobsheetData.projectStatusType,
+      // dailyJobsheetData.projectPriority,
     ])
   );
 
@@ -708,6 +710,18 @@ const DailyJobSheet = ({
                                   user.userGroupName === "Super Admin" ||
                                   user.userGroupName === "Clarical Admins" ? (
                                     <Select
+                                      styles={{
+                                        // ...styles,
+                                        control: (base, state) => ({
+                                          ...base,
+                                          "&:hover": { borderColor: "#456792" }, // border style on hover
+                                          border: " 2px solid #456792", // default border color
+
+                                          // background: "#456792",
+                                          boxShadow: "none",
+                                          // no box-shadow
+                                        }),
+                                      }}
                                       name="projectStatusData"
                                       value={{
                                         label:

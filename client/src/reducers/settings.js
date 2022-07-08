@@ -2,6 +2,7 @@ import {
   PAYMENT_MODE,
   ALL_DEPARTMENT,
   ALL_DESIGNATION,
+  ALL_STAFF_NAMES,
   ACTIVE_DESIGNATION,
 } from "../actions/types";
 
@@ -20,6 +21,11 @@ const settings = (state = initialState, action) => {
       return {
         ...state,
         paymentMode: payload,
+      };
+    case ALL_STAFF_NAMES:
+      return {
+        ...state,
+        allStaffName: payload,
       };
     case ALL_DEPARTMENT:
       return {

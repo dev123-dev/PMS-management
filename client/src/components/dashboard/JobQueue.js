@@ -63,7 +63,12 @@ const JobQueue = ({
   getJobQueueProjectDeatils(filterData);
 
   // const [sliderValue, setSliderValue] = useState([]);
-
+  const StatusCategory = [
+    { value: "Amend", label: "Amend" },
+    { value: "Normal", label: "Normal" },
+    { value: "Dont Work", label: "Dont Work" },
+    { value: "Additional Instruction", label: "Additional Instruction" },
+  ];
   function dhm(pDateTime) {
     let pStartDate = new Date(pDateTime);
     let pEndDate = new Date();
@@ -111,6 +116,7 @@ const JobQueue = ({
     setClientData(e);
     const finalData = {
       folderNameSearch: e.value,
+      statusCategory: statusData.value,
     };
     setFilterData(finalData);
     getJobQueueProjectDeatils(finalData);
@@ -183,12 +189,6 @@ const JobQueue = ({
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
 
-  const onClickReset = () => {
-    getJobQueueProjectDeatils("");
-    setClientData("");
-    setFilterData("");
-  };
-
   const onEditModalChange = (e) => {
     if (e) {
       handleEditModalClose();
@@ -202,6 +202,7 @@ const JobQueue = ({
   };
   const [formData, setFormData] = useState({
     radioselect: "",
+    projectStatusCategory: "",
     isSubmitted: false,
   });
 
@@ -257,36 +258,7 @@ const JobQueue = ({
     setshownotesModal(true);
     setUserDatas2(jobQueueProjects);
   };
-  const { radioselect } = formData;
-  const onstatuscategrorySelect = (statuscategrory) => {
-    if (statuscategrory === "Normal") {
-      setFormData({
-        ...formData,
-        radioselect: "Normal",
-      });
-    } else if (statuscategrory === "Amendment") {
-      setFormData({
-        ...formData,
-        radioselect: "Amendment",
-      });
-    } else if (statuscategrory === "Additional Instruction") {
-      setFormData({
-        ...formData,
-        radioselect: "Additional Instruction",
-      });
-    } else if (statuscategrory === "Don't Work") {
-      setFormData({
-        ...formData,
-        radioselect: "Don't Work",
-      });
-    } else {
-      setFormData({
-        ...formData,
-        radioselect: "",
-      });
-    }
-  };
-  // console.log(radioselect);
+  const { projectStatusCategory } = formData;
 
   // const [isSubmitted, setSubmitted] = useState(false);
   // const handleGoToAllLatestChange = (jobQueueProjects) => {
@@ -330,6 +302,33 @@ const JobQueue = ({
       return { ...provided, opacity, transition };
     },
   };
+  const [statusData, setstatusData] = useState("");
+  const onStatuscatChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        projectStatusCategory: e,
+      });
+    }
+    setstatusData(e);
+    const finalData = {
+      statusCategory: e.value,
+      folderNameSearch: clientData.value,
+    };
+    setFilterData(finalData);
+    getJobQueueProjectDeatils(finalData);
+  };
+
+  const onClickReset = () => {
+    getJobQueueProjectDeatils("");
+    setClientData("");
+    setFilterData("");
+    setFormData({
+      ...formData,
+      projectStatusCategory: "",
+    });
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -346,11 +345,32 @@ const JobQueue = ({
                 isSearchable={true}
                 value={clientData}
                 options={activeClientsOpt}
-                placeholder="Select"
+                placeholder="Select Folder"
                 onChange={(e) => onClientChange(e)}
               />
             </div>
-            <div className="col-lg-9 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+              <Select
+                name="projectStatusCategory"
+                options={StatusCategory}
+                isSearchable={true}
+                value={projectStatusCategory}
+                placeholder="Select Status Category"
+                onChange={(e) => onStatuscatChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
+
+            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -527,9 +547,9 @@ const JobQueue = ({
                                       // ...styles,
                                       control: (base, state) => ({
                                         ...base,
-                                        "&:hover": { borderColor: "blue" }, // border style on hover
-                                        border: "2px solid blue", // default border color
-                                        height: "2px",
+                                        "&:hover": { borderColor: "#456792" }, // border style on hover
+                                        border: " 2px solid #456792", // default border color
+
                                         // background: "#456792",
                                         boxShadow: "none",
                                         // no box-shadow
@@ -623,8 +643,8 @@ const JobQueue = ({
         </section>
 
         <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
-          <div className="col-lg-10 col-md-6 col-sm-6 col-12">
-            <label className="radio-inline ">
+          {/* <div className="col-lg-10 col-md-6 col-sm-6 col-12"> */}
+          {/* <label className="radio-inline ">
               <input
                 type="radio"
                 name="ProjCatType"
@@ -670,11 +690,9 @@ const JobQueue = ({
                 onClick={() => onstatuscategrorySelect("Don't Work")}
               />{" "}
               Don't Work
-            </label>
-          </div>
-          <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
-            Projects:{jobQueueProjects.length}
-          </div>
+            </label> */}
+          {/* </div> */}
+
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
             <label>Downloading:{downloadingQty} &emsp;</label>
             <label>Working : {WorkingQty}&emsp;</label>
@@ -683,7 +701,10 @@ const JobQueue = ({
             <label>QC Estimate : {QCEstimateQty}&emsp;</label>
             <label>Uploading: {UploadingQty}&emsp;</label>
           </div>
-          <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
+          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
+            Projects:{jobQueueProjects.length}
+          </div>
+          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             Quantity:{projectQty}
           </div>
         </div>

@@ -4,19 +4,33 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { getAllEmployee } from "../../actions/user";
+import Select from "react-select";
+import {
+  getAllEmployee,
+  getAllStaff,
+  getFilterEmpDetails,
+} from "../../actions/user";
 import EditEmployeeDetails from "./EditEmployeeDetails";
 import DeactiveEmployee from "./DeactiveEmployee";
 import EditPassword from "./EditPassword";
 const AllStaffDetails = ({
   auth: { allUser, isAuthenticated, user, users },
+  settings: { allStaffName },
   user: { allEmployee },
   getAllEmployee,
+  getFilterEmpDetails,
+  getAllStaff,
 }) => {
   useEffect(() => {
     getAllEmployee();
   }, [getAllEmployee]);
-  // console.log(allEmployee);
+  useEffect(() => {
+    getAllStaff();
+  }, [getAllStaff]);
+  useEffect(() => {
+    getFilterEmpDetails();
+  }, [getFilterEmpDetails]);
+  // console.log("drfwe", allStaffName);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -61,7 +75,29 @@ const AllStaffDetails = ({
     setShowChangePwdModal(true);
     setUserDataChangePwd(allEmployee);
   };
+  const [staffData, setstaffData] = useState("");
 
+  const activeStaffsOpt = [];
+  allStaffName &&
+    allStaffName.map((staffsData) =>
+      activeStaffsOpt.push({
+        label: staffsData.empFullName,
+        value: staffsData._id,
+      })
+    );
+  const onStaffChange = (e) => {
+    setstaffData(e);
+    const finalData = {
+      empNameSearch: e.value,
+    };
+
+    getFilterEmpDetails(finalData);
+  };
+
+  const onClickReset = () => {
+    getFilterEmpDetails("");
+    setstaffData("");
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -69,10 +105,26 @@ const AllStaffDetails = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className="row col-lg-5 col-md-11 col-sm-10 col-10">
+            <div className="row col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Staff Details </h5>
             </div>
-            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2 ">
+              <Select
+                name="staffData"
+                isSearchable={true}
+                value={staffData}
+                options={activeStaffsOpt}
+                placeholder="Select"
+                onChange={(e) => onStaffChange(e)}
+              />
+            </div>
+            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-3">
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickReset()}
+              >
+                Refresh
+              </button>
               <Link className="btn btn_green_bg float-right" to="/add-Staff">
                 Add Staff
               </Link>
@@ -256,11 +308,18 @@ const AllStaffDetails = ({
 AllStaffDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  settings: PropTypes.func.isRequired,
   getAllEmployee: PropTypes.func.isRequired,
+  getFilterEmpDetails: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   user: state.user,
+  settings: state.settings,
 });
 
-export default connect(mapStateToProps, { getAllEmployee })(AllStaffDetails);
+export default connect(mapStateToProps, {
+  getAllEmployee,
+  getAllStaff,
+  getFilterEmpDetails,
+})(AllStaffDetails);

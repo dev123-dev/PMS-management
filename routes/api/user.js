@@ -243,5 +243,32 @@ router.post("/get-last-entered-emp-code", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+router.get("/get-all-staff-name", async (req, res) => {
+  try {
+    const allProjectStatus = await EmployeeDetails.find({});
+    res.json(allProjectStatus);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 
+router.post("/get-filter-emp-details", async (req, res) => {
+  const { empNameSearch } = req.body;
+  let query = {};
+  if (empNameSearch) {
+    query = {
+      _id: {
+        $eq: empNameSearch,
+      },
+    };
+  }
+  try {
+    const allUserDetails = await EmployeeDetails.find(query);
+    res.json(allUserDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 module.exports = router;
