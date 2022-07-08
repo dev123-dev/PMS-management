@@ -7,6 +7,7 @@ import {
   ACTIVE_CLIENTS,
   ACTIVE_CLIENT_FILTER,
   ALL_DJS_CLIENTS,
+  ALL_VERF_CLIENTS,
 } from "./types";
 
 const config = {
@@ -128,6 +129,23 @@ export const getDailyjobSheetClients = (selDateData) => async (dispatch) => {
     );
     dispatch({
       type: ALL_DJS_CLIENTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getVerificationClients = (selDateData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/client/get-verification-client",
+      selDateData
+    );
+    dispatch({
+      type: ALL_VERF_CLIENTS,
       payload: res.data,
     });
   } catch (err) {
