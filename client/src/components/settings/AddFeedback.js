@@ -2,12 +2,11 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { AddPaymentMode } from "../../actions/settings";
+import { AddFeedbackData } from "../../actions/settings";
 import Select from "react-select";
 const AddFeedback = ({
   auth: { isAuthenticated, user, users, loading },
-  AddPaymentMode,
-  onAddDistrictModalChange,
+  AddFeedbackData,
 }) => {
   //formData
 
@@ -55,15 +54,19 @@ const AddFeedback = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
-      problem: problem,
-      feedbackCategory: feedbackCategory,
-      feedbackpriority: feedbackpriority,
+      feedbackProblem: problem,
+      feedbackCategory: feedbackCategory.value,
+      feedbackPriority: feedbackpriority.value,
+      // feedbackNotes:feedbackNotes,
+      feedbackStatus: "Active",
       feedbackEnteredById: user._id,
+      feedbackEnteredByName: user.empFullName,
+      feedbackEnteredDate: new Date().toISOString().split("T")[0],
     };
     console.log(finalData);
-    //AddPaymentMode(finalData);
+    AddFeedbackData(finalData);
 
-    onAddDistrictModalChange(true);
+    // onAddDistrictModalChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -181,4 +184,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { AddPaymentMode })(AddFeedback);
+export default connect(mapStateToProps, { AddFeedbackData })(AddFeedback);

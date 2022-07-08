@@ -10,6 +10,7 @@ import {
   ALL_MENUS,
   ACTIVE_MENUS,
   ALL_RIGHTS,
+  ALL_FEEDBACK,
 } from "./types";
 
 const config = {
@@ -93,6 +94,22 @@ export const AddRight = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/add-rights", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const AddFeedbackData = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/settings/add-feedback", finalData, config);
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -290,6 +307,20 @@ export const getAllRights = () => async (dispatch) => {
     const res = await axios.get("/api/settings/get-all-rights");
     dispatch({
       type: ALL_RIGHTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getAllFeedback = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/settings/get-all-feedback");
+    dispatch({
+      type: ALL_FEEDBACK,
       payload: res.data,
     });
   } catch (err) {

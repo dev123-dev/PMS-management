@@ -4,19 +4,19 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getALLPaymentMode } from "../../actions/settings";
+import { getAllFeedback } from "../../actions/settings";
 import AddFeedback from "./AddFeedback";
 import EditFeedback from "./EditFeedback";
 const AllFeedback = ({
   auth: { allUser, isAuthenticated, user, users },
-  settings: { paymentMode },
-  getALLPaymentMode,
+  settings: { allFeedback },
+  getAllFeedback,
 }) => {
   useEffect(() => {
-    getALLPaymentMode();
-  }, [getALLPaymentMode]);
+    getAllFeedback();
+  }, [getAllFeedback]);
 
-  //  console.log(paymentMode);
+  console.log(allFeedback);
   const [showAddfeedbackModal, setShowAddFeedbackModal] = useState(false);
   const handleAddFeedbackModalClose = () => setShowAddFeedbackModal(false);
   const onClickHandler = () => {
@@ -161,11 +161,11 @@ const AllFeedback = ({
 AllFeedback.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  getALLPaymentMode: PropTypes.func.isRequired,
+  getAllFeedback: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   settings: state.settings,
 });
 
-export default connect(mapStateToProps, { getALLPaymentMode })(AllFeedback);
+export default connect(mapStateToProps, { getAllFeedback })(AllFeedback);

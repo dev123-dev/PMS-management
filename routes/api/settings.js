@@ -10,6 +10,7 @@ const Designation = require("../../models/Designation");
 const Menu = require("../../models/Menus");
 const PaymentMode = require("../../models/PaymentMode");
 const Rights = require("../../models/Rights");
+const Feedback = require("../../models/feedback");
 
 //ADD
 router.post("/add-department", async (req, res) => {
@@ -72,6 +73,17 @@ router.post("add-rights", async (req, res) => {
   }
 });
 
+router.post("/add-feedback", async (req, res) => {
+  let data = req.body;
+  try {
+    let FeedbackDetails = new Feedback(data);
+    output = await FeedbackDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 //EDIT
 router.post("/edit-department", async (req, res) => {
   try {
@@ -260,6 +272,16 @@ router.get("/get-all-rights", async (req, res) => {
   try {
     const allRights = await Rights.find({});
     res.json(allRights);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.get("/get-all-feedback", async (req, res) => {
+  try {
+    const allFeedback = await Feedback.find({});
+    res.json(allFeedback);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
