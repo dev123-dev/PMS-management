@@ -5,9 +5,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { getALLPaymentMode } from "../../actions/settings";
-import AddPaymentMethod from "./AddPaymentMethod";
-import EditPaymentMethod from "./EditPaymentMethod";
 import AddFeedback from "./AddFeedback";
+import EditFeedback from "./EditFeedback";
 const AllFeedback = ({
   auth: { allUser, isAuthenticated, user, users },
   settings: { paymentMode },
@@ -18,14 +17,14 @@ const AllFeedback = ({
   }, [getALLPaymentMode]);
 
   //  console.log(paymentMode);
-  const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
-  const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
+  const [showAddfeedbackModal, setShowAddFeedbackModal] = useState(false);
+  const handleAddFeedbackModalClose = () => setShowAddFeedbackModal(false);
   const onClickHandler = () => {
-    setShowAddDistrictModal(true);
+    setShowAddFeedbackModal(true);
   };
-  const onAddDistrictModalChange = (e) => {
+  const onAddFeedbackModalChange = (e) => {
     if (e) {
-      handleAddDistrictModalClose();
+      handleAddFeedbackModalClose();
     }
   };
 
@@ -99,7 +98,7 @@ const AllFeedback = ({
           </div>
         </section>
         <Modal
-          show={showAllDistrictModal}
+          show={showAddfeedbackModal}
           backdrop="static"
           keyboard={false}
           size="md"
@@ -111,7 +110,7 @@ const AllFeedback = ({
               <h3 className="modal-title text-center">Add Feedback</h3>
             </div>
             <div className="col-lg-1">
-              <button onClick={handleAddDistrictModalClose} className="close">
+              <button onClick={handleAddFeedbackModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
                   alt="X"
@@ -121,7 +120,7 @@ const AllFeedback = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <AddFeedback onAddDistrictModalChange={onAddDistrictModalChange} />
+            <AddFeedback onAddFeedbackModalChange={onAddFeedbackModalChange} />
           </Modal.Body>
         </Modal>
 
@@ -135,7 +134,7 @@ const AllFeedback = ({
         >
           <Modal.Header>
             <div className="col-lg-10">
-              <h3 className="modal-title text-center">Edit Payment Method</h3>
+              <h3 className="modal-title text-center">Edit Feedback</h3>
             </div>
             <div className="col-lg-1">
               <button onClick={handleEditModalClose} className="close">
@@ -148,9 +147,9 @@ const AllFeedback = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <EditPaymentMethod
+            <EditFeedback
               onEditModalChange={onEditModalChange}
-              paymentModeData={userDatas}
+              feedbackData={userDatas}
             />
           </Modal.Body>
         </Modal>
