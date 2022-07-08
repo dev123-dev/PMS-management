@@ -253,7 +253,8 @@ router.get("/get-active-project-status", async (req, res) => {
 });
 
 router.post("/get-job-queue-project-details", async (req, res) => {
-  const { folderNameSearch, statusCategory } = req.body;
+  const { folderNameSearch, statusCategory, statusType } = req.body;
+
   let query = {};
   if (statusCategory) {
     if (folderNameSearch) {
@@ -299,6 +300,14 @@ router.post("/get-job-queue-project-details", async (req, res) => {
         ],
       };
     }
+  }
+  if (statusType !== undefined) {
+    query = {
+      $and: [
+        { projectStatus: { $eq: "Active" } },
+        { projectStatusType: { $eq: statusType } },
+      ],
+    };
   }
   try {
     const getJobQueueDetails = await Project.aggregate([

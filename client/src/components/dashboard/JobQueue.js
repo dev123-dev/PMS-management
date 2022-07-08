@@ -329,6 +329,14 @@ const JobQueue = ({
     });
   };
 
+  const onstatusTypeSelect = (statusType) => {
+    const finalData = {
+      statusType: statusType,
+    };
+    setFilterData(finalData);
+    getJobQueueProjectDeatils(finalData);
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -694,12 +702,24 @@ const JobQueue = ({
           {/* </div> */}
 
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
-            <label>Downloading:{downloadingQty} &emsp;</label>
-            <label>Working : {WorkingQty}&emsp;</label>
-            <label>Pending : {PendingQty}&emsp;</label>
-            <label>QC Pending: {QCPendingQty}&emsp;</label>
-            <label>QC Estimate : {QCEstimateQty}&emsp;</label>
-            <label>Uploading: {UploadingQty}&emsp;</label>
+            <Link to="#" onClick={() => onstatusTypeSelect("Downloading")}>
+              <label>Downloading:{downloadingQty} &emsp;</label>
+            </Link>
+            <Link to="#" onClick={() => onstatusTypeSelect("Working")}>
+              <label>Working : {WorkingQty}&emsp;</label>
+            </Link>
+            <Link to="#" onClick={() => onstatusTypeSelect("Pending")}>
+              <label>Pending : {PendingQty}&emsp;</label>
+            </Link>
+            <Link to="#" onClick={() => onstatusTypeSelect("QC Pending")}>
+              <label>QC Pending: {QCPendingQty}&emsp;</label>
+            </Link>
+            <Link to="#" onClick={() => onstatusTypeSelect("QC Estimate")}>
+              <label>QC Estimate : {QCEstimateQty}&emsp;</label>
+            </Link>
+            <Link to="#" onClick={() => onstatusTypeSelect("Uploading")}>
+              <label>Uploading: {UploadingQty}&emsp;</label>
+            </Link>
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             Projects:{jobQueueProjects.length}
