@@ -593,20 +593,32 @@ const EditProject = ({
             user.designationName === "Shift Incharge & QC") ||
           user.designationName === "Shift & Distribution Incharge" ||
           user.designationName === "Qc Incharge" ? (
-            <div className="row col-lg-6 col-md-6 col-sm-6 col-12">
-              <label className="label-control">Qty* :</label>
+            <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Qty* :</label>
 
-              <input
-                type="Number"
-                name="qty"
-                value={qty}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-                onKeyDown={(e) =>
-                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-                }
-                required
-              />
+                <input
+                  type="Number"
+                  name="qty"
+                  value={qty}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
+                  required
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Unconfirmed :</label>
+                <input
+                  type="checkbox"
+                  id="Unconfirmed"
+                  checked={isChecked}
+                  onChange={handleOnChange}
+                />
+              </div>
             </div>
           ) : (
             <></>
