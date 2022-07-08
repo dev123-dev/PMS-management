@@ -45,6 +45,7 @@ import AllPaymentMethods from "../settings/AllPaymentMethods";
 import AddPaymentMethod from "../settings/AddPaymentMethod";
 import AllUserGroups from "../settings/AllUserGroups";
 import changePassword from "../auth/ChangePwd";
+import AllFeedback from "../settings/AllFeedback";
 
 const RoutesFile = () => {
   return (
@@ -126,6 +127,8 @@ const RoutesFile = () => {
           path="/all-designation"
           component={AllDesignation}
         />
+        <PrivateRoute exact path="/all-feedback" component={AllFeedback} />
+
         {/* Project Status */}
         <PrivateRoute
           exact
