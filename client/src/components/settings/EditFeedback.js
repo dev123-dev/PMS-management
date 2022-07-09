@@ -111,7 +111,7 @@ const EditFeedback = ({
       <form onSubmit={(e) => onUpdate(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
           <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-            <label className="label-control">Problem :</label>
+            <label className="label-control">Problem*:</label>
             <input
               type="text"
               name="feedbackProblem"
@@ -164,7 +164,7 @@ const EditFeedback = ({
             />
           </div>
           <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-            <label className="label-control">Notes :</label>
+            <label className="label-control">Notes* :</label>
             <textarea
               name="feedbackNotes"
               id="feedbackNotes"

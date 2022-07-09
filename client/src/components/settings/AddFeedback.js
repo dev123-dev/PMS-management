@@ -127,7 +127,7 @@ const AddFeedback = ({
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
           <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-            <label className="label-control">Problem :</label>
+            <label className="label-control">Problem* :</label>
             <input
               type="text"
               name="feedbackProblem"
@@ -139,7 +139,7 @@ const AddFeedback = ({
           </div>
           <div className="col-lg-6 col-md-6 col-sm-6 col-12">
             <label className="label-control" style={changestypeIdErrorStyle}>
-              Changes In :
+              Changes In* :
             </label>
             <Select
               name="feedbackCategory"
@@ -165,7 +165,7 @@ const AddFeedback = ({
               className="label-control"
               style={feedbackpriorityIdErrorStyle}
             >
-              Priority :
+              Priority* :
             </label>
             <Select
               name="feedbackpriority"
@@ -187,7 +187,7 @@ const AddFeedback = ({
             />
           </div>
           <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-            <label className="label-control">Notes :</label>
+            <label className="label-control">Notes* :</label>
             <textarea
               name="feedbacknotes"
               id="feedbacknotes"
