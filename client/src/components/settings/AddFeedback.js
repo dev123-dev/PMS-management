@@ -13,7 +13,7 @@ const AddFeedback = ({
 
   const ChangesCategory = [
     { value: "Design Level", label: "Design Level" },
-    { value: "Code Level", label: "Code Level" },
+    { value: "Work Level", label: "Work Level" },
   ];
 
   const priorityCategory = [
@@ -34,7 +34,48 @@ const AddFeedback = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  //Required Validation Starts
+  const [error, setError] = useState({
+    priorityIdChecker: false,
+    feedbackpriorityIdErrorStyle: {},
+    changestypeIdChecker: false,
+
+    changestypeIdErrorStyle: {},
+  });
+  const {
+    priorityIdChecker,
+    feedbackpriorityIdErrorStyle,
+    changestypeIdChecker,
+    changestypeIdErrorStyle,
+  } = error;
+
+  const checkErrors = () => {
+    if (!changestypeIdChecker) {
+      setError({
+        ...error,
+        changestypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!priorityIdChecker) {
+      setError({
+        ...error,
+        feedbackpriorityIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    return true;
+  };
   const onStatuscatChange = (e) => {
+    //  Required Validation starts
+    setError({
+      ...error,
+      changestypeIdChecker: true,
+      changestypeIdErrorStyle: { color: "#000" },
+    });
+    // Required Validation ends
     if (e) {
       setFormData({
         ...formData,
@@ -43,6 +84,13 @@ const AddFeedback = ({
     }
   };
   const onfeedbackpriorityChange = (e) => {
+    //Required Validation starts
+    setError({
+      ...error,
+      priorityIdChecker: true,
+      feedbackpriorityIdErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
     if (e) {
       setFormData({
         ...formData,
@@ -53,21 +101,22 @@ const AddFeedback = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
-    const finalData = {
-      feedbackProblem: feedbackProblem,
-      feedbackCategory: feedbackCategory.value,
-      feedbackPriority: feedbackpriority.value,
-      feedbackNotes: feedbacknotes,
-      feedbackStatus: "Pending",
-      feedbackEnteredById: user._id,
-      feedbackEnteredByName: user.empFullName,
-      feedbackEnteredDate: new Date().toISOString().split("T")[0],
-    };
-    console.log(finalData);
-    AddFeedbackData(finalData);
+    if (checkErrors()) {
+      const finalData = {
+        feedbackProblem: feedbackProblem,
+        feedbackCategory: feedbackCategory.value,
+        feedbackPriority: feedbackpriority.value,
+        feedbackNotes: feedbacknotes,
+        feedbackStatus: "Pending",
+        feedbackEnteredById: user._id,
+        feedbackEnteredByName: user.empFullName,
+        feedbackEnteredDate: new Date().toISOString().split("T")[0],
+      };
+      console.log(finalData);
+      AddFeedbackData(finalData);
 
-    onAddFeedbackModalChange(true);
+      onAddFeedbackModalChange(true);
+    }
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -77,7 +126,7 @@ const AddFeedback = ({
       {" "}
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+          <div className="col-lg-12 col-md-6 col-sm-6 col-12">
             <label className="label-control">Problem :</label>
             <input
               type="text"
@@ -89,7 +138,9 @@ const AddFeedback = ({
             />
           </div>
           <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-            <label className="label-control">Changes In :</label>
+            <label className="label-control" style={changestypeIdErrorStyle}>
+              Changes In :
+            </label>
             <Select
               name="feedbackCategory"
               options={ChangesCategory}
@@ -110,7 +161,12 @@ const AddFeedback = ({
             />
           </div>
           <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-            <label className="label-control">Priority :</label>
+            <label
+              className="label-control"
+              style={feedbackpriorityIdErrorStyle}
+            >
+              Priority :
+            </label>
             <Select
               name="feedbackpriority"
               options={priorityCategory}
@@ -130,17 +186,18 @@ const AddFeedback = ({
               })}
             />
           </div>
-          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+          <div className="col-lg-12 col-md-6 col-sm-6 col-12">
             <label className="label-control">Notes :</label>
             <textarea
               name="feedbacknotes"
               id="feedbacknotes"
               className="textarea form-control"
-              rows="3"
+              rows="4"
               placeholder="Notes"
               style={{ width: "100%" }}
               value={feedbacknotes}
               onChange={(e) => onInputChange(e)}
+              required
             ></textarea>
           </div>
         </div>
