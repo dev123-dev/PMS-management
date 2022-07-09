@@ -550,17 +550,30 @@ const JobQueue = ({
                                 user.userGroupName === "Quality Controller" ||
                                 user.userGroupName === "Distributors" ? (
                                   <Select
-                                    // styles={customStyles}
                                     styles={{
                                       // ...styles,
-                                      control: (base, state) => ({
-                                        ...base,
-                                        "&:hover": { borderColor: "#456792" }, // border style on hover
-                                        border: " 2px solid #456792", // default border color
+                                      // control: (base, state) => ({
+                                      //   ...base,
+                                      //   "&:hover": { borderColor: "#456792" }, // border style on hover
+                                      //   border: " 2px solid #456792", // default border color
 
-                                        // background: "#456792",
-                                        boxShadow: "none",
-                                        // no box-shadow
+                                      //   color: "#456792",
+                                      //   background: "#456792",
+                                      //   boxShadow: "none",
+
+                                      // }),
+
+                                      control: (base) => ({
+                                        ...base,
+                                        background: "#456792",
+                                      }),
+                                      singleValue: (base) => ({
+                                        ...base,
+                                        color: "#fff",
+                                      }),
+                                      input: (base) => ({
+                                        ...base,
+                                        color: "#fff",
                                       }),
                                     }}
                                     name="projectStatusData"
