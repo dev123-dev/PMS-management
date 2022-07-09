@@ -23,7 +23,7 @@ const AllFeedback = ({
     { value: "Done", label: "Done" },
     { value: "Cancel", label: "Cancel" },
   ];
-
+  console.log(user);
   const [formData, setFormData] = useState({
     feedbackpriority: "",
 
@@ -129,16 +129,23 @@ const AllFeedback = ({
                         <th>Given By</th>
                         <th>Changes</th>
                         <th>Priority</th>
+
+                        <th>Notes</th>
+                        {user.userGroupName &&
+                        user.userGroupName === "Administrator" ? (
+                          <th>OP</th>
+                        ) : (
+                          <></>
+                        )}
                         {user.designationName &&
                         user.designationName === "Super Admin" ? (
                           <th>Status</th>
                         ) : (
                           <></>
                         )}
-                        <th>Notes</th>
-                        <th>OP</th>
                       </tr>
                     </thead>
+                    {/* SLAP UserGroupRights  */}
                     <tbody>
                       {allFeedback &&
                         allFeedback.map((allFeedback, idx) => {
@@ -148,6 +155,23 @@ const AllFeedback = ({
                               <td>{allFeedback.feedbackEnteredByName}</td>
                               <td>{allFeedback.feedbackCategory}</td>
                               <td>{allFeedback.feedbackPriority}</td>
+
+                              <td>{allFeedback.feedbackNotes}</td>
+                              {user.userGroupName &&
+                              user.userGroupName === "Administrator" ? (
+                                <td>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allFeedback, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </td>
+                              ) : (
+                                <></>
+                              )}
+
                               {user.designationName &&
                               user.designationName === "Super Admin" ? (
                                 <td>
@@ -166,16 +190,6 @@ const AllFeedback = ({
                               ) : (
                                 <></>
                               )}
-                              <td>{allFeedback.feedbackNotes}</td>
-                              <td>
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() => onUpdate(allFeedback, idx)}
-                                  src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
-                                />
-                              </td>
                             </tr>
                           );
                         })}
