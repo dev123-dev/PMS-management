@@ -110,6 +110,7 @@ export const AddFeedbackData = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/add-feedback", finalData, config);
+    dispatch(getAllFeedback());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -180,6 +181,23 @@ export const EditPaymentMode = (finalData) => async (dispatch) => {
     });
     await axios.post("/api/settings/edit-payment-mode", finalData);
     dispatch(getALLPaymentMode());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const EditFeedbackData = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/settings/edit-feedback", finalData);
+    dispatch(getAllFeedback());
     dispatch({
       type: SET_LOADING_FALSE,
     });

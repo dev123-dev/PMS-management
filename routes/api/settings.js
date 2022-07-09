@@ -166,6 +166,28 @@ router.post("/edit-payment-mode", async (req, res) => {
   }
 });
 
+router.post("/edit-feedback", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateFeedback = await Feedback.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          feedbackProblem: data.feedbackProblem,
+          feedbackCategory: data.feedbackCategory,
+          feedbackPriority: data.feedbackPriority,
+          feedbackNotes: data.feedbackNotes,
+          feedbackStatus: data.feedbackStatus,
+          feedbackEditedById: data.feedbackEditedById,
+          feedbackEditedDateTime: Date.now(),
+        },
+      }
+    );
+    res.json(updateFeedback);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
 //DEACTIVATE
 
 router.post("/deactive-designation-data", async (req, res) => {
@@ -280,7 +302,7 @@ router.get("/get-all-rights", async (req, res) => {
 
 router.get("/get-all-feedback", async (req, res) => {
   try {
-    const allFeedback = await Feedback.find({});
+    const allFeedback = await Feedback.find({ feedbackStatus: "Pending" });
     res.json(allFeedback);
   } catch (err) {
     console.error(err.message);

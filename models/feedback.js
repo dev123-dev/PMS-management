@@ -30,6 +30,13 @@ const FeedbackSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  feedbackEditedById: {
+    type: ObjectId,
+  },
+  feedbackEditedDateTime: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 module.exports = feedback = mongoose.model("feedback", FeedbackSchema);
