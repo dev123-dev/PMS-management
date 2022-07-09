@@ -60,7 +60,7 @@ const ChangeFeedbackStatus = ({
               id="feedbackStatusNotes"
               className="textarea form-control"
               rows="3"
-              placeholder="Project Status Deactive Reason"
+              placeholder="Reason"
               style={{ width: "100%" }}
               value={feedbackStatusNotes}
               onChange={(e) => onInputChange(e)}
