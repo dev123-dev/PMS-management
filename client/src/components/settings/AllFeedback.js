@@ -129,7 +129,12 @@ const AllFeedback = ({
                         <th>Given By</th>
                         <th>Changes</th>
                         <th>Priority</th>
-                        <th>Status</th>
+                        {user.designationName &&
+                        user.designationName === "Super Admin" ? (
+                          <th>Status</th>
+                        ) : (
+                          <></>
+                        )}
                         <th>Notes</th>
                         <th>OP</th>
                       </tr>
@@ -143,19 +148,24 @@ const AllFeedback = ({
                               <td>{allFeedback.feedbackEnteredByName}</td>
                               <td>{allFeedback.feedbackCategory}</td>
                               <td>{allFeedback.feedbackPriority}</td>
-                              <td>
-                                <Select
-                                  name="projectStatusData"
-                                  value={{
-                                    label: allFeedback.feedbackStatus,
-                                    value: allFeedback.feedbackStatus,
-                                  }}
-                                  options={priorityCategory}
-                                  isSearchable={true}
-                                  placeholder="Select"
-                                  onChange={onSliderChange(allFeedback)}
-                                />
-                              </td>
+                              {user.designationName &&
+                              user.designationName === "Super Admin" ? (
+                                <td>
+                                  <Select
+                                    name="projectStatusData"
+                                    value={{
+                                      label: allFeedback.feedbackStatus,
+                                      value: allFeedback.feedbackStatus,
+                                    }}
+                                    options={priorityCategory}
+                                    isSearchable={true}
+                                    placeholder="Select"
+                                    onChange={onSliderChange(allFeedback)}
+                                  />
+                                </td>
+                              ) : (
+                                <></>
+                              )}
                               <td>{allFeedback.feedbackNotes}</td>
                               <td>
                                 <img
