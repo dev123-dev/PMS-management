@@ -648,6 +648,7 @@ const JobQueue = ({
                                     alt="Edit"
                                     title="Edit"
                                   />
+                                  <br />
                                 </td>
                               ) : (
                                 <></>
@@ -664,74 +665,48 @@ const JobQueue = ({
         </section>
 
         <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
-          {/* <div className="col-lg-10 col-md-6 col-sm-6 col-12"> */}
-          {/* <label className="radio-inline ">
-              <input
-                type="radio"
-                name="ProjCatType"
-                className="radio_style"
-                value="Normal"
-                //onChange={(e) => onRadioProjCatTypeChange(e)}
-                onClick={() => onstatuscategrorySelect("Normal")}
-              />{" "}
-              Normal
-            </label>
-
-            <label className="radio-inline ">
-              <input
-                type="radio"
-                name="ProjCatType"
-                className="radio_style"
-                value="Amendment"
-                //  onChange={(e) => onRadioProjCatTypeChange(e)}
-                onClick={() => onstatuscategrorySelect("Amendment")}
-              />{" "}
-              Amendment
-            </label>
-            <label className="radio-inline ">
-              <input
-                type="radio"
-                name="ProjCatType"
-                className="radio_style"
-                value="Additional Instruction"
-                //onChange={(e) => onRadioProjCatTypeChange(e)}
-                onClick={() =>
-                  onstatuscategrorySelect("Additional Instruction")
-                }
-              />{" "}
-              Additional Instruction
-            </label>
-            <label className="radio-inline ">
-              <input
-                type="radio"
-                name="ProjCatType"
-                className="radio_style"
-                value="Don't Work"
-                // onChange={(e) => onRadioProjCatTypeChange(e)}
-                onClick={() => onstatuscategrorySelect("Don't Work")}
-              />{" "}
-              Don't Work
-            </label> */}
-          {/* </div> */}
-
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
-            <Link to="#" onClick={() => onstatusTypeSelect("Downloading")}>
-              <label>Downloading:{downloadingQty} &emsp;</label>
+            <Link
+              to="#"
+              className="btnLink"
+              onClick={() => onstatusTypeSelect("Downloading")}
+            >
+              Downloading:{downloadingQty} &emsp;
             </Link>
-            <Link to="#" onClick={() => onstatusTypeSelect("Working")}>
-              <label>Working : {WorkingQty}&emsp;</label>
+            <Link
+              to="#"
+              className="btnLink"
+              onClick={() => onstatusTypeSelect("Working")}
+            >
+              Working : {WorkingQty}&emsp;
             </Link>
-            <Link to="#" onClick={() => onstatusTypeSelect("Pending")}>
-              <label>Pending : {PendingQty}&emsp;</label>
+            <Link
+              to="#"
+              className="btnLink"
+              onClick={() => onstatusTypeSelect("Pending")}
+            >
+              Pending : {PendingQty}&emsp;
             </Link>
-            <Link to="#" onClick={() => onstatusTypeSelect("QC Pending")}>
-              <label>QC Pending: {QCPendingQty}&emsp;</label>
+            <Link
+              to="#"
+              className="btnLink"
+              onClick={() => onstatusTypeSelect("QC Pending")}
+            >
+              QC Pending: {QCPendingQty}&emsp;
             </Link>
-            <Link to="#" onClick={() => onstatusTypeSelect("QC Estimate")}>
-              <label>QC Estimate : {QCEstimateQty}&emsp;</label>
+            <Link
+              to="#"
+              className="btnLink"
+              onClick={() => onstatusTypeSelect("QC Estimate")}
+            >
+              QC Estimate : {QCEstimateQty}&emsp;
             </Link>
-            <Link to="#" onClick={() => onstatusTypeSelect("Uploading")}>
-              <label>Uploading: {UploadingQty}&emsp;</label>
+            <Link
+              to="#"
+              className="btnLink"
+              onClick={() => onstatusTypeSelect("Uploading")}
+            >
+              Uploading: {UploadingQty}&emsp;
             </Link>
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
