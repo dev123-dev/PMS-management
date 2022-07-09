@@ -671,42 +671,47 @@ const JobQueue = ({
               className="btnLink"
               onClick={() => onstatusTypeSelect("Downloading")}
             >
-              Downloading:{downloadingQty} &emsp;
+              Downloading:{downloadingQty}
             </Link>
+            &emsp;
             <Link
               to="#"
               className="btnLink"
               onClick={() => onstatusTypeSelect("Working")}
             >
-              Working : {WorkingQty}&emsp;
+              Working : {WorkingQty}
             </Link>
+            &emsp;
             <Link
               to="#"
               className="btnLink"
               onClick={() => onstatusTypeSelect("Pending")}
             >
-              Pending : {PendingQty}&emsp;
+              Pending : {PendingQty}
             </Link>
+            &emsp;
             <Link
               to="#"
               className="btnLink"
               onClick={() => onstatusTypeSelect("QC Pending")}
             >
-              QC Pending: {QCPendingQty}&emsp;
+              QC Pending: {QCPendingQty}
             </Link>
+            &emsp;
             <Link
               to="#"
               className="btnLink"
               onClick={() => onstatusTypeSelect("QC Estimate")}
             >
-              QC Estimate : {QCEstimateQty}&emsp;
+              QC Estimate : {QCEstimateQty}
             </Link>
+            &emsp;
             <Link
               to="#"
               className="btnLink"
               onClick={() => onstatusTypeSelect("Uploading")}
             >
-              Uploading: {UploadingQty}&emsp;
+              Uploading: {UploadingQty}
             </Link>
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
