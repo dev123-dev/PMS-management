@@ -19,7 +19,7 @@ import {
 import { w3cwebsocket } from "websocket";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.216:8000");
+const client = new w3cwebsocket("ws://192.168.6.159:8000");
 
 const ProjectVerification = ({
   auth: { isAuthenticated, user, users },
@@ -297,12 +297,12 @@ const ProjectVerification = ({
 
         <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
-            <label>Downloading:{downloadingQty} &emsp;</label>
+            {/* <label>Downloading:{downloadingQty} &emsp;</label>
             <label>Working : {WorkingQty}&emsp;</label>
             <label>Pending : {PendingQty}&emsp;</label>
             <label>QC Pending: {QCPendingQty}&emsp;</label>
             <label>QC Estimate : {QCEstimateQty}&emsp;</label>
-            <label>Uploading: {UploadingQty}&emsp;</label>
+            <label>Uploading: {UploadingQty}&emsp;</label> */}
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             Projects:{unVerifiedProjects.length}
