@@ -118,7 +118,7 @@ const AllFeedback = ({
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
-                <div className=" body-inner no-padding table-responsive">
+                <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
                     className="table table-bordered table-striped table-hover"
                     id="datatable2"
