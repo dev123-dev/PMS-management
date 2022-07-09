@@ -7,6 +7,7 @@ import Select from "react-select";
 const AddFeedback = ({
   auth: { isAuthenticated, user, users, loading },
   AddFeedbackData,
+  onAddFeedbackModalChange,
 }) => {
   //formData
 
@@ -20,14 +21,14 @@ const AddFeedback = ({
     { value: "Critical", label: "Critical" },
   ];
   const [formData, setFormData] = useState({
-    problem: "",
+    feedbackProblem: "",
     feedbackCategory: "",
     feedbackpriority: "",
     feedbacknotes: "",
     isSubmitted: false,
   });
 
-  const { problem, feedbackCategory, feedbackpriority, feedbacknotes } =
+  const { feedbackProblem, feedbackCategory, feedbackpriority, feedbacknotes } =
     formData;
 
   const onInputChange = (e) => {
@@ -54,11 +55,11 @@ const AddFeedback = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
-      feedbackProblem: problem,
+      feedbackProblem: feedbackProblem,
       feedbackCategory: feedbackCategory.value,
       feedbackPriority: feedbackpriority.value,
-      // feedbackNotes:feedbackNotes,
-      feedbackStatus: "Active",
+      feedbackNotes: feedbacknotes,
+      feedbackStatus: "Pending",
       feedbackEnteredById: user._id,
       feedbackEnteredByName: user.empFullName,
       feedbackEnteredDate: new Date().toISOString().split("T")[0],
@@ -66,7 +67,7 @@ const AddFeedback = ({
     console.log(finalData);
     AddFeedbackData(finalData);
 
-    // onAddDistrictModalChange(true);
+    onAddFeedbackModalChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -80,8 +81,8 @@ const AddFeedback = ({
             <label className="label-control">Problem :</label>
             <input
               type="text"
-              name="problem"
-              value={problem}
+              name="feedbackProblem"
+              value={feedbackProblem}
               className="form-control"
               onChange={(e) => onInputChange(e)}
               required

@@ -4,19 +4,36 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getAllFeedback } from "../../actions/settings";
+import { getAllFeedback, EditFeedbackStatusData } from "../../actions/settings";
 import AddFeedback from "./AddFeedback";
 import EditFeedback from "./EditFeedback";
+import Select from "react-select";
+import ChangeFeedbackStatus from "./ChangeFeedbackStatus";
 const AllFeedback = ({
   auth: { allUser, isAuthenticated, user, users },
   settings: { allFeedback },
   getAllFeedback,
+  EditFeedbackStatusData,
 }) => {
   useEffect(() => {
     getAllFeedback();
   }, [getAllFeedback]);
+  const priorityCategory = [
+    { value: "Pending", label: "Pending" },
+    { value: "Done", label: "Done" },
+    { value: "Cancel", label: "Cancel" },
+  ];
 
-  console.log(allFeedback);
+  const [formData, setFormData] = useState({
+    feedbackpriority: "",
+
+    isSubmitted: false,
+  });
+  const onInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const { feedbackpriority, projectStatusDeactiveReason } = formData;
+
   const [showAddfeedbackModal, setShowAddFeedbackModal] = useState(false);
   const handleAddFeedbackModalClose = () => setShowAddFeedbackModal(false);
   const onClickHandler = () => {
@@ -43,6 +60,40 @@ const AllFeedback = ({
     setUserDatas(paymentMode);
   };
 
+  const onfeedbackpriorityChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        feedbackpriority: e,
+      });
+    }
+  };
+
+  const [showStatusModal, setShowStatusModal] = useState(false);
+  const handleStatusModalClose = () => setShowStatusModal(false);
+
+  const onStatusModalChange = (e) => {
+    if (e) {
+      handleStatusModalClose();
+    }
+  };
+
+  const [userDatas1, setUserDatas1] = useState(null);
+
+  const [statusValue, setStatusValue] = useState("");
+  const onSliderChange = (allFeedback) => (e) => {
+    setStatusValue(e);
+    setShowStatusModal(true);
+
+    // setUserDatas1(allFeedback);
+    let finalData = {
+      recordId: allFeedback ? allFeedback._id : "",
+      feedbackStatus: e.label,
+      feedbackEditedById: user._id,
+    };
+    setUserDatas1(finalData);
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -54,14 +105,6 @@ const AllFeedback = ({
               <h5 className="heading_color">All FeedBacks</h5>
             </div>
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
-              {/* <img
-                className="img_icon_size log float-right"
-                onClick={() => onClickHandler()}
-                src={require("../../static/images/add-icon.png")}
-                alt="Add Department"
-                title="Add Department"
-              /> */}
-
               <Link
                 to="#"
                 className="btn btn_green_bg float-right"
@@ -100,7 +143,19 @@ const AllFeedback = ({
                               <td>{allFeedback.feedbackEnteredByName}</td>
                               <td>{allFeedback.feedbackCategory}</td>
                               <td>{allFeedback.feedbackPriority}</td>
-                              <td></td>
+                              <td>
+                                <Select
+                                  name="projectStatusData"
+                                  value={{
+                                    label: allFeedback.feedbackStatus,
+                                    value: allFeedback.feedbackStatus,
+                                  }}
+                                  options={priorityCategory}
+                                  isSearchable={true}
+                                  placeholder="Select"
+                                  onChange={onSliderChange(allFeedback)}
+                                />
+                              </td>
                               <td>{allFeedback.feedbackNotes}</td>
                               <td>
                                 <img
@@ -177,6 +232,37 @@ const AllFeedback = ({
             />
           </Modal.Body>
         </Modal>
+
+        <Modal
+          show={showStatusModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center"> Feedback</h3>
+            </div>
+            <div className="col-lg-1">
+              <button onClick={handleStatusModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+
+          <Modal.Body>
+            <ChangeFeedbackStatus
+              onStatusModalChange={onStatusModalChange}
+              feedbackData1={userDatas1}
+            />
+          </Modal.Body>
+        </Modal>
       </div>
     </Fragment>
   );
@@ -186,10 +272,14 @@ AllFeedback.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   getAllFeedback: PropTypes.func.isRequired,
+  EditFeedbackStatusData: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   settings: state.settings,
 });
 
-export default connect(mapStateToProps, { getAllFeedback })(AllFeedback);
+export default connect(mapStateToProps, {
+  getAllFeedback,
+  EditFeedbackStatusData,
+})(AllFeedback);

@@ -2,14 +2,13 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { EditPaymentMode } from "../../actions/settings";
+import { EditFeedbackData } from "../../actions/settings";
 import Select from "react-select";
 const EditFeedback = ({
   auth: { isAuthenticated, user, users, loading },
   feedbackData,
   onEditModalChange,
-  onAddDistrictModalChange,
-  EditPaymentMode,
+  EditFeedbackData,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -36,12 +35,24 @@ const EditFeedback = ({
             label: feedbackData.feedbackPriority,
           }
         : "",
+    feedbackStatus:
+      feedbackData && feedbackData.feedbackStatus
+        ? {
+            value: feedbackData.feedbackStatus,
+            label: feedbackData.feedbackStatus,
+          }
+        : "",
 
     isSubmitted: false,
   });
 
-  const { feedbackProblem, feedbackCategory, feedbackPriority, feedbackNotes } =
-    formData;
+  const {
+    feedbackProblem,
+    feedbackCategory,
+    feedbackPriority,
+    feedbackNotes,
+    feedbackStatus,
+  } = formData;
 
   const ChangesCategory = [
     { value: "Design Level", label: "Design Level" },
@@ -61,11 +72,12 @@ const EditFeedback = ({
       });
     }
   };
+
   const onfeedbackpriorityChange = (e) => {
     if (e) {
       setFormData({
         ...formData,
-        feedbackpriority: e,
+        feedbackPriority: e,
       });
     }
   };
@@ -79,13 +91,14 @@ const EditFeedback = ({
     const finalData = {
       recordId: feedbackData ? feedbackData._id : "",
       feedbackProblem: feedbackProblem,
-      feedbackCategory: feedbackCategory,
-      feedbackPriority: feedbackPriority,
+      feedbackCategory: feedbackCategory.value,
+      feedbackPriority: feedbackPriority.value,
       feedbackNotes: feedbackNotes,
-      feedbackEnteredById: user._id,
+      feedbackStatus: feedbackStatus.value,
+      feedbackEditedById: user._id,
     };
     // console.log(finalData);
-    EditPaymentMode(finalData);
+    EditFeedbackData(finalData);
 
     onEditModalChange(true);
   };
@@ -199,11 +212,11 @@ const EditFeedback = ({
 
 EditFeedback.propTypes = {
   auth: PropTypes.object.isRequired,
-  EditPaymentMode: PropTypes.func.isRequired,
+  EditFeedbackData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { EditPaymentMode })(EditFeedback);
+export default connect(mapStateToProps, { EditFeedbackData })(EditFeedback);

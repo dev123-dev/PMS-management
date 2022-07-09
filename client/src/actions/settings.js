@@ -192,11 +192,29 @@ export const EditPaymentMode = (finalData) => async (dispatch) => {
 };
 
 export const EditFeedbackData = (finalData) => async (dispatch) => {
+  // console.log("action", finalData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/edit-feedback", finalData);
+    dispatch(getAllFeedback());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const EditFeedbackStatusData = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/settings/edit-feedback-status", finalData);
     dispatch(getAllFeedback());
     dispatch({
       type: SET_LOADING_FALSE,

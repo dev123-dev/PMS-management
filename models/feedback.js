@@ -17,6 +17,9 @@ const FeedbackSchema = new mongoose.Schema({
   feedbackStatus: {
     type: String, //pending,done
   },
+  feedbackStatusNotes: {
+    type: String, //pending,done
+  },
   feedbackEnteredById: {
     type: ObjectId,
   },

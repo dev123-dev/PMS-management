@@ -169,6 +169,7 @@ router.post("/edit-payment-mode", async (req, res) => {
 router.post("/edit-feedback", async (req, res) => {
   try {
     let data = req.body;
+    // console.log(data);
     const updateFeedback = await Feedback.updateOne(
       { _id: data.recordId },
       {
@@ -188,6 +189,28 @@ router.post("/edit-feedback", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
+
+router.post("/edit-feedback-status", async (req, res) => {
+  try {
+    let data = req.body;
+
+    const updateFeedback = await Feedback.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          feedbackStatus: data.feedbackStatus,
+          feedbackEditedById: data.feedbackEditedById,
+          feedbackStatusNotes: data.feedbackStatusNotes,
+          feedbackEditedDateTime: Date.now(),
+        },
+      }
+    );
+    res.json(updateFeedback);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 //DEACTIVATE
 
 router.post("/deactive-designation-data", async (req, res) => {
