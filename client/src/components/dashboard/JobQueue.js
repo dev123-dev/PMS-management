@@ -413,7 +413,7 @@ const JobQueue = ({
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ? (
-                          <th style={{ width: "5%" }}>Client Name</th>
+                          <th style={{ width: "10%" }}>Client Name</th>
                         ) : (
                           <></>
                         )}
