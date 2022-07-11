@@ -3,20 +3,28 @@ import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getAllFeedback, EditFeedbackStatusData } from "../../actions/settings";
+import {
+  getAllFeedback,
+  EditFeedbackStatusData,
+  getTrash,
+} from "../../actions/settings";
 import AddFeedback from "./AddFeedback";
 
 const Trash = ({
   auth: { allUser, isAuthenticated, user, users },
-  settings: { allFeedback },
+  settings: { allFeedback, allDeletedProjects },
   getAllFeedback,
   EditFeedbackStatusData,
+  getTrash,
 }) => {
   useEffect(() => {
     getAllFeedback();
   }, [getAllFeedback]);
+  useEffect(() => {
+    getTrash();
+  }, [getTrash]);
 
-  console.log(user);
+  console.log(allDeletedProjects);
   const [formData, setFormData] = useState({
     feedbackpriority: "",
     projectStatusCategory: "",
@@ -108,6 +116,7 @@ Trash.propTypes = {
   settings: PropTypes.object.isRequired,
   getAllFeedback: PropTypes.func.isRequired,
   EditFeedbackStatusData: PropTypes.func.isRequired,
+  getTrash: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -117,4 +126,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getAllFeedback,
   EditFeedbackStatusData,
+  getTrash,
 })(Trash);

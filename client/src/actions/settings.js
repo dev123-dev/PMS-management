@@ -11,6 +11,7 @@ import {
   ACTIVE_MENUS,
   ALL_RIGHTS,
   ALL_FEEDBACK,
+  ALL_DELETED_PROJECTS,
 } from "./types";
 
 const config = {
@@ -357,6 +358,20 @@ export const getAllFeedback = (finalData) => async (dispatch) => {
     const res = await axios.post("/api/settings/get-all-feedback", finalData);
     dispatch({
       type: ALL_FEEDBACK,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getTrash = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/settings/get-deleted-projects");
+    dispatch({
+      type: ALL_DELETED_PROJECTS,
       payload: res.data,
     });
   } catch (err) {

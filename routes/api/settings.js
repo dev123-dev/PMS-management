@@ -9,6 +9,7 @@ const Department = require("../../models/Department");
 const Designation = require("../../models/Designation");
 const Menu = require("../../models/Menus");
 const PaymentMode = require("../../models/PaymentMode");
+const Project = require("../../models/Project");
 const Rights = require("../../models/Rights");
 const Feedback = require("../../models/feedback");
 
@@ -344,6 +345,20 @@ router.post("/get-all-feedback", async (req, res) => {
   try {
     const allFeedback = await Feedback.find(query);
     res.json(allFeedback);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.get("/get-deleted-projects", async (req, res) => {
+  try {
+    const deleteProjects = await Project.find({
+      projectStatus: {
+        $eq: "Delete",
+      },
+    });
+    res.json(deleteProjects);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
