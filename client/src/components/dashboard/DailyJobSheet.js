@@ -654,7 +654,7 @@ const DailyJobSheet = ({
                                             dailyJobsheetProjects
                                           )
                                         }
-                                        src={require("../../static/images/orange.png")}
+                                        src={require("../../static/images/blue.png")}
                                         alt="Last change"
                                         title="Last change"
                                       />
@@ -728,7 +728,7 @@ const DailyJobSheet = ({
                                         onClick={() =>
                                           onhistory(dailyJobsheetProjects, idx)
                                         }
-                                        src={require("../../static/images/orange.png")}
+                                        src={require("../../static/images/blue.png")}
                                         alt="Last change"
                                         title="Last change"
                                       />
