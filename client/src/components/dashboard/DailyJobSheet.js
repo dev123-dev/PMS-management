@@ -659,6 +659,7 @@ const DailyJobSheet = ({
                                         title="Last change"
                                       />
                                       <Link
+                                        className="float-left ml-3"
                                         to="#"
                                         onClick={() =>
                                           onnotes(dailyJobsheetProjects, idx)
