@@ -500,23 +500,17 @@ const JobQueue = ({
                                       alt="Last change"
                                       title="Last change"
                                     />
-                                    <Link
-                                      className="float-left ml-3"
-                                      to="#"
-                                      onClick={() =>
-                                        onnotes(jobQueueProjects, idx)
-                                      }
-                                    >
-                                      {jobQueueProjects.projectName}
-                                    </Link>
                                   </>
                                 ) : (
-                                  <>
-                                    <label>
-                                      {jobQueueProjects.projectName}
-                                    </label>
-                                  </>
+                                  <></>
                                 )}
+                                <Link
+                                  className="float-left ml-3"
+                                  to="#"
+                                  onClick={() => onnotes(jobQueueProjects, idx)}
+                                >
+                                  {jobQueueProjects.projectName}
+                                </Link>
                               </td>
                               <td>
                                 {
