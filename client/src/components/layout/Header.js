@@ -179,6 +179,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                             <li>
                               <Link to="/change-password">Change Password</Link>
                             </li>
+                            <li>
+                              <Link to="/all-trash">Trash</Link>
+                            </li>
                           </Fragment>
                         ) : (
                           <></>
