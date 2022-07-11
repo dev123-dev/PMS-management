@@ -321,7 +321,7 @@ router.post("/get-job-queue-project-details", async (req, res) => {
       },
       { $unwind: "$output" },
       { $match: query },
-      { $sort: { projectStatusType: 1 } },
+      { $sort: { "output._id": 1 } },
     ]);
     res.json(getJobQueueDetails);
   } catch (err) {
