@@ -23,16 +23,17 @@ const AllFeedback = ({
     { value: "Done", label: "Done" },
     { value: "Cancel", label: "Cancel" },
   ];
-  console.log(user);
+
   const [formData, setFormData] = useState({
     feedbackpriority: "",
-
+    projectStatusCategory: "",
+    projectStatusData: priorityCategory[0],
     isSubmitted: false,
   });
-  const onInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-  const { feedbackpriority, projectStatusDeactiveReason } = formData;
+  // const onInputChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
+  const { projectStatusData } = formData;
 
   const [showAddfeedbackModal, setShowAddFeedbackModal] = useState(false);
   const handleAddFeedbackModalClose = () => setShowAddFeedbackModal(false);
@@ -60,13 +61,28 @@ const AllFeedback = ({
     setUserDatas(paymentMode);
   };
 
-  const onfeedbackpriorityChange = (e) => {
+  // const onfeedbackpriorityChange = (e) => {
+  //   if (e) {
+  //     setFormData({
+  //       ...formData,
+  //       feedbackpriority: e,
+  //     });
+  //   }
+  // };
+
+  const onStatuscatChange1 = (e) => {
     if (e) {
       setFormData({
         ...formData,
-        feedbackpriority: e,
+        projectStatusData: e,
       });
     }
+    // setstatusData(e);
+    const finalData = {
+      feedbackStatus: e.value,
+    };
+    console.log(finalData);
+    getAllFeedback(finalData);
   };
 
   const [showStatusModal, setShowStatusModal] = useState(false);
@@ -101,10 +117,30 @@ const AllFeedback = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className="col-lg-5 col-md-11 col-sm-10 col-10">
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All FeedBacks</h5>
             </div>
-            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+              <Select
+                name="projectStatusData"
+                options={priorityCategory}
+                isSearchable={true}
+                value={projectStatusData}
+                placeholder="Select Status Category"
+                onChange={(e) => onStatuscatChange1(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
+            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-3">
               <Link
                 to="#"
                 className="btn btn_green_bg float-right"

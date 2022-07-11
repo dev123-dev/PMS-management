@@ -352,9 +352,9 @@ export const getAllRights = () => async (dispatch) => {
   }
 };
 
-export const getAllFeedback = () => async (dispatch) => {
+export const getAllFeedback = (finalData) => async (dispatch) => {
   try {
-    const res = await axios.get("/api/settings/get-all-feedback");
+    const res = await axios.get("/api/settings/get-all-feedback", finalData);
     dispatch({
       type: ALL_FEEDBACK,
       payload: res.data,
