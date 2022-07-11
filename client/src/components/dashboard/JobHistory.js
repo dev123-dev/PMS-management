@@ -62,68 +62,44 @@ const JobHistory = ({
     });
   }
 
-  const onInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const finalData = {
-      recordId: allProjectdata ? allProjectdata._id : "",
-    };
-
-    // console.log(finalData);
-    editDepartment(finalData);
-    onEditModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // getStateData("");
-  };
-
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
     <Fragment>
-      <form onSubmit={(e) => onSubmit(e)}>
-        <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-            <label className="label-control">
-              Project Name : <strong> {projectName}</strong>
-            </label>
-          </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-            <label className="label-control">
-              Last Changed By : <strong>{projectEnteredByName}</strong>
-            </label>
-          </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-            <label className="label-control">
-              Date&Time :{" "}
-              <strong>
-                {new Date(projectEnteredDateTime).toLocaleString("en-GB")}
-              </strong>
-            </label>
-          </div>
-
-          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> Notes : </label>
-            <textarea
-              name="clientAddress"
-              id="clientAddress"
-              className="textarea form-control"
-              rows="3"
-              style={{ width: "100%" }}
-              onChange={(e) => onInputChange(e)}
-              readOnly
-            >
-              {projectTrackLatestChange}
-            </textarea>
-          </div>
+      <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
+        <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <label className="label-control">
+            Project Name : <strong> {projectName}</strong>
+          </label>
         </div>
-      </form>
+        <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <label className="label-control">
+            Last Changed By : <strong>{projectEnteredByName}</strong>
+          </label>
+        </div>
+        <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <label className="label-control">
+            Date&Time :{" "}
+            <strong>
+              {new Date(projectEnteredDateTime).toLocaleString("en-GB")}
+            </strong>
+          </label>
+        </div>
+
+        <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+          <label className="label-control"> Notes : </label>
+          <textarea
+            name="clientAddress"
+            id="clientAddress"
+            className="textarea form-control"
+            rows="3"
+            style={{ width: "100%" }}
+            readOnly
+          >
+            {projectTrackLatestChange}
+          </textarea>
+        </div>
+      </div>
     </Fragment>
   );
 };
