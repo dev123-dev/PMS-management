@@ -214,6 +214,20 @@ const AllFeedback = ({
                               user.designationName === "Super Admin" ? (
                                 <td>
                                   <Select
+                                    styles={{
+                                      control: (base) => ({
+                                        ...base,
+                                        background: "#456792",
+                                      }),
+                                      singleValue: (base) => ({
+                                        ...base,
+                                        color: "#fff",
+                                      }),
+                                      input: (base) => ({
+                                        ...base,
+                                        color: "#fff",
+                                      }),
+                                    }}
                                     name="projectStatusData"
                                     value={{
                                       label: allFeedback.feedbackStatus,
