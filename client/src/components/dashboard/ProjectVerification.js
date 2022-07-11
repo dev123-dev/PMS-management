@@ -185,7 +185,7 @@ const ProjectVerification = ({
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
-                    className="table table-bordered table-striped table-hover"
+                    className="table table-bordered table-striped table-hover smll_row"
                     id="datatable2"
                   >
                     <thead>
