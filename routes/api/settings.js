@@ -323,9 +323,26 @@ router.get("/get-all-rights", async (req, res) => {
   }
 });
 
-router.get("/get-all-feedback", async (req, res) => {
+router.post("/get-all-feedback", async (req, res) => {
+  let { feedbackStatus } = req.body;
+
+  let query = {};
+  if (feedbackStatus) {
+    query = {
+      feedbackStatus: {
+        $eq: feedbackStatus,
+      },
+    };
+  } else {
+    query = {
+      feedbackStatus: {
+        $eq: "Pending",
+      },
+    };
+  }
+
   try {
-    const allFeedback = await Feedback.find({ feedbackStatus: "Pending" });
+    const allFeedback = await Feedback.find(query);
     res.json(allFeedback);
   } catch (err) {
     console.error(err.message);

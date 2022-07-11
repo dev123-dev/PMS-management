@@ -77,11 +77,11 @@ const AllFeedback = ({
         projectStatusData: e,
       });
     }
-    // setstatusData(e);
+
     const finalData = {
       feedbackStatus: e.value,
     };
-    console.log(finalData);
+
     getAllFeedback(finalData);
   };
 
