@@ -3,11 +3,7 @@ import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import {
-  getAllFeedback,
-  EditFeedbackStatusData,
-  getTrash,
-} from "../../actions/settings";
+import { getTrash } from "../../actions/settings";
 import DeleteProject from "./DeleteProject";
 //client in websocket
 //SLAP IP
@@ -15,9 +11,8 @@ import { w3cwebsocket } from "websocket";
 const client = new w3cwebsocket("ws://192.168.6.159:8000");
 const Trash = ({
   auth: { allUser, isAuthenticated, user, users },
-  settings: { allFeedback, allDeletedProjects },
-  getAllFeedback,
-  EditFeedbackStatusData,
+  settings: { allDeletedProjects },
+
   getTrash,
 }) => {
   useEffect(() => {
@@ -29,9 +24,7 @@ const Trash = ({
       // getUpdatedProjectStausForDailyJobSheet();
     };
   }, []);
-  useEffect(() => {
-    getAllFeedback();
-  }, [getAllFeedback]);
+
   useEffect(() => {
     getTrash();
   }, [getTrash]);
@@ -152,8 +145,6 @@ const Trash = ({
 Trash.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  getAllFeedback: PropTypes.func.isRequired,
-  EditFeedbackStatusData: PropTypes.func.isRequired,
   getTrash: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
@@ -162,7 +153,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getAllFeedback,
-  EditFeedbackStatusData,
   getTrash,
 })(Trash);
