@@ -175,7 +175,7 @@ const AllFeedback = ({
                         )}
                         {user.designationName &&
                         user.designationName === "Super Admin" ? (
-                          <th>Status</th>
+                          <th style={{ width: "12%" }}>Status</th>
                         ) : (
                           <></>
                         )}
