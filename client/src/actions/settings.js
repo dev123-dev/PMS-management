@@ -387,7 +387,7 @@ export const deleteProjectData = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/delete-project-data", finalData, config);
-
+    dispatch(getTrash());
     dispatch({
       type: SET_LOADING_FALSE,
     });
