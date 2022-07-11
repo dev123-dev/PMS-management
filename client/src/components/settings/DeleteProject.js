@@ -39,7 +39,7 @@ const DeleteProject = ({
       projectDeleteById: user._id,
       projectDeleteDateTime: Date.now(),
     };
-    console.log(finalData);
+
     deleteProjectData(finalData);
     onDeactiveModalChange(true);
   };
