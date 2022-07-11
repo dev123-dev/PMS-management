@@ -5,26 +5,12 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { getTrash } from "../../actions/settings";
 import DeleteProject from "./DeleteProject";
-//client in websocket
-//SLAP IP
-import { w3cwebsocket } from "websocket";
-const client = new w3cwebsocket("ws://192.168.6.159:8000");
+
 const Trash = ({
   auth: { allUser, isAuthenticated, user, users },
   settings: { allDeletedProjects },
-
   getTrash,
 }) => {
-  useEffect(() => {
-    client.onopen = () => {
-      console.log("webSocket client connected");
-    };
-    client.onmessage = (message) => {
-      getTrash();
-      // getUpdatedProjectStausForDailyJobSheet();
-    };
-  }, []);
-
   useEffect(() => {
     getTrash();
   }, [getTrash]);
