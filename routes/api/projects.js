@@ -193,7 +193,7 @@ router.post("/deactive-project-data", async (req, res) => {
       { _id: data.recordId },
       {
         $set: {
-          projectStatus: "Delete",
+          projectStatus: "Trash",
           projectDeleteById: data.projectDeleteById,
           projectDeleteDateTime: data.projectDeleteDateTime,
         },

@@ -8,8 +8,11 @@ import {
   EditFeedbackStatusData,
   getTrash,
 } from "../../actions/settings";
-import AddFeedback from "./AddFeedback";
-
+import DeleteProject from "./DeleteProject";
+//client in websocket
+//SLAP IP
+import { w3cwebsocket } from "websocket";
+const client = new w3cwebsocket("ws://192.168.6.159:8000");
 const Trash = ({
   auth: { allUser, isAuthenticated, user, users },
   settings: { allFeedback, allDeletedProjects },
@@ -18,28 +21,33 @@ const Trash = ({
   getTrash,
 }) => {
   useEffect(() => {
+    client.onopen = () => {
+      console.log("webSocket client connected");
+    };
+    client.onmessage = (message) => {
+      getTrash();
+      // getUpdatedProjectStausForDailyJobSheet();
+    };
+  }, []);
+  useEffect(() => {
     getAllFeedback();
   }, [getAllFeedback]);
   useEffect(() => {
     getTrash();
   }, [getTrash]);
 
-  console.log(allDeletedProjects);
-  const [formData, setFormData] = useState({
-    feedbackpriority: "",
-    projectStatusCategory: "",
+  const [ProjDelete, setProjdelete] = useState(null);
+  const onDeactive = (jobQueueProjects, idx) => {
+    setShowDeactiveModal(true);
+    setProjdelete(jobQueueProjects);
+  };
 
-    isSubmitted: false,
-  });
+  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
 
-  const { projectStatusData } = formData;
-
-  const [showAddfeedbackModal, setShowAddFeedbackModal] = useState(false);
-  const handleAddFeedbackModalClose = () => setShowAddFeedbackModal(false);
-
-  const onAddFeedbackModalChange = (e) => {
+  const onDeactiveModalChange = (e) => {
     if (e) {
-      handleAddFeedbackModalClose();
+      handleDeactiveModalClose();
     }
   };
 
@@ -74,6 +82,33 @@ const Trash = ({
                         <th style={{ width: "10%" }}>OP</th>
                       </tr>
                     </thead>
+                    <tbody>
+                      {allDeletedProjects &&
+                        allDeletedProjects.map((allDeletedProjects, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td>{allDeletedProjects.clientName}</td>
+                              <td>{allDeletedProjects.clientFolderName}</td>
+                              <td>{allDeletedProjects.projectName}</td>
+                              <td>{allDeletedProjects.projectDeadline}</td>
+                              <td>{allDeletedProjects.projectQuantity}</td>
+                              <td>{allDeletedProjects.projectStatusType}</td>
+
+                              <td>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() =>
+                                    onDeactive(allDeletedProjects, idx)
+                                  }
+                                  src={require("../../static/images/delete.png")}
+                                  alt="Delete"
+                                  title="Delete"
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>
@@ -81,7 +116,7 @@ const Trash = ({
           </div>
         </section>
         <Modal
-          show={showAddfeedbackModal}
+          show={showDeactiveModal}
           backdrop="static"
           keyboard={false}
           size="md"
@@ -90,10 +125,10 @@ const Trash = ({
         >
           <Modal.Header>
             <div className="col-lg-10">
-              <h3 className="modal-title text-center">Add Feedback</h3>
+              <h3 className="modal-title text-center">Delete Project</h3>
             </div>
             <div className="col-lg-1">
-              <button onClick={handleAddFeedbackModalClose} className="close">
+              <button onClick={handleDeactiveModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
                   alt="X"
@@ -103,7 +138,10 @@ const Trash = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <AddFeedback onAddFeedbackModalChange={onAddFeedbackModalChange} />
+            <DeleteProject
+              onDeactiveModalChange={onDeactiveModalChange}
+              Projectdeletedata={ProjDelete}
+            />
           </Modal.Body>
         </Modal>
       </div>

@@ -380,3 +380,20 @@ export const getTrash = () => async (dispatch) => {
     });
   }
 };
+
+export const deleteProjectData = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/settings/delete-project-data", finalData, config);
+
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};

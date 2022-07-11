@@ -355,13 +355,33 @@ router.get("/get-deleted-projects", async (req, res) => {
   try {
     const deleteProjects = await Project.find({
       projectStatus: {
-        $eq: "Delete",
+        $eq: "Trash",
       },
     });
     res.json(deleteProjects);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/delete-project-data", async (req, res) => {
+  try {
+    let data = req.body;
+
+    const deactiveProject = await Project.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          projectStatus: "Delete",
+          projectDeleteById: data.projectDeleteById,
+          projectDeleteDateTime: data.projectDeleteDateTime,
+        },
+      }
+    );
+    res.json(deactiveProject);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
 
