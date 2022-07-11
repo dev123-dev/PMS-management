@@ -496,7 +496,7 @@ const JobQueue = ({
                                           jobQueueProjects
                                         )
                                       }
-                                      src={require("../../static/images/blue.png")}
+                                      src={require("../../static/images/colortheme.png")}
                                       alt="Last change"
                                       title="Last change"
                                     />
@@ -570,7 +570,7 @@ const JobQueue = ({
                                       onClick={() =>
                                         onhistory(jobQueueProjects, idx)
                                       }
-                                      src={require("../../static/images/blue.png")}
+                                      src={require("../../static/images/colortheme.png")}
                                       alt="Last change"
                                       title="Last change"
                                     />

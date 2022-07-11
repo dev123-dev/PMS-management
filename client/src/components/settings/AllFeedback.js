@@ -23,7 +23,7 @@ const AllFeedback = ({
     { value: "Done", label: "Done" },
     { value: "Cancel", label: "Cancel" },
   ];
-
+  console.log(user);
   const [formData, setFormData] = useState({
     feedbackpriority: "",
     projectStatusCategory: "",
@@ -167,8 +167,9 @@ const AllFeedback = ({
                         <th>Priority</th>
 
                         <th>Notes</th>
-                        {user.userGroupName &&
-                        user.userGroupName === "Administrator" ? (
+                        {(user.userGroupName &&
+                          user.userGroupName === "Administrator") ||
+                        user.userGroupName === "Super Admin" ? (
                           <th>OP</th>
                         ) : (
                           <></>
@@ -193,8 +194,9 @@ const AllFeedback = ({
                               <td>{allFeedback.feedbackPriority}</td>
 
                               <td>{allFeedback.feedbackNotes}</td>
-                              {user.userGroupName &&
-                              user.userGroupName === "Administrator" ? (
+                              {(user.userGroupName &&
+                                user.userGroupName === "Administrator") ||
+                              user.userGroupName === "Super Admin" ? (
                                 <td>
                                   <img
                                     className="img_icon_size log"
