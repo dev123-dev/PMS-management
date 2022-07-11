@@ -404,7 +404,7 @@ const JobQueue = ({
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
-                    className="table table-bordered table-striped table-hover"
+                    className="table table-bordered table-striped table-hover smll_row"
                     id="datatable2"
                   >
                     <thead>
@@ -419,21 +419,22 @@ const JobQueue = ({
                         )}
                         <th style={{ width: "6%" }}>Folder </th>
                         <th style={{ width: "25%" }}>Project Name</th>
-                        <th style={{ width: "10%" }}>Queue Duration</th>
+                        <th style={{ width: "12%" }}>Queue Duration</th>
                         <th style={{ width: "10%" }}>Estimated Time</th>
                         <th style={{ width: "10%" }}>Job Time</th>
-                        <th style={{ width: "2%" }}>Priority</th>
+                        {/* <th style={{ width: "2%" }}>Priority</th> */}
                         <th style={{ width: "2%" }}>Deadline</th>
-                        <th style={{ width: "2%" }}>Qty</th>
+                        <th style={{ width: "3%" }}>Qty</th>
                         <th style={{ width: "13%" }}>Status</th>
-                        <th style={{ width: "5%" }}>Latest Change</th>
-                        <th style={{ width: "5%" }}>Job Notes</th>
+                        {/* <th style={{ width: "5%" }}>Latest Change</th>
+                        <th style={{ width: "5%" }}>Job Notes</th> */}
                         {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ||
                         user.userGroupName === "Clarical Admins" ||
-                        user.userGroupName === "Quality Controller" ? (
+                        user.userGroupName === "Quality Controller" ||
+                        user.userGroupName === "Distributors" ? (
                           <th style={{ width: "10%" }}>OP</th>
                         ) : (
                           <></>
@@ -478,23 +479,37 @@ const JobQueue = ({
                               ) : (
                                 <></>
                               )}
-                              <td>{jobQueueProjects.clientFolderName}</td>
+                              <td>
+                                <b>{jobQueueProjects.clientFolderName}</b>
+                              </td>
                               <td>
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
                                 user.userGroupName === "Super Admin" ||
                                 user.userGroupName === "Clarical Admins" ? (
-                                  <Link
-                                    to="#"
-                                    onClick={() =>
-                                      handleGoToAllLatestChange(
-                                        jobQueueProjects
-                                      )
-                                    }
-                                  >
-                                    {jobQueueProjects.projectName}
-                                  </Link>
+                                  <>
+                                    <img
+                                      className="img_icon_size log float-left "
+                                      onClick={() =>
+                                        handleGoToAllLatestChange(
+                                          jobQueueProjects
+                                        )
+                                      }
+                                      src={require("../../static/images/orange.png")}
+                                      alt="Last change"
+                                      title="Last change"
+                                    />
+                                    <Link
+                                      className="float-left ml-3"
+                                      to="#"
+                                      onClick={() =>
+                                        onnotes(jobQueueProjects, idx)
+                                      }
+                                    >
+                                      {jobQueueProjects.projectName}
+                                    </Link>
+                                  </>
                                 ) : (
                                   <>
                                     <label>
@@ -532,7 +547,7 @@ const JobQueue = ({
                                   </span>
                                 )}
                               </td>
-                              <td>{jobQueueProjects.projectPriority}</td>
+                              {/* <td>{jobQueueProjects.projectPriority}</td> */}
                               <td>{jobQueueProjects.projectDeadline}</td>
                               <td>
                                 {jobQueueProjects.projectQuantity}&nbsp;
@@ -549,43 +564,47 @@ const JobQueue = ({
                                 user.userGroupName === "Clarical Admins" ||
                                 user.userGroupName === "Quality Controller" ||
                                 user.userGroupName === "Distributors" ? (
-                                  <Select
-                                    styles={{
-                                      // ...styles,
-                                      // control: (base, state) => ({
-                                      //   ...base,
-                                      //   "&:hover": { borderColor: "#456792" }, // border style on hover
-                                      //   border: " 2px solid #456792", // default border color
+                                  <>
+                                    <img
+                                      className="img_icon_size log float-left mt-2"
+                                      onClick={() =>
+                                        onhistory(jobQueueProjects, idx)
+                                      }
+                                      src={require("../../static/images/orange.png")}
+                                      alt="Last change"
+                                      title="Last change"
+                                    />
 
-                                      //   color: "#456792",
-                                      //   background: "#456792",
-                                      //   boxShadow: "none",
-
-                                      // }),
-
-                                      control: (base) => ({
-                                        ...base,
-                                        background: "#456792",
-                                      }),
-                                      singleValue: (base) => ({
-                                        ...base,
-                                        color: "#fff",
-                                      }),
-                                      input: (base) => ({
-                                        ...base,
-                                        color: "#fff",
-                                      }),
-                                    }}
-                                    name="projectStatusData"
-                                    value={{
-                                      label: jobQueueProjects.projectStatusType,
-                                      value: jobQueueProjects.projectStatusId,
-                                    }}
-                                    options={projectStatusOpt}
-                                    isSearchable={true}
-                                    placeholder="Select"
-                                    onChange={onSliderChange(jobQueueProjects)}
-                                  />
+                                    <Select
+                                      className="ml-4"
+                                      styles={{
+                                        control: (base) => ({
+                                          ...base,
+                                          background: "#456792",
+                                        }),
+                                        singleValue: (base) => ({
+                                          ...base,
+                                          color: "#fff",
+                                        }),
+                                        input: (base) => ({
+                                          ...base,
+                                          color: "#fff",
+                                        }),
+                                      }}
+                                      name="projectStatusData"
+                                      value={{
+                                        label:
+                                          jobQueueProjects.projectStatusType,
+                                        value: jobQueueProjects.projectStatusId,
+                                      }}
+                                      options={projectStatusOpt}
+                                      isSearchable={true}
+                                      placeholder="Select"
+                                      onChange={onSliderChange(
+                                        jobQueueProjects
+                                      )}
+                                    />
+                                  </>
                                 ) : (
                                   <>
                                     <label>
@@ -594,7 +613,7 @@ const JobQueue = ({
                                   </>
                                 )}
                               </td>
-                              <td>
+                              {/* <td>
                                 {" "}
                                 <Link
                                   to="#"
@@ -615,13 +634,14 @@ const JobQueue = ({
                                 >
                                   Notes
                                 </Link>
-                              </td>
+                              </td> */}
                               {/* SLAP UserGroupRights */}
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
                               user.userGroupName === "Super Admin" ||
                               user.userGroupName === "Clarical Admins" ||
-                              user.userGroupName === "Quality Controller" ? (
+                              user.userGroupName === "Quality Controller" ||
+                              user.userGroupName === "Distributors" ? (
                                 <td>
                                   {(user.userGroupName &&
                                     user.userGroupName === "Administrator") ||

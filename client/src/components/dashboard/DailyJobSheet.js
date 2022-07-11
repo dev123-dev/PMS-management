@@ -572,15 +572,15 @@ const DailyJobSheet = ({
                         )}
                         <th style={{ width: "5%" }}>Folder</th>
                         <th style={{ width: "10%" }}>Project Name</th>
-                        <th style={{ width: "10%" }}>Queue Duration</th>
+                        <th style={{ width: "12%" }}>Queue Duration</th>
                         <th style={{ width: "10%" }}>Estimated Time</th>
                         <th style={{ width: "10%" }}>Job Time</th>
-                        <th style={{ width: "2%" }}>Priority</th>
+                        {/* <th style={{ width: "2%" }}>Priority</th> */}
                         <th style={{ width: "2%" }}>Deadline</th>
-                        <th style={{ width: "2%" }}>Qty</th>
+                        <th style={{ width: "3%" }}>Qty</th>
                         <th style={{ width: "13%" }}>Status</th>
-                        <th style={{ width: "10%" }}>Latest Change</th>
-                        <th style={{ width: "10%" }}>Job Notes</th>
+                        {/* <th style={{ width: "10%" }}>Latest Change</th>
+                        <th style={{ width: "10%" }}>Job Notes</th> */}
                         {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
@@ -646,20 +646,33 @@ const DailyJobSheet = ({
                                     user.userGroupName === "Administrator") ||
                                   user.userGroupName === "Super Admin" ||
                                   user.userGroupName === "Clarical Admins" ? (
-                                    <Link
-                                      to="#"
-                                      onClick={() =>
-                                        handleGoToAllLatestChange(
-                                          dailyJobsheetProjects
-                                        )
-                                      }
-                                    >
-                                      {dailyJobsheetProjects.projectName}
-                                    </Link>
+                                    <>
+                                      <img
+                                        className="img_icon_size log float-left "
+                                        onClick={() =>
+                                          handleGoToAllLatestChange(
+                                            dailyJobsheetProjects
+                                          )
+                                        }
+                                        src={require("../../static/images/orange.png")}
+                                        alt="Last change"
+                                        title="Last change"
+                                      />
+                                      <Link
+                                        to="#"
+                                        onClick={() =>
+                                          onnotes(dailyJobsheetProjects, idx)
+                                        }
+                                      >
+                                        {dailyJobsheetProjects.projectName}
+                                      </Link>
+                                    </>
                                   ) : (
                                     <>
                                       <label>
-                                        {dailyJobsheetProjects.projectName}
+                                        <b>
+                                          {dailyJobsheetProjects.projectName}
+                                        </b>
                                       </label>
                                     </>
                                   )}
@@ -693,7 +706,7 @@ const DailyJobSheet = ({
                                     </span>
                                   )}
                                 </td>
-                                <td>{dailyJobsheetProjects.projectPriority}</td>
+                                {/* <td>{dailyJobsheetProjects.projectPriority}</td> */}
                                 <td>{dailyJobsheetProjects.projectDeadline}</td>
                                 <td>
                                   {dailyJobsheetProjects.projectQuantity}&nbsp;
@@ -709,47 +722,47 @@ const DailyJobSheet = ({
                                     user.userGroupName === "Administrator") ||
                                   user.userGroupName === "Super Admin" ||
                                   user.userGroupName === "Clarical Admins" ? (
-                                    <Select
-                                      styles={{
-                                        // ...styles,
-                                        // control: (base, state) => ({
-                                        //   ...base,
-                                        //   "&:hover": { borderColor: "#456792" }, // border style on hover
-                                        //   border: " 2px solid #456792", // default border color
-
-                                        //   color: "#456792",
-                                        //   background: "#456792",
-                                        //   boxShadow: "none",
-
-                                        // }),
-
-                                        control: (base) => ({
-                                          ...base,
-                                          background: "#456792",
-                                        }),
-                                        singleValue: (base) => ({
-                                          ...base,
-                                          color: "#fff",
-                                        }),
-                                        input: (base) => ({
-                                          ...base,
-                                          color: "#fff",
-                                        }),
-                                      }}
-                                      name="projectStatusData"
-                                      value={{
-                                        label:
-                                          dailyJobsheetProjects.projectStatusType,
-                                        value:
-                                          dailyJobsheetProjects.projectStatusId,
-                                      }}
-                                      options={projectStatusOpt}
-                                      isSearchable={true}
-                                      placeholder="Select"
-                                      onChange={onSliderChange(
-                                        dailyJobsheetProjects
-                                      )}
-                                    />
+                                    <>
+                                      <img
+                                        className="img_icon_size log float-left mt-2"
+                                        onClick={() =>
+                                          onhistory(dailyJobsheetProjects, idx)
+                                        }
+                                        src={require("../../static/images/orange.png")}
+                                        alt="Last change"
+                                        title="Last change"
+                                      />
+                                      <Select
+                                        className="ml-4"
+                                        styles={{
+                                          control: (base) => ({
+                                            ...base,
+                                            background: "#456792",
+                                          }),
+                                          singleValue: (base) => ({
+                                            ...base,
+                                            color: "#fff",
+                                          }),
+                                          input: (base) => ({
+                                            ...base,
+                                            color: "#fff",
+                                          }),
+                                        }}
+                                        name="projectStatusData"
+                                        value={{
+                                          label:
+                                            dailyJobsheetProjects.projectStatusType,
+                                          value:
+                                            dailyJobsheetProjects.projectStatusId,
+                                        }}
+                                        options={projectStatusOpt}
+                                        isSearchable={true}
+                                        placeholder="Select"
+                                        onChange={onSliderChange(
+                                          dailyJobsheetProjects
+                                        )}
+                                      />
+                                    </>
                                   ) : (
                                     <>
                                       <label>
@@ -760,7 +773,7 @@ const DailyJobSheet = ({
                                     </>
                                   )}
                                 </td>
-                                <td>
+                                {/* <td>
                                   <Link
                                     to="#"
                                     className="btnLink"
@@ -770,8 +783,8 @@ const DailyJobSheet = ({
                                   >
                                     {dailyJobsheetProjects.projectStatusType}
                                   </Link>
-                                </td>
-                                <td>
+                                </td> */}
+                                {/* <td>
                                   <Link
                                     to="#"
                                     className="btnLink"
@@ -781,7 +794,7 @@ const DailyJobSheet = ({
                                   >
                                     Notes
                                   </Link>
-                                </td>
+                                </td> */}
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
