@@ -789,7 +789,13 @@ label {
 
 .fixTableHead {
   overflow-y: auto;
-  height: 74vh;
+  height:80vh;
+}
+
+
+.smll_row td,.smll_row th{
+  padding: 0.15rem !important;
+  vertical-align: middle !important;
 }
 
 @media (min-width: 992px) {
