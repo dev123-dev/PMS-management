@@ -26,7 +26,7 @@ import { w3cwebsocket } from "websocket";
 import DeactiveProject from "./DeactiveProject";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.159:8000");
+const client = new w3cwebsocket("ws://192.168.6.128:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -220,6 +220,8 @@ const JobQueue = ({
     const finalData = {
       projectId: jobQueueProjects._id,
     };
+    localStorage.removeItem("getLatestChangesDetails");
+    // console.log("finalDataView", finalData);
     getLatestChanges(finalData);
     setshowhistoryModal(true);
     setUserDatas1(jobQueueProjects);
