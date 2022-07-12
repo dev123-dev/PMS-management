@@ -31,17 +31,17 @@ const Trash = ({
     }
   };
 
-  const [showAddfeedbackModal, setShowAddFeedbackModal] = useState(false);
-  const handleAddFeedbackModalClose = () => setShowAddFeedbackModal(false);
+  const [showRestoreModal, setShowRestoreModal] = useState(false);
+  const handleRestoreModalClose = () => setShowRestoreModal(false);
   const [ProjRestore, setProjRestore] = useState(null);
   const onClickHandler = (allDeletedProjects, idx) => {
     setProjRestore(allDeletedProjects);
-    setShowAddFeedbackModal(true);
+    setShowRestoreModal(true);
   };
 
-  const onAddFeedbackModalChange = (e) => {
+  const onRestoreModalChange = (e) => {
     if (e) {
-      handleAddFeedbackModalClose();
+      handleRestoreModalClose();
     }
   };
 
@@ -56,7 +56,7 @@ const Trash = ({
     };
 
     restoreProjectData(finalData);
-    onAddFeedbackModalChange(true);
+    onRestoreModalChange(true);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -163,7 +163,7 @@ const Trash = ({
         </Modal>
 
         <Modal
-          show={showAddfeedbackModal}
+          show={showRestoreModal}
           backdrop="static"
           keyboard={false}
           size="md"
@@ -175,7 +175,7 @@ const Trash = ({
               <h3 className="modal-title text-center">Restore</h3>
             </div>
             <div className="col-lg-1">
-              <button onClick={handleAddFeedbackModalClose} className="close">
+              <button onClick={handleRestoreModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
                   alt="X"
@@ -201,7 +201,7 @@ const Trash = ({
                   <Link
                     to="#"
                     className="btn sub_form btn_continue blackbrd float-right"
-                    onClick={() => onAddFeedbackModalChange(true)}
+                    onClick={() => onRestoreModalChange(true)}
                   >
                     Cancel
                   </Link>
