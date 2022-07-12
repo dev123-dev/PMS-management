@@ -3,22 +3,23 @@ import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getTrash } from "../../actions/settings";
+import { getTrash, restoreProjectData } from "../../actions/settings";
 import DeleteProject from "./DeleteProject";
-
+import { Link } from "react-router-dom";
 const Trash = ({
   auth: { allUser, isAuthenticated, user, users },
   settings: { allDeletedProjects },
   getTrash,
+  restoreProjectData,
 }) => {
   useEffect(() => {
     getTrash();
   }, [getTrash]);
 
   const [ProjDelete, setProjdelete] = useState(null);
-  const onDeactive = (jobQueueProjects, idx) => {
+  const onDeactive = (allDeletedProjects, idx) => {
     setShowDeactiveModal(true);
-    setProjdelete(jobQueueProjects);
+    setProjdelete(allDeletedProjects);
   };
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
@@ -30,6 +31,33 @@ const Trash = ({
     }
   };
 
+  const [showAddfeedbackModal, setShowAddFeedbackModal] = useState(false);
+  const handleAddFeedbackModalClose = () => setShowAddFeedbackModal(false);
+  const [ProjRestore, setProjRestore] = useState(null);
+  const onClickHandler = (allDeletedProjects, idx) => {
+    setProjRestore(allDeletedProjects);
+    setShowAddFeedbackModal(true);
+  };
+
+  const onAddFeedbackModalChange = (e) => {
+    if (e) {
+      handleAddFeedbackModalClose();
+    }
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const finalData = {
+      recordId: ProjRestore ? ProjRestore._id : "",
+      projectEditedById: user._id,
+      projectEditedDateTime: Date.now(),
+      projectDeleteById: null,
+      projectDeleteDateTime: null,
+    };
+
+    restoreProjectData(finalData);
+    onAddFeedbackModalChange(true);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -83,6 +111,16 @@ const Trash = ({
                                   alt="Delete"
                                   title="Delete"
                                 />
+
+                                <Link
+                                  to="#"
+                                  className="btn btn_green_bg ml-2"
+                                  onClick={() =>
+                                    onClickHandler(allDeletedProjects, idx)
+                                  }
+                                >
+                                  Restore
+                                </Link>
                               </td>
                             </tr>
                           );
@@ -123,6 +161,55 @@ const Trash = ({
             />
           </Modal.Body>
         </Modal>
+
+        <Modal
+          show={showAddfeedbackModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">Restore</h3>
+            </div>
+            <div className="col-lg-1">
+              <button onClick={handleAddFeedbackModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <form onSubmit={(e) => onSubmit(e)}>
+              <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
+                <>
+                  <label className="label-control colorRed">
+                    Are you sure you want Restore this Project?
+                  </label>
+                  <br />
+                  <input
+                    type="submit"
+                    name="Submit"
+                    value="Submit"
+                    className="btn sub_form btn_continue blackbrd Save float-right"
+                  />
+                  <Link
+                    to="#"
+                    className="btn sub_form btn_continue blackbrd float-right"
+                    onClick={() => onAddFeedbackModalChange(true)}
+                  >
+                    Cancel
+                  </Link>
+                </>
+              </div>
+            </form>
+          </Modal.Body>
+        </Modal>
       </div>
     </Fragment>
   );
@@ -132,6 +219,7 @@ Trash.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   getTrash: PropTypes.func.isRequired,
+  restoreProjectData: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -140,4 +228,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getTrash,
+  restoreProjectData,
 })(Trash);

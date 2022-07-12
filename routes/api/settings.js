@@ -385,4 +385,26 @@ router.post("/delete-project-data", async (req, res) => {
   }
 });
 
+router.post("/restore-project-data", async (req, res) => {
+  try {
+    let data = req.body;
+
+    const deactiveProject = await Project.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          projectStatus: "Active",
+          projectEditedById: data.projectEditedById,
+          projectEditedDateTime: data.projectEditedDateTime,
+          projectDeleteById: data.projectDeleteById,
+          projectDeleteDateTime: data.projectDeleteDateTime,
+        },
+      }
+    );
+    res.json(deactiveProject);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 module.exports = router;

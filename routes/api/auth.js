@@ -202,7 +202,6 @@ router.post(
 
 router.post("/logout-done", auth, async (req, res) => {
   try {
-    console.log(req.user.id);
     await EmployeeDetails.updateOne(
       { _id: req.user.id },
       { $set: { empLoginStatus: 0 } }

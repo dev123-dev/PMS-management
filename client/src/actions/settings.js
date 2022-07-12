@@ -397,3 +397,20 @@ export const deleteProjectData = (finalData) => async (dispatch) => {
     });
   }
 };
+
+export const restoreProjectData = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/settings/restore-project-data", finalData, config);
+    dispatch(getTrash());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
