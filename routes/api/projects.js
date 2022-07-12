@@ -410,7 +410,20 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
   }
   // get-dailyjobsheet-client
   try {
-    const getDailyJobSheetDetails = await Project.find(query);
+    // const getDailyJobSheetDetails = await Project.find(query);
+    const getDailyJobSheetDetails = await Project.aggregate([
+      {
+        $lookup: {
+          from: "projectstatuses",
+          localField: "projectStatusId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $unwind: "$output" },
+      { $match: query },
+      { $sort: { "output._id": 1 } },
+    ]);
     res.json(getDailyJobSheetDetails);
   } catch (err) {
     console.error(err.message);
