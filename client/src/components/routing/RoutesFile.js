@@ -14,6 +14,7 @@ import ChangeProjectLifeCycle from "../dashboard/ChangeProjectLifeCycle";
 import AllLatestChange from "../dashboard/AllLatestChange";
 import Chat from "../../pages/Chat";
 import ProjectVerification from "../dashboard/ProjectVerification";
+import Amendments from "../dashboard/Amendments";
 
 // staff
 import AddEmployeeDetails from "../staffs/AddEmployeeDetails";
@@ -61,6 +62,7 @@ const RoutesFile = () => {
           path="/job-verification"
           component={ProjectVerification}
         />
+        <PrivateRoute exact path="/all-Amendments" component={Amendments} />
 
         <PrivateRoute exact path="/add-project" component={AddProject} />
         <PrivateRoute

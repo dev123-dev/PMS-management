@@ -112,6 +112,23 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     user.userGroupName === "Administrator") ||
                     user.userGroupName === "Super Admin") ? (
                     <NavLink
+                      to="/all-Amendments"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Amendments
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
+                <NavItem>
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
+                    <NavLink
                       to="/job-verification"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
