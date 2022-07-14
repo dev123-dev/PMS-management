@@ -117,8 +117,7 @@ const Amendments = ({
   const onEdit = (e) => {
     setShowHistoryModal(true);
     const finalData = {
-      recordId: ProjRestore ? ProjRestore._id : "",
-      projectName: ProjRestore.projectName,
+      projectId: ProjRestore ? ProjRestore._id : "",
     };
     setUserData(finalData);
   };
