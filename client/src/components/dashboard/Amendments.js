@@ -96,7 +96,7 @@ const Amendments = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      recordId: ProjRestore ? ProjRestore._id : "",
+      projectId: ProjRestore ? ProjRestore._id : "",
       projectName: ProjRestore.projectName,
       discussionPoints: discussionPoints,
       amendmentType: radiodata,
