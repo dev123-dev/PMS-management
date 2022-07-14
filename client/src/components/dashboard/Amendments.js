@@ -62,14 +62,14 @@ const Amendments = ({
   const onClickHandler = (amendmentProjects, idx) => {
     setShowHide({
       ...showHide,
-      showChequenoSection: true,
+      showhistory_submitSection: true,
     });
     setProjRestore(amendmentProjects);
   };
   const [showHide, setShowHide] = useState({
-    showChequenoSection: false,
+    showhistory_submitSection: false,
   });
-  const { showChequenoSection } = showHide;
+  const { showhistory_submitSection } = showHide;
   const onRadioSelect = (radiodata) => {
     if (radiodata === "Resolved") {
       setFormData({
@@ -243,7 +243,7 @@ const Amendments = ({
                         required
                       ></textarea>
                     </div>
-                    {showChequenoSection && (
+                    {showhistory_submitSection && (
                       <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                         <input
                           type="submit"
@@ -259,12 +259,14 @@ const Amendments = ({
 
               <div className="row col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
                 <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
-                  <button
-                    className="btn btn_green_bg float-right"
-                    onClick={() => onEdit(amendmentProjects)}
-                  >
-                    History
-                  </button>
+                  {showhistory_submitSection && (
+                    <button
+                      className="btn btn_green_bg float-right"
+                      onClick={() => onEdit(amendmentProjects)}
+                    >
+                      History
+                    </button>
+                  )}
                 </div>
                 <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                   <label className="label-control">Last Discussion :</label>
