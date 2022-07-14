@@ -7,11 +7,13 @@ import { Link } from "react-router-dom";
 import {
   getAllchanges,
   getAmendmentProjectDeatils,
+  AddAmendmentHistory,
 } from "../../actions/projects";
 const Amendments = ({
   auth: { isAuthenticated, user, users },
   project: { amendmentProjects },
   getAmendmentProjectDeatils,
+  AddAmendmentHistory,
 }) => {
   useEffect(() => {
     getAmendmentProjectDeatils();
@@ -92,11 +94,10 @@ const Amendments = ({
       recordId: ProjRestore ? ProjRestore._id : "",
       projectName: ProjRestore.projectName,
       discussionPoints: discussionPoints,
-
-      radiodata: radiodata,
+      amendmentType: radiodata,
     };
-    console.log(finalData);
-    // restoreProjectData(finalData);
+    // console.log(finalData);
+    AddAmendmentHistory(finalData);
     // onRestoreModalChange(true);
   };
   return !isAuthenticated || !user || !users ? (
@@ -281,6 +282,7 @@ Amendments.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
   getAmendmentProjectDeatils: PropTypes.func.isRequired,
+  AddAmendmentHistory: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -288,6 +290,7 @@ const mapStateToProps = (state) => ({
   settings: state.settings,
 });
 
-export default connect(mapStateToProps, { getAmendmentProjectDeatils })(
-  Amendments
-);
+export default connect(mapStateToProps, {
+  getAmendmentProjectDeatils,
+  AddAmendmentHistory,
+})(Amendments);

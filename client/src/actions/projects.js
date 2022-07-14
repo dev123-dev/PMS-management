@@ -76,7 +76,6 @@ export const addProjectStatus = (finalData) => async (dispatch) => {
 };
 
 export const AddProjectTrack = (finalData) => async (dispatch) => {
-  // console.log("action", finalData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,
@@ -84,6 +83,28 @@ export const AddProjectTrack = (finalData) => async (dispatch) => {
     await axios.post("/api/projects/add-project-track", finalData, config);
     dispatch(getJobQueueProjectDeatils());
     dispatch(getDailyJobsheetProjectDeatils());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const AddAmendmentHistory = (amendmentData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post(
+      "/api/projects/add-amendment-history",
+      amendmentData,
+      config
+    );
+    // dispatch(getJobQueueProjectDeatils());
+    // dispatch(getDailyJobsheetProjectDeatils());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -188,6 +209,7 @@ export const deactiveProjectStatus = (finalData) => async (dispatch) => {
 };
 
 //SELECT
+
 export const getUpdatedProjectStaus = () => async (dispatch) => {
   try {
     dispatch(getJobQueueProjectDeatils());
@@ -305,6 +327,7 @@ export const getDailyJobsheetProjectDeatils =
       // dispatch(getDailyJobsheetProjectDeatils(selDateData));
     }
   };
+
 //verifivation
 export const getverificationProjectDeatils =
   (finalData) => async (dispatch) => {

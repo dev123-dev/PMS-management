@@ -3,13 +3,13 @@ ObjectId = mongoose.Schema.ObjectId;
 
 const AmendmentHistorySchema = new mongoose.Schema({
   amendmentCounter: {
-    type: Number,
+    type: String,
   },
   projectId: {
     type: ObjectId,
   },
   amendmentType: {
-    type: String, //Solved,Resolved
+    type: String, //Resolved,UnResolved
   },
   discussionPoints: {
     type: String,
@@ -22,7 +22,7 @@ const AmendmentHistorySchema = new mongoose.Schema({
   },
   amendmentDateTime: {
     type: Date,
-    default: Date.now().toLocaleString("en-GB"),
+    default: Date.now(),
   },
 });
 

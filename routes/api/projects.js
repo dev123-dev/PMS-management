@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const Project = require("../../models/Project");
 const ProjectStatus = require("../../models/ProjectStatus");
 const ProjectTrack = require("../../models/ProjectTrack");
+const AmendmentHistory = require("../../models/AmendmentHistory");
 const ClientDetails = require("../../models/Client");
 
 //ADD
@@ -60,6 +61,18 @@ router.post("/add-project-track", async (req, res) => {
     );
     let ProjectTrackDetails = new ProjectTrack(data);
     output = await ProjectTrackDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/add-amendment-history", async (req, res) => {
+  let data = req.body;
+  try {
+    let AmendmentHistoryDetails = new AmendmentHistory(data);
+    output = await AmendmentHistoryDetails.save();
     res.send(output);
   } catch (err) {
     console.error(err.message);
@@ -142,6 +155,7 @@ router.post("/verify-project", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
+
 //DEACTIVATE
 router.post("/deactive-project", async (req, res) => {
   try {
