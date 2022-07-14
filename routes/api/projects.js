@@ -639,9 +639,9 @@ router.post("/get-amendment-project-details", async (req, res) => {
     const getAmendmentDetails = await Project.aggregate([
       {
         $lookup: {
-          from: "projectstatuses",
-          localField: "projectStatusId",
-          foreignField: "_id",
+          from: "amendmenthistories",
+          localField: "_id",
+          foreignField: "projectId",
           as: "output",
         },
       },
