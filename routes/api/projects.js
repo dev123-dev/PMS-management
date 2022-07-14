@@ -635,6 +635,20 @@ router.post("/get-latest-change", async (req, res) => {
 });
 
 router.post("/get-amendment-project-details", async (req, res) => {
+  // let data = req.body;
+  const { setTypeData } = req.body;
+  let query = {};
+  if (setTypeData) {
+    query = {
+      projectStatusType: { $eq: "Amendment" },
+      "output.amendmentType": { $eq: setTypeData },
+    };
+  } else {
+    query = {
+      projectStatusType: { $eq: "Amendment" },
+      "output.amendmentType": { $eq: "UnResolved" },
+    };
+  }
   try {
     const getAmendmentDetails = await Project.aggregate([
       {
@@ -645,9 +659,30 @@ router.post("/get-amendment-project-details", async (req, res) => {
           as: "output",
         },
       },
-      { $match: { projectStatusType: { $eq: "Amendment" } } },
+      { $match: query },
     ]);
     res.json(getAmendmentDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-all-amendment-histories", async (req, res) => {
+  const { projectId } = req.body;
+  try {
+    const getAmendmenthistoryDetails = await Project.aggregate([
+      {
+        $lookup: {
+          from: "amendmenthistories",
+          localField: "_id",
+          foreignField: "projectId",
+          as: "output",
+        },
+      },
+      { $match: { projectStatusType: { $eq: "Amendment" } } },
+    ]);
+    res.json(getAmendmenthistoryDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

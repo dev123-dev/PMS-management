@@ -375,9 +375,12 @@ export const getLatestChanges = (finalData) => async (dispatch) => {
   }
 };
 
-export const getAmendmentProjectDeatils = () => async (dispatch) => {
+export const getAmendmentProjectDeatils = (setTypeData) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/projects/get-amendment-project-details");
+    const res = await axios.post(
+      "/api/projects/get-amendment-project-details",
+      setTypeData
+    );
     dispatch({
       type: AMENDMENT_PROJECTS,
       payload: res.data,
