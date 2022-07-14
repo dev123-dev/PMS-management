@@ -113,10 +113,14 @@ const Amendments = ({
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const handleHistoryModalClose = () => setShowHistoryModal(false);
 
-  const [userData, setUserData] = useState(null);
-  const onEdit = (districts, idx) => {
+  const [userData, setUserData] = useState(ProjRestore);
+  const onEdit = (e) => {
     setShowHistoryModal(true);
-    setUserData(districts);
+    const finalData = {
+      recordId: ProjRestore ? ProjRestore._id : "",
+      projectName: ProjRestore.projectName,
+    };
+    setUserData(finalData);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -162,10 +166,7 @@ const Amendments = ({
                         <th style={{ width: "10%" }}>Client Name</th>
                         <th style={{ width: "6%" }}>Folder </th>
                         <th style={{ width: "25%" }}>Project Name</th>
-                        {/* <th style={{ width: "2%" }}>Deadline</th> */}
-                        {/* <th style={{ width: "3%" }}>Qty</th> */}
                         <th style={{ width: "13%" }}>Status</th>
-                        {/* <th style={{ width: "10%" }}>OP</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -188,14 +189,7 @@ const Amendments = ({
                                 <b>{amendmentProjects.clientFolderName}</b>
                               </td>
                               <td>{amendmentProjects.projectName}</td>
-                              {/* <td>{amendmentProjects.projectDeadline}</td> */}
-                              {/* <td>
-                                {amendmentProjects.projectQuantity}&nbsp;
-                                {amendmentProjects.projectUnconfirmed ===
-                                  true && (
-                                  <span style={{ color: "red" }}>*</span>
-                                )}
-                              </td> */}
+
                               <td>{amendmentProjects.projectStatusType}</td>
                             </tr>
                           );
@@ -268,7 +262,7 @@ const Amendments = ({
                 <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                   <button
                     className="btn btn_green_bg float-right"
-                    onClick={() => onEdit()}
+                    onClick={() => onEdit(amendmentProjects)}
                   >
                     History
                   </button>
@@ -316,7 +310,7 @@ const Amendments = ({
         </Modal.Header>
         <Modal.Body>
           <AmendHistory
-            districts={userData}
+            amenddata={userData}
             onHistoryModalChange={onHistoryModalChange}
           />
         </Modal.Body>

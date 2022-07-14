@@ -5,7 +5,11 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import Spinner from "../layout/Spinner";
 
-const AmendHistory = ({ auth: { isAuthenticated, user, users } }) => {
+const AmendHistory = ({
+  auth: { isAuthenticated, user, users },
+  amenddata,
+}) => {
+  console.log(amenddata);
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -13,7 +17,7 @@ const AmendHistory = ({ auth: { isAuthenticated, user, users } }) => {
       <div className="row">
         <div className="col-lg-11 col-md-12 col-sm-12 col-12 text-center">
           <section className="body">
-            <div className=" body-inner no-padding  table-responsive">
+            <div className=" body-inner no-padding table-responsive">
               <table
                 className="table table-bordered table-striped table-hover"
                 id="datatable2"
