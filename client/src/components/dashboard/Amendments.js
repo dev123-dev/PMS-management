@@ -100,9 +100,18 @@ const Amendments = ({
       projectName: ProjRestore.projectName,
       discussionPoints: discussionPoints,
       amendmentType: radiodata,
+      amendmentEnteredById: user._id,
+      amendmentEnteredByName: user.empFullName,
     };
     // console.log(finalData);
     AddAmendmentHistory(finalData);
+    setFormData({
+      ...formData,
+      projectId: "",
+      projectName: "",
+      discussionPoints: "",
+      radiodata: "",
+    });
     // onRestoreModalChange(true);
   };
 

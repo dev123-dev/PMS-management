@@ -20,7 +20,7 @@ const AmendHistory = ({
   ) : (
     <Fragment>
       <div className="row">
-        <div className="col-lg-11 col-md-12 col-sm-12 col-12 text-center">
+        <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
           <section className="body">
             <div className=" body-inner no-padding table-responsive">
               <table
@@ -35,7 +35,24 @@ const AmendHistory = ({
                     <th>Status</th>
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                  {amendentHistory &&
+                    amendentHistory.map((amendentHistory, idx) => {
+                      return (
+                        <tr key={idx}>
+                          <td>{amendentHistory.amendmentEnteredByName}</td>
+                          <td>
+                            {new Date(
+                              amendentHistory.amendmentDateTime
+                            ).toLocaleString("en-GB")}
+                          </td>
+                          <td>{amendentHistory.discussionPoints}</td>
+
+                          <td>{amendentHistory.amendmentType}</td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
               </table>
             </div>
           </section>
