@@ -16,6 +16,8 @@ import Chat from "../../pages/Chat";
 import ProjectVerification from "../dashboard/ProjectVerification";
 import Amendments from "../dashboard/Amendments";
 
+//region
+import AllArea from "../region/AllArea";
 // staff
 import AddEmployeeDetails from "../staffs/AddEmployeeDetails";
 import AllStaffDetails from "../staffs/AllStaffDetails";
@@ -63,6 +65,7 @@ const RoutesFile = () => {
           component={ProjectVerification}
         />
         <PrivateRoute exact path="/all-Amendments" component={Amendments} />
+        <PrivateRoute exact path="/all-Region" component={AllArea} />
 
         <PrivateRoute exact path="/add-project" component={AddProject} />
         <PrivateRoute

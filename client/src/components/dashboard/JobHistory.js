@@ -42,6 +42,12 @@ const JobHistory = ({
         getLatestChangesDetails[0].output.projectName
           ? getLatestChangesDetails[0].output.projectName
           : "",
+      projectTrackLatestChange:
+        getLatestChangesDetails &&
+        getLatestChangesDetails[0].output &&
+        getLatestChangesDetails[0].output.projectTrackLatestChange
+          ? getLatestChangesDetails[0].output.projectTrackLatestChange
+          : "",
 
       projectEnteredByName:
         getLatestChangesDetails &&
@@ -89,8 +95,9 @@ const JobHistory = ({
         <div className="col-lg-12 col-md-12 col-sm-12 col-12">
           <label className="label-control"> Notes : </label>
           <textarea
-            name="clientAddress"
-            id="clientAddress"
+            name="projectTrackLatestChange"
+            id="projectTrackLatestChange"
+            value={projectTrackLatestChange}
             className="textarea form-control"
             rows="3"
             style={{ width: "100%" }}

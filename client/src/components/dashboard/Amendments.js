@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
@@ -9,6 +10,8 @@ import {
   getAmendmentProjectDeatils,
   AddAmendmentHistory,
 } from "../../actions/projects";
+
+import AmendHistory from "./AmendHistory";
 const Amendments = ({
   auth: { isAuthenticated, user, users },
   project: { amendmentProjects },
@@ -99,6 +102,21 @@ const Amendments = ({
     // console.log(finalData);
     AddAmendmentHistory(finalData);
     // onRestoreModalChange(true);
+  };
+
+  const onHistoryModalChange = (e) => {
+    if (e) {
+      handleHistoryModalClose();
+    }
+  };
+
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
+  const handleHistoryModalClose = () => setShowHistoryModal(false);
+
+  const [userData, setUserData] = useState(null);
+  const onEdit = (districts, idx) => {
+    setShowHistoryModal(true);
+    setUserData(districts);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -248,12 +266,12 @@ const Amendments = ({
 
               <div className="row col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
                 <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
-                  <Link
+                  <button
                     className="btn btn_green_bg float-right"
-                    // to="/add-client"
+                    onClick={() => onEdit()}
                   >
                     History
-                  </Link>
+                  </button>
                 </div>
                 <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                   <label className="label-control">Last Discussion :</label>
@@ -274,6 +292,35 @@ const Amendments = ({
           </div>
         </section>
       </div>
+      <Modal
+        show={showHistoryModal}
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Amendment History </h3>
+          </div>
+          <div className="col-lg-2">
+            <button onClick={handleHistoryModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <AmendHistory
+            districts={userData}
+            onHistoryModalChange={onHistoryModalChange}
+          />
+        </Modal.Body>
+      </Modal>
     </Fragment>
   );
 };

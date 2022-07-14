@@ -89,10 +89,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   {!loading &&
                   isAuthenticated &&
                   user &&
-                  user.userGroupName &&
-                  user.userGroupName !== "Graphic Artists" &&
-                  user.userGroupName !== "Software" &&
-                  user.userGroupName !== "Quality Controller" ? (
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
                     <NavLink
                       to="/daily-job-sheet"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -198,6 +197,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                             </li>
                             <li>
                               <Link to="/all-trash">Trash</Link>
+                            </li>
+                            <li>
+                              <Link to="/all-Region">All Region</Link>
                             </li>
                           </Fragment>
                         ) : (
