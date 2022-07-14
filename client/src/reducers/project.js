@@ -8,6 +8,7 @@ import {
   UNVERIFIED_PROJECTS,
   ALL_STATUS_VERIFICATION,
   AMENDMENT_PROJECTS,
+  AMENDMENT_HISTORY_PROJECTS,
 } from "../actions/types";
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
   unVerifiedProjects: [],
   allStatusVerification: [],
   amendmentProjects: [],
+  amendentHistory: [],
 };
 
 const settings = (state = initialState, action) => {
@@ -71,7 +73,11 @@ const settings = (state = initialState, action) => {
         ...state,
         amendmentProjects: payload,
       };
-
+    case AMENDMENT_HISTORY_PROJECTS:
+      return {
+        ...state,
+        amendentHistory: payload,
+      };
     default:
       return state;
   }

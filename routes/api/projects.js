@@ -671,17 +671,11 @@ router.post("/get-amendment-project-details", async (req, res) => {
 router.post("/get-all-amendment-histories", async (req, res) => {
   const { projectId } = req.body;
   try {
-    const getAmendmenthistoryDetails = await Project.aggregate([
-      {
-        $lookup: {
-          from: "amendmenthistories",
-          localField: "_id",
-          foreignField: "projectId",
-          as: "output",
-        },
+    const getAmendmenthistoryDetails = await AmendmentHistory.find({
+      projectId: {
+        $eq: mongoose.Types.ObjectId(projectId),
       },
-      { $match: { projectStatusType: { $eq: "Amendment" } } },
-    ]);
+    });
     res.json(getAmendmenthistoryDetails);
   } catch (err) {
     console.error(err.message);

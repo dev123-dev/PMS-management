@@ -2,14 +2,19 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Select from "react-select";
 import Spinner from "../layout/Spinner";
+import { getAmendmentHistoryDeatils } from "../../actions/projects";
 
 const AmendHistory = ({
   auth: { isAuthenticated, user, users },
+  project: { amendentHistory },
   amenddata,
+  getAmendmentHistoryDeatils,
 }) => {
-  console.log(amenddata);
+  useEffect(() => {
+    getAmendmentHistoryDeatils(amenddata);
+  }, [getAmendmentHistoryDeatils]);
+  console.log("amendentHistory", amendentHistory);
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -42,9 +47,14 @@ const AmendHistory = ({
 
 AmendHistory.propTypes = {
   auth: PropTypes.object.isRequired,
+  project: PropTypes.object.isRequired,
+  getAmendmentHistoryDeatils: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  project: state.project,
 });
 
-export default connect(mapStateToProps, {})(AmendHistory);
+export default connect(mapStateToProps, { getAmendmentHistoryDeatils })(
+  AmendHistory
+);

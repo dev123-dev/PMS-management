@@ -13,6 +13,7 @@ import {
   UNVERIFIED_PROJECTS,
   ALL_STATUS_VERIFICATION,
   AMENDMENT_PROJECTS,
+  AMENDMENT_HISTORY_PROJECTS,
 } from "./types";
 
 const config = {
@@ -94,6 +95,7 @@ export const AddProjectTrack = (finalData) => async (dispatch) => {
 };
 
 export const AddAmendmentHistory = (amendmentData) => async (dispatch) => {
+  console.log("action", amendmentData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,
@@ -383,6 +385,25 @@ export const getAmendmentProjectDeatils = (setTypeData) => async (dispatch) => {
     );
     dispatch({
       type: AMENDMENT_PROJECTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    // dispatch({
+    //   type: AUTH_ERROR,
+    // });
+    console.log(err);
+    // dispatch(getJobQueueProjectDeatils(finalData));
+  }
+};
+
+export const getAmendmentHistoryDeatils = (amenddata) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/projects/get-all-amendment-histories",
+      amenddata
+    );
+    dispatch({
+      type: AMENDMENT_HISTORY_PROJECTS,
       payload: res.data,
     });
   } catch (err) {
