@@ -552,7 +552,6 @@ router.post("/get-verification-project-details", async (req, res) => {
       }
     }
   }
-
   try {
     const getVerificationProjectDetails = await Project.find(query);
     res.json(getVerificationProjectDetails);
@@ -615,6 +614,26 @@ router.post("/get-latest-change", async (req, res) => {
     ]);
     res.json(ProjectLatestChangeData);
     // console.log(ProjectLatestChangeData);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-amendment-project-details", async (req, res) => {
+  try {
+    const getAmendmentDetails = await Project.aggregate([
+      {
+        $lookup: {
+          from: "projectstatuses",
+          localField: "projectStatusId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $match: { projectStatusType: { $eq: "Amendment" } } },
+    ]);
+    res.json(getAmendmentDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

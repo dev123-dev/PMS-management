@@ -1,19 +1,24 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { getAllchanges } from "../../actions/projects";
+import {
+  getAllchanges,
+  getAmendmentProjectDeatils,
+} from "../../actions/projects";
 const Amendments = ({
   auth: { isAuthenticated, user, users },
-  project: { jobQueueProjects },
+  project: { amendmentProjects },
+  getAmendmentProjectDeatils,
 }) => {
+  useEffect(() => {
+    getAmendmentProjectDeatils();
+  }, [getAmendmentProjectDeatils]);
   //formData
   const [formData, setFormData] = useState({
     Notes: "",
     isSubmitted: false,
   });
-
   const { Notes, isSubmitted } = formData;
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -52,24 +57,24 @@ const Amendments = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {jobQueueProjects &&
-                        jobQueueProjects.map((jobQueueProjects, idx) => {
+                      {amendmentProjects &&
+                        amendmentProjects.map((amendmentProjects, idx) => {
                           return (
                             <tr key={idx}>
-                              <td>{jobQueueProjects.clientName}</td>
+                              <td>{amendmentProjects.clientName}</td>
 
                               <td>
-                                <b>{jobQueueProjects.clientFolderName}</b>
+                                <b>{amendmentProjects.clientFolderName}</b>
                               </td>
-                              <td>{jobQueueProjects.projectName}</td>
+                              <td>{amendmentProjects.projectName}</td>
                               <td></td>
                               <td></td>
                               <td></td>
 
-                              <td>{jobQueueProjects.projectDeadline}</td>
+                              <td>{amendmentProjects.projectDeadline}</td>
                               <td>
-                                {jobQueueProjects.projectQuantity}&nbsp;
-                                {jobQueueProjects.projectUnconfirmed ===
+                                {amendmentProjects.projectQuantity}&nbsp;
+                                {amendmentProjects.projectUnconfirmed ===
                                   true && (
                                   <span style={{ color: "red" }}>*</span>
                                 )}
@@ -88,7 +93,7 @@ const Amendments = ({
               <div className="col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
                 <div className="row col-lg-12 col-md-6 col-sm-6 col-12 ">
                   <div className=" col-lg-12 col-md-6 col-sm-6 col-12 ">
-                    <label className="label-control">Notes :</label>
+                    <label className="label-control">Discusion Points :</label>
                     <textarea
                       name="Notes"
                       id="Notes"
@@ -114,7 +119,7 @@ const Amendments = ({
 
               <div className="col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
                 <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
-                  <label className="label-control">Old Notes :</label>
+                  <label className="label-control">Last Discusion :</label>
                   <textarea
                     name="Notes"
                     id="Notes"
@@ -139,6 +144,7 @@ const Amendments = ({
 Amendments.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
+  getAmendmentProjectDeatils: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -146,4 +152,6 @@ const mapStateToProps = (state) => ({
   settings: state.settings,
 });
 
-export default connect(mapStateToProps, {})(Amendments);
+export default connect(mapStateToProps, { getAmendmentProjectDeatils })(
+  Amendments
+);

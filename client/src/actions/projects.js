@@ -12,6 +12,7 @@ import {
   GET_LATEST_CHANGES,
   UNVERIFIED_PROJECTS,
   ALL_STATUS_VERIFICATION,
+  AMENDMENT_PROJECTS,
 } from "./types";
 
 const config = {
@@ -335,6 +336,7 @@ export const getAllchanges = (finalData) => async (dispatch) => {
     });
   }
 };
+
 export const getLatestChanges = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/projects/get-latest-change", finalData);
@@ -347,5 +349,21 @@ export const getLatestChanges = (finalData) => async (dispatch) => {
     dispatch({
       type: AUTH_ERROR,
     });
+  }
+};
+
+export const getAmendmentProjectDeatils = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/projects/get-amendment-project-details");
+    dispatch({
+      type: AMENDMENT_PROJECTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    // dispatch({
+    //   type: AUTH_ERROR,
+    // });
+    console.log(err);
+    // dispatch(getJobQueueProjectDeatils(finalData));
   }
 };
