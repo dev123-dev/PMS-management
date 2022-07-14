@@ -56,6 +56,8 @@ const Amendments = ({
         projectStatusCategory: e,
       });
     }
+    let setTypeData = e.value;
+    getAmendmentProjectDeatils({ setTypeData: setTypeData });
   };
 
   const [ProjRestore, setProjRestore] = useState(null);
