@@ -22,7 +22,7 @@ const Amendments = ({
     projectStatusCategory: "",
     discussionPoints: "",
     UnResolved: "",
-
+    radiodata: "",
     Resolved: "",
     isSubmitted: false,
   });
@@ -33,6 +33,7 @@ const Amendments = ({
   ];
   const {
     Notes,
+    radiodata,
     projectStatusCategory,
     discussionPoints,
     UnResolved,
@@ -68,14 +69,14 @@ const Amendments = ({
     if (radiodata === "Resolved") {
       setFormData({
         ...formData,
-        Resolved: "Resolved",
+        radiodata: "Resolved",
         major: "",
       });
     } else if (radiodata === "UnResolved") {
       setFormData({
         ...formData,
         Resolved: "",
-        UnResolved: "UnResolved",
+        radiodata: "UnResolved",
       });
     } else {
       setFormData({
@@ -91,8 +92,8 @@ const Amendments = ({
       recordId: ProjRestore ? ProjRestore._id : "",
       projectName: ProjRestore.projectName,
       discussionPoints: discussionPoints,
-      UnResolved: UnResolved,
-      Resolved: Resolved,
+
+      radiodata: radiodata,
     };
     console.log(finalData);
     // restoreProjectData(finalData);
