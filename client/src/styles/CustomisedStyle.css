@@ -1793,9 +1793,9 @@ span.input-radio-sm {
 /* input[type="radio"] {
   display: none;
 } */
-.radiolevels {
+/* .radiolevels {
   display: none;
-}
+} */
 input[type="checkbox"] {
   display: none;
 }
