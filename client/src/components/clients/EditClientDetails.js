@@ -199,7 +199,7 @@ const EditClientDetails = ({
           )[0]
       : ""
   );
-  const [paymentId, setpaymentId] = useState("");
+  const [paymentId, setpaymentId] = useState(allClientdata.paymentId);
   const [paymentModeName, setpaymentname] = useState("");
 
   const onPayModeChange = (e) => {
