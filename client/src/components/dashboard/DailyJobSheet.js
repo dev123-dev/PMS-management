@@ -930,7 +930,7 @@ const DailyJobSheet = ({
       >
         <Modal.Header>
           <div className="col-lg-11 col-md-10 col-sm-10 col-10">
-            <h3 className="modal-title text-center">Notes </h3>
+            <h3 className="modal-title text-center">Project Notes </h3>
           </div>
           <div className="col-lg-2 col-md-2 col-sm-2 col-2">
             <button onClick={handlenotesModalClose} className="close">
