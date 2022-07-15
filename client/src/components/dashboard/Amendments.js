@@ -10,6 +10,7 @@ import {
   getAmendmentProjectDeatils,
   AddAmendmentHistory,
   getLastAmendmentHistoryDeatils,
+  updateProjectTrack,
 } from "../../actions/projects";
 
 import AmendHistory from "./AmendHistory";
@@ -19,6 +20,7 @@ const Amendments = ({
   getAmendmentProjectDeatils,
   AddAmendmentHistory,
   getLastAmendmentHistoryDeatils,
+  updateProjectTrack,
 }) => {
   useEffect(() => {
     getAmendmentProjectDeatils();
@@ -32,7 +34,11 @@ const Amendments = ({
     isSubmitted: false,
   });
 
-  // console.log("last", amendentLastHistory);
+  let getLastAmendment = JSON.parse(
+    localStorage.getItem("getLastAmendmentDetails")
+  );
+  // console.log("getLastAmendmentDetails", getLastAmendment);
+
   const StatusCategory = [
     { value: "Resolved", label: "Resolved" },
     { value: "UnResolved", label: "UnResolved" },
@@ -71,26 +77,29 @@ const Amendments = ({
   const [ProjLastchnage, setProjLastchnage] = useState(null);
   const [ProjRestore, setProjRestore] = useState(null);
   const onClickHandler = (amendmentProjects, idx) => {
+    localStorage.removeItem("getLastAmendment");
+    setProjLastchnage(null);
     setShowHide({
       ...showHide,
       showhistory_submitSection: true,
     });
     setProjRestore(amendmentProjects);
+    getLastAmendmentHistoryDeatils({ projectId: amendmentProjects.projectId });
+  };
+  if (getLastAmendment && !ProjLastchnage) {
     setProjLastchnage(
-      amendentLastHistory && amendentLastHistory.discussionPoints
-        ? amendentLastHistory.discussionPoints
+      getLastAmendment && getLastAmendment.discussionPoints
+        ? getLastAmendment.discussionPoints
         : ""
     );
-    // console.log(amendmentProjects._id);
-    getLastAmendmentHistoryDeatils({ projectId: amendmentProjects._id });
-  };
+  }
   const [showHide, setShowHide] = useState({
     showhistory_submitSection: false,
   });
   const [showHide1, setShowHide1] = useState({
     showunresolvedSection: true,
   });
-
+  // console.log(ProjLastchnage);
   const { showhistory_submitSection } = showHide;
   const { showunresolvedSection } = showHide1;
   const onRadioSelect = (radiodata) => {
@@ -117,15 +126,23 @@ const Amendments = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      projectId: ProjRestore ? ProjRestore._id : "",
+      projectId: ProjRestore ? ProjRestore.projectId : "",
       projectName: ProjRestore.projectName,
       discussionPoints: discussionPointsNotes,
       amendmentType: radiodata,
       amendmentEnteredById: user._id,
       amendmentEnteredByName: user.empFullName,
     };
-
     AddAmendmentHistory(finalData);
+    if (radiodata === "Resolved") {
+      const updateData = {
+        projectId: ProjRestore ? ProjRestore.projectId : "",
+        amendmentType: radiodata,
+      };
+      // console.log(updateData);
+      updateProjectTrack(updateData);
+    }
+
     setFormData({
       ...formData,
       projectId: "",
@@ -148,7 +165,7 @@ const Amendments = ({
   const onEdit = (e) => {
     setShowHistoryModal(true);
     const finalData = {
-      projectId: ProjRestore ? ProjRestore._id : "",
+      projectId: ProjRestore ? ProjRestore.projectId : "",
     };
     setUserData(finalData);
   };
@@ -212,15 +229,19 @@ const Amendments = ({
                                     onClickHandler(amendmentProjects, idx)
                                   }
                                 >
-                                  {amendmentProjects.clientName}
+                                  {amendmentProjects.output[0].clientName}
                                 </Link>
                               </td>
                               <td>
-                                <b>{amendmentProjects.clientFolderName}</b>
+                                <b>
+                                  {amendmentProjects.output[0].clientFolderName}
+                                </b>
                               </td>
-                              <td>{amendmentProjects.projectName}</td>
+                              <td>{amendmentProjects.output[0].projectName}</td>
 
-                              <td>{amendmentProjects.projectStatusType}</td>
+                              <td>
+                                {amendmentProjects.output[0].projectStatusType}
+                              </td>
                             </tr>
                           );
                         })}
@@ -359,6 +380,7 @@ Amendments.propTypes = {
   getAmendmentProjectDeatils: PropTypes.func.isRequired,
   AddAmendmentHistory: PropTypes.func.isRequired,
   getLastAmendmentHistoryDeatils: PropTypes.func.isRequired,
+  updateProjectTrack: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -370,4 +392,5 @@ export default connect(mapStateToProps, {
   getAmendmentProjectDeatils,
   AddAmendmentHistory,
   getLastAmendmentHistoryDeatils,
+  updateProjectTrack,
 })(Amendments);

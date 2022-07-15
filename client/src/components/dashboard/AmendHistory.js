@@ -7,14 +7,17 @@ import { getAmendmentHistoryDeatils } from "../../actions/projects";
 
 const AmendHistory = ({
   auth: { isAuthenticated, user, users },
-  project: { amendentHistory },
+  project: { amendentHistory, amendentLastHistory },
   amenddata,
   getAmendmentHistoryDeatils,
 }) => {
+  console.log("amenddata", amenddata);
   useEffect(() => {
     getAmendmentHistoryDeatils(amenddata);
   }, [getAmendmentHistoryDeatils]);
+
   console.log("amendentHistory", amendentHistory);
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -72,6 +75,6 @@ const mapStateToProps = (state) => ({
   project: state.project,
 });
 
-export default connect(mapStateToProps, { getAmendmentHistoryDeatils })(
-  AmendHistory
-);
+export default connect(mapStateToProps, {
+  getAmendmentHistoryDeatils,
+})(AmendHistory);
