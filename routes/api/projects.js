@@ -717,4 +717,47 @@ router.post("/get-last-amendment-histories", async (req, res) => {
   }
 });
 
+router.post("/get-last-amendment-counter", async (req, res) => {
+  const { pId } = req.body;
+  let query = {};
+  query = {
+    projectId: {
+      $eq: mongoose.Types.ObjectId(pId),
+    },
+    amendmentType: {
+      $eq: "Resolved",
+    },
+  };
+  console.log(query);
+  try {
+    const getAmendmentLastCounter = await ProjectTrack.find(query);
+    // .sort({
+    //   _id: -1,
+    // })
+    // .limit(1);
+    res.json(getAmendmentLastCounter);
+    console.log(getAmendmentLastCounter);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/update-amendment-type-status", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateProjectStatus = await ProjectTrack.updateOne(
+      { projectId: data.projectId, amendmentType: "UnResolved" },
+      {
+        $set: {
+          amendmentType: data.amendmentType,
+        },
+      }
+    );
+    res.json(updateProjectStatus);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 module.exports = router;

@@ -15,6 +15,7 @@ import {
   AMENDMENT_PROJECTS,
   AMENDMENT_HISTORY_PROJECTS,
   AMENDMENT_LAST_HISTORY_PROJECTS,
+  AMENDMENT_LAST_COUNTER,
 } from "./types";
 
 const config = {
@@ -96,7 +97,6 @@ export const AddProjectTrack = (finalData) => async (dispatch) => {
 };
 
 export const AddAmendmentHistory = (amendmentData) => async (dispatch) => {
-  console.log("action", amendmentData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,
@@ -106,7 +106,7 @@ export const AddAmendmentHistory = (amendmentData) => async (dispatch) => {
       amendmentData,
       config
     );
-    // dispatch(getJobQueueProjectDeatils());
+    // dispatch(getLastAmendmentHistoryDeatils());
     // dispatch(getDailyJobsheetProjectDeatils());
     dispatch({
       type: SET_LOADING_FALSE,
@@ -398,7 +398,6 @@ export const getAmendmentProjectDeatils = (setTypeData) => async (dispatch) => {
 };
 
 export const getAmendmentHistoryDeatils = (amenddata) => async (dispatch) => {
-  // console.log(amenddata);
   try {
     const res = await axios.post(
       "/api/projects/get-all-amendment-histories",
@@ -419,12 +418,12 @@ export const getAmendmentHistoryDeatils = (amenddata) => async (dispatch) => {
 
 export const getLastAmendmentHistoryDeatils =
   (amenddata) => async (dispatch) => {
-    // console.log("action", amenddata);
     try {
       const res = await axios.post(
         "/api/projects/get-last-amendment-histories",
         amenddata
       );
+      localStorage.setItem("getLastAmendmentDetails", JSON.stringify(res.data));
       dispatch({
         type: AMENDMENT_LAST_HISTORY_PROJECTS,
         payload: res.data,
@@ -437,3 +436,41 @@ export const getLastAmendmentHistoryDeatils =
       // dispatch(getJobQueueProjectDeatils(finalData));
     }
   };
+
+export const getLastAmendmentCounter =
+  (amendmentProjectId) => async (dispatch) => {
+    try {
+      const res = await axios.post(
+        "/api/projects/get-last-amendment-counter",
+        amendmentProjectId
+      );
+      localStorage.setItem("getLastAmendmentCounter", JSON.stringify(res.data));
+      dispatch({
+        type: AMENDMENT_LAST_COUNTER,
+        payload: res.data,
+      });
+    } catch (err) {
+      // dispatch({
+      //   type: AUTH_ERROR,
+      // });
+      console.log(err);
+      // dispatch(getJobQueueProjectDeatils(finalData));
+    }
+  };
+
+export const updateProjectTrack = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/projects/update-amendment-type-status", finalData);
+    // dispatch(getAllProjectStatus());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};

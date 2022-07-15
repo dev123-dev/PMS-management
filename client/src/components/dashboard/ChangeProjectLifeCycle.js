@@ -2,15 +2,20 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { AddProjectTrack, AddAmendmentHistory } from "../../actions/projects";
+import {
+  AddProjectTrack,
+  AddAmendmentHistory,
+  getLastAmendmentCounter,
+} from "../../actions/projects";
 import { w3cwebsocket } from "websocket";
 
 const ChangeProjectLifeCycle = ({
   auth: { isAuthenticated, user, users, loading },
   ProjectCycledata,
   AddProjectTrack,
-  AddAmendmentHistory,
+  // AddAmendmentHistory,
   onProjectCycleModalChange,
+  getLastAmendmentCounter,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -67,61 +72,99 @@ const ChangeProjectLifeCycle = ({
   const client = new w3cwebsocket("ws://192.168.6.216:8000");
 
   const onSubmit = (e) => {
-    e.preventDefault();
-    let estimatedWorkTime = "";
-    let ptEstimatedDateTimeVal = "";
-    if (projectHour || projectMinutes) {
-      estimatedWorkTime =
-        (projectHour
-          ? projectHour.length === 1
-            ? "0" + projectHour
-            : projectHour
-          : "00") +
-        ":" +
-        (projectMinutes
-          ? projectMinutes.length === 1
-            ? "0" + projectMinutes
-            : projectMinutes
-          : "00");
-      ptEstimatedDateTimeVal = new Date().toISOString();
-    }
-    // if (checkErrors()) {
-    const finalData = {
-      projectId: ProjectCycledata.projectId,
-      projectTrackLatestChange: Instructions,
-      ptEstimatedTime: estimatedWorkTime,
-      projectStatusType: ProjectCycledata.value,
-      projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
-      ptEstimatedDateTime: ptEstimatedDateTimeVal,
-      projectStatusChangedbyName: user.empFullName,
-      projectStatusChangedById: user._id,
+    const amendmentProjectId = {
+      pId: ProjectCycledata.projectId,
     };
-    AddProjectTrack(finalData);
-    if (ProjectCycledata.value === "Amendment") {
-      const amendmentData = {
-        amendmentCounter: "Am1",
-        projectId: ProjectCycledata.projectId,
-        amendmentType: "UnResolved",
-      };
-      AddAmendmentHistory(amendmentData);
-    }
-
-    onProjectCycleModalChange(true);
-    client.send(
-      JSON.stringify({
-        type: "message",
-        msg: "/JobQueue",
-        msg1: "/DailyJobSheet`",
-      })
+    getLastAmendmentCounter(amendmentProjectId);
+    let getLastAmendmentCount = JSON.parse(
+      localStorage.getItem("getLastAmendmentCount")
     );
+    console.log(getLastAmendmentCount);
+    // e.preventDefault();
+    // let estimatedWorkTime = "";
+    // let ptEstimatedDateTimeVal = "";
+    // if (projectHour || projectMinutes) {
+    //   estimatedWorkTime =
+    //     (projectHour
+    //       ? projectHour.length === 1
+    //         ? "0" + projectHour
+    //         : projectHour
+    //       : "00") +
+    //     ":" +
+    //     (projectMinutes
+    //       ? projectMinutes.length === 1
+    //         ? "0" + projectMinutes
+    //         : projectMinutes
+    //       : "00");
+    //   ptEstimatedDateTimeVal = new Date().toISOString();
+    // }
 
-    setFormData({
-      ...formData,
-      Instructions: "",
-      projectHour: "",
-      projectMinutes: "",
-      isSubmitted: true,
-    });
+    // // if (checkErrors()) {
+
+    // if (ProjectCycledata.value === "Amendment") {
+    //   const amendmentData = {
+    //     projectId: ProjectCycledata.projectId,
+    //     projectTrackLatestChange: Instructions,
+    //     ptEstimatedTime: estimatedWorkTime,
+    //     projectStatusType: ProjectCycledata.value,
+    //     projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
+    //     ptEstimatedDateTime: ptEstimatedDateTimeVal,
+    //     projectStatusChangedbyName: user.empFullName,
+    //     projectStatusChangedById: user._id,
+    //     amendmentCounter: "1",
+    //     amendmentType: "UnResolved",
+    //   };
+    //   AddProjectTrack(amendmentData);
+    // } else if (
+    //   ProjectCycledata.value === "Amend_Working" ||
+    //   ProjectCycledata.value === "Amend_Pending" ||
+    //   ProjectCycledata.value === "Amend_QC Pending" ||
+    //   ProjectCycledata.value === "Amend_QC Estimate" ||
+    //   ProjectCycledata.value === "Amend_QC DONE" ||
+    //   ProjectCycledata.value === "Amend_Uploading"
+    // ) {
+    //   const finalData = {
+    //     projectId: ProjectCycledata.projectId,
+    //     projectTrackLatestChange: Instructions,
+    //     ptEstimatedTime: estimatedWorkTime,
+    //     projectStatusType: ProjectCycledata.value,
+    //     projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
+    //     ptEstimatedDateTime: ptEstimatedDateTimeVal,
+    //     projectStatusChangedbyName: user.empFullName,
+    //     projectStatusChangedById: user._id,
+    //     amendmentCounter: "1",
+    //   };
+    //   AddProjectTrack(finalData);
+    // } else {
+    //   const finalData = {
+    //     projectId: ProjectCycledata.projectId,
+    //     projectTrackLatestChange: Instructions,
+    //     ptEstimatedTime: estimatedWorkTime,
+    //     projectStatusType: ProjectCycledata.value,
+    //     projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
+    //     ptEstimatedDateTime: ptEstimatedDateTimeVal,
+    //     projectStatusChangedbyName: user.empFullName,
+    //     projectStatusChangedById: user._id,
+    //   };
+    //   AddProjectTrack(finalData);
+    // }
+
+    // onProjectCycleModalChange(true);
+    // client.send(
+    //   JSON.stringify({
+    //     type: "message",
+    //     msg: "/JobQueue",
+    //     msg1: "/DailyJobSheet`",
+    //   })
+    // );
+
+    // setFormData({
+    //   ...formData,
+    //   Instructions: "",
+    //   projectHour: "",
+    //   projectMinutes: "",
+    //   isSubmitted: true,
+    // });
 
     // }
   };
@@ -231,7 +274,7 @@ const ChangeProjectLifeCycle = ({
 ChangeProjectLifeCycle.propTypes = {
   auth: PropTypes.object.isRequired,
   AddProjectTrack: PropTypes.func.isRequired,
-  AddAmendmentHistory: PropTypes.func.isRequired,
+  getLastAmendmentCounter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -240,5 +283,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   AddProjectTrack,
-  AddAmendmentHistory,
+  getLastAmendmentCounter,
+  // AddAmendmentHistory,
 })(ChangeProjectLifeCycle);

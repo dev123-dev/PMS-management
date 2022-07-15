@@ -44,10 +44,10 @@ const JobQueue = ({
     client.onopen = () => {
       console.log("webSocket client connected");
     };
-    client.onmessage = (message) => {
-      getUpdatedProjectStaus();
-      // getUpdatedProjectStausForDailyJobSheet();
-    };
+    // client.onmessage = (message) => {
+    //   getUpdatedProjectStaus();
+    //   // getUpdatedProjectStausForDailyJobSheet();
+    // };
   }, []);
   useEffect(() => {
     getJobQueueProjectDeatils();
@@ -137,7 +137,6 @@ const JobQueue = ({
     if (
       e.label === "Downloaded" ||
       e.label === "Uploaded" ||
-      e.label === "Amend_Uploaded" ||
       e.label === "QC DONE"
     ) {
       setStatusValue(e);
@@ -158,6 +157,24 @@ const JobQueue = ({
       );
       // setStatusChange(finalData);
       // setShowProjectCycleModal(false);
+    } else if (e.label === "Amend_Uploaded") {
+      setStatusValue(e);
+      let finalData = {
+        projectTrackStatusId: e.value,
+        projectStatusType: e.label,
+        projectId: jobQueueProjects._id,
+        projectStatusChangedbyName: user.empFullName,
+        projectStatusChangedById: user._id,
+        amendmentCounter: "1",
+      };
+      // console.log("page", finalData);
+      AddProjectTrack(finalData);
+      client.send(
+        JSON.stringify({
+          type: "message",
+          msg: "/JobQueue",
+        })
+      );
     } else {
       setStatusValue(e);
       let newStatusData = {
