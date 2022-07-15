@@ -640,22 +640,30 @@ router.post("/get-amendment-project-details", async (req, res) => {
   let query = {};
   if (setTypeData) {
     query = {
-      projectStatusType: { $eq: "Amendment" },
-      "output.amendmentType": { $eq: setTypeData },
+      projectStatusType: {
+        $eq: "Amendment",
+      },
+      amendmentType: {
+        $eq: setTypeData,
+      },
     };
   } else {
     query = {
-      projectStatusType: { $eq: "Amendment" },
-      "output.amendmentType": { $eq: "UnResolved" },
+      projectStatusType: {
+        $eq: "Amendment",
+      },
+      amendmentType: {
+        $eq: "UnResolved",
+      },
     };
   }
   try {
-    const getAmendmentDetails = await Project.aggregate([
+    const getAmendmentDetails = await ProjectTrack.aggregate([
       {
         $lookup: {
-          from: "amendmenthistories",
-          localField: "_id",
-          foreignField: "projectId",
+          from: "projects",
+          localField: "projectId",
+          foreignField: "_id",
           as: "output",
         },
       },
