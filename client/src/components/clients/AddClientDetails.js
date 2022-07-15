@@ -390,21 +390,6 @@ const AddClientDetails = ({
                       })}
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">
-                      Standard Instruction :
-                    </label>
-                    <textarea
-                      name="standardInstruction"
-                      id="standardInstruction"
-                      className="textarea form-control"
-                      rows="3"
-                      placeholder="Standard Instruction"
-                      style={{ width: "100%" }}
-                      value={standardInstruction}
-                      onChange={(e) => onInputChange(e)}
-                    ></textarea>
-                  </div>
                 </div>
               </div>
 
@@ -477,6 +462,24 @@ const AddClientDetails = ({
                           })}
                         />
                       </div>
+                    </div>
+                  </div>
+                  <div className="row py-1"></div>
+                  <div className="row card-new pb-3 ">
+                    <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">
+                        Standard Instruction :
+                      </label>
+                      <textarea
+                        name="standardInstruction"
+                        id="standardInstruction"
+                        className="textarea form-control"
+                        rows="5"
+                        placeholder="Standard Instruction"
+                        style={{ width: "100%" }}
+                        value={standardInstruction}
+                        onChange={(e) => onInputChange(e)}
+                      ></textarea>
                     </div>
                   </div>
                 </div>

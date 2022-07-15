@@ -48,11 +48,11 @@ const JobNotes = ({
       </div>
       <br />
       <div className=" col-lg-12 col-md-12 col-sm-12 col-12">
-        <label className="label-control">Project Notes :</label>
+        <label className="label-control">Project Instruction :</label>
         <textarea
           className="textarea form-control"
           rows="10"
-          placeholder="Project Notes"
+          placeholder="Project Instruction"
           style={{ width: "100%" }}
           readOnly
         >
