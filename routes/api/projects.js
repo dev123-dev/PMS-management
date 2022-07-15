@@ -103,6 +103,7 @@ router.post("/edit-project", async (req, res) => {
           projectDate: data.projectDate,
           clientTime: data.clientTime,
           clientDate: data.clientDate,
+          outputformat: data.outputformat,
           projectUnconfirmed: data.projectUnconfirmed,
           projectEditedById: data.projectEditedById,
           projectEditedDateTime: Date.now(),
