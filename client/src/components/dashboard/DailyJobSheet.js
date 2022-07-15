@@ -571,13 +571,14 @@ const DailyJobSheet = ({
                           <></>
                         )}
                         <th style={{ width: "5%" }}>Folder</th>
-                        <th style={{ width: "10%" }}>Project Name</th>
+                        <th style={{ width: "15%" }}>Project Name</th>
                         <th style={{ width: "12%" }}>Queue Duration</th>
                         <th style={{ width: "10%" }}>Estimated Time</th>
                         <th style={{ width: "10%" }}>Job Time</th>
                         {/* <th style={{ width: "2%" }}>Priority</th> */}
                         <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "3%" }}>Qty</th>
+                        <th style={{ width: "8%" }}>Output Format</th>
                         <th style={{ width: "13%" }}>Status</th>
                         {/* <th style={{ width: "10%" }}>Latest Change</th>
                         <th style={{ width: "10%" }}>Job Notes</th> */}
@@ -586,7 +587,7 @@ const DailyJobSheet = ({
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ||
                         user.userGroupName === "Clarical Admins" ? (
-                          <th style={{ width: "10%" }}>OP</th>
+                          <th style={{ width: "3%" }}>OP</th>
                         ) : (
                           <></>
                         )}
@@ -716,6 +717,7 @@ const DailyJobSheet = ({
                                     <span style={{ color: "red" }}>*</span>
                                   )}
                                 </td>
+                                <td>{dailyJobsheetProjects.outputformat}</td>
 
                                 <td>
                                   {/* SLAP UserGroupRights */}

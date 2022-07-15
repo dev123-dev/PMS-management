@@ -420,13 +420,14 @@ const JobQueue = ({
                           <></>
                         )}
                         <th style={{ width: "6%" }}>Folder </th>
-                        <th style={{ width: "25%" }}>Project Name</th>
+                        <th style={{ width: "20%" }}>Project Name</th>
                         <th style={{ width: "12%" }}>Queue Duration</th>
                         <th style={{ width: "10%" }}>Estimated Time</th>
                         <th style={{ width: "10%" }}>Job Time</th>
                         {/* <th style={{ width: "2%" }}>Priority</th> */}
                         <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "3%" }}>Qty</th>
+                        <th style={{ width: "8%" }}>Output Format</th>
                         <th style={{ width: "13%" }}>Status</th>
                         {/* <th style={{ width: "5%" }}>Latest Change</th>
                         <th style={{ width: "5%" }}>Job Notes</th> */}
@@ -437,7 +438,7 @@ const JobQueue = ({
                         user.userGroupName === "Clarical Admins" ||
                         user.userGroupName === "Quality Controller" ||
                         user.userGroupName === "Distributors" ? (
-                          <th style={{ width: "10%" }}>OP</th>
+                          <th style={{ width: "3%" }}>OP</th>
                         ) : (
                           <></>
                         )}
@@ -552,6 +553,7 @@ const JobQueue = ({
                                   <span style={{ color: "red" }}>*</span>
                                 )}
                               </td>
+                              <td>{jobQueueProjects.outputformat}</td>
                               <td>
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
