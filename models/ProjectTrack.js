@@ -30,6 +30,12 @@ const ProjectTrackSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  amendmentCounter: {
+    type: Number,
+  },
+  amendmentType: {
+    type: String, //Resolved,UnResolved
+  },
 });
 
 module.exports = projecttrack = mongoose.model(
