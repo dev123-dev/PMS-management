@@ -36,7 +36,6 @@ const EditProject = ({
     };
     getActiveClientsFilter(clientTypeVal);
   }, [getActiveClientsFilter]);
-  // console.log(user);
 
   //formData
   const [formData, setFormData] = useState({
@@ -108,6 +107,10 @@ const EditProject = ({
             label: allProjectdata.clientTypeVal,
           }
         : "",
+    outputformat:
+      allProjectdata && allProjectdata.outputformat
+        ? allProjectdata.outputformat
+        : "",
 
     isSubmitted: false,
   });
@@ -118,6 +121,7 @@ const EditProject = ({
     priority,
     deadline,
     projectTime,
+    outputformat,
     clientTime,
     Instructions,
     clientType,
@@ -323,6 +327,7 @@ const EditProject = ({
         // projectPrice:
         projectQuantity: qty,
         projectUnconfirmed: isChecked,
+        outputformat: outputformat,
         // projectVendor
         clientTypeVal: clientType.value,
         projectTime: projectTime,
@@ -564,6 +569,16 @@ const EditProject = ({
                       type="text"
                       name="deadline"
                       value={deadline}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Output Format :</label>
+                    <input
+                      type="text"
+                      name="outputformat"
+                      value={outputformat}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
