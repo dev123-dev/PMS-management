@@ -717,6 +717,19 @@ router.post("/get-last-amendment-histories", async (req, res) => {
   }
 });
 
+router.post("/get-selected-client-details", async (req, res) => {
+  const { clientId } = req.body;
+  try {
+    const getSelectedClientDetails = await ClientDetails.findOne({
+      _id: clientId,
+    });
+    res.json(getSelectedClientDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 router.post("/get-last-amendment-counter", async (req, res) => {
   const { pId } = req.body;
   let query = {};

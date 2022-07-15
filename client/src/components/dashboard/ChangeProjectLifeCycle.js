@@ -245,7 +245,7 @@ const ChangeProjectLifeCycle = ({
         >
           <div className="col-lg-8 col-md-6 col-sm-12 col-12">
             <label className="label-control colorRed">
-              * Indicates mandatory fields,
+              * Indicates mandatory fields
             </label>
           </div>
           <div className="col-lg-4 col-md-6 col-sm-12 col-12">

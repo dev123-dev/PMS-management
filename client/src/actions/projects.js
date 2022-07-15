@@ -16,6 +16,7 @@ import {
   AMENDMENT_HISTORY_PROJECTS,
   AMENDMENT_LAST_HISTORY_PROJECTS,
   AMENDMENT_LAST_COUNTER,
+  SELECTED_CLIENT_DATA,
 } from "./types";
 
 const config = {
@@ -436,6 +437,21 @@ export const getLastAmendmentHistoryDeatils =
       // dispatch(getJobQueueProjectDeatils(finalData));
     }
   };
+
+export const getSelectedClientDeatils = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/projects/get-selected-client-details",
+      finalData
+    );
+    dispatch({
+      type: SELECTED_CLIENT_DATA,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const getLastAmendmentCounter =
   (amendmentProjectId) => async (dispatch) => {

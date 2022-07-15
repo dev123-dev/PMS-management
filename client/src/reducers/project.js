@@ -11,6 +11,7 @@ import {
   AMENDMENT_HISTORY_PROJECTS,
   AMENDMENT_LAST_HISTORY_PROJECTS,
   AMENDMENT_LAST_COUNTER,
+  SELECTED_CLIENT_DATA,
 } from "../actions/types";
 
 const initialState = {
@@ -25,6 +26,7 @@ const initialState = {
   amendentHistory: [],
   amendentLastHistory: [],
   amendentLastCounter: [],
+  selectedClientData: [],
 };
 
 const settings = (state = initialState, action) => {
@@ -92,6 +94,12 @@ const settings = (state = initialState, action) => {
         ...state,
         amendentLastCounter: payload,
       };
+    case SELECTED_CLIENT_DATA:
+      return {
+        ...state,
+        selectedClientData: payload,
+      };
+
     default:
       return state;
   }

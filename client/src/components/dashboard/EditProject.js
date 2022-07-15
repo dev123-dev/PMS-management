@@ -585,7 +585,9 @@ const EditProject = ({
                   </div>
 
                   <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control">Instructions* :</label>
+                    <label className="label-control">
+                      Project Instructions* :
+                    </label>
                     <textarea
                       name="Instructions"
                       id="Instructions"

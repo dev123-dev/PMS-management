@@ -44,7 +44,7 @@ const ClientSchema = new mongoose.Schema({
   clientAddress: {
     type: String,
   },
-  StandardInstruction: {
+  standardInstruction: {
     type: String,
   },
   clientCountry: {
