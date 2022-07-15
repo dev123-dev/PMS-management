@@ -9,14 +9,17 @@ import {
   getAllchanges,
   getAmendmentProjectDeatils,
   AddAmendmentHistory,
+  getLastAmendmentHistoryDeatils,
 } from "../../actions/projects";
 
 import AmendHistory from "./AmendHistory";
 const Amendments = ({
   auth: { isAuthenticated, user, users },
+  project: { amendentHistory, amendentLastHistory },
   project: { amendmentProjects },
   getAmendmentProjectDeatils,
   AddAmendmentHistory,
+  getLastAmendmentHistoryDeatils,
 }) => {
   useEffect(() => {
     getAmendmentProjectDeatils();
@@ -27,11 +30,14 @@ const Amendments = ({
     projectStatusCategory: "",
     discussionPoints: "",
     UnResolved: "",
+    discussionPoint: "",
+
     radiodata: "",
     Resolved: "",
     isSubmitted: false,
   });
 
+  // console.log("discussionPoint", discussionPoint);
   const StatusCategory = [
     { value: "Resolved", label: "Resolved" },
     { value: "UnResolved", label: "UnResolved" },
@@ -67,6 +73,8 @@ const Amendments = ({
       showhistory_submitSection: true,
     });
     setProjRestore(amendmentProjects);
+    // console.log(amendmentProjects._id);
+    getLastAmendmentHistoryDeatils({ projectId: amendmentProjects._id });
   };
   const [showHide, setShowHide] = useState({
     showhistory_submitSection: false,
@@ -249,7 +257,7 @@ const Amendments = ({
                         rows="4"
                         placeholder="discussionPoints"
                         style={{ width: "100%" }}
-                        value={discussionPoints}
+                        // value={discussionPoint}
                         onChange={(e) => onInputChange(e)}
                         required
                       ></textarea>
@@ -282,13 +290,13 @@ const Amendments = ({
                 <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                   <label className="label-control">Last Discussion :</label>
                   <textarea
-                    name="Notes"
-                    id="Notes"
+                    name="discussionPoints"
+                    id="discussionPoints"
                     className="textarea form-control"
                     rows="4"
-                    placeholder="Notes"
+                    placeholder="discussionPoints"
                     style={{ width: "100%" }}
-                    value={Notes}
+                    // value={discussionPoints}
                     onChange={(e) => onInputChange(e)}
                     disabled
                   ></textarea>
@@ -336,6 +344,7 @@ Amendments.propTypes = {
   project: PropTypes.object.isRequired,
   getAmendmentProjectDeatils: PropTypes.func.isRequired,
   AddAmendmentHistory: PropTypes.func.isRequired,
+  getLastAmendmentHistoryDeatils: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -346,4 +355,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getAmendmentProjectDeatils,
   AddAmendmentHistory,
+  getLastAmendmentHistoryDeatils,
 })(Amendments);

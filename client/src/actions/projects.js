@@ -14,6 +14,7 @@ import {
   ALL_STATUS_VERIFICATION,
   AMENDMENT_PROJECTS,
   AMENDMENT_HISTORY_PROJECTS,
+  AMENDMENT_LAST_HISTORY_PROJECTS,
 } from "./types";
 
 const config = {
@@ -397,6 +398,7 @@ export const getAmendmentProjectDeatils = (setTypeData) => async (dispatch) => {
 };
 
 export const getAmendmentHistoryDeatils = (amenddata) => async (dispatch) => {
+  // console.log(amenddata);
   try {
     const res = await axios.post(
       "/api/projects/get-all-amendment-histories",
@@ -414,3 +416,24 @@ export const getAmendmentHistoryDeatils = (amenddata) => async (dispatch) => {
     // dispatch(getJobQueueProjectDeatils(finalData));
   }
 };
+
+export const getLastAmendmentHistoryDeatils =
+  (amenddata) => async (dispatch) => {
+    // console.log("action", amenddata);
+    try {
+      const res = await axios.post(
+        "/api/projects/get-last-amendment-histories",
+        amenddata
+      );
+      dispatch({
+        type: AMENDMENT_LAST_HISTORY_PROJECTS,
+        payload: res.data,
+      });
+    } catch (err) {
+      // dispatch({
+      //   type: AUTH_ERROR,
+      // });
+      console.log(err);
+      // dispatch(getJobQueueProjectDeatils(finalData));
+    }
+  };

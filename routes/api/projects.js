@@ -670,13 +670,38 @@ router.post("/get-amendment-project-details", async (req, res) => {
 
 router.post("/get-all-amendment-histories", async (req, res) => {
   const { projectId } = req.body;
+  let query = {};
+  query = {
+    projectId: {
+      $eq: mongoose.Types.ObjectId(projectId),
+    },
+  };
   try {
-    const getAmendmenthistoryDetails = await AmendmentHistory.find({
-      projectId: {
-        $eq: mongoose.Types.ObjectId(projectId),
-      },
-    });
-    res.json(getAmendmenthistoryDetails);
+    const getAmendmentLasthistoryDetails = await AmendmentHistory.find(query);
+    res.json(getAmendmentLasthistoryDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-last-amendment-histories", async (req, res) => {
+  const { projectId } = req.body;
+  // console.log(projectId);
+  let query = {};
+  query = {
+    projectId: {
+      $eq: mongoose.Types.ObjectId(projectId),
+    },
+  };
+  try {
+    const getAmendmentLasthistoryDetails = await AmendmentHistory.findOne(query)
+      .sort({
+        _id: -1,
+      })
+      .limit(1);
+    res.json(getAmendmentLasthistoryDetails);
+    // console.log(getAmendmentLasthistoryDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
