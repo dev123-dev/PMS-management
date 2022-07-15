@@ -15,8 +15,7 @@ import {
 import AmendHistory from "./AmendHistory";
 const Amendments = ({
   auth: { isAuthenticated, user, users },
-  project: { amendentHistory, amendentLastHistory },
-  project: { amendmentProjects },
+  project: { amendentHistory, amendentLastHistory, amendmentProjects },
   getAmendmentProjectDeatils,
   AddAmendmentHistory,
   getLastAmendmentHistoryDeatils,
@@ -26,29 +25,22 @@ const Amendments = ({
   }, [getAmendmentProjectDeatils]);
   //formData
   const [formData, setFormData] = useState({
-    Notes: "",
     projectStatusCategory: "",
-    discussionPoints: "",
-    UnResolved: "",
+    discussionPointsNotes: "",
     discussionPoint: "",
-
     radiodata: "",
-    Resolved: "",
     isSubmitted: false,
   });
 
-  // console.log("discussionPoint", discussionPoint);
+  // console.log("last", amendentLastHistory);
   const StatusCategory = [
     { value: "Resolved", label: "Resolved" },
     { value: "UnResolved", label: "UnResolved" },
   ];
   const {
-    Notes,
     radiodata,
     projectStatusCategory,
-    discussionPoints,
-    UnResolved,
-    Resolved,
+    discussionPointsNotes,
     isSubmitted,
   } = formData;
   const onInputChange = (e) => {
@@ -65,7 +57,7 @@ const Amendments = ({
     let setTypeData = e.value;
     getAmendmentProjectDeatils({ setTypeData: setTypeData });
   };
-
+  const [ProjLastchnage, setProjLastchnage] = useState(null);
   const [ProjRestore, setProjRestore] = useState(null);
   const onClickHandler = (amendmentProjects, idx) => {
     setShowHide({
@@ -73,6 +65,11 @@ const Amendments = ({
       showhistory_submitSection: true,
     });
     setProjRestore(amendmentProjects);
+    setProjLastchnage(
+      amendentLastHistory && amendentLastHistory.discussionPoints
+        ? amendentLastHistory.discussionPoints
+        : ""
+    );
     // console.log(amendmentProjects._id);
     getLastAmendmentHistoryDeatils({ projectId: amendmentProjects._id });
   };
@@ -106,21 +103,20 @@ const Amendments = ({
     const finalData = {
       projectId: ProjRestore ? ProjRestore._id : "",
       projectName: ProjRestore.projectName,
-      discussionPoints: discussionPoints,
+      discussionPoints: discussionPointsNotes,
       amendmentType: radiodata,
       amendmentEnteredById: user._id,
       amendmentEnteredByName: user.empFullName,
     };
-    // console.log(finalData);
+
     AddAmendmentHistory(finalData);
     setFormData({
       ...formData,
       projectId: "",
       projectName: "",
-      discussionPoints: "",
+      discussionPointsNotes: "",
       radiodata: "",
     });
-    // onRestoreModalChange(true);
   };
 
   const onHistoryModalChange = (e) => {
@@ -251,13 +247,13 @@ const Amendments = ({
                         Discussion Points :
                       </label>
                       <textarea
-                        name="discussionPoints"
-                        id="discussionPoints"
+                        name="discussionPointsNotes"
+                        id="discussionPointsNotes"
                         className="textarea form-control"
                         rows="4"
-                        placeholder="discussionPoints"
+                        placeholder="discussionPointsNotes"
+                        value={discussionPointsNotes}
                         style={{ width: "100%" }}
-                        // value={discussionPoint}
                         onChange={(e) => onInputChange(e)}
                         required
                       ></textarea>
@@ -290,13 +286,13 @@ const Amendments = ({
                 <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                   <label className="label-control">Last Discussion :</label>
                   <textarea
-                    name="discussionPoints"
-                    id="discussionPoints"
+                    name="ProjLastchnage"
+                    id="ProjLastchnage"
                     className="textarea form-control"
                     rows="4"
-                    placeholder="discussionPoints"
+                    placeholder=""
                     style={{ width: "100%" }}
-                    // value={discussionPoints}
+                    value={ProjLastchnage}
                     onChange={(e) => onInputChange(e)}
                     disabled
                   ></textarea>
