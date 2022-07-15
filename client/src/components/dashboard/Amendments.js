@@ -54,6 +54,17 @@ const Amendments = ({
         projectStatusCategory: e,
       });
     }
+    if (e.value === "Resolved") {
+      setShowHide1({
+        ...showHide1,
+        showunresolvedSection: false,
+      });
+    } else {
+      setShowHide1({
+        ...showHide1,
+        showunresolvedSection: true,
+      });
+    }
     let setTypeData = e.value;
     getAmendmentProjectDeatils({ setTypeData: setTypeData });
   };
@@ -76,7 +87,12 @@ const Amendments = ({
   const [showHide, setShowHide] = useState({
     showhistory_submitSection: false,
   });
+  const [showHide1, setShowHide1] = useState({
+    showunresolvedSection: true,
+  });
+
   const { showhistory_submitSection } = showHide;
+  const { showunresolvedSection } = showHide1;
   const onRadioSelect = (radiodata) => {
     if (radiodata === "Resolved") {
       setFormData({
@@ -215,61 +231,63 @@ const Amendments = ({
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 col-12  ">
               <div className="col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
-                <form onSubmit={(e) => onSubmit(e)}>
-                  <div className="row col-lg-12 col-md-6 col-sm-6 col-12 ">
-                    <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                      <label className="label-control">Resolved : </label>
-                      &emsp;
-                      <input
-                        className="radiolevels"
-                        type="radio"
-                        id="Resolved"
-                        value="Resolved"
-                        name="radiolevels"
-                        onClick={() => onRadioSelect("Resolved")}
-                      />
-                    </div>
-                    <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                      <label className="label-control">Un-Resolved : </label>
-                      &emsp;
-                      <input
-                        className="radiolevels"
-                        type="radio"
-                        id="UnResolved"
-                        value="UnResolved"
-                        onClick={() => onRadioSelect("UnResolved")}
-                        name="radiolevels"
-                      />
-                    </div>
-
-                    <div className=" col-lg-12 col-md-6 col-sm-6 col-12 ">
-                      <label className="label-control">
-                        Discussion Points :
-                      </label>
-                      <textarea
-                        name="discussionPointsNotes"
-                        id="discussionPointsNotes"
-                        className="textarea form-control"
-                        rows="4"
-                        placeholder="discussionPointsNotes"
-                        value={discussionPointsNotes}
-                        style={{ width: "100%" }}
-                        onChange={(e) => onInputChange(e)}
-                        required
-                      ></textarea>
-                    </div>
-                    {showhistory_submitSection && (
-                      <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
+                {showunresolvedSection && (
+                  <form onSubmit={(e) => onSubmit(e)}>
+                    <div className="row col-lg-12 col-md-6 col-sm-6 col-12 ">
+                      <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">Resolved : </label>
+                        &emsp;
                         <input
-                          type="submit"
-                          name="Submit"
-                          value="Submit"
-                          className="btn sub_form btn_continue blackbrd Save float-right"
+                          className="radiolevels"
+                          type="radio"
+                          id="Resolved"
+                          value="Resolved"
+                          name="radiolevels"
+                          onClick={() => onRadioSelect("Resolved")}
                         />
                       </div>
-                    )}
-                  </div>
-                </form>
+                      <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">Un-Resolved : </label>
+                        &emsp;
+                        <input
+                          className="radiolevels"
+                          type="radio"
+                          id="UnResolved"
+                          value="UnResolved"
+                          onClick={() => onRadioSelect("UnResolved")}
+                          name="radiolevels"
+                        />
+                      </div>
+
+                      <div className=" col-lg-12 col-md-6 col-sm-6 col-12 ">
+                        <label className="label-control">
+                          Discussion Points :
+                        </label>
+                        <textarea
+                          name="discussionPointsNotes"
+                          id="discussionPointsNotes"
+                          className="textarea form-control"
+                          rows="4"
+                          placeholder="discussionPointsNotes"
+                          value={discussionPointsNotes}
+                          style={{ width: "100%" }}
+                          onChange={(e) => onInputChange(e)}
+                          required
+                        ></textarea>
+                      </div>
+                      {showhistory_submitSection && (
+                        <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
+                          <input
+                            type="submit"
+                            name="Submit"
+                            value="Submit"
+                            className="btn sub_form btn_continue blackbrd Save float-right"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </form>
+                )}
               </div>
 
               <div className="row col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
