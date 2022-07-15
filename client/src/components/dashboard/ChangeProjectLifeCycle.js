@@ -76,95 +76,92 @@ const ChangeProjectLifeCycle = ({
       pId: ProjectCycledata.projectId,
     };
     getLastAmendmentCounter(amendmentProjectId);
-    let getLastAmendmentCount = JSON.parse(
-      localStorage.getItem("getLastAmendmentCount")
+
+    e.preventDefault();
+    let estimatedWorkTime = "";
+    let ptEstimatedDateTimeVal = "";
+    if (projectHour || projectMinutes) {
+      estimatedWorkTime =
+        (projectHour
+          ? projectHour.length === 1
+            ? "0" + projectHour
+            : projectHour
+          : "00") +
+        ":" +
+        (projectMinutes
+          ? projectMinutes.length === 1
+            ? "0" + projectMinutes
+            : projectMinutes
+          : "00");
+      ptEstimatedDateTimeVal = new Date().toISOString();
+    }
+
+    // if (checkErrors()) {
+
+    if (ProjectCycledata.value === "Amendment") {
+      const amendmentData = {
+        projectId: ProjectCycledata.projectId,
+        projectTrackLatestChange: Instructions,
+        ptEstimatedTime: estimatedWorkTime,
+        projectStatusType: ProjectCycledata.value,
+        projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
+        ptEstimatedDateTime: ptEstimatedDateTimeVal,
+        projectStatusChangedbyName: user.empFullName,
+        projectStatusChangedById: user._id,
+        amendmentCounter: "1",
+        amendmentType: "UnResolved",
+      };
+      AddProjectTrack(amendmentData);
+    } else if (
+      ProjectCycledata.value === "Amend_Working" ||
+      ProjectCycledata.value === "Amend_Pending" ||
+      ProjectCycledata.value === "Amend_QC Pending" ||
+      ProjectCycledata.value === "Amend_QC Estimate" ||
+      ProjectCycledata.value === "Amend_QC DONE" ||
+      ProjectCycledata.value === "Amend_Uploading"
+    ) {
+      const finalData = {
+        projectId: ProjectCycledata.projectId,
+        projectTrackLatestChange: Instructions,
+        ptEstimatedTime: estimatedWorkTime,
+        projectStatusType: ProjectCycledata.value,
+        projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
+        ptEstimatedDateTime: ptEstimatedDateTimeVal,
+        projectStatusChangedbyName: user.empFullName,
+        projectStatusChangedById: user._id,
+        amendmentCounter: "1",
+      };
+      AddProjectTrack(finalData);
+    } else {
+      const finalData = {
+        projectId: ProjectCycledata.projectId,
+        projectTrackLatestChange: Instructions,
+        ptEstimatedTime: estimatedWorkTime,
+        projectStatusType: ProjectCycledata.value,
+        projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
+        ptEstimatedDateTime: ptEstimatedDateTimeVal,
+        projectStatusChangedbyName: user.empFullName,
+        projectStatusChangedById: user._id,
+      };
+      AddProjectTrack(finalData);
+    }
+
+    onProjectCycleModalChange(true);
+    client.send(
+      JSON.stringify({
+        type: "message",
+        msg: "/JobQueue",
+        msg1: "/DailyJobSheet`",
+      })
     );
-    console.log(getLastAmendmentCount);
-    // e.preventDefault();
-    // let estimatedWorkTime = "";
-    // let ptEstimatedDateTimeVal = "";
-    // if (projectHour || projectMinutes) {
-    //   estimatedWorkTime =
-    //     (projectHour
-    //       ? projectHour.length === 1
-    //         ? "0" + projectHour
-    //         : projectHour
-    //       : "00") +
-    //     ":" +
-    //     (projectMinutes
-    //       ? projectMinutes.length === 1
-    //         ? "0" + projectMinutes
-    //         : projectMinutes
-    //       : "00");
-    //   ptEstimatedDateTimeVal = new Date().toISOString();
-    // }
 
-    // // if (checkErrors()) {
-
-    // if (ProjectCycledata.value === "Amendment") {
-    //   const amendmentData = {
-    //     projectId: ProjectCycledata.projectId,
-    //     projectTrackLatestChange: Instructions,
-    //     ptEstimatedTime: estimatedWorkTime,
-    //     projectStatusType: ProjectCycledata.value,
-    //     projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
-    //     ptEstimatedDateTime: ptEstimatedDateTimeVal,
-    //     projectStatusChangedbyName: user.empFullName,
-    //     projectStatusChangedById: user._id,
-    //     amendmentCounter: "1",
-    //     amendmentType: "UnResolved",
-    //   };
-    //   AddProjectTrack(amendmentData);
-    // } else if (
-    //   ProjectCycledata.value === "Amend_Working" ||
-    //   ProjectCycledata.value === "Amend_Pending" ||
-    //   ProjectCycledata.value === "Amend_QC Pending" ||
-    //   ProjectCycledata.value === "Amend_QC Estimate" ||
-    //   ProjectCycledata.value === "Amend_QC DONE" ||
-    //   ProjectCycledata.value === "Amend_Uploading"
-    // ) {
-    //   const finalData = {
-    //     projectId: ProjectCycledata.projectId,
-    //     projectTrackLatestChange: Instructions,
-    //     ptEstimatedTime: estimatedWorkTime,
-    //     projectStatusType: ProjectCycledata.value,
-    //     projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
-    //     ptEstimatedDateTime: ptEstimatedDateTimeVal,
-    //     projectStatusChangedbyName: user.empFullName,
-    //     projectStatusChangedById: user._id,
-    //     amendmentCounter: "1",
-    //   };
-    //   AddProjectTrack(finalData);
-    // } else {
-    //   const finalData = {
-    //     projectId: ProjectCycledata.projectId,
-    //     projectTrackLatestChange: Instructions,
-    //     ptEstimatedTime: estimatedWorkTime,
-    //     projectStatusType: ProjectCycledata.value,
-    //     projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
-    //     ptEstimatedDateTime: ptEstimatedDateTimeVal,
-    //     projectStatusChangedbyName: user.empFullName,
-    //     projectStatusChangedById: user._id,
-    //   };
-    //   AddProjectTrack(finalData);
-    // }
-
-    // onProjectCycleModalChange(true);
-    // client.send(
-    //   JSON.stringify({
-    //     type: "message",
-    //     msg: "/JobQueue",
-    //     msg1: "/DailyJobSheet`",
-    //   })
-    // );
-
-    // setFormData({
-    //   ...formData,
-    //   Instructions: "",
-    //   projectHour: "",
-    //   projectMinutes: "",
-    //   isSubmitted: true,
-    // });
+    setFormData({
+      ...formData,
+      Instructions: "",
+      projectHour: "",
+      projectMinutes: "",
+      isSubmitted: true,
+    });
 
     // }
   };
@@ -245,7 +242,7 @@ const ChangeProjectLifeCycle = ({
         >
           <div className="col-lg-8 col-md-6 col-sm-12 col-12">
             <label className="label-control colorRed">
-              * Indicates mandatory fields
+              * Indicates mandatory fields,
             </label>
           </div>
           <div className="col-lg-4 col-md-6 col-sm-12 col-12">
