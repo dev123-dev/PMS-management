@@ -10,6 +10,7 @@ import {
   AMENDMENT_PROJECTS,
   AMENDMENT_HISTORY_PROJECTS,
   AMENDMENT_LAST_HISTORY_PROJECTS,
+  SELECTED_CLIENT_DATA,
 } from "../actions/types";
 
 const initialState = {
@@ -23,6 +24,7 @@ const initialState = {
   amendmentProjects: [],
   amendentHistory: [],
   amendentLastHistory: [],
+  selectedClientData: [],
 };
 
 const settings = (state = initialState, action) => {
@@ -85,6 +87,12 @@ const settings = (state = initialState, action) => {
         ...state,
         amendentLastHistory: payload,
       };
+    case SELECTED_CLIENT_DATA:
+      return {
+        ...state,
+        selectedClientData: payload,
+      };
+
     default:
       return state;
   }

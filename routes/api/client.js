@@ -44,7 +44,7 @@ router.post("/edit-client", async (req, res) => {
       chPaymentId: allClientdata.PaymentId,
       chpaymentModeName: allClientdata.paymentModeName,
       chclientType: allClientdata.clientType,
-      chStandardInstruction: allClientdata.StandardInstruction,
+      chStandardInstruction: allClientdata.standardInstruction,
     };
     let clientHistoryDetails = new ClientHistoryDetails(historyData);
     await clientHistoryDetails.save();
@@ -66,7 +66,7 @@ router.post("/edit-client", async (req, res) => {
           clientType: data.clientType,
           clientAddress: data.clientAddress,
           clientCountry: data.clientCountry,
-          StandardInstruction: data.StandardInstruction,
+          standardInstruction: data.standardInstruction,
           clientCurrency: data.clientCurrency,
           paymentId: data.paymentId,
           paymentModeName: data.paymentModeName,

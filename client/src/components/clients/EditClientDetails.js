@@ -95,9 +95,9 @@ const EditClientDetails = ({
         ? allClientdata.paymentModeName
         : "",
 
-    StandardInstruction:
-      allClientdata && allClientdata.StandardInstruction
-        ? allClientdata.StandardInstruction
+    standardInstruction:
+      allClientdata && allClientdata.standardInstruction
+        ? allClientdata.standardInstruction
         : "",
 
     isSubmitted: false,
@@ -117,7 +117,7 @@ const EditClientDetails = ({
     clientCompanyName,
     clientCompanyFounderName,
     clientWebsite,
-    StandardInstruction,
+    standardInstruction,
   } = formData;
 
   const onInputChange = (e) => {
@@ -289,7 +289,7 @@ const EditClientDetails = ({
       clientCurrency: clientCurrency,
       paymentId: paymentId,
       paymentModeName: paymentModeName,
-      StandardInstruction: StandardInstruction,
+      standardInstruction: standardInstruction,
       allClientdata: allClientdata,
     };
     console.log(finalData);
@@ -458,13 +458,13 @@ const EditClientDetails = ({
               <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Standard Instruction :</label>
                 <textarea
-                  name="StandardInstruction"
-                  id="StandardInstruction"
+                  name="standardInstruction"
+                  id="standardInstruction"
                   className="textarea form-control"
                   rows="3"
                   placeholder="Standard Instruction"
                   style={{ width: "100%" }}
-                  value={StandardInstruction}
+                  value={standardInstruction}
                   onChange={(e) => onInputChange(e)}
                 ></textarea>
               </div>

@@ -44,7 +44,7 @@ const AddClientDetails = ({
     clientCompanyName: "",
     clientCompanyFounderName: "",
     clientWebsite: "",
-    StandardInstruction: "",
+    standardInstruction: "",
     isSubmitted: false,
   });
 
@@ -64,7 +64,7 @@ const AddClientDetails = ({
     clientCompanyFounderName,
     PaymentMode,
     clientWebsite,
-    StandardInstruction,
+    standardInstruction,
     isSubmitted,
   } = formData;
 
@@ -199,7 +199,7 @@ const AddClientDetails = ({
         paymentModeName: paymentname,
         clientCompanyFounderName: clientCompanyFounderName,
         clientWebsite: clientWebsite,
-        StandardInstruction: StandardInstruction,
+        standardInstruction: standardInstruction,
         clientEnteredById: user._id,
       };
       console.log(finalData);
@@ -395,13 +395,13 @@ const AddClientDetails = ({
                       Standard Instruction :
                     </label>
                     <textarea
-                      name="StandardInstruction"
-                      id="StandardInstruction"
+                      name="standardInstruction"
+                      id="standardInstruction"
                       className="textarea form-control"
                       rows="3"
                       placeholder="Standard Instruction"
                       style={{ width: "100%" }}
-                      value={StandardInstruction}
+                      value={standardInstruction}
                       onChange={(e) => onInputChange(e)}
                     ></textarea>
                   </div>
