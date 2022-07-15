@@ -16,6 +16,9 @@ const ClientHistorySchema = new mongoose.Schema({
   chWebsite: {
     type: String,
   },
+  chStandardInstruction: {
+    type: String,
+  },
   chBelongsToId: {
     type: ObjectId,
   },

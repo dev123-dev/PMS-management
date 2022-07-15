@@ -94,6 +94,12 @@ const EditClientDetails = ({
       allClientdata && allClientdata.paymentModeName
         ? allClientdata.paymentModeName
         : "",
+
+    StandardInstruction:
+      allClientdata && allClientdata.StandardInstruction
+        ? allClientdata.StandardInstruction
+        : "",
+
     isSubmitted: false,
   });
 
@@ -111,6 +117,7 @@ const EditClientDetails = ({
     clientCompanyName,
     clientCompanyFounderName,
     clientWebsite,
+    StandardInstruction,
   } = formData;
 
   const onInputChange = (e) => {
@@ -282,17 +289,12 @@ const EditClientDetails = ({
       clientCurrency: clientCurrency,
       paymentId: paymentId,
       paymentModeName: paymentModeName,
+      StandardInstruction: StandardInstruction,
       allClientdata: allClientdata,
     };
-    // console.log(finalData);
+    console.log(finalData);
     EditClient(finalData);
     onEditModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // }
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -452,6 +454,19 @@ const EditClientDetails = ({
                     },
                   })}
                 />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Standard Instruction :</label>
+                <textarea
+                  name="StandardInstruction"
+                  id="StandardInstruction"
+                  className="textarea form-control"
+                  rows="3"
+                  placeholder="Standard Instruction"
+                  style={{ width: "100%" }}
+                  value={StandardInstruction}
+                  onChange={(e) => onInputChange(e)}
+                ></textarea>
               </div>
             </div>
           </div>
