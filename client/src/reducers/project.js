@@ -29,7 +29,7 @@ const initialState = {
   selectedClientData: [],
 };
 
-const settings = (state = initialState, action) => {
+const projects = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -105,4 +105,4 @@ const settings = (state = initialState, action) => {
   }
 };
 
-export default settings;
+export default projects;

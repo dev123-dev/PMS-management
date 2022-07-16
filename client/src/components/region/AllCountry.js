@@ -2,13 +2,21 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Select from "react-select";
 import Spinner from "../layout/Spinner";
-import Pagination from "../layout/Pagination";
+import { getAllCountries } from "../../actions/regions";
 import AddCountryDetails from "./AddCountryDetails";
 import EditCountryDetails from "./EditCountryDetails";
 import DeactiveCountry from "./DeactiveCountry";
-const AllCountry = ({ auth: { isAuthenticated, user, users } }) => {
+const AllCountry = ({
+  auth: { isAuthenticated, user, users },
+  regions: { allCountries },
+  getAllCountries,
+}) => {
+  useEffect(() => {
+    getAllCountries();
+  }, [getAllCountries]);
+
+  console.log("allCountries", allCountries);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -201,9 +209,11 @@ const AllCountry = ({ auth: { isAuthenticated, user, users } }) => {
 
 AllCountry.propTypes = {
   auth: PropTypes.object.isRequired,
+  getAllCountries: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  regions: state.regions,
 });
 
-export default connect(mapStateToProps, {})(AllCountry);
+export default connect(mapStateToProps, { getAllCountries })(AllCountry);

@@ -7,6 +7,8 @@ const Country = require("../../models/regions/country");
 const State = require("../../models/regions/state");
 const District = require("../../models/regions/district");
 
+//ADD
+
 router.post("/add-country-details", async (req, res) => {
   let data = req.body;
   try {
@@ -43,4 +45,27 @@ router.post("/add-districts-details", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+//SELECT
+
+router.get("/get-all-countries", async (req, res) => {
+  try {
+    const getAllCountries = await Country.find({});
+    res.json(getAllCountries);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.get("/get-all-states", async (req, res) => {
+  try {
+    const getAllStates = await State.find({});
+    res.json(getAllStates);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;
