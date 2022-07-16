@@ -26,14 +26,12 @@ const AddStateDetails = ({
       stateName: stateName,
       stateEnteredById: user._id,
       stateEnteredByName: user.userName,
-      institutionId: user.institutionId,
-      userData: user,
     };
+    console.log(finalData);
     // AddState(finalData);
     setFormData({
       ...formData,
       stateName: "",
-
       isSubmitted: true,
     });
   };
@@ -56,19 +54,19 @@ const AddStateDetails = ({
                 required
               />
             </div>
-            <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-              <label className="label-control"> State Code * :</label>
-              <input
-                type="Number"
-                name="stateName"
-                value={stateName}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-                onKeyDown={(e) =>
-                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-                }
-              />
-            </div>
+            {/* <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+                <label className="label-control"> State Code * :</label>
+                <input
+                  type="Number"
+                  name="stateName"
+                  value={stateName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+                  }
+                />
+              </div> */}
           </div>
 
           <div className="col-md-10 col-lg-12 col-sm-12 col-12 text-left">
