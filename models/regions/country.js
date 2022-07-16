@@ -24,7 +24,7 @@ const CountrySchema = new mongoose.Schema({
     type: String,
   },
   countryEnteredDateTime: {
-    type: Date,
+    type: String,
     default: new Date().toLocaleString("en-GB"),
   },
   countryEditedById: {

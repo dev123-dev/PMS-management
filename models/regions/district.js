@@ -23,7 +23,7 @@ const DistrictSchema = new mongoose.Schema({
     type: String,
   },
   districtEnteredDateTime: {
-    type: Date,
+    type: String,
     default: new Date().toLocaleString("en-GB"),
   },
   districtEditedById: {

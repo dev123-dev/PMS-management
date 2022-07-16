@@ -1,12 +1,12 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { AddState } from "../../actions/area";
+import { addCountryDetails } from "../../actions/regions";
 import Spinner from "../layout/Spinner";
 
 const AddCountryDetails = ({
   auth: { isAuthenticated, user, users, loading },
-  //   AddState,
+  addCountryDetails,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -29,8 +29,8 @@ const AddCountryDetails = ({
       countryEnteredByName: user.userName,
       countryBelongsTo: "DCT",
     };
-    console.log(finalData);
-    // AddState(finalData);
+    // console.log(finalData);
+    addCountryDetails(finalData);
     setFormData({
       ...formData,
       countryName: "",
@@ -98,7 +98,7 @@ const AddCountryDetails = ({
 AddCountryDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   area: PropTypes.object.isRequired,
-  //   AddState: PropTypes.func.isRequired,
+  addCountryDetails: PropTypes.func.isRequired,
   savedMessage: PropTypes.string,
 };
 
@@ -109,5 +109,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  //   AddState,
+  addCountryDetails,
 })(AddCountryDetails);

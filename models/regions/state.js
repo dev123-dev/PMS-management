@@ -20,7 +20,7 @@ const StateSchema = new mongoose.Schema({
     type: String,
   },
   stateEnteredDateTime: {
-    type: Date,
+    type: String,
     default: new Date().toLocaleString("en-GB"),
   },
   stateEditedById: {

@@ -1,13 +1,13 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { AddState } from "../../actions/area";
+import { addStateDetails } from "../../actions/regions";
 import Spinner from "../layout/Spinner";
 
 const AddStateDetails = ({
   savedMessage,
   auth: { isAuthenticated, user, users, loading },
-  //   AddState,
+  addStateDetails,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -28,8 +28,8 @@ const AddStateDetails = ({
       stateEnteredByName: user.userName,
       stateBelongsTo: "DCT",
     };
-    console.log(finalData);
-    // AddState(finalData);
+    // console.log(finalData);
+    addStateDetails(finalData);
     setFormData({
       ...formData,
       stateName: "",
@@ -96,7 +96,7 @@ const AddStateDetails = ({
 AddStateDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   area: PropTypes.object.isRequired,
-  //   AddState: PropTypes.func.isRequired,
+  addStateDetails: PropTypes.func.isRequired,
   savedMessage: PropTypes.string,
 };
 
@@ -107,5 +107,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  //   AddState,
+  addStateDetails,
 })(AddStateDetails);
