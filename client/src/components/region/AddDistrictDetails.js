@@ -10,10 +10,10 @@ const AddDistrictDetails = ({
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    stateName: "",
+    districtName: "",
     isSubmitted: false,
   });
-  const { stateName } = formData;
+  const { districtName } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,16 +22,15 @@ const AddDistrictDetails = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      stateName: stateName,
-      stateEnteredById: user._id,
-      stateEnteredByName: user.userName,
-      institutionId: user.institutionId,
-      userData: user,
+      districtName: districtName,
+      districtEnteredById: user._id,
+      districtEnteredByName: user.userName,
     };
+    console.log(finalData);
     // AddState(finalData);
     setFormData({
       ...formData,
-      stateName: "",
+      districtName: "",
 
       isSubmitted: true,
     });
@@ -48,8 +47,8 @@ const AddDistrictDetails = ({
               <label className="label-control"> District Name * :</label>
               <input
                 type="text"
-                name="stateName"
-                value={stateName}
+                name="districtName"
+                value={districtName}
                 className="form-control"
                 onChange={(e) => onInputChange(e)}
                 required
@@ -57,7 +56,7 @@ const AddDistrictDetails = ({
             </div>
             <div className="col-lg-6 col-md-12 col-sm-12 col-12">
               <label className="label-control"> District Code * :</label>
-              <input
+              {/* <input
                 type="Number"
                 name="stateName"
                 value={stateName}
@@ -66,7 +65,7 @@ const AddDistrictDetails = ({
                 onKeyDown={(e) =>
                   (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
                 }
-              />
+              /> */}
             </div>
           </div>
 
