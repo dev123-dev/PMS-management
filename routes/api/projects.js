@@ -700,12 +700,15 @@ router.post("/get-all-amendment-histories", async (req, res) => {
 });
 
 router.post("/get-last-amendment-histories", async (req, res) => {
-  const { projectId } = req.body;
-  // console.log(projectId);
+  const { projectId, amendmentCounter } = req.body;
+  console.log(req.body);
   let query = {};
   query = {
     projectId: {
       $eq: mongoose.Types.ObjectId(projectId),
+    },
+    amendmentCounter: {
+      $eq: amendmentCounter,
     },
   };
   try {
