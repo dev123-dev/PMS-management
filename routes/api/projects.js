@@ -678,15 +678,20 @@ router.post("/get-amendment-project-details", async (req, res) => {
 });
 
 router.post("/get-all-amendment-histories", async (req, res) => {
-  const { projectId } = req.body;
-  let query = {};
-  query = {
-    projectId: {
-      $eq: mongoose.Types.ObjectId(projectId),
-    },
-  };
+  const { projectId, amendmentCounter } = req.body;
   try {
-    const getAmendmentLasthistoryDetails = await AmendmentHistory.find(query);
+    const getAmendmentLasthistoryDetails = await AmendmentHistory.aggregate([
+      {
+        $match: {
+          projectId: {
+            $eq: mongoose.Types.ObjectId(projectId),
+          },
+          amendmentCounter: {
+            $eq: amendmentCounter,
+          },
+        },
+      },
+    ]);
     res.json(getAmendmentLasthistoryDetails);
   } catch (err) {
     console.error(err.message);

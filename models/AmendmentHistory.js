@@ -5,6 +5,9 @@ const AmendmentHistorySchema = new mongoose.Schema({
   projectId: {
     type: ObjectId,
   },
+  amendmentCounter: {
+    type: Number,
+  },
   amendmentType: {
     type: String, //Resolved,UnResolved
   },
