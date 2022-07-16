@@ -26,6 +26,7 @@ const AddStateDetails = ({
       stateName: stateName,
       stateEnteredById: user._id,
       stateEnteredByName: user.userName,
+      stateBelongsTo: "DCT",
     };
     console.log(finalData);
     // AddState(finalData);

@@ -25,6 +25,7 @@ const AddDistrictDetails = ({
       districtName: districtName,
       districtEnteredById: user._id,
       districtEnteredByName: user.userName,
+      districtBelongsTo: "DCT",
     };
     console.log(finalData);
     // AddState(finalData);

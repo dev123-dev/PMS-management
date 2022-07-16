@@ -27,6 +27,7 @@ const AddCountryDetails = ({
       countryCode: countryCode,
       countryEnteredById: user._id,
       countryEnteredByName: user.userName,
+      countryBelongsTo: "DCT",
     };
     console.log(finalData);
     // AddState(finalData);
