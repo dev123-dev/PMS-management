@@ -26,6 +26,23 @@ const EditStateDetails = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const onUpdate = (e) => {
+    // e.preventDefault();
+    const finalData = {
+      //  recordId: allClientdata ? allClientdata._id : "",
+      stateName: stateName,
+      stateEditedById: user._id,
+      stateEditedDateTime: user.userName,
+    };
+    console.log(finalData);
+    // AddState(finalData);
+    // setFormData({
+    //   ...formData,
+    //   stateName: "",
+    //   isSubmitted: true,
+    // });
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -45,7 +62,7 @@ const EditStateDetails = ({
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control"> State Code * :</label>
-            <input
+            {/* <input
               type="Number"
               name="stateName"
               value={stateName}
@@ -54,7 +71,7 @@ const EditStateDetails = ({
               onKeyDown={(e) =>
                 (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
               }
-            />
+            /> */}
           </div>
         </div>
 
@@ -70,7 +87,7 @@ const EditStateDetails = ({
             <button
               variant="success"
               className="btn sub_form btn_continue Save float-right"
-              // onClick={() => onUpdate(districts)}
+              onClick={() => onUpdate()}
             >
               Update
             </button>

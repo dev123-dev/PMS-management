@@ -17,13 +17,34 @@ const EditDistrictDetails = ({
 
   //formData
   const [formData, setFormData] = useState({
-    stateName: "",
+    districtName: "",
+    // districtName:
+    //   allClientdata && allClientdata.districtName
+    //     ? allClientdata.districtName
+    //     : "",
     isSubmitted: false,
   });
-  const { stateName } = formData;
+  const { districtName } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onUpdate = (e) => {
+    // e.preventDefault();
+    const finalData = {
+      //  recordId: allClientdata ? allClientdata._id : "",
+      districtName: districtName,
+      districtEditedById: user._id,
+      districtEditedDateTime: user.userName,
+    };
+    console.log(finalData);
+    // AddState(finalData);
+    // setFormData({
+    //   ...formData,
+    //   stateName: "",
+    //   isSubmitted: true,
+    // });
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -36,8 +57,8 @@ const EditDistrictDetails = ({
             <label className="label-control"> District Name * :</label>
             <input
               type="text"
-              name="stateName"
-              value={stateName}
+              name="districtName"
+              value={districtName}
               className="form-control"
               onChange={(e) => onInputChange(e)}
               required
@@ -45,7 +66,7 @@ const EditDistrictDetails = ({
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control"> District Code * :</label>
-            <input
+            {/* <input
               type="Number"
               name="stateName"
               value={stateName}
@@ -54,7 +75,7 @@ const EditDistrictDetails = ({
               onKeyDown={(e) =>
                 (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
               }
-            />
+            /> */}
           </div>
         </div>
 
@@ -70,7 +91,7 @@ const EditDistrictDetails = ({
             <button
               variant="success"
               className="btn sub_form btn_continue Save float-right"
-              // onClick={() => onUpdate(districts)}
+              onClick={() => onUpdate()}
             >
               Update
             </button>

@@ -17,13 +17,35 @@ const EditCountryDetails = ({
 
   //formData
   const [formData, setFormData] = useState({
-    stateName: "",
+    countryName: "",
+    countryCode: "",
+    // countryName:
+    //   allClientdata && allClientdata.countryName
+    //     ? allClientdata.countryName
+    //     : "",
+    // countryCode:
+    //   allClientdata && allClientdata.countryCode
+    //     ? allClientdata.countryCode
+    //     : "",
     isSubmitted: false,
   });
-  const { stateName } = formData;
+  const { countryName, countryCode } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onUpdate = (e) => {
+    //e.preventDefault();
+    // if (checkErrors()) {
+    const finalData = {
+      //  recordId: allClientdata ? allClientdata._id : "",
+      countryName: countryName,
+      countryCode: countryCode,
+    };
+    console.log(finalData);
+    // EditClient(finalData);
+    // onEditModalChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -36,8 +58,8 @@ const EditCountryDetails = ({
             <label className="label-control"> Country Name * :</label>
             <input
               type="text"
-              name="stateName"
-              value={stateName}
+              name="countryName"
+              value={countryName}
               className="form-control"
               onChange={(e) => onInputChange(e)}
               required
@@ -47,8 +69,8 @@ const EditCountryDetails = ({
             <label className="label-control"> Country Code * :</label>
             <input
               type="Number"
-              name="stateName"
-              value={stateName}
+              name="countryCode"
+              value={countryCode}
               className="form-control"
               onChange={(e) => onInputChange(e)}
               onKeyDown={(e) =>
@@ -70,7 +92,7 @@ const EditCountryDetails = ({
             <button
               variant="success"
               className="btn sub_form btn_continue Save float-right"
-              // onClick={() => onUpdate(districts)}
+              onClick={() => onUpdate()}
             >
               Update
             </button>
