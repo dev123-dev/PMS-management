@@ -75,10 +75,10 @@ const Amendments = ({
     getAmendmentProjectDeatils({ setTypeData: setTypeData });
   };
   const [ProjLastchnage, setProjLastchnage] = useState(null);
-  const [ProjRestore, setProjRestore] = useState(null);
+  const [ProjRestore, setProjRestore] = useState();
   const onClickHandler = (amendmentProjects, idx) => {
     localStorage.removeItem("getLastAmendment");
-    setProjLastchnage(null);
+    // setProjLastchnage(null);
     setShowHide({
       ...showHide,
       showhistory_submitSection: true,
@@ -99,7 +99,7 @@ const Amendments = ({
   const [showHide1, setShowHide1] = useState({
     showunresolvedSection: true,
   });
-  // console.log(ProjLastchnage);
+  console.log("ProjRestore", ProjRestore);
   const { showhistory_submitSection } = showHide;
   const { showunresolvedSection } = showHide1;
   const onRadioSelect = (radiodata) => {
@@ -130,6 +130,7 @@ const Amendments = ({
       projectName: ProjRestore.projectName,
       discussionPoints: discussionPointsNotes,
       amendmentType: radiodata,
+      amendmentCounter: ProjRestore.amendmentCounter,
       amendmentEnteredById: user._id,
       amendmentEnteredByName: user.empFullName,
     };
@@ -166,6 +167,7 @@ const Amendments = ({
     setShowHistoryModal(true);
     const finalData = {
       projectId: ProjRestore ? ProjRestore.projectId : "",
+      amendmentCounter: ProjRestore.amendmentCounter,
     };
     setUserData(finalData);
   };
