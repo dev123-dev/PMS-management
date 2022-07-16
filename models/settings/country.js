@@ -36,7 +36,7 @@ const CountrySchema = new mongoose.Schema({
   countryDeactivateById: {
     type: ObjectId,
   },
-  countryDeactvateReason: {
+  countryDeactivateReason: {
     type: String,
   },
   countryDeactivateDateTime: {

@@ -13,14 +13,8 @@ const DeactiveState = ({
   //formData
   // console.log("data", Projectdeavtivedata);
   const [formData, setFormData] = useState({
-    projectName:
-      Projectdeavtivedata && Projectdeavtivedata.projectName
-        ? Projectdeavtivedata.projectName
-        : "",
-    clientName:
-      Projectdeavtivedata && Projectdeavtivedata.projectName
-        ? Projectdeavtivedata.clientName
-        : "",
+    stateName: "",
+
     clientFolderName:
       Projectdeavtivedata && Projectdeavtivedata.projectName
         ? Projectdeavtivedata.clientFolderName
@@ -29,17 +23,20 @@ const DeactiveState = ({
     isSubmitted: false,
   });
 
-  const { projectName, clientName, clientFolderName } = formData;
-
+  const { stateName, stateDeactivateReason } = formData;
+  const onInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      recordId: Projectdeavtivedata ? Projectdeavtivedata._id : "",
-      projectDeleteById: user._id,
-      projectDeleteDateTime: Date.now(),
+      //    recordId: Projectdeavtivedata ? Projectdeavtivedata._id : "",
+      stateDeactivateReason: stateDeactivateReason,
+      stateDeactiveById: user._id,
+      stateDeactivateDateTime: Date.now(),
     };
-    // console.log(finalData);
-    deactiveProjectData(finalData);
+    console.log(finalData);
+    // deactiveProjectData(finalData);
     onDeactiveModalChange(true);
   };
 
@@ -50,10 +47,25 @@ const DeactiveState = ({
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-            <label className="label-control">State Name : {projectName}</label>
+            <label className="label-control">State Name : {stateName}</label>
           </div>
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-            <label className="label-control">State Code : {clientName}</label>
+            {/* <label className="label-control">State Code : {clientName}</label> */}
+          </div>
+          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+            <label className="label-control">Deactivate Reason:</label>
+
+            <textarea
+              name="stateDeactivateReason"
+              id="stateDeactivateReason"
+              className="textarea form-control"
+              rows="3"
+              placeholder=" Deactive Reason"
+              style={{ width: "100%" }}
+              value={stateDeactivateReason}
+              onChange={(e) => onInputChange(e)}
+              required
+            ></textarea>
           </div>
         </div>
 

@@ -13,6 +13,7 @@ const DeactiveDistrict = ({
   //formData
   // console.log("data", Projectdeavtivedata);
   const [formData, setFormData] = useState({
+    districtDeactivateReason: "",
     projectName:
       Projectdeavtivedata && Projectdeavtivedata.projectName
         ? Projectdeavtivedata.projectName
@@ -29,17 +30,20 @@ const DeactiveDistrict = ({
     isSubmitted: false,
   });
 
-  const { projectName, clientName, clientFolderName } = formData;
-
+  const { districtName, clientName, districtDeactivateReason } = formData;
+  const onInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      recordId: Projectdeavtivedata ? Projectdeavtivedata._id : "",
-      projectDeleteById: user._id,
-      projectDeleteDateTime: Date.now(),
+      //recordId: Projectdeavtivedata ? Projectdeavtivedata._id : "",
+      districtDeactivateReason: districtDeactivateReason,
+      districtDeactivateById: user._id,
+      districtDeactivateDateTime: Date.now(),
     };
-    // console.log(finalData);
-    deactiveProjectData(finalData);
+    console.log(finalData);
+    //deactiveProjectData(finalData);
     onDeactiveModalChange(true);
   };
 
@@ -51,13 +55,28 @@ const DeactiveDistrict = ({
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <label className="label-control">
-              District Name : {projectName}
+              District Name : {districtName}
             </label>
           </div>
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <label className="label-control">
               District Code : {clientName}
             </label>
+          </div>
+          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+            <label className="label-control">Deactivate Reason:</label>
+
+            <textarea
+              name="districtDeactivateReason"
+              id="districtDeactivateReason"
+              className="textarea form-control"
+              rows="3"
+              placeholder=" Deactive Reason"
+              style={{ width: "100%" }}
+              value={districtDeactivateReason}
+              onChange={(e) => onInputChange(e)}
+              required
+            ></textarea>
           </div>
         </div>
 
