@@ -5,16 +5,16 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 
 const AddCountryDetails = ({
-  savedMessage,
   auth: { isAuthenticated, user, users, loading },
   //   AddState,
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    stateName: "",
+    countryName: "",
+    countryCode: "",
     isSubmitted: false,
   });
-  const { stateName } = formData;
+  const { countryName, countryCode } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,17 +23,17 @@ const AddCountryDetails = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      stateName: stateName,
-      stateEnteredById: user._id,
-      stateEnteredByName: user.userName,
-      institutionId: user.institutionId,
-      userData: user,
+      countryName: countryName,
+      countryCode: countryCode,
+      countryEnteredById: user._id,
+      countryEnteredByName: user.userName,
     };
+    console.log(finalData);
     // AddState(finalData);
     setFormData({
       ...formData,
-      stateName: "",
-
+      countryName: "",
+      countryCode: "",
       isSubmitted: true,
     });
   };
@@ -49,8 +49,8 @@ const AddCountryDetails = ({
               <label className="label-control"> Country Name * :</label>
               <input
                 type="text"
-                name="stateName"
-                value={stateName}
+                name="countryName"
+                value={countryName}
                 className="form-control"
                 onChange={(e) => onInputChange(e)}
                 required
@@ -60,8 +60,8 @@ const AddCountryDetails = ({
               <label className="label-control"> Country Code * :</label>
               <input
                 type="Number"
-                name="stateName"
-                value={stateName}
+                name="countryCode"
+                value={countryCode}
                 className="form-control"
                 onChange={(e) => onInputChange(e)}
                 onKeyDown={(e) =>
