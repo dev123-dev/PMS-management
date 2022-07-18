@@ -197,4 +197,48 @@ router.get("/get-all-districts", async (req, res) => {
   }
 });
 
+router.post("/get-active-country", async (req, res) => {
+  // const { institutionId } = req.body;
+  try {
+    const getActiveCountry = await State.find({
+      countryStatus: {
+        $eq: "Active",
+      },
+    });
+    res.json(getActiveCountry);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-active-state", async (req, res) => {
+  // const { institutionId } = req.body;
+  try {
+    const getActiveState = await State.find({
+      stateStatus: {
+        $eq: "Active",
+      },
+    });
+    res.json(getActiveState);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-active-districs", async (req, res) => {
+  // const { institutionId } = req.body;
+  try {
+    const getActiveDistrics = await District.find({
+      districtStatus: {
+        $eq: "Active",
+      },
+    });
+    res.json(getActiveDistrics);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 module.exports = router;

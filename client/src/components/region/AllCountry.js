@@ -107,7 +107,18 @@ const AllCountry = ({
                       <th>Op</th>
                     </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody>
+                    {allCountries &&
+                      allCountries.map((countryData, idx) => {
+                        return (
+                          <tr key={idx}>
+                            <td>{countryData.countryName}</td>
+                            <td>{countryData.countryCode}</td>
+                            <td></td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
                 </table>
               </div>
             </section>

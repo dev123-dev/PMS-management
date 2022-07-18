@@ -7,6 +7,9 @@ import {
   ALL_COUNTRIES,
   ALL_STATES,
   ALL_DISTRICTS,
+  ACTIVE_STATE,
+  ACTIVE_DISTRICTS,
+  ACTIVE_COUNTRY,
 } from "./types";
 
 const config = {
@@ -212,6 +215,48 @@ export const getAllDistricts = () => async (dispatch) => {
     const res = await axios.get("/api/regions/get-all-districts");
     dispatch({
       type: ALL_DISTRICTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getActiveCountry = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/regions/get-active-country");
+    dispatch({
+      type: ACTIVE_COUNTRY,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getActiveState = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/regions/get-active-state");
+    dispatch({
+      type: ACTIVE_STATE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getActiveDistricts = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/regions/get-active-districts");
+    dispatch({
+      type: ACTIVE_DISTRICTS,
       payload: res.data,
     });
   } catch (err) {
