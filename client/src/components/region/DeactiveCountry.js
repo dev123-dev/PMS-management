@@ -2,10 +2,11 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { deactiveProjectData } from "../../actions/projects";
+import { deactiveCountryData } from "../../actions/regions";
 import { Link } from "react-router-dom";
 const DeactiveCountry = ({
   auth: { isAuthenticated, user, users, loading },
+  deactiveCountryData,
   Projectdeavtivedata,
   onDeactiveModalChange,
   deactiveProjectData,
@@ -39,7 +40,7 @@ const DeactiveCountry = ({
     };
     console.log(finalData);
     // console.log(finalData);
-    // deactiveProjectData(finalData);
+    // deactiveCountryData(finalData);
     // onDeactiveModalChange(true);
   };
 
@@ -113,7 +114,7 @@ const DeactiveCountry = ({
 
 DeactiveCountry.propTypes = {
   auth: PropTypes.object.isRequired,
-  deactiveProjectData: PropTypes.func.isRequired,
+  deactiveCountryData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -121,5 +122,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  deactiveProjectData,
+  deactiveCountryData,
 })(DeactiveCountry);

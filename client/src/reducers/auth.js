@@ -1,6 +1,7 @@
 import {
   USER_LOADED,
   AUTH_ERROR,
+  ERROR,
   REMOVE_ERROR,
   ALL_USERS,
   CHANGE_PWD_FAIL,
@@ -25,6 +26,7 @@ const initialState = {
   users: [],
   errorResponse: "",
   successResponse: "",
+  error: null,
 
   monthExpCnt: [],
   yearExpCnt: [],
@@ -34,7 +36,7 @@ const initialState = {
 };
 
 const auth = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload, error } = action;
 
   switch (type) {
     case USER_LOADED:
@@ -53,6 +55,8 @@ const auth = (state = initialState, action) => {
         loading: false,
         errorResponse: "",
       };
+    case ERROR:
+      return { error: error };
 
     case LOGIN_FAIL:
     case AUTH_ERROR:
@@ -134,6 +138,7 @@ const auth = (state = initialState, action) => {
         ...state,
         loading: false,
       };
+
     default:
       return state;
   }

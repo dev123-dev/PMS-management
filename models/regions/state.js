@@ -27,13 +27,13 @@ const StateSchema = new mongoose.Schema({
     type: ObjectId,
   },
   stateEditedDateTime: {
-    type: Date,
+    type: String,
   },
   stateDeactiveById: {
     type: ObjectId,
   },
   stateDeactivateDateTime: {
-    type: Date,
+    type: String,
   },
   stateDeactivateReason: {
     type: String,

@@ -1,14 +1,13 @@
 import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Select from "react-select";
-// import { getStates, editDistrictDetails } from "../../actions/area";
+import { EditStateData } from "../../actions/regions";
 import Spinner from "../layout/Spinner";
 
 const EditStateDetails = ({
   auth: { isAuthenticated, user, users, loading },
   //   getStates,
-  //   editDistrictDetails,
+  EditStateData,
   districts,
 }) => {
   //   useEffect(() => {
@@ -35,7 +34,7 @@ const EditStateDetails = ({
       stateEditedDateTime: user.userName,
     };
     console.log(finalData);
-    // AddState(finalData);
+    // EditStateData(finalData);
     // setFormData({
     //   ...formData,
     //   stateName: "",
@@ -100,17 +99,17 @@ const EditStateDetails = ({
 
 EditStateDetails.propTypes = {
   auth: PropTypes.object.isRequired,
-  area: PropTypes.object.isRequired,
-  //   editDistrictDetails: PropTypes.func.isRequired,
+  regions: PropTypes.object.isRequired,
+  EditStateData: PropTypes.func.isRequired,
   //   getStates: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  area: state.area,
+  regions: state.regions,
 });
 
 export default connect(mapStateToProps, {
   //   getStates,
-  //   editDistrictDetails,
+  EditStateData,
 })(EditStateDetails);

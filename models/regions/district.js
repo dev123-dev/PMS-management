@@ -30,7 +30,7 @@ const DistrictSchema = new mongoose.Schema({
     type: ObjectId,
   },
   districtEditedDateTime: {
-    type: Date,
+    type: String,
   },
   districtDeactivateById: {
     type: ObjectId,
@@ -39,7 +39,7 @@ const DistrictSchema = new mongoose.Schema({
     type: String,
   },
   districtDeactivateDateTime: {
-    type: Date,
+    type: String,
   },
 });
 

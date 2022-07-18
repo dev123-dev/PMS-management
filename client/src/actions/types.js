@@ -4,6 +4,7 @@ export const LOGOUT = "LOGOUT";
 
 export const USER_LOADED = "USER_LOADED";
 export const AUTH_ERROR = "AUTH_ERROR";
+export const ERROR = "ERROR"; //For Any ERRORS in actions it's return error
 export const REMOVE_ERROR = "REMOVE_ERROR";
 
 export const SET_ALERT = "SET_ALERT";

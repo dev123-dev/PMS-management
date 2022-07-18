@@ -2,13 +2,13 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { deactiveProjectData } from "../../actions/projects";
+import { deactiveStateData } from "../../actions/regions";
 import { Link } from "react-router-dom";
 const DeactiveState = ({
   auth: { isAuthenticated, user, users, loading },
   Projectdeavtivedata,
   onDeactiveModalChange,
-  deactiveProjectData,
+  deactiveStateData,
 }) => {
   //formData
   // console.log("data", Projectdeavtivedata);
@@ -36,7 +36,7 @@ const DeactiveState = ({
       stateDeactivateDateTime: Date.now(),
     };
     console.log(finalData);
-    // deactiveProjectData(finalData);
+    // deactiveStateData(finalData);
     onDeactiveModalChange(true);
   };
 
@@ -106,7 +106,7 @@ const DeactiveState = ({
 
 DeactiveState.propTypes = {
   auth: PropTypes.object.isRequired,
-  deactiveProjectData: PropTypes.func.isRequired,
+  deactiveStateData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -114,5 +114,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  deactiveProjectData,
+  deactiveStateData,
 })(DeactiveState);

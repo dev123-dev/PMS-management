@@ -35,7 +35,6 @@ router.post("/add-state-details", async (req, res) => {
 
 router.post("/add-districts-details", async (req, res) => {
   let data = req.body;
-  console.log;
   try {
     let AddDistrictDetails = new District(data);
     output = await AddDistrictDetails.save();
@@ -50,15 +49,117 @@ router.post("/add-districts-details", async (req, res) => {
 router.post("/edit-country-details", async (req, res) => {
   try {
     let data = req.body;
-    const updateCountryDetails = await ProjectStatus.updateOne(
+    const updateCountryDetails = await Country.updateOne(
       { _id: data.recordId },
       {
         $set: {
           countryName: data.countryName,
+          countryCode: data.countryCode,
+          countryEditedById: data.countryEditedById,
+          countryEditedDateTime: new Date().toLocaleString("en-GB"),
         },
       }
     );
     res.json(updateCountryDetails);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/edit-state-details", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateStateDetails = await State.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          stateName: data.stateName,
+          stateEditedById: data.stateEditedById,
+          stateEditedDateTime: new Date().toLocaleString("en-GB"),
+        },
+      }
+    );
+    res.json(updateStateDetails);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/edit-districts-details", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDistrictsDetails = await District.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          districtName: data.districtName,
+          districtEditedById: data.districtEditedById,
+          districtEditedDateTime: new Date().toLocaleString("en-GB"),
+        },
+      }
+    );
+    res.json(updateDistrictsDetails);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+//DEACTIVATE
+
+router.post("/deactive-country-details", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactiveCountryDetails = await Country.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          countryStatus: data.countryStatus,
+          countryDeactvateReason: data.countryDeactvateReason,
+          countryDeactivateById: data.countryDeactivateById,
+          countryDeactivateDateTime: new Date().toLocaleString("en-GB"),
+        },
+      }
+    );
+    res.json(deactiveCountryDetails);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+router.post("/deactive-state-details", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactiveStateDetails = await State.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          stateStatus: data.stateStatus,
+          stateDeactivateReason: data.stateDeactivateReason,
+          stateDeactiveById: data.stateDeactiveById,
+          stateDeactivateDateTime: new Date().toLocaleString("en-GB"),
+        },
+      }
+    );
+    res.json(deactiveStateDetails);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/deactive-districts-details", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactiveDistrictsDetails = await District.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          districtStatus: data.districtStatus,
+          districtDeactivateReason: data.districtDeactivateReason,
+          districtDeactivateById: data.districtDeactivateById,
+          districtDeactivateDateTime: new Date().toLocaleString("en-GB"),
+        },
+      }
+    );
+    res.json(deactiveDistrictsDetails);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }

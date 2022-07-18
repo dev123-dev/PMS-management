@@ -1,14 +1,13 @@
 import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Select from "react-select";
-// import { getStates, editDistrictDetails } from "../../actions/area";
+import { EditCountryData } from "../../actions/regions";
 import Spinner from "../layout/Spinner";
 
 const EditCountryDetails = ({
   auth: { isAuthenticated, user, users, loading },
   //   getStates,
-  //   editDistrictDetails,
+  EditCountryData,
   districts,
 }) => {
   //   useEffect(() => {
@@ -44,7 +43,7 @@ const EditCountryDetails = ({
       countryCode: countryCode,
     };
     console.log(finalData);
-    // EditClient(finalData);
+    // EditCountryData(finalData);
     // onEditModalChange(true);
   };
 
@@ -105,17 +104,17 @@ const EditCountryDetails = ({
 
 EditCountryDetails.propTypes = {
   auth: PropTypes.object.isRequired,
-  area: PropTypes.object.isRequired,
-  //   editDistrictDetails: PropTypes.func.isRequired,
+  regions: PropTypes.object.isRequired,
+  EditCountryData: PropTypes.func.isRequired,
   //   getStates: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  area: state.area,
+  regions: state.regions,
 });
 
 export default connect(mapStateToProps, {
   //   getStates,
-  //   editDistrictDetails,
+  EditCountryData,
 })(EditCountryDetails);
