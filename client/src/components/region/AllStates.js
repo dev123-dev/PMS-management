@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getAllstate } from "../../actions/regions";
+import { getAllState } from "../../actions/regions";
 
 import AddStateDetails from "./AddStateDetails";
 import EditStateDetails from "./EditStateDetails";
@@ -11,11 +11,11 @@ import DeactiveState from "./DeactiveState";
 const AllStates = ({
   auth: { isAuthenticated, user, users },
   regions: { allState },
-  getAllstate,
+  getAllState,
 }) => {
   useEffect(() => {
-    getAllstate();
-  }, [getAllstate]);
+    getAllState();
+  }, [getAllState]);
 
   console.log("allState", allState);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
@@ -205,11 +205,11 @@ const AllStates = ({
 
 AllStates.propTypes = {
   auth: PropTypes.object.isRequired,
-  getAllstate: PropTypes.func.isRequired,
+  getAllState: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   regions: state.regions,
 });
 
-export default connect(mapStateToProps, { getAllstate })(AllStates);
+export default connect(mapStateToProps, { getAllState })(AllStates);

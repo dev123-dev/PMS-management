@@ -46,6 +46,24 @@ router.post("/add-districts-details", async (req, res) => {
   }
 });
 
+//EDIT
+router.post("/edit-country-details", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateCountryDetails = await ProjectStatus.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          countryName: data.countryName,
+        },
+      }
+    );
+    res.json(updateCountryDetails);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 //SELECT
 
 router.get("/get-all-countries", async (req, res) => {
@@ -62,6 +80,16 @@ router.get("/get-all-states", async (req, res) => {
   try {
     const getAllStates = await State.find({});
     res.json(getAllStates);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.get("/get-all-districts", async (req, res) => {
+  try {
+    const getAllDistricts = await District.find({});
+    res.json(getAllDistricts);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

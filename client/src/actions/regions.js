@@ -5,6 +5,7 @@ import {
   SET_LOADING_FALSE,
   ALL_COUNTRIES,
   ALL_STATES,
+  ALL_DISTRICTS,
 } from "./types";
 
 const config = {
@@ -21,6 +22,7 @@ export const addCountryDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/regions/add-country-details", finalData, config);
+    dispatch(getAllCountries());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -37,6 +39,7 @@ export const addStateDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/regions/add-state-details", finalData, config);
+    dispatch(getAllState());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -54,6 +57,7 @@ export const addDistrictDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/regions/add-districts-details", finalData, config);
+    dispatch(getAllDistricts());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -80,7 +84,7 @@ export const getAllCountries = () => async (dispatch) => {
   }
 };
 
-export const getAllstate = () => async (dispatch) => {
+export const getAllState = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/regions/get-all-states");
     dispatch({
@@ -93,3 +97,19 @@ export const getAllstate = () => async (dispatch) => {
     });
   }
 };
+
+export const getAllDistricts = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/regions/get-all-districts");
+    dispatch({
+      type: ALL_DISTRICTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+//EDIT

@@ -1,13 +1,22 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
-import Select from "react-select";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import { getAllDistricts } from "../../actions/regions";
 import AddDistrictDetails from "./AddDistrictDetails";
 import EditDistrictDetails from "./EditDistrictDetails";
 import DeactiveDistrict from "./DeactiveDistrict";
-const AllDistricts = ({ auth: { allUser, isAuthenticated, user, users } }) => {
+const AllDistricts = ({
+  auth: { allUser, isAuthenticated, user, users },
+  regions: { allDistrics },
+  getAllDistricts,
+}) => {
+  useEffect(() => {
+    getAllDistricts();
+  }, [getAllDistricts]);
+
+  console.log("allDistrics", allDistrics);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -197,9 +206,11 @@ const AllDistricts = ({ auth: { allUser, isAuthenticated, user, users } }) => {
 
 AllDistricts.propTypes = {
   auth: PropTypes.object.isRequired,
+  getAllDistricts: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  regions: state.regions,
 });
 
-export default connect(mapStateToProps, {})(AllDistricts);
+export default connect(mapStateToProps, { getAllDistricts })(AllDistricts);
