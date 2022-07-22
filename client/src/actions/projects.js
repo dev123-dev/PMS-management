@@ -107,7 +107,6 @@ export const AddAmendmentHistory = (amendmentData) => async (dispatch) => {
       amendmentData,
       config
     );
-    // dispatch(getLastAmendmentHistoryDeatils());
     // dispatch(getDailyJobsheetProjectDeatils());
     dispatch({
       type: SET_LOADING_FALSE,
@@ -417,6 +416,25 @@ export const getAmendmentHistoryDeatils = (amenddata) => async (dispatch) => {
   }
 };
 
+// export const getLastAmendmentHistoryDeatils =
+//   (lastAmendment) => async (dispatch) => {
+
+//     try {
+//       const res = await axios.post(
+//         "/api/projects/get-last-amendment-histories",
+//         lastAmendment
+//       );
+//       localStorage.setItem("getLastAmendmentDetails", JSON.stringify(res.data));
+//       dispatch({
+//         type: AMENDMENT_LAST_HISTORY_PROJECTS,
+//         payload: res.data,
+//       });
+//     } catch (err) {
+
+//       console.log(err);
+
+//     }
+//   };
 export const getLastAmendmentHistoryDeatils =
   (amenddata) => async (dispatch) => {
     try {
@@ -460,7 +478,7 @@ export const getLastAmendmentCounter =
         "/api/projects/get-last-amendment-counter",
         amendmentProjectId
       );
-      localStorage.setItem("getLastAmendmentCounter", JSON.stringify(res.data));
+      localStorage.setItem("getLastAmendmentCount", JSON.stringify(res.data));
       dispatch({
         type: AMENDMENT_LAST_COUNTER,
         payload: res.data,
