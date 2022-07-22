@@ -188,6 +188,19 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
+
+                <NavItem>
+                  {!loading && isAuthenticated && user ? (
+                    <NavLink
+                      to="/deactive-lead"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Deactive Lead
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>
