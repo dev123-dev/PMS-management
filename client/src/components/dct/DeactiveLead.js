@@ -229,38 +229,18 @@ const DeactiveLead = ({
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
-        projectName: projectName,
-        clientId: clientId,
         clientName: clientData.value,
         parentClientId: clientData.belongsToId,
         parentClientName: clientBelongsTo,
-        // projectLocation:
         clientFolderName: clientData.folderName,
         projectPriority: priority.value,
-        // projectJobtype
-        // projectHours
-        projectNotes: Instructions,
-        projectDeadline: deadline,
         projectStatusType: projectStatusData.value,
         projectStatusId: projectStatusData.projStatusId,
-        // projectPrice:
-        projectQuantity: qty,
-        projectUnconfirmed: isChecked,
-        // projectVendor
-        clientTypeVal: clientType.value,
-        projectTime: projectTime,
-        projectDate: startprojectDate,
-        clientTime: clientTime,
-        outputformat: outputformat,
-        clientDate: startclientDate,
         projectEnteredById: user._id,
         projectEnteredByName: user.empFullName,
-        // projectEnteredDate:
-        // projectEntryTime
-        // clientType: clientType.value,
       };
       // console.log(finalData);
-      addProject(finalData);
+      //  addProject(finalData);
       setFormData({
         ...formData,
 
