@@ -160,7 +160,11 @@ export const VerifyProject = (finalData) => async (dispatch) => {
     dispatch({
       type: SET_LOADING_TRUE,
     });
-    await axios.post("/api/projects/verify-project", finalData, config);
+    const res = await axios.post(
+      "/api/projects/verify-project",
+      finalData,
+      config
+    );
     dispatch(getverificationProjectDeatils());
     dispatch({
       type: SET_LOADING_FALSE,

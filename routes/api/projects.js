@@ -142,7 +142,7 @@ router.post("/verify-project", async (req, res) => {
   try {
     let data = req.body;
 
-    await Project.updateOne(
+    const verifyProjectData = await Project.updateOne(
       { _id: data.recordId },
       {
         $set: {
@@ -152,6 +152,7 @@ router.post("/verify-project", async (req, res) => {
         },
       }
     );
+    res.json(verifyProjectData);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
