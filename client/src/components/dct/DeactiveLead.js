@@ -279,7 +279,7 @@ const DeactiveLead = ({
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
           <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">Edit Lead</h2>
+            <h2 className="heading_color">Deactive Lead</h2>
             <hr />
           </div>
           <section className="sub_reg">
@@ -290,93 +290,20 @@ const DeactiveLead = ({
                     <h5>Company Info</h5>
                   </div>
 
-                  <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
+                  <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
                     <label className="label-control" style={ClientErrorStyle}>
-                      Company Name :
+                      Deactive Reason :
                     </label>
-                    <input
-                      type="text"
-                      name="clientBelongsTo"
-                      value={clientBelongsTo}
-                      className="form-control"
+                    <textarea
+                      name="clientAddress"
+                      id="clientAddress"
+                      className="textarea form-control"
+                      rows="3"
+                      placeholder="Client Address"
+                      style={{ width: "100%" }}
+                      //  value={clientAddress}
                       onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label
-                      className="label-control"
-                      style={clientnameIdErrorStyle}
-                    >
-                      Website Name* :
-                    </label>
-                    <input
-                      type="text"
-                      name="clientBelongsTo"
-                      value={clientBelongsTo}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Email Id :</label>
-                    <input
-                      type="text"
-                      name="clientBelongsTo"
-                      value={clientBelongsTo}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Phone 1 :</label>
-                    <input
-                      type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Phone 2 :</label>
-                    <input
-                      type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Region :</label>
-                    <input
-                      type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Address :</label>
-                    <input
-                      type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Important Points :</label>
-                    <input
-                      type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
+                    ></textarea>
                   </div>
                 </div>
               </div>
@@ -392,7 +319,7 @@ const DeactiveLead = ({
                   before Submit
                 </label>
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-12 col-12">
+              <div className="col-lg-12 col-md-6 col-sm-12 col-12">
                 {loading ? (
                   <button
                     className="btn sub_form btn_continue blackbrd Save float-right"
