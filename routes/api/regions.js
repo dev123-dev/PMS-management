@@ -241,4 +241,21 @@ router.post("/get-active-districs", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/get-state", async (req, res) => {
+  let query = {};
+  query = {
+    stateStatus: {
+      $eq: "Active",
+    },
+  };
+  try {
+    const stateDetails = await State.find(query);
+    res.json(stateDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;

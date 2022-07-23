@@ -10,6 +10,7 @@ import {
   ACTIVE_STATE,
   ACTIVE_DISTRICTS,
   ACTIVE_COUNTRY,
+  STATES,
 } from "./types";
 
 const config = {
@@ -257,6 +258,21 @@ export const getActiveDistricts = () => async (dispatch) => {
     const res = await axios.post("/api/regions/get-active-districts");
     dispatch({
       type: ACTIVE_DISTRICTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getStates = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/regions/get-state");
+    // localStorage.setItem("selStateData", JSON.stringify(res.data));
+    dispatch({
+      type: STATES,
       payload: res.data,
     });
   } catch (err) {
