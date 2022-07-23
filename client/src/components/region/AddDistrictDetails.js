@@ -1,19 +1,25 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { addDistrictDetails } from "../../actions/regions";
+import { addDistrictDetails, getStates } from "../../actions/regions";
 import Select from "react-select";
 
 const AddDistrictDetails = ({
   auth: { isAuthenticated, user, users, loading },
+  regions: { statesData },
   addDistrictDetails,
+  getStates,
 }) => {
+  useEffect(() => {
+    getStates();
+  }, [getStates]);
   //formData
   const [formData, setFormData] = useState({
     districtName: "",
     isSubmitted: false,
   });
+  console.log("statesData", statesData);
   const { districtName } = formData;
 
   const onInputChange = (e) => {
@@ -151,6 +157,7 @@ AddDistrictDetails.propTypes = {
   area: PropTypes.object.isRequired,
   addDistrictDetails: PropTypes.func.isRequired,
   savedMessage: PropTypes.string,
+  getStates: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -161,4 +168,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   addDistrictDetails,
+  getStates,
 })(AddDistrictDetails);
