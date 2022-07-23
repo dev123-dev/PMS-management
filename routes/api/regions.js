@@ -189,7 +189,17 @@ router.get("/get-all-states", async (req, res) => {
 
 router.get("/get-all-districts", async (req, res) => {
   try {
-    const getAllDistricts = await District.find({});
+    const getAllDistricts = await District.aggregate([
+      {
+        $lookup: {
+          from: "states",
+          localField: "stateId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $unwind: "$output" },
+    ]);
     res.json(getAllDistricts);
   } catch (err) {
     console.error(err.message);
