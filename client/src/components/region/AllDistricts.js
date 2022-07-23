@@ -218,6 +218,7 @@ const AllDistricts = ({
 
 AllDistricts.propTypes = {
   auth: PropTypes.object.isRequired,
+  regions: PropTypes.object.isRequired,
   getAllDistricts: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
