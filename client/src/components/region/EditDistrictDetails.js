@@ -31,21 +31,38 @@ const EditDistrictDetails = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  // const allstates = [];
-  // statesData.map((state) =>
-  //   allstates.push({
-  //     stateId: state._id,
-  //     label: state.stateName,
-  //     value: state.stateName,
-  //   })
-  // );
+  const allstates = [];
+  let selStateData = JSON.parse(localStorage.getItem("selStateData"));
+  selStateData &&
+    selStateData.map((state) => {
+      allstates.push({
+        stateId: state._id,
+        label: state.stateName,
+        value: state.stateName,
+      });
+    });
 
-  const [state, getStateData] = useState();
-  const [stateId, setStateID] = useState();
+  const [state, setStateData] = useState(
+    districts
+      ? allstates.length !== 0
+        ? allstates &&
+          allstates.filter((x) => x.stateId === districts.stateId)[0]
+        : ""
+      : ""
+  );
+  if (selStateData && selStateData.length !== 0) {
+    let hi = districts
+      ? allstates.length !== 0
+        ? allstates &&
+          allstates.filter((x) => x.stateId === districts.stateId)[0]
+        : ""
+      : "";
+  }
+  const [stateId, setStateID] = useState(districts.stateId);
 
   const onStateChange = (e) => {
     var stateId = "";
-    getStateData(e);
+    setStateData(e);
     stateId = e.stateId;
     setStateID(stateId);
   };
@@ -86,7 +103,7 @@ const EditDistrictDetails = ({
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control">State * :</label>
-            {/* <Select
+            <Select
               name="stateName"
               options={allstates}
               isSearchable={true}
@@ -103,7 +120,7 @@ const EditDistrictDetails = ({
                   primary: "black",
                 },
               })}
-            /> */}
+            />
           </div>
         </div>
 
