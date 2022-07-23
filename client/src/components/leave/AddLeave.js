@@ -21,8 +21,8 @@ const AddLeave = ({
   }, [getAllStaff]);
   //formData
   const [formData, setFormData] = useState({
-    departmentName: "",
-    departmentDesc: "",
+    empId: "",
+    leaveReason: "",
     slVal: null,
     isSubmitted: false,
   });
@@ -33,7 +33,7 @@ const AddLeave = ({
     // new DateObject().set({ day: 20, format }),
   ]);
 
-  const { departmentName, departmentDesc, slVal } = formData;
+  const { leaveReason, slVal } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -47,12 +47,12 @@ const AddLeave = ({
     if (leaveType === "fullDay") {
       setFormData({
         ...formData,
-        slVal: 1,
+        slVal: "FullDay",
       });
     } else if (leaveType === "halfDay") {
       setFormData({
         ...formData,
-        slVal: 0.5,
+        slVal: "HalfDay",
       });
     }
     setError({
@@ -61,7 +61,8 @@ const AddLeave = ({
     });
   };
   const [staffData, setstaffData] = useState("");
-
+  const [employeeId, setpaymentId] = useState("");
+  const [employeename, setpaymentname] = useState("");
   const activeStaffsOpt = [];
   allStaffName &&
     allStaffName.map((staffsData) =>
@@ -71,18 +72,22 @@ const AddLeave = ({
       })
     );
   const onStaffChange = (e) => {
+    var employeeId = "";
+    var employeename = "";
     setstaffData(e);
-    const finalData = {
-      empNameSearch: e.value,
-    };
-    console.log(finalData);
+    employeeId = e.value;
+    employeename = e.label;
+    setpaymentId(employeeId);
+    setpaymentname(employeename);
   };
   //Required Validation ends
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
       dates: dates,
-      slVal: slVal,
+      leaveType: slVal,
+      leaveReason: leaveReason,
+      empId: employeeId,
     };
     console.log(finalData);
     //AddNewDepartment(finalData);
@@ -135,7 +140,7 @@ const AddLeave = ({
                   className="btn btn-round"
                   value="Full Day"
                   style={
-                    slVal === 1
+                    slVal === "FullDay"
                       ? {
                           backgroundColor: "#5c87a3",
                           color: " #fff",
@@ -155,7 +160,7 @@ const AddLeave = ({
                   className="btn btn-round"
                   value="Half Day"
                   style={
-                    slVal == 0.5
+                    slVal === "HalfDay"
                       ? {
                           backgroundColor: "#5c87a3",
                           color: "#fff",
@@ -170,13 +175,13 @@ const AddLeave = ({
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">
             <label className="label-control"> Reason :</label>
             <textarea
-              name="clientAddress"
-              id="clientAddress"
+              name="leaveReason"
+              id="leaveReason"
               className="textarea form-control"
               rows="3"
               placeholder="Leave Reason"
               style={{ width: "100%" }}
-              //  value={clientAddress}
+              value={leaveReason}
               onChange={(e) => onInputChange(e)}
             ></textarea>
           </div>
