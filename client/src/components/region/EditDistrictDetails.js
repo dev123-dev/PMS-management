@@ -7,14 +7,17 @@ import Spinner from "../layout/Spinner";
 
 const EditDistrictDetails = ({
   auth: { isAuthenticated, user, users, loading },
-  //   getStates,
+  regions: { statesData },
+  getStates,
   onUpdateModalChange,
   districts,
 }) => {
-  //   useEffect(() => {
-  //     getStates();
-  //   }, [getStates]);
+  useEffect(() => {
+    getStates();
+  }, [getStates]);
   console.log(districts);
+  console.log("statesData", statesData);
+
   //formData
   const [formData, setFormData] = useState({
     districtName:
@@ -32,9 +35,9 @@ const EditDistrictDetails = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const allstates = [];
-  let selStateData = JSON.parse(localStorage.getItem("selStateData"));
-  selStateData &&
-    selStateData.map((state) => {
+  // let selStateData = JSON.parse(localStorage.getItem("selStateData"));
+  statesData &&
+    statesData.map((state) => {
       allstates.push({
         stateId: state._id,
         label: state.stateName,
@@ -50,7 +53,7 @@ const EditDistrictDetails = ({
         : ""
       : ""
   );
-  if (selStateData && selStateData.length !== 0) {
+  if (statesData && statesData.length !== 0) {
     let hi = districts
       ? allstates.length !== 0
         ? allstates &&
@@ -151,7 +154,7 @@ EditDistrictDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
   EditDistrictData: PropTypes.func.isRequired,
-  //   getStates: PropTypes.func.isRequired,
+  getStates: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -160,6 +163,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  //   getStates,
+  getStates,
   EditDistrictData,
 })(EditDistrictDetails);
