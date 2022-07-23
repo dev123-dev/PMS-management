@@ -168,8 +168,40 @@ const AllLeave = ({
                         <th>Leave Type</th>
                         <th>Date</th>
                         <th>Department</th>
+                        <th>OP</th>
                       </tr>
                     </thead>
+                    <tbody>
+                      {leaves &&
+                        leaves.map((leaves, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td>{idx + 1}</td>
+                              <td>{leaves.output.empFullName}</td>
+                              <td>{leaves.leaveReason}</td>
+                              <td>{leaves.leaveType}</td>
+                              <td></td>
+                              <td>{leaves.output.departmentName}</td>
+                              <td>
+                                <Link
+                                  className="btn btn_green_bg"
+                                  to="#"
+                                  onClick={() => onClickHandler()}
+                                >
+                                  Approve
+                                </Link>
+                                <Link
+                                  className="btn btn_green_bg"
+                                  to="#"
+                                  onClick={() => onClickHandler()}
+                                >
+                                  Cancel
+                                </Link>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>

@@ -10,6 +10,7 @@ const AddLeave = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allStaffName },
   getAllEmployee,
+  onAddDistrictModalChange,
   user: { allEmployee },
   getAllStaff,
   addLeaves,
@@ -94,7 +95,7 @@ const AddLeave = ({
     };
     console.log(finalData);
     addLeaves(finalData);
-    //  onAddDistrictModalChange(true);
+    onAddDistrictModalChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
