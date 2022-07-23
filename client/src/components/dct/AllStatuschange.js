@@ -48,10 +48,33 @@ const AllStatuschange = ({
         onSubmit={(e) => onSubmit(e)}
         autoComplete="off"
       >
-        <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
-          <strong>
+        <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+          {/* <strong>
             <label>Status</label>
-          </strong>
+          </strong> */}
+          <h4>
+            <b>Status </b>
+          </h4>
+        </div>
+        <div className="col-lg-8 col-md-11 col-sm-10 col-10 ">
+          <Select
+            name="projectStatusCategory"
+            // options={StatusCategory}
+            isSearchable={true}
+            // value={projectStatusCategory}
+            placeholder="Select"
+            // onChange={(e) => onStatuscatChange(e)}
+            theme={(theme) => ({
+              ...theme,
+              height: 26,
+              minHeight: 26,
+              borderRadius: 1,
+              colors: {
+                ...theme.colors,
+                primary: "black",
+              },
+            })}
+          />
         </div>
         <div className="col-lg-8 col-md-11 col-sm-10 col-10 ">
           <Select

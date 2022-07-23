@@ -48,12 +48,17 @@ const LastMessageDetails = ({
         onSubmit={(e) => onSubmit(e)}
         autoComplete="off"
       >
-        <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
-          <strong>
+        <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+          {/* <strong>
             <label>Last Message Details</label>
-          </strong>
+          </strong> */}
+
+          <h4>
+            {" "}
+            <b>Last Message Details </b>
+          </h4>
         </div>
-        <div className="col-lg-8 col-md-12 col-sm-12 col-12 ">
+        <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
           <input
             type="submit"
             name="submit"
