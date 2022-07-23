@@ -238,6 +238,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                               <Link to="/all-staff">All Staff</Link>
                             </li>
                             <li>
+                              <Link to="/all-leave">Leave Management</Link>
+                            </li>
+                            <li>
                               <Link to="/all-department">All Departments</Link>
                             </li>
                             <li>

@@ -55,6 +55,9 @@ import AllProspects from "../dct/AllProspects";
 import AddLead from "../dct/AddLead";
 import EditLead from "../dct/EditLead";
 import DeactiveLead from "../dct/DeactiveLead";
+
+//leavemanagement
+import AllLeave from "../leave/AllLeave";
 const RoutesFile = () => {
   return (
     <section>
@@ -67,6 +70,7 @@ const RoutesFile = () => {
         <PrivateRoute exact path="/add-lead" component={AddLead} />
         <PrivateRoute exact path="/edit-lead" component={EditLead} />
         <PrivateRoute exact path="/deactive-lead" component={DeactiveLead} />
+        <PrivateRoute exact path="/all-leave" component={AllLeave} />
 
         <PrivateRoute
           exact

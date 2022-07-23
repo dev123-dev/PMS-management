@@ -1,0 +1,196 @@
+import React, { useState, Fragment } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { AddNewDepartment } from "../../actions/settings";
+import Spinner from "../layout/Spinner";
+import Select from "react-select";
+import DatePicker, { DateObject } from "react-multi-date-picker";
+import DatePanel from "react-multi-date-picker/plugins/date_panel";
+
+const AddLeave = ({
+  auth: { isAuthenticated, user, users, loading },
+  onAddDistrictModalChange,
+  AddNewDepartment,
+}) => {
+  //formData
+  const [formData, setFormData] = useState({
+    departmentName: "",
+    departmentDesc: "",
+    slVal: null,
+    isSubmitted: false,
+  });
+  const format = "MM/DD/YYYY";
+  const [dates, setDates] = useState([
+    // new DateObject().set({ day: 4, format }),
+    // new DateObject().set({ day: 25, format }),
+    // new DateObject().set({ day: 20, format }),
+  ]);
+
+  const { departmentName, departmentDesc, slVal } = formData;
+
+  const onInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const [error, setError] = useState({
+    nextBtnStyle: { opacity: "0.5", pointerEvents: "none" },
+  });
+
+  const { nextBtnStyle } = error;
+  const onLeaveTypeSelect = (leaveType) => {
+    if (leaveType === "fullDay") {
+      setFormData({
+        ...formData,
+        slVal: 1,
+      });
+    } else if (leaveType === "halfDay") {
+      setFormData({
+        ...formData,
+        slVal: 0.5,
+      });
+    }
+    setError({
+      ...error,
+      nextBtnStyle: { opacity: "1" },
+    });
+  };
+  //Required Validation ends
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const finalData = {
+      dates: dates,
+      // departmentName: departmentName,
+      // departmentDesc: departmentDesc,
+      // departmentEnteredById: user._id,
+    };
+    console.log(finalData);
+    //AddNewDepartment(finalData);
+    //  onAddDistrictModalChange(true);
+  };
+
+  return !isAuthenticated || !user || !users ? (
+    <Spinner />
+  ) : (
+    <Fragment>
+      <form onSubmit={(e) => onSubmit(e)}>
+        <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+            <label className="label-control"> Staff Name * :</label>
+            <Select
+              name="staffData"
+              isSearchable={true}
+              //   value={staffData}
+              //   options={activeStaffsOpt}
+              placeholder="Select"
+              //  onChange={(e) => onStaffChange(e)}
+            />
+          </div>
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+            <label className="label-control"> Date * :</label>
+            <br />
+
+            <DatePicker
+              value={dates}
+              onChange={setDates}
+              multiple
+              sort
+              format={format}
+              calendarPosition="bottom-center"
+              plugins={[<DatePanel />]}
+            />
+
+            <ul>
+              {dates.map((date, index) => (
+                <li key={index}>{date.format()}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="row col-lg-12 col-md-9 col-sm-9 col-12 py-3">
+            <div className="col-lg-6 col-md-4 col-sm-4 col-12">
+              <center>
+                <input
+                  type="button"
+                  onClick={() => onLeaveTypeSelect("fullDay")}
+                  className="btn btn-round"
+                  value="Full Day"
+                  style={
+                    slVal === 1
+                      ? {
+                          backgroundColor: "#5c87a3",
+                          color: " #fff",
+                          border: "3px solid #2a3855",
+                        }
+                      : { background: "white" }
+                  }
+                />
+              </center>
+            </div>
+            <div className="col-lg-6 col-md-4 col-sm-4 col-12">
+              <center>
+                {" "}
+                <input
+                  type="button"
+                  onClick={() => onLeaveTypeSelect("halfDay")}
+                  className="btn btn-round"
+                  value="Half Day"
+                  style={
+                    slVal == 0.5
+                      ? {
+                          backgroundColor: "#5c87a3",
+                          color: "#fff",
+                          border: "3px solid #2a3855",
+                        }
+                      : { background: "white" }
+                  }
+                />
+              </center>
+            </div>
+          </div>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+            <label className="label-control"> Reason :</label>
+            <textarea
+              name="clientAddress"
+              id="clientAddress"
+              className="textarea form-control"
+              rows="3"
+              placeholder="Leave Reason"
+              style={{ width: "100%" }}
+              //  value={clientAddress}
+              onChange={(e) => onInputChange(e)}
+            ></textarea>
+          </div>
+        </div>
+
+        <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
+          {loading ? (
+            <button
+              className="btn sub_form btn_continue Save float-right"
+              disabled
+            >
+              Loading...
+            </button>
+          ) : (
+            <input
+              type="submit"
+              name="submit"
+              value="Add Leave"
+              className="btn sub_form btn_continue Save float-right"
+            />
+          )}
+        </div>
+      </form>
+    </Fragment>
+  );
+};
+
+AddLeave.propTypes = {
+  auth: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
+  AddNewDepartment: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  settings: state.settings,
+});
+
+export default connect(mapStateToProps, { AddNewDepartment })(AddLeave);
