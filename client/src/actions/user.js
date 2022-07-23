@@ -2,6 +2,7 @@ import axios from "axios";
 
 import {
   AUTH_ERROR,
+  ERROR,
   SET_LOADING_TRUE,
   SET_LOADING_FALSE,
   ALL_EMPLOYEE,
@@ -9,6 +10,7 @@ import {
   ACTIVE_EMPLOYEE,
   USER_GROUPS,
   LAST_ENTERED_EMP_CODE,
+  LEAVES,
 } from "./types";
 
 const config = {
@@ -86,6 +88,7 @@ export const editEmployeeDetails = (finalData) => async (dispatch) => {
     });
   }
 };
+
 //DEACTIVE
 
 export const deactiveEmployeeDetails = (finalData) => async (dispatch) => {
@@ -191,6 +194,44 @@ export const getLastEnteredEmpCode = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
+    });
+  }
+};
+
+//For Leaves
+
+//ADD Leave
+
+export const addLeaves = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/users/add-leaves", finalData, config);
+    // dispatch(getALLUserGroups());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+//All Leaves
+
+export const getALLLeaves = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/users/get-all-Leaves");
+    // localStorage.setItem("allUserGroupData", JSON.stringify(res.data));
+    dispatch({
+      type: LEAVES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
     });
   }
 };

@@ -5,13 +5,14 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
-import { getAllEmployee, getAllStaff } from "../../actions/user";
+import { getAllEmployee, getAllStaff, addLeaves } from "../../actions/user";
 const AddLeave = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allStaffName },
   getAllEmployee,
   user: { allEmployee },
   getAllStaff,
+  addLeaves,
 }) => {
   useEffect(() => {
     getAllEmployee();
@@ -27,11 +28,11 @@ const AddLeave = ({
     isSubmitted: false,
   });
   const format = "MM/DD/YYYY";
-  const [dates, setDates] = useState([
-    // new DateObject().set({ day: 4, format }),
-    // new DateObject().set({ day: 25, format }),
-    // new DateObject().set({ day: 20, format }),
-  ]);
+  const [dates, setDates] = useState([]);
+
+  // new DateObject().set({ day: 4, format }),
+  //   new DateObject().set({ day: 25, format }),
+  //   new DateObject().set({ day: 20, format }),
 
   const { leaveReason, slVal } = formData;
 
@@ -80,17 +81,19 @@ const AddLeave = ({
     setpaymentId(employeeId);
     setpaymentname(employeename);
   };
+
+  // console.log(dates);
   //Required Validation ends
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      dates: dates,
+      // dates: dates,
       leaveType: slVal,
       leaveReason: leaveReason,
       empId: employeeId,
     };
     console.log(finalData);
-    //AddNewDepartment(finalData);
+    addLeaves(finalData);
     //  onAddDistrictModalChange(true);
   };
 
@@ -213,6 +216,7 @@ AddLeave.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   getAllEmployee: PropTypes.func.isRequired,
+  addLeaves: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -224,4 +228,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getAllEmployee,
   getAllStaff,
+  addLeaves,
 })(AddLeave);

@@ -9,6 +9,7 @@ import {
   getAllEmployee,
   getAllStaff,
   getFilterEmpDetails,
+  getALLLeaves,
 } from "../../actions/user";
 import AddLeave from "./AddLeave";
 // import EditEmployeeDetails from "./EditEmployeeDetails";
@@ -17,10 +18,11 @@ import AddLeave from "./AddLeave";
 const AllLeave = ({
   auth: { allUser, isAuthenticated, user, users },
   settings: { allStaffName },
-  user: { allEmployee },
+  user: { allEmployee, leaves },
   getAllEmployee,
   getFilterEmpDetails,
   getAllStaff,
+  getALLLeaves,
 }) => {
   useEffect(() => {
     getAllEmployee();
@@ -31,7 +33,11 @@ const AllLeave = ({
   useEffect(() => {
     getFilterEmpDetails();
   }, [getFilterEmpDetails]);
-  // console.log("drfwe", allStaffName);
+  useEffect(() => {
+    getALLLeaves();
+  }, [getALLLeaves]);
+
+  console.log("leaves", leaves);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -304,6 +310,7 @@ AllLeave.propTypes = {
   settings: PropTypes.func.isRequired,
   getAllEmployee: PropTypes.func.isRequired,
   getFilterEmpDetails: PropTypes.func.isRequired,
+  getALLLeaves: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -315,4 +322,5 @@ export default connect(mapStateToProps, {
   getAllEmployee,
   getAllStaff,
   getFilterEmpDetails,
+  getALLLeaves,
 })(AllLeave);
