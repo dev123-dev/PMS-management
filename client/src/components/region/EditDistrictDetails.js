@@ -29,6 +29,24 @@ const EditDistrictDetails = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const allstates = [];
+  statesData.map((state) =>
+    allstates.push({
+      stateId: state._id,
+      label: state.stateName,
+      value: state.stateName,
+    })
+  );
+
+  const [state, getStateData] = useState();
+  const [stateId, setStateID] = useState();
+
+  const onStateChange = (e) => {
+    var stateId = "";
+    getStateData(e);
+    stateId = e.stateId;
+    setStateID(stateId);
+  };
 
   const onUpdate = (e) => {
     // e.preventDefault();
@@ -65,17 +83,25 @@ const EditDistrictDetails = ({
             />
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> District Code * :</label>
-            {/* <input
-              type="Number"
+            <label className="label-control">State * :</label>
+            <Select
               name="stateName"
-              value={stateName}
-              className="form-control"
-              onChange={(e) => onInputChange(e)}
-              onKeyDown={(e) =>
-                (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-              }
-            /> */}
+              options={allstates}
+              isSearchable={true}
+              value={state}
+              placeholder="Select State"
+              onChange={(e) => onStateChange(e)}
+              theme={(theme) => ({
+                ...theme,
+                height: 26,
+                minHeight: 26,
+                borderRadius: 1,
+                colors: {
+                  ...theme.colors,
+                  primary: "black",
+                },
+              })}
+            />
           </div>
         </div>
 

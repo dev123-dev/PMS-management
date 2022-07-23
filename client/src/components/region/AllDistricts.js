@@ -112,7 +112,7 @@ const AllDistricts = ({
                           return (
                             <tr key={idx}>
                               <td>{allDistrics.districtName}</td>
-                              <td></td>
+                              <td>{allDistrics.output.stateName}</td>
                               <td></td>
                             </tr>
                           );
