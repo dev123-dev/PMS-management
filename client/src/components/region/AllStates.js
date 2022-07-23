@@ -104,7 +104,18 @@ const AllStates = ({
                       <th>Op</th>
                     </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody>
+                    {allState &&
+                      allState.map((allState, idx) => {
+                        return (
+                          <tr key={idx}>
+                            <td>{allState.stateName}</td>
+
+                            <td></td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
                 </table>
               </div>
             </section>

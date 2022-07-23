@@ -105,7 +105,18 @@ const AllDistricts = ({
                         <th>Op</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {allDistrics &&
+                        allDistrics.map((allDistrics, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td>{allDistrics.districtName}</td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>

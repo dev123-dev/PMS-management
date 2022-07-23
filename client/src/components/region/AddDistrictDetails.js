@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { addDistrictDetails } from "../../actions/regions";
+import Select from "react-select";
 
 const AddDistrictDetails = ({
-  savedMessage,
   auth: { isAuthenticated, user, users, loading },
   addDistrictDetails,
 }) => {
@@ -18,6 +18,48 @@ const AddDistrictDetails = ({
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  //Required Validation Starts
+  const [error, setError] = useState({
+    sIdChecker: false,
+    sIdErrorStyle: {},
+  });
+  const { sIdChecker, sIdErrorStyle } = error;
+
+  const checkErrors = () => {
+    if (!sIdChecker) {
+      setError({
+        ...error,
+        sIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    return true;
+  };
+  // const allstates = [];
+  // statesData.map((state) =>
+  //   allstates.push({
+  //     stateId: state._id,
+  //     label: state.stateName,
+  //     value: state.stateName,
+  //   })
+  // );
+
+  const [state, getStateData] = useState();
+  const [stateId, setStateID] = useState();
+
+  const onStateChange = (e) => {
+    //Required Validation Starts
+    setError({
+      ...error,
+      sIdChecker: true,
+      sIdErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
+    var stateId = "";
+    getStateData(e);
+    stateId = e.stateId;
+    setStateID(stateId);
   };
 
   const onSubmit = (e) => {
@@ -56,19 +98,29 @@ const AddDistrictDetails = ({
                 required
               />
             </div>
-            {/* <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-              <label className="label-control"> District Code * :</label> */}
-            {/* <input
-                type="Number"
+            <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+              <label className="label-control" style={sIdErrorStyle}>
+                State * :
+              </label>
+              <Select
                 name="stateName"
-                value={stateName}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-                onKeyDown={(e) =>
-                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-                }
-              /> */}
-            {/* </div> */}
+                //  options={allstates}
+                isSearchable={true}
+                value={state}
+                placeholder="Select State"
+                onChange={(e) => onStateChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
           </div>
 
           <div className="col-md-10 col-lg-12 col-sm-12 col-12 text-left">
