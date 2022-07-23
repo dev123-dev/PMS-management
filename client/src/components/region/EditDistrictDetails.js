@@ -8,16 +8,18 @@ import Spinner from "../layout/Spinner";
 const EditDistrictDetails = ({
   auth: { isAuthenticated, user, users, loading },
   //   getStates,
-  EditDistrictData,
+  onUpdateModalChange,
   districts,
 }) => {
   //   useEffect(() => {
   //     getStates();
   //   }, [getStates]);
-
+  console.log(districts);
   //formData
   const [formData, setFormData] = useState({
-    districtName: "",
+    districtName:
+      districts && districts.districtName ? districts.districtName : "",
+
     // districtName:
     //   allClientdata && allClientdata.districtName
     //     ? allClientdata.districtName
@@ -29,14 +31,14 @@ const EditDistrictDetails = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const allstates = [];
-  statesData.map((state) =>
-    allstates.push({
-      stateId: state._id,
-      label: state.stateName,
-      value: state.stateName,
-    })
-  );
+  // const allstates = [];
+  // statesData.map((state) =>
+  //   allstates.push({
+  //     stateId: state._id,
+  //     label: state.stateName,
+  //     value: state.stateName,
+  //   })
+  // );
 
   const [state, getStateData] = useState();
   const [stateId, setStateID] = useState();
@@ -84,7 +86,7 @@ const EditDistrictDetails = ({
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control">State * :</label>
-            <Select
+            {/* <Select
               name="stateName"
               options={allstates}
               isSearchable={true}
@@ -101,7 +103,7 @@ const EditDistrictDetails = ({
                   primary: "black",
                 },
               })}
-            />
+            /> */}
           </div>
         </div>
 

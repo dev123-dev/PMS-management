@@ -40,9 +40,9 @@ const AllDistricts = ({
   const handleUpdateModalClose = () => setShowUpdateModal(false);
 
   const [userData, setUserData] = useState(null);
-  const onEdit = (districts, idx) => {
+  const onEdit = (allDistrics, idx) => {
     setShowUpdateModal(true);
-    setUserData(districts);
+    setUserData(allDistrics);
   };
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
@@ -113,7 +113,15 @@ const AllDistricts = ({
                             <tr key={idx}>
                               <td>{allDistrics.districtName}</td>
                               <td>{allDistrics.output.stateName}</td>
-                              <td></td>
+                              <td>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onEdit(allDistrics, idx)}
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
+                                />
+                              </td>
                             </tr>
                           );
                         })}
