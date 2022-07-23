@@ -45,9 +45,9 @@ const AllContacts = ({
     <Fragment>
       <form className="row" onSubmit={(e) => onSubmit(e)} autoComplete="off">
         <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
-          <strong>
-            <label>All Contacts</label>
-          </strong>
+          <h4>
+            <b>Contact </b>
+          </h4>
         </div>
       </form>
     </Fragment>

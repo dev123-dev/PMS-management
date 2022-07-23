@@ -1,17 +1,24 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { AddNewDepartment } from "../../actions/settings";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
-
+import { getAllEmployee, getAllStaff } from "../../actions/user";
 const AddLeave = ({
   auth: { isAuthenticated, user, users, loading },
-  onAddDistrictModalChange,
-  AddNewDepartment,
+  settings: { allStaffName },
+  getAllEmployee,
+  user: { allEmployee },
+  getAllStaff,
 }) => {
+  useEffect(() => {
+    getAllEmployee();
+  }, [getAllEmployee]);
+  useEffect(() => {
+    getAllStaff();
+  }, [getAllStaff]);
   //formData
   const [formData, setFormData] = useState({
     departmentName: "",
@@ -53,14 +60,29 @@ const AddLeave = ({
       nextBtnStyle: { opacity: "1" },
     });
   };
+  const [staffData, setstaffData] = useState("");
+
+  const activeStaffsOpt = [];
+  allStaffName &&
+    allStaffName.map((staffsData) =>
+      activeStaffsOpt.push({
+        label: staffsData.empFullName,
+        value: staffsData._id,
+      })
+    );
+  const onStaffChange = (e) => {
+    setstaffData(e);
+    const finalData = {
+      empNameSearch: e.value,
+    };
+    console.log(finalData);
+  };
   //Required Validation ends
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
       dates: dates,
-      // departmentName: departmentName,
-      // departmentDesc: departmentDesc,
-      // departmentEnteredById: user._id,
+      slVal: slVal,
     };
     console.log(finalData);
     //AddNewDepartment(finalData);
@@ -78,10 +100,10 @@ const AddLeave = ({
             <Select
               name="staffData"
               isSearchable={true}
-              //   value={staffData}
-              //   options={activeStaffsOpt}
-              placeholder="Select"
-              //  onChange={(e) => onStaffChange(e)}
+              value={staffData}
+              options={activeStaffsOpt}
+              placeholder="Select Staff"
+              onChange={(e) => onStaffChange(e)}
             />
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
@@ -185,12 +207,16 @@ const AddLeave = ({
 AddLeave.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  AddNewDepartment: PropTypes.func.isRequired,
+  getAllEmployee: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  user: state.user,
   settings: state.settings,
 });
 
-export default connect(mapStateToProps, { AddNewDepartment })(AddLeave);
+export default connect(mapStateToProps, {
+  getAllEmployee,
+  getAllStaff,
+})(AddLeave);
