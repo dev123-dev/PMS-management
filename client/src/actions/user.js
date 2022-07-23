@@ -208,7 +208,7 @@ export const addLeaves = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/users/add-leaves", finalData, config);
-    // dispatch(getALLUserGroups());
+    dispatch(getALLLeaves());
     dispatch({
       type: SET_LOADING_FALSE,
     });

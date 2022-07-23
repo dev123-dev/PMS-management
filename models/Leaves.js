@@ -14,9 +14,6 @@ const LeavesSchema = new mongoose.Schema({
   leaveReason: {
     type: String,
   },
-  empDepartmentName: {
-    type: String,
-  },
   leaveEnteredById: {
     type: ObjectId,
   },
