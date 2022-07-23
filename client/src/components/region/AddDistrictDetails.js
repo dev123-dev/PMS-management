@@ -8,6 +8,7 @@ import Select from "react-select";
 const AddDistrictDetails = ({
   auth: { isAuthenticated, user, users, loading },
   regions: { statesData },
+  onAddDistrictModalChange,
   addDistrictDetails,
   getStates,
 }) => {
@@ -42,14 +43,14 @@ const AddDistrictDetails = ({
     }
     return true;
   };
-  // const allstates = [];
-  // statesData.map((state) =>
-  //   allstates.push({
-  //     stateId: state._id,
-  //     label: state.stateName,
-  //     value: state.stateName,
-  //   })
-  // );
+  const allstates = [];
+  statesData.map((state) =>
+    allstates.push({
+      stateId: state._id,
+      label: state.stateName,
+      value: state.stateName,
+    })
+  );
 
   const [state, getStateData] = useState();
   const [stateId, setStateID] = useState();
@@ -73,11 +74,13 @@ const AddDistrictDetails = ({
     const finalData = {
       districtName: districtName,
       districtEnteredById: user._id,
+      stateId: stateId,
       districtEnteredByName: user.userName,
       districtBelongsTo: "DCT",
     };
-    // console.log(finalData);
+    //console.log(finalData);
     addDistrictDetails(finalData);
+    onAddDistrictModalChange(true);
     setFormData({
       ...formData,
       districtName: "",
@@ -110,7 +113,7 @@ const AddDistrictDetails = ({
               </label>
               <Select
                 name="stateName"
-                //  options={allstates}
+                options={allstates}
                 isSearchable={true}
                 value={state}
                 placeholder="Select State"
@@ -154,7 +157,7 @@ const AddDistrictDetails = ({
 
 AddDistrictDetails.propTypes = {
   auth: PropTypes.object.isRequired,
-  area: PropTypes.object.isRequired,
+  regions: PropTypes.object.isRequired,
   addDistrictDetails: PropTypes.func.isRequired,
   savedMessage: PropTypes.string,
   getStates: PropTypes.func.isRequired,
@@ -162,7 +165,7 @@ AddDistrictDetails.propTypes = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  area: state.area,
+  regions: state.regions,
   savedMessage: state.auth.savedMessage,
 });
 

@@ -135,7 +135,7 @@ const AllDistricts = ({
       >
         <Modal.Header>
           <div className="col-lg-10">
-            <h3 className="modal-title text-center">Add Country Details</h3>
+            <h3 className="modal-title text-center">Add District Details</h3>
           </div>
           <div className="col-lg-2">
             <button onClick={handleAddDistrictModalClose} className="close">
