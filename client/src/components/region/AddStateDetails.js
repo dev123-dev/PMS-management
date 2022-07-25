@@ -8,6 +8,7 @@ const AddStateDetails = ({
   savedMessage,
   auth: { isAuthenticated, user, users, loading },
   addStateDetails,
+  onAddDistrictModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -30,6 +31,7 @@ const AddStateDetails = ({
     };
     // console.log(finalData);
     addStateDetails(finalData);
+    onAddDistrictModalChange(true);
     setFormData({
       ...formData,
       stateName: "",
