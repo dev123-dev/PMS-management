@@ -30,13 +30,8 @@ const AddLeave = ({
     slVal: null,
     isSubmitted: false,
   });
-  const format = "MM/DD/YYYY";
-  const [dates, setDates] = useState([]);
-  console.log(dates);
-
-  // new DateObject().set({ day: 4, format }),
-  //   new DateObject().set({ day: 25, format }),
-  //   new DateObject().set({ day: 20, format }),
+  const format = "YYYY-MM-DD";
+  // const [dates, setDates] = useState([]);
 
   const { leaveReason, slVal } = formData;
 
@@ -65,6 +60,12 @@ const AddLeave = ({
       nextBtnStyle: { opacity: "1" },
     });
   };
+
+  const [startLeaveDate, setleaveDate] = useState("");
+  const onDateChange = (e) => {
+    setleaveDate(e.target.value);
+  };
+
   const [staffData, setstaffData] = useState("");
   const [employeeId, setpaymentId] = useState("");
   const [employeename, setpaymentname] = useState("");
@@ -91,13 +92,13 @@ const AddLeave = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      // dates: dates,
+      leaveDate: startLeaveDate,
       leaveType: slVal,
       leaveReason: leaveReason,
       empId: employeeId,
     };
     console.log(finalData);
-    addLeaves(finalData);
+    // addLeaves(finalData);
     onAddDistrictModalChange(true);
   };
 
@@ -118,6 +119,7 @@ const AddLeave = ({
               onChange={(e) => onStaffChange(e)}
             />
           </div>
+
           {/* <DatePicker
             multiple
             onChange={(array) => {
@@ -126,12 +128,11 @@ const AddLeave = ({
             }}
           /> */}
 
-          <MultipleDatePicker
+          {/* <MultipleDatePicker
             onSubmit={(dates) => console.log("selected dates ", dates)}
-            // onChange={(date) => setSelectedDate(date)}
             minDate={new Date()}
-          />
-          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+          /> */}
+          {/* <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control"> Date * :</label>
             <br />
 
@@ -150,6 +151,22 @@ const AddLeave = ({
                 <li key={index}>{date.format()}</li>
               ))}
             </ul>
+          </div> */}
+          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+            <label className="label-control">Leave Date* :</label>
+            <br />
+            <input
+              type="date"
+              placeholder="dd/mm/yyyy"
+              className="form-control cpp-input datevalidation"
+              name="leaveDate"
+              value={startLeaveDate}
+              onChange={(e) => onDateChange(e)}
+              style={{
+                width: "75%",
+              }}
+              required
+            />
           </div>
           <div className="row col-lg-12 col-md-9 col-sm-9 col-12 py-3">
             <div className="col-lg-6 col-md-4 col-sm-4 col-12">
