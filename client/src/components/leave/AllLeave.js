@@ -168,7 +168,6 @@ const AllLeave = ({
                             var ED = leaves.leaveDate.split(/\D/g);
                             leaveDate = [ED[2], ED[1], ED[0]].join("-");
                           }
-
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>

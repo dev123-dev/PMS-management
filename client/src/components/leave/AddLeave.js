@@ -5,7 +5,7 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
-import MultipleDatePicker from "react-multiple-datepicker";
+// import MultipleDatePicker from "react-multiple-datepicker";
 
 import { getAllEmployee, getAllStaff, addLeaves } from "../../actions/user";
 const AddLeave = ({
@@ -97,8 +97,8 @@ const AddLeave = ({
       leaveReason: leaveReason,
       empId: employeeId,
     };
-    console.log(finalData);
-    // addLeaves(finalData);
+    // console.log(finalData);
+    addLeaves(finalData);
     onAddDistrictModalChange(true);
   };
 
