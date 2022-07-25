@@ -7,7 +7,6 @@ import {
   GET_LATEST_CHANGES,
   UNVERIFIED_PROJECTS,
   ALL_STATUS_VERIFICATION,
-  AMENDMENT_PROJECTS,
 } from "../actions/types";
 
 const initialState = {
@@ -18,7 +17,6 @@ const initialState = {
   getLatestChangesValue: [],
   unVerifiedProjects: [],
   allStatusVerification: [],
-  amendmentProjects: [],
 };
 
 const settings = (state = initialState, action) => {
@@ -65,11 +63,6 @@ const settings = (state = initialState, action) => {
       return {
         ...state,
         allStatusVerification: payload,
-      };
-    case AMENDMENT_PROJECTS:
-      return {
-        ...state,
-        amendmentProjects: payload,
       };
 
     default:

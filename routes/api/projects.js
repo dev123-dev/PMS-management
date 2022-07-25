@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 const Project = require("../../models/Project");
 const ProjectStatus = require("../../models/ProjectStatus");
 const ProjectTrack = require("../../models/ProjectTrack");
-const AmendmentHistory = require("../../models/AmendmentHistory");
 const ClientDetails = require("../../models/Client");
 
 //ADD
@@ -61,18 +60,6 @@ router.post("/add-project-track", async (req, res) => {
     );
     let ProjectTrackDetails = new ProjectTrack(data);
     output = await ProjectTrackDetails.save();
-    res.send(output);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
-router.post("/add-amendment-history", async (req, res) => {
-  let data = req.body;
-  try {
-    let AmendmentHistoryDetails = new AmendmentHistory(data);
-    output = await AmendmentHistoryDetails.save();
     res.send(output);
   } catch (err) {
     console.error(err.message);
@@ -155,7 +142,6 @@ router.post("/verify-project", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
-
 //DEACTIVATE
 router.post("/deactive-project", async (req, res) => {
   try {
@@ -566,6 +552,7 @@ router.post("/get-verification-project-details", async (req, res) => {
       }
     }
   }
+
   try {
     const getVerificationProjectDetails = await Project.find(query);
     res.json(getVerificationProjectDetails);
@@ -628,61 +615,6 @@ router.post("/get-latest-change", async (req, res) => {
     ]);
     res.json(ProjectLatestChangeData);
     // console.log(ProjectLatestChangeData);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
-router.post("/get-amendment-project-details", async (req, res) => {
-  // let data = req.body;
-  const { setTypeData } = req.body;
-  let query = {};
-  if (setTypeData) {
-    query = {
-      projectStatusType: { $eq: "Amendment" },
-      "output.amendmentType": { $eq: setTypeData },
-    };
-  } else {
-    query = {
-      projectStatusType: { $eq: "Amendment" },
-      "output.amendmentType": { $eq: "UnResolved" },
-    };
-  }
-  try {
-    const getAmendmentDetails = await Project.aggregate([
-      {
-        $lookup: {
-          from: "amendmenthistories",
-          localField: "_id",
-          foreignField: "projectId",
-          as: "output",
-        },
-      },
-      { $match: query },
-    ]);
-    res.json(getAmendmentDetails);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
-router.post("/get-all-amendment-histories", async (req, res) => {
-  const { projectId } = req.body;
-  try {
-    const getAmendmenthistoryDetails = await Project.aggregate([
-      {
-        $lookup: {
-          from: "amendmenthistories",
-          localField: "_id",
-          foreignField: "projectId",
-          as: "output",
-        },
-      },
-      { $match: { projectStatusType: { $eq: "Amendment" } } },
-    ]);
-    res.json(getAmendmenthistoryDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

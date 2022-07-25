@@ -2,14 +2,13 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { AddProjectTrack, AddAmendmentHistory } from "../../actions/projects";
+import { AddProjectTrack } from "../../actions/projects";
 import { w3cwebsocket } from "websocket";
 
 const ChangeProjectLifeCycle = ({
   auth: { isAuthenticated, user, users, loading },
   ProjectCycledata,
   AddProjectTrack,
-  AddAmendmentHistory,
   onProjectCycleModalChange,
 }) => {
   //formData
@@ -61,10 +60,11 @@ const ChangeProjectLifeCycle = ({
         ? true
         : false,
   });
+  // console.log(ProjectCycledata);
   const { showTimerSection } = showHide;
   //client in websocket
   //SLAP IP
-  const client = new w3cwebsocket("ws://192.168.6.216:8000");
+  const client = new w3cwebsocket("ws://192.168.6.159:8000");
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -96,16 +96,8 @@ const ChangeProjectLifeCycle = ({
       projectStatusChangedbyName: user.empFullName,
       projectStatusChangedById: user._id,
     };
+    // console.log(finalData);
     AddProjectTrack(finalData);
-    if (ProjectCycledata.value === "Amendment") {
-      const amendmentData = {
-        amendmentCounter: "Am1",
-        projectId: ProjectCycledata.projectId,
-        amendmentType: "UnResolved",
-      };
-      AddAmendmentHistory(amendmentData);
-    }
-
     onProjectCycleModalChange(true);
     client.send(
       JSON.stringify({
@@ -231,14 +223,12 @@ const ChangeProjectLifeCycle = ({
 ChangeProjectLifeCycle.propTypes = {
   auth: PropTypes.object.isRequired,
   AddProjectTrack: PropTypes.func.isRequired,
-  AddAmendmentHistory: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {
-  AddProjectTrack,
-  AddAmendmentHistory,
-})(ChangeProjectLifeCycle);
+export default connect(mapStateToProps, { AddProjectTrack })(
+  ChangeProjectLifeCycle
+);
