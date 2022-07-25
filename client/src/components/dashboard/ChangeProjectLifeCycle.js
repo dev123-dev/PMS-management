@@ -3,13 +3,20 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { AddProjectTrack } from "../../actions/projects";
+import {
+  AddProjectTrack,
+  AddAmendmentHistory,
+  getLastAmendmentCounter,
+} from "../../actions/projects";
 import { w3cwebsocket } from "websocket";
 
 const ChangeProjectLifeCycle = ({
   auth: { isAuthenticated, user, users, loading },
   ProjectCycledata,
   AddProjectTrack,
+  // AddAmendmentHistory,
   onProjectCycleModalChange,
+  getLastAmendmentCounter,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -67,6 +74,11 @@ const ChangeProjectLifeCycle = ({
   const client = new w3cwebsocket("ws://192.168.6.159:8000");
 
   const onSubmit = (e) => {
+    const amendmentProjectId = {
+      pId: ProjectCycledata.projectId,
+    };
+    getLastAmendmentCounter(amendmentProjectId);
+
     e.preventDefault();
     let estimatedWorkTime = "";
     let ptEstimatedDateTimeVal = "";
@@ -85,19 +97,57 @@ const ChangeProjectLifeCycle = ({
           : "00");
       ptEstimatedDateTimeVal = new Date().toISOString();
     }
+
     // if (checkErrors()) {
-    const finalData = {
-      projectId: ProjectCycledata.projectId,
-      projectTrackLatestChange: Instructions,
-      ptEstimatedTime: estimatedWorkTime,
-      projectStatusType: ProjectCycledata.value,
-      projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
-      ptEstimatedDateTime: ptEstimatedDateTimeVal,
-      projectStatusChangedbyName: user.empFullName,
-      projectStatusChangedById: user._id,
-    };
-    // console.log(finalData);
-    AddProjectTrack(finalData);
+
+    if (ProjectCycledata.value === "Amendment") {
+      const amendmentData = {
+        projectId: ProjectCycledata.projectId,
+        projectTrackLatestChange: Instructions,
+        ptEstimatedTime: estimatedWorkTime,
+        projectStatusType: ProjectCycledata.value,
+        projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
+        ptEstimatedDateTime: ptEstimatedDateTimeVal,
+        projectStatusChangedbyName: user.empFullName,
+        projectStatusChangedById: user._id,
+        amendmentCounter: "1",
+        amendmentType: "UnResolved",
+      };
+      AddProjectTrack(amendmentData);
+    } else if (
+      ProjectCycledata.value === "Amend_Working" ||
+      ProjectCycledata.value === "Amend_Pending" ||
+      ProjectCycledata.value === "Amend_QC Pending" ||
+      ProjectCycledata.value === "Amend_QC Estimate" ||
+      ProjectCycledata.value === "Amend_QC DONE" ||
+      ProjectCycledata.value === "Amend_Uploading"
+    ) {
+      const finalData = {
+        projectId: ProjectCycledata.projectId,
+        projectTrackLatestChange: Instructions,
+        ptEstimatedTime: estimatedWorkTime,
+        projectStatusType: ProjectCycledata.value,
+        projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
+        ptEstimatedDateTime: ptEstimatedDateTimeVal,
+        projectStatusChangedbyName: user.empFullName,
+        projectStatusChangedById: user._id,
+        amendmentCounter: "1",
+      };
+      AddProjectTrack(finalData);
+    } else {
+      const finalData = {
+        projectId: ProjectCycledata.projectId,
+        projectTrackLatestChange: Instructions,
+        ptEstimatedTime: estimatedWorkTime,
+        projectStatusType: ProjectCycledata.value,
+        projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
+        ptEstimatedDateTime: ptEstimatedDateTimeVal,
+        projectStatusChangedbyName: user.empFullName,
+        projectStatusChangedById: user._id,
+      };
+      AddProjectTrack(finalData);
+    }
+
     onProjectCycleModalChange(true);
     client.send(
       JSON.stringify({
@@ -223,12 +273,15 @@ const ChangeProjectLifeCycle = ({
 ChangeProjectLifeCycle.propTypes = {
   auth: PropTypes.object.isRequired,
   AddProjectTrack: PropTypes.func.isRequired,
+  getLastAmendmentCounter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { AddProjectTrack })(
-  ChangeProjectLifeCycle
-);
+export default connect(mapStateToProps, {
+  AddProjectTrack,
+  getLastAmendmentCounter,
+  // AddAmendmentHistory,
+})(ChangeProjectLifeCycle);

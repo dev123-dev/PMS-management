@@ -2,44 +2,47 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { deactiveProjectData } from "../../actions/projects";
+import { deactiveCountryData } from "../../actions/regions";
 import { Link } from "react-router-dom";
 const DeactiveCountry = ({
   auth: { isAuthenticated, user, users, loading },
+  deactiveCountryData,
   Projectdeavtivedata,
   onDeactiveModalChange,
-  deactiveProjectData,
+  deactivecountrydata,
 }) => {
   //formData
   // console.log("data", Projectdeavtivedata);
   const [formData, setFormData] = useState({
-    projectName:
-      Projectdeavtivedata && Projectdeavtivedata.projectName
-        ? Projectdeavtivedata.projectName
+    countryName:
+      deactivecountrydata && deactivecountrydata.countryName
+        ? deactivecountrydata.countryName
         : "",
-    clientName:
-      Projectdeavtivedata && Projectdeavtivedata.projectName
-        ? Projectdeavtivedata.clientName
+    countryCode:
+      deactivecountrydata && deactivecountrydata.countryCode
+        ? deactivecountrydata.countryCode
         : "",
-    clientFolderName:
-      Projectdeavtivedata && Projectdeavtivedata.projectName
-        ? Projectdeavtivedata.clientFolderName
-        : "",
-
     isSubmitted: false,
   });
 
-  const { projectName, clientName, clientFolderName } = formData;
+  const { countryName, countryCode, countryDeactivateReason } = formData;
 
+  const onInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      recordId: Projectdeavtivedata ? Projectdeavtivedata._id : "",
-      projectDeleteById: user._id,
-      projectDeleteDateTime: Date.now(),
+      recordId: deactivecountrydata ? deactivecountrydata._id : "",
+      countryName: countryName,
+      countryCode: countryCode,
+      countryStatus: "Deactive",
+      countryDeactivateReason: countryDeactivateReason,
+      countryDeactivateById: user._id,
+      countryDeactivateDateTime: new Date().toLocaleString(),
     };
-    // console.log(finalData);
-    deactiveProjectData(finalData);
+    console.log(finalData);
+    deactiveCountryData(finalData);
     onDeactiveModalChange(true);
   };
 
@@ -49,13 +52,30 @@ const DeactiveCountry = ({
     <Fragment>
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control">
-              Country Name : {projectName}
+              Country Name : {countryName}
             </label>
           </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-            <label className="label-control">Country Code : {clientName}</label>
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+            <label className="label-control">
+              Country Code : {countryCode}
+            </label>
+          </div>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+            <label className="label-control">Deactivate Reason:</label>
+
+            <textarea
+              name="countryDeactivateReason"
+              id="countryDeactivateReason"
+              className="textarea form-control"
+              rows="3"
+              placeholder=" Deactive Reason"
+              style={{ width: "100%" }}
+              value={countryDeactivateReason}
+              onChange={(e) => onInputChange(e)}
+              required
+            ></textarea>
           </div>
         </div>
 
@@ -96,7 +116,7 @@ const DeactiveCountry = ({
 
 DeactiveCountry.propTypes = {
   auth: PropTypes.object.isRequired,
-  deactiveProjectData: PropTypes.func.isRequired,
+  deactiveCountryData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -104,5 +124,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  deactiveProjectData,
+  deactiveCountryData,
 })(DeactiveCountry);

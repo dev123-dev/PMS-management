@@ -1,20 +1,21 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { AddState } from "../../actions/area";
+import { addCountryDetails } from "../../actions/regions";
 import Spinner from "../layout/Spinner";
 
 const AddCountryDetails = ({
-  savedMessage,
   auth: { isAuthenticated, user, users, loading },
-  //   AddState,
+  addCountryDetails,
+  onAddDistrictModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    stateName: "",
+    countryName: "",
+    countryCode: "",
     isSubmitted: false,
   });
-  const { stateName } = formData;
+  const { countryName, countryCode } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,17 +24,19 @@ const AddCountryDetails = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      stateName: stateName,
-      stateEnteredById: user._id,
-      stateEnteredByName: user.userName,
-      institutionId: user.institutionId,
-      userData: user,
+      countryName: countryName,
+      countryCode: countryCode,
+      countryEnteredById: user._id,
+      countryEnteredByName: user.userName,
+      countryBelongsTo: "DCT",
     };
-    // AddState(finalData);
+    // console.log(finalData);
+    addCountryDetails(finalData);
+    onAddDistrictModalChange(true);
     setFormData({
       ...formData,
-      stateName: "",
-
+      countryName: "",
+      countryCode: "",
       isSubmitted: true,
     });
   };
@@ -49,8 +52,8 @@ const AddCountryDetails = ({
               <label className="label-control"> Country Name * :</label>
               <input
                 type="text"
-                name="stateName"
-                value={stateName}
+                name="countryName"
+                value={countryName}
                 className="form-control"
                 onChange={(e) => onInputChange(e)}
                 required
@@ -60,8 +63,8 @@ const AddCountryDetails = ({
               <label className="label-control"> Country Code * :</label>
               <input
                 type="Number"
-                name="stateName"
-                value={stateName}
+                name="countryCode"
+                value={countryCode}
                 className="form-control"
                 onChange={(e) => onInputChange(e)}
                 onKeyDown={(e) =>
@@ -97,7 +100,7 @@ const AddCountryDetails = ({
 AddCountryDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   area: PropTypes.object.isRequired,
-  //   AddState: PropTypes.func.isRequired,
+  addCountryDetails: PropTypes.func.isRequired,
   savedMessage: PropTypes.string,
 };
 
@@ -108,5 +111,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  //   AddState,
+  addCountryDetails,
 })(AddCountryDetails);

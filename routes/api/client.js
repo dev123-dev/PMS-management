@@ -23,6 +23,7 @@ router.post("/add-client", async (req, res) => {
 router.post("/edit-client", async (req, res) => {
   try {
     let data = req.body;
+
     let allClientdata = data.allClientdata;
     const historyData = {
       chId: allClientdata._id,
@@ -43,6 +44,7 @@ router.post("/edit-client", async (req, res) => {
       chPaymentId: allClientdata.PaymentId,
       chpaymentModeName: allClientdata.paymentModeName,
       chclientType: allClientdata.clientType,
+      chStandardInstruction: allClientdata.standardInstruction,
     };
     let clientHistoryDetails = new ClientHistoryDetails(historyData);
     await clientHistoryDetails.save();
@@ -64,6 +66,7 @@ router.post("/edit-client", async (req, res) => {
           clientType: data.clientType,
           clientAddress: data.clientAddress,
           clientCountry: data.clientCountry,
+          standardInstruction: data.standardInstruction,
           clientCurrency: data.clientCurrency,
           paymentId: data.paymentId,
           paymentModeName: data.paymentModeName,

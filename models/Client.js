@@ -6,6 +6,14 @@ const ClientSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // clientRelatedInfo: {
+  //   staffName: {
+  //     type: String,
+  //   },
+  //   staffConatctNo: {
+  //     type: Number,
+  //   },
+  // },
   clientCompanyName: {
     type: String,
   },
@@ -34,6 +42,9 @@ const ClientSchema = new mongoose.Schema({
     type: Number,
   },
   clientAddress: {
+    type: String,
+  },
+  standardInstruction: {
     type: String,
   },
   clientCountry: {

@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   AUTH_ERROR,
+  ERROR,
   SET_LOADING_TRUE,
   SET_LOADING_FALSE,
   PAYMENT_MODE,
@@ -12,6 +13,7 @@ import {
   ALL_RIGHTS,
   ALL_FEEDBACK,
   ALL_DELETED_PROJECTS,
+  ALL_COMPANY_DETAILS,
 } from "./types";
 
 const config = {
@@ -122,6 +124,22 @@ export const AddFeedbackData = (finalData) => async (dispatch) => {
   }
 };
 
+export const AddCompanyData = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/settings/add-company", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 //EDIT
 
 export const editDepartment = (finalData) => async (dispatch) => {
@@ -227,6 +245,22 @@ export const EditFeedbackStatusData = (finalData) => async (dispatch) => {
   }
 };
 
+export const EditCompanyDetails = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/settings/edit-company-details", finalData);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 //Deactive
 
 export const deactiveDesignationData = (finalData) => async (dispatch) => {
@@ -246,6 +280,23 @@ export const deactiveDesignationData = (finalData) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
+    });
+  }
+};
+
+export const deactivateCompanyData = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/settings/deactive-company-data", finalData, config);
+    // dispatch(getALLDesignation());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
     });
   }
 };
@@ -287,6 +338,23 @@ export const getALLDesignation = () => async (dispatch) => {
     // localStorage.setItem("allDesignationData", JSON.stringify(res.data));
     dispatch({
       type: ALL_DESIGNATION,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+//ALL COMPANY DETAILS
+
+export const getALLCompanyDetails = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/settings/get-all-company-details");
+    // localStorage.setItem("allDesignationData", JSON.stringify(res.data));
+    dispatch({
+      type: ALL_COMPANY_DETAILS,
       payload: res.data,
     });
   } catch (err) {

@@ -2,13 +2,22 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Select from "react-select";
 import Spinner from "../layout/Spinner";
-import Pagination from "../layout/Pagination";
+import { getAllState } from "../../actions/regions";
+
 import AddStateDetails from "./AddStateDetails";
 import EditStateDetails from "./EditStateDetails";
 import DeactiveState from "./DeactiveState";
-const AllStates = ({ auth: { isAuthenticated, user, users } }) => {
+const AllStates = ({
+  auth: { isAuthenticated, user, users },
+  regions: { allState },
+  getAllState,
+}) => {
+  useEffect(() => {
+    getAllState();
+  }, [getAllState]);
+
+  // console.log("allState", allState);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -66,7 +75,7 @@ const AllStates = ({ auth: { isAuthenticated, user, users } }) => {
             >
               Add State
             </button>
-            <button
+            {/* <button
               className="btn btn_green_bg float-right"
               onClick={() => onEdit()}
             >
@@ -77,7 +86,7 @@ const AllStates = ({ auth: { isAuthenticated, user, users } }) => {
               onClick={() => onDeactive()}
             >
               Deactive State
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -95,7 +104,33 @@ const AllStates = ({ auth: { isAuthenticated, user, users } }) => {
                       <th>Op</th>
                     </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody>
+                    {allState &&
+                      allState.map((allState, idx) => {
+                        return (
+                          <tr key={idx}>
+                            <td>{allState.stateName}</td>
+
+                            <td>
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onDeactive(allState, idx)}
+                                src={require("../../static/images/delete.png")}
+                                alt="Deactivate"
+                                title="Deactivate"
+                              />
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onEdit(allState, idx)}
+                                src={require("../../static/images/edit_icon.png")}
+                                alt="Edit"
+                                title="Edit"
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
                 </table>
               </div>
             </section>
@@ -155,7 +190,7 @@ const AllStates = ({ auth: { isAuthenticated, user, users } }) => {
         </Modal.Header>
         <Modal.Body>
           <EditStateDetails
-            districts={userData}
+            stateeditdata={userData}
             onUpdateModalChange={onUpdateModalChange}
           />
         </Modal.Body>
@@ -186,7 +221,7 @@ const AllStates = ({ auth: { isAuthenticated, user, users } }) => {
         <Modal.Body>
           <DeactiveState
             onDeactiveModalChange={onDeactiveModalChange}
-            allProjectStatusdeavtivedata={userDatadeactive}
+            statedeavtivedata={userDatadeactive}
           />
         </Modal.Body>
       </Modal>
@@ -196,9 +231,11 @@ const AllStates = ({ auth: { isAuthenticated, user, users } }) => {
 
 AllStates.propTypes = {
   auth: PropTypes.object.isRequired,
+  getAllState: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  regions: state.regions,
 });
 
-export default connect(mapStateToProps, {})(AllStates);
+export default connect(mapStateToProps, { getAllState })(AllStates);

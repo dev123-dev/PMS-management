@@ -6,6 +6,7 @@ import {
   ACTIVE_DESIGNATION,
   ALL_FEEDBACK,
   ALL_DELETED_PROJECTS,
+  ALL_COMPANY_DETAILS,
 } from "../actions/types";
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   activeDesignation: [],
   allFeedback: [],
   allDeletedProjects: [],
+  allCompanyDetails: [],
 };
 
 const settings = (state = initialState, action) => {
@@ -55,6 +57,11 @@ const settings = (state = initialState, action) => {
       return {
         ...state,
         allDeletedProjects: payload,
+      };
+    case ALL_COMPANY_DETAILS:
+      return {
+        ...state,
+        allCompanyDetails: payload,
       };
     default:
       return state;

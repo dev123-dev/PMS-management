@@ -433,7 +433,7 @@ const DailyJobSheet = ({
               <h5 className="heading_color">Daily Job Sheet</h5>
             </div>
             <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
-              <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-3">
+              <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-2">
                 {/* SLAP UserGroupRights */}
 
                 {(user.userGroupName &&
@@ -523,7 +523,7 @@ const DailyJobSheet = ({
                   </div>
                 </>
               )}
-              <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-3">
+              <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
                 <Select
                   name="clientData"
                   isSearchable={true}
@@ -572,13 +572,14 @@ const DailyJobSheet = ({
                           <></>
                         )}
                         <th style={{ width: "5%" }}>Folder</th>
-                        <th style={{ width: "10%" }}>Project Name</th>
+                        <th style={{ width: "15%" }}>Project Name</th>
                         <th style={{ width: "12%" }}>Queue Duration</th>
                         <th style={{ width: "10%" }}>Estimated Time</th>
                         <th style={{ width: "10%" }}>Job Time</th>
                         {/* <th style={{ width: "2%" }}>Priority</th> */}
                         <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "3%" }}>Qty</th>
+                        <th style={{ width: "8%" }}>Output Format</th>
                         <th style={{ width: "13%" }}>Status</th>
                         {/* <th style={{ width: "10%" }}>Latest Change</th>
                         <th style={{ width: "10%" }}>Job Notes</th> */}
@@ -587,7 +588,7 @@ const DailyJobSheet = ({
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ||
                         user.userGroupName === "Clarical Admins" ? (
-                          <th style={{ width: "10%" }}>OP</th>
+                          <th style={{ width: "3%" }}>OP</th>
                         ) : (
                           <></>
                         )}
@@ -717,6 +718,7 @@ const DailyJobSheet = ({
                                     <span style={{ color: "red" }}>*</span>
                                   )}
                                 </td>
+                                <td>{dailyJobsheetProjects.outputformat}</td>
 
                                 <td>
                                   {/* SLAP UserGroupRights */}
@@ -929,7 +931,7 @@ const DailyJobSheet = ({
       >
         <Modal.Header>
           <div className="col-lg-11 col-md-10 col-sm-10 col-10">
-            <h3 className="modal-title text-center">Notes </h3>
+            <h3 className="modal-title text-center">Project Notes </h3>
           </div>
           <div className="col-lg-2 col-md-2 col-sm-2 col-2">
             <button onClick={handlenotesModalClose} className="close">

@@ -94,6 +94,12 @@ const EditClientDetails = ({
       allClientdata && allClientdata.paymentModeName
         ? allClientdata.paymentModeName
         : "",
+
+    standardInstruction:
+      allClientdata && allClientdata.standardInstruction
+        ? allClientdata.standardInstruction
+        : "",
+
     isSubmitted: false,
   });
 
@@ -111,6 +117,7 @@ const EditClientDetails = ({
     clientCompanyName,
     clientCompanyFounderName,
     clientWebsite,
+    standardInstruction,
   } = formData;
 
   const onInputChange = (e) => {
@@ -192,8 +199,11 @@ const EditClientDetails = ({
           )[0]
       : ""
   );
-  const [paymentId, setpaymentId] = useState("");
-  const [paymentModeName, setpaymentname] = useState("");
+
+  const [paymentId, setpaymentId] = useState(allClientdata.paymentId);
+  const [paymentModeName, setpaymentname] = useState(
+    allClientdata.paymentModeName
+  );
 
   const onPayModeChange = (e) => {
     var paymentId = "";
@@ -282,17 +292,12 @@ const EditClientDetails = ({
       clientCurrency: clientCurrency,
       paymentId: paymentId,
       paymentModeName: paymentModeName,
+      standardInstruction: standardInstruction,
       allClientdata: allClientdata,
     };
-    // console.log(finalData);
+    console.log(finalData);
     EditClient(finalData);
     onEditModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // }
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -519,6 +524,25 @@ const EditClientDetails = ({
                       })}
                     />
                   </div>
+                </div>
+              </div>
+
+              <div className="row py-1"></div>
+              <div className="row card-new pb-3 ">
+                <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">
+                    Standard Instruction :
+                  </label>
+                  <textarea
+                    name="standardInstruction"
+                    id="standardInstruction"
+                    className="textarea form-control"
+                    rows="5"
+                    placeholder="Standard Instruction"
+                    style={{ width: "100%" }}
+                    value={standardInstruction}
+                    onChange={(e) => onInputChange(e)}
+                  ></textarea>
                 </div>
               </div>
             </div>

@@ -2,13 +2,21 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Select from "react-select";
 import Spinner from "../layout/Spinner";
-import Pagination from "../layout/Pagination";
+import { getAllCountries } from "../../actions/regions";
 import AddCountryDetails from "./AddCountryDetails";
 import EditCountryDetails from "./EditCountryDetails";
 import DeactiveCountry from "./DeactiveCountry";
-const AllCountry = ({ auth: { isAuthenticated, user, users } }) => {
+const AllCountry = ({
+  auth: { isAuthenticated, user, users },
+  regions: { allCountries },
+  getAllCountries,
+}) => {
+  useEffect(() => {
+    getAllCountries();
+  }, [getAllCountries]);
+
+  // console.log("allCountries", allCountries);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -68,7 +76,7 @@ const AllCountry = ({ auth: { isAuthenticated, user, users } }) => {
               Add Country
             </button>
 
-            <button
+            {/* <button
               className="btn btn_green_bg float-right"
               onClick={() => onEdit()}
             >
@@ -80,7 +88,7 @@ const AllCountry = ({ auth: { isAuthenticated, user, users } }) => {
               onClick={() => onDeactive()}
             >
               Deactive Country
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -99,7 +107,34 @@ const AllCountry = ({ auth: { isAuthenticated, user, users } }) => {
                       <th>Op</th>
                     </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody>
+                    {allCountries &&
+                      allCountries.map((countryData, idx) => {
+                        return (
+                          <tr key={idx}>
+                            <td>{countryData.countryName}</td>
+                            <td>{countryData.countryCode}</td>
+                            <td>
+                              {" "}
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onDeactive(countryData, idx)}
+                                src={require("../../static/images/delete.png")}
+                                alt="Deactivate"
+                                title="Deactivate"
+                              />
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onEdit(countryData, idx)}
+                                src={require("../../static/images/edit_icon.png")}
+                                alt="Edit"
+                                title="Edit"
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
                 </table>
               </div>
             </section>
@@ -160,7 +195,7 @@ const AllCountry = ({ auth: { isAuthenticated, user, users } }) => {
         </Modal.Header>
         <Modal.Body>
           <EditCountryDetails
-            districts={userData}
+            editcountrydata={userData}
             onUpdateModalChange={onUpdateModalChange}
           />
         </Modal.Body>
@@ -191,7 +226,7 @@ const AllCountry = ({ auth: { isAuthenticated, user, users } }) => {
         <Modal.Body>
           <DeactiveCountry
             onDeactiveModalChange={onDeactiveModalChange}
-            allProjectStatusdeavtivedata={userDatadeactive}
+            deactivecountrydata={userDatadeactive}
           />
         </Modal.Body>
       </Modal>
@@ -201,9 +236,11 @@ const AllCountry = ({ auth: { isAuthenticated, user, users } }) => {
 
 AllCountry.propTypes = {
   auth: PropTypes.object.isRequired,
+  getAllCountries: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  regions: state.regions,
 });
 
-export default connect(mapStateToProps, {})(AllCountry);
+export default connect(mapStateToProps, { getAllCountries })(AllCountry);

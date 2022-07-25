@@ -9,40 +9,44 @@ import {
   getAllchanges,
   getAmendmentProjectDeatils,
   AddAmendmentHistory,
+  getLastAmendmentHistoryDeatils,
+  updateProjectTrack,
 } from "../../actions/projects";
 
 import AmendHistory from "./AmendHistory";
 const Amendments = ({
   auth: { isAuthenticated, user, users },
-  project: { amendmentProjects },
+  project: { amendentHistory, amendentLastHistory, amendmentProjects },
   getAmendmentProjectDeatils,
   AddAmendmentHistory,
+  getLastAmendmentHistoryDeatils,
+  updateProjectTrack,
 }) => {
   useEffect(() => {
     getAmendmentProjectDeatils();
   }, [getAmendmentProjectDeatils]);
   //formData
   const [formData, setFormData] = useState({
-    Notes: "",
     projectStatusCategory: "",
-    discussionPoints: "",
-    UnResolved: "",
+    discussionPointsNotes: "",
+    discussionPoint: "",
     radiodata: "",
-    Resolved: "",
     isSubmitted: false,
   });
+
+  let getLastAmendment = JSON.parse(
+    localStorage.getItem("getLastAmendmentDetails")
+  );
+  // console.log("getLastAmendmentDetails", getLastAmendment);
 
   const StatusCategory = [
     { value: "Resolved", label: "Resolved" },
     { value: "UnResolved", label: "UnResolved" },
   ];
   const {
-    Notes,
     radiodata,
     projectStatusCategory,
-    discussionPoints,
-    UnResolved,
-    Resolved,
+    discussionPointsNotes,
     isSubmitted,
   } = formData;
   const onInputChange = (e) => {
@@ -56,22 +60,48 @@ const Amendments = ({
         projectStatusCategory: e,
       });
     }
+    if (e.value === "Resolved") {
+      setShowHide1({
+        ...showHide1,
+        showunresolvedSection: false,
+      });
+    } else {
+      setShowHide1({
+        ...showHide1,
+        showunresolvedSection: true,
+      });
+    }
     let setTypeData = e.value;
     getAmendmentProjectDeatils({ setTypeData: setTypeData });
   };
-
-  const [ProjRestore, setProjRestore] = useState(null);
+  const [ProjLastchnage, setProjLastchnage] = useState(null);
+  const [ProjRestore, setProjRestore] = useState();
   const onClickHandler = (amendmentProjects, idx) => {
+    localStorage.removeItem("getLastAmendment");
+    // setProjLastchnage(null);
     setShowHide({
       ...showHide,
       showhistory_submitSection: true,
     });
     setProjRestore(amendmentProjects);
+    getLastAmendmentHistoryDeatils({ projectId: amendmentProjects.projectId });
   };
+  if (getLastAmendment && !ProjLastchnage) {
+    setProjLastchnage(
+      getLastAmendment && getLastAmendment.discussionPoints
+        ? getLastAmendment.discussionPoints
+        : ""
+    );
+  }
   const [showHide, setShowHide] = useState({
     showhistory_submitSection: false,
   });
+  const [showHide1, setShowHide1] = useState({
+    showunresolvedSection: true,
+  });
+  console.log("ProjRestore", ProjRestore);
   const { showhistory_submitSection } = showHide;
+  const { showunresolvedSection } = showHide1;
   const onRadioSelect = (radiodata) => {
     if (radiodata === "Resolved") {
       setFormData({
@@ -96,14 +126,31 @@ const Amendments = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      recordId: ProjRestore ? ProjRestore._id : "",
+      projectId: ProjRestore ? ProjRestore.projectId : "",
       projectName: ProjRestore.projectName,
-      discussionPoints: discussionPoints,
+      discussionPoints: discussionPointsNotes,
       amendmentType: radiodata,
+      amendmentCounter: ProjRestore.amendmentCounter,
+      amendmentEnteredById: user._id,
+      amendmentEnteredByName: user.empFullName,
     };
-    // console.log(finalData);
     AddAmendmentHistory(finalData);
-    // onRestoreModalChange(true);
+    if (radiodata === "Resolved") {
+      const updateData = {
+        projectId: ProjRestore ? ProjRestore.projectId : "",
+        amendmentType: radiodata,
+      };
+      // console.log(updateData);
+      updateProjectTrack(updateData);
+    }
+
+    setFormData({
+      ...formData,
+      projectId: "",
+      projectName: "",
+      discussionPointsNotes: "",
+      radiodata: "",
+    });
   };
 
   const onHistoryModalChange = (e) => {
@@ -119,7 +166,8 @@ const Amendments = ({
   const onEdit = (e) => {
     setShowHistoryModal(true);
     const finalData = {
-      projectId: ProjRestore ? ProjRestore._id : "",
+      projectId: ProjRestore ? ProjRestore.projectId : "",
+      amendmentCounter: ProjRestore.amendmentCounter,
     };
     setUserData(finalData);
   };
@@ -183,15 +231,19 @@ const Amendments = ({
                                     onClickHandler(amendmentProjects, idx)
                                   }
                                 >
-                                  {amendmentProjects.clientName}
+                                  {amendmentProjects.output[0].clientName}
                                 </Link>
                               </td>
                               <td>
-                                <b>{amendmentProjects.clientFolderName}</b>
+                                <b>
+                                  {amendmentProjects.output[0].clientFolderName}
+                                </b>
                               </td>
-                              <td>{amendmentProjects.projectName}</td>
+                              <td>{amendmentProjects.output[0].projectName}</td>
 
-                              <td>{amendmentProjects.projectStatusType}</td>
+                              <td>
+                                {amendmentProjects.output[0].projectStatusType}
+                              </td>
                             </tr>
                           );
                         })}
@@ -202,61 +254,63 @@ const Amendments = ({
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 col-12  ">
               <div className="col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
-                <form onSubmit={(e) => onSubmit(e)}>
-                  <div className="row col-lg-12 col-md-6 col-sm-6 col-12 ">
-                    <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                      <label className="label-control">Resolved : </label>
-                      &emsp;
-                      <input
-                        className="radiolevels"
-                        type="radio"
-                        id="Resolved"
-                        value="Resolved"
-                        name="radiolevels"
-                        onClick={() => onRadioSelect("Resolved")}
-                      />
-                    </div>
-                    <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                      <label className="label-control">Un-Resolved : </label>
-                      &emsp;
-                      <input
-                        className="radiolevels"
-                        type="radio"
-                        id="UnResolved"
-                        value="UnResolved"
-                        onClick={() => onRadioSelect("UnResolved")}
-                        name="radiolevels"
-                      />
-                    </div>
-
-                    <div className=" col-lg-12 col-md-6 col-sm-6 col-12 ">
-                      <label className="label-control">
-                        Discussion Points :
-                      </label>
-                      <textarea
-                        name="discussionPoints"
-                        id="discussionPoints"
-                        className="textarea form-control"
-                        rows="4"
-                        placeholder="discussionPoints"
-                        style={{ width: "100%" }}
-                        value={discussionPoints}
-                        onChange={(e) => onInputChange(e)}
-                        required
-                      ></textarea>
-                    </div>
-                    {showhistory_submitSection && (
-                      <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
+                {showunresolvedSection && (
+                  <form onSubmit={(e) => onSubmit(e)}>
+                    <div className="row col-lg-12 col-md-6 col-sm-6 col-12 ">
+                      <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">Resolved : </label>
+                        &emsp;
                         <input
-                          type="submit"
-                          name="Submit"
-                          value="Submit"
-                          className="btn sub_form btn_continue blackbrd Save float-right"
+                          className="radiolevels"
+                          type="radio"
+                          id="Resolved"
+                          value="Resolved"
+                          name="radiolevels"
+                          onClick={() => onRadioSelect("Resolved")}
                         />
                       </div>
-                    )}
-                  </div>
-                </form>
+                      <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">Un-Resolved : </label>
+                        &emsp;
+                        <input
+                          className="radiolevels"
+                          type="radio"
+                          id="UnResolved"
+                          value="UnResolved"
+                          onClick={() => onRadioSelect("UnResolved")}
+                          name="radiolevels"
+                        />
+                      </div>
+
+                      <div className=" col-lg-12 col-md-6 col-sm-6 col-12 ">
+                        <label className="label-control">
+                          Discussion Points :
+                        </label>
+                        <textarea
+                          name="discussionPointsNotes"
+                          id="discussionPointsNotes"
+                          className="textarea form-control"
+                          rows="4"
+                          placeholder="discussionPointsNotes"
+                          value={discussionPointsNotes}
+                          style={{ width: "100%" }}
+                          onChange={(e) => onInputChange(e)}
+                          required
+                        ></textarea>
+                      </div>
+                      {showhistory_submitSection && (
+                        <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
+                          <input
+                            type="submit"
+                            name="Submit"
+                            value="Submit"
+                            className="btn sub_form btn_continue blackbrd Save float-right"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </form>
+                )}
               </div>
 
               <div className="row col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
@@ -273,13 +327,13 @@ const Amendments = ({
                 <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                   <label className="label-control">Last Discussion :</label>
                   <textarea
-                    name="Notes"
-                    id="Notes"
+                    name="ProjLastchnage"
+                    id="ProjLastchnage"
                     className="textarea form-control"
                     rows="4"
-                    placeholder="Notes"
+                    placeholder=""
                     style={{ width: "100%" }}
-                    value={Notes}
+                    value={ProjLastchnage}
                     onChange={(e) => onInputChange(e)}
                     disabled
                   ></textarea>
@@ -327,6 +381,8 @@ Amendments.propTypes = {
   project: PropTypes.object.isRequired,
   getAmendmentProjectDeatils: PropTypes.func.isRequired,
   AddAmendmentHistory: PropTypes.func.isRequired,
+  getLastAmendmentHistoryDeatils: PropTypes.func.isRequired,
+  updateProjectTrack: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -337,4 +393,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getAmendmentProjectDeatils,
   AddAmendmentHistory,
+  getLastAmendmentHistoryDeatils,
+  updateProjectTrack,
 })(Amendments);

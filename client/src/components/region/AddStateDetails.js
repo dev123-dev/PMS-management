@@ -1,13 +1,14 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { AddState } from "../../actions/area";
+import { addStateDetails } from "../../actions/regions";
 import Spinner from "../layout/Spinner";
 
 const AddStateDetails = ({
   savedMessage,
   auth: { isAuthenticated, user, users, loading },
-  //   AddState,
+  addStateDetails,
+  onAddDistrictModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -26,14 +27,14 @@ const AddStateDetails = ({
       stateName: stateName,
       stateEnteredById: user._id,
       stateEnteredByName: user.userName,
-      institutionId: user.institutionId,
-      userData: user,
+      stateBelongsTo: "DCT",
     };
-    // AddState(finalData);
+    // console.log(finalData);
+    addStateDetails(finalData);
+    onAddDistrictModalChange(true);
     setFormData({
       ...formData,
       stateName: "",
-
       isSubmitted: true,
     });
   };
@@ -56,19 +57,19 @@ const AddStateDetails = ({
                 required
               />
             </div>
-            <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-              <label className="label-control"> State Code * :</label>
-              <input
-                type="Number"
-                name="stateName"
-                value={stateName}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-                onKeyDown={(e) =>
-                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-                }
-              />
-            </div>
+            {/* <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+                <label className="label-control"> State Code * :</label>
+                <input
+                  type="Number"
+                  name="stateName"
+                  value={stateName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+                  }
+                />
+              </div> */}
           </div>
 
           <div className="col-md-10 col-lg-12 col-sm-12 col-12 text-left">
@@ -97,7 +98,7 @@ const AddStateDetails = ({
 AddStateDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   area: PropTypes.object.isRequired,
-  //   AddState: PropTypes.func.isRequired,
+  addStateDetails: PropTypes.func.isRequired,
   savedMessage: PropTypes.string,
 };
 
@@ -108,5 +109,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  //   AddState,
+  addStateDetails,
 })(AddStateDetails);

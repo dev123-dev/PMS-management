@@ -44,10 +44,10 @@ const JobQueue = ({
     client.onopen = () => {
       console.log("webSocket client connected");
     };
-    client.onmessage = (message) => {
-      getUpdatedProjectStaus();
-      // getUpdatedProjectStausForDailyJobSheet();
-    };
+    // client.onmessage = (message) => {
+    //   getUpdatedProjectStaus();
+    //   // getUpdatedProjectStausForDailyJobSheet();
+    // };
   }, []);
   useEffect(() => {
     getJobQueueProjectDeatils();
@@ -137,7 +137,6 @@ const JobQueue = ({
     if (
       e.label === "Downloaded" ||
       e.label === "Uploaded" ||
-      e.label === "Amend_Uploaded" ||
       e.label === "QC DONE"
     ) {
       setStatusValue(e);
@@ -158,6 +157,24 @@ const JobQueue = ({
       );
       // setStatusChange(finalData);
       // setShowProjectCycleModal(false);
+    } else if (e.label === "Amend_Uploaded") {
+      setStatusValue(e);
+      let finalData = {
+        projectTrackStatusId: e.value,
+        projectStatusType: e.label,
+        projectId: jobQueueProjects._id,
+        projectStatusChangedbyName: user.empFullName,
+        projectStatusChangedById: user._id,
+        amendmentCounter: "1",
+      };
+      // console.log("page", finalData);
+      AddProjectTrack(finalData);
+      client.send(
+        JSON.stringify({
+          type: "message",
+          msg: "/JobQueue",
+        })
+      );
     } else {
       setStatusValue(e);
       let newStatusData = {
@@ -367,16 +384,6 @@ const JobQueue = ({
                 value={projectStatusCategory}
                 placeholder="Select Status Category"
                 onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
               />
             </div>
 
@@ -420,13 +427,14 @@ const JobQueue = ({
                           <></>
                         )}
                         <th style={{ width: "6%" }}>Folder </th>
-                        <th style={{ width: "25%" }}>Project Name</th>
+                        <th style={{ width: "20%" }}>Project Name</th>
                         <th style={{ width: "12%" }}>Queue Duration</th>
                         <th style={{ width: "10%" }}>Estimated Time</th>
                         <th style={{ width: "10%" }}>Job Time</th>
                         {/* <th style={{ width: "2%" }}>Priority</th> */}
                         <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "3%" }}>Qty</th>
+                        <th style={{ width: "8%" }}>Output Format</th>
                         <th style={{ width: "13%" }}>Status</th>
                         {/* <th style={{ width: "5%" }}>Latest Change</th>
                         <th style={{ width: "5%" }}>Job Notes</th> */}
@@ -437,7 +445,7 @@ const JobQueue = ({
                         user.userGroupName === "Clarical Admins" ||
                         user.userGroupName === "Quality Controller" ||
                         user.userGroupName === "Distributors" ? (
-                          <th style={{ width: "10%" }}>OP</th>
+                          <th style={{ width: "3%" }}>OP</th>
                         ) : (
                           <></>
                         )}
@@ -552,6 +560,7 @@ const JobQueue = ({
                                   <span style={{ color: "red" }}>*</span>
                                 )}
                               </td>
+                              <td>{jobQueueProjects.outputformat}</td>
                               <td>
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
@@ -841,7 +850,7 @@ const JobQueue = ({
       >
         <Modal.Header>
           <div className="col-lg-11 col-md-10 col-sm-10 col-10">
-            <h3 className="modal-title text-center">Notes </h3>
+            <h3 className="modal-title text-center">Project Notes </h3>
           </div>
           <div className="col-lg-1 col-md-2 col-sm-2 col-2">
             <button onClick={handlenotesModalClose} className="close">

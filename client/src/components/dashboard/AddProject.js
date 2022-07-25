@@ -95,6 +95,7 @@ const AddProject = ({
     clientName: "",
     projectName: "",
     qty: "",
+    outputformat: "",
     priority: "",
     deadline: "",
     projectStatus: "",
@@ -109,6 +110,7 @@ const AddProject = ({
   const {
     projectName,
     qty,
+    outputformat,
     priority,
     deadline,
     projectTime,
@@ -249,6 +251,7 @@ const AddProject = ({
         projectTime: projectTime,
         projectDate: startprojectDate,
         clientTime: clientTime,
+        outputformat: outputformat,
         clientDate: startclientDate,
         projectEnteredById: user._id,
         projectEnteredByName: user.empFullName,
@@ -466,7 +469,7 @@ const AddProject = ({
 
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
                 <div className="row card-new  py-3">
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label
                       className="label-control"
                       style={projectstatusErrorStyle}
@@ -482,7 +485,7 @@ const AddProject = ({
                       onChange={(e) => onProjectStatusChange(e)}
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Deadline :</label>
                     <input
                       type="text"
@@ -493,8 +496,21 @@ const AddProject = ({
                     />
                   </div>
 
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Output Format :</label>
+                    <input
+                      type="text"
+                      name="outputformat"
+                      value={outputformat}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+
                   <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control">Instructions* :</label>
+                    <label className="label-control">
+                      Project Instructions* :
+                    </label>
                     <textarea
                       name="Instructions"
                       id="Instructions"

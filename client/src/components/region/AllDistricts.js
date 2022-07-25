@@ -1,13 +1,23 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
-import Select from "react-select";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import { getAllDistricts } from "../../actions/regions";
 import AddDistrictDetails from "./AddDistrictDetails";
 import EditDistrictDetails from "./EditDistrictDetails";
 import DeactiveDistrict from "./DeactiveDistrict";
-const AllDistricts = ({ auth: { allUser, isAuthenticated, user, users } }) => {
+const AllDistricts = ({
+  auth: { allUser, isAuthenticated, user, users },
+  regions: { allDistrics },
+  getAllDistricts,
+}) => {
+  useEffect(() => {
+    getAllDistricts();
+  }, [getAllDistricts]);
+
+  // console.log("allDistrics", allDistrics);
+
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -30,9 +40,9 @@ const AllDistricts = ({ auth: { allUser, isAuthenticated, user, users } }) => {
   const handleUpdateModalClose = () => setShowUpdateModal(false);
 
   const [userData, setUserData] = useState(null);
-  const onEdit = (districts, idx) => {
+  const onEdit = (allDistrics, idx) => {
     setShowUpdateModal(true);
-    setUserData(districts);
+    setUserData(allDistrics);
   };
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
@@ -66,7 +76,7 @@ const AllDistricts = ({ auth: { allUser, isAuthenticated, user, users } }) => {
                 Add District
               </button>
 
-              <button
+              {/* <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onEdit()}
               >
@@ -77,7 +87,7 @@ const AllDistricts = ({ auth: { allUser, isAuthenticated, user, users } }) => {
                 onClick={() => onDeactive()}
               >
                 Deactive District
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -96,7 +106,33 @@ const AllDistricts = ({ auth: { allUser, isAuthenticated, user, users } }) => {
                         <th>Op</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {allDistrics &&
+                        allDistrics.map((allDistrics, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td>{allDistrics.districtName}</td>
+                              <td>{allDistrics.output.stateName}</td>
+                              <td>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onDeactive(allDistrics, idx)}
+                                  src={require("../../static/images/delete.png")}
+                                  alt="Deactivate"
+                                  title="Deactivate"
+                                />
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onEdit(allDistrics, idx)}
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>
@@ -114,7 +150,7 @@ const AllDistricts = ({ auth: { allUser, isAuthenticated, user, users } }) => {
       >
         <Modal.Header>
           <div className="col-lg-10">
-            <h3 className="modal-title text-center">Add Country Details</h3>
+            <h3 className="modal-title text-center">Add District Details</h3>
           </div>
           <div className="col-lg-2">
             <button onClick={handleAddDistrictModalClose} className="close">
@@ -187,7 +223,7 @@ const AllDistricts = ({ auth: { allUser, isAuthenticated, user, users } }) => {
         <Modal.Body>
           <DeactiveDistrict
             onDeactiveModalChange={onDeactiveModalChange}
-            allProjectStatusdeavtivedata={userDatadeactive}
+            districtdeactivedata={userDatadeactive}
           />
         </Modal.Body>
       </Modal>
@@ -197,9 +233,12 @@ const AllDistricts = ({ auth: { allUser, isAuthenticated, user, users } }) => {
 
 AllDistricts.propTypes = {
   auth: PropTypes.object.isRequired,
+  regions: PropTypes.object.isRequired,
+  getAllDistricts: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  regions: state.regions,
 });
 
-export default connect(mapStateToProps, {})(AllDistricts);
+export default connect(mapStateToProps, { getAllDistricts })(AllDistricts);

@@ -7,6 +7,11 @@ import {
   GET_LATEST_CHANGES,
   UNVERIFIED_PROJECTS,
   ALL_STATUS_VERIFICATION,
+  AMENDMENT_PROJECTS,
+  AMENDMENT_HISTORY_PROJECTS,
+  AMENDMENT_LAST_HISTORY_PROJECTS,
+  AMENDMENT_LAST_COUNTER,
+  SELECTED_CLIENT_DATA,
 } from "../actions/types";
 
 const initialState = {
@@ -17,9 +22,14 @@ const initialState = {
   getLatestChangesValue: [],
   unVerifiedProjects: [],
   allStatusVerification: [],
+  amendmentProjects: [],
+  amendentHistory: [],
+  amendentLastHistory: [],
+  amendentLastCounter: [],
+  selectedClientData: [],
 };
 
-const settings = (state = initialState, action) => {
+const projects = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -64,10 +74,35 @@ const settings = (state = initialState, action) => {
         ...state,
         allStatusVerification: payload,
       };
+    case AMENDMENT_PROJECTS:
+      return {
+        ...state,
+        amendmentProjects: payload,
+      };
+    case AMENDMENT_HISTORY_PROJECTS:
+      return {
+        ...state,
+        amendentHistory: payload,
+      };
+    case AMENDMENT_LAST_HISTORY_PROJECTS:
+      return {
+        ...state,
+        amendentLastHistory: payload,
+      };
+    case AMENDMENT_LAST_COUNTER:
+      return {
+        ...state,
+        amendentLastCounter: payload,
+      };
+    case SELECTED_CLIENT_DATA:
+      return {
+        ...state,
+        selectedClientData: payload,
+      };
 
     default:
       return state;
   }
 };
 
-export default settings;
+export default projects;

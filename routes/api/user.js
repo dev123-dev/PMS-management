@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const EmployeeDetails = require("../../models/EmpDetails");
 const EmployeeDetailsHistory = require("../../models/EmpDetailsHistory");
 const UserGroup = require("../../models/UserGroups");
+const EmpLeaves = require("../../models/Leaves");
 
 const {
   USER_EXISTS,
@@ -27,6 +28,7 @@ router.post("/add-user-group", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
 router.post("/add-employee", async (req, res) => {
   let data = req.body;
 
@@ -271,4 +273,41 @@ router.post("/get-filter-emp-details", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+//For Leaves
+
+//ADD Leave
+router.post("/add-leaves", async (req, res) => {
+  let data = req.body;
+  try {
+    let EmpLeavesDetails = new EmpLeaves(data);
+    output = await EmpLeavesDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+//Get All Leaves
+router.post("/get-all-Leaves", async (req, res) => {
+  try {
+    const allEmpLeves = await EmpLeaves.aggregate([
+      {
+        $lookup: {
+          from: "empdetails",
+          localField: "empId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $unwind: "$output" },
+    ]);
+    res.json(allEmpLeves);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;

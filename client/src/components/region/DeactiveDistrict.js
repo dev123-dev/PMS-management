@@ -2,44 +2,49 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { deactiveProjectData } from "../../actions/projects";
+import { deactiveDistrictsData } from "../../actions/regions";
 import { Link } from "react-router-dom";
 const DeactiveDistrict = ({
   auth: { isAuthenticated, user, users, loading },
-  Projectdeavtivedata,
+  districtdeactivedata,
   onDeactiveModalChange,
-  deactiveProjectData,
+  deactiveDistrictsData,
 }) => {
   //formData
-  // console.log("data", Projectdeavtivedata);
+  //console.log("data", districtdeactivedata);
   const [formData, setFormData] = useState({
-    projectName:
-      Projectdeavtivedata && Projectdeavtivedata.projectName
-        ? Projectdeavtivedata.projectName
+    districtDeactivateReason: "",
+    districtName:
+      districtdeactivedata && districtdeactivedata.districtName
+        ? districtdeactivedata.districtName
         : "",
-    clientName:
-      Projectdeavtivedata && Projectdeavtivedata.projectName
-        ? Projectdeavtivedata.clientName
+    stateName:
+      districtdeactivedata && districtdeactivedata.output.stateName
+        ? districtdeactivedata.output.stateName
         : "",
     clientFolderName:
-      Projectdeavtivedata && Projectdeavtivedata.projectName
-        ? Projectdeavtivedata.clientFolderName
+      districtdeactivedata && districtdeactivedata.projectName
+        ? districtdeactivedata.clientFolderName
         : "",
 
     isSubmitted: false,
   });
 
-  const { projectName, clientName, clientFolderName } = formData;
-
+  const { districtName, stateName, districtDeactivateReason } = formData;
+  const onInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      recordId: Projectdeavtivedata ? Projectdeavtivedata._id : "",
-      projectDeleteById: user._id,
-      projectDeleteDateTime: Date.now(),
+      recordId: districtdeactivedata ? districtdeactivedata._id : "",
+      districtStatus: "Deactive",
+      districtDeactivateReason: districtDeactivateReason,
+      districtDeactivateById: user._id,
+      districtDeactivateDateTime: new Date().toLocaleString(),
     };
-    // console.log(finalData);
-    deactiveProjectData(finalData);
+    console.log(finalData);
+    deactiveDistrictsData(finalData);
     onDeactiveModalChange(true);
   };
 
@@ -49,15 +54,28 @@ const DeactiveDistrict = ({
     <Fragment>
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control">
-              District Name : {projectName}
+              District Name : {districtName}
             </label>
           </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-            <label className="label-control">
-              District Code : {clientName}
-            </label>
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+            <label className="label-control">State Name : {stateName}</label>
+          </div>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+            <label className="label-control">Deactivate Reason:</label>
+
+            <textarea
+              name="districtDeactivateReason"
+              id="districtDeactivateReason"
+              className="textarea form-control"
+              rows="3"
+              placeholder=" Deactive Reason"
+              style={{ width: "100%" }}
+              value={districtDeactivateReason}
+              onChange={(e) => onInputChange(e)}
+              required
+            ></textarea>
           </div>
         </div>
 
@@ -98,7 +116,7 @@ const DeactiveDistrict = ({
 
 DeactiveDistrict.propTypes = {
   auth: PropTypes.object.isRequired,
-  deactiveProjectData: PropTypes.func.isRequired,
+  deactiveDistrictsData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -106,5 +124,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  deactiveProjectData,
+  deactiveDistrictsData,
 })(DeactiveDistrict);

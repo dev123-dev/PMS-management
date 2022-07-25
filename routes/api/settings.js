@@ -12,6 +12,7 @@ const PaymentMode = require("../../models/PaymentMode");
 const Project = require("../../models/Project");
 const Rights = require("../../models/Rights");
 const Feedback = require("../../models/feedback");
+const Company = require("../../models/settings/company");
 
 //ADD
 router.post("/add-department", async (req, res) => {
@@ -85,6 +86,19 @@ router.post("/add-feedback", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/add-company", async (req, res) => {
+  let data = req.body;
+  try {
+    let CompanyDetails = new Company(data);
+    output = await CompanyDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 //EDIT
 router.post("/edit-department", async (req, res) => {
   try {
@@ -170,7 +184,6 @@ router.post("/edit-payment-mode", async (req, res) => {
 router.post("/edit-feedback", async (req, res) => {
   try {
     let data = req.body;
-    // console.log(data);
     const updateFeedback = await Feedback.updateOne(
       { _id: data.recordId },
       {
@@ -212,6 +225,31 @@ router.post("/edit-feedback-status", async (req, res) => {
   }
 });
 
+router.post("/edit-company-details", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateCompanyData = await Company.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          companyName: data.companyName,
+          companyPhone: data.companyPhone,
+          companyDescription: data.companyDescription,
+          companyShortForm: data.companyShortForm,
+          companyAddress: data.companyAddress,
+          companyGSTIn: data.companyGSTIn,
+          companyPanNo: data.companyPanNo,
+          companyEditedById: data.companyEditedById,
+          companyEditedDateTime: new Date().toLocaleString("en-GB"),
+        },
+      }
+    );
+    res.json(updateCompanyData);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 //DEACTIVATE
 
 router.post("/deactive-designation-data", async (req, res) => {
@@ -230,6 +268,27 @@ router.post("/deactive-designation-data", async (req, res) => {
     );
 
     res.json(deactiveDesignationData);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/deactive-company-data", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactiveCompanyData = await Company.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          companyStatus: "Deactive",
+          companyDeactivateReason: data.companyDeactivateReason,
+          companyDeactivateById: data.companyDeactivateById,
+          companyDeactivateDateTime: new Date().toLocaleString("en-GB"),
+        },
+      }
+    );
+
+    res.json(deactiveCompanyData);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
@@ -404,6 +463,17 @@ router.post("/restore-project-data", async (req, res) => {
     res.json(deactiveProject);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+//ALL Company Details
+router.get("/get-all-company-details", async (req, res) => {
+  try {
+    const allCompanyDetails = await Company.find();
+    res.json(allCompanyDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
   }
 });
 

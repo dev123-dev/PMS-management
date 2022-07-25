@@ -5,6 +5,7 @@ import auth from "./auth";
 import client from "./client";
 import project from "./project";
 import settings from "./settings";
+import regions from "./regions";
 import user from "./user";
 
 export default combineReducers({
@@ -15,4 +16,5 @@ export default combineReducers({
   project,
   settings,
   user,
+  regions,
 });

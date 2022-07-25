@@ -2,28 +2,93 @@ import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
-// import { getStates, editDistrictDetails } from "../../actions/area";
+import { getStates, EditDistrictData } from "../../actions/regions";
 import Spinner from "../layout/Spinner";
 
 const EditDistrictDetails = ({
   auth: { isAuthenticated, user, users, loading },
-  //   getStates,
-  //   editDistrictDetails,
+  regions: { statesData },
+  EditDistrictData,
+  getStates,
+  onUpdateModalChange,
   districts,
 }) => {
-  //   useEffect(() => {
-  //     getStates();
-  //   }, [getStates]);
+  useEffect(() => {
+    getStates();
+  }, [getStates]);
+  // console.log(districts);
+  // console.log("statesData", statesData);
 
   //formData
   const [formData, setFormData] = useState({
-    stateName: "",
+    districtName:
+      districts && districts.districtName ? districts.districtName : "",
+
+    // districtName:
+    //   allClientdata && allClientdata.districtName
+    //     ? allClientdata.districtName
+    //     : "",
     isSubmitted: false,
   });
-  const { stateName } = formData;
+  const { districtName } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const allstates = [];
+  let selStateData = JSON.parse(localStorage.getItem("selStateData"));
+  console.log(selStateData);
+  selStateData &&
+    selStateData.map((state) => {
+      allstates.push({
+        stateId: state._id,
+        label: state.stateName,
+        value: state.stateName,
+      });
+    });
+
+  const [state, setStateData] = useState(
+    districts
+      ? allstates.length !== 0
+        ? allstates &&
+          allstates.filter((x) => x.stateId === districts.stateId)[0]
+        : ""
+      : ""
+  );
+  if (selStateData && selStateData.length !== 0) {
+    let hi = districts
+      ? allstates.length !== 0
+        ? allstates &&
+          allstates.filter((x) => x.stateId === districts.stateId)[0]
+        : ""
+      : "";
+  }
+  const [stateId, setStateID] = useState(districts.stateId);
+
+  const onStateChange = (e) => {
+    var stateId = "";
+    setStateData(e);
+    stateId = e.stateId;
+    setStateID(stateId);
+  };
+
+  const onUpdate = (e) => {
+    // e.preventDefault();
+    const finalData = {
+      recordId: districts ? districts._id : "",
+      stateId: stateId,
+      districtName: districtName,
+      districtEditedById: user._id,
+      districtEditedDateTime: user.userName,
+    };
+    // console.log(finalData);
+    EditDistrictData(finalData);
+    onUpdateModalChange(true);
+    // setFormData({
+    //   ...formData,
+    //   stateName: "",
+    //   isSubmitted: true,
+    // });
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -36,24 +101,32 @@ const EditDistrictDetails = ({
             <label className="label-control"> District Name * :</label>
             <input
               type="text"
-              name="stateName"
-              value={stateName}
+              name="districtName"
+              value={districtName}
               className="form-control"
               onChange={(e) => onInputChange(e)}
               required
             />
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> District Code * :</label>
-            <input
-              type="Number"
+            <label className="label-control">State * :</label>
+            <Select
               name="stateName"
-              value={stateName}
-              className="form-control"
-              onChange={(e) => onInputChange(e)}
-              onKeyDown={(e) =>
-                (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-              }
+              options={allstates}
+              isSearchable={true}
+              value={state}
+              placeholder="Select State"
+              onChange={(e) => onStateChange(e)}
+              theme={(theme) => ({
+                ...theme,
+                height: 26,
+                minHeight: 26,
+                borderRadius: 1,
+                colors: {
+                  ...theme.colors,
+                  primary: "black",
+                },
+              })}
             />
           </div>
         </div>
@@ -70,7 +143,7 @@ const EditDistrictDetails = ({
             <button
               variant="success"
               className="btn sub_form btn_continue Save float-right"
-              // onClick={() => onUpdate(districts)}
+              onClick={() => onUpdate()}
             >
               Update
             </button>
@@ -83,17 +156,17 @@ const EditDistrictDetails = ({
 
 EditDistrictDetails.propTypes = {
   auth: PropTypes.object.isRequired,
-  area: PropTypes.object.isRequired,
-  //   editDistrictDetails: PropTypes.func.isRequired,
-  //   getStates: PropTypes.func.isRequired,
+  regions: PropTypes.object.isRequired,
+  EditDistrictData: PropTypes.func.isRequired,
+  getStates: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  area: state.area,
+  regions: state.regions,
 });
 
 export default connect(mapStateToProps, {
-  //   getStates,
-  //   editDistrictDetails,
+  getStates,
+  EditDistrictData,
 })(EditDistrictDetails);

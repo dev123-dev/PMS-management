@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 ObjectId = mongoose.Schema.ObjectId;
 
 const AmendmentHistorySchema = new mongoose.Schema({
-  amendmentCounter: {
-    type: String,
-  },
   projectId: {
     type: ObjectId,
+  },
+  amendmentCounter: {
+    type: Number,
   },
   amendmentType: {
     type: String, //Resolved,UnResolved
