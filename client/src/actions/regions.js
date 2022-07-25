@@ -170,7 +170,11 @@ export const deactiveDistrictsData = (finalData) => async (dispatch) => {
     dispatch({
       type: SET_LOADING_TRUE,
     });
-    await axios.post("/api/regions/deactive-state-details", finalData, config);
+    await axios.post(
+      "/api/regions/deactive-districts-details",
+      finalData,
+      config
+    );
     dispatch(getAllDistricts());
     dispatch({
       type: SET_LOADING_FALSE,
@@ -270,7 +274,8 @@ export const getActiveDistricts = () => async (dispatch) => {
 export const getStates = () => async (dispatch) => {
   try {
     const res = await axios.post("/api/regions/get-state");
-    // localStorage.setItem("selStateData", JSON.stringify(res.data));
+    localStorage.setItem("selStateData", JSON.stringify(res.data));
+    // console.log(res.data);
     dispatch({
       type: STATES,
       payload: res.data,

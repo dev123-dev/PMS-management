@@ -169,7 +169,11 @@ router.post("/deactive-districts-details", async (req, res) => {
 
 router.get("/get-all-countries", async (req, res) => {
   try {
-    const getAllCountries = await Country.find({});
+    const getAllCountries = await Country.find({
+      countryStatus: {
+        $eq: "Active",
+      },
+    });
     res.json(getAllCountries);
   } catch (err) {
     console.error(err.message);
@@ -179,7 +183,11 @@ router.get("/get-all-countries", async (req, res) => {
 
 router.get("/get-all-states", async (req, res) => {
   try {
-    const getAllStates = await State.find({});
+    const getAllStates = await State.find({
+      stateStatus: {
+        $eq: "Active",
+      },
+    });
     res.json(getAllStates);
   } catch (err) {
     console.error(err.message);
@@ -189,6 +197,11 @@ router.get("/get-all-states", async (req, res) => {
 
 router.get("/get-all-districts", async (req, res) => {
   try {
+    query = {
+      districtStatus: {
+        $eq: "Active",
+      },
+    };
     const getAllDistricts = await District.aggregate([
       {
         $lookup: {
@@ -198,9 +211,11 @@ router.get("/get-all-districts", async (req, res) => {
           as: "output",
         },
       },
+      { $match: query },
       { $unwind: "$output" },
     ]);
     res.json(getAllDistricts);
+    console.log(getAllDistricts);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
