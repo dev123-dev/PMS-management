@@ -163,13 +163,19 @@ const AllLeave = ({
                     <tbody>
                       {leaves &&
                         leaves.map((leaves, idx) => {
+                          var leaveDate = "";
+                          if (leaves.leaveDate) {
+                            var ED = leaves.leaveDate.split(/\D/g);
+                            leaveDate = [ED[2], ED[1], ED[0]].join("-");
+                          }
+
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
                               <td>{leaves.output.empFullName}</td>
                               <td>{leaves.leaveReason}</td>
                               <td>{leaves.leaveType}</td>
-                              <td>{leaves.leaveDate}</td>
+                              <td>{leaveDate}</td>
                               <td>{leaves.output.departmentName}</td>
                               <td>
                                 {/* <Link
