@@ -30,6 +30,7 @@ const AddLeave = ({
   });
   const format = "MM/DD/YYYY";
   const [dates, setDates] = useState([]);
+  console.log(dates);
 
   // new DateObject().set({ day: 4, format }),
   //   new DateObject().set({ day: 25, format }),
@@ -115,6 +116,13 @@ const AddLeave = ({
               onChange={(e) => onStaffChange(e)}
             />
           </div>
+          <DatePicker
+            multiple
+            onChange={(array) => {
+              //Array of Dateobjecs
+              alert("selected dates :\n" + array.join(",\n"));
+            }}
+          />
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control"> Date * :</label>
             <br />
