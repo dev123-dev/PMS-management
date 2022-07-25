@@ -17,7 +17,7 @@ const AllStates = ({
     getAllState();
   }, [getAllState]);
 
-  console.log("allState", allState);
+  // console.log("allState", allState);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -111,7 +111,22 @@ const AllStates = ({
                           <tr key={idx}>
                             <td>{allState.stateName}</td>
 
-                            <td></td>
+                            <td>
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onDeactive(allState, idx)}
+                                src={require("../../static/images/delete.png")}
+                                alt="Deactivate"
+                                title="Deactivate"
+                              />
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onEdit(allState, idx)}
+                                src={require("../../static/images/edit_icon.png")}
+                                alt="Edit"
+                                title="Edit"
+                              />
+                            </td>
                           </tr>
                         );
                       })}
@@ -175,7 +190,7 @@ const AllStates = ({
         </Modal.Header>
         <Modal.Body>
           <EditStateDetails
-            districts={userData}
+            stateeditdata={userData}
             onUpdateModalChange={onUpdateModalChange}
           />
         </Modal.Body>
@@ -206,7 +221,7 @@ const AllStates = ({
         <Modal.Body>
           <DeactiveState
             onDeactiveModalChange={onDeactiveModalChange}
-            allProjectStatusdeavtivedata={userDatadeactive}
+            statedeavtivedata={userDatadeactive}
           />
         </Modal.Body>
       </Modal>

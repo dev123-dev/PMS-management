@@ -37,8 +37,6 @@ const AllLeave = ({
     getALLLeaves();
   }, [getALLLeaves]);
 
-  console.log("leaves", leaves);
-
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
 

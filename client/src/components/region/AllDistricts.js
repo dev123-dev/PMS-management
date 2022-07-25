@@ -16,7 +16,7 @@ const AllDistricts = ({
     getAllDistricts();
   }, [getAllDistricts]);
 
-  console.log("allDistrics", allDistrics);
+  // console.log("allDistrics", allDistrics);
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
@@ -114,6 +114,13 @@ const AllDistricts = ({
                               <td>{allDistrics.districtName}</td>
                               <td>{allDistrics.output.stateName}</td>
                               <td>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onDeactive(allDistrics, idx)}
+                                  src={require("../../static/images/delete.png")}
+                                  alt="Deactivate"
+                                  title="Deactivate"
+                                />
                                 <img
                                   className="img_icon_size log"
                                   onClick={() => onEdit(allDistrics, idx)}
@@ -216,7 +223,7 @@ const AllDistricts = ({
         <Modal.Body>
           <DeactiveDistrict
             onDeactiveModalChange={onDeactiveModalChange}
-            allProjectStatusdeavtivedata={userDatadeactive}
+            districtdeactivedata={userDatadeactive}
           />
         </Modal.Body>
       </Modal>

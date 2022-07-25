@@ -6,38 +6,38 @@ import { deactiveDistrictsData } from "../../actions/regions";
 import { Link } from "react-router-dom";
 const DeactiveDistrict = ({
   auth: { isAuthenticated, user, users, loading },
-  Projectdeavtivedata,
+  districtdeactivedata,
   onDeactiveModalChange,
   deactiveDistrictsData,
 }) => {
   //formData
-  // console.log("data", Projectdeavtivedata);
+  //console.log("data", districtdeactivedata);
   const [formData, setFormData] = useState({
     districtDeactivateReason: "",
-    projectName:
-      Projectdeavtivedata && Projectdeavtivedata.projectName
-        ? Projectdeavtivedata.projectName
+    districtName:
+      districtdeactivedata && districtdeactivedata.districtName
+        ? districtdeactivedata.districtName
         : "",
-    clientName:
-      Projectdeavtivedata && Projectdeavtivedata.projectName
-        ? Projectdeavtivedata.clientName
+    stateName:
+      districtdeactivedata && districtdeactivedata.output.stateName
+        ? districtdeactivedata.output.stateName
         : "",
     clientFolderName:
-      Projectdeavtivedata && Projectdeavtivedata.projectName
-        ? Projectdeavtivedata.clientFolderName
+      districtdeactivedata && districtdeactivedata.projectName
+        ? districtdeactivedata.clientFolderName
         : "",
 
     isSubmitted: false,
   });
 
-  const { districtName, clientName, districtDeactivateReason } = formData;
+  const { districtName, stateName, districtDeactivateReason } = formData;
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      //recordId: Projectdeavtivedata ? Projectdeavtivedata._id : "",
+      recordId: districtdeactivedata ? districtdeactivedata._id : "",
       districtDeactivateReason: districtDeactivateReason,
       districtDeactivateById: user._id,
       districtDeactivateDateTime: Date.now(),
@@ -53,17 +53,15 @@ const DeactiveDistrict = ({
     <Fragment>
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control">
               District Name : {districtName}
             </label>
           </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-            <label className="label-control">
-              District Code : {clientName}
-            </label>
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+            <label className="label-control">State Name : {stateName}</label>
           </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
             <label className="label-control">Deactivate Reason:</label>
 
             <textarea

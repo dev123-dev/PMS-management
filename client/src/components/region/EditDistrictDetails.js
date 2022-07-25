@@ -15,8 +15,8 @@ const EditDistrictDetails = ({
   useEffect(() => {
     getStates();
   }, [getStates]);
-  console.log(districts);
-  console.log("statesData", statesData);
+  // console.log(districts);
+  // console.log("statesData", statesData);
 
   //formData
   const [formData, setFormData] = useState({
@@ -35,9 +35,10 @@ const EditDistrictDetails = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const allstates = [];
-  // let selStateData = JSON.parse(localStorage.getItem("selStateData"));
-  statesData &&
-    statesData.map((state) => {
+  let selStateData = JSON.parse(localStorage.getItem("selStateData"));
+  console.log(selStateData);
+  selStateData &&
+    selStateData.map((state) => {
       allstates.push({
         stateId: state._id,
         label: state.stateName,
@@ -53,7 +54,7 @@ const EditDistrictDetails = ({
         : ""
       : ""
   );
-  if (statesData && statesData.length !== 0) {
+  if (selStateData && selStateData.length !== 0) {
     let hi = districts
       ? allstates.length !== 0
         ? allstates &&
@@ -73,7 +74,8 @@ const EditDistrictDetails = ({
   const onUpdate = (e) => {
     // e.preventDefault();
     const finalData = {
-      //  recordId: allClientdata ? allClientdata._id : "",
+      recordId: districts ? districts._id : "",
+      stateId: stateId,
       districtName: districtName,
       districtEditedById: user._id,
       districtEditedDateTime: user.userName,

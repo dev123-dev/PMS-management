@@ -114,7 +114,23 @@ const AllCountry = ({
                           <tr key={idx}>
                             <td>{countryData.countryName}</td>
                             <td>{countryData.countryCode}</td>
-                            <td></td>
+                            <td>
+                              {" "}
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onDeactive(countryData, idx)}
+                                src={require("../../static/images/delete.png")}
+                                alt="Deactivate"
+                                title="Deactivate"
+                              />
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onEdit(countryData, idx)}
+                                src={require("../../static/images/edit_icon.png")}
+                                alt="Edit"
+                                title="Edit"
+                              />
+                            </td>
                           </tr>
                         );
                       })}
