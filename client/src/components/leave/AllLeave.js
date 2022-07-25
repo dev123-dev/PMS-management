@@ -125,7 +125,7 @@ const AllLeave = ({
               <h5 className="heading_color">Leave Management</h5>
             </div>
 
-            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-10 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -157,7 +157,7 @@ const AllLeave = ({
                         <th>Leave Type</th>
                         <th>Date</th>
                         <th>Department</th>
-                        <th>OP</th>
+                        {/* <th>OP</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -176,22 +176,22 @@ const AllLeave = ({
                               <td>{leaves.leaveType}</td>
                               <td>{leaveDate}</td>
                               <td>{leaves.output.departmentName}</td>
-                              <td>
-                                {/* <Link
+                              {/* <td> */}
+                              {/* <Link
                                   className="btn btn_green_bg"
                                   to="#"
                                   onClick={() => onClickHandler()}
                                 >
                                   Approve
                                 </Link> */}
-                                <Link
+                              {/* <Link
                                   className="btn btn_green_bg"
                                   to="#"
                                   onClick={() => onClickHandler()}
                                 >
                                   Cancel
-                                </Link>
-                              </td>
+                                </Link> */}
+                              {/* </td> */}
                             </tr>
                           );
                         })}
