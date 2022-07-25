@@ -124,16 +124,7 @@ const AllLeave = ({
             <div className="row col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Leave Management</h5>
             </div>
-            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2 ">
-              <Select
-                name="staffData"
-                isSearchable={true}
-                value={staffData}
-                options={activeStaffsOpt}
-                placeholder="Select Staff"
-                onChange={(e) => onStaffChange(e)}
-              />
-            </div>
+
             <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
@@ -178,7 +169,7 @@ const AllLeave = ({
                               <td>{leaves.output.empFullName}</td>
                               <td>{leaves.leaveReason}</td>
                               <td>{leaves.leaveType}</td>
-                              <td></td>
+                              <td>{leaves.leaveDate}</td>
                               <td>{leaves.output.departmentName}</td>
                               <td>
                                 {/* <Link
