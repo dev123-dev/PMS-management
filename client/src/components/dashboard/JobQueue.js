@@ -384,16 +384,6 @@ const JobQueue = ({
                 value={projectStatusCategory}
                 placeholder="Select Status Category"
                 onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
               />
             </div>
 
