@@ -6,7 +6,7 @@ import Spinner from "../layout/Spinner";
 
 const EditCountryDetails = ({
   auth: { isAuthenticated, user, users, loading },
-  //   getStates,
+  editcountrydata,
   EditCountryData,
   districts,
 }) => {
@@ -16,16 +16,14 @@ const EditCountryDetails = ({
 
   //formData
   const [formData, setFormData] = useState({
-    countryName: "",
-    countryCode: "",
-    // countryName:
-    //   allClientdata && allClientdata.countryName
-    //     ? allClientdata.countryName
-    //     : "",
-    // countryCode:
-    //   allClientdata && allClientdata.countryCode
-    //     ? allClientdata.countryCode
-    //     : "",
+    countryName:
+      editcountrydata && editcountrydata.countryName
+        ? editcountrydata.countryName
+        : "",
+    countryCode:
+      editcountrydata && editcountrydata.countryCode
+        ? editcountrydata.countryCode
+        : "",
     isSubmitted: false,
   });
   const { countryName, countryCode } = formData;
@@ -38,9 +36,11 @@ const EditCountryDetails = ({
     //e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
-      //  recordId: allClientdata ? allClientdata._id : "",
+      recordId: editcountrydata ? editcountrydata._id : "",
       countryName: countryName,
       countryCode: countryCode,
+      countryEditedById: user._id,
+      countryEditedDateTime: new Date().toLocaleString(),
     };
     console.log(finalData);
     // EditCountryData(finalData);

@@ -16,7 +16,7 @@ const AllCountry = ({
     getAllCountries();
   }, [getAllCountries]);
 
-  console.log("allCountries", allCountries);
+  // console.log("allCountries", allCountries);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -76,7 +76,7 @@ const AllCountry = ({
               Add Country
             </button>
 
-            <button
+            {/* <button
               className="btn btn_green_bg float-right"
               onClick={() => onEdit()}
             >
@@ -88,7 +88,7 @@ const AllCountry = ({
               onClick={() => onDeactive()}
             >
               Deactive Country
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -195,7 +195,7 @@ const AllCountry = ({
         </Modal.Header>
         <Modal.Body>
           <EditCountryDetails
-            districts={userData}
+            editcountrydata={userData}
             onUpdateModalChange={onUpdateModalChange}
           />
         </Modal.Body>
@@ -226,7 +226,7 @@ const AllCountry = ({
         <Modal.Body>
           <DeactiveCountry
             onDeactiveModalChange={onDeactiveModalChange}
-            allProjectStatusdeavtivedata={userDatadeactive}
+            deactivecountrydata={userDatadeactive}
           />
         </Modal.Body>
       </Modal>

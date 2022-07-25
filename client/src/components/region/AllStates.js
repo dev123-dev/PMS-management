@@ -75,7 +75,7 @@ const AllStates = ({
             >
               Add State
             </button>
-            <button
+            {/* <button
               className="btn btn_green_bg float-right"
               onClick={() => onEdit()}
             >
@@ -86,7 +86,7 @@ const AllStates = ({
               onClick={() => onDeactive()}
             >
               Deactive State
-            </button>
+            </button> */}
           </div>
         </div>
 

@@ -49,7 +49,7 @@ const DeactiveState = ({
             <label className="label-control">State Name : {stateName}</label>
           </div>
 
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
             <label className="label-control">Deactivate Reason:</label>
 
             <textarea

@@ -76,7 +76,7 @@ const AllDistricts = ({
                 Add District
               </button>
 
-              <button
+              {/* <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onEdit()}
               >
@@ -87,7 +87,7 @@ const AllDistricts = ({
                 onClick={() => onDeactive()}
               >
                 Deactive District
-              </button>
+              </button> */}
             </div>
           </div>
 
