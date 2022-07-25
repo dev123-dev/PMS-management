@@ -65,10 +65,13 @@ const DctLeadsSchema = new mongoose.Schema({
     type: ObjectId,
   },
   dctLeadEditedDateTime: {
-    type: Date,
+    type: String,
   },
   dctLeadDeactivateById: {
     type: ObjectId,
+  },
+  dctLeadDeactivateByDateTime: {
+    type: String,
   },
   // Services: {
   //   text: { type: String },
