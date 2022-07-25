@@ -40,7 +40,7 @@ const DeactiveDistrict = ({
       recordId: districtdeactivedata ? districtdeactivedata._id : "",
       districtDeactivateReason: districtDeactivateReason,
       districtDeactivateById: user._id,
-      districtDeactivateDateTime: Date.now(),
+      districtDeactivateDateTime: new Date().toLocaleString(),
     };
     console.log(finalData);
     //deactiveDistrictsData(finalData);
