@@ -128,6 +128,7 @@ const AddLeave = ({
 
           <MultipleDatePicker
             onSubmit={(dates) => console.log("selected dates ", dates)}
+            // onChange={(date) => setSelectedDate(date)}
             minDate={new Date()}
           />
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
