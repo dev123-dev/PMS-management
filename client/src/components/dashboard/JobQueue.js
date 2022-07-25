@@ -428,6 +428,7 @@ const JobQueue = ({
                         )}
                         <th style={{ width: "6%" }}>Folder </th>
                         <th style={{ width: "20%" }}>Project Name</th>
+                        <th style={{ width: "8%" }}>Input</th>
                         <th style={{ width: "12%" }}>Queue Duration</th>
                         <th style={{ width: "10%" }}>Estimated Time</th>
                         <th style={{ width: "10%" }}>Job Time</th>
@@ -522,6 +523,7 @@ const JobQueue = ({
                                   {jobQueueProjects.projectName}
                                 </Link>
                               </td>
+                              <td>{jobQueueProjects.inputpath}</td>
                               <td>
                                 {
                                   dhm(

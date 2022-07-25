@@ -104,10 +104,12 @@ const AddProject = ({
     clientDate: "",
     clientTime: "",
     Instructions: "",
+    inputpath: "",
     isSubmitted: false,
   });
 
   const {
+    inputpath,
     projectName,
     qty,
     outputformat,
@@ -235,6 +237,7 @@ const AddProject = ({
         parentClientId: clientData.belongsToId,
         parentClientName: clientBelongsTo,
         // projectLocation:
+        inputpath: inputpath,
         clientFolderName: clientData.folderName,
         projectPriority: priority.value,
         // projectJobtype
@@ -425,6 +428,17 @@ const AddProject = ({
                       type="text"
                       name="projectName"
                       value={projectName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Input* :</label>
+                    <input
+                      type="text"
+                      name="inputpath"
+                      value={inputpath}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                       required

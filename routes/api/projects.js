@@ -90,6 +90,7 @@ router.post("/edit-project", async (req, res) => {
         $set: {
           projectName: data.projectName,
           clientId: data.clientId,
+          inputpath: data.inputpath,
           clientName: data.clientName,
           parentClientId: data.parentClientId,
           parentClientName: data.parentClientName,

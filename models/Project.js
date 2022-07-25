@@ -35,6 +35,9 @@ const ProjectSchema = new mongoose.Schema({
   projectNotes: {
     type: String,
   },
+  inputpath: {
+    type: String,
+  },
   projectDeadline: {
     type: String,
   },
