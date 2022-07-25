@@ -8,6 +8,7 @@ const EditCountryDetails = ({
   auth: { isAuthenticated, user, users, loading },
   editcountrydata,
   EditCountryData,
+  onUpdateModalChange,
   districts,
 }) => {
   //   useEffect(() => {
@@ -43,8 +44,8 @@ const EditCountryDetails = ({
       countryEditedDateTime: new Date().toLocaleString(),
     };
     console.log(finalData);
-    // EditCountryData(finalData);
-    // onEditModalChange(true);
+    EditCountryData(finalData);
+    onUpdateModalChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (

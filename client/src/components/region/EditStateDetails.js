@@ -9,6 +9,7 @@ const EditStateDetails = ({
   stateeditdata,
   EditStateData,
   districts,
+  onUpdateModalChange,
 }) => {
   //   useEffect(() => {
   //     getStates();
@@ -34,7 +35,8 @@ const EditStateDetails = ({
       stateEditedDateTime: user.userName,
     };
     console.log(finalData);
-    // EditStateData(finalData);
+    EditStateData(finalData);
+    onUpdateModalChange(true);
     // setFormData({
     //   ...formData,
     //   stateName: "",

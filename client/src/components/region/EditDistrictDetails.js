@@ -81,7 +81,8 @@ const EditDistrictDetails = ({
       districtEditedDateTime: user.userName,
     };
     console.log(finalData);
-    // EditDistrictData(finalData);
+    EditDistrictData(finalData);
+    onUpdateModalChange(true);
     // setFormData({
     //   ...formData,
     //   stateName: "",
