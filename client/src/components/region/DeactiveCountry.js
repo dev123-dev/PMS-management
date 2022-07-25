@@ -42,8 +42,8 @@ const DeactiveCountry = ({
     };
     console.log(finalData);
     // console.log(finalData);
-    // deactiveCountryData(finalData);
-    // onDeactiveModalChange(true);
+    deactiveCountryData(finalData);
+    onDeactiveModalChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (

@@ -35,7 +35,7 @@ const DeactiveState = ({
       stateDeactivateDateTime: new Date().toLocaleString(),
     };
     console.log(finalData);
-    // deactiveStateData(finalData);
+    deactiveStateData(finalData);
     onDeactiveModalChange(true);
   };
 

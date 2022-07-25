@@ -43,7 +43,7 @@ const DeactiveDistrict = ({
       districtDeactivateDateTime: new Date().toLocaleString(),
     };
     console.log(finalData);
-    //deactiveDistrictsData(finalData);
+    deactiveDistrictsData(finalData);
     onDeactiveModalChange(true);
   };
 
