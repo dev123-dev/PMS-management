@@ -16,7 +16,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const handleLogoutModalShow = () => setShowLogout(true);
   //client in websocket
   //SLAP IP
-  const client = new w3cwebsocket("ws://192.168.6.216:8000");
+  const client = new w3cwebsocket("ws://192.168.6.159:8000");
   const LogoutModalClose = () => {
     handleLogoutModalClose();
     logout();
@@ -91,7 +91,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   user &&
                   ((user.userGroupName &&
                     user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
+                    user.userGroupName === "Super Admin"||
+                    user.userGroupName === "Clarical Admins") ? (
                     <NavLink
                       to="/daily-job-sheet"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -103,23 +104,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   )}
                 </NavItem>
 
-                <NavItem>
-                  {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
-                    <NavLink
-                      to="/all-Amendments"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      Amendments
-                    </NavLink>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </NavItem>
                 <NavItem>
                   {!loading &&
                   isAuthenticated &&
@@ -264,9 +248,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                             </li>
                             <li>
                               <Link to="/all-trash">Trash</Link>
-                            </li>
-                            <li>
-                              <Link to="/all-Region">All Region</Link>
                             </li>
                           </Fragment>
                         ) : (

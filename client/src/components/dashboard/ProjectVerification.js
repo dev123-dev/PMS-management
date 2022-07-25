@@ -18,7 +18,7 @@ import {
 import { w3cwebsocket } from "websocket";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.128:8000");
+const client = new w3cwebsocket("ws://192.168.6.159:8000");
 
 const ProjectVerification = ({
   auth: { isAuthenticated, user, users },

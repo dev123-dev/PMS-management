@@ -39,7 +39,7 @@
     "websocket": "^1.0.34"
   },
   "scripts": {
-    "start": "set PORT=2001 && react-scripts start",
+    "start": "set PORT=2001 && react-scripts start HTTPS=true",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

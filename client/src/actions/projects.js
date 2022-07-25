@@ -80,6 +80,7 @@ export const addProjectStatus = (finalData) => async (dispatch) => {
 };
 
 export const AddProjectTrack = (finalData) => async (dispatch) => {
+  // console.log("action", finalData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,
@@ -216,7 +217,6 @@ export const deactiveProjectStatus = (finalData) => async (dispatch) => {
 };
 
 //SELECT
-
 export const getUpdatedProjectStaus = () => async (dispatch) => {
   try {
     dispatch(getJobQueueProjectDeatils());
@@ -334,7 +334,6 @@ export const getDailyJobsheetProjectDeatils =
       // dispatch(getDailyJobsheetProjectDeatils(selDateData));
     }
   };
-
 //verifivation
 export const getverificationProjectDeatils =
   (finalData) => async (dispatch) => {
@@ -366,7 +365,6 @@ export const getAllchanges = (finalData) => async (dispatch) => {
     });
   }
 };
-
 export const getLatestChanges = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/projects/get-latest-change", finalData);
