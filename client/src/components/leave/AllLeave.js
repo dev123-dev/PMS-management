@@ -181,13 +181,13 @@ const AllLeave = ({
                               <td></td>
                               <td>{leaves.output.departmentName}</td>
                               <td>
-                                <Link
+                                {/* <Link
                                   className="btn btn_green_bg"
                                   to="#"
                                   onClick={() => onClickHandler()}
                                 >
                                   Approve
-                                </Link>
+                                </Link> */}
                                 <Link
                                   className="btn btn_green_bg"
                                   to="#"
