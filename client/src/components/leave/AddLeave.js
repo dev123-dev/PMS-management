@@ -5,6 +5,8 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
+import MultipleDatePicker from "react-multiple-datepicker";
+
 import { getAllEmployee, getAllStaff, addLeaves } from "../../actions/user";
 const AddLeave = ({
   auth: { isAuthenticated, user, users, loading },
@@ -116,12 +118,17 @@ const AddLeave = ({
               onChange={(e) => onStaffChange(e)}
             />
           </div>
-          <DatePicker
+          {/* <DatePicker
             multiple
             onChange={(array) => {
               //Array of Dateobjecs
               alert("selected dates :\n" + array.join(",\n"));
             }}
+          /> */}
+
+          <MultipleDatePicker
+            onSubmit={(dates) => console.log("selected dates ", dates)}
+            minDate={new Date()}
           />
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control"> Date * :</label>
