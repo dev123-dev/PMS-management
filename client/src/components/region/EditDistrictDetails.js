@@ -8,6 +8,7 @@ import Spinner from "../layout/Spinner";
 const EditDistrictDetails = ({
   auth: { isAuthenticated, user, users, loading },
   regions: { statesData },
+  EditDistrictData,
   getStates,
   onUpdateModalChange,
   districts,
@@ -80,7 +81,7 @@ const EditDistrictDetails = ({
       districtEditedById: user._id,
       districtEditedDateTime: user.userName,
     };
-    console.log(finalData);
+    // console.log(finalData);
     EditDistrictData(finalData);
     onUpdateModalChange(true);
     // setFormData({
