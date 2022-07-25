@@ -36,6 +36,7 @@ const DeactiveCountry = ({
       recordId: deactivecountrydata ? deactivecountrydata._id : "",
       countryName: countryName,
       countryCode: countryCode,
+      countryStatus: "Deactive",
       countryDeactivateReason: countryDeactivateReason,
       countryDeactivateById: user._id,
       countryDeactivateDateTime: new Date().toLocaleString(),

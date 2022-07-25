@@ -38,6 +38,7 @@ const DeactiveDistrict = ({
     e.preventDefault();
     const finalData = {
       recordId: districtdeactivedata ? districtdeactivedata._id : "",
+      districtStatus: "Deactive",
       districtDeactivateReason: districtDeactivateReason,
       districtDeactivateById: user._id,
       districtDeactivateDateTime: new Date().toLocaleString(),

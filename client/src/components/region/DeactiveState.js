@@ -31,6 +31,7 @@ const DeactiveState = ({
     const finalData = {
       recordId: statedeavtivedata ? statedeavtivedata._id : "",
       stateDeactivateReason: stateDeactivateReason,
+      stateStatus: "Deactive",
       stateDeactiveById: user._id,
       stateDeactivateDateTime: new Date().toLocaleString(),
     };
