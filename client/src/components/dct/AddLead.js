@@ -120,10 +120,6 @@ const AddLead = ({
     isSubmitted,
   } = formData;
 
-  const onInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   const onClientTypeChange = (e) => {
     //Required Validation starts
     setError({
@@ -177,6 +173,57 @@ const AddLead = ({
   const handleOnChange = () => {
     setIsChecked(!isChecked);
   };
+
+  //add staff start
+  const [addData, setFormDatas] = useState({
+    staffName: "",
+    staffPhoneNumber: "",
+    staffEmailId: "",
+    staffDesignation: "",
+  });
+
+  const { staffName, staffPhoneNumber, staffEmailId, staffDesignation } =
+    addData;
+
+  const [AddedDetails, AddDetails] = useState([]);
+
+  const onAdd = (e) => {
+    const staffList = AddedDetails.filter(
+      (AddDetails) => AddDetails.staffName === staffName
+    );
+    e.preventDefault();
+    if (staffList.length === 0) {
+      // if (checkErrors()) {
+      const addData = {
+        staffName: staffName,
+        staffPhoneNumber: staffPhoneNumber,
+        staffEmailId: staffEmailId,
+        staffDesignation: staffDesignation,
+      };
+      setFormDatas({
+        ...addData,
+        staffName: "",
+        staffPhoneNumber: "",
+        staffEmailId: "",
+        staffDesignation: "",
+      });
+      let temp = [];
+      temp.push(...AddedDetails, addData);
+      AddDetails(temp);
+      // getloanPurposeData("");
+      // getmemberData("");
+      // }
+    }
+  };
+  console.log(AddedDetails, "AddedDetails");
+
+  const onRemoveChange = (staffName) => {
+    const removeList = AddedDetails.filter(
+      (AddDetails) => AddDetails.staffName !== staffName
+    );
+    AddDetails(removeList);
+  };
+  //add staff end
 
   //Required Validation Starts
   const [error, setError] = useState({
@@ -268,6 +315,15 @@ const AddLead = ({
       });
     }
   };
+
+  const onInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onInputChange1 = (e) => {
+    setFormDatas({ ...addData, [e.target.name]: e.target.value });
+  };
+
   if (isSubmitted) {
     return <Redirect to="/job-queue" />;
   }
@@ -277,111 +333,112 @@ const AddLead = ({
     <Fragment>
       {" "}
       <div className="container container_align">
-        <form className="row" onSubmit={(e) => onSubmit(e)}>
-          <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">Add Lead</h2>
-            <hr />
-          </div>
-          <section className="sub_reg">
-            <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new  py-3">
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h5>Company Info</h5>
-                  </div>
+        {/* <form className="row" onSubmit={(e) => onSubmit(e)}> */}
+        <div className="col-lg-12 col-md-11 col-sm-12 col-12">
+          <h2 className="heading_color">Add Lead</h2>
+          <hr />
+        </div>
+        <section className="sub_reg">
+          <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-3">
+              <div className="row card-new  py-3">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <h5>Company Info</h5>
+                </div>
 
-                  <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control" style={ClientErrorStyle}>
-                      Company Name :
-                    </label>
-                    <input
-                      type="text"
-                      name="clientBelongsTo"
-                      value={clientBelongsTo}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label
-                      className="label-control"
-                      style={clientnameIdErrorStyle}
-                    >
-                      Website Name* :
-                    </label>
-                    <input
-                      type="text"
-                      name="clientBelongsTo"
-                      value={clientBelongsTo}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Email Id :</label>
-                    <input
-                      type="text"
-                      name="clientBelongsTo"
-                      value={clientBelongsTo}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Phone 1 :</label>
-                    <input
-                      type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Phone 2 :</label>
-                    <input
-                      type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
+                <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
+                  <label className="label-control" style={ClientErrorStyle}>
+                    Company Name :
+                  </label>
+                  <input
+                    type="text"
+                    name="clientBelongsTo"
+                    value={clientBelongsTo}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <label
+                    className="label-control"
+                    style={clientnameIdErrorStyle}
+                  >
+                    Website Name* :
+                  </label>
+                  <input
+                    type="text"
+                    name="clientBelongsTo"
+                    value={clientBelongsTo}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Email Id :</label>
+                  <input
+                    type="text"
+                    name="clientBelongsTo"
+                    value={clientBelongsTo}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Phone 1 :</label>
+                  <input
+                    type="text"
+                    name="clientFolderName"
+                    value={clientFolderName}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Phone 2 :</label>
+                  <input
+                    type="text"
+                    name="clientFolderName"
+                    value={clientFolderName}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
+                </div>
 
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Region :</label>
-                    <input
-                      type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Address :</label>
-                    <input
-                      type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Important Points :</label>
-                    <input
-                      type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Region :</label>
+                  <input
+                    type="text"
+                    name="clientFolderName"
+                    value={clientFolderName}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Address :</label>
+                  <input
+                    type="text"
+                    name="clientFolderName"
+                    value={clientFolderName}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Important Points :</label>
+                  <input
+                    type="text"
+                    name="clientFolderName"
+                    value={clientFolderName}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
                 </div>
               </div>
+            </div>
 
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+            <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+              <form onSubmit={(e) => onAdd(e)}>
                 <div className="row card-new  py-3">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Contact Info</h5>
@@ -391,40 +448,40 @@ const AddLead = ({
                     <label className="label-control">Staff Name:</label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      name="staffName"
+                      value={staffName}
                       className="form-control"
-                      onChange={(e) => onInputChange(e)}
+                      onChange={(e) => onInputChange1(e)}
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Phone Number* :</label>
                     <input
-                      type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      type="number"
+                      name="staffPhoneNumber"
+                      value={staffPhoneNumber}
                       className="form-control"
-                      onChange={(e) => onInputChange(e)}
+                      onChange={(e) => onInputChange1(e)}
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Email Id* :</label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      name="staffEmailId"
+                      value={staffEmailId}
                       className="form-control"
-                      onChange={(e) => onInputChange(e)}
+                      onChange={(e) => onInputChange1(e)}
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Designation :</label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      name="staffDesignation"
+                      value={staffDesignation}
                       className="form-control"
-                      onChange={(e) => onInputChange(e)}
+                      onChange={(e) => onInputChange1(e)}
                     />
                   </div>
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -436,64 +493,88 @@ const AddLead = ({
                     />
                   </div>
                 </div>
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new py-3">
-                  <table
-                    className="tabllll table table-bordered table-striped table-hover"
-                    id="datatable2"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Loan Sanctioned-Member</th>
-                        <th>Loan Sanctioned Amount</th>
-                        <th>Loan Sanctioned Purpose </th>
-                        <th>Loan Other Purpose </th>
-                        <th>Remove</th>
-                      </tr>
-                    </thead>
-                    <tbody></tbody>
-                  </table>
-                </div>
-              </div>
+              </form>
             </div>
-
-            <div
-              className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
-              size="lg"
-            >
-              <div className="col-lg-8 col-md-6 col-sm-12 col-12">
-                <label className="label-control colorRed">
-                  * Indicates mandatory fields, Please fill mandatory fields
-                  before Submit
-                </label>
-              </div>
-              <div className="col-lg-4 col-md-6 col-sm-12 col-12">
-                {loading ? (
-                  <button
-                    className="btn sub_form btn_continue blackbrd Save float-right"
-                    disabled
-                  >
-                    Loading...
-                  </button>
-                ) : (
-                  <input
-                    type="submit"
-                    name="Submit"
-                    value="Submit"
-                    className="btn sub_form btn_continue blackbrd Save float-right"
-                  />
-                )}
-                <Link
-                  className="btn sub_form btn_continue blackbrd float-right"
-                  to="/job-queue"
+            <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+              <div className="row card-new py-3">
+                <table
+                  className="tabllll table table-bordered table-striped table-hover"
+                  id="datatable2"
                 >
-                  Cancel
-                </Link>
+                  <thead>
+                    <tr>
+                      <th>Staff Name</th>
+                      <th>Phone Number</th>
+                      <th>Email Id</th>
+                      <th>Designation</th>
+                      <th>Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {AddedDetails &&
+                      AddedDetails.map((AddDetail, idx) => {
+                        return (
+                          <tr key={idx}>
+                            <td>{AddDetail.staffName}</td>
+                            <td>{AddDetail.staffPhoneNumber}</td>
+                            <td>{AddDetail.staffEmailId}</td>
+                            <td>{AddDetail.staffDesignation}</td>
+                            <td>
+                              <img
+                                className="img_icon_size log"
+                                onClick={() =>
+                                  onRemoveChange(AddDetail.staffName)
+                                }
+                                src={require("../../static/images/close-buttonRed.png")}
+                                alt="Remove"
+                                title="Remove"
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
               </div>
             </div>
-          </section>
-        </form>
+          </div>
+
+          <div
+            className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
+            size="lg"
+          >
+            <div className="col-lg-8 col-md-6 col-sm-12 col-12">
+              <label className="label-control colorRed">
+                * Indicates mandatory fields, Please fill mandatory fields
+                before Submit
+              </label>
+            </div>
+            <div className="col-lg-4 col-md-6 col-sm-12 col-12">
+              {loading ? (
+                <button
+                  className="btn sub_form btn_continue blackbrd Save float-right"
+                  disabled
+                >
+                  Loading...
+                </button>
+              ) : (
+                <input
+                  type="submit"
+                  name="Submit"
+                  value="Submit"
+                  className="btn sub_form btn_continue blackbrd Save float-right"
+                />
+              )}
+              <Link
+                className="btn sub_form btn_continue blackbrd float-right"
+                to="/job-queue"
+              >
+                Cancel
+              </Link>
+            </div>
+          </div>
+        </section>
+        {/* </form> */}
       </div>
     </Fragment>
   );
