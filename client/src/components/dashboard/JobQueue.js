@@ -508,6 +508,7 @@ const JobQueue = ({
                                     navigator.clipboard.writeText(
                                       jobQueueProjects.inputpath
                                     );
+                                    window.alert("Path Copied");
                                   }}
                                 >
                                   Copy Path
