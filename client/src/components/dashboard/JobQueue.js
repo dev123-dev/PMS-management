@@ -495,7 +495,24 @@ const JobQueue = ({
                               <td>
                                 <b>{jobQueueProjects.clientFolderName}</b>
                               </td>
-                              <td>{jobQueueProjects.inputpath}</td>
+                              <td
+                              // onClick={() => {
+                              //   navigator.clipboard.writeText(
+                              //     jobQueueProjects.inputpath
+                              //   );
+                              // }}
+                              >
+                                <button
+                                  className="btn btn_green_bg float-right"
+                                  onClick={() => {
+                                    navigator.clipboard.writeText(
+                                      jobQueueProjects.inputpath
+                                    );
+                                  }}
+                                >
+                                  Copy Path
+                                </button>
+                              </td>
                               <td>
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&

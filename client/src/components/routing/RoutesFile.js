@@ -52,9 +52,12 @@ import AllProspects from "../dct/AllProspects";
 import AddLead from "../dct/AddLead";
 import EditLead from "../dct/EditLead";
 import DeactiveLead from "../dct/DeactiveLead";
-
+import Amendments from "../dashboard/Amendments";
 //leavemanagement
 import AllLeave from "../leave/AllLeave";
+
+//region
+import AllArea from "../region/AllArea";
 const RoutesFile = () => {
   return (
     <section>
@@ -68,7 +71,8 @@ const RoutesFile = () => {
         <PrivateRoute exact path="/edit-lead" component={EditLead} />
         <PrivateRoute exact path="/deactive-lead" component={DeactiveLead} />
         <PrivateRoute exact path="/all-leave" component={AllLeave} />
-
+        <PrivateRoute exact path="/all-Amendments" component={Amendments} />
+        <PrivateRoute exact path="/all-Region" component={AllArea} />
         <PrivateRoute
           exact
           path="/job-verification"
@@ -94,7 +98,7 @@ const RoutesFile = () => {
           path="/edit-staff"
           component={EditEmployeeDetails}
         />
-
+        <PrivateRoute exact path="/all-Amendments" component={Amendments} />
         {/* clients */}
 
         <PrivateRoute exact path="/all-clients" component={AllClientDetails} />

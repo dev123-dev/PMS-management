@@ -74,7 +74,7 @@ const Amendments = ({
     let setTypeData = e.value;
     getAmendmentProjectDeatils({ setTypeData: setTypeData });
   };
-  const [ProjLastchnage, setProjLastchnage] = useState(null);
+  const [ProjLastchnage, setProjLastchnage] = useState();
   const [ProjRestore, setProjRestore] = useState();
   const onClickHandler = (amendmentProjects, idx) => {
     localStorage.removeItem("getLastAmendment");
@@ -84,22 +84,26 @@ const Amendments = ({
       showhistory_submitSection: true,
     });
     setProjRestore(amendmentProjects);
-    getLastAmendmentHistoryDeatils({ projectId: amendmentProjects.projectId });
-  };
-  if (getLastAmendment && !ProjLastchnage) {
+    if (amendmentProjects !== "") {
+      const lastAmendment = {
+        projectId: amendmentProjects.projectId,
+        amendmentCounter: amendmentProjects.amendmentCounter,
+      };
+      getLastAmendmentHistoryDeatils(lastAmendment);
+    }
     setProjLastchnage(
       getLastAmendment && getLastAmendment.discussionPoints
         ? getLastAmendment.discussionPoints
         : ""
     );
-  }
+  };
   const [showHide, setShowHide] = useState({
     showhistory_submitSection: false,
   });
   const [showHide1, setShowHide1] = useState({
     showunresolvedSection: true,
   });
-  console.log("ProjRestore", ProjRestore);
+  // console.log("ProjRestore", ProjRestore);
   const { showhistory_submitSection } = showHide;
   const { showunresolvedSection } = showHide1;
   const onRadioSelect = (radiodata) => {
@@ -256,7 +260,10 @@ const Amendments = ({
               <div className="col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
                 {showunresolvedSection && (
                   <form onSubmit={(e) => onSubmit(e)}>
-                    <div className="row col-lg-12 col-md-6 col-sm-6 col-12 ">
+                    <div
+                      className="row col-lg-12 col-md-6 col-sm-6 col-12 "
+                      style={{ height: "37vh" }}
+                    >
                       <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                         <label className="label-control">Resolved : </label>
                         &emsp;
@@ -313,7 +320,10 @@ const Amendments = ({
                 )}
               </div>
 
-              <div className="row col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
+              <div
+                className="row col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2"
+                style={{ height: "40vh" }}
+              >
                 <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                   {showhistory_submitSection && (
                     <button

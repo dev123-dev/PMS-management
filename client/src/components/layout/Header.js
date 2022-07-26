@@ -91,7 +91,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   user &&
                   ((user.userGroupName &&
                     user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin"||
+                    user.userGroupName === "Super Admin" ||
                     user.userGroupName === "Clarical Admins") ? (
                     <NavLink
                       to="/daily-job-sheet"
@@ -103,7 +103,23 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-
+                <NavItem>
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
+                    <NavLink
+                      to="/all-Amendments"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Amendments
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
                 <NavItem>
                   {!loading &&
                   isAuthenticated &&
@@ -245,6 +261,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                             </li>
                             <li>
                               <Link to="/change-password">Change Password</Link>
+                            </li>
+                            <li>
+                              <Link to="/all-Region">All Region</Link>
                             </li>
                             <li>
                               <Link to="/all-trash">Trash</Link>
