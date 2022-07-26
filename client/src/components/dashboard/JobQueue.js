@@ -428,7 +428,7 @@ const JobQueue = ({
                         )}
 
                         <th style={{ width: "6%" }}>Folder </th>
-                        <th style={{ width: "8%" }}>Input</th>
+                        <th style={{ width: "6%" }}>Path</th>
                         <th style={{ width: "20%" }}>Project Name</th>
 
                         <th style={{ width: "12%" }}>Queue Duration</th>
@@ -503,7 +503,7 @@ const JobQueue = ({
                               // }}
                               >
                                 <button
-                                  className="btn btn_green_bg float-right"
+                                  className="btn btn_green_bg "
                                   onClick={() => {
                                     navigator.clipboard.writeText(
                                       jobQueueProjects.inputpath
@@ -511,7 +511,7 @@ const JobQueue = ({
                                     window.alert("Path Copied");
                                   }}
                                 >
-                                  Copy Path
+                                  Copy
                                 </button>
                               </td>
                               <td>

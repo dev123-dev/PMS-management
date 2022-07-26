@@ -237,7 +237,7 @@ const AddProject = ({
         parentClientId: clientData.belongsToId,
         parentClientName: clientBelongsTo,
         // projectLocation:
-        inputpath: inputpath,
+        inputpath: inputpath.trim(),
         clientFolderName: clientData.folderName,
         projectPriority: priority.value,
         // projectJobtype

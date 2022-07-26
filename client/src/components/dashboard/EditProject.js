@@ -318,7 +318,7 @@ const EditProject = ({
         recordId: allProjectdata ? allProjectdata._id : "",
         projectName: projectName,
         clientId: clientId,
-        inputpath: inputpath,
+        inputpath: inputpath.trim(),
         clientName: clientData[0] ? clientData[0].value : clientData.value,
         parentClientId: clientBelongsToId ? clientBelongsToId : null,
         parentClientName: clientBelongsTo ? clientBelongsTo : null,
