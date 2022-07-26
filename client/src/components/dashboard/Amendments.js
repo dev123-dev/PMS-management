@@ -12,6 +12,8 @@ import {
   getLastAmendmentHistoryDeatils,
   updateProjectTrack,
 } from "../../actions/projects";
+import AmendLastDiscussion from "./AmendLastDiscussion";
+import AmendAddDiscussion from "./AmendAddDiscussion";
 
 import AmendHistory from "./AmendHistory";
 const Amendments = ({
@@ -257,7 +259,10 @@ const Amendments = ({
               </section>
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 col-12  ">
-              <div className="col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
+              <AmendAddDiscussion />
+              <AmendLastDiscussion />
+
+              {/* <div className="col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
                 {showunresolvedSection && (
                   <form onSubmit={(e) => onSubmit(e)}>
                     <div
@@ -318,9 +323,9 @@ const Amendments = ({
                     </div>
                   </form>
                 )}
-              </div>
+              </div> */}
 
-              <div
+              {/* <div
                 className="row col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2"
                 style={{ height: "40vh" }}
               >
@@ -348,7 +353,7 @@ const Amendments = ({
                     disabled
                   ></textarea>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
