@@ -255,7 +255,6 @@ const DeactiveLead = ({
     <Spinner />
   ) : (
     <Fragment>
-      {" "}
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
           <div className="col-lg-12 col-md-11 col-sm-12 col-12">
@@ -266,23 +265,22 @@ const DeactiveLead = ({
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
               <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-3">
                 <div className="row card-new  py-3">
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                  {/* <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Company Info</h5>
-                  </div>
+                  </div> */}
 
-                  <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control" style={ClientErrorStyle}>
-                      Deactive Reason :
-                    </label>
+                  <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
+                    <label className="label-control">Deactive Reason :</label>
                     <textarea
                       name="clientAddress"
                       id="clientAddress"
                       className="textarea form-control"
                       rows="3"
-                      placeholder="Client Address"
+                      placeholder="Lead Deactive Reason"
                       style={{ width: "100%" }}
                       //  value={clientAddress}
                       onChange={(e) => onInputChange(e)}
+                      required
                     ></textarea>
                   </div>
                 </div>
