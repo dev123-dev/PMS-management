@@ -137,6 +137,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
+                <h1>HII</h1>
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>
