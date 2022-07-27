@@ -255,7 +255,7 @@ const AllProspects = ({
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-8 col-md-12 col-sm-12 col-12 text-center">
+            <div className="col-lg-8 col-md-12 col-sm-12 col-12 text-center ">
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table

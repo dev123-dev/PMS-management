@@ -2038,7 +2038,9 @@ font-size: 17px;
 padding: 0.15rem !important;
 }
 .sidePartHeight{
-  height: 26vh;
+  height: 26.9vh;
 
 }
+
+.sidePart2divHeight{  height: 40vh;}
 /* side partitions ends */
