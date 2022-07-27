@@ -7,39 +7,25 @@ import Spinner from "../layout/Spinner";
 
 const EditDistrictDetails = ({
   auth: { isAuthenticated, user, users, loading },
-  regions: { statesData },
   EditDistrictData,
   getStates,
   onUpdateModalChange,
   districts,
+  statesDataVal,
 }) => {
-  useEffect(() => {
-    getStates();
-  }, [getStates]);
-  // console.log(districts);
-  // console.log("statesData", statesData);
-
   //formData
   const [formData, setFormData] = useState({
     districtName:
       districts && districts.districtName ? districts.districtName : "",
-
-    // districtName:
-    //   allClientdata && allClientdata.districtName
-    //     ? allClientdata.districtName
-    //     : "",
     isSubmitted: false,
   });
   const { districtName } = formData;
-
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const allstates = [];
-  let selStateData = JSON.parse(localStorage.getItem("selStateData"));
-  console.log(selStateData);
-  selStateData &&
-    selStateData.map((state) => {
+  statesDataVal &&
+    statesDataVal.map((state) => {
       allstates.push({
         stateId: state._id,
         label: state.stateName,
@@ -55,14 +41,6 @@ const EditDistrictDetails = ({
         : ""
       : ""
   );
-  if (selStateData && selStateData.length !== 0) {
-    let hi = districts
-      ? allstates.length !== 0
-        ? allstates &&
-          allstates.filter((x) => x.stateId === districts.stateId)[0]
-        : ""
-      : "";
-  }
   const [stateId, setStateID] = useState(districts.stateId);
 
   const onStateChange = (e) => {

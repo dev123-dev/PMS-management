@@ -7,6 +7,7 @@ const Project = require("../../models/Project");
 const ProjectStatus = require("../../models/ProjectStatus");
 const ProjectTrack = require("../../models/ProjectTrack");
 const ClientDetails = require("../../models/Client");
+const AmendmentHistory = require("../../models/AmendmentHistory");
 
 //ADD
 router.post("/add-project", async (req, res) => {
@@ -60,6 +61,18 @@ router.post("/add-project-track", async (req, res) => {
     );
     let ProjectTrackDetails = new ProjectTrack(data);
     output = await ProjectTrackDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/add-amendment-history", async (req, res) => {
+  let data = req.body;
+  try {
+    let AmendmentHistoryDetails = new AmendmentHistory(data);
+    output = await AmendmentHistoryDetails.save();
     res.send(output);
   } catch (err) {
     console.error(err.message);
@@ -425,7 +438,7 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
       },
       { $unwind: "$output" },
       { $match: query },
-      { $sort: { "output._id": 1 } },
+      { $sort: { projectDate: 1 } },
     ]);
     res.json(getDailyJobSheetDetails);
   } catch (err) {
@@ -617,7 +630,6 @@ router.post("/get-latest-change", async (req, res) => {
       { $limit: 1 },
     ]);
     res.json(ProjectLatestChangeData);
-    // console.log(ProjectLatestChangeData);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -690,7 +702,7 @@ router.post("/get-all-amendment-histories", async (req, res) => {
 
 router.post("/get-last-amendment-histories", async (req, res) => {
   const { projectId, amendmentCounter } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   let query = {};
   query = {
     projectId: {
@@ -707,7 +719,6 @@ router.post("/get-last-amendment-histories", async (req, res) => {
       })
       .limit(1);
     res.json(getAmendmentLasthistoryDetails);
-    // console.log(getAmendmentLasthistoryDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -738,7 +749,7 @@ router.post("/get-last-amendment-counter", async (req, res) => {
       $eq: "Resolved",
     },
   };
-  console.log(query);
+  // console.log(query);
   try {
     const getAmendmentLastCounter = await ProjectTrack.find(query);
     // .sort({
@@ -746,7 +757,7 @@ router.post("/get-last-amendment-counter", async (req, res) => {
     // })
     // .limit(1);
     res.json(getAmendmentLastCounter);
-    console.log(getAmendmentLastCounter);
+    // console.log(getAmendmentLastCounter);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

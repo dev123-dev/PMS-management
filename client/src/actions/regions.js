@@ -274,8 +274,6 @@ export const getActiveDistricts = () => async (dispatch) => {
 export const getStates = () => async (dispatch) => {
   try {
     const res = await axios.post("/api/regions/get-state");
-    localStorage.setItem("selStateData", JSON.stringify(res.data));
-    // console.log(res.data);
     dispatch({
       type: STATES,
       payload: res.data,

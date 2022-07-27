@@ -3,20 +3,22 @@ import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getAllDistricts } from "../../actions/regions";
+import { getAllDistricts, getStates } from "../../actions/regions";
 import AddDistrictDetails from "./AddDistrictDetails";
 import EditDistrictDetails from "./EditDistrictDetails";
 import DeactiveDistrict from "./DeactiveDistrict";
 const AllDistricts = ({
   auth: { allUser, isAuthenticated, user, users },
-  regions: { allDistrics },
+  regions: { allDistrics, statesData },
   getAllDistricts,
+  getStates,
 }) => {
   useEffect(() => {
     getAllDistricts();
   }, [getAllDistricts]);
-
-  // console.log("allDistrics", allDistrics);
+  useEffect(() => {
+    getStates();
+  }, [getStates]);
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
@@ -194,6 +196,7 @@ const AllDistricts = ({
           <EditDistrictDetails
             districts={userData}
             onUpdateModalChange={onUpdateModalChange}
+            statesDataVal={statesData}
           />
         </Modal.Body>
       </Modal>
@@ -241,4 +244,6 @@ const mapStateToProps = (state) => ({
   regions: state.regions,
 });
 
-export default connect(mapStateToProps, { getAllDistricts })(AllDistricts);
+export default connect(mapStateToProps, { getAllDistricts, getStates })(
+  AllDistricts
+);
