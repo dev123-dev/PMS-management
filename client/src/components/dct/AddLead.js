@@ -7,91 +7,15 @@ import Spinner from "../layout/Spinner";
 import { getActiveClientsFilter } from "../../actions/client";
 import { getAllProjectStatus, addProject } from "../../actions/projects";
 import { Redirect } from "react-router-dom";
-const clientTypeVal = [
-  { value: "Regular", label: "Regular Client" },
-  { value: "Test", label: "Test Client" },
-];
-
-const priorityVal = [
-  { value: "Low", label: "Low" },
-  { value: "Mid", label: "Mid" },
-  { value: "High", label: "High" },
-];
 
 const AddLead = ({
   auth: { isAuthenticated, user, users, loading },
-  settings: { paymentMode },
-  client: { activeClientFilter },
-  project: { allProjectStatus },
-  getActiveClientsFilter,
-  getAllProjectStatus,
+
   onAddDistrictModalChange,
   addProject,
 }) => {
-  useEffect(() => {
-    getAllProjectStatus();
-  }, [getAllProjectStatus]);
-  useEffect(() => {
-    getActiveClientsFilter();
-  }, [getActiveClientsFilter]);
-
-  const activeClientsOpt = [];
-  activeClientFilter.map((clientsData) =>
-    activeClientsOpt.push({
-      clientId: clientsData._id,
-      belongsToId: clientsData.clientBelongsToId,
-      belongsTo: clientsData.clientBelongsToName,
-      folderName: clientsData.clientFolderName,
-      label: clientsData.clientName,
-      value: clientsData.clientName,
-    })
-  );
-  const projectStatusOpt = [];
-  allProjectStatus.map((projStatusData) =>
-    projectStatusOpt.push({
-      projStatusId: projStatusData._id,
-      label: projStatusData.projectStatusType,
-      value: projStatusData.projectStatusType,
-    })
-  );
-  const [clientData, setClientData] = useState("");
-  const [clientId, setClientId] = useState("");
-  // const [clientName, setClientName] = useState("");
-  const [clientBelongsTo, setBelongsToVal] = useState("");
-  const [clientFolderName, setFolderNameVal] = useState("");
-
-  const onClientChange = (e) => {
-    //Required Validation starts
-    setError({
-      ...error,
-      clientnameIdChecker: true,
-      clientnameIdErrorStyle: { color: "#000" },
-    });
-    //Required Validation ends
-
-    setClientData(e);
-    setClientId(e.clientId);
-    setBelongsToVal(e.belongsTo);
-    setFolderNameVal(e.folderName);
-  };
-
-  const [projectStatusData, setProjectStatusData] = useState(
-    projectStatusOpt[1]
-  );
-  const onProjectStatusChange = (e) => {
-    //Required Validation starts
-    setError({
-      ...error,
-      projectstatusChecker: true,
-      projectstatusErrorStyle: { color: "#000" },
-    });
-    //Required Validation ends
-    setProjectStatusData(e);
-  };
-
   //formData
   const [formData, setFormData] = useState({
-    clientType: clientTypeVal[0],
     companyName: "",
     website: "",
     emailId: "",
@@ -109,72 +33,9 @@ const AddLead = ({
     phone1,
     phone2,
     address,
-    projectName,
-    qty,
     importantPoints,
-    outputformat,
-    priority,
-    deadline,
-    projectTime,
-    clientTime,
-    Instructions,
-    clientType,
     isSubmitted,
   } = formData;
-
-  const onClientTypeChange = (e) => {
-    //Required Validation starts
-    setError({
-      ...error,
-      ClientIdChecker: true,
-      ClientErrorStyle: { color: "#000" },
-    });
-    //Required Validation ends
-    if (e) {
-      setFormData({
-        ...formData,
-        clientType: e,
-      });
-      let clientTypeVal = {
-        clientTypeinfo: e.value,
-      };
-      getActiveClientsFilter(clientTypeVal);
-    }
-    setClientData("");
-    setBelongsToVal("");
-    setFolderNameVal("");
-  };
-
-  const priorityToChange = (e) => {
-    //Required Validation starts
-    // setError({
-    //   ...error,
-    //   ClientIdChecker: true,
-    //   ClientErrorStyle: { color: "#000" },
-    // });
-    //Required Validation ends
-    if (e) {
-      setFormData({
-        ...formData,
-        priority: e,
-      });
-    }
-  };
-  const [startprojectDate, setprojectDate] = useState("");
-  const onDateChange = (e) => {
-    setprojectDate(e.target.value);
-  };
-
-  const [startclientDate, setclientDate] = useState("");
-  const onDateChange1 = (e) => {
-    setclientDate(e.target.value);
-  };
-
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleOnChange = () => {
-    setIsChecked(!isChecked);
-  };
 
   //add staff start
   const [addData, setFormDatas] = useState({
@@ -212,12 +73,8 @@ const AddLead = ({
       let temp = [];
       temp.push(...AddedDetails, addData);
       AddDetails(temp);
-      // getloanPurposeData("");
-      // getmemberData("");
-      // }
     }
   };
-  // console.log(AddedDetails, "AddedDetails");
 
   const onRemoveChange = (staffName) => {
     const removeList = AddedDetails.filter(
@@ -228,66 +85,67 @@ const AddLead = ({
   //add staff end
 
   //Required Validation Starts
-  const [error, setError] = useState({
-    clientnameIdChecker: false,
-    clientnameIdErrorStyle: {},
+  // const [error, setError] = useState({
+  //   clientnameIdChecker: false,
+  //   clientnameIdErrorStyle: {},
 
-    ClientIdChecker: true,
-    ClientErrorStyle: {},
-    projectstatusChecker: true,
-    projectstatusErrorStyle: {},
-  });
-  const {
-    clientnameIdChecker,
-    clientnameIdErrorStyle,
+  //   ClientIdChecker: true,
+  //   ClientErrorStyle: {},
+  //   projectstatusChecker: true,
+  //   projectstatusErrorStyle: {},
+  // });
+  // const {
+  //   clientnameIdChecker,
+  //   clientnameIdErrorStyle,
 
-    ClientIdChecker,
-    ClientErrorStyle,
-    projectstatusChecker,
-    projectstatusErrorStyle,
-  } = error;
+  //   ClientIdChecker,
+  //   ClientErrorStyle,
+  //   projectstatusChecker,
+  //   projectstatusErrorStyle,
+  // } = error;
 
-  const checkErrors = () => {
-    if (!ClientIdChecker) {
-      setError({
-        ...error,
-        ClientErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+  // const checkErrors = () => {
+  //   if (!ClientIdChecker) {
+  //     setError({
+  //       ...error,
+  //       ClientErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
 
-    if (!clientnameIdChecker) {
-      setError({
-        ...error,
-        clientnameIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+  //   if (!clientnameIdChecker) {
+  //     setError({
+  //       ...error,
+  //       clientnameIdErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
 
-    if (!projectstatusChecker) {
-      setError({
-        ...error,
-        projectstatusErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+  //   if (!projectstatusChecker) {
+  //     setError({
+  //       ...error,
+  //       projectstatusErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
 
-    return true;
-  };
+  //   return true;
+  // };
   const onSubmit = (e) => {
-    if (checkErrors()) {
-      const finalData = {
-        companyName: companyName,
-        emailId: emailId,
-        website: website,
-        address: address,
-        phone1: phone1,
-        phone2: phone2,
-        importantPoints: importantPoints,
-      };
-      console.log(finalData);
-      //addProject(finalData);
-    }
+    e.preventDefault();
+    // if (checkErrors()) {
+    const finalData = {
+      companyName: companyName,
+      emailId: emailId,
+      website: website,
+      address: address,
+      phone1: phone1,
+      phone2: phone2,
+      importantPoints: importantPoints,
+    };
+    console.log(finalData);
+    //addProject(finalData);
+    // }
   };
 
   const onInputChange = (e) => {
@@ -298,9 +156,9 @@ const AddLead = ({
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
 
-  if (isSubmitted) {
-    return <Redirect to="/job-queue" />;
-  }
+  // if (isSubmitted) {
+  //   return <Redirect to="/job-queue" />;
+  // }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -321,15 +179,14 @@ const AddLead = ({
                   </div>
 
                   <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control" style={ClientErrorStyle}>
-                      Company Name :
-                    </label>
+                    <label className="label-control">Company Name* :</label>
                     <input
                       type="text"
                       name="companyName"
                       value={companyName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -344,13 +201,14 @@ const AddLead = ({
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Email Id :</label>
+                    <label className="label-control">Email Id* :</label>
                     <input
                       type="text"
                       name="emailId"
                       value={emailId}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -378,8 +236,8 @@ const AddLead = ({
                     <label className="label-control">Region :</label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      // name="clientFolderName"
+                      // value={clientFolderName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
