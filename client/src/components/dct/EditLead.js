@@ -91,32 +91,28 @@ const EditLead = ({
 
   //formData
   const [formData, setFormData] = useState({
-    clientType: clientTypeVal[0],
-    clientName: "",
-    projectName: "",
-    qty: "",
-    outputformat: "",
-    priority: "",
-    deadline: "",
-    projectStatus: "",
-    projectDate: "",
-    projectTime: "",
-    clientDate: "",
-    clientTime: "",
-    Instructions: "",
+    // companyName:
+    //   allClientdata && allClientdata.companyName
+    //     ? allClientdata.companyName
+    //     : "",
+    companyName: "",
+    website: "",
+    emailId: "",
+    phone1: "",
+    phone2: "",
+    address: "",
+    importantPoints: "",
     isSubmitted: false,
   });
 
   const {
-    projectName,
-    qty,
-    outputformat,
-    priority,
-    deadline,
-    projectTime,
-    clientTime,
-    Instructions,
-    clientType,
+    companyName,
+    website,
+    emailId,
+    phone1,
+    phone2,
+    address,
+    importantPoints,
     isSubmitted,
   } = formData;
 
@@ -227,46 +223,25 @@ const EditLead = ({
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    if (checkErrors()) {
-      const finalData = {
-        projectName: projectName,
-        clientId: clientId,
-        clientName: clientData.value,
-        parentClientId: clientData.belongsToId,
-        parentClientName: clientBelongsTo,
-        // projectLocation:
-        clientFolderName: clientData.folderName,
-        projectPriority: priority.value,
-        // projectJobtype
-        // projectHours
-        projectNotes: Instructions,
-        projectDeadline: deadline,
-        projectStatusType: projectStatusData.value,
-        projectStatusId: projectStatusData.projStatusId,
-        // projectPrice:
-        projectQuantity: qty,
-        projectUnconfirmed: isChecked,
-        // projectVendor
-        clientTypeVal: clientType.value,
-        projectTime: projectTime,
-        projectDate: startprojectDate,
-        clientTime: clientTime,
-        outputformat: outputformat,
-        clientDate: startclientDate,
-        projectEnteredById: user._id,
-        projectEnteredByName: user.empFullName,
-        // projectEnteredDate:
-        // projectEntryTime
-        // clientType: clientType.value,
-      };
-      // console.log(finalData);
-      addProject(finalData);
-      setFormData({
-        ...formData,
+    // if (checkErrors()) {
+    const finalData = {
+      // recordId: clientdeactivedata ? clientdeactivedata._id : "",
+      companyName: companyName,
+      emailId: emailId,
+      website: website,
+      address: address,
+      phone1: phone1,
+      phone2: phone2,
+      importantPoints: importantPoints,
+    };
+    console.log(finalData);
+    // addProject(finalData);
+    //   setFormData({
+    //     ...formData,
 
-        isSubmitted: true,
-      });
-    }
+    //     isSubmitted: true,
+    //   });
+    // }
   };
   if (isSubmitted) {
     return <Redirect to="/job-queue" />;
@@ -275,7 +250,6 @@ const EditLead = ({
     <Spinner />
   ) : (
     <Fragment>
-      {" "}
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
           <div className="col-lg-12 col-md-11 col-sm-12 col-12">
@@ -291,60 +265,58 @@ const EditLead = ({
                   </div>
 
                   <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control" style={ClientErrorStyle}>
-                      Company Name :
-                    </label>
+                    <label className="label-control">Company Name* :</label>
                     <input
                       type="text"
-                      name="clientBelongsTo"
-                      value={clientBelongsTo}
+                      name="companyName"
+                      value={companyName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label
-                      className="label-control"
-                      style={clientnameIdErrorStyle}
-                    >
-                      Website Name* :
-                    </label>
+                    <label className="label-control">Website Name* :</label>
                     <input
                       type="text"
-                      name="clientBelongsTo"
-                      value={clientBelongsTo}
+                      name="website"
+                      value={website}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Email Id :</label>
                     <input
                       type="text"
-                      name="clientBelongsTo"
-                      value={clientBelongsTo}
+                      name="emailId"
+                      value={emailId}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Phone 1 :</label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      name="phone1"
+                      value={phone1}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Phone 2 :</label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      name="phone2"
+                      value={phone2}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
 
@@ -352,8 +324,8 @@ const EditLead = ({
                     <label className="label-control">Region :</label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      //name="clientFolderName"
+                      //value={clientFolderName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
@@ -362,20 +334,22 @@ const EditLead = ({
                     <label className="label-control">Address :</label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      name="address"
+                      value={address}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Important Points :</label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      name="importantPoints"
+                      value={importantPoints}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                 </div>
