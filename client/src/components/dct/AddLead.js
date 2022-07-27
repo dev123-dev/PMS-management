@@ -290,7 +290,7 @@ const AddLead = ({
                 {/* </form> */}
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new py-3">
+                <div className="row card-new" style={{ height: "340px" }}>
                   <table
                     className="tabllll table table-bordered table-striped table-hover"
                     id="datatable2"
