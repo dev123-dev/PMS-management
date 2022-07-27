@@ -140,12 +140,13 @@ const EditLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
 
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Region :</label>
-                    <input
-                      type="text"
-                      //name="clientFolderName"
-                      //value={clientFolderName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
+                    <Select
+                      name="clientName"
+                      //   options={allclientBelongsTo}
+                      isSearchable={true}
+                      // value={clients}
+                      placeholder="Select Region"
+                      // onChange={(e) => onBelongstoChange(e)}
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
