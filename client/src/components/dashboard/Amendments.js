@@ -30,11 +30,6 @@ const Amendments = ({
     isSubmitted: false,
   });
 
-  let getLastAmendment = JSON.parse(
-    localStorage.getItem("getLastAmendmentDetails")
-  );
-  console.log("getLastAmendment", getLastAmendment);
-
   const StatusCategory = [
     { value: "Resolved", label: "Resolved" },
     { value: "UnResolved", label: "UnResolved" },
@@ -64,13 +59,10 @@ const Amendments = ({
   };
   const [ProjLastchnage, setProjLastchnage] = useState();
   const [ProjRestore, setProjRestore] = useState();
+
   const onClickHandler = (amendmentProjects, idx) => {
     localStorage.removeItem("getLastAmendmentDetails");
-    // setProjLastchnage(null);
-    setShowHide({
-      ...showHide,
-      showhistory_submitSection: true,
-    });
+    setProjLastchnage(null);
     setProjRestore(amendmentProjects);
     if (amendmentProjects !== "") {
       const lastAmendment = {
@@ -79,20 +71,11 @@ const Amendments = ({
       };
       getLastAmendmentHistoryDeatils(lastAmendment);
     }
-    setProjLastchnage(
-      getLastAmendment && getLastAmendment.discussionPoints
-        ? getLastAmendment.discussionPoints
-        : ""
-    );
+    setShowHide({
+      ...showHide,
+      showhistory_submitSection: true,
+    });
   };
-
-  // if (!ProjLastchnage && getLastAmendment) {
-  //   setProjLastchnage(
-  //     getLastAmendment && getLastAmendment.discussionPoints
-  //       ? getLastAmendment.discussionPoints
-  //       : ""
-  //   );
-  // }
 
   const [showHide, setShowHide] = useState({
     showhistory_submitSection: false,
@@ -210,6 +193,7 @@ const Amendments = ({
                   <AmendLastDiscussion
                     ProjLastchnageVal={ProjLastchnage}
                     ProjRestoreVal={ProjRestore}
+                    setProjLastchnageFunc={setProjLastchnage}
                   />
                 </div>
               </div>

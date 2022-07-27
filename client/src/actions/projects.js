@@ -166,7 +166,7 @@ export const VerifyProject = (finalData) => async (dispatch) => {
       finalData,
       config
     );
-    dispatch(getverificationProjectDeatils());
+    dispatch(getverificationProjectDeatils(finalData.searchData));
     dispatch({
       type: SET_LOADING_FALSE,
     });

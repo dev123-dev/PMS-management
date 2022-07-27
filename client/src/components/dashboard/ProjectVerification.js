@@ -51,6 +51,8 @@ const ProjectVerification = ({
   const [projectStatusData, setProjectStatusData] = useState("");
   const [singledate, setsingledate] = useState("");
 
+  const [searchData, setSearchData] = useState("");
+
   const activeClientsOpt = [];
   activeVerfificationClients.map((clientsData) =>
     activeClientsOpt.push({
@@ -66,6 +68,7 @@ const ProjectVerification = ({
       statusId: projectStatusData.value,
       dateVal: singledate,
     };
+    setSearchData(selDateData);
     getverificationProjectDeatils(selDateData);
   };
   const onProjectStatusChange = (e) => {
@@ -75,6 +78,7 @@ const ProjectVerification = ({
       statusId: e.value,
       dateVal: singledate,
     };
+    setSearchData(selDateData);
     getverificationProjectDeatils(selDateData);
   };
 
@@ -94,6 +98,7 @@ const ProjectVerification = ({
       statusId: projectStatusData.value,
       dateVal: e.target.value,
     };
+    setSearchData(selDateData);
     getverificationProjectDeatils(selDateData);
   };
 
@@ -106,6 +111,7 @@ const ProjectVerification = ({
   };
   const onClickReset = () => {
     getverificationProjectDeatils("");
+    setSearchData("");
     setProjectStatusData("");
     setClientData("");
     setsingledate("");
@@ -339,6 +345,7 @@ const ProjectVerification = ({
             onEditModalChange={onEditModalChange}
             allVerifydata={userDatas}
             loggedStaff={loggedStaffData}
+            searchData={searchData}
           />
         </Modal.Body>
       </Modal>

@@ -11,6 +11,7 @@ const VerificationModal = ({
   onEditModalChange,
   VerifyProject,
   loggedStaff,
+  searchData,
 }) => {
   //formData
   // console.log("data", loggedStaff);
@@ -38,6 +39,7 @@ const VerificationModal = ({
     const finalData = {
       recordId: allVerifydata ? allVerifydata._id : "",
       projectVerifiedById: user._id,
+      searchData: searchData,
     };
     // console.log(finalData);
     VerifyProject(finalData);

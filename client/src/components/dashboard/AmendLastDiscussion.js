@@ -10,6 +10,7 @@ const AmendLastDiscussion = ({
   project: { amendmentProjects },
   ProjLastchnageVal,
   ProjRestoreVal,
+  setProjLastchnageFunc,
 }) => {
   const onHistoryModalChange = (e) => {
     if (e) {
@@ -17,6 +18,17 @@ const AmendLastDiscussion = ({
     }
   };
 
+  let getLastAmendment = JSON.parse(
+    localStorage.getItem("getLastAmendmentDetails")
+  );
+
+  if (!ProjLastchnageVal) {
+    setProjLastchnageFunc(
+      getLastAmendment && getLastAmendment.discussionPoints
+        ? getLastAmendment.discussionPoints
+        : ""
+    );
+  }
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const handleHistoryModalClose = () => setShowHistoryModal(false);
 
