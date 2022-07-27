@@ -381,8 +381,6 @@ AddLead.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
-  getAllProjectStatus: PropTypes.func.isRequired,
-  getActiveClientsFilter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -392,8 +390,4 @@ const mapStateToProps = (state) => ({
   project: state.project,
 });
 
-export default connect(mapStateToProps, {
-  getAllProjectStatus,
-  getActiveClientsFilter,
-  addProject,
-})(AddLead);
+export default connect(mapStateToProps, {})(AddLead);
