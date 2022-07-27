@@ -84,53 +84,6 @@ const AddLead = ({
   };
   //add staff end
 
-  //Required Validation Starts
-  // const [error, setError] = useState({
-  //   clientnameIdChecker: false,
-  //   clientnameIdErrorStyle: {},
-
-  //   ClientIdChecker: true,
-  //   ClientErrorStyle: {},
-  //   projectstatusChecker: true,
-  //   projectstatusErrorStyle: {},
-  // });
-  // const {
-  //   clientnameIdChecker,
-  //   clientnameIdErrorStyle,
-
-  //   ClientIdChecker,
-  //   ClientErrorStyle,
-  //   projectstatusChecker,
-  //   projectstatusErrorStyle,
-  // } = error;
-
-  // const checkErrors = () => {
-  //   if (!ClientIdChecker) {
-  //     setError({
-  //       ...error,
-  //       ClientErrorStyle: { color: "#F00" },
-  //     });
-  //     return false;
-  //   }
-
-  //   if (!clientnameIdChecker) {
-  //     setError({
-  //       ...error,
-  //       clientnameIdErrorStyle: { color: "#F00" },
-  //     });
-  //     return false;
-  //   }
-
-  //   if (!projectstatusChecker) {
-  //     setError({
-  //       ...error,
-  //       projectstatusErrorStyle: { color: "#F00" },
-  //     });
-  //     return false;
-  //   }
-
-  //   return true;
-  // };
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
