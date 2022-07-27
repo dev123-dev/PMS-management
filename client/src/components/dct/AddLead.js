@@ -293,7 +293,10 @@ const AddLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
                 {/* </form> */}
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new" style={{ height: "340px" }}>
+                <div
+                  className="row card-new"
+                  style={{ height: "340px", overflowY: "scroll" }}
+                >
                   <table
                     className="tabllll table table-bordered table-striped table-hover"
                     id="datatable2"
