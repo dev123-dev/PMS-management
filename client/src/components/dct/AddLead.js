@@ -4,16 +4,9 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { getActiveClientsFilter } from "../../actions/client";
-import { getAllProjectStatus, addProject } from "../../actions/projects";
 import { Redirect } from "react-router-dom";
 
-const AddLead = ({
-  auth: { isAuthenticated, user, users, loading },
-
-  onAddDistrictModalChange,
-  addProject,
-}) => {
+const AddLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
   //formData
   const [formData, setFormData] = useState({
     companyName: "",
@@ -85,6 +78,17 @@ const AddLead = ({
   //add staff end
 
   const onSubmit = (e) => {
+    AddedDetails.map((addedLoanData) => {
+      //  if (addedLoanData.batchLoanAmt && addedLoanData.batchLoanAmt > 0) {
+      const loanSanctionedData = {
+        memberId: addedLoanData.staffName,
+        memberName: addedLoanData.staffPhoneNumber,
+        loanSanctionedAmt: addedLoanData.staffEmailId,
+      };
+
+      console.log("addstaff", loanSanctionedData);
+      //}
+    });
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
@@ -116,7 +120,6 @@ const AddLead = ({
     <Spinner />
   ) : (
     <Fragment>
-      {" "}
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
           <div className="col-lg-12 col-md-11 col-sm-12 col-12">
