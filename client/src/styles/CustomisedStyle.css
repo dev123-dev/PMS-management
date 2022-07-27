@@ -2026,3 +2026,19 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="checkbox"] {
   display: block;
 }
+
+/* side partitions starts */
+.sidePartHeading{
+width: 100%;
+max-width: 100%;
+background-color: #456792;
+color: #fff;
+font-weight: 700;
+font-size: 17px;
+padding: 0.15rem !important;
+}
+.sidePartHeight{
+  height: 26vh;
+
+}
+/* side partitions ends */

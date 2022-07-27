@@ -279,14 +279,25 @@ const AllProspects = ({
               </section>
             </div>
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 ">
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new">
-                <AllContacts />
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+                  <label className="sidePartHeading ">Contacts</label>
+                  <AllContacts />
+                </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
-                <AllStatuschange />
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding sidePartHeight">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+                  <label className="sidePartHeading ">Status</label>
+                  <AllStatuschange />
+                </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
-                <LastMessageDetails />
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+                  <label className="sidePartHeading ">
+                    Last Message Details
+                  </label>
+                  <LastMessageDetails />
+                </div>
               </div>
             </div>
           </div>
