@@ -6,9 +6,9 @@ const DctLeadsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  clientId: {
-    type: ObjectId,
-  },
+  // clientId: {
+  //   type: ObjectId,
+  // },
   clientName: {
     type: String,
   },

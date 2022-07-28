@@ -17,6 +17,7 @@ app.use("/api/projects", require("./routes/api/projects"));
 app.use("/api/client", require("./routes/api/client"));
 
 app.use("/api/regions", require("./routes/api/regions"));
+app.use("/api/dct", require("./routes/api/dct"));
 
 // app.use("/api/chat", require("./routes/api/chat"));
 
