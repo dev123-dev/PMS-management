@@ -48,7 +48,31 @@ const EditLead = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const allcountry = [];
+  activeCountry.map((country) =>
+    allcountry.push({
+      countryId: country._id,
+      label: country.countryName,
+      value: country.countryName,
+    })
+  );
 
+  const [country, getcountryData] = useState();
+  const [countryId, setcountryID] = useState();
+
+  const oncountryChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   sIdChecker: true,
+    //   sIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var countryId = "";
+    getcountryData(e);
+    countryId = e.countryId;
+    setcountryID(countryId);
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
@@ -62,6 +86,7 @@ const EditLead = ({
       clientName: clientName,
       phone2: phone2,
       importantPoints: importantPoints,
+      countryId: countryId,
     };
     console.log(finalData);
     // addProject(finalData);
@@ -161,12 +186,12 @@ const EditLead = ({
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Region :</label>
                     <Select
-                      name="clientName"
-                      //   options={allclientBelongsTo}
+                      name="countryName"
+                      options={allcountry}
                       isSearchable={true}
-                      // value={clients}
+                      value={country}
                       placeholder="Select Region"
-                      // onChange={(e) => onBelongstoChange(e)}
+                      onChange={(e) => oncountryChange(e)}
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">

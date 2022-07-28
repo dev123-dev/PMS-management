@@ -138,6 +138,7 @@ const AddLead = ({
       phone1: phone1,
       phone2: phone2,
       importantPoints: importantPoints,
+      countryId: countryId,
     };
     console.log(finalData);
     addDctLeadDetails(finalData);
