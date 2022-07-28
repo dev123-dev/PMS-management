@@ -90,7 +90,31 @@ const AddLead = ({
     AddDetails(removeList);
   };
   //add staff end
+  const allcountry = [];
+  activeCountry.map((country) =>
+    allcountry.push({
+      countryId: country._id,
+      label: country.countryName,
+      value: country.countryName,
+    })
+  );
 
+  const [country, getcountryData] = useState();
+  const [countryId, setcountryID] = useState();
+
+  const oncountryChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   sIdChecker: true,
+    //   sIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var countryId = "";
+    getcountryData(e);
+    countryId = e.countryId;
+    setcountryID(countryId);
+  };
   const onSubmit = (e) => {
     AddedDetails.map((addedLoanData) => {
       //  if (addedLoanData.batchLoanAmt && addedLoanData.batchLoanAmt > 0) {
@@ -215,12 +239,12 @@ const AddLead = ({
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Region :</label>
                     <Select
-                      name="clientName"
-                      //   options={allclientBelongsTo}
+                      name="countryName"
+                      options={allcountry}
                       isSearchable={true}
-                      // value={clients}
+                      value={country}
                       placeholder="Select Region"
-                      // onChange={(e) => onBelongstoChange(e)}
+                      onChange={(e) => oncountryChange(e)}
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -254,7 +278,7 @@ const AddLead = ({
                       />
                     </div>
                     <div className="col-lg-1 col-md-6 col-sm-6 col-12">
-                      <label className="label-control">Vedio Editing</label>
+                      <label className="label-control">Video Editing</label>
                       <input
                         type="checkbox"
                         id="Unconfirmed"
