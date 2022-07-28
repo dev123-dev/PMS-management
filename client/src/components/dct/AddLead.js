@@ -139,6 +139,10 @@ const AddLead = ({
       phone2: phone2,
       importantPoints: importantPoints,
       countryId: countryId,
+      dctLeadStatus: "Active",
+      dctLeadCategory: "NC",
+      dctLeadEnteredById: user._id,
+      dctLeadEnteredByName: user.empFullName,
     };
     console.log(finalData);
     addDctLeadDetails(finalData);
