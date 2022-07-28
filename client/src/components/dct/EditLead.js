@@ -226,7 +226,7 @@ const EditLead = ({
                       />
                     </div>
                     <div className="col-lg-1 col-md-6 col-sm-6 col-12">
-                      <label className="label-control">Vedio Editing</label>
+                      <label className="label-control">Video Editing</label>
                       <input
                         type="checkbox"
                         id="Unconfirmed"
