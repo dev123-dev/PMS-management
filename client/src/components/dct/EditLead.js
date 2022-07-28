@@ -2,12 +2,20 @@ import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import { getActiveCountry } from "../../actions/regions";
 
-import { Redirect } from "react-router-dom";
+const EditLead = ({
+  auth: { isAuthenticated, user, users, loading },
+  regions: { activeCountry },
+  getActiveCountry,
+}) => {
+  useEffect(() => {
+    getActiveCountry();
+  }, [getActiveCountry]);
+  console.log("activeCountry", activeCountry);
 
-const EditLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
   //formData
   const [formData, setFormData] = useState({
     // companyName:
@@ -263,10 +271,12 @@ const EditLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
 
 EditLead.propTypes = {
   auth: PropTypes.object.isRequired,
+  regions: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  regions: state.regions,
 });
 
-export default connect(mapStateToProps, {})(EditLead);
+export default connect(mapStateToProps, { getActiveCountry })(EditLead);
