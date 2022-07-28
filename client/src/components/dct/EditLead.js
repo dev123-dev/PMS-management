@@ -15,6 +15,7 @@ const EditLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
     //     ? allClientdata.companyName
     //     : "",
     companyName: "",
+    clientName: "",
     website: "",
     emailId: "",
     phone1: "",
@@ -29,6 +30,7 @@ const EditLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
     website,
     emailId,
     phone1,
+    clientName,
     phone2,
     address,
     importantPoints,
@@ -49,6 +51,7 @@ const EditLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
       website: website,
       address: address,
       phone1: phone1,
+      clientName: clientName,
       phone2: phone2,
       importantPoints: importantPoints,
     };
@@ -137,7 +140,16 @@ const EditLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
                       required
                     />
                   </div>
-
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Client Name:</label>
+                    <input
+                      type="text"
+                      name="clientName"
+                      value={clientName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Region :</label>
                     <Select
@@ -150,17 +162,6 @@ const EditLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Address :</label>
-                    <input
-                      type="text"
-                      name="address"
-                      value={address}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                      required
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Important Points :</label>
                     <input
                       type="text"
@@ -170,6 +171,50 @@ const EditLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
                       onChange={(e) => onInputChange(e)}
                       required
                     />
+                  </div>
+                  <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
+                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Services :</label>
+                    </div>
+                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Imaging</label>
+                      <input
+                        type="checkbox"
+                        id="Unconfirmed"
+                        // onChange={handleOnChange}
+                      />
+                    </div>
+                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">CGI</label>
+                      <input
+                        type="checkbox"
+                        id="Unconfirmed"
+                        // onChange={handleOnChange}
+                      />
+                    </div>
+                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Vedio Editing</label>
+                      <input
+                        type="checkbox"
+                        id="Unconfirmed"
+                        // onChange={handleOnChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Address :</label>
+
+                    <textarea
+                      name="address"
+                      on
+                      id="address"
+                      className="textarea form-control"
+                      rows="3"
+                      placeholder=" Address"
+                      style={{ width: "100%" }}
+                      value={address}
+                      onChange={(e) => onInputChange(e)}
+                    ></textarea>
                   </div>
                 </div>
               </div>

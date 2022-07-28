@@ -5,8 +5,12 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
+import { addDctLeadDetails } from "../../actions/dct";
 
-const AddLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
+const AddLead = ({
+  auth: { isAuthenticated, user, users, loading },
+  addDctLeadDetails,
+}) => {
   //formData
   const [formData, setFormData] = useState({
     companyName: "",
@@ -15,6 +19,7 @@ const AddLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
     phone1: "",
     phone2: "",
     address: "",
+    clientName: "",
 
     isSubmitted: false,
   });
@@ -25,6 +30,7 @@ const AddLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
     emailId,
     phone1,
     phone2,
+    clientName,
     address,
     importantPoints,
     isSubmitted,
@@ -94,6 +100,7 @@ const AddLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
     const finalData = {
       companyName: companyName,
       emailId: emailId,
+      clientName: clientName,
       website: website,
       address: address,
       phone1: phone1,
@@ -101,7 +108,7 @@ const AddLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
       importantPoints: importantPoints,
     };
     console.log(finalData);
-    //addProject(finalData);
+    addDctLeadDetails(finalData);
     // }
   };
 
@@ -170,7 +177,7 @@ const AddLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Phone 1 :</label>
                     <input
-                      type="text"
+                      type="number"
                       name="phone1"
                       value={phone1}
                       className="form-control"
@@ -180,22 +187,32 @@ const AddLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Phone 2 :</label>
                     <input
-                      type="text"
+                      type="number"
                       name="phone2"
                       value={phone2}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
-
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Region :</label>
+                    <label className="label-control">Client Name:</label>
                     <input
                       type="text"
-                      // name="clientFolderName"
-                      // value={clientFolderName}
+                      name="clientName"
+                      value={clientName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Region :</label>
+                    <Select
+                      name="clientName"
+                      //   options={allclientBelongsTo}
+                      isSearchable={true}
+                      // value={clients}
+                      placeholder="Select Region"
+                      // onChange={(e) => onBelongstoChange(e)}
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -207,6 +224,35 @@ const AddLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
+                  </div>
+                  <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
+                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Services :</label>
+                    </div>
+                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Imaging</label>
+                      <input
+                        type="checkbox"
+                        id="Unconfirmed"
+                        // onChange={handleOnChange}
+                      />
+                    </div>
+                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">CGI</label>
+                      <input
+                        type="checkbox"
+                        id="Unconfirmed"
+                        // onChange={handleOnChange}
+                      />
+                    </div>
+                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Vedio Editing</label>
+                      <input
+                        type="checkbox"
+                        id="Unconfirmed"
+                        // onChange={handleOnChange}
+                      />
+                    </div>
                   </div>
                   <div className="col-lg-6  col-md-6 col-sm-6 col-12">
                     <label className="label-control">Address :</label>
@@ -244,7 +290,7 @@ const AddLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Phone Number* :</label>
+                    <label className="label-control">Phone Number :</label>
                     <input
                       type="number"
                       name="staffPhoneNumber"
@@ -254,7 +300,7 @@ const AddLead = ({ auth: { isAuthenticated, user, users, loading } }) => {
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Email Id* :</label>
+                    <label className="label-control">Email Id :</label>
                     <input
                       type="text"
                       name="staffEmailId"
@@ -393,4 +439,4 @@ const mapStateToProps = (state) => ({
   project: state.project,
 });
 
-export default connect(mapStateToProps, {})(AddLead);
+export default connect(mapStateToProps, { addDctLeadDetails })(AddLead);
