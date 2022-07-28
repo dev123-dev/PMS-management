@@ -6,31 +6,15 @@ import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Spinner from "../layout/Spinner";
-import { editEmployeeDetails, getALLUserGroups } from "../../actions/user";
-import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
+import { editEmployeeDetails } from "../../actions/user";
 import FileBase64 from "react-file-base64";
 const EditEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
   settings: { allDepartment, activeDesignation },
-  getALLDepartment,
   onEditModalChange,
-  getActiveDesignation,
   allEmployeedata,
   editEmployeeDetails,
-  getALLUserGroups,
 }) => {
-  useEffect(() => {
-    getALLDepartment();
-  }, [getALLDepartment]);
-  useEffect(() => {
-    getActiveDesignation();
-  }, [getActiveDesignation]);
-  useEffect(() => {
-    getALLUserGroups();
-  }, [getALLUserGroups]);
-  // console.log(allEmployeedata);
-  // console.log("allDeptartment", allDepartment);
-
   const [formData, setFormData] = useState({
     empFullName:
       allEmployeedata && allEmployeedata.empFullName
@@ -1137,10 +1121,6 @@ const EditEmployeeDetails = ({
 EditEmployeeDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  getALLDepartment: PropTypes.func.isRequired,
-  getActiveDesignation: PropTypes.func.isRequired,
-  editEmployeeDetails: PropTypes.func.isRequired,
-  getALLUserGroups: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -1148,8 +1128,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getALLDepartment,
-  getActiveDesignation,
   editEmployeeDetails,
-  getALLUserGroups,
 })(EditEmployeeDetails);
