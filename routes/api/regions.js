@@ -225,7 +225,7 @@ router.get("/get-all-districts", async (req, res) => {
 router.post("/get-active-country", async (req, res) => {
   // const { institutionId } = req.body;
   try {
-    const getActiveCountry = await State.find({
+    const getActiveCountry = await Country.find({
       countryStatus: {
         $eq: "Active",
       },
