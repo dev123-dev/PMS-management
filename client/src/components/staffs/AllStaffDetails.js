@@ -10,6 +10,8 @@ import {
   getAllStaff,
   getFilterEmpDetails,
 } from "../../actions/user";
+import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
+import { getALLUserGroups } from "../../actions/user";
 import EditEmployeeDetails from "./EditEmployeeDetails";
 import DeactiveEmployee from "./DeactiveEmployee";
 import EditPassword from "./EditPassword";
@@ -20,6 +22,9 @@ const AllStaffDetails = ({
   getAllEmployee,
   getFilterEmpDetails,
   getAllStaff,
+  getALLUserGroups,
+  getActiveDesignation,
+  getALLDepartment,
 }) => {
   useEffect(() => {
     getAllEmployee();
@@ -31,6 +36,15 @@ const AllStaffDetails = ({
     getFilterEmpDetails();
   }, [getFilterEmpDetails]);
   // console.log("drfwe", allStaffName);
+  useEffect(() => {
+    getALLDepartment();
+  }, [getALLDepartment]);
+  useEffect(() => {
+    getActiveDesignation();
+  }, [getActiveDesignation]);
+  useEffect(() => {
+    getALLUserGroups();
+  }, [getALLUserGroups]);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -309,8 +323,6 @@ AllStaffDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   settings: PropTypes.func.isRequired,
-  getAllEmployee: PropTypes.func.isRequired,
-  getFilterEmpDetails: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -322,4 +334,7 @@ export default connect(mapStateToProps, {
   getAllEmployee,
   getAllStaff,
   getFilterEmpDetails,
+  getALLUserGroups,
+  getALLDepartment,
+  getActiveDesignation,
 })(AllStaffDetails);
