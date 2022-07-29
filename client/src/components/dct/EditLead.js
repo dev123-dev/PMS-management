@@ -74,7 +74,7 @@ const EditLead = ({
     alleditLeaddata
       ? allcountry.length !== 0
         ? allcountry &&
-          allcountry.filter((x) => x.countryId === allcountry.countryId)[0]
+          allcountry.filter((x) => x.countryId === alleditLeaddata.countryId)[0]
         : ""
       : ""
   );
