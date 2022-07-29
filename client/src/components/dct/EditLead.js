@@ -9,7 +9,7 @@ import { getActiveCountry } from "../../actions/regions";
 const EditLead = ({
   auth: { isAuthenticated, user, users, loading },
   regions: { activeCountry },
-  allLeaddata,
+  alleditLeaddata,
   getActiveCountry,
 }) => {
   useEffect(() => {
@@ -19,18 +19,29 @@ const EditLead = ({
 
   //formData
   const [formData, setFormData] = useState({
-    // companyName:
-    //   allClientdata && allClientdata.companyName
-    //     ? allClientdata.companyName
-    //     : "",
-    companyName: "",
-    clientName: "",
-    website: "",
-    emailId: "",
-    phone1: "",
-    phone2: "",
-    address: "",
-    importantPoints: "",
+    companyName:
+      alleditLeaddata && alleditLeaddata.companyName
+        ? alleditLeaddata.companyName
+        : "",
+    clientName:
+      alleditLeaddata && alleditLeaddata.clientName
+        ? alleditLeaddata.clientName
+        : "",
+    website:
+      alleditLeaddata && alleditLeaddata.website ? alleditLeaddata.website : "",
+    emailId:
+      alleditLeaddata && alleditLeaddata.emailId ? alleditLeaddata.emailId : "",
+    phone1:
+      alleditLeaddata && alleditLeaddata.phone1 ? alleditLeaddata.phone1 : "",
+    phone2:
+      alleditLeaddata && alleditLeaddata.phone2 ? alleditLeaddata.phone2 : "",
+    address:
+      alleditLeaddata && alleditLeaddata.address ? alleditLeaddata.address : "",
+    importantPoints:
+      alleditLeaddata && alleditLeaddata.importantPoints
+        ? alleditLeaddata.importantPoints
+        : "",
+
     isSubmitted: false,
   });
 
@@ -78,7 +89,7 @@ const EditLead = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
-      // recordId: clientdeactivedata ? clientdeactivedata._id : "",
+      recordId: alleditLeaddata ? alleditLeaddata._id : "",
       companyName: companyName,
       emailId: emailId,
       website: website,

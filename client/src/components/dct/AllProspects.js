@@ -165,17 +165,18 @@ const AllProspects = ({
                               <td>
                                 <img
                                   className="img_icon_size log"
-                                  onClick={() => onUpdate(allProspectus, idx)}
-                                  src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
-                                />
-                                <img
-                                  className="img_icon_size log"
                                   onClick={() => onDeactive(allProspectus, idx)}
                                   src={require("../../static/images/delete.png")}
                                   alt="Delete Project"
                                   title="Delete Project"
+                                />{" "}
+                                &emsp;
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onUpdate(allProspectus, idx)}
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
                                 />
                               </td>
                             </tr>
@@ -236,7 +237,7 @@ const AllProspects = ({
         <Modal.Body>
           <EditLead
             onEditModalChange={onEditModalChange}
-            allLeaddata={userDatas}
+            alleditLeaddata={userDatas}
           />
         </Modal.Body>
       </Modal>

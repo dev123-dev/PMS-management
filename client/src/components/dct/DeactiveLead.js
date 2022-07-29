@@ -256,66 +256,66 @@ const DeactiveLead = ({
     <Spinner />
   ) : (
     <Fragment>
-      <div className="container container_align">
-        <form className="row" onSubmit={(e) => onSubmit(e)}>
-          {/* <div className="col-lg-12 col-md-11 col-sm-12 col-12">
+      {/* <div className="container container_align"> */}
+      <form className="row" onSubmit={(e) => onSubmit(e)}>
+        {/* <div className="col-lg-12 col-md-11 col-sm-12 col-12">
             <h2 className="heading_color">Deactive Lead</h2>
             <hr />
           </div> */}
-          <section className="sub_reg">
-            <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-              <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
-                <label className="label-control">Deactive Reason :</label>
-                <textarea
-                  name="clientAddress"
-                  id="clientAddress"
-                  className="textarea form-control"
-                  rows="3"
-                  placeholder="Lead Deactive Reason"
-                  style={{ width: "100%" }}
-                  //  value={clientAddress}
-                  onChange={(e) => onInputChange(e)}
-                  required
-                ></textarea>
-              </div>
-            </div>
+        {/* <section className="sub_reg"> */}
+        <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
+          <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
+            <label className="label-control">Deactive Reason :</label>
+            <textarea
+              name="clientAddress"
+              id="clientAddress"
+              className="textarea form-control"
+              rows="3"
+              placeholder="Lead Deactive Reason"
+              style={{ width: "100%" }}
+              //  value={clientAddress}
+              onChange={(e) => onInputChange(e)}
+              required
+            ></textarea>
+          </div>
+        </div>
 
-            <div
-              className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
-              size="lg"
+        <div
+          className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
+          size="lg"
+        >
+          <div className="col-lg-8 col-md-6 col-sm-12 col-12">
+            <label className="label-control colorRed">
+              * Indicates mandatory fields.
+            </label>
+          </div>
+          <div className="col-lg-12 col-md-6 col-sm-12 col-12">
+            {loading ? (
+              <button
+                className="btn sub_form btn_continue blackbrd Save float-right"
+                disabled
+              >
+                Loading...
+              </button>
+            ) : (
+              <input
+                type="submit"
+                name="Submit"
+                value="Submit"
+                className="btn sub_form btn_continue blackbrd Save float-right"
+              />
+            )}
+            <Link
+              className="btn sub_form btn_continue blackbrd float-right"
+              to="/job-queue"
             >
-              <div className="col-lg-8 col-md-6 col-sm-12 col-12">
-                <label className="label-control colorRed">
-                  * Indicates mandatory fields.
-                </label>
-              </div>
-              <div className="col-lg-12 col-md-6 col-sm-12 col-12">
-                {loading ? (
-                  <button
-                    className="btn sub_form btn_continue blackbrd Save float-right"
-                    disabled
-                  >
-                    Loading...
-                  </button>
-                ) : (
-                  <input
-                    type="submit"
-                    name="Submit"
-                    value="Submit"
-                    className="btn sub_form btn_continue blackbrd Save float-right"
-                  />
-                )}
-                <Link
-                  className="btn sub_form btn_continue blackbrd float-right"
-                  to="/job-queue"
-                >
-                  Cancel
-                </Link>
-              </div>
-            </div>
-          </section>
-        </form>
-      </div>
+              Cancel
+            </Link>
+          </div>
+        </div>
+        {/* </section> */}
+      </form>
+      {/* </div> */}
     </Fragment>
   );
 };
