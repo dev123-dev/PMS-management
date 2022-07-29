@@ -190,7 +190,7 @@ const AllProspects = ({
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 ">
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-                  <label className="sidePartHeading ">Cont acts</label>
+                  <label className="sidePartHeading ">Contacts</label>
                   <AllContacts />
                 </div>
               </div>
