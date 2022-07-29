@@ -5,12 +5,21 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-
+import { getDctLeadDetails } from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 
-const AllProspects = ({ auth: { isAuthenticated, user, users } }) => {
+const AllProspects = ({
+  auth: { isAuthenticated, user, users },
+  dct: { allProspectus },
+  getDctLeadDetails,
+}) => {
+  useEffect(() => {
+    getDctLeadDetails();
+  }, [getDctLeadDetails]);
+  console.log(allProspectus);
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -147,11 +156,11 @@ const AllProspects = ({ auth: { isAuthenticated, user, users } }) => {
 
 AllProspects.propTypes = {
   auth: PropTypes.object.isRequired,
+  dct: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  project: state.project,
-  settings: state.settings,
+  dct: state.dct,
 });
 
-export default connect(mapStateToProps, {})(AllProspects);
+export default connect(mapStateToProps, { getDctLeadDetails })(AllProspects);

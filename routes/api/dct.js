@@ -18,4 +18,14 @@ router.post("/add-dct-Leads", async (req, res) => {
   }
 });
 
+//SELECT
+router.post("/get-dct-Leads", async (req, res) => {
+  try {
+    const getDctLeadsDetails = await DctLeads.find({});
+    res.json(getDctLeadsDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 module.exports = router;
