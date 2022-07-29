@@ -172,8 +172,8 @@ const AddLead = ({
           </div>
           <section className="sub_reg">
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new  py-3">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+                <div className="row card-new ">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Company Info</h5>
                   </div>
