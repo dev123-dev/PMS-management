@@ -10,12 +10,28 @@ const AllStatuschange = ({
 }) => {
   //formData
   const [formData, setFormData] = useState({
+    clientType: "",
     countryName: "",
     countryCode: "",
     isSubmitted: false,
   });
-  const { countryName, countryCode } = formData;
-
+  const { countryName, countryCode, clientType } = formData;
+  const clientTypeVal = [
+    { value: "Regular", label: "Regular Client" },
+    { value: "Test", label: "Test Client" },
+  ];
+  const onClientTypeChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        clientType: e,
+      });
+      let clientTypeVal = {
+        clientTypeinfo: e.value,
+      };
+      // getActiveClientsFilter(clientTypeVal);
+    }
+  };
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -50,22 +66,12 @@ const AllStatuschange = ({
       > */}
       <div className="col-lg-8 col-md-11 col-sm-10 col-10 ">
         <Select
-          name="projectStatusCategory"
-          // options={StatusCategory}
+          name="clientType"
           isSearchable={true}
-          // value={projectStatusCategory}
+          options={clientTypeVal}
+          value={clientType}
           placeholder="Select"
-          // onChange={(e) => onStatuscatChange(e)}
-          theme={(theme) => ({
-            ...theme,
-            height: 26,
-            minHeight: 26,
-            borderRadius: 1,
-            colors: {
-              ...theme.colors,
-              primary: "black",
-            },
-          })}
+          onChange={(e) => onClientTypeChange(e)}
         />
       </div>
 

@@ -9,6 +9,7 @@ import { getActiveCountry } from "../../actions/regions";
 const EditLead = ({
   auth: { isAuthenticated, user, users, loading },
   regions: { activeCountry },
+  allLeaddata,
   getActiveCountry,
 }) => {
   useEffect(() => {
@@ -106,14 +107,14 @@ const EditLead = ({
     <Fragment>
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
-          <div className="col-lg-12 col-md-11 col-sm-12 col-12">
+          {/* <div className="col-lg-12 col-md-11 col-sm-12 col-12">
             <h2 className="heading_color">Edit Lead</h2>
             <hr />
-          </div>
+          </div> */}
           <section className="sub_reg">
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new  py-3">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+                <div className="row card-new ">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Company Info</h5>
                   </div>
@@ -234,7 +235,7 @@ const EditLead = ({
                       />
                     </div>
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12 py-2">
                     <label className="label-control">Address :</label>
 
                     <textarea

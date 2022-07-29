@@ -221,8 +221,8 @@ const DailyJobSheet = ({
     setSelectedDate(new Date().toISOString().split("T")[0]);
     setShowHide({
       ...showHide,
-      showChequenoSection: false,
-      showChequenoSection1: true,
+      showdateSection: false,
+      showdateSection1: true,
     });
   };
 
@@ -355,10 +355,10 @@ const DailyJobSheet = ({
   };
 
   const [showHide, setShowHide] = useState({
-    showChequenoSection: false,
-    showChequenoSection1: true,
+    showdateSection: false,
+    showdateSection1: true,
   });
-  const { showChequenoSection, showChequenoSection1 } = showHide;
+  const { showdateSection, showdateSection1 } = showHide;
   const onDateModeChange = (e) => {
     setClientData("");
     if (e) {
@@ -370,14 +370,14 @@ const DailyJobSheet = ({
     if (e.value === "Multi Date") {
       setShowHide({
         ...showHide,
-        showChequenoSection: true,
-        showChequenoSection1: false,
+        showdateSection: true,
+        showdateSection1: false,
       });
     } else {
       setShowHide({
         ...showHide,
-        showChequenoSection: false,
-        showChequenoSection1: true,
+        showdateSection: false,
+        showdateSection1: true,
       });
     }
   };
@@ -455,7 +455,7 @@ const DailyJobSheet = ({
                   <></>
                 )}
               </div>
-              {showChequenoSection && (
+              {showdateSection && (
                 <>
                   <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
                     <input
@@ -496,7 +496,7 @@ const DailyJobSheet = ({
                   </div>
                 </>
               )}
-              {showChequenoSection1 && (
+              {showdateSection1 && (
                 <>
                   <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
                     <input

@@ -171,36 +171,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-                <NavItem>
-                  {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
-                    <NavLink
-                      to="/edit-lead"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      Edit Lead
-                    </NavLink>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </NavItem>
-
-                <NavItem>
-                  {!loading && isAuthenticated && user ? (
-                    <NavLink
-                      to="/deactive-lead"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      Deactive Lead
-                    </NavLink>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </NavItem>
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>
@@ -238,9 +208,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                               <Link to="/all-staff">All Staff</Link>
                             </li>
                             <li>
-                              <Link to="/all-leave">Leave Management</Link>
-                            </li>
-                            <li>
                               <Link to="/all-department">All Departments</Link>
                             </li>
                             <li>
@@ -272,6 +239,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                         ) : (
                           <></>
                         )}
+                        <li>
+                          <Link to="/all-leave">Leave Management</Link>
+                        </li>
                         <li>
                           <Link to="/all-feedback">All Feedback</Link>
                         </li>
