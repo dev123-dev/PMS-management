@@ -15,7 +15,7 @@ const EditLead = ({
   useEffect(() => {
     getActiveCountry();
   }, [getActiveCountry]);
-  console.log("activeCountry", activeCountry);
+  console.log("alleditLeaddata", alleditLeaddata);
 
   //formData
   const [formData, setFormData] = useState({
@@ -61,25 +61,26 @@ const EditLead = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const allcountry = [];
-  activeCountry.map((country) =>
-    allcountry.push({
-      countryId: country._id,
-      label: country.countryName,
-      value: country.countryName,
-    })
-  );
+  activeCountry &&
+    activeCountry.map((country) =>
+      allcountry.push({
+        countryId: country._id,
+        label: country.countryName,
+        value: country.countryName,
+      })
+    );
 
-  const [country, getcountryData] = useState();
-  const [countryId, setcountryID] = useState();
+  const [country, getcountryData] = useState(
+    alleditLeaddata
+      ? allcountry.length !== 0
+        ? allcountry &&
+          allcountry.filter((x) => x.countryId === allcountry.countryId)[0]
+        : ""
+      : ""
+  );
+  const [countryId, setcountryID] = useState(alleditLeaddata.countryId);
 
   const oncountryChange = (e) => {
-    // //Required Validation Starts
-    // setError({
-    //   ...error,
-    //   sIdChecker: true,
-    //   sIdErrorStyle: { color: "#000" },
-    // });
-    // //Required Validation ends
     var countryId = "";
     getcountryData(e);
     countryId = e.countryId;
@@ -118,10 +119,6 @@ const EditLead = ({
     <Fragment>
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
-          {/* <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">Edit Lead</h2>
-            <hr />
-          </div> */}
           <section className="sub_reg">
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
               <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
