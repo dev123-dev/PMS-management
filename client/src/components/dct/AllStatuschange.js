@@ -59,40 +59,58 @@ const AllStatuschange = ({
     <Spinner />
   ) : (
     <Fragment>
-      {/* <form
-        className="row col-lg-12 col-md-12 col-sm-12 col-12"
-        onSubmit={(e) => onSubmit(e)}
-        autoComplete="off"
-      > */}
-      <div className="col-lg-8 col-md-11 col-sm-10 col-10 ">
-        <Select
-          name="clientType"
-          isSearchable={true}
-          options={clientTypeVal}
-          value={clientType}
-          placeholder="Select"
-          onChange={(e) => onClientTypeChange(e)}
-        />
+      <div className="row col-lg-12 col-md-11 col-sm-10 col-10 ">
+        <div className="col-lg-6 col-md-11 col-sm-10 col-10 ">
+          <label className="label-control"> Status :</label>
+          <Select
+            name="clientType"
+            isSearchable={true}
+            options={clientTypeVal}
+            value={clientType}
+            placeholder="Select"
+            onChange={(e) => onClientTypeChange(e)}
+          />
+        </div>
+        <div className=" col-lg-4 col-md-11 col-sm-10 col-10 ">
+          <label className="label-control"> Status :</label>
+          <input
+            type="date"
+            placeholder="dd/mm/yyyy"
+            className="form-control cpp-input datevalidation"
+            name="todate"
+            //    value={todate}
+            //   onChange={(e) => onDateChange1(e)}
+            style={{
+              width: "110%",
+            }}
+            required
+          />
+        </div>
+        <div className="col-lg-8 col-md-11 col-sm-10 col-10 mb-5">
+          <label className="label-control"> Notes :</label>
+          <textarea
+            name="clientAddress"
+            id="clientAddress"
+            className="textarea form-control"
+            rows="2"
+            placeholder="Client Address"
+            style={{ width: "100%" }}
+            //  value={clientAddress}
+            onChange={(e) => onInputChange(e)}
+          ></textarea>
+        </div>
+        {/* </form> */}
       </div>
-
-      {/* </form> */}
     </Fragment>
   );
 };
 
 AllStatuschange.propTypes = {
   auth: PropTypes.object.isRequired,
-  area: PropTypes.object.isRequired,
-  //   AddState: PropTypes.func.isRequired,
-  savedMessage: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  area: state.area,
-  savedMessage: state.auth.savedMessage,
 });
 
-export default connect(mapStateToProps, {
-  //   AddState,
-})(AllStatuschange);
+export default connect(mapStateToProps, {})(AllStatuschange);
