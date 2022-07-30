@@ -6,8 +6,11 @@ import Select from "react-select";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
 // import MultipleDatePicker from "react-multiple-datepicker";
-
 import { getAllEmployee, getAllStaff, addLeaves } from "../../actions/user";
+const DateMethods = [
+  { value: "Single Date", label: "Single Date" },
+  { value: "Multi Date", label: "Multi Date" },
+];
 const AddLeave = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allStaffName },
@@ -29,11 +32,66 @@ const AddLeave = ({
     leaveReason: "",
     slVal: null,
     isSubmitted: false,
+    Dateselectmode: DateMethods[0],
+    leaveStartDate: "",
+    leaveEndDate: "",
+    leaveDate: "",
   });
   const format = "YYYY-MM-DD";
   // const [dates, setDates] = useState([]);
 
-  const { leaveReason, slVal } = formData;
+  //======================
+  function getDatesInRange(startDate, endDate) {
+    const date = new Date(startDate.getTime());
+
+    const dates = [];
+
+    while (date <= endDate) {
+      dates.push(new Date(date).toISOString().split("T")[0]);
+      date.setDate(date.getDate() + 1);
+    }
+
+    return dates;
+  }
+
+  //========================
+
+  const [showHide, setShowHide] = useState({
+    showChequenoSection: false,
+    showChequenoSection1: true,
+  });
+  const { showChequenoSection, showChequenoSection1 } = showHide;
+
+  const onDateModeChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        Dateselectmode: e,
+      });
+    }
+    if (e.value === "Multi Date") {
+      setShowHide({
+        ...showHide,
+        showChequenoSection: true,
+        showChequenoSection1: false,
+      });
+    } else {
+      setShowHide({
+        ...showHide,
+        showChequenoSection: false,
+        showChequenoSection1: true,
+      });
+    }
+  };
+
+  const {
+    leaveReason,
+    slVal,
+    Dateselectmode,
+    leaveStartDate,
+    leaveEndDate,
+    leaveDate,
+  } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -61,11 +119,6 @@ const AddLeave = ({
     });
   };
 
-  const [startLeaveDate, setleaveDate] = useState("");
-  const onDateChange = (e) => {
-    setleaveDate(e.target.value);
-  };
-
   const [staffData, setstaffData] = useState("");
   const [employeeId, setpaymentId] = useState("");
   const [employeename, setpaymentname] = useState("");
@@ -90,14 +143,24 @@ const AddLeave = ({
   // console.log(dates);
   //Required Validation ends
   const onSubmit = (e) => {
+    let leaveDateVals = [];
+    if (showChequenoSection) {
+      const d1 = new Date(leaveStartDate);
+      const d2 = new Date(leaveEndDate);
+      leaveDateVals = getDatesInRange(d1, d2);
+    } else {
+      const d1 = new Date(leaveDate);
+      const d2 = new Date(leaveDate);
+      leaveDateVals = getDatesInRange(d1, d2);
+    }
     e.preventDefault();
     const finalData = {
-      leaveDate: startLeaveDate,
+      leaveDateVals: leaveDateVals,
       leaveType: slVal,
       leaveReason: leaveReason,
       empId: employeeId,
     };
-    // console.log(finalData);
+    console.log(finalData);
     addLeaves(finalData);
     onAddDistrictModalChange(true);
   };
@@ -117,9 +180,9 @@ const AddLeave = ({
               options={activeStaffsOpt}
               placeholder="Select Staff"
               onChange={(e) => onStaffChange(e)}
+              required
             />
           </div>
-
           {/* <DatePicker
             multiple
             onChange={(array) => {
@@ -152,22 +215,73 @@ const AddLeave = ({
               ))}
             </ul>
           </div> */}
-          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-            <label className="label-control">Leave Date* :</label>
-            <br />
-            <input
-              type="date"
-              placeholder="dd/mm/yyyy"
-              className="form-control cpp-input datevalidation"
-              name="leaveDate"
-              value={startLeaveDate}
-              onChange={(e) => onDateChange(e)}
-              style={{
-                width: "75%",
-              }}
-              required
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+            <label className="label-control">&nbsp;</label>
+            <Select
+              name="Dateselectmode"
+              options={DateMethods}
+              isSearchable={true}
+              defaultValue={DateMethods[0]}
+              value={Dateselectmode}
+              placeholder="Select"
+              onChange={(e) => onDateModeChange(e)}
             />
           </div>
+          {showChequenoSection && (
+            <>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label className="label-control">From Date* :</label>
+                <br />
+                <input
+                  type="date"
+                  placeholder="dd/mm/yyyy"
+                  className="form-control cpp-input datevalidation"
+                  name="leaveStartDate"
+                  value={leaveStartDate}
+                  onChange={(e) => onInputChange(e)}
+                  style={{
+                    width: "75%",
+                  }}
+                  required
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label className="label-control">To Date* :</label>
+                <br />
+                <input
+                  type="date"
+                  placeholder="dd/mm/yyyy"
+                  className="form-control cpp-input datevalidation"
+                  name="leaveEndDate"
+                  value={leaveEndDate}
+                  onChange={(e) => onInputChange(e)}
+                  style={{
+                    width: "75%",
+                  }}
+                  required
+                />
+              </div>
+            </>
+          )}
+          {showChequenoSection1 && (
+            <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+              <label className="label-control">Leave Date* :</label>
+              <br />
+              <input
+                type="date"
+                placeholder="dd/mm/yyyy"
+                className="form-control cpp-input datevalidation"
+                name="leaveDate"
+                value={leaveDate}
+                onChange={(e) => onInputChange(e)}
+                style={{
+                  width: "75%",
+                }}
+                required
+              />
+            </div>
+          )}
+
           <div className="row col-lg-12 col-md-9 col-sm-9 col-12 py-3">
             <div className="col-lg-6 col-md-4 col-sm-4 col-12">
               <center>
