@@ -235,25 +235,25 @@ const AllLeave = ({
             <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
               <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-2">
                 {/* SLAP UserGroupRights */}
-                {/* 
+
                 {(user.userGroupName &&
                   user.userGroupName === "Administrator") ||
                 user.userGroupName === "Super Admin" ||
-                user.userGroupName === "Clarical Admins" ? ( */}
-                <>
-                  <Select
-                    name="Dateselectmode"
-                    options={DateMethods}
-                    isSearchable={true}
-                    // defaultValue={DateMethods[0]}
-                    value={Dateselectmode}
-                    placeholder="Select"
-                    onChange={(e) => onDateModeChange(e)}
-                  />
-                </>
-                {/* ) : (
+                user.userGroupName === "Clarical Admins" ? (
+                  <>
+                    <Select
+                      name="Dateselectmode"
+                      options={DateMethods}
+                      isSearchable={true}
+                      // defaultValue={DateMethods[0]}
+                      value={Dateselectmode}
+                      placeholder="Select"
+                      onChange={(e) => onDateModeChange(e)}
+                    />
+                  </>
+                ) : (
                   <></>
-                )} */}
+                )}
               </div>
               {showdateSection && (
                 <>
