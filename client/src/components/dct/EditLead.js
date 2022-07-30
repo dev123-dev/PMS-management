@@ -9,27 +9,41 @@ import { getActiveCountry } from "../../actions/regions";
 const EditLead = ({
   auth: { isAuthenticated, user, users, loading },
   regions: { activeCountry },
+  alleditLeaddata,
   getActiveCountry,
 }) => {
   useEffect(() => {
     getActiveCountry();
   }, [getActiveCountry]);
-  console.log("activeCountry", activeCountry);
+  console.log("alleditLeaddata", alleditLeaddata);
 
   //formData
   const [formData, setFormData] = useState({
-    // companyName:
-    //   allClientdata && allClientdata.companyName
-    //     ? allClientdata.companyName
-    //     : "",
-    companyName: "",
-    clientName: "",
-    website: "",
-    emailId: "",
-    phone1: "",
-    phone2: "",
-    dctLeadAddress: "",
-    importantPoints: "",
+    companyName:
+      alleditLeaddata && alleditLeaddata.companyName
+        ? alleditLeaddata.companyName
+        : "",
+    clientName:
+      alleditLeaddata && alleditLeaddata.clientName
+        ? alleditLeaddata.clientName
+        : "",
+    website:
+      alleditLeaddata && alleditLeaddata.website ? alleditLeaddata.website : "",
+    emailId:
+      alleditLeaddata && alleditLeaddata.emailId ? alleditLeaddata.emailId : "",
+    phone1:
+      alleditLeaddata && alleditLeaddata.phone1 ? alleditLeaddata.phone1 : "",
+    phone2:
+      alleditLeaddata && alleditLeaddata.phone2 ? alleditLeaddata.phone2 : "",
+    dctLeadAddress:
+      alleditLeaddata && alleditLeaddata.dctLeadAddress
+        ? alleditLeaddata.dctLeadAddress
+        : "",
+    importantPoints:
+      alleditLeaddata && alleditLeaddata.importantPoints
+        ? alleditLeaddata.importantPoints
+        : "",
+
     isSubmitted: false,
   });
 
@@ -49,25 +63,26 @@ const EditLead = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const allcountry = [];
-  activeCountry.map((country) =>
-    allcountry.push({
-      countryId: country._id,
-      label: country.countryName,
-      value: country.countryName,
-    })
-  );
+  activeCountry &&
+    activeCountry.map((country) =>
+      allcountry.push({
+        countryId: country._id,
+        label: country.countryName,
+        value: country.countryName,
+      })
+    );
 
-  const [country, getcountryData] = useState();
-  const [countryId, setcountryID] = useState();
+  const [country, getcountryData] = useState(
+    alleditLeaddata
+      ? allcountry.length !== 0
+        ? allcountry &&
+          allcountry.filter((x) => x.countryId === alleditLeaddata.countryId)[0]
+        : ""
+      : ""
+  );
+  const [countryId, setcountryID] = useState(alleditLeaddata.countryId);
 
   const oncountryChange = (e) => {
-    // //Required Validation Starts
-    // setError({
-    //   ...error,
-    //   sIdChecker: true,
-    //   sIdErrorStyle: { color: "#000" },
-    // });
-    // //Required Validation ends
     var countryId = "";
     getcountryData(e);
     countryId = e.countryId;
@@ -77,7 +92,7 @@ const EditLead = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
-      // recordId: clientdeactivedata ? clientdeactivedata._id : "",
+      recordId: alleditLeaddata ? alleditLeaddata._id : "",
       companyName: companyName,
       emailId: emailId,
       website: website,
@@ -107,14 +122,10 @@ const EditLead = ({
     <Fragment>
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
-          <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">Edit Lead</h2>
-            <hr />
-          </div>
           <section className="sub_reg">
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new  py-3">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+                <div className="row card-new ">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Company Info</h5>
                   </div>
@@ -235,7 +246,7 @@ const EditLead = ({
                       />
                     </div>
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12 py-2">
                     <label className="label-control">Address :</label>
 
                     <textarea

@@ -114,6 +114,88 @@ const AllLeave = ({
       handleAddDistrictModalClose();
     }
   };
+
+  const DateMethods = [
+    { value: "Single Date", label: "Single Date" },
+    { value: "Multi Date", label: "Multi Date" },
+  ];
+  const [formData, setFormData] = useState({
+    radioselect: "",
+    Dateselectmode: DateMethods[0],
+    isSubmitted: false,
+  });
+  const { Dateselectmode } = formData;
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+
+  const [singledate, setsingledate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  //
+  const [selDateDataVal, setSelDateDataVal] = useState();
+  const onDateChange2 = (e) => {
+    // setClientData("");
+    setsingledate(e.target.value);
+  };
+  const [todate, settodate] = useState("");
+  const onDateChange1 = (e) => {
+    settodate(e.target.value);
+  };
+
+  const [fromdate, setfromdate] = useState("");
+  const onDateChange = (e) => {
+    setfromdate(e.target.value);
+  };
+
+  const onSearch = (e) => {
+    let selDateData = {
+      selDate: singledate,
+      dateType: "Single Date",
+    };
+    setSelDateDataVal(selDateData);
+    // getDailyJobsheetProjectDeatils(selDateData);
+    // getDailyjobSheetClients(selDateData);
+  };
+
+  const onSearchmultidate = (e) => {
+    let selDateData = {
+      fromdate: fromdate,
+      todate: todate,
+      dateType: "Multi Date",
+    };
+    setSelDateDataVal(selDateData);
+    // getDailyJobsheetProjectDeatils(selDateData);
+    // getDailyjobSheetClients(selDateData);
+  };
+
+  const [showHide, setShowHide] = useState({
+    showdateSection: false,
+    showdateSection1: true,
+  });
+  const { showdateSection, showdateSection1 } = showHide;
+  const onDateModeChange = (e) => {
+    // setClientData("");
+    if (e) {
+      setFormData({
+        ...formData,
+        Dateselectmode: e,
+      });
+    }
+    if (e.value === "Multi Date") {
+      setShowHide({
+        ...showHide,
+        showdateSection: true,
+        showdateSection1: false,
+      });
+    } else {
+      setShowHide({
+        ...showHide,
+        showdateSection: false,
+        showdateSection1: true,
+      });
+    }
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -121,24 +203,133 @@ const AllLeave = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className="row col-lg-2 col-md-11 col-sm-10 col-10">
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Leave Management</h5>
             </div>
 
-            <div className="col-lg-10 col-md-11 col-sm-12 col-11 py-3">
+            <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
+              <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-2">
+                {/* SLAP UserGroupRights */}
+                {/* 
+                {(user.userGroupName &&
+                  user.userGroupName === "Administrator") ||
+                user.userGroupName === "Super Admin" ||
+                user.userGroupName === "Clarical Admins" ? ( */}
+                <>
+                  <Select
+                    name="Dateselectmode"
+                    options={DateMethods}
+                    isSearchable={true}
+                    // defaultValue={DateMethods[0]}
+                    value={Dateselectmode}
+                    placeholder="Select"
+                    onChange={(e) => onDateModeChange(e)}
+                  />
+                </>
+                {/* ) : (
+                  <></>
+                )} */}
+              </div>
+              {showdateSection && (
+                <>
+                  <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="fromdate"
+                      value={fromdate}
+                      onChange={(e) => onDateChange(e)}
+                      style={{
+                        width: "110%",
+                      }}
+                      required
+                    />
+                  </div>
+                  <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="todate"
+                      value={todate}
+                      onChange={(e) => onDateChange1(e)}
+                      style={{
+                        width: "110%",
+                      }}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-3">
+                    <img
+                      className="img_icon_size log"
+                      onClick={() => onSearchmultidate()}
+                      src={require("../../static/images/Search_Icon.png")}
+                      alt="Search_Icon"
+                      title="Search_Icon"
+                    />
+                  </div>
+                </>
+              )}
+              {showdateSection1 && (
+                <>
+                  <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="singledate"
+                      value={singledate}
+                      onChange={(e) => onDateChange2(e)}
+                      style={{
+                        width: "100%",
+                      }}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-3">
+                    <img
+                      className="img_icon_size log"
+                      onClick={() => onSearch()}
+                      src={require("../../static/images/Search_Icon.png")}
+                      alt="Search_Icon"
+                      title="Search_Icon"
+                    />
+                  </div>
+                </>
+              )}
+              <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                <Select
+                  name="staffData"
+                  isSearchable={true}
+                  value={staffData}
+                  options={activeStaffsOpt}
+                  placeholder="Select Staff"
+                  onChange={(e) => onStaffChange(e)}
+                />
+              </div>
+            </div>
+
+            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
               >
                 Refresh
               </button>
-              <Link
-                className="btn btn_green_bg float-right"
-                to="#"
-                onClick={() => onClickHandler()}
-              >
-                Add Leave
-              </Link>
+              {(user.userGroupName && user.userGroupName === "Administrator") ||
+              user.userGroupName === "Super Admin" ||
+              user.userGroupName === "Clarical Admins" ? (
+                <Link
+                  className="btn btn_green_bg float-right"
+                  to="#"
+                  onClick={() => onClickHandler()}
+                >
+                  Add Leave
+                </Link>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
           <div className="row">
@@ -205,7 +396,7 @@ const AllLeave = ({
           <div className="row col-md-12 col-lg-12 col-sm-12 col-12  ">
             <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
-              <strong>Absenties:{allEmployee.length}</strong>
+              <strong>Absenties:{leaves.length}</strong>
             </div>
           </div>
         </section>
