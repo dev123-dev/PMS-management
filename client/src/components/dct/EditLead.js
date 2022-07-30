@@ -28,7 +28,7 @@ const EditLead = ({
     emailId: "",
     phone1: "",
     phone2: "",
-    address: "",
+    dctLeadAddress: "",
     importantPoints: "",
     isSubmitted: false,
   });
@@ -40,7 +40,7 @@ const EditLead = ({
     phone1,
     clientName,
     phone2,
-    address,
+    dctLeadAddress,
     importantPoints,
     isSubmitted,
   } = formData;
@@ -81,12 +81,13 @@ const EditLead = ({
       companyName: companyName,
       emailId: emailId,
       website: website,
-      address: address,
+      dctLeadAddress: dctLeadAddress,
       phone1: phone1,
       clientName: clientName,
       phone2: phone2,
       importantPoints: importantPoints,
       countryId: countryId,
+      dctLeadEditedById: user._id,
     };
     console.log(finalData);
     // addProject(finalData);
@@ -238,14 +239,14 @@ const EditLead = ({
                     <label className="label-control">Address :</label>
 
                     <textarea
-                      name="address"
+                      name="dctLeadAddress"
                       on
-                      id="address"
+                      id="dctLeadAddress"
                       className="textarea form-control"
                       rows="3"
                       placeholder=" Address"
                       style={{ width: "100%" }}
-                      value={address}
+                      value={dctLeadAddress}
                       onChange={(e) => onInputChange(e)}
                     ></textarea>
                   </div>
