@@ -140,7 +140,6 @@ const AddLeave = ({
     setpaymentname(employeename);
   };
 
-  // console.log(dates);
   //Required Validation ends
   const onSubmit = (e) => {
     let leaveDateVals = [];
@@ -160,7 +159,6 @@ const AddLeave = ({
       leaveReason: leaveReason,
       empId: employeeId,
     };
-    console.log(finalData);
     addLeaves(finalData);
     onAddDistrictModalChange(true);
   };

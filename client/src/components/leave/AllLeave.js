@@ -10,6 +10,7 @@ import {
   getAllStaff,
   getFilterEmpDetails,
   getALLLeaves,
+  getLeavesStaff,
 } from "../../actions/user";
 import AddLeave from "./AddLeave";
 // import EditEmployeeDetails from "./EditEmployeeDetails";
@@ -18,11 +19,12 @@ import AddLeave from "./AddLeave";
 const AllLeave = ({
   auth: { allUser, isAuthenticated, user, users },
   settings: { allStaffName },
-  user: { allEmployee, leaves },
+  user: { allEmployee, leaves, staffLeaves },
   getAllEmployee,
   getFilterEmpDetails,
   getAllStaff,
   getALLLeaves,
+  getLeavesStaff,
 }) => {
   useEffect(() => {
     getAllEmployee();
@@ -36,6 +38,9 @@ const AllLeave = ({
   useEffect(() => {
     getALLLeaves();
   }, [getALLLeaves]);
+  useEffect(() => {
+    getLeavesStaff();
+  }, [getLeavesStaff]);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -82,26 +87,23 @@ const AllLeave = ({
   };
   const [staffData, setstaffData] = useState("");
 
-  const activeStaffsOpt = [];
-  allStaffName &&
-    allStaffName.map((staffsData) =>
-      activeStaffsOpt.push({
-        label: staffsData.empFullName,
-        value: staffsData._id,
-      })
-    );
-  const onStaffChange = (e) => {
-    setstaffData(e);
-    const finalData = {
-      empNameSearch: e.value,
-    };
-
-    getFilterEmpDetails(finalData);
-  };
-
   const onClickReset = () => {
     getFilterEmpDetails("");
     setstaffData("");
+
+    getALLLeaves("");
+    setFormData({
+      Dateselectmode: DateMethods[0],
+    });
+    getLeavesStaff("");
+    setSelDateDataVal("");
+    setsingledate(new Date().toISOString().split("T")[0]);
+    setSelectedDate(new Date().toISOString().split("T")[0]);
+    setShowHide({
+      ...showHide,
+      showdateSection: false,
+      showdateSection1: true,
+    });
   };
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
@@ -135,17 +137,49 @@ const AllLeave = ({
   //
   const [selDateDataVal, setSelDateDataVal] = useState();
   const onDateChange2 = (e) => {
-    // setClientData("");
+    setstaffData("");
     setsingledate(e.target.value);
   };
   const [todate, settodate] = useState("");
   const onDateChange1 = (e) => {
     settodate(e.target.value);
   };
+  const onSearchmultidate = (e) => {
+    let selDateData = {
+      fromdate: fromdate,
+      todate: todate,
+      dateType: "Multi Date",
+    };
+    setSelDateDataVal(selDateData);
+    getALLLeaves(selDateData);
+    getLeavesStaff(selDateData);
+  };
 
   const [fromdate, setfromdate] = useState("");
   const onDateChange = (e) => {
     setfromdate(e.target.value);
+  };
+
+  const activeStaffsOpt = [];
+  allStaffName &&
+    staffLeaves.map((staffsData) =>
+      activeStaffsOpt.push({
+        label: staffsData.empFullName,
+        value: staffsData._id,
+      })
+    );
+  const onStaffChange = (e) => {
+    setstaffData(e);
+    const finalData = {
+      selDate: singledate,
+      fromdate: fromdate,
+      todate: todate,
+      dateType: Dateselectmode.value ? Dateselectmode.value : "Single Date",
+      empId: e.value,
+    };
+    getFilterEmpDetails(finalData);
+    console.log(finalData);
+    getALLLeaves(finalData);
   };
 
   const onSearch = (e) => {
@@ -154,19 +188,8 @@ const AllLeave = ({
       dateType: "Single Date",
     };
     setSelDateDataVal(selDateData);
-    // getDailyJobsheetProjectDeatils(selDateData);
-    // getDailyjobSheetClients(selDateData);
-  };
-
-  const onSearchmultidate = (e) => {
-    let selDateData = {
-      fromdate: fromdate,
-      todate: todate,
-      dateType: "Multi Date",
-    };
-    setSelDateDataVal(selDateData);
-    // getDailyJobsheetProjectDeatils(selDateData);
-    // getDailyjobSheetClients(selDateData);
+    getALLLeaves(selDateData);
+    getLeavesStaff(selDateData);
   };
 
   const [showHide, setShowHide] = useState({
@@ -175,7 +198,9 @@ const AllLeave = ({
   });
   const { showdateSection, showdateSection1 } = showHide;
   const onDateModeChange = (e) => {
-    // setClientData("");
+    setstaffData("");
+    setsingledate(new Date().toISOString().split("T")[0]);
+    setSelectedDate(new Date().toISOString().split("T")[0]);
     if (e) {
       setFormData({
         ...formData,
@@ -528,6 +553,7 @@ AllLeave.propTypes = {
   getAllEmployee: PropTypes.func.isRequired,
   getFilterEmpDetails: PropTypes.func.isRequired,
   getALLLeaves: PropTypes.func.isRequired,
+  getLeavesStaff: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -540,4 +566,5 @@ export default connect(mapStateToProps, {
   getAllStaff,
   getFilterEmpDetails,
   getALLLeaves,
+  getLeavesStaff,
 })(AllLeave);

@@ -11,6 +11,7 @@ import {
   USER_GROUPS,
   LAST_ENTERED_EMP_CODE,
   LEAVES,
+  GET_LEAVES_STAFF,
 } from "./types";
 
 const config = {
@@ -221,9 +222,9 @@ export const addLeaves = (finalData) => async (dispatch) => {
 
 //All Leaves
 
-export const getALLLeaves = () => async (dispatch) => {
+export const getALLLeaves = (selDateData) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/users/get-all-Leaves");
+    const res = await axios.post("/api/users/get-all-Leaves", selDateData);
     // localStorage.setItem("allUserGroupData", JSON.stringify(res.data));
     dispatch({
       type: LEAVES,
@@ -232,6 +233,20 @@ export const getALLLeaves = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: ERROR,
+    });
+  }
+};
+
+export const getLeavesStaff = (selDateData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/users/get-leaves-staff", selDateData);
+    dispatch({
+      type: GET_LEAVES_STAFF,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
     });
   }
 };

@@ -140,7 +140,6 @@ router.post("/edit-employee", async (req, res) => {
       }
     );
     res.json(updateEmployeeDetails);
-    // console.log(updateEmployeeDetails);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
@@ -255,6 +254,59 @@ router.get("/get-all-staff-name", async (req, res) => {
   }
 });
 
+router.post("/get-leaves-staff", async (req, res) => {
+  const { selDate, fromdate, todate, dateType } = req.body;
+  let query = {};
+  if (dateType === "Multi Date") {
+    query = {
+      leaveDate: {
+        $gte: fromdate,
+        $lte: todate,
+      },
+    };
+  } else if (dateType === "Single Date") {
+    if (selDate) selDateVal = selDate;
+    else selDateVal = new Date().toISOString().split("T")[0];
+
+    query = {
+      leaveDate: {
+        $eq: selDateVal,
+      },
+    };
+  } else {
+    query = {
+      leaveDate: {
+        $eq: new Date().toISOString().split("T")[0],
+      },
+    };
+  }
+  try {
+    const getDJSClientDetails = await EmpLeaves.aggregate([
+      {
+        $lookup: {
+          from: "empdetails",
+          localField: "empId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $unwind: "$output" },
+      { $match: query },
+      {
+        $group: {
+          _id: "$empId",
+          empFullName: { $first: "$output.empFullName" },
+        },
+      },
+      { $sort: { leaveDate: 1 } },
+    ]);
+    res.json(getDJSClientDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 router.post("/get-filter-emp-details", async (req, res) => {
   const { empNameSearch } = req.body;
   let query = {};
@@ -279,9 +331,16 @@ router.post("/get-filter-emp-details", async (req, res) => {
 //ADD Leave
 router.post("/add-leaves", async (req, res) => {
   let data = req.body;
+  let i = 0;
   try {
-    let EmpLeavesDetails = new EmpLeaves(data);
-    output = await EmpLeavesDetails.save();
+    for (i = 0; i < data.leaveDateVals.length; i++) {
+      data = {
+        ...req.body,
+        leaveDate: data.leaveDateVals[i],
+      };
+      let EmpLeavesDetails = new EmpLeaves(data);
+      output = await EmpLeavesDetails.save();
+    }
     res.send(output);
   } catch (err) {
     console.error(err.message);
@@ -291,6 +350,65 @@ router.post("/add-leaves", async (req, res) => {
 
 //Get All Leaves
 router.post("/get-all-Leaves", async (req, res) => {
+  const { selDate, fromdate, todate, dateType, empId } = req.body;
+  let query = {};
+  if (dateType === "Multi Date") {
+    if (empId) {
+      query = {
+        leaveDate: {
+          $gte: fromdate,
+          $lte: todate,
+        },
+        empId: {
+          $eq: mongoose.Types.ObjectId(empId),
+        },
+      };
+    } else {
+      query = {
+        leaveDate: {
+          $gte: fromdate,
+          $lte: todate,
+        },
+      };
+    }
+  } else if (dateType === "Single Date") {
+    if (selDate) selDateVal = selDate;
+    else selDateVal = new Date().toISOString().split("T")[0];
+
+    if (empId) {
+      query = {
+        leaveDate: {
+          $eq: selDateVal,
+        },
+        empId: {
+          $eq: mongoose.Types.ObjectId(empId),
+        },
+      };
+    } else {
+      query = {
+        leaveDate: {
+          $eq: selDateVal,
+        },
+      };
+    }
+  } else {
+    if (empId) {
+      query = {
+        leaveDate: {
+          $eq: new Date().toISOString().split("T")[0],
+        },
+        empId: {
+          $eq: mongoose.Types.ObjectId(empId),
+        },
+      };
+    } else {
+      query = {
+        leaveDate: {
+          $eq: new Date().toISOString().split("T")[0],
+        },
+      };
+    }
+  }
   try {
     const allEmpLeves = await EmpLeaves.aggregate([
       {
@@ -302,6 +420,8 @@ router.post("/get-all-Leaves", async (req, res) => {
         },
       },
       { $unwind: "$output" },
+      { $match: query },
+      { $sort: { leaveDate: 1 } },
     ]);
     res.json(allEmpLeves);
   } catch (err) {
