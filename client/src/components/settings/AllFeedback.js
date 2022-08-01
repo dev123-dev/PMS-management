@@ -93,7 +93,7 @@ const AllFeedback = ({
       handleStatusModalClose();
     }
   };
-
+  console.log(allFeedback);
   const [userDatas1, setUserDatas1] = useState(null);
 
   const [statusValue, setStatusValue] = useState("");
@@ -170,7 +170,13 @@ const AllFeedback = ({
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ? (
-                          <th>OP</th>
+                          <>
+                            {projectStatusData.value === "Pending" ? (
+                              <th>OP</th>
+                            ) : (
+                              <></>
+                            )}
+                          </>
                         ) : (
                           <></>
                         )}
@@ -197,15 +203,24 @@ const AllFeedback = ({
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
                               user.userGroupName === "Super Admin" ? (
-                                <td>
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(allFeedback, idx)}
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  />
-                                </td>
+                                <>
+                                  {allFeedback.feedbackStatus &&
+                                  allFeedback.feedbackStatus === "Pending" ? (
+                                    <td>
+                                      <img
+                                        className="img_icon_size log"
+                                        onClick={() =>
+                                          onUpdate(allFeedback, idx)
+                                        }
+                                        src={require("../../static/images/edit_icon.png")}
+                                        alt="Edit"
+                                        title="Edit"
+                                      />
+                                    </td>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </>
                               ) : (
                                 <></>
                               )}

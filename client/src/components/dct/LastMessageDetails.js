@@ -43,25 +43,20 @@ const LastMessageDetails = ({
     <Spinner />
   ) : (
     <Fragment>
-      <form
+      {/* <form
         className="row col-lg-12 col-md-12 col-sm-12 col-12"
         onSubmit={(e) => onSubmit(e)}
         autoComplete="off"
-      >
-        <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
-          <strong>
-            <label>Last Message Details</label>
-          </strong>
-        </div>
-        <div className="col-lg-8 col-md-12 col-sm-12 col-12 ">
-          <input
-            type="submit"
-            name="submit"
-            value="History"
-            className="btn sub_form btn_continue  float-right"
-          />
-        </div>
-      </form>
+      > */}
+      <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+        <input
+          type="submit"
+          name="submit"
+          value="History"
+          className="btn sub_form btn_continue  float-right"
+        />
+      </div>
+      {/* </form> */}
     </Fragment>
   );
 };

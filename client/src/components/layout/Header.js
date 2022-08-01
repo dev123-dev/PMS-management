@@ -16,7 +16,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const handleLogoutModalShow = () => setShowLogout(true);
   //client in websocket
   //SLAP IP
-  const client = new w3cwebsocket("ws://192.168.6.216:8000");
+  const client = new w3cwebsocket("ws://192.168.6.159:8000");
   const LogoutModalClose = () => {
     handleLogoutModalClose();
     logout();
@@ -91,7 +91,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   user &&
                   ((user.userGroupName &&
                     user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
+                    user.userGroupName === "Super Admin" ||
+                    user.userGroupName === "Clarical Admins") ? (
                     <NavLink
                       to="/daily-job-sheet"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -102,7 +103,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-
                 <NavItem>
                   {!loading &&
                   isAuthenticated &&
@@ -137,7 +137,41 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-                <h1>HII</h1>
+
+                <NavItem>
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
+                    <NavLink
+                      to="/all-prospects"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      All Prospectus
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
+                <NavItem>
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
+                    <NavLink
+                      to="/add-lead"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Add Lead
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>
@@ -197,15 +231,18 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                               <Link to="/change-password">Change Password</Link>
                             </li>
                             <li>
-                              <Link to="/all-trash">Trash</Link>
+                              <Link to="/all-Region">All Region</Link>
                             </li>
                             <li>
-                              <Link to="/all-Region">All Region</Link>
+                              <Link to="/all-trash">Trash</Link>
                             </li>
                           </Fragment>
                         ) : (
                           <></>
                         )}
+                        <li>
+                          <Link to="/all-leave">Leave Management</Link>
+                        </li>
                         <li>
                           <Link to="/all-feedback">All Feedback</Link>
                         </li>

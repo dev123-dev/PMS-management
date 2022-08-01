@@ -6,21 +6,20 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import {
-  getAllchanges,
   getAmendmentProjectDeatils,
   AddAmendmentHistory,
   getLastAmendmentHistoryDeatils,
   updateProjectTrack,
 } from "../../actions/projects";
+import AmendLastDiscussion from "./AmendLastDiscussion";
+import AmendAddDiscussion from "./AmendAddDiscussion";
 
 import AmendHistory from "./AmendHistory";
 const Amendments = ({
   auth: { isAuthenticated, user, users },
   project: { amendentHistory, amendentLastHistory, amendmentProjects },
   getAmendmentProjectDeatils,
-  AddAmendmentHistory,
   getLastAmendmentHistoryDeatils,
-  updateProjectTrack,
 }) => {
   useEffect(() => {
     getAmendmentProjectDeatils();
@@ -28,30 +27,14 @@ const Amendments = ({
   //formData
   const [formData, setFormData] = useState({
     projectStatusCategory: "",
-    discussionPointsNotes: "",
-    discussionPoint: "",
-    radiodata: "",
     isSubmitted: false,
   });
-
-  let getLastAmendment = JSON.parse(
-    localStorage.getItem("getLastAmendmentDetails")
-  );
-  // console.log("getLastAmendmentDetails", getLastAmendment);
 
   const StatusCategory = [
     { value: "Resolved", label: "Resolved" },
     { value: "UnResolved", label: "UnResolved" },
   ];
-  const {
-    radiodata,
-    projectStatusCategory,
-    discussionPointsNotes,
-    isSubmitted,
-  } = formData;
-  const onInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const { projectStatusCategory } = formData;
 
   const onStatuscatChange = (e) => {
     if (e) {
@@ -74,84 +57,35 @@ const Amendments = ({
     let setTypeData = e.value;
     getAmendmentProjectDeatils({ setTypeData: setTypeData });
   };
-  const [ProjLastchnage, setProjLastchnage] = useState(null);
+  const [ProjLastchnage, setProjLastchnage] = useState();
   const [ProjRestore, setProjRestore] = useState();
+
   const onClickHandler = (amendmentProjects, idx) => {
-    localStorage.removeItem("getLastAmendment");
-    // setProjLastchnage(null);
+    localStorage.removeItem("getLastAmendmentDetails");
+    setProjLastchnage(null);
+    setProjRestore(amendmentProjects);
+    if (amendmentProjects !== "") {
+      const lastAmendment = {
+        projectId: amendmentProjects.projectId,
+        amendmentCounter: amendmentProjects.amendmentCounter,
+      };
+      getLastAmendmentHistoryDeatils(lastAmendment);
+    }
     setShowHide({
       ...showHide,
       showhistory_submitSection: true,
     });
-    setProjRestore(amendmentProjects);
-    getLastAmendmentHistoryDeatils({ projectId: amendmentProjects.projectId });
   };
-  if (getLastAmendment && !ProjLastchnage) {
-    setProjLastchnage(
-      getLastAmendment && getLastAmendment.discussionPoints
-        ? getLastAmendment.discussionPoints
-        : ""
-    );
-  }
+
   const [showHide, setShowHide] = useState({
     showhistory_submitSection: false,
   });
   const [showHide1, setShowHide1] = useState({
     showunresolvedSection: true,
   });
-  console.log("ProjRestore", ProjRestore);
+
   const { showhistory_submitSection } = showHide;
   const { showunresolvedSection } = showHide1;
-  const onRadioSelect = (radiodata) => {
-    if (radiodata === "Resolved") {
-      setFormData({
-        ...formData,
-        radiodata: "Resolved",
-        major: "",
-      });
-    } else if (radiodata === "UnResolved") {
-      setFormData({
-        ...formData,
-        Resolved: "",
-        radiodata: "UnResolved",
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [radiodata]: 1,
-      });
-    }
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const finalData = {
-      projectId: ProjRestore ? ProjRestore.projectId : "",
-      projectName: ProjRestore.projectName,
-      discussionPoints: discussionPointsNotes,
-      amendmentType: radiodata,
-      amendmentCounter: ProjRestore.amendmentCounter,
-      amendmentEnteredById: user._id,
-      amendmentEnteredByName: user.empFullName,
-    };
-    AddAmendmentHistory(finalData);
-    if (radiodata === "Resolved") {
-      const updateData = {
-        projectId: ProjRestore ? ProjRestore.projectId : "",
-        amendmentType: radiodata,
-      };
-      // console.log(updateData);
-      updateProjectTrack(updateData);
-    }
-
-    setFormData({
-      ...formData,
-      projectId: "",
-      projectName: "",
-      discussionPointsNotes: "",
-      radiodata: "",
-    });
-  };
 
   const onHistoryModalChange = (e) => {
     if (e) {
@@ -161,16 +95,8 @@ const Amendments = ({
 
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const handleHistoryModalClose = () => setShowHistoryModal(false);
-
   const [userData, setUserData] = useState(ProjRestore);
-  const onEdit = (e) => {
-    setShowHistoryModal(true);
-    const finalData = {
-      projectId: ProjRestore ? ProjRestore.projectId : "",
-      amendmentCounter: ProjRestore.amendmentCounter,
-    };
-    setUserData(finalData);
-  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -253,10 +179,32 @@ const Amendments = ({
               </section>
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 col-12  ">
-              <div className="col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePart2divHeight">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+                  <label className="sidePartHeading ">Amendment</label>
+                  <AmendAddDiscussion ProjRestoreVal={ProjRestore} />
+                </div>
+              </div>
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePart2divHeight">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+                  <label className="sidePartHeading ">
+                    Amendment Last Discussion
+                  </label>
+                  <AmendLastDiscussion
+                    ProjLastchnageVal={ProjLastchnage}
+                    ProjRestoreVal={ProjRestore}
+                    setProjLastchnageFunc={setProjLastchnage}
+                  />
+                </div>
+              </div>
+
+              {/* <div className="col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
                 {showunresolvedSection && (
                   <form onSubmit={(e) => onSubmit(e)}>
-                    <div className="row col-lg-12 col-md-6 col-sm-6 col-12 ">
+                    <div
+                      className="row col-lg-12 col-md-6 col-sm-6 col-12 "
+                      style={{ height: "37vh" }}
+                    >
                       <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                         <label className="label-control">Resolved : </label>
                         &emsp;
@@ -311,9 +259,12 @@ const Amendments = ({
                     </div>
                   </form>
                 )}
-              </div>
+              </div> */}
 
-              <div className="row col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
+              {/* <div
+                className="row col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2"
+                style={{ height: "40vh" }}
+              >
                 <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                   {showhistory_submitSection && (
                     <button
@@ -338,7 +289,7 @@ const Amendments = ({
                     disabled
                   ></textarea>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>

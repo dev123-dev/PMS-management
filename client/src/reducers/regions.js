@@ -5,6 +5,7 @@ import {
   ACTIVE_COUNTRY,
   ACTIVE_STATE,
   ACTIVE_DISTRICTS,
+  STATES,
 } from "../actions/types";
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   activeCountry: [],
   activeState: [],
   activeDistrics: [],
+  statesData: [],
 };
 
 const regions = (state = initialState, action) => {
@@ -49,6 +51,12 @@ const regions = (state = initialState, action) => {
         ...state,
         activeDistrics: payload,
       };
+    case STATES:
+      return {
+        ...state,
+        statesData: payload,
+      };
+
     default:
       return state;
   }

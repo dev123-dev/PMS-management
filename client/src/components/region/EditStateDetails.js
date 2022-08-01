@@ -6,18 +6,19 @@ import Spinner from "../layout/Spinner";
 
 const EditStateDetails = ({
   auth: { isAuthenticated, user, users, loading },
-  //   getStates,
+  stateeditdata,
   EditStateData,
   districts,
+  onUpdateModalChange,
 }) => {
   //   useEffect(() => {
   //     getStates();
   //   }, [getStates]);
-
+  console.log(stateeditdata);
   //formData
   const [formData, setFormData] = useState({
-    stateName: "",
-    isSubmitted: false,
+    stateName:
+      stateeditdata && stateeditdata.stateName ? stateeditdata.stateName : "",
   });
   const { stateName } = formData;
 
@@ -28,13 +29,14 @@ const EditStateDetails = ({
   const onUpdate = (e) => {
     // e.preventDefault();
     const finalData = {
-      //  recordId: allClientdata ? allClientdata._id : "",
+      recordId: stateeditdata ? stateeditdata._id : "",
       stateName: stateName,
       stateEditedById: user._id,
       stateEditedDateTime: user.userName,
     };
     console.log(finalData);
-    // EditStateData(finalData);
+    EditStateData(finalData);
+    onUpdateModalChange(true);
     // setFormData({
     //   ...formData,
     //   stateName: "",
@@ -58,19 +60,6 @@ const EditStateDetails = ({
               onChange={(e) => onInputChange(e)}
               required
             />
-          </div>
-          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> State Code * :</label>
-            {/* <input
-              type="Number"
-              name="stateName"
-              value={stateName}
-              className="form-control"
-              onChange={(e) => onInputChange(e)}
-              onKeyDown={(e) =>
-                (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-              }
-            /> */}
           </div>
         </div>
 

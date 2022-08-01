@@ -10,6 +10,7 @@ import {
   ACTIVE_STATE,
   ACTIVE_DISTRICTS,
   ACTIVE_COUNTRY,
+  STATES,
 } from "./types";
 
 const config = {
@@ -169,7 +170,11 @@ export const deactiveDistrictsData = (finalData) => async (dispatch) => {
     dispatch({
       type: SET_LOADING_TRUE,
     });
-    await axios.post("/api/regions/deactive-state-details", finalData, config);
+    await axios.post(
+      "/api/regions/deactive-districts-details",
+      finalData,
+      config
+    );
     dispatch(getAllDistricts());
     dispatch({
       type: SET_LOADING_FALSE,
@@ -257,6 +262,20 @@ export const getActiveDistricts = () => async (dispatch) => {
     const res = await axios.post("/api/regions/get-active-districts");
     dispatch({
       type: ACTIVE_DISTRICTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getStates = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/regions/get-state");
+    dispatch({
+      type: STATES,
       payload: res.data,
     });
   } catch (err) {

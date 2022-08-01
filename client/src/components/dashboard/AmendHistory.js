@@ -16,8 +16,6 @@ const AmendHistory = ({
     getAmendmentHistoryDeatils(amenddata);
   }, [getAmendmentHistoryDeatils]);
 
-  console.log("amendentHistory", amendentHistory);
-
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (

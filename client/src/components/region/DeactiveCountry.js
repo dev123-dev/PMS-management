@@ -9,17 +9,19 @@ const DeactiveCountry = ({
   deactiveCountryData,
   Projectdeavtivedata,
   onDeactiveModalChange,
-  deactiveProjectData,
+  deactivecountrydata,
 }) => {
   //formData
   // console.log("data", Projectdeavtivedata);
   const [formData, setFormData] = useState({
-    countryName: "",
-    countryCode: "",
-    // clientName:
-    //   clientdeactivedata && clientdeactivedata.clientName
-    //     ? clientdeactivedata.clientName
-    //     : "",
+    countryName:
+      deactivecountrydata && deactivecountrydata.countryName
+        ? deactivecountrydata.countryName
+        : "",
+    countryCode:
+      deactivecountrydata && deactivecountrydata.countryCode
+        ? deactivecountrydata.countryCode
+        : "",
     isSubmitted: false,
   });
 
@@ -31,17 +33,17 @@ const DeactiveCountry = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      recordId: Projectdeavtivedata ? Projectdeavtivedata._id : "",
+      recordId: deactivecountrydata ? deactivecountrydata._id : "",
       countryName: countryName,
       countryCode: countryCode,
+      countryStatus: "Deactive",
       countryDeactivateReason: countryDeactivateReason,
       countryDeactivateById: user._id,
-      countryDeactivateDateTime: Date.now(),
+      countryDeactivateDateTime: new Date().toLocaleString(),
     };
     console.log(finalData);
-    // console.log(finalData);
-    // deactiveCountryData(finalData);
-    // onDeactiveModalChange(true);
+    deactiveCountryData(finalData);
+    onDeactiveModalChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -50,17 +52,17 @@ const DeactiveCountry = ({
     <Fragment>
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control">
               Country Name : {countryName}
             </label>
           </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control">
               Country Code : {countryCode}
             </label>
           </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
             <label className="label-control">Deactivate Reason:</label>
 
             <textarea

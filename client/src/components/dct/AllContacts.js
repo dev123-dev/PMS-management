@@ -43,13 +43,24 @@ const AllContacts = ({
     <Spinner />
   ) : (
     <Fragment>
-      <form className="row" onSubmit={(e) => onSubmit(e)} autoComplete="off">
-        <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
-          <strong>
-            <label>All Contacts</label>
-          </strong>
-        </div>
-      </form>
+      {/* <form
+        className="row col-lg-12 col-md-12 col-sm-12 col-12"
+        onSubmit={(e) => onSubmit(e)}
+        autoComplete="off"
+      > */}
+      <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+        {/* <table
+          className="tabllll table table-bordered table-striped table-hover smll_row"
+          id="datatable2"
+        >
+          <thead>
+            <tr>
+              <th style={{ width: "100%" }}>Contacts</th>
+            </tr>
+          </thead>
+        </table> */}
+      </div>
+      {/* </form> */}
     </Fragment>
   );
 };

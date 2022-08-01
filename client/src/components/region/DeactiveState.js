@@ -8,16 +8,15 @@ const DeactiveState = ({
   auth: { isAuthenticated, user, users, loading },
   Projectdeavtivedata,
   onDeactiveModalChange,
+  statedeavtivedata,
   deactiveStateData,
 }) => {
   //formData
-  // console.log("data", Projectdeavtivedata);
+  //console.log("data", statedeavtivedata);
   const [formData, setFormData] = useState({
-    stateName: "",
-
-    clientFolderName:
-      Projectdeavtivedata && Projectdeavtivedata.projectName
-        ? Projectdeavtivedata.clientFolderName
+    stateName:
+      statedeavtivedata && statedeavtivedata.stateName
+        ? statedeavtivedata.stateName
         : "",
 
     isSubmitted: false,
@@ -30,13 +29,14 @@ const DeactiveState = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      //    recordId: Projectdeavtivedata ? Projectdeavtivedata._id : "",
+      recordId: statedeavtivedata ? statedeavtivedata._id : "",
       stateDeactivateReason: stateDeactivateReason,
+      stateStatus: "Deactive",
       stateDeactiveById: user._id,
-      stateDeactivateDateTime: Date.now(),
+      stateDeactivateDateTime: new Date().toLocaleString(),
     };
     console.log(finalData);
-    // deactiveStateData(finalData);
+    deactiveStateData(finalData);
     onDeactiveModalChange(true);
   };
 
@@ -49,10 +49,8 @@ const DeactiveState = ({
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <label className="label-control">State Name : {stateName}</label>
           </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-            {/* <label className="label-control">State Code : {clientName}</label> */}
-          </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
             <label className="label-control">Deactivate Reason:</label>
 
             <textarea

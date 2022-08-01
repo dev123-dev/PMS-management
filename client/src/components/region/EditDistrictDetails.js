@@ -7,39 +7,61 @@ import Spinner from "../layout/Spinner";
 
 const EditDistrictDetails = ({
   auth: { isAuthenticated, user, users, loading },
-  //   getStates,
   EditDistrictData,
+  getStates,
+  onUpdateModalChange,
   districts,
+  statesDataVal,
 }) => {
-  //   useEffect(() => {
-  //     getStates();
-  //   }, [getStates]);
-
   //formData
   const [formData, setFormData] = useState({
-    districtName: "",
-    // districtName:
-    //   allClientdata && allClientdata.districtName
-    //     ? allClientdata.districtName
-    //     : "",
+    districtName:
+      districts && districts.districtName ? districts.districtName : "",
     isSubmitted: false,
   });
   const { districtName } = formData;
-
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const allstates = [];
+  statesDataVal &&
+    statesDataVal.map((state) => {
+      allstates.push({
+        stateId: state._id,
+        label: state.stateName,
+        value: state.stateName,
+      });
+    });
+
+  const [state, setStateData] = useState(
+    districts
+      ? allstates.length !== 0
+        ? allstates &&
+          allstates.filter((x) => x.stateId === districts.stateId)[0]
+        : ""
+      : ""
+  );
+  const [stateId, setStateID] = useState(districts.stateId);
+
+  const onStateChange = (e) => {
+    var stateId = "";
+    setStateData(e);
+    stateId = e.stateId;
+    setStateID(stateId);
   };
 
   const onUpdate = (e) => {
     // e.preventDefault();
     const finalData = {
-      //  recordId: allClientdata ? allClientdata._id : "",
+      recordId: districts ? districts._id : "",
+      stateId: stateId,
       districtName: districtName,
       districtEditedById: user._id,
       districtEditedDateTime: user.userName,
     };
-    console.log(finalData);
-    // EditDistrictData(finalData);
+    // console.log(finalData);
+    EditDistrictData(finalData);
+    onUpdateModalChange(true);
     // setFormData({
     //   ...formData,
     //   stateName: "",
@@ -65,17 +87,25 @@ const EditDistrictDetails = ({
             />
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> District Code * :</label>
-            {/* <input
-              type="Number"
+            <label className="label-control">State * :</label>
+            <Select
               name="stateName"
-              value={stateName}
-              className="form-control"
-              onChange={(e) => onInputChange(e)}
-              onKeyDown={(e) =>
-                (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-              }
-            /> */}
+              options={allstates}
+              isSearchable={true}
+              value={state}
+              placeholder="Select State"
+              onChange={(e) => onStateChange(e)}
+              theme={(theme) => ({
+                ...theme,
+                height: 26,
+                minHeight: 26,
+                borderRadius: 1,
+                colors: {
+                  ...theme.colors,
+                  primary: "black",
+                },
+              })}
+            />
           </div>
         </div>
 
@@ -106,7 +136,7 @@ EditDistrictDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
   EditDistrictData: PropTypes.func.isRequired,
-  //   getStates: PropTypes.func.isRequired,
+  getStates: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -115,6 +145,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  //   getStates,
+  getStates,
   EditDistrictData,
 })(EditDistrictDetails);

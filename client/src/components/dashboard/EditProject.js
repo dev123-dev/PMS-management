@@ -65,6 +65,11 @@ const EditProject = ({
       allProjectdata && allProjectdata.projectDeadline
         ? allProjectdata.projectDeadline
         : "",
+    inputpath:
+      allProjectdata && allProjectdata.inputpath
+        ? allProjectdata.inputpath
+        : "",
+
     qty:
       allProjectdata && allProjectdata.projectQuantity
         ? allProjectdata.projectQuantity
@@ -119,6 +124,7 @@ const EditProject = ({
     projectName,
     qty,
     priority,
+    inputpath,
     deadline,
     projectTime,
     outputformat,
@@ -312,6 +318,7 @@ const EditProject = ({
         recordId: allProjectdata ? allProjectdata._id : "",
         projectName: projectName,
         clientId: clientId,
+        inputpath: inputpath.trim(),
         clientName: clientData[0] ? clientData[0].value : clientData.value,
         parentClientId: clientBelongsToId ? clientBelongsToId : null,
         parentClientName: clientBelongsTo ? clientBelongsTo : null,
@@ -501,6 +508,17 @@ const EditProject = ({
                       type="text"
                       name="projectName"
                       value={projectName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Input* :</label>
+                    <input
+                      type="text"
+                      name="inputpath"
+                      value={inputpath}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                       required

@@ -10,12 +10,28 @@ const AllStatuschange = ({
 }) => {
   //formData
   const [formData, setFormData] = useState({
+    clientType: "",
     countryName: "",
     countryCode: "",
     isSubmitted: false,
   });
-  const { countryName, countryCode } = formData;
-
+  const { countryName, countryCode, clientType } = formData;
+  const clientTypeVal = [
+    { value: "Regular", label: "Regular Client" },
+    { value: "Test", label: "Test Client" },
+  ];
+  const onClientTypeChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        clientType: e,
+      });
+      let clientTypeVal = {
+        clientTypeinfo: e.value,
+      };
+      // getActiveClientsFilter(clientTypeVal);
+    }
+  };
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -43,54 +59,58 @@ const AllStatuschange = ({
     <Spinner />
   ) : (
     <Fragment>
-      <form
-        className="row col-lg-12 col-md-12 col-sm-12 col-12"
-        onSubmit={(e) => onSubmit(e)}
-        autoComplete="off"
-      >
-        <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
-          <strong>
-            <label>Status</label>
-          </strong>
-        </div>
-        <div className="col-lg-8 col-md-11 col-sm-10 col-10 ">
+      <div className="row col-lg-12 col-md-11 col-sm-10 col-10 ">
+        <div className="col-lg-6 col-md-11 col-sm-10 col-10 ">
+          <label className="label-control"> Status :</label>
           <Select
-            name="projectStatusCategory"
-            // options={StatusCategory}
+            name="clientType"
             isSearchable={true}
-            // value={projectStatusCategory}
+            options={clientTypeVal}
+            value={clientType}
             placeholder="Select"
-            // onChange={(e) => onStatuscatChange(e)}
-            theme={(theme) => ({
-              ...theme,
-              height: 26,
-              minHeight: 26,
-              borderRadius: 1,
-              colors: {
-                ...theme.colors,
-                primary: "black",
-              },
-            })}
+            onChange={(e) => onClientTypeChange(e)}
           />
         </div>
-      </form>
+        <div className=" col-lg-4 col-md-11 col-sm-10 col-10 ">
+          <label className="label-control"> Status :</label>
+          <input
+            type="date"
+            placeholder="dd/mm/yyyy"
+            className="form-control cpp-input datevalidation"
+            name="todate"
+            //    value={todate}
+            //   onChange={(e) => onDateChange1(e)}
+            style={{
+              width: "110%",
+            }}
+            required
+          />
+        </div>
+        <div className="col-lg-8 col-md-11 col-sm-10 col-10 mb-5">
+          <label className="label-control"> Notes :</label>
+          <textarea
+            name="clientAddress"
+            id="clientAddress"
+            className="textarea form-control"
+            rows="2"
+            placeholder="Client Address"
+            style={{ width: "100%" }}
+            //  value={clientAddress}
+            onChange={(e) => onInputChange(e)}
+          ></textarea>
+        </div>
+        {/* </form> */}
+      </div>
     </Fragment>
   );
 };
 
 AllStatuschange.propTypes = {
   auth: PropTypes.object.isRequired,
-  area: PropTypes.object.isRequired,
-  //   AddState: PropTypes.func.isRequired,
-  savedMessage: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  area: state.area,
-  savedMessage: state.auth.savedMessage,
 });
 
-export default connect(mapStateToProps, {
-  //   AddState,
-})(AllStatuschange);
+export default connect(mapStateToProps, {})(AllStatuschange);

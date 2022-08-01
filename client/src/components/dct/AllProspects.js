@@ -5,173 +5,50 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-import {
-  getAllchanges,
-  getAmendmentProjectDeatils,
-  AddAmendmentHistory,
-  getLastAmendmentHistoryDeatils,
-  updateProjectTrack,
-} from "../../actions/projects";
+import { getDctLeadDetails } from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
-
+import EditLead from "./EditLead";
+import DeactiveLead from "./DeactiveLead";
 const AllProspects = ({
   auth: { isAuthenticated, user, users },
-  project: { amendentHistory, amendentLastHistory, amendmentProjects },
-  getAmendmentProjectDeatils,
-  AddAmendmentHistory,
-  getLastAmendmentHistoryDeatils,
-  updateProjectTrack,
+  dct: { allProspectus },
+  getDctLeadDetails,
 }) => {
   useEffect(() => {
-    getAmendmentProjectDeatils();
-  }, [getAmendmentProjectDeatils]);
-  //formData
-  const [formData, setFormData] = useState({
-    projectStatusCategory: "",
-    discussionPointsNotes: "",
-    discussionPoint: "",
-    radiodata: "",
-    isSubmitted: false,
-  });
+    getDctLeadDetails();
+  }, [getDctLeadDetails]);
+  console.log(allProspectus);
 
-  let getLastAmendment = JSON.parse(
-    localStorage.getItem("getLastAmendmentDetails")
-  );
-  // console.log("getLastAmendmentDetails", getLastAmendment);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const handleEditModalClose = () => setShowEditModal(false);
 
-  const StatusCategory = [
-    { value: "Resolved", label: "Resolved" },
-    { value: "UnResolved", label: "UnResolved" },
-  ];
-  const {
-    radiodata,
-    projectStatusCategory,
-    discussionPointsNotes,
-    isSubmitted,
-  } = formData;
-  const onInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const onStatuscatChange = (e) => {
+  const onEditModalChange = (e) => {
     if (e) {
-      setFormData({
-        ...formData,
-        projectStatusCategory: e,
-      });
-    }
-    if (e.value === "Resolved") {
-      setShowHide1({
-        ...showHide1,
-        showunresolvedSection: false,
-      });
-    } else {
-      setShowHide1({
-        ...showHide1,
-        showunresolvedSection: true,
-      });
-    }
-    let setTypeData = e.value;
-    getAmendmentProjectDeatils({ setTypeData: setTypeData });
-  };
-  const [ProjLastchnage, setProjLastchnage] = useState(null);
-  const [ProjRestore, setProjRestore] = useState();
-  const onClickHandler = (amendmentProjects, idx) => {
-    localStorage.removeItem("getLastAmendment");
-    // setProjLastchnage(null);
-    setShowHide({
-      ...showHide,
-      showhistory_submitSection: true,
-    });
-    setProjRestore(amendmentProjects);
-    getLastAmendmentHistoryDeatils({ projectId: amendmentProjects.projectId });
-  };
-  if (getLastAmendment && !ProjLastchnage) {
-    setProjLastchnage(
-      getLastAmendment && getLastAmendment.discussionPoints
-        ? getLastAmendment.discussionPoints
-        : ""
-    );
-  }
-  const [showHide, setShowHide] = useState({
-    showhistory_submitSection: false,
-  });
-  const [showHide1, setShowHide1] = useState({
-    showunresolvedSection: true,
-  });
-  console.log("ProjRestore", ProjRestore);
-  const { showhistory_submitSection } = showHide;
-  const { showunresolvedSection } = showHide1;
-  const onRadioSelect = (radiodata) => {
-    if (radiodata === "Resolved") {
-      setFormData({
-        ...formData,
-        radiodata: "Resolved",
-        major: "",
-      });
-    } else if (radiodata === "UnResolved") {
-      setFormData({
-        ...formData,
-        Resolved: "",
-        radiodata: "UnResolved",
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [radiodata]: 1,
-      });
+      handleEditModalClose();
     }
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const finalData = {
-      projectId: ProjRestore ? ProjRestore.projectId : "",
-      projectName: ProjRestore.projectName,
-      discussionPoints: discussionPointsNotes,
-      amendmentType: radiodata,
-      amendmentCounter: ProjRestore.amendmentCounter,
-      amendmentEnteredById: user._id,
-      amendmentEnteredByName: user.empFullName,
-    };
-    AddAmendmentHistory(finalData);
-    if (radiodata === "Resolved") {
-      const updateData = {
-        projectId: ProjRestore ? ProjRestore.projectId : "",
-        amendmentType: radiodata,
-      };
-      // console.log(updateData);
-      updateProjectTrack(updateData);
-    }
-
-    setFormData({
-      ...formData,
-      projectId: "",
-      projectName: "",
-      discussionPointsNotes: "",
-      radiodata: "",
-    });
+  const [userDatas, setUserDatas] = useState(null);
+  const onUpdate = (allProspectus, idx) => {
+    setShowEditModal(true);
+    setUserDatas(allProspectus);
   };
 
-  const onHistoryModalChange = (e) => {
+  const [userDatadeactive, setUserDatadeactive] = useState(null);
+  const onDeactive = (jobQueueProjects, idx) => {
+    setShowDeactiveModal(true);
+    setUserDatadeactive(jobQueueProjects);
+  };
+
+  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
+
+  const onDeactiveModalChange = (e) => {
     if (e) {
-      handleHistoryModalClose();
+      handleDeactiveModalClose();
     }
-  };
-
-  const [showHistoryModal, setShowHistoryModal] = useState(false);
-  const handleHistoryModalClose = () => setShowHistoryModal(false);
-
-  const [userData, setUserData] = useState(ProjRestore);
-  const onEdit = (e) => {
-    setShowHistoryModal(true);
-    const finalData = {
-      projectId: ProjRestore ? ProjRestore.projectId : "",
-      amendmentCounter: ProjRestore.amendmentCounter,
-    };
-    setUserData(finalData);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -186,11 +63,11 @@ const AllProspects = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="projectStatusCategory"
-                options={StatusCategory}
+                //  options={StatusCategory}
                 isSearchable={true}
-                value={projectStatusCategory}
+                //  value={projectStatusCategory}
                 placeholder="Select"
-                onChange={(e) => onStatuscatChange(e)}
+                //  onChange={(e) => onStatuscatChange(e)}
                 theme={(theme) => ({
                   ...theme,
                   height: 26,
@@ -207,11 +84,11 @@ const AllProspects = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="projectStatusCategory"
-                options={StatusCategory}
+                //  options={StatusCategory}
                 isSearchable={true}
-                value={projectStatusCategory}
+                //value={projectStatusCategory}
                 placeholder="Select"
-                onChange={(e) => onStatuscatChange(e)}
+                //  onChange={(e) => onStatuscatChange(e)}
                 theme={(theme) => ({
                   ...theme,
                   height: 26,
@@ -227,11 +104,11 @@ const AllProspects = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="projectStatusCategory"
-                options={StatusCategory}
+                //  options={StatusCategory}
                 isSearchable={true}
-                value={projectStatusCategory}
+                //  value={projectStatusCategory}
                 placeholder="Select"
-                onChange={(e) => onStatuscatChange(e)}
+                //   onChange={(e) => onStatuscatChange(e)}
                 theme={(theme) => ({
                   ...theme,
                   height: 26,
@@ -244,9 +121,18 @@ const AllProspects = ({
                 })}
               />
             </div>
+
+            <div className="col-lg-5 col-md-11 col-sm-12 col-11 py-3">
+              <button
+                className="btn btn_green_bg float-right"
+                // onClick={() => onClickReset()}
+              >
+                Refresh
+              </button>
+            </div>
           </div>
-          <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className="col-lg-8 col-md-12 col-sm-12 col-12 text-center">
+          <div className="row">
+            <div className="col-lg-8 col-md-12 col-sm-12 col-12 text-center ">
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
@@ -264,39 +150,82 @@ const AllProspects = ({
                         <th style={{ width: "13%" }}>Op</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {allProspectus &&
+                        allProspectus.map((allProspectus, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td>{idx + 1}</td>
+                              <td>{allProspectus.companyName}</td>
+                              <td>{allProspectus.website}</td>
+                              <td>{allProspectus.emailId}</td>
+                              <td>{allProspectus.website}</td>
+                              <td>{allProspectus.phone1}</td>
+
+                              <td>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onDeactive(allProspectus, idx)}
+                                  src={require("../../static/images/delete.png")}
+                                  alt="Delete Project"
+                                  title="Delete Project"
+                                />{" "}
+                                &emsp;
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onUpdate(allProspectus, idx)}
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>
             </div>
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 ">
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new">
-                <AllContacts />
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+                  <label className="sidePartHeading ">Contacts</label>
+                  <AllContacts />
+                </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
-                <AllStatuschange />
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding ">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+                  <label className="sidePartHeading ">Status</label>
+                  <AllStatuschange />
+                </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new py-2">
-                <LastMessageDetails />
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+                  <label className="sidePartHeading ">
+                    Last Message Details
+                  </label>
+                  <LastMessageDetails />
+                </div>
               </div>
             </div>
           </div>
         </section>
       </div>
       <Modal
-        show={showHistoryModal}
+        show={showEditModal}
         backdrop="static"
         keyboard={false}
-        size="lg"
+        size="xl"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header>
-          <div className="col-lg-10">
-            <h3 className="modal-title text-center">Amendment History </h3>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Edit Lead Details</h3>
           </div>
-          <div className="col-lg-2">
-            <button onClick={handleHistoryModalClose} className="close">
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handleEditModalClose} className="close">
               <img
                 src={require("../../static/images/close.png")}
                 alt="X"
@@ -306,10 +235,40 @@ const AllProspects = ({
           </div>
         </Modal.Header>
         <Modal.Body>
-          {/* <AmendHistory
-            amenddata={userData}
-            onHistoryModalChange={onHistoryModalChange}
-          /> */}
+          <EditLead
+            onEditModalChange={onEditModalChange}
+            alleditLeaddata={userDatas}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showDeactiveModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Deactivate Lead</h3>
+          </div>
+          <div className="col-lg-1">
+            <button onClick={handleDeactiveModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <DeactiveLead
+            onDeactiveModalChange={onDeactiveModalChange}
+            Leaddeavtivedata={userDatadeactive}
+          />
         </Modal.Body>
       </Modal>
     </Fragment>
@@ -318,21 +277,11 @@ const AllProspects = ({
 
 AllProspects.propTypes = {
   auth: PropTypes.object.isRequired,
-  project: PropTypes.object.isRequired,
-  getAmendmentProjectDeatils: PropTypes.func.isRequired,
-  AddAmendmentHistory: PropTypes.func.isRequired,
-  getLastAmendmentHistoryDeatils: PropTypes.func.isRequired,
-  updateProjectTrack: PropTypes.func.isRequired,
+  dct: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  project: state.project,
-  settings: state.settings,
+  dct: state.dct,
 });
 
-export default connect(mapStateToProps, {
-  getAmendmentProjectDeatils,
-  AddAmendmentHistory,
-  getLastAmendmentHistoryDeatils,
-  updateProjectTrack,
-})(AllProspects);
+export default connect(mapStateToProps, { getDctLeadDetails })(AllProspects);

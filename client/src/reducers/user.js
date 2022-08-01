@@ -2,6 +2,8 @@ import {
   ALL_EMPLOYEE,
   USER_GROUPS,
   LAST_ENTERED_EMP_CODE,
+  LEAVES,
+  GET_LEAVES_STAFF,
 } from "../actions/types";
 
 const initialState = {
@@ -15,6 +17,8 @@ const initialState = {
   allEmployee: [],
   userGroups: [],
   lastEnteredEmpCode: [],
+  leaves: [],
+  staffLeaves: [],
 };
 
 const user = (state = initialState, action) => {
@@ -35,6 +39,16 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         lastEnteredEmpCode: payload,
+      };
+    case LEAVES:
+      return {
+        ...state,
+        leaves: payload,
+      };
+    case GET_LEAVES_STAFF:
+      return {
+        ...state,
+        staffLeaves: payload,
       };
 
     default:

@@ -2,271 +2,116 @@ import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { getActiveClientsFilter } from "../../actions/client";
-import { getAllProjectStatus, addProject } from "../../actions/projects";
-import { Redirect } from "react-router-dom";
-const clientTypeVal = [
-  { value: "Regular", label: "Regular Client" },
-  { value: "Test", label: "Test Client" },
-];
-
-const priorityVal = [
-  { value: "Low", label: "Low" },
-  { value: "Mid", label: "Mid" },
-  { value: "High", label: "High" },
-];
+import { getActiveCountry } from "../../actions/regions";
 
 const EditLead = ({
   auth: { isAuthenticated, user, users, loading },
-  settings: { paymentMode },
-  client: { activeClientFilter },
-  project: { allProjectStatus },
-  getActiveClientsFilter,
-  getAllProjectStatus,
-  onAddDistrictModalChange,
-  addProject,
+  regions: { activeCountry },
+  alleditLeaddata,
+  getActiveCountry,
 }) => {
   useEffect(() => {
-    getAllProjectStatus();
-  }, [getAllProjectStatus]);
-  useEffect(() => {
-    getActiveClientsFilter();
-  }, [getActiveClientsFilter]);
-
-  const activeClientsOpt = [];
-  activeClientFilter.map((clientsData) =>
-    activeClientsOpt.push({
-      clientId: clientsData._id,
-      belongsToId: clientsData.clientBelongsToId,
-      belongsTo: clientsData.clientBelongsToName,
-      folderName: clientsData.clientFolderName,
-      label: clientsData.clientName,
-      value: clientsData.clientName,
-    })
-  );
-  const projectStatusOpt = [];
-  allProjectStatus.map((projStatusData) =>
-    projectStatusOpt.push({
-      projStatusId: projStatusData._id,
-      label: projStatusData.projectStatusType,
-      value: projStatusData.projectStatusType,
-    })
-  );
-  const [clientData, setClientData] = useState("");
-  const [clientId, setClientId] = useState("");
-  // const [clientName, setClientName] = useState("");
-  const [clientBelongsTo, setBelongsToVal] = useState("");
-  const [clientFolderName, setFolderNameVal] = useState("");
-
-  const onClientChange = (e) => {
-    //Required Validation starts
-    setError({
-      ...error,
-      clientnameIdChecker: true,
-      clientnameIdErrorStyle: { color: "#000" },
-    });
-    //Required Validation ends
-
-    setClientData(e);
-    setClientId(e.clientId);
-    setBelongsToVal(e.belongsTo);
-    setFolderNameVal(e.folderName);
-  };
-
-  const [projectStatusData, setProjectStatusData] = useState(
-    projectStatusOpt[1]
-  );
-  const onProjectStatusChange = (e) => {
-    //Required Validation starts
-    setError({
-      ...error,
-      projectstatusChecker: true,
-      projectstatusErrorStyle: { color: "#000" },
-    });
-    //Required Validation ends
-    setProjectStatusData(e);
-  };
+    getActiveCountry();
+  }, [getActiveCountry]);
+  console.log("alleditLeaddata", alleditLeaddata);
 
   //formData
   const [formData, setFormData] = useState({
-    clientType: clientTypeVal[0],
-    clientName: "",
-    projectName: "",
-    qty: "",
-    outputformat: "",
-    priority: "",
-    deadline: "",
-    projectStatus: "",
-    projectDate: "",
-    projectTime: "",
-    clientDate: "",
-    clientTime: "",
-    Instructions: "",
+    companyName:
+      alleditLeaddata && alleditLeaddata.companyName
+        ? alleditLeaddata.companyName
+        : "",
+    clientName:
+      alleditLeaddata && alleditLeaddata.clientName
+        ? alleditLeaddata.clientName
+        : "",
+    website:
+      alleditLeaddata && alleditLeaddata.website ? alleditLeaddata.website : "",
+    emailId:
+      alleditLeaddata && alleditLeaddata.emailId ? alleditLeaddata.emailId : "",
+    phone1:
+      alleditLeaddata && alleditLeaddata.phone1 ? alleditLeaddata.phone1 : "",
+    phone2:
+      alleditLeaddata && alleditLeaddata.phone2 ? alleditLeaddata.phone2 : "",
+    dctLeadAddress:
+      alleditLeaddata && alleditLeaddata.dctLeadAddress
+        ? alleditLeaddata.dctLeadAddress
+        : "",
+    importantPoints:
+      alleditLeaddata && alleditLeaddata.importantPoints
+        ? alleditLeaddata.importantPoints
+        : "",
+
     isSubmitted: false,
   });
 
   const {
-    projectName,
-    qty,
-    outputformat,
-    priority,
-    deadline,
-    projectTime,
-    clientTime,
-    Instructions,
-    clientType,
+    companyName,
+    website,
+    emailId,
+    phone1,
+    clientName,
+    phone2,
+    dctLeadAddress,
+    importantPoints,
     isSubmitted,
   } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const allcountry = [];
+  activeCountry &&
+    activeCountry.map((country) =>
+      allcountry.push({
+        countryId: country._id,
+        label: country.countryName,
+        value: country.countryName,
+      })
+    );
 
-  const onClientTypeChange = (e) => {
-    //Required Validation starts
-    setError({
-      ...error,
-      ClientIdChecker: true,
-      ClientErrorStyle: { color: "#000" },
-    });
-    //Required Validation ends
-    if (e) {
-      setFormData({
-        ...formData,
-        clientType: e,
-      });
-      let clientTypeVal = {
-        clientTypeinfo: e.value,
-      };
-      getActiveClientsFilter(clientTypeVal);
-    }
-    setClientData("");
-    setBelongsToVal("");
-    setFolderNameVal("");
-  };
+  const [country, getcountryData] = useState(
+    alleditLeaddata
+      ? allcountry.length !== 0
+        ? allcountry &&
+          allcountry.filter((x) => x.countryId === alleditLeaddata.countryId)[0]
+        : ""
+      : ""
+  );
+  const [countryId, setcountryID] = useState(alleditLeaddata.countryId);
 
-  const priorityToChange = (e) => {
-    //Required Validation starts
-    // setError({
-    //   ...error,
-    //   ClientIdChecker: true,
-    //   ClientErrorStyle: { color: "#000" },
-    // });
-    //Required Validation ends
-    if (e) {
-      setFormData({
-        ...formData,
-        priority: e,
-      });
-    }
-  };
-  const [startprojectDate, setprojectDate] = useState("");
-  const onDateChange = (e) => {
-    setprojectDate(e.target.value);
-  };
-
-  const [startclientDate, setclientDate] = useState("");
-  const onDateChange1 = (e) => {
-    setclientDate(e.target.value);
-  };
-
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleOnChange = () => {
-    setIsChecked(!isChecked);
-  };
-
-  //Required Validation Starts
-  const [error, setError] = useState({
-    clientnameIdChecker: false,
-    clientnameIdErrorStyle: {},
-
-    ClientIdChecker: true,
-    ClientErrorStyle: {},
-    projectstatusChecker: true,
-    projectstatusErrorStyle: {},
-  });
-  const {
-    clientnameIdChecker,
-    clientnameIdErrorStyle,
-
-    ClientIdChecker,
-    ClientErrorStyle,
-    projectstatusChecker,
-    projectstatusErrorStyle,
-  } = error;
-
-  const checkErrors = () => {
-    if (!ClientIdChecker) {
-      setError({
-        ...error,
-        ClientErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-
-    if (!clientnameIdChecker) {
-      setError({
-        ...error,
-        clientnameIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-
-    if (!projectstatusChecker) {
-      setError({
-        ...error,
-        projectstatusErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-
-    return true;
+  const oncountryChange = (e) => {
+    var countryId = "";
+    getcountryData(e);
+    countryId = e.countryId;
+    setcountryID(countryId);
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    if (checkErrors()) {
-      const finalData = {
-        projectName: projectName,
-        clientId: clientId,
-        clientName: clientData.value,
-        parentClientId: clientData.belongsToId,
-        parentClientName: clientBelongsTo,
-        // projectLocation:
-        clientFolderName: clientData.folderName,
-        projectPriority: priority.value,
-        // projectJobtype
-        // projectHours
-        projectNotes: Instructions,
-        projectDeadline: deadline,
-        projectStatusType: projectStatusData.value,
-        projectStatusId: projectStatusData.projStatusId,
-        // projectPrice:
-        projectQuantity: qty,
-        projectUnconfirmed: isChecked,
-        // projectVendor
-        clientTypeVal: clientType.value,
-        projectTime: projectTime,
-        projectDate: startprojectDate,
-        clientTime: clientTime,
-        outputformat: outputformat,
-        clientDate: startclientDate,
-        projectEnteredById: user._id,
-        projectEnteredByName: user.empFullName,
-        // projectEnteredDate:
-        // projectEntryTime
-        // clientType: clientType.value,
-      };
-      // console.log(finalData);
-      addProject(finalData);
-      setFormData({
-        ...formData,
+    // if (checkErrors()) {
+    const finalData = {
+      recordId: alleditLeaddata ? alleditLeaddata._id : "",
+      companyName: companyName,
+      emailId: emailId,
+      website: website,
+      dctLeadAddress: dctLeadAddress,
+      phone1: phone1,
+      clientName: clientName,
+      phone2: phone2,
+      importantPoints: importantPoints,
+      countryId: countryId,
+      dctLeadEditedById: user._id,
+    };
+    console.log(finalData);
+    // addProject(finalData);
+    //   setFormData({
+    //     ...formData,
 
-        isSubmitted: true,
-      });
-    }
+    //     isSubmitted: true,
+    //   });
+    // }
   };
   if (isSubmitted) {
     return <Redirect to="/job-queue" />;
@@ -275,108 +120,146 @@ const EditLead = ({
     <Spinner />
   ) : (
     <Fragment>
-      {" "}
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
-          <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">Edit Lead</h2>
-            <hr />
-          </div>
           <section className="sub_reg">
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new  py-3">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+                <div className="row card-new ">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Company Info</h5>
                   </div>
 
                   <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control" style={ClientErrorStyle}>
-                      Company Name :
-                    </label>
+                    <label className="label-control">Company Name* :</label>
                     <input
                       type="text"
-                      name="clientBelongsTo"
-                      value={clientBelongsTo}
+                      name="companyName"
+                      value={companyName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label
-                      className="label-control"
-                      style={clientnameIdErrorStyle}
-                    >
-                      Website Name* :
-                    </label>
+                    <label className="label-control">Website Name* :</label>
                     <input
                       type="text"
-                      name="clientBelongsTo"
-                      value={clientBelongsTo}
+                      name="website"
+                      value={website}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Email Id :</label>
                     <input
                       type="text"
-                      name="clientBelongsTo"
-                      value={clientBelongsTo}
+                      name="emailId"
+                      value={emailId}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Phone 1 :</label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      name="phone1"
+                      value={phone1}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Phone 2 :</label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      name="phone2"
+                      value={phone2}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Client Name:</label>
+                    <input
+                      type="text"
+                      name="clientName"
+                      value={clientName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
-
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Region :</label>
-                    <input
-                      type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Address :</label>
-                    <input
-                      type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
+                    <Select
+                      name="countryName"
+                      options={allcountry}
+                      isSearchable={true}
+                      value={country}
+                      placeholder="Select Region"
+                      onChange={(e) => oncountryChange(e)}
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Important Points :</label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      name="importantPoints"
+                      value={importantPoints}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
+                  </div>
+                  <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
+                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Services :</label>
+                    </div>
+                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Imaging</label>
+                      <input
+                        type="checkbox"
+                        id="Unconfirmed"
+                        // onChange={handleOnChange}
+                      />
+                    </div>
+                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">CGI</label>
+                      <input
+                        type="checkbox"
+                        id="Unconfirmed"
+                        // onChange={handleOnChange}
+                      />
+                    </div>
+                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Video Editing</label>
+                      <input
+                        type="checkbox"
+                        id="Unconfirmed"
+                        // onChange={handleOnChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12 py-2">
+                    <label className="label-control">Address :</label>
+
+                    <textarea
+                      name="dctLeadAddress"
+                      on
+                      id="dctLeadAddress"
+                      className="textarea form-control"
+                      rows="3"
+                      placeholder=" Address"
+                      style={{ width: "100%" }}
+                      value={dctLeadAddress}
+                      onChange={(e) => onInputChange(e)}
+                    ></textarea>
                   </div>
                 </div>
               </div>
@@ -425,21 +308,12 @@ const EditLead = ({
 
 EditLead.propTypes = {
   auth: PropTypes.object.isRequired,
-  settings: PropTypes.object.isRequired,
-  client: PropTypes.object.isRequired,
-  getAllProjectStatus: PropTypes.func.isRequired,
-  getActiveClientsFilter: PropTypes.func.isRequired,
+  regions: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  settings: state.settings,
-  client: state.client,
-  project: state.project,
+  regions: state.regions,
 });
 
-export default connect(mapStateToProps, {
-  getAllProjectStatus,
-  getActiveClientsFilter,
-  addProject,
-})(EditLead);
+export default connect(mapStateToProps, { getActiveCountry })(EditLead);

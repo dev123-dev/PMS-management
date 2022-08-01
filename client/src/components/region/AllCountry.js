@@ -16,7 +16,7 @@ const AllCountry = ({
     getAllCountries();
   }, [getAllCountries]);
 
-  console.log("allCountries", allCountries);
+  // console.log("allCountries", allCountries);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -76,7 +76,7 @@ const AllCountry = ({
               Add Country
             </button>
 
-            <button
+            {/* <button
               className="btn btn_green_bg float-right"
               onClick={() => onEdit()}
             >
@@ -88,7 +88,7 @@ const AllCountry = ({
               onClick={() => onDeactive()}
             >
               Deactive Country
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -114,7 +114,23 @@ const AllCountry = ({
                           <tr key={idx}>
                             <td>{countryData.countryName}</td>
                             <td>{countryData.countryCode}</td>
-                            <td></td>
+                            <td>
+                              {" "}
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onDeactive(countryData, idx)}
+                                src={require("../../static/images/delete.png")}
+                                alt="Deactivate"
+                                title="Deactivate"
+                              />
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onEdit(countryData, idx)}
+                                src={require("../../static/images/edit_icon.png")}
+                                alt="Edit"
+                                title="Edit"
+                              />
+                            </td>
                           </tr>
                         );
                       })}
@@ -179,7 +195,7 @@ const AllCountry = ({
         </Modal.Header>
         <Modal.Body>
           <EditCountryDetails
-            districts={userData}
+            editcountrydata={userData}
             onUpdateModalChange={onUpdateModalChange}
           />
         </Modal.Body>
@@ -210,7 +226,7 @@ const AllCountry = ({
         <Modal.Body>
           <DeactiveCountry
             onDeactiveModalChange={onDeactiveModalChange}
-            allProjectStatusdeavtivedata={userDatadeactive}
+            deactivecountrydata={userDatadeactive}
           />
         </Modal.Body>
       </Modal>

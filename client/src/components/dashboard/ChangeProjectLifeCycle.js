@@ -2,6 +2,7 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+
 import {
   AddProjectTrack,
   AddAmendmentHistory,
@@ -66,10 +67,11 @@ const ChangeProjectLifeCycle = ({
         ? true
         : false,
   });
+  // console.log(ProjectCycledata);
   const { showTimerSection } = showHide;
   //client in websocket
   //SLAP IP
-  const client = new w3cwebsocket("ws://192.168.6.216:8000");
+  const client = new w3cwebsocket("ws://192.168.6.159:8000");
 
   const onSubmit = (e) => {
     const amendmentProjectId = {

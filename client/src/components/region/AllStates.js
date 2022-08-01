@@ -17,7 +17,7 @@ const AllStates = ({
     getAllState();
   }, [getAllState]);
 
-  console.log("allState", allState);
+  // console.log("allState", allState);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {
@@ -75,7 +75,7 @@ const AllStates = ({
             >
               Add State
             </button>
-            <button
+            {/* <button
               className="btn btn_green_bg float-right"
               onClick={() => onEdit()}
             >
@@ -86,7 +86,7 @@ const AllStates = ({
               onClick={() => onDeactive()}
             >
               Deactive State
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -104,7 +104,33 @@ const AllStates = ({
                       <th>Op</th>
                     </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody>
+                    {allState &&
+                      allState.map((allState, idx) => {
+                        return (
+                          <tr key={idx}>
+                            <td>{allState.stateName}</td>
+
+                            <td>
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onDeactive(allState, idx)}
+                                src={require("../../static/images/delete.png")}
+                                alt="Deactivate"
+                                title="Deactivate"
+                              />
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onEdit(allState, idx)}
+                                src={require("../../static/images/edit_icon.png")}
+                                alt="Edit"
+                                title="Edit"
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
                 </table>
               </div>
             </section>
@@ -164,7 +190,7 @@ const AllStates = ({
         </Modal.Header>
         <Modal.Body>
           <EditStateDetails
-            districts={userData}
+            stateeditdata={userData}
             onUpdateModalChange={onUpdateModalChange}
           />
         </Modal.Body>
@@ -195,7 +221,7 @@ const AllStates = ({
         <Modal.Body>
           <DeactiveState
             onDeactiveModalChange={onDeactiveModalChange}
-            allProjectStatusdeavtivedata={userDatadeactive}
+            statedeavtivedata={userDatadeactive}
           />
         </Modal.Body>
       </Modal>

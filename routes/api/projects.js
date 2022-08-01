@@ -6,8 +6,8 @@ const mongoose = require("mongoose");
 const Project = require("../../models/Project");
 const ProjectStatus = require("../../models/ProjectStatus");
 const ProjectTrack = require("../../models/ProjectTrack");
-const AmendmentHistory = require("../../models/AmendmentHistory");
 const ClientDetails = require("../../models/Client");
+const AmendmentHistory = require("../../models/AmendmentHistory");
 
 //ADD
 router.post("/add-project", async (req, res) => {
@@ -90,6 +90,7 @@ router.post("/edit-project", async (req, res) => {
         $set: {
           projectName: data.projectName,
           clientId: data.clientId,
+          inputpath: data.inputpath,
           clientName: data.clientName,
           parentClientId: data.parentClientId,
           parentClientName: data.parentClientName,
@@ -157,7 +158,6 @@ router.post("/verify-project", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
-
 //DEACTIVATE
 router.post("/deactive-project", async (req, res) => {
   try {
@@ -438,7 +438,7 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
       },
       { $unwind: "$output" },
       { $match: query },
-      { $sort: { "output._id": 1 } },
+      { $sort: { projectDate: 1 } },
     ]);
     res.json(getDailyJobSheetDetails);
   } catch (err) {
@@ -568,6 +568,7 @@ router.post("/get-verification-project-details", async (req, res) => {
       }
     }
   }
+
   try {
     const getVerificationProjectDetails = await Project.find(query);
     res.json(getVerificationProjectDetails);
@@ -629,7 +630,6 @@ router.post("/get-latest-change", async (req, res) => {
       { $limit: 1 },
     ]);
     res.json(ProjectLatestChangeData);
-    // console.log(ProjectLatestChangeData);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -702,7 +702,7 @@ router.post("/get-all-amendment-histories", async (req, res) => {
 
 router.post("/get-last-amendment-histories", async (req, res) => {
   const { projectId, amendmentCounter } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   let query = {};
   query = {
     projectId: {
@@ -719,7 +719,6 @@ router.post("/get-last-amendment-histories", async (req, res) => {
       })
       .limit(1);
     res.json(getAmendmentLasthistoryDetails);
-    // console.log(getAmendmentLasthistoryDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -750,7 +749,7 @@ router.post("/get-last-amendment-counter", async (req, res) => {
       $eq: "Resolved",
     },
   };
-  console.log(query);
+  // console.log(query);
   try {
     const getAmendmentLastCounter = await ProjectTrack.find(query);
     // .sort({
@@ -758,7 +757,7 @@ router.post("/get-last-amendment-counter", async (req, res) => {
     // })
     // .limit(1);
     res.json(getAmendmentLastCounter);
-    console.log(getAmendmentLastCounter);
+    // console.log(getAmendmentLastCounter);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

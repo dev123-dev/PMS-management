@@ -14,10 +14,7 @@ import ChangeProjectLifeCycle from "../dashboard/ChangeProjectLifeCycle";
 import AllLatestChange from "../dashboard/AllLatestChange";
 import Chat from "../../pages/Chat";
 import ProjectVerification from "../dashboard/ProjectVerification";
-import Amendments from "../dashboard/Amendments";
 
-//region
-import AllArea from "../region/AllArea";
 // staff
 import AddEmployeeDetails from "../staffs/AddEmployeeDetails";
 import AllStaffDetails from "../staffs/AllStaffDetails";
@@ -54,6 +51,13 @@ import Trash from "../settings/Trash";
 import AllProspects from "../dct/AllProspects";
 import AddLead from "../dct/AddLead";
 import EditLead from "../dct/EditLead";
+import DeactiveLead from "../dct/DeactiveLead";
+import Amendments from "../dashboard/Amendments";
+//leavemanagement
+import AllLeave from "../leave/AllLeave";
+
+//region
+import AllArea from "../region/AllArea";
 const RoutesFile = () => {
   return (
     <section>
@@ -65,14 +69,15 @@ const RoutesFile = () => {
         <PrivateRoute exact path="/all-prospects" component={AllProspects} />
         <PrivateRoute exact path="/add-lead" component={AddLead} />
         <PrivateRoute exact path="/edit-lead" component={EditLead} />
-
+        <PrivateRoute exact path="/deactive-lead" component={DeactiveLead} />
+        <PrivateRoute exact path="/all-leave" component={AllLeave} />
+        <PrivateRoute exact path="/all-Amendments" component={Amendments} />
+        <PrivateRoute exact path="/all-Region" component={AllArea} />
         <PrivateRoute
           exact
           path="/job-verification"
           component={ProjectVerification}
         />
-        <PrivateRoute exact path="/all-Amendments" component={Amendments} />
-        <PrivateRoute exact path="/all-Region" component={AllArea} />
 
         <PrivateRoute exact path="/add-project" component={AddProject} />
         <PrivateRoute
@@ -93,7 +98,7 @@ const RoutesFile = () => {
           path="/edit-staff"
           component={EditEmployeeDetails}
         />
-
+        <PrivateRoute exact path="/all-Amendments" component={Amendments} />
         {/* clients */}
 
         <PrivateRoute exact path="/all-clients" component={AllClientDetails} />

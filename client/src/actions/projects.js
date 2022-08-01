@@ -80,6 +80,7 @@ export const addProjectStatus = (finalData) => async (dispatch) => {
 };
 
 export const AddProjectTrack = (finalData) => async (dispatch) => {
+  // console.log("action", finalData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,
@@ -107,7 +108,6 @@ export const AddAmendmentHistory = (amendmentData) => async (dispatch) => {
       amendmentData,
       config
     );
-    // dispatch(getLastAmendmentHistoryDeatils());
     // dispatch(getDailyJobsheetProjectDeatils());
     dispatch({
       type: SET_LOADING_FALSE,
@@ -166,7 +166,7 @@ export const VerifyProject = (finalData) => async (dispatch) => {
       finalData,
       config
     );
-    dispatch(getverificationProjectDeatils());
+    dispatch(getverificationProjectDeatils(finalData.searchData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -217,7 +217,6 @@ export const deactiveProjectStatus = (finalData) => async (dispatch) => {
 };
 
 //SELECT
-
 export const getUpdatedProjectStaus = () => async (dispatch) => {
   try {
     dispatch(getJobQueueProjectDeatils());
@@ -335,7 +334,6 @@ export const getDailyJobsheetProjectDeatils =
       // dispatch(getDailyJobsheetProjectDeatils(selDateData));
     }
   };
-
 //verifivation
 export const getverificationProjectDeatils =
   (finalData) => async (dispatch) => {
@@ -367,7 +365,6 @@ export const getAllchanges = (finalData) => async (dispatch) => {
     });
   }
 };
-
 export const getLatestChanges = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/projects/get-latest-change", finalData);
@@ -421,6 +418,25 @@ export const getAmendmentHistoryDeatils = (amenddata) => async (dispatch) => {
   }
 };
 
+// export const getLastAmendmentHistoryDeatils =
+//   (lastAmendment) => async (dispatch) => {
+
+//     try {
+//       const res = await axios.post(
+//         "/api/projects/get-last-amendment-histories",
+//         lastAmendment
+//       );
+//       localStorage.setItem("getLastAmendmentDetails", JSON.stringify(res.data));
+//       dispatch({
+//         type: AMENDMENT_LAST_HISTORY_PROJECTS,
+//         payload: res.data,
+//       });
+//     } catch (err) {
+
+//       console.log(err);
+
+//     }
+//   };
 export const getLastAmendmentHistoryDeatils =
   (amenddata) => async (dispatch) => {
     try {
@@ -464,7 +480,7 @@ export const getLastAmendmentCounter =
         "/api/projects/get-last-amendment-counter",
         amendmentProjectId
       );
-      localStorage.setItem("getLastAmendmentCounter", JSON.stringify(res.data));
+      localStorage.setItem("getLastAmendmentCount", JSON.stringify(res.data));
       dispatch({
         type: AMENDMENT_LAST_COUNTER,
         payload: res.data,

@@ -26,7 +26,7 @@ import { w3cwebsocket } from "websocket";
 import DeactiveProject from "./DeactiveProject";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.128:8000");
+const client = new w3cwebsocket("ws://192.168.6.159:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -384,16 +384,6 @@ const JobQueue = ({
                 value={projectStatusCategory}
                 placeholder="Select Status Category"
                 onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
               />
             </div>
 
@@ -436,8 +426,11 @@ const JobQueue = ({
                         ) : (
                           <></>
                         )}
+
                         <th style={{ width: "6%" }}>Folder </th>
+                        <th style={{ width: "6%" }}>Path</th>
                         <th style={{ width: "20%" }}>Project Name</th>
+
                         <th style={{ width: "12%" }}>Queue Duration</th>
                         <th style={{ width: "10%" }}>Estimated Time</th>
                         <th style={{ width: "10%" }}>Job Time</th>
@@ -502,6 +495,25 @@ const JobQueue = ({
                               <td>
                                 <b>{jobQueueProjects.clientFolderName}</b>
                               </td>
+                              <td
+                              // onClick={() => {
+                              //   navigator.clipboard.writeText(
+                              //     jobQueueProjects.inputpath
+                              //   );
+                              // }}
+                              >
+                                <button
+                                  className="btn btn_green_bg "
+                                  onClick={() => {
+                                    navigator.clipboard.writeText(
+                                      jobQueueProjects.inputpath
+                                    );
+                                    window.alert("Path Copied");
+                                  }}
+                                >
+                                  Copy
+                                </button>
+                              </td>
                               <td>
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
@@ -532,6 +544,7 @@ const JobQueue = ({
                                   {jobQueueProjects.projectName}
                                 </Link>
                               </td>
+
                               <td>
                                 {
                                   dhm(

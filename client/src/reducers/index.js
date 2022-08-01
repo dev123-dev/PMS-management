@@ -7,6 +7,7 @@ import project from "./project";
 import settings from "./settings";
 import regions from "./regions";
 import user from "./user";
+import dct from "./dct";
 
 export default combineReducers({
   alert,
@@ -17,4 +18,5 @@ export default combineReducers({
   settings,
   user,
   regions,
+  dct,
 });

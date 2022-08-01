@@ -18,7 +18,7 @@ import {
 import { w3cwebsocket } from "websocket";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.128:8000");
+const client = new w3cwebsocket("ws://192.168.6.159:8000");
 
 const ProjectVerification = ({
   auth: { isAuthenticated, user, users },
@@ -51,6 +51,8 @@ const ProjectVerification = ({
   const [projectStatusData, setProjectStatusData] = useState("");
   const [singledate, setsingledate] = useState("");
 
+  const [searchData, setSearchData] = useState("");
+
   const activeClientsOpt = [];
   activeVerfificationClients.map((clientsData) =>
     activeClientsOpt.push({
@@ -66,6 +68,7 @@ const ProjectVerification = ({
       statusId: projectStatusData.value,
       dateVal: singledate,
     };
+    setSearchData(selDateData);
     getverificationProjectDeatils(selDateData);
   };
   const onProjectStatusChange = (e) => {
@@ -75,6 +78,7 @@ const ProjectVerification = ({
       statusId: e.value,
       dateVal: singledate,
     };
+    setSearchData(selDateData);
     getverificationProjectDeatils(selDateData);
   };
 
@@ -94,6 +98,7 @@ const ProjectVerification = ({
       statusId: projectStatusData.value,
       dateVal: e.target.value,
     };
+    setSearchData(selDateData);
     getverificationProjectDeatils(selDateData);
   };
 
@@ -106,6 +111,7 @@ const ProjectVerification = ({
   };
   const onClickReset = () => {
     getverificationProjectDeatils("");
+    setSearchData("");
     setProjectStatusData("");
     setClientData("");
     setsingledate("");
@@ -134,7 +140,7 @@ const ProjectVerification = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className=" col-lg-3 col-md-11 col-sm-10 col-10">
+            <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Job Verification</h5>
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -170,7 +176,7 @@ const ProjectVerification = ({
                 }}
               />
             </div>
-            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -339,6 +345,7 @@ const ProjectVerification = ({
             onEditModalChange={onEditModalChange}
             allVerifydata={userDatas}
             loggedStaff={loggedStaffData}
+            searchData={searchData}
           />
         </Modal.Body>
       </Modal>
