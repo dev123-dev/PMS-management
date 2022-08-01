@@ -19,7 +19,7 @@ const AllProspects = ({
   useEffect(() => {
     getDctLeadDetails();
   }, [getDctLeadDetails]);
-  console.log(allProspectus);
+  // console.log(allProspectus);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);

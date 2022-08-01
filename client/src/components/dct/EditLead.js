@@ -15,7 +15,7 @@ const EditLead = ({
   useEffect(() => {
     getActiveCountry();
   }, [getActiveCountry]);
-  console.log("alleditLeaddata", alleditLeaddata);
+  // console.log("alleditLeaddata", alleditLeaddata);
 
   //formData
   const [formData, setFormData] = useState({

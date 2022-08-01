@@ -10,11 +10,11 @@ const DeactiveLead = ({
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    clientName: "",
+    dctLeadDeactiveReason: "",
     isSubmitted: false,
   });
 
-  const { isSubmitted } = formData;
+  const { dctLeadDeactiveReason, isSubmitted } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,7 +28,7 @@ const DeactiveLead = ({
       dctLeadDeactivateByDateTime: new Date().toLocaleString(),
       dctLeadDeactivateById: user._id,
       dctLeadStatus: "Deactive",
-      // designationDeactiveReason:"",
+      dctLeadDeactiveReason: dctLeadDeactiveReason,
     };
     console.log(finalData);
     //  addProject(finalData);
@@ -47,13 +47,13 @@ const DeactiveLead = ({
           <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
             <label className="label-control">Deactive Reason :</label>
             <textarea
-              name="clientAddress"
-              id="clientAddress"
+              name="dctLeadDeactiveReason"
+              id="dctLeadDeactiveReason"
               className="textarea form-control"
               rows="3"
               placeholder="Lead Deactive Reason"
               style={{ width: "100%" }}
-              //  value={clientAddress}
+              value={dctLeadDeactiveReason}
               onChange={(e) => onInputChange(e)}
               required
             ></textarea>

@@ -17,7 +17,7 @@ const AddLead = ({
   useEffect(() => {
     getActiveCountry();
   }, [getActiveCountry]);
-  console.log(activeCountry);
+  // console.log(activeCountry);
 
   //formData
   const [formData, setFormData] = useState({
@@ -146,9 +146,26 @@ const AddLead = ({
     };
     console.log(finalData);
     addDctLeadDetails(finalData);
+    setFormData({
+      ...formData,
+      companyName: "",
+      emailId: "",
+      clientName: "",
+      website: "",
+      address: "",
+      phone1: "",
+      phone2: "",
+      importantPoints: "",
+      countryId: "",
+
+      isSubmitted: true,
+    });
     // }
   };
 
+  if (isSubmitted) {
+    return <Redirect to="/all-prospects" />;
+  }
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -157,9 +174,6 @@ const AddLead = ({
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
 
-  // if (isSubmitted) {
-  //   return <Redirect to="/job-queue" />;
-  // }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (

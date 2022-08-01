@@ -72,7 +72,7 @@ const AllStatuschange = ({
           />
         </div>
         <div className=" col-lg-4 col-md-11 col-sm-10 col-10 ">
-          <label className="label-control"> Status :</label>
+          <label className="label-control"> CallBack Date :</label>
           <input
             type="date"
             placeholder="dd/mm/yyyy"
@@ -98,6 +98,15 @@ const AllStatuschange = ({
             //  value={clientAddress}
             onChange={(e) => onInputChange(e)}
           ></textarea>
+        </div>
+
+        <div className="col-lg-12 col-md-6 col-sm-12 col-12">
+          <input
+            type="submit"
+            name="Submit"
+            value="Submit"
+            className="btn sub_form btn_continue blackbrd Save float-right"
+          />
         </div>
         {/* </form> */}
       </div>
