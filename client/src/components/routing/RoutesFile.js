@@ -49,6 +49,9 @@ import AllFeedback from "../settings/AllFeedback";
 import Trash from "../settings/Trash";
 //dct
 import AllProspects from "../dct/AllProspects";
+import Allfollowup from "../dct/Allfollowup";
+import TestClientFollowup from "../dct/TestClientFollowup";
+import RegularClientFollowup from "../dct/RegularClientFollowup";
 import AddLead from "../dct/AddLead";
 import EditLead from "../dct/EditLead";
 import DeactiveLead from "../dct/DeactiveLead";
@@ -67,6 +70,19 @@ const RoutesFile = () => {
         <PrivateRoute exact path="/job-queue" component={JobQueue} />
         <PrivateRoute exact path="/job-queue" component={JobQueue} />
         <PrivateRoute exact path="/all-prospects" component={AllProspects} />
+        <PrivateRoute exact path="/all-followup" component={Allfollowup} />
+        <PrivateRoute
+          exact
+          path="/test-client-followup"
+          component={TestClientFollowup}
+        />
+
+        <PrivateRoute
+          exact
+          path="/regular-client-followup"
+          component={RegularClientFollowup}
+        />
+
         <PrivateRoute exact path="/add-lead" component={AddLead} />
         <PrivateRoute exact path="/edit-lead" component={EditLead} />
         <PrivateRoute exact path="/deactive-lead" component={DeactiveLead} />
