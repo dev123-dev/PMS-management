@@ -348,6 +348,31 @@ router.post("/add-leaves", async (req, res) => {
   }
 });
 
+router.post(
+  "/edit-leave",
+
+  async (req, res) => {
+    try {
+      let data = req.body;
+      const updateLeave = await EmpLeaves.updateOne(
+        { _id: data.recordId },
+        {
+          $set: {
+            leaveType: data.leaveType,
+            leaveReason: data.leaveReason,
+            leaveEditedById: data.leaveEditedById,
+            leaveEditedDateTime: data.leaveEditedDateTime,
+            leaveDate: data.leaveDate,
+          },
+        }
+      );
+      res.json(updateLeave);
+    } catch (error) {
+      res.status(500).json({ errors: [{ msg: "Server Error" }] });
+    }
+  }
+);
+
 //Get All Leaves
 router.post("/get-all-Leaves", async (req, res) => {
   const { selDate, fromdate, todate, dateType, empId } = req.body;

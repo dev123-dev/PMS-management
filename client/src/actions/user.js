@@ -139,6 +139,23 @@ export const getAllStaff = () => async (dispatch) => {
   }
 };
 
+export const editLeaveDetails = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/users/edit-leave", finalData, config);
+    dispatch(getALLUserGroups());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
 export const getFilterEmpDetails = (finalData) => async (dispatch) => {
   // console.log("action", finalData);
   try {

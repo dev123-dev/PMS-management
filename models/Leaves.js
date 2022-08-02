@@ -17,6 +17,12 @@ const LeavesSchema = new mongoose.Schema({
   leaveEnteredById: {
     type: ObjectId,
   },
+  leaveEditedById: {
+    type: ObjectId,
+  },
+  leaveEditedDateTime: {
+    type: Date,
+  },
   leaveEntredDateTime: {
     type: String,
     default: new Date().toLocaleString("en-GB"),

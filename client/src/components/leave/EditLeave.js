@@ -6,7 +6,11 @@ import Select from "react-select";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
 // import MultipleDatePicker from "react-multiple-datepicker";
-import { getAllEmployee, getAllStaff } from "../../actions/user";
+import {
+  getAllEmployee,
+  getAllStaff,
+  editLeaveDetails,
+} from "../../actions/user";
 const DateMethods = [
   { value: "Single Date", label: "Single Date" },
   { value: "Multi Date", label: "Multi Date" },
@@ -15,7 +19,7 @@ const EditLeave = ({
   auth: { isAuthenticated, user, users, loading },
   //   settings: { allStaffName },
   getAllEmployee,
-  onAddDistrictModalChange,
+  editLeaveDetails,
   user: { allEmployee },
   allLeavedata,
   getAllStaff,
@@ -33,6 +37,10 @@ const EditLeave = ({
   const [formData, setFormData] = useState({
     leaveReason:
       allLeavedata && allLeavedata.leaveReason ? allLeavedata.leaveReason : "",
+    empFullName:
+      allLeavedata && allLeavedata.output.empFullName
+        ? allLeavedata.output.empFullName
+        : "",
 
     slVal: allLeavedata && allLeavedata.leaveType ? allLeavedata.leaveType : "",
 
@@ -87,8 +95,14 @@ const EditLeave = ({
     }
   };
 
-  const { leaveReason, slVal, Dateselectmode, leaveStartDate, leaveEndDate } =
-    formData;
+  const {
+    empFullName,
+    leaveReason,
+    slVal,
+    Dateselectmode,
+    leaveStartDate,
+    leaveEndDate,
+  } = formData;
   const [leaveDate, setleaveDate] = useState(
     allLeavedata && allLeavedata.leaveDate ? allLeavedata.leaveDate : ""
   );
@@ -165,13 +179,15 @@ const EditLeave = ({
     e.preventDefault();
     const finalData = {
       recordId: allLeavedata ? allLeavedata._id : "",
-      leaveDateVals: leaveDateVals,
+
+      leaveDate: leaveDate,
       leaveType: slVal,
       leaveReason: leaveReason,
-      empId: employeeId,
+      leaveEditedById: user._id,
+      leaveEditedDateTime: new Date().toLocaleString(),
     };
     console.log(finalData);
-    // addLeaves(finalData);
+    editLeaveDetails(finalData);
     onEditModalChange(true);
   };
 
@@ -183,7 +199,7 @@ const EditLeave = ({
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control"> Staff Name * :</label>
-            <Select
+            {/* <Select
               name="staffData"
               isSearchable={true}
               value={staffData}
@@ -191,6 +207,14 @@ const EditLeave = ({
               placeholder="Select Staff"
               onChange={(e) => onStaffChange(e)}
               required
+            /> */}
+            <input
+              type="text"
+              name="empFullName"
+              value={empFullName}
+              className="form-control"
+              onChange={(e) => onInputChange(e)}
+              disabled
             />
           </div>
           {/* <DatePicker
@@ -375,6 +399,7 @@ EditLeave.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   getAllEmployee: PropTypes.func.isRequired,
+  editLeaveDetails: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -386,4 +411,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getAllEmployee,
   getAllStaff,
+  editLeaveDetails,
 })(EditLeave);
