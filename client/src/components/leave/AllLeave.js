@@ -375,8 +375,14 @@ const AllLeave = ({
                         <th>Leave Type</th>
                         <th>Date</th>
                         <th>Department</th>
-                        <th>OP</th>
-                        {/* <th>OP</th> */}
+                        {(user.userGroupName &&
+                          user.userGroupName === "Administrator") ||
+                        user.userGroupName === "Super Admin" ||
+                        user.userGroupName === "Clarical Admins" ? (
+                          <th>OP</th>
+                        ) : (
+                          <></>
+                        )}
                       </tr>
                     </thead>
                     <tbody>
@@ -395,38 +401,30 @@ const AllLeave = ({
                               <td>{leaves.leaveType}</td>
                               <td>{leaveDate}</td>
                               <td>{leaves.output.departmentName}</td>
-                              <td>
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() => onUpdate(leaves, idx)}
-                                  src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
-                                />
-                                &emsp;
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() => onDeactive(leaves, idx)}
-                                  src={require("../../static/images/delete.png")}
-                                  alt="Deactivate"
-                                  title="Deactivate"
-                                />
-                              </td>
-                              {/* <Link
-                                  className="btn btn_green_bg"
-                                  to="#"
-                                  onClick={() => onClickHandler()}
-                                >
-                                  Approve
-                                </Link> */}
-                              {/* <Link
-                                  className="btn btn_green_bg"
-                                  to="#"
-                                  onClick={() => onClickHandler()}
-                                >
-                                  Cancel
-                                </Link> */}
-                              {/* </td> */}
+                              {(user.userGroupName &&
+                                user.userGroupName === "Administrator") ||
+                              user.userGroupName === "Super Admin" ||
+                              user.userGroupName === "Clarical Admins" ? (
+                                <td>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(leaves, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                  &emsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onDeactive(leaves, idx)}
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Deactivate"
+                                    title="Deactivate"
+                                  />
+                                </td>
+                              ) : (
+                                <></>
+                              )}
                             </tr>
                           );
                         })}
