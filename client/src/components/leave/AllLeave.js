@@ -13,6 +13,7 @@ import {
   getLeavesStaff,
 } from "../../actions/user";
 import AddLeave from "./AddLeave";
+import EditLeave from "./EditLeave";
 // import EditEmployeeDetails from "./EditEmployeeDetails";
 // import DeactiveEmployee from "./DeactiveEmployee";
 // import EditPassword from "./EditPassword";
@@ -57,34 +58,34 @@ const AllLeave = ({
     setUserDatas(allEmployee);
   };
 
-  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
-  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
+  // const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  // const handleDeactiveModalClose = () => setShowDeactiveModal(false);
 
-  const onDeactiveModalChange = (e) => {
-    if (e) {
-      handleDeactiveModalClose();
-    }
-  };
-  const [userDatadeactive, setUserDatadeactive] = useState(null);
-  const onDeactive = (allEmployee, idx) => {
-    setShowDeactiveModal(true);
-    setUserDatadeactive(allEmployee);
-  };
+  // const onDeactiveModalChange = (e) => {
+  //   if (e) {
+  //     handleDeactiveModalClose();
+  //   }
+  // };
+  // const [userDatadeactive, setUserDatadeactive] = useState(null);
+  // const onDeactive = (allEmployee, idx) => {
+  //   setShowDeactiveModal(true);
+  //   setUserDatadeactive(allEmployee);
+  // };
 
   //changepwd
 
-  const [showChangePwdModal, setShowChangePwdModal] = useState(false);
-  const handleChangePwdModalClose = () => setShowChangePwdModal(false);
-  const onChangePwdModalChange = (e) => {
-    if (e) {
-      handleChangePwdModalClose();
-    }
-  };
-  const [userDataChangePwd, setUserDataChangePwd] = useState(null);
-  const onChangePwd = (allEmployee, idx) => {
-    setShowChangePwdModal(true);
-    setUserDataChangePwd(allEmployee);
-  };
+  // const [showChangePwdModal, setShowChangePwdModal] = useState(false);
+  // const handleChangePwdModalClose = () => setShowChangePwdModal(false);
+  // const onChangePwdModalChange = (e) => {
+  //   if (e) {
+  //     handleChangePwdModalClose();
+  //   }
+  // };
+  // const [userDataChangePwd, setUserDataChangePwd] = useState(null);
+  // const onChangePwd = (allEmployee, idx) => {
+  //   setShowChangePwdModal(true);
+  //   setUserDataChangePwd(allEmployee);
+  // };
   const [staffData, setstaffData] = useState("");
 
   const onClickReset = () => {
@@ -373,6 +374,7 @@ const AllLeave = ({
                         <th>Leave Type</th>
                         <th>Date</th>
                         <th>Department</th>
+                        <th>OP</th>
                         {/* <th>OP</th> */}
                       </tr>
                     </thead>
@@ -392,7 +394,15 @@ const AllLeave = ({
                               <td>{leaves.leaveType}</td>
                               <td>{leaveDate}</td>
                               <td>{leaves.output.departmentName}</td>
-                              {/* <td> */}
+                              <td>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onUpdate(leaves, idx)}
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
+                                />
+                              </td>
                               {/* <Link
                                   className="btn btn_green_bg"
                                   to="#"
@@ -452,17 +462,17 @@ const AllLeave = ({
             <AddLeave onAddDistrictModalChange={onAddDistrictModalChange} />
           </Modal.Body>
         </Modal>
-        {/* <Modal
+        <Modal
           show={showEditModal}
           backdrop="static"
           keyboard={false}
-          size="xl"
+          size="md"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
           <Modal.Header>
             <div className="col-lg-10 col-md-10 col-sm-10 col-10">
-              <h3 className="modal-title text-center">Edit Staff Details</h3>
+              <h3 className="modal-title text-center">Edit Leave Details</h3>
             </div>
             <div className="col-lg-2 col-md-2 col-sm-2 col-2">
               <button onClick={handleEditModalClose} className="close">
@@ -475,72 +485,12 @@ const AllLeave = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <EditEmployeeDetails
+            <EditLeave
               onEditModalChange={onEditModalChange}
-              allEmployeedata={userDatas}
+              allLeavedata={userDatas}
             />
           </Modal.Body>
         </Modal>
-
-        <Modal
-          show={showDeactiveModal}
-          backdrop="static"
-          keyboard={false}
-          size="md"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header>
-            <div className="col-lg-10">
-              <h3 className="modal-title text-center">Deactivate Staff</h3>
-            </div>
-            <div className="col-lg-1">
-              <button onClick={handleDeactiveModalClose} className="close">
-                <img
-                  src={require("../../static/images/close.png")}
-                  alt="X"
-                  style={{ height: "20px", width: "20px" }}
-                />
-              </button>
-            </div>
-          </Modal.Header>
-          <Modal.Body>
-            <DeactiveEmployee
-              onDeactiveModalChange={onDeactiveModalChange}
-              staffDeactivedata={userDatadeactive}
-            />
-          </Modal.Body>
-        </Modal>
-
-        <Modal
-          show={showChangePwdModal}
-          backdrop="static"
-          keyboard={false}
-          size="md"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header>
-            <div className="col-lg-10">
-              <h3 className="modal-title text-center">Change Password</h3>
-            </div>
-            <div className="col-lg-1">
-              <button onClick={handleChangePwdModalClose} className="close">
-                <img
-                  src={require("../../static/images/close.png")}
-                  alt="X"
-                  style={{ height: "20px", width: "20px" }}
-                />
-              </button>
-            </div>
-          </Modal.Header>
-          <Modal.Body>
-            <EditPassword
-              onChangePwdModalChange={onChangePwdModalChange}
-              staffChangePwddata={userDataChangePwd}
-            />
-          </Modal.Body>
-        </Modal> */}
       </div>
     </Fragment>
   );
@@ -549,7 +499,7 @@ const AllLeave = ({
 AllLeave.propTypes = {
   auth: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  settings: PropTypes.func.isRequired,
+  settings: PropTypes.object.isRequired,
   getAllEmployee: PropTypes.func.isRequired,
   getFilterEmpDetails: PropTypes.func.isRequired,
   getALLLeaves: PropTypes.func.isRequired,
