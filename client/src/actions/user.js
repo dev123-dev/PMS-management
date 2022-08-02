@@ -267,3 +267,20 @@ export const getLeavesStaff = (selDateData) => async (dispatch) => {
     });
   }
 };
+
+export const deactiveLeaveData = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/users/deactive-leave", finalData, config);
+    dispatch(getALLLeaves());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};

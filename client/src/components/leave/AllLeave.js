@@ -14,6 +14,7 @@ import {
 } from "../../actions/user";
 import AddLeave from "./AddLeave";
 import EditLeave from "./EditLeave";
+import DeactiveLeave from "./DeactiveLeave";
 // import EditEmployeeDetails from "./EditEmployeeDetails";
 // import DeactiveEmployee from "./DeactiveEmployee";
 // import EditPassword from "./EditPassword";
@@ -53,24 +54,24 @@ const AllLeave = ({
   };
 
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allEmployee, idx) => {
+  const onUpdate = (leaves, idx) => {
     setShowEditModal(true);
-    setUserDatas(allEmployee);
+    setUserDatas(leaves);
   };
 
-  // const [showDeactiveModal, setShowDeactiveModal] = useState(false);
-  // const handleDeactiveModalClose = () => setShowDeactiveModal(false);
+  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
 
-  // const onDeactiveModalChange = (e) => {
-  //   if (e) {
-  //     handleDeactiveModalClose();
-  //   }
-  // };
-  // const [userDatadeactive, setUserDatadeactive] = useState(null);
-  // const onDeactive = (allEmployee, idx) => {
-  //   setShowDeactiveModal(true);
-  //   setUserDatadeactive(allEmployee);
-  // };
+  const onDeactiveModalChange = (e) => {
+    if (e) {
+      handleDeactiveModalClose();
+    }
+  };
+  const [userLeavedeactive, setUserDatadeactive] = useState(null);
+  const onDeactive = (leaves, idx) => {
+    setShowDeactiveModal(true);
+    setUserDatadeactive(leaves);
+  };
 
   //changepwd
 
@@ -402,6 +403,14 @@ const AllLeave = ({
                                   alt="Edit"
                                   title="Edit"
                                 />
+                                &emsp;
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onDeactive(leaves, idx)}
+                                  src={require("../../static/images/delete.png")}
+                                  alt="Deactivate"
+                                  title="Deactivate"
+                                />
                               </td>
                               {/* <Link
                                   className="btn btn_green_bg"
@@ -488,6 +497,36 @@ const AllLeave = ({
             <EditLeave
               onEditModalChange={onEditModalChange}
               allLeavedata={userDatas}
+            />
+          </Modal.Body>
+        </Modal>
+
+        <Modal
+          show={showDeactiveModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">Deactivate Project</h3>
+            </div>
+            <div className="col-lg-1">
+              <button onClick={handleDeactiveModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <DeactiveLeave
+              onDeactiveModalChange={onDeactiveModalChange}
+              LeaveDeactiveData={userLeavedeactive}
             />
           </Modal.Body>
         </Modal>

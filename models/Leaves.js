@@ -8,6 +8,11 @@ const LeavesSchema = new mongoose.Schema({
   leaveDate: {
     type: String,
   },
+  leaveStatus: {
+    default: "Active",
+    type: String,
+  },
+
   leaveType: {
     type: String,
   },
@@ -26,6 +31,15 @@ const LeavesSchema = new mongoose.Schema({
   leaveEntredDateTime: {
     type: String,
     default: new Date().toLocaleString("en-GB"),
+  },
+  leaveDeactiveById: {
+    type: ObjectId,
+  },
+  leaveDeactiveDate: {
+    type: Date,
+  },
+  leaveDeactiveReason: {
+    type: String,
   },
 });
 

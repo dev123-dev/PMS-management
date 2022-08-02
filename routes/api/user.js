@@ -387,12 +387,18 @@ router.post("/get-all-Leaves", async (req, res) => {
         empId: {
           $eq: mongoose.Types.ObjectId(empId),
         },
+        leaveStatus: {
+          $eq: "Active",
+        },
       };
     } else {
       query = {
         leaveDate: {
           $gte: fromdate,
           $lte: todate,
+        },
+        leaveStatus: {
+          $eq: "Active",
         },
       };
     }
@@ -408,11 +414,17 @@ router.post("/get-all-Leaves", async (req, res) => {
         empId: {
           $eq: mongoose.Types.ObjectId(empId),
         },
+        leaveStatus: {
+          $eq: "Active",
+        },
       };
     } else {
       query = {
         leaveDate: {
           $eq: selDateVal,
+        },
+        leaveStatus: {
+          $eq: "Active",
         },
       };
     }
@@ -425,11 +437,17 @@ router.post("/get-all-Leaves", async (req, res) => {
         empId: {
           $eq: mongoose.Types.ObjectId(empId),
         },
+        leaveStatus: {
+          $eq: "Active",
+        },
       };
     } else {
       query = {
         leaveDate: {
           $eq: new Date().toISOString().split("T")[0],
+        },
+        leaveStatus: {
+          $eq: "Active",
         },
       };
     }
@@ -452,6 +470,26 @@ router.post("/get-all-Leaves", async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/deactive-leave", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactiveLeaveDetails = await EmpLeaves.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          leaveStatus: "Deactive",
+          leaveDeactiveById: data.leaveDeactiveById,
+          leaveDeactiveDate: data.leaveDeactiveDate,
+          leaveDeactiveReason: data.leaveDeactiveReason,
+        },
+      }
+    );
+    res.json(deactiveLeaveDetails);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
 
