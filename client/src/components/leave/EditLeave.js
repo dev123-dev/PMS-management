@@ -20,7 +20,6 @@ const LeaveTypeday = [
 ];
 const EditLeave = ({
   auth: { isAuthenticated, user, users, loading },
-  //   settings: { allStaffName },
   getAllEmployee,
   editLeaveDetails,
   user: { allEmployee, leaveCatMode },
@@ -55,66 +54,13 @@ const EditLeave = ({
             label: allLeavedata.leaveType,
           }
         : "",
-
-    // slVal: null,
-    // isSubmitted: false,
-    //Dateselectmode: DateMethods[0],
   });
-  const format = "YYYY-MM-DD";
-  // const [dates, setDates] = useState([]);
-
-  //======================
-  function getDatesInRange(startDate, endDate) {
-    const date = new Date(startDate.getTime());
-
-    const dates = [];
-
-    while (date <= endDate) {
-      dates.push(new Date(date).toISOString().split("T")[0]);
-      date.setDate(date.getDate() + 1);
-    }
-
-    return dates;
-  }
-
-  //========================
-
-  // const [showHide, setShowHide] = useState({
-  //   showChequenoSection: false,
-  //   showChequenoSection1: true,
-  // });
-  // const { showChequenoSection, showChequenoSection1 } = showHide;
-
-  // const onDateModeChange = (e) => {
-  //   if (e) {
-  //     setFormData({
-  //       ...formData,
-  //       Dateselectmode: e,
-  //     });
-  //   }
-  //   if (e.value === "Multi Date") {
-  //     setShowHide({
-  //       ...showHide,
-  //       showChequenoSection: true,
-  //       showChequenoSection1: false,
-  //     });
-  //   } else {
-  //     setShowHide({
-  //       ...showHide,
-  //       showChequenoSection: false,
-  //       showChequenoSection1: true,
-  //     });
-  //   }
-  // };
 
   const {
     empFullName,
     leaveReason,
-    // slVal,
-    // Dateselectmode,
+
     leaveTypedaymode,
-    leaveStartDate,
-    leaveEndDate,
   } = formData;
   const [leaveDate, setleaveDate] = useState(
     allLeavedata && allLeavedata.leaveDate ? allLeavedata.leaveDate : ""
@@ -125,47 +71,7 @@ const EditLeave = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const [error, setError] = useState({
-    nextBtnStyle: { opacity: "0.5", pointerEvents: "none" },
-  });
 
-  const { nextBtnStyle } = error;
-  const onLeaveTypeSelect = (leaveType) => {
-    if (leaveType === "fullDay") {
-      setFormData({
-        ...formData,
-        slVal: "FullDay",
-      });
-    } else if (leaveType === "halfDay") {
-      setFormData({
-        ...formData,
-        slVal: "HalfDay",
-      });
-    }
-    setError({
-      ...error,
-      nextBtnStyle: { opacity: "1" },
-    });
-  };
-  //   let activeClientData = JSON.parse(localStorage.getItem("activeClientData"));
-  let allStaffName = JSON.parse(localStorage.getItem("allStaffName"));
-  const activeStaffsOpt = [];
-  allStaffName &&
-    allStaffName.map((staffsData) =>
-      activeStaffsOpt.push({
-        employeeId: staffsData._id,
-        label: staffsData.empFullName,
-        value: staffsData._id,
-      })
-    );
-  const [staffData, setstaffData] = useState(
-    allLeavedata
-      ? activeStaffsOpt &&
-          activeStaffsOpt.filter((x) => x.employeeId === allLeavedata.empId)[0]
-      : ""
-  );
-  const [employeeId, setpaymentId] = useState(allLeavedata.empId);
-  const [employeename, setpaymentname] = useState();
   const onLeaveTypeModeChange = (e) => {
     if (e) {
       setFormData({
@@ -173,15 +79,6 @@ const EditLeave = ({
         leaveTypedaymode: e,
       });
     }
-  };
-  const onStaffChange = (e) => {
-    var employeeId = "";
-    var employeename = "";
-    setstaffData(e);
-    employeeId = e.value;
-    employeename = e.label;
-    setpaymentId(employeeId);
-    setpaymentname(employeename);
   };
 
   const allleavecatmodes = [];
@@ -214,18 +111,7 @@ const EditLeave = ({
     setleavecatname(leavecatname);
   };
 
-  //Required Validation ends
   const onSubmit = (e) => {
-    // let leaveDateVals = [];
-    // if (showChequenoSection) {
-    //   const d1 = new Date(leaveStartDate);
-    //   const d2 = new Date(leaveEndDate);
-    //   leaveDateVals = getDatesInRange(d1, d2);
-    // } else {
-    //   const d1 = new Date(leaveDate);
-    //   const d2 = new Date(leaveDate);
-    //   leaveDateVals = getDatesInRange(d1, d2);
-    // }
     e.preventDefault();
     const finalData = {
       recordId: allLeavedata ? allLeavedata._id : "",
@@ -273,55 +159,6 @@ const EditLeave = ({
             />
           </div>
 
-          {/* <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control">&nbsp;</label>
-            <Select
-              name="Dateselectmode"
-              options={DateMethods}
-              isSearchable={true}
-              defaultValue={DateMethods[0]}
-              value={Dateselectmode}
-              placeholder="Select"
-              onChange={(e) => onDateModeChange(e)}
-            />
-          </div> */}
-          {/* {showChequenoSection && (
-            <>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">From Date* :</label>
-                <br />
-                <input
-                  type="date"
-                  placeholder="dd/mm/yyyy"
-                  className="form-control cpp-input datevalidation"
-                  name="leaveStartDate"
-                  value={leaveStartDate}
-                  onChange={(e) => onInputChange(e)}
-                  style={{
-                    width: "75%",
-                  }}
-                  required
-                />
-              </div>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">To Date* :</label>
-                <br />
-                <input
-                  type="date"
-                  placeholder="dd/mm/yyyy"
-                  className="form-control cpp-input datevalidation"
-                  name="leaveEndDate"
-                  value={leaveEndDate}
-                  onChange={(e) => onInputChange(e)}
-                  style={{
-                    width: "75%",
-                  }}
-                  required
-                />
-              </div>
-            </>
-          )}
-          {showChequenoSection1 && ( */}
           <div className="col-lg-6 col-md-6 col-sm-6 col-12">
             <label className="label-control">Leave Date* :</label>
             <br />
@@ -332,14 +169,12 @@ const EditLeave = ({
               name="leaveDate"
               value={leaveDate}
               onChange={(e) => onDateChange(e)}
-              // onChange={(e) => onInputChange(e)}
               style={{
                 width: "75%",
               }}
               required
             />
           </div>
-          {/* )} */}
 
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control"> Leave Category * :</label>
