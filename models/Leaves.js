@@ -8,6 +8,13 @@ const LeavesSchema = new mongoose.Schema({
   leaveDate: {
     type: String,
   },
+
+  leavecategoryName: {
+    type: String,
+  },
+  leavecategoryId: {
+    type: ObjectId,
+  },
   leaveStatus: {
     default: "Active",
     type: String,
@@ -16,6 +23,7 @@ const LeavesSchema = new mongoose.Schema({
   leaveType: {
     type: String,
   },
+
   leaveReason: {
     type: String,
   },

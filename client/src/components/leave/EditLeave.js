@@ -3,27 +3,31 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import DatePicker, { DateObject } from "react-multi-date-picker";
-import DatePanel from "react-multi-date-picker/plugins/date_panel";
-// import MultipleDatePicker from "react-multiple-datepicker";
+
 import {
   getAllEmployee,
   getAllStaff,
   editLeaveDetails,
+  getALLLeaveCatMode,
 } from "../../actions/user";
 const DateMethods = [
   { value: "Single Date", label: "Single Date" },
   { value: "Multi Date", label: "Multi Date" },
+];
+const LeaveTypeday = [
+  { value: "FullDay", label: "FullDay" },
+  { value: "HalfDay", label: "HalfDay" },
 ];
 const EditLeave = ({
   auth: { isAuthenticated, user, users, loading },
   //   settings: { allStaffName },
   getAllEmployee,
   editLeaveDetails,
-  user: { allEmployee },
+  user: { allEmployee, leaveCatMode },
   allLeavedata,
   getAllStaff,
   onEditModalChange,
+  getALLLeaveCatMode,
 }) => {
   useEffect(() => {
     getAllEmployee();
@@ -31,8 +35,10 @@ const EditLeave = ({
   useEffect(() => {
     getAllStaff();
   }, [getAllStaff]);
+  useEffect(() => {
+    getALLLeaveCatMode();
+  }, [getALLLeaveCatMode]);
 
-  console.log(allLeavedata);
   //formData
   const [formData, setFormData] = useState({
     leaveReason:
@@ -42,11 +48,17 @@ const EditLeave = ({
         ? allLeavedata.output.empFullName
         : "",
 
-    slVal: allLeavedata && allLeavedata.leaveType ? allLeavedata.leaveType : "",
+    leaveTypedaymode:
+      allLeavedata && allLeavedata.leaveType
+        ? {
+            value: allLeavedata.leaveType,
+            label: allLeavedata.leaveType,
+          }
+        : "",
 
     // slVal: null,
     // isSubmitted: false,
-    Dateselectmode: DateMethods[0],
+    //Dateselectmode: DateMethods[0],
   });
   const format = "YYYY-MM-DD";
   // const [dates, setDates] = useState([]);
@@ -67,39 +79,40 @@ const EditLeave = ({
 
   //========================
 
-  const [showHide, setShowHide] = useState({
-    showChequenoSection: false,
-    showChequenoSection1: true,
-  });
-  const { showChequenoSection, showChequenoSection1 } = showHide;
+  // const [showHide, setShowHide] = useState({
+  //   showChequenoSection: false,
+  //   showChequenoSection1: true,
+  // });
+  // const { showChequenoSection, showChequenoSection1 } = showHide;
 
-  const onDateModeChange = (e) => {
-    if (e) {
-      setFormData({
-        ...formData,
-        Dateselectmode: e,
-      });
-    }
-    if (e.value === "Multi Date") {
-      setShowHide({
-        ...showHide,
-        showChequenoSection: true,
-        showChequenoSection1: false,
-      });
-    } else {
-      setShowHide({
-        ...showHide,
-        showChequenoSection: false,
-        showChequenoSection1: true,
-      });
-    }
-  };
+  // const onDateModeChange = (e) => {
+  //   if (e) {
+  //     setFormData({
+  //       ...formData,
+  //       Dateselectmode: e,
+  //     });
+  //   }
+  //   if (e.value === "Multi Date") {
+  //     setShowHide({
+  //       ...showHide,
+  //       showChequenoSection: true,
+  //       showChequenoSection1: false,
+  //     });
+  //   } else {
+  //     setShowHide({
+  //       ...showHide,
+  //       showChequenoSection: false,
+  //       showChequenoSection1: true,
+  //     });
+  //   }
+  // };
 
   const {
     empFullName,
     leaveReason,
-    slVal,
-    Dateselectmode,
+    // slVal,
+    // Dateselectmode,
+    leaveTypedaymode,
     leaveStartDate,
     leaveEndDate,
   } = formData;
@@ -153,7 +166,14 @@ const EditLeave = ({
   );
   const [employeeId, setpaymentId] = useState(allLeavedata.empId);
   const [employeename, setpaymentname] = useState();
-
+  const onLeaveTypeModeChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        leaveTypedaymode: e,
+      });
+    }
+  };
   const onStaffChange = (e) => {
     var employeeId = "";
     var employeename = "";
@@ -164,29 +184,61 @@ const EditLeave = ({
     setpaymentname(employeename);
   };
 
+  const allleavecatmodes = [];
+  leaveCatMode.map((leavecat) =>
+    allleavecatmodes.push({
+      leavecatId: leavecat._id,
+      label: leavecat.leavecategoryName,
+      value: leavecat.leavecategoryName,
+    })
+  );
+
+  const [leavecat, getleavecatData] = useState(
+    allLeavedata
+      ? allleavecatmodes &&
+          allleavecatmodes.filter(
+            (x) => x.value === allLeavedata.leavecategoryName
+          )
+      : ""
+  );
+  const [leavecatId, setleavecatId] = useState("");
+  const [leavecatname, setleavecatname] = useState("");
+
+  const onLeaveCatModeChange = (e) => {
+    var leavecatId = "";
+    var leavecatname = "";
+    getleavecatData(e);
+    leavecatId = e.leavecatId;
+    leavecatname = e.value;
+    setleavecatId(leavecatId);
+    setleavecatname(leavecatname);
+  };
+
   //Required Validation ends
   const onSubmit = (e) => {
-    let leaveDateVals = [];
-    if (showChequenoSection) {
-      const d1 = new Date(leaveStartDate);
-      const d2 = new Date(leaveEndDate);
-      leaveDateVals = getDatesInRange(d1, d2);
-    } else {
-      const d1 = new Date(leaveDate);
-      const d2 = new Date(leaveDate);
-      leaveDateVals = getDatesInRange(d1, d2);
-    }
+    // let leaveDateVals = [];
+    // if (showChequenoSection) {
+    //   const d1 = new Date(leaveStartDate);
+    //   const d2 = new Date(leaveEndDate);
+    //   leaveDateVals = getDatesInRange(d1, d2);
+    // } else {
+    //   const d1 = new Date(leaveDate);
+    //   const d2 = new Date(leaveDate);
+    //   leaveDateVals = getDatesInRange(d1, d2);
+    // }
     e.preventDefault();
     const finalData = {
       recordId: allLeavedata ? allLeavedata._id : "",
 
       leaveDate: leaveDate,
-      leaveType: slVal,
+      leaveType: leaveTypedaymode.value,
       leaveReason: leaveReason,
+      leavecategoryName: leavecatname,
+      leavecategoryId: leavecatId,
       leaveEditedById: user._id,
       leaveEditedDateTime: new Date().toLocaleString(),
     };
-    console.log(finalData);
+
     editLeaveDetails(finalData);
     onEditModalChange(true);
   };
@@ -199,15 +251,7 @@ const EditLeave = ({
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control"> Staff Name * :</label>
-            {/* <Select
-              name="staffData"
-              isSearchable={true}
-              value={staffData}
-              options={activeStaffsOpt}
-              placeholder="Select Staff"
-              onChange={(e) => onStaffChange(e)}
-              required
-            /> */}
+
             <input
               type="text"
               name="empFullName"
@@ -217,38 +261,18 @@ const EditLeave = ({
               disabled
             />
           </div>
-          {/* <DatePicker
-            multiple
-            onChange={(array) => {
-              //Array of Dateobjecs
-              alert("selected dates :\n" + array.join(",\n"));
-            }}
-          /> */}
 
-          {/* <MultipleDatePicker
-            onSubmit={(dates) => console.log("selected dates ", dates)}
-            minDate={new Date()}
-          /> */}
-          {/* <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> Date * :</label>
-            <br />
-
-            <DatePicker
-              value={dates}
-              onChange={setDates}
-              multiple
-              sort
-              format={format}
-              calendarPosition="bottom-center"
-              plugins={[<DatePanel />]}
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+            <label className="label-control">Leave Type</label>
+            <Select
+              name="leaveTypedaymode"
+              options={LeaveTypeday}
+              isSearchable={true}
+              value={leaveTypedaymode}
+              onChange={(e) => onLeaveTypeModeChange(e)}
             />
+          </div>
 
-            <ul>
-              {dates.map((date, index) => (
-                <li key={index}>{date.format()}</li>
-              ))}
-            </ul>
-          </div> */}
           {/* <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control">&nbsp;</label>
             <Select
@@ -261,7 +285,7 @@ const EditLeave = ({
               onChange={(e) => onDateModeChange(e)}
             />
           </div> */}
-          {showChequenoSection && (
+          {/* {showChequenoSection && (
             <>
               <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                 <label className="label-control">From Date* :</label>
@@ -297,67 +321,40 @@ const EditLeave = ({
               </div>
             </>
           )}
-          {showChequenoSection1 && (
-            <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-              <label className="label-control">Leave Date* :</label>
-              <br />
-              <input
-                type="date"
-                placeholder="dd/mm/yyyy"
-                className="form-control cpp-input datevalidation"
-                name="leaveDate"
-                value={leaveDate}
-                onChange={(e) => onDateChange(e)}
-                // onChange={(e) => onInputChange(e)}
-                style={{
-                  width: "75%",
-                }}
-                required
-              />
-            </div>
-          )}
-
-          <div className="row col-lg-12 col-md-9 col-sm-9 col-12 py-3">
-            <div className="col-lg-6 col-md-4 col-sm-4 col-12">
-              <center>
-                <input
-                  type="button"
-                  onClick={() => onLeaveTypeSelect("fullDay")}
-                  className="btn btn-round"
-                  value="Full Day"
-                  style={
-                    slVal === "FullDay"
-                      ? {
-                          backgroundColor: "#5c87a3",
-                          color: " #fff",
-                          border: "3px solid #2a3855",
-                        }
-                      : { background: "white" }
-                  }
-                />
-              </center>
-            </div>
-            <div className="col-lg-6 col-md-4 col-sm-4 col-12">
-              <center>
-                {" "}
-                <input
-                  type="button"
-                  onClick={() => onLeaveTypeSelect("halfDay")}
-                  className="btn btn-round"
-                  value="Half Day"
-                  style={
-                    slVal === "HalfDay"
-                      ? {
-                          backgroundColor: "#5c87a3",
-                          color: "#fff",
-                          border: "3px solid #2a3855",
-                        }
-                      : { background: "white" }
-                  }
-                />
-              </center>
-            </div>
+          {showChequenoSection1 && ( */}
+          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+            <label className="label-control">Leave Date* :</label>
+            <br />
+            <input
+              type="date"
+              placeholder="dd/mm/yyyy"
+              className="form-control cpp-input datevalidation"
+              name="leaveDate"
+              value={leaveDate}
+              onChange={(e) => onDateChange(e)}
+              // onChange={(e) => onInputChange(e)}
+              style={{
+                width: "75%",
+              }}
+              required
+            />
           </div>
+          {/* )} */}
+
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+            <label className="label-control"> Leave Category * :</label>
+
+            <Select
+              name="leaveCatMode"
+              options={allleavecatmodes}
+              isSearchable={true}
+              value={leavecat}
+              placeholder="Select Mode"
+              onChange={(e) => onLeaveCatModeChange(e)}
+            />
+          </div>
+
+          <div className="row col-lg-12 col-md-9 col-sm-9 col-12 py-3"></div>
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">
             <label className="label-control"> Reason :</label>
             <textarea
@@ -400,6 +397,7 @@ EditLeave.propTypes = {
   settings: PropTypes.object.isRequired,
   getAllEmployee: PropTypes.func.isRequired,
   editLeaveDetails: PropTypes.func.isRequired,
+  getALLLeaveCatMode: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -412,4 +410,5 @@ export default connect(mapStateToProps, {
   getAllEmployee,
   getAllStaff,
   editLeaveDetails,
+  getALLLeaveCatMode,
 })(EditLeave);

@@ -4,6 +4,7 @@ import {
   LAST_ENTERED_EMP_CODE,
   LEAVES,
   GET_LEAVES_STAFF,
+  LEAVE_TYPECAT_MODE,
 } from "../actions/types";
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   userGroups: [],
   lastEnteredEmpCode: [],
   leaves: [],
+  leaveCatMode: [],
   staffLeaves: [],
 };
 
@@ -25,6 +27,11 @@ const user = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case LEAVE_TYPECAT_MODE:
+      return {
+        ...state,
+        leaveCatMode: payload,
+      };
     case ALL_EMPLOYEE:
       return {
         ...state,

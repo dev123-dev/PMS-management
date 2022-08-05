@@ -3,22 +3,33 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import DatePicker, { DateObject } from "react-multi-date-picker";
-import DatePanel from "react-multi-date-picker/plugins/date_panel";
-// import MultipleDatePicker from "react-multiple-datepicker";
-import { getAllEmployee, getAllStaff, addLeaves } from "../../actions/user";
+import { Link } from "react-router-dom";
+import {
+  getAllEmployee,
+  getAllStaff,
+  addLeaves,
+  addCategory,
+  getALLLeaveCatMode,
+} from "../../actions/user";
 const DateMethods = [
   { value: "Single Date", label: "Single Date" },
   { value: "Multi Date", label: "Multi Date" },
+];
+
+const LeaveTypeday = [
+  { value: "FullDay", label: "FullDay" },
+  { value: "HalfDay", label: "HalfDay" },
 ];
 const AddLeave = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allStaffName },
   getAllEmployee,
   onAddDistrictModalChange,
-  user: { allEmployee },
+  user: { allEmployee, leaveCatMode },
   getAllStaff,
   addLeaves,
+  addCategory,
+  getALLLeaveCatMode,
 }) => {
   useEffect(() => {
     getAllEmployee();
@@ -26,16 +37,22 @@ const AddLeave = ({
   useEffect(() => {
     getAllStaff();
   }, [getAllStaff]);
+  useEffect(() => {
+    getALLLeaveCatMode();
+  }, [getALLLeaveCatMode]);
   //formData
+
   const [formData, setFormData] = useState({
     empId: "",
     leaveReason: "",
     slVal: null,
     isSubmitted: false,
     Dateselectmode: DateMethods[0],
+    leaveTypedaymode: LeaveTypeday[0],
     leaveStartDate: "",
     leaveEndDate: "",
     leaveDate: "",
+    leavecategoryName: "",
   });
   const format = "YYYY-MM-DD";
   // const [dates, setDates] = useState([]);
@@ -54,13 +71,38 @@ const AddLeave = ({
     return dates;
   }
 
+  const allleavecatmodes = [];
+  leaveCatMode.map((leavecat) =>
+    allleavecatmodes.push({
+      leavecatId: leavecat._id,
+      label: leavecat.leavecategoryName,
+      value: leavecat.leavecategoryName,
+    })
+  );
+
+  const [leavecat, getleavecatData] = useState("");
+  const [leavecatId, setleavecatId] = useState("");
+  const [leavecatname, setleavecatname] = useState("");
+
+  const onLeaveCatModeChange = (e) => {
+    var leavecatId = "";
+    var leavecatname = "";
+    getleavecatData(e);
+    leavecatId = e.leavecatId;
+    leavecatname = e.value;
+    setleavecatId(leavecatId);
+    setleavecatname(leavecatname);
+  };
+
   //========================
 
   const [showHide, setShowHide] = useState({
     showChequenoSection: false,
     showChequenoSection1: true,
+    showCategorySection: false,
   });
-  const { showChequenoSection, showChequenoSection1 } = showHide;
+  const { showChequenoSection, showChequenoSection1, showCategorySection } =
+    showHide;
 
   const onDateModeChange = (e) => {
     if (e) {
@@ -86,37 +128,36 @@ const AddLeave = ({
 
   const {
     leaveReason,
-    slVal,
     Dateselectmode,
+    leaveTypedaymode,
     leaveStartDate,
     leaveEndDate,
     leaveDate,
+    leavecategoryName,
   } = formData;
+
+  //Required Validation Starts
+  const [error, setError] = useState({
+    clienttypeIdChecker: false,
+
+    clienttypeIdErrorStyle: {},
+  });
+  const { clienttypeIdChecker, clienttypeIdErrorStyle } = error;
+
+  const checkErrors = () => {
+    if (!clienttypeIdChecker) {
+      setError({
+        ...error,
+        clienttypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    return true;
+  };
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-  const [error, setError] = useState({
-    nextBtnStyle: { opacity: "0.5", pointerEvents: "none" },
-  });
-
-  const { nextBtnStyle } = error;
-  const onLeaveTypeSelect = (leaveType) => {
-    if (leaveType === "fullDay") {
-      setFormData({
-        ...formData,
-        slVal: "FullDay",
-      });
-    } else if (leaveType === "halfDay") {
-      setFormData({
-        ...formData,
-        slVal: "HalfDay",
-      });
-    }
-    setError({
-      ...error,
-      nextBtnStyle: { opacity: "1" },
-    });
   };
 
   const [staffData, setstaffData] = useState("");
@@ -131,6 +172,13 @@ const AddLeave = ({
       })
     );
   const onStaffChange = (e) => {
+    //  Required Validation starts
+    setError({
+      ...error,
+      clienttypeIdChecker: true,
+      clienttypeIdErrorStyle: { color: "#000" },
+    });
+    // Required Validation ends
     var employeeId = "";
     var employeename = "";
     setstaffData(e);
@@ -139,9 +187,19 @@ const AddLeave = ({
     setpaymentId(employeeId);
     setpaymentname(employeename);
   };
+  const onLeaveTypeModeChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        leaveTypedaymode: e,
+      });
+    }
+  };
 
-  //Required Validation ends
   const onSubmit = (e) => {
+    e.preventDefault();
+
+    // if (checkErrors()) {
     let leaveDateVals = [];
     if (showChequenoSection) {
       const d1 = new Date(leaveStartDate);
@@ -152,25 +210,63 @@ const AddLeave = ({
       const d2 = new Date(leaveDate);
       leaveDateVals = getDatesInRange(d1, d2);
     }
-    e.preventDefault();
+
     const finalData = {
       leaveDateVals: leaveDateVals,
-      leaveType: slVal,
+      leaveType: leaveTypedaymode.value,
       leaveReason: leaveReason,
       empId: employeeId,
+      leavecategoryName: leavecatname,
+      leavecategoryId: leavecatId,
     };
     addLeaves(finalData);
     onAddDistrictModalChange(true);
+    // }
+  };
+
+  const onOpenCategory = () => {
+    setShowHide({
+      ...showHide,
+      showCategorySection: true,
+    });
+  };
+
+  const onAddCategory = (e) => {
+    e.preventDefault();
+    const finalData = {
+      leavecategoryName: leavecategoryName,
+    };
+    addCategory(finalData);
+    setFormData({
+      ...formData,
+      leavecategoryName: "",
+    });
+    setShowHide({
+      ...showHide,
+      showCategorySection: false,
+    });
+  };
+
+  const onCloseDiv = () => {
+    setShowHide({
+      ...showHide,
+      showCategorySection: false,
+    });
   };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
     <Fragment>
-      <form onSubmit={(e) => onSubmit(e)}>
+      <form
+        onSubmit={(e) => onSubmit(e)}
+        className="row col-lg-12 col-md-12 col-sm-12 col-12"
+      >
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> Staff Name * :</label>
+          <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+            <label className="label-control" style={clienttypeIdErrorStyle}>
+              Staff Name * :
+            </label>
             <Select
               name="staffData"
               isSearchable={true}
@@ -181,39 +277,18 @@ const AddLeave = ({
               required
             />
           </div>
-          {/* <DatePicker
-            multiple
-            onChange={(array) => {
-              //Array of Dateobjecs
-              alert("selected dates :\n" + array.join(",\n"));
-            }}
-          /> */}
-
-          {/* <MultipleDatePicker
-            onSubmit={(dates) => console.log("selected dates ", dates)}
-            minDate={new Date()}
-          /> */}
-          {/* <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> Date * :</label>
-            <br />
-
-            <DatePicker
-              value={dates}
-              onChange={setDates}
-              multiple
-              sort
-              format={format}
-              calendarPosition="bottom-center"
-              plugins={[<DatePanel />]}
+          <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+            <label className="label-control">Leave Type</label>
+            <Select
+              name="leaveTypedaymode"
+              options={LeaveTypeday}
+              isSearchable={true}
+              defaultValue={LeaveTypeday[0]}
+              value={leaveTypedaymode}
+              onChange={(e) => onLeaveTypeModeChange(e)}
             />
-
-            <ul>
-              {dates.map((date, index) => (
-                <li key={index}>{date.format()}</li>
-              ))}
-            </ul>
-          </div> */}
-          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+          </div>
+          <div className="col-lg-3 col-md-12 col-sm-12 col-12">
             <label className="label-control">&nbsp;</label>
             <Select
               name="Dateselectmode"
@@ -227,7 +302,7 @@ const AddLeave = ({
           </div>
           {showChequenoSection && (
             <>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                 <label className="label-control">From Date* :</label>
                 <br />
                 <input
@@ -243,7 +318,7 @@ const AddLeave = ({
                   required
                 />
               </div>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                 <label className="label-control">To Date* :</label>
                 <br />
                 <input
@@ -262,7 +337,7 @@ const AddLeave = ({
             </>
           )}
           {showChequenoSection1 && (
-            <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+            <div className="col-lg-3 col-md-6 col-sm-6 col-12">
               <label className="label-control">Leave Date* :</label>
               <br />
               <input
@@ -280,48 +355,28 @@ const AddLeave = ({
             </div>
           )}
 
-          <div className="row col-lg-12 col-md-9 col-sm-9 col-12 py-3">
-            <div className="col-lg-6 col-md-4 col-sm-4 col-12">
-              <center>
-                <input
-                  type="button"
-                  onClick={() => onLeaveTypeSelect("fullDay")}
-                  className="btn btn-round"
-                  value="Full Day"
-                  style={
-                    slVal === "FullDay"
-                      ? {
-                          backgroundColor: "#5c87a3",
-                          color: " #fff",
-                          border: "3px solid #2a3855",
-                        }
-                      : { background: "white" }
-                  }
-                />
-              </center>
-            </div>
-            <div className="col-lg-6 col-md-4 col-sm-4 col-12">
-              <center>
-                {" "}
-                <input
-                  type="button"
-                  onClick={() => onLeaveTypeSelect("halfDay")}
-                  className="btn btn-round"
-                  value="Half Day"
-                  style={
-                    slVal === "HalfDay"
-                      ? {
-                          backgroundColor: "#5c87a3",
-                          color: "#fff",
-                          border: "3px solid #2a3855",
-                        }
-                      : { background: "white" }
-                  }
-                />
-              </center>
-            </div>
+          <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+            <label className="label-control"> Leave Category * :</label>
+
+            <Select
+              name="leaveCatMode"
+              options={allleavecatmodes}
+              isSearchable={true}
+              value={leavecat}
+              placeholder="Select Mode"
+              onChange={(e) => onLeaveCatModeChange(e)}
+            />
+            <br />
+            <Link
+              className="btn btn_green_bg"
+              to="#"
+              onClick={() => onOpenCategory()}
+            >
+              Add Category
+            </Link>
           </div>
-          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control"> Reason :</label>
             <textarea
               name="leaveReason"
@@ -334,25 +389,75 @@ const AddLeave = ({
               onChange={(e) => onInputChange(e)}
             ></textarea>
           </div>
+          <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
+            {loading ? (
+              <button
+                className="btn sub_form btn_continue Save float-right"
+                disabled
+              >
+                Loading...
+              </button>
+            ) : (
+              <input
+                type="submit"
+                name="submit"
+                value="Add Leave"
+                className="btn sub_form btn_continue Save float-right"
+              />
+            )}
+          </div>
         </div>
+      </form>
+      <form
+        onSubmit={(e) => onAddCategory(e)}
+        className="row col-lg-12 col-md-12 col-sm-12 col-12"
+      >
+        {showCategorySection && (
+          <div className="row col-lg-8 col-md-6 col-sm-6 col-12 card-new">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+              <h5>Add Leave Category </h5>
+            </div>
+            <div className="col-lg-5 col-md-6 col-sm-6 col-12">
+              <label className="label-control">Category Name:</label>
+              <input
+                type="text"
+                name="leavecategoryName"
+                value={leavecategoryName}
+                className="form-control"
+                onChange={(e) => onInputChange(e)}
+              />
+            </div>
+            <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
+              <br />
 
-        <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
-          {loading ? (
-            <button
-              className="btn sub_form btn_continue Save float-right"
-              disabled
-            >
-              Loading...
-            </button>
-          ) : (
-            <input
-              type="submit"
-              name="submit"
-              value="Add Leave"
-              className="btn sub_form btn_continue Save float-right"
-            />
-          )}
-        </div>
+              {loading ? (
+                <button
+                  className="btn sub_form btn_continue Save float-right"
+                  disabled
+                >
+                  Loading...
+                </button>
+              ) : (
+                <>
+                  <input
+                    type="submit"
+                    name="submit"
+                    value="Add Category"
+                    className="btn sub_form btn_continue Save "
+                  />
+                  &nbsp;
+                  <Link
+                    to="#"
+                    className="btn sub_form btn_continue blackbrd "
+                    onClick={() => onCloseDiv()}
+                  >
+                    Cancel
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </form>
     </Fragment>
   );
@@ -363,6 +468,8 @@ AddLeave.propTypes = {
   settings: PropTypes.object.isRequired,
   getAllEmployee: PropTypes.func.isRequired,
   addLeaves: PropTypes.func.isRequired,
+  addCategory: PropTypes.func.isRequired,
+  getALLLeaveCatMode: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -375,4 +482,6 @@ export default connect(mapStateToProps, {
   getAllEmployee,
   getAllStaff,
   addLeaves,
+  getALLLeaveCatMode,
+  addCategory,
 })(AddLeave);

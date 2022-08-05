@@ -27,6 +27,8 @@ export const FINAL_DATA_REP = "FINAL_DATA_REP";
 
 ///NEW
 export const PAYMENT_MODE = "PAYMENT_MODE";
+export const LEAVE_TYPECAT_MODE = "LEAVE_TYPECAT_MODE";
+
 export const ALL_EMPLOYEE = "ALL_EMPLOYEE";
 export const SELECTED_EMP = "SELECTED_EMP";
 

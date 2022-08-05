@@ -9,7 +9,7 @@ const EmployeeDetails = require("../../models/EmpDetails");
 const EmployeeDetailsHistory = require("../../models/EmpDetailsHistory");
 const UserGroup = require("../../models/UserGroups");
 const EmpLeaves = require("../../models/Leaves");
-
+const EmpLeavesCategory = require("../../models/LeaveCategory");
 const {
   USER_EXISTS,
   STATUS_CODE_200,
@@ -348,18 +348,43 @@ router.post("/add-leaves", async (req, res) => {
   }
 });
 
+router.post("/add-leaves-category", async (req, res) => {
+  let data = req.body;
+  try {
+    let LeaveCategoryDetails = new EmpLeavesCategory(data);
+    output = await LeaveCategoryDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.get("/get-leave-cat-mode", async (req, res) => {
+  try {
+    const allLeaveTypeMode = await EmpLeavesCategory.find({});
+    res.json(allLeaveTypeMode);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 router.post(
   "/edit-leave",
 
   async (req, res) => {
     try {
       let data = req.body;
+
       const updateLeave = await EmpLeaves.updateOne(
         { _id: data.recordId },
         {
           $set: {
             leaveType: data.leaveType,
             leaveReason: data.leaveReason,
+            leavecategoryName: data.leavecategoryName,
+            leavecategoryId: data.leavecategoryId,
             leaveEditedById: data.leaveEditedById,
             leaveEditedDateTime: data.leaveEditedDateTime,
             leaveDate: data.leaveDate,

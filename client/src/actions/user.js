@@ -12,6 +12,7 @@ import {
   LAST_ENTERED_EMP_CODE,
   LEAVES,
   GET_LEAVES_STAFF,
+  LEAVE_TYPECAT_MODE,
 } from "./types";
 
 const config = {
@@ -145,7 +146,8 @@ export const editLeaveDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/users/edit-leave", finalData, config);
-    dispatch(getALLUserGroups());
+    dispatch(getALLLeaves());
+    // dispatch(getALLUserGroups());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -233,6 +235,38 @@ export const addLeaves = (finalData) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: ERROR,
+    });
+  }
+};
+
+export const addCategory = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/users/add-leaves-category", finalData, config);
+    dispatch(getALLLeaveCatMode());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getALLLeaveCatMode = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/users/get-leave-cat-mode");
+    localStorage.setItem("allLeaveTypeModeData", JSON.stringify(res.data));
+    dispatch({
+      type: LEAVE_TYPECAT_MODE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
     });
   }
 };

@@ -44,6 +44,8 @@ const AllLeave = ({
     getLeavesStaff();
   }, [getLeavesStaff]);
 
+  console.log(leaves);
+
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
 
@@ -371,7 +373,13 @@ const AllLeave = ({
                       <tr>
                         <th>Sl No.</th>
                         <th>Staff Name</th>
-                        <th>Reason</th>
+                        <th>Leave Category</th>
+                        {user.departmentName &&
+                        user.departmentName !== "Imaging" ? (
+                          <th>Reason</th>
+                        ) : (
+                          <></>
+                        )}
                         <th>Leave Type</th>
                         <th>Date</th>
                         <th>Department</th>
@@ -397,8 +405,15 @@ const AllLeave = ({
                             <tr key={idx}>
                               <td>{idx + 1}</td>
                               <td>{leaves.output.empFullName}</td>
-                              <td>{leaves.leaveReason}</td>
+                              <td>{leaves.leavecategoryName}</td>
+                              {user.departmentName &&
+                              user.departmentName !== "Imaging" ? (
+                                <td>{leaves.leaveReason}</td>
+                              ) : (
+                                <></>
+                              )}
                               <td>{leaves.leaveType}</td>
+
                               <td>{leaveDate}</td>
                               <td>{leaves.output.departmentName}</td>
                               {(user.userGroupName &&
@@ -447,7 +462,7 @@ const AllLeave = ({
           show={showAllDistrictModal}
           backdrop="static"
           keyboard={false}
-          size="md"
+          size="xl"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
@@ -509,7 +524,7 @@ const AllLeave = ({
         >
           <Modal.Header>
             <div className="col-lg-10">
-              <h3 className="modal-title text-center">Deactivate Project</h3>
+              <h3 className="modal-title text-center">Deactivate Leave</h3>
             </div>
             <div className="col-lg-1">
               <button onClick={handleDeactiveModalClose} className="close">
