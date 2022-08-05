@@ -44,8 +44,6 @@ const AllLeave = ({
     getLeavesStaff();
   }, [getLeavesStaff]);
 
-  console.log(leaves);
-
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
 
@@ -182,7 +180,7 @@ const AllLeave = ({
       empId: e.value,
     };
     getFilterEmpDetails(finalData);
-    console.log(finalData);
+
     getALLLeaves(finalData);
   };
 
