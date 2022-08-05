@@ -53,12 +53,7 @@ const EditLeave = ({
         : "",
   });
 
-  const {
-    empFullName,
-    leaveReason,
-
-    leaveTypedaymode,
-  } = formData;
+  const { empFullName, leaveReason, leaveTypedaymode } = formData;
   const [leaveDate, setleaveDate] = useState(
     allLeavedata && allLeavedata.leaveDate ? allLeavedata.leaveDate : ""
   );
@@ -112,7 +107,6 @@ const EditLeave = ({
     e.preventDefault();
     const finalData = {
       recordId: allLeavedata ? allLeavedata._id : "",
-
       leaveDate: leaveDate,
       leaveType: leaveTypedaymode.value,
       leaveReason: leaveReason,
