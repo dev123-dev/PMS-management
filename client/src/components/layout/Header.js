@@ -288,6 +288,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                             <li>
                               <Link to="/all-trash">Trash</Link>
                             </li>
+                            <li>
+                              <Link to="/all-company">Company </Link>
+                            </li>
                           </Fragment>
                         ) : (
                           <></>

@@ -47,6 +47,8 @@ import AllUserGroups from "../settings/AllUserGroups";
 import changePassword from "../auth/ChangePwd";
 import AllFeedback from "../settings/AllFeedback";
 import Trash from "../settings/Trash";
+import AllCompany from "../settings/AllCompany";
+import AddCompany from "../settings/AddCompany";
 //dct
 import AllProspects from "../dct/AllProspects";
 import Allfollowup from "../dct/Allfollowup";
@@ -162,6 +164,8 @@ const RoutesFile = () => {
           component={AllDesignation}
         />
         <PrivateRoute exact path="/all-feedback" component={AllFeedback} />
+        <PrivateRoute exact path="/all-company" component={AllCompany} />
+        <PrivateRoute exact path="/add-company" component={AddCompany} />
         <PrivateRoute exact path="/all-trash" component={Trash} />
         {/* Project Status */}
         <PrivateRoute
