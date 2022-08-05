@@ -8,16 +8,13 @@ const DeactiveCompany = ({
   auth: { isAuthenticated, user, users, loading },
   companydeactivedata,
   onDeactiveModalChange,
-
   deactivateCompanyData,
 }) => {
-  // console.log(staffDeactivedata);
   const [formData, setFormData] = useState({
     companyName:
       companydeactivedata && companydeactivedata.companyName
         ? companydeactivedata.companyName
         : "",
-
     companyDeactivateReason: "",
     isSubmitted: false,
   });
@@ -30,15 +27,12 @@ const DeactiveCompany = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    // if (checkErrors()) {
     const finalData = {
       recordId: companydeactivedata ? companydeactivedata._id : "",
       companyDeactivateReason: companyDeactivateReason,
       companyDeactivateById: user._id,
       companyDeactivateDateTime: new Date().toLocaleString(),
     };
-    console.log(finalData);
     deactivateCompanyData(finalData);
     onDeactiveModalChange(true);
   };
@@ -57,7 +51,6 @@ const DeactiveCompany = ({
 
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">
             <label className="label-control">Deactive Reason :</label>
-
             <textarea
               name="companyDeactivateReason"
               id="companyDeactivateReason"
