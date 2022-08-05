@@ -277,7 +277,7 @@ const AddLeave = ({
               required
             />
           </div>
-          <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-2 col-md-12 col-sm-12 col-12">
             <label className="label-control">Leave Type</label>
             <Select
               name="leaveTypedaymode"
@@ -288,7 +288,7 @@ const AddLeave = ({
               onChange={(e) => onLeaveTypeModeChange(e)}
             />
           </div>
-          <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-2 col-md-12 col-sm-12 col-12">
             <label className="label-control">&nbsp;</label>
             <Select
               name="Dateselectmode"
@@ -302,7 +302,7 @@ const AddLeave = ({
           </div>
           {showChequenoSection && (
             <>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                 <label className="label-control">From Date* :</label>
                 <br />
                 <input
@@ -318,7 +318,7 @@ const AddLeave = ({
                   required
                 />
               </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                 <label className="label-control">To Date* :</label>
                 <br />
                 <input
