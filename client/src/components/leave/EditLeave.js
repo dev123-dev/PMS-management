@@ -10,10 +10,7 @@ import {
   editLeaveDetails,
   getALLLeaveCatMode,
 } from "../../actions/user";
-const DateMethods = [
-  { value: "Single Date", label: "Single Date" },
-  { value: "Multi Date", label: "Multi Date" },
-];
+
 const LeaveTypeday = [
   { value: "FullDay", label: "FullDay" },
   { value: "HalfDay", label: "HalfDay" },
