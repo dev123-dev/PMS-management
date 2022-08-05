@@ -277,27 +277,6 @@ router.post("/deactive-designation-data", async (req, res) => {
   }
 });
 
-router.post("/deactive-company-data", async (req, res) => {
-  try {
-    let data = req.body;
-    const deactiveCompanyData = await Company.updateOne(
-      { _id: data.recordId },
-      {
-        $set: {
-          companyStatus: "Deactive",
-          companyDeactivateReason: data.companyDeactivateReason,
-          companyDeactivateById: data.companyDeactivateById,
-          companyDeactivateDateTime: new Date().toLocaleString("en-GB"),
-        },
-      }
-    );
-
-    res.json(deactiveCompanyData);
-  } catch (error) {
-    res.status(500).json({ errors: [{ msg: "Server Error" }] });
-  }
-});
-
 //***************SELECT***************
 
 //ALL Payment Mode
@@ -481,4 +460,24 @@ router.get("/get-all-company-details", async (req, res) => {
   }
 });
 
+router.post("/deactive-company-data", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactiveCompanyData = await Company.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          companyStatus: "Deactive",
+          companyDeactivateReason: data.companyDeactivateReason,
+          companyDeactivateById: data.companyDeactivateById,
+          companyDeactivateDateTime: data.companyDeactivateDateTime,
+        },
+      }
+    );
+
+    res.json(deactiveCompanyData);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
 module.exports = router;

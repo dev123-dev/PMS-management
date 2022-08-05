@@ -7,6 +7,7 @@ import Spinner from "../layout/Spinner";
 import AddCompany from "./AddCompany";
 import EditCompanyDetails from "./EditCompanyDetails";
 import { getALLCompanyDetails } from "../../actions/settings";
+import DeactiveCompany from "./DeactiveCompany";
 const AllCompany = ({
   auth: { isAuthenticated, user, users },
   settings: { allCompanyDetails },
@@ -40,6 +41,20 @@ const AllCompany = ({
   const onUpdate = (allCompanyDetails, idx) => {
     setShowEditModal(true);
     setUserDatas(allCompanyDetails);
+  };
+
+  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
+
+  const onDeactiveModalChange = (e) => {
+    if (e) {
+      handleDeactiveModalClose();
+    }
+  };
+  const [Datadeactive, setdeactive] = useState(null);
+  const onDeactive = (allCompanyDetails, idx) => {
+    setShowDeactiveModal(true);
+    setdeactive(allCompanyDetails);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -99,6 +114,15 @@ const AllCompany = ({
                               <td>{allCompanyDetails.companyDescription}</td>
                               <td>{allCompanyDetails.companyAddress}</td>
                               <td>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() =>
+                                    onDeactive(allCompanyDetails, idx)
+                                  }
+                                  src={require("../../static/images/delete.png")}
+                                  alt="Deactivate"
+                                  title="Deactivate"
+                                />
                                 <img
                                   className="img_icon_size log"
                                   onClick={() =>
@@ -172,6 +196,36 @@ const AllCompany = ({
             <EditCompanyDetails
               onEditModalChange={onEditModalChange}
               editcompanydatas={userDatas}
+            />
+          </Modal.Body>
+        </Modal>
+
+        <Modal
+          show={showDeactiveModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">Deactivate Company</h3>
+            </div>
+            <div className="col-lg-1">
+              <button onClick={handleDeactiveModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <DeactiveCompany
+              onDeactiveModalChange={onDeactiveModalChange}
+              companydeactivedata={Datadeactive}
             />
           </Modal.Body>
         </Modal>

@@ -97,7 +97,7 @@ const EditCompanyDetails = ({
       companyAddress: companyAddress,
       companyShortForm: companyShortForm,
       companyEditedById: user._id,
-      companyEditedDateTime: new Date().toLocaleString("en-GB"),
+      companyEditedDateTime: new Date().toLocaleString(),
     };
     console.log(finalData);
     EditCompanyData(finalData);

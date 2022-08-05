@@ -475,7 +475,7 @@ export const deactivateCompanyData = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/settings/deactive-company-data", finalData, config);
-    // dispatch(getALLDesignation());
+    dispatch(getALLCompanyDetails());
     dispatch({
       type: SET_LOADING_FALSE,
     });
