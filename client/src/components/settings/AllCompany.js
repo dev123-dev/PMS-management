@@ -123,6 +123,7 @@ const AllCompany = ({
                                   alt="Deactivate"
                                   title="Deactivate"
                                 />
+                                &nbsp;
                                 <img
                                   className="img_icon_size log"
                                   onClick={() =>

@@ -452,7 +452,11 @@ router.post("/restore-project-data", async (req, res) => {
 //ALL Company Details
 router.get("/get-all-company-details", async (req, res) => {
   try {
-    const allCompanyDetails = await Company.find();
+    const allCompanyDetails = await Company.find({
+      companyStatus: {
+        $eq: "Active",
+      },
+    });
     res.json(allCompanyDetails);
   } catch (err) {
     console.error(err.message);
