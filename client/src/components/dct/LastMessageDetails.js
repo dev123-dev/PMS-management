@@ -1,9 +1,10 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { AddState } from "../../actions/area";
-import Spinner from "../layout/Spinner";
 
+import Spinner from "../layout/Spinner";
+import { Modal } from "react-bootstrap";
+import ClientCallHistory from "./ClientCallHistory";
 const LastMessageDetails = ({
   auth: { isAuthenticated, user, users, loading },
   //   AddState,
@@ -20,21 +21,25 @@ const LastMessageDetails = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const [showClientHistoryModal, setShowClientCallHistoryModal] =
+    useState(false);
+  const handleClientCallHistoryModalClose = () =>
+    setShowClientCallHistoryModal(false);
+
+  const onClientCallHistoryModalChange = (e) => {
+    if (e) {
+      handleClientCallHistoryModalClose();
+    }
+  };
+  const onClickHandler = () => {
+    setShowClientCallHistoryModal(true);
+  };
   const onSubmit = (e) => {
     e.preventDefault();
-    const finalData = {
-      countryName: countryName,
-      countryCode: countryCode,
-      countryEnteredById: user._id,
-      countryEnteredByName: user.userName,
-      countryBelongsTo: "DCT",
-    };
+    const finalData = {};
     console.log(finalData);
     // AddState(finalData);
     setFormData({
-      ...formData,
-      countryName: "",
-      countryCode: "",
       isSubmitted: true,
     });
   };
@@ -43,20 +48,47 @@ const LastMessageDetails = ({
     <Spinner />
   ) : (
     <Fragment>
-      {/* <form
-        className="row col-lg-12 col-md-12 col-sm-12 col-12"
-        onSubmit={(e) => onSubmit(e)}
-        autoComplete="off"
-      > */}
       <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
         <input
           type="submit"
           name="submit"
           value="History"
+          onClick={() => onClickHandler()}
           className="btn sub_form btn_continue  float-right"
         />
       </div>
-      {/* </form> */}
+
+      <Modal
+        show={showClientHistoryModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Client Call History</h3>
+          </div>
+          <div className="col-lg-1">
+            <button
+              onClick={handleClientCallHistoryModalClose}
+              className="close"
+            >
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <ClientCallHistory
+            onClientCallHistoryModalChange={onClientCallHistoryModalChange}
+          />
+        </Modal.Body>
+      </Modal>
     </Fragment>
   );
 };
