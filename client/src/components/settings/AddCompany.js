@@ -61,7 +61,7 @@ const AddCompany = ({
       departmentEnteredById: user._id,
       companyEnteredByName: user.FullName,
     };
-    console.log(finalData);
+
     AddCompanyDetails(finalData);
     onAddDistrictModalChange(true);
   };
