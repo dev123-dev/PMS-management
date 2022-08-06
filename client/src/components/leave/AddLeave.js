@@ -425,6 +425,7 @@ const AddLeave = ({
                 value={leavecategoryName}
                 className="form-control"
                 onChange={(e) => onInputChange(e)}
+                required
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
