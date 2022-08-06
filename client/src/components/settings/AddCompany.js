@@ -162,16 +162,6 @@ const AddCompany = ({
             />
           </div>
           <div className="col-lg-4 col-md-12 col-sm-12 col-12">
-            <label className="label-control">Description :</label>
-            <input
-              type="text"
-              name="companyDescription"
-              value={companyDescription}
-              className="form-control"
-              onChange={(e) => onInputChange(e)}
-            />
-          </div>
-          <div className="col-lg-4 col-md-12 col-sm-12 col-12">
             <label className="label-control">Short Form :</label>
             <input
               type="text"
@@ -181,7 +171,22 @@ const AddCompany = ({
               onChange={(e) => onInputChange(e)}
             />
           </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+            <label className="label-control">Description :</label>
+
+            <textarea
+              name="companyDescription"
+              id="companyDescription"
+              className="textarea form-control"
+              rows="3"
+              placeholder="Company Description"
+              style={{ width: "100%" }}
+              value={companyDescription}
+              onChange={(e) => onInputChange(e)}
+            ></textarea>
+          </div>
+
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <label className="label-control">Address :</label>
 
             <textarea
