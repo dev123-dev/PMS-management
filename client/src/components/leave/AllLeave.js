@@ -10,19 +10,23 @@ import {
   getAllStaff,
   getFilterEmpDetails,
   getALLLeaves,
+  getLeavesStaff,
 } from "../../actions/user";
 import AddLeave from "./AddLeave";
+import EditLeave from "./EditLeave";
+import DeactiveLeave from "./DeactiveLeave";
 // import EditEmployeeDetails from "./EditEmployeeDetails";
 // import DeactiveEmployee from "./DeactiveEmployee";
 // import EditPassword from "./EditPassword";
 const AllLeave = ({
   auth: { allUser, isAuthenticated, user, users },
   settings: { allStaffName },
-  user: { allEmployee, leaves },
+  user: { allEmployee, leaves, staffLeaves },
   getAllEmployee,
   getFilterEmpDetails,
   getAllStaff,
   getALLLeaves,
+  getLeavesStaff,
 }) => {
   useEffect(() => {
     getAllEmployee();
@@ -36,6 +40,9 @@ const AllLeave = ({
   useEffect(() => {
     getALLLeaves();
   }, [getALLLeaves]);
+  useEffect(() => {
+    getLeavesStaff();
+  }, [getLeavesStaff]);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -47,9 +54,9 @@ const AllLeave = ({
   };
 
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allEmployee, idx) => {
+  const onUpdate = (leaves, idx) => {
     setShowEditModal(true);
-    setUserDatas(allEmployee);
+    setUserDatas(leaves);
   };
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
@@ -60,48 +67,45 @@ const AllLeave = ({
       handleDeactiveModalClose();
     }
   };
-  const [userDatadeactive, setUserDatadeactive] = useState(null);
-  const onDeactive = (allEmployee, idx) => {
+  const [userLeavedeactive, setUserDatadeactive] = useState(null);
+  const onDeactive = (leaves, idx) => {
     setShowDeactiveModal(true);
-    setUserDatadeactive(allEmployee);
+    setUserDatadeactive(leaves);
   };
 
   //changepwd
 
-  const [showChangePwdModal, setShowChangePwdModal] = useState(false);
-  const handleChangePwdModalClose = () => setShowChangePwdModal(false);
-  const onChangePwdModalChange = (e) => {
-    if (e) {
-      handleChangePwdModalClose();
-    }
-  };
-  const [userDataChangePwd, setUserDataChangePwd] = useState(null);
-  const onChangePwd = (allEmployee, idx) => {
-    setShowChangePwdModal(true);
-    setUserDataChangePwd(allEmployee);
-  };
+  // const [showChangePwdModal, setShowChangePwdModal] = useState(false);
+  // const handleChangePwdModalClose = () => setShowChangePwdModal(false);
+  // const onChangePwdModalChange = (e) => {
+  //   if (e) {
+  //     handleChangePwdModalClose();
+  //   }
+  // };
+  // const [userDataChangePwd, setUserDataChangePwd] = useState(null);
+  // const onChangePwd = (allEmployee, idx) => {
+  //   setShowChangePwdModal(true);
+  //   setUserDataChangePwd(allEmployee);
+  // };
   const [staffData, setstaffData] = useState("");
-
-  const activeStaffsOpt = [];
-  allStaffName &&
-    allStaffName.map((staffsData) =>
-      activeStaffsOpt.push({
-        label: staffsData.empFullName,
-        value: staffsData._id,
-      })
-    );
-  const onStaffChange = (e) => {
-    setstaffData(e);
-    const finalData = {
-      empNameSearch: e.value,
-    };
-
-    getFilterEmpDetails(finalData);
-  };
 
   const onClickReset = () => {
     getFilterEmpDetails("");
     setstaffData("");
+
+    getALLLeaves("");
+    setFormData({
+      Dateselectmode: DateMethods[0],
+    });
+    getLeavesStaff("");
+    setSelDateDataVal("");
+    setsingledate(new Date().toISOString().split("T")[0]);
+    setSelectedDate(new Date().toISOString().split("T")[0]);
+    setShowHide({
+      ...showHide,
+      showdateSection: false,
+      showdateSection1: true,
+    });
   };
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
@@ -135,17 +139,49 @@ const AllLeave = ({
   //
   const [selDateDataVal, setSelDateDataVal] = useState();
   const onDateChange2 = (e) => {
-    // setClientData("");
+    setstaffData("");
     setsingledate(e.target.value);
   };
   const [todate, settodate] = useState("");
   const onDateChange1 = (e) => {
     settodate(e.target.value);
   };
+  const onSearchmultidate = (e) => {
+    let selDateData = {
+      fromdate: fromdate,
+      todate: todate,
+      dateType: "Multi Date",
+    };
+    setSelDateDataVal(selDateData);
+    getALLLeaves(selDateData);
+    getLeavesStaff(selDateData);
+  };
 
   const [fromdate, setfromdate] = useState("");
   const onDateChange = (e) => {
     setfromdate(e.target.value);
+  };
+
+  const activeStaffsOpt = [];
+  allStaffName &&
+    staffLeaves.map((staffsData) =>
+      activeStaffsOpt.push({
+        label: staffsData.empFullName,
+        value: staffsData._id,
+      })
+    );
+  const onStaffChange = (e) => {
+    setstaffData(e);
+    const finalData = {
+      selDate: singledate,
+      fromdate: fromdate,
+      todate: todate,
+      dateType: Dateselectmode.value ? Dateselectmode.value : "Single Date",
+      empId: e.value,
+    };
+    getFilterEmpDetails(finalData);
+
+    getALLLeaves(finalData);
   };
 
   const onSearch = (e) => {
@@ -154,19 +190,8 @@ const AllLeave = ({
       dateType: "Single Date",
     };
     setSelDateDataVal(selDateData);
-    // getDailyJobsheetProjectDeatils(selDateData);
-    // getDailyjobSheetClients(selDateData);
-  };
-
-  const onSearchmultidate = (e) => {
-    let selDateData = {
-      fromdate: fromdate,
-      todate: todate,
-      dateType: "Multi Date",
-    };
-    setSelDateDataVal(selDateData);
-    // getDailyJobsheetProjectDeatils(selDateData);
-    // getDailyjobSheetClients(selDateData);
+    getALLLeaves(selDateData);
+    getLeavesStaff(selDateData);
   };
 
   const [showHide, setShowHide] = useState({
@@ -175,7 +200,9 @@ const AllLeave = ({
   });
   const { showdateSection, showdateSection1 } = showHide;
   const onDateModeChange = (e) => {
-    // setClientData("");
+    setstaffData("");
+    setsingledate(new Date().toISOString().split("T")[0]);
+    setSelectedDate(new Date().toISOString().split("T")[0]);
     if (e) {
       setFormData({
         ...formData,
@@ -210,25 +237,25 @@ const AllLeave = ({
             <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
               <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-2">
                 {/* SLAP UserGroupRights */}
-                {/* 
+
                 {(user.userGroupName &&
                   user.userGroupName === "Administrator") ||
                 user.userGroupName === "Super Admin" ||
-                user.userGroupName === "Clarical Admins" ? ( */}
-                <>
-                  <Select
-                    name="Dateselectmode"
-                    options={DateMethods}
-                    isSearchable={true}
-                    // defaultValue={DateMethods[0]}
-                    value={Dateselectmode}
-                    placeholder="Select"
-                    onChange={(e) => onDateModeChange(e)}
-                  />
-                </>
-                {/* ) : (
+                user.userGroupName === "Clarical Admins" ? (
+                  <>
+                    <Select
+                      name="Dateselectmode"
+                      options={DateMethods}
+                      isSearchable={true}
+                      // defaultValue={DateMethods[0]}
+                      value={Dateselectmode}
+                      placeholder="Select"
+                      onChange={(e) => onDateModeChange(e)}
+                    />
+                  </>
+                ) : (
                   <></>
-                )} */}
+                )}
               </div>
               {showdateSection && (
                 <>
@@ -344,11 +371,24 @@ const AllLeave = ({
                       <tr>
                         <th>Sl No.</th>
                         <th>Staff Name</th>
-                        <th>Reason</th>
+                        <th>Leave Category</th>
+                        {user.departmentName &&
+                        user.departmentName !== "Imaging" ? (
+                          <th>Reason</th>
+                        ) : (
+                          <></>
+                        )}
                         <th>Leave Type</th>
                         <th>Date</th>
                         <th>Department</th>
-                        {/* <th>OP</th> */}
+                        {(user.userGroupName &&
+                          user.userGroupName === "Administrator") ||
+                        user.userGroupName === "Super Admin" ||
+                        user.userGroupName === "Clarical Admins" ? (
+                          <th>OP</th>
+                        ) : (
+                          <></>
+                        )}
                       </tr>
                     </thead>
                     <tbody>
@@ -363,26 +403,41 @@ const AllLeave = ({
                             <tr key={idx}>
                               <td>{idx + 1}</td>
                               <td>{leaves.output.empFullName}</td>
-                              <td>{leaves.leaveReason}</td>
+                              <td>{leaves.leavecategoryName}</td>
+                              {user.departmentName &&
+                              user.departmentName !== "Imaging" ? (
+                                <td>{leaves.leaveReason}</td>
+                              ) : (
+                                <></>
+                              )}
                               <td>{leaves.leaveType}</td>
+
                               <td>{leaveDate}</td>
                               <td>{leaves.output.departmentName}</td>
-                              {/* <td> */}
-                              {/* <Link
-                                  className="btn btn_green_bg"
-                                  to="#"
-                                  onClick={() => onClickHandler()}
-                                >
-                                  Approve
-                                </Link> */}
-                              {/* <Link
-                                  className="btn btn_green_bg"
-                                  to="#"
-                                  onClick={() => onClickHandler()}
-                                >
-                                  Cancel
-                                </Link> */}
-                              {/* </td> */}
+                              {(user.userGroupName &&
+                                user.userGroupName === "Administrator") ||
+                              user.userGroupName === "Super Admin" ||
+                              user.userGroupName === "Clarical Admins" ? (
+                                <td>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(leaves, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                  &emsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onDeactive(leaves, idx)}
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Deactivate"
+                                    title="Deactivate"
+                                  />
+                                </td>
+                              ) : (
+                                <></>
+                              )}
                             </tr>
                           );
                         })}
@@ -405,7 +460,7 @@ const AllLeave = ({
           show={showAllDistrictModal}
           backdrop="static"
           keyboard={false}
-          size="md"
+          size="xl"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
@@ -427,17 +482,17 @@ const AllLeave = ({
             <AddLeave onAddDistrictModalChange={onAddDistrictModalChange} />
           </Modal.Body>
         </Modal>
-        {/* <Modal
+        <Modal
           show={showEditModal}
           backdrop="static"
           keyboard={false}
-          size="xl"
+          size="md"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
           <Modal.Header>
             <div className="col-lg-10 col-md-10 col-sm-10 col-10">
-              <h3 className="modal-title text-center">Edit Staff Details</h3>
+              <h3 className="modal-title text-center">Edit Leave Details</h3>
             </div>
             <div className="col-lg-2 col-md-2 col-sm-2 col-2">
               <button onClick={handleEditModalClose} className="close">
@@ -450,9 +505,9 @@ const AllLeave = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <EditEmployeeDetails
+            <EditLeave
               onEditModalChange={onEditModalChange}
-              allEmployeedata={userDatas}
+              allLeavedata={userDatas}
             />
           </Modal.Body>
         </Modal>
@@ -467,7 +522,7 @@ const AllLeave = ({
         >
           <Modal.Header>
             <div className="col-lg-10">
-              <h3 className="modal-title text-center">Deactivate Staff</h3>
+              <h3 className="modal-title text-center">Deactivate Leave</h3>
             </div>
             <div className="col-lg-1">
               <button onClick={handleDeactiveModalClose} className="close">
@@ -480,42 +535,12 @@ const AllLeave = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <DeactiveEmployee
+            <DeactiveLeave
               onDeactiveModalChange={onDeactiveModalChange}
-              staffDeactivedata={userDatadeactive}
+              LeaveDeactiveData={userLeavedeactive}
             />
           </Modal.Body>
         </Modal>
-
-        <Modal
-          show={showChangePwdModal}
-          backdrop="static"
-          keyboard={false}
-          size="md"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header>
-            <div className="col-lg-10">
-              <h3 className="modal-title text-center">Change Password</h3>
-            </div>
-            <div className="col-lg-1">
-              <button onClick={handleChangePwdModalClose} className="close">
-                <img
-                  src={require("../../static/images/close.png")}
-                  alt="X"
-                  style={{ height: "20px", width: "20px" }}
-                />
-              </button>
-            </div>
-          </Modal.Header>
-          <Modal.Body>
-            <EditPassword
-              onChangePwdModalChange={onChangePwdModalChange}
-              staffChangePwddata={userDataChangePwd}
-            />
-          </Modal.Body>
-        </Modal> */}
       </div>
     </Fragment>
   );
@@ -524,10 +549,11 @@ const AllLeave = ({
 AllLeave.propTypes = {
   auth: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  settings: PropTypes.func.isRequired,
+  settings: PropTypes.object.isRequired,
   getAllEmployee: PropTypes.func.isRequired,
   getFilterEmpDetails: PropTypes.func.isRequired,
   getALLLeaves: PropTypes.func.isRequired,
+  getLeavesStaff: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -540,4 +566,5 @@ export default connect(mapStateToProps, {
   getAllStaff,
   getFilterEmpDetails,
   getALLLeaves,
+  getLeavesStaff,
 })(AllLeave);

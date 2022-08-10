@@ -11,6 +11,8 @@ import {
   USER_GROUPS,
   LAST_ENTERED_EMP_CODE,
   LEAVES,
+  GET_LEAVES_STAFF,
+  LEAVE_TYPECAT_MODE,
 } from "./types";
 
 const config = {
@@ -138,6 +140,24 @@ export const getAllStaff = () => async (dispatch) => {
   }
 };
 
+export const editLeaveDetails = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/users/edit-leave", finalData, config);
+    dispatch(getALLLeaves());
+    // dispatch(getALLUserGroups());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
 export const getFilterEmpDetails = (finalData) => async (dispatch) => {
   // console.log("action", finalData);
   try {
@@ -219,11 +239,43 @@ export const addLeaves = (finalData) => async (dispatch) => {
   }
 };
 
+export const addCategory = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/users/add-leaves-category", finalData, config);
+    dispatch(getALLLeaveCatMode());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getALLLeaveCatMode = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/users/get-leave-cat-mode");
+    localStorage.setItem("allLeaveTypeModeData", JSON.stringify(res.data));
+    dispatch({
+      type: LEAVE_TYPECAT_MODE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
 //All Leaves
 
-export const getALLLeaves = () => async (dispatch) => {
+export const getALLLeaves = (selDateData) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/users/get-all-Leaves");
+    const res = await axios.post("/api/users/get-all-Leaves", selDateData);
     // localStorage.setItem("allUserGroupData", JSON.stringify(res.data));
     dispatch({
       type: LEAVES,
@@ -232,6 +284,37 @@ export const getALLLeaves = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: ERROR,
+    });
+  }
+};
+
+export const getLeavesStaff = (selDateData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/users/get-leaves-staff", selDateData);
+    dispatch({
+      type: GET_LEAVES_STAFF,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const deactiveLeaveData = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/users/deactive-leave", finalData, config);
+    dispatch(getALLLeaves());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
     });
   }
 };

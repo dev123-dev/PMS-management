@@ -5,7 +5,13 @@ const companyDetailsSchema = new mongoose.Schema({
   companyName: {
     type: String,
   },
-  companyPhone: {
+  companyWebsite: {
+    type: String,
+  },
+  companyPhone1: {
+    type: String,
+  },
+  companyPhone2: {
     type: String,
   },
   companyDescription: {
@@ -25,6 +31,12 @@ const companyDetailsSchema = new mongoose.Schema({
     type: String,
   },
   companyPanNo: {
+    type: String,
+  },
+  companyRegisterNo: {
+    type: String,
+  },
+  companyTradeLicenseNo: {
     type: String,
   },
   companyEnteredById: {

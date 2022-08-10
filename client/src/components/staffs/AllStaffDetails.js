@@ -322,7 +322,7 @@ const AllStaffDetails = ({
 AllStaffDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  settings: PropTypes.func.isRequired,
+  settings: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,

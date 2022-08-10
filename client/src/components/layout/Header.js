@@ -137,6 +137,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
+
                 <NavItem>
                   {!loading &&
                   isAuthenticated &&
@@ -149,6 +150,58 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       All Prospectus
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
+
+                <NavItem>
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
+                    <NavLink
+                      to="/all-followup"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      All Followup
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
+                <NavItem>
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
+                    <NavLink
+                      to="/test-client-followup"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Test Client Followup
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
+                <NavItem>
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
+                    <NavLink
+                      to="/regular-client-followup"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Regular Client Followup
                     </NavLink>
                   ) : (
                     <NavItem></NavItem>
@@ -234,6 +287,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                             </li>
                             <li>
                               <Link to="/all-trash">Trash</Link>
+                            </li>
+                            <li>
+                              <Link to="/all-company">Company </Link>
                             </li>
                           </Fragment>
                         ) : (

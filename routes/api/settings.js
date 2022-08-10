@@ -233,7 +233,11 @@ router.post("/edit-company-details", async (req, res) => {
       {
         $set: {
           companyName: data.companyName,
-          companyPhone: data.companyPhone,
+          companyWebsite: data.companyWebsite,
+          companyRegisterNo: data.companyRegisterNo,
+          companyTradeLicenseNo: data.companyTradeLicenseNo,
+          companyPhone1: data.companyPhone1,
+          companyPhone2: data.companyPhone2,
           companyDescription: data.companyDescription,
           companyShortForm: data.companyShortForm,
           companyAddress: data.companyAddress,
@@ -268,27 +272,6 @@ router.post("/deactive-designation-data", async (req, res) => {
     );
 
     res.json(deactiveDesignationData);
-  } catch (error) {
-    res.status(500).json({ errors: [{ msg: "Server Error" }] });
-  }
-});
-
-router.post("/deactive-company-data", async (req, res) => {
-  try {
-    let data = req.body;
-    const deactiveCompanyData = await Company.updateOne(
-      { _id: data.recordId },
-      {
-        $set: {
-          companyStatus: "Deactive",
-          companyDeactivateReason: data.companyDeactivateReason,
-          companyDeactivateById: data.companyDeactivateById,
-          companyDeactivateDateTime: new Date().toLocaleString("en-GB"),
-        },
-      }
-    );
-
-    res.json(deactiveCompanyData);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
@@ -469,7 +452,11 @@ router.post("/restore-project-data", async (req, res) => {
 //ALL Company Details
 router.get("/get-all-company-details", async (req, res) => {
   try {
-    const allCompanyDetails = await Company.find();
+    const allCompanyDetails = await Company.find({
+      companyStatus: {
+        $eq: "Active",
+      },
+    });
     res.json(allCompanyDetails);
   } catch (err) {
     console.error(err.message);
@@ -477,4 +464,24 @@ router.get("/get-all-company-details", async (req, res) => {
   }
 });
 
+router.post("/deactive-company-data", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactiveCompanyData = await Company.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          companyStatus: "Deactive",
+          companyDeactivateReason: data.companyDeactivateReason,
+          companyDeactivateById: data.companyDeactivateById,
+          companyDeactivateDateTime: data.companyDeactivateDateTime,
+        },
+      }
+    );
+
+    res.json(deactiveCompanyData);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
 module.exports = router;

@@ -47,8 +47,13 @@ import AllUserGroups from "../settings/AllUserGroups";
 import changePassword from "../auth/ChangePwd";
 import AllFeedback from "../settings/AllFeedback";
 import Trash from "../settings/Trash";
+import AllCompany from "../settings/AllCompany";
+import AddCompany from "../settings/AddCompany";
 //dct
 import AllProspects from "../dct/AllProspects";
+import Allfollowup from "../dct/Allfollowup";
+import TestClientFollowup from "../dct/TestClientFollowup";
+import RegularClientFollowup from "../dct/RegularClientFollowup";
 import AddLead from "../dct/AddLead";
 import EditLead from "../dct/EditLead";
 import DeactiveLead from "../dct/DeactiveLead";
@@ -67,6 +72,19 @@ const RoutesFile = () => {
         <PrivateRoute exact path="/job-queue" component={JobQueue} />
         <PrivateRoute exact path="/job-queue" component={JobQueue} />
         <PrivateRoute exact path="/all-prospects" component={AllProspects} />
+        <PrivateRoute exact path="/all-followup" component={Allfollowup} />
+        <PrivateRoute
+          exact
+          path="/test-client-followup"
+          component={TestClientFollowup}
+        />
+
+        <PrivateRoute
+          exact
+          path="/regular-client-followup"
+          component={RegularClientFollowup}
+        />
+
         <PrivateRoute exact path="/add-lead" component={AddLead} />
         <PrivateRoute exact path="/edit-lead" component={EditLead} />
         <PrivateRoute exact path="/deactive-lead" component={DeactiveLead} />
@@ -146,6 +164,8 @@ const RoutesFile = () => {
           component={AllDesignation}
         />
         <PrivateRoute exact path="/all-feedback" component={AllFeedback} />
+        <PrivateRoute exact path="/all-company" component={AllCompany} />
+        <PrivateRoute exact path="/add-company" component={AddCompany} />
         <PrivateRoute exact path="/all-trash" component={Trash} />
         {/* Project Status */}
         <PrivateRoute

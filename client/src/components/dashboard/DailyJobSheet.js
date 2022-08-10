@@ -58,6 +58,9 @@ const DailyJobSheet = ({
   const [selDateDataVal, setSelDateDataVal] = useState();
   getDailyJobsheetProjectDeatils(selDateDataVal);
 
+  const [clientData, setClientData] = useState("");
+  const [clientId, setClientId] = useState("");
+  const [clientName, setClientName] = useState("");
   function dhm(pDateTime) {
     let pStartDate = new Date(pDateTime);
     let pEndDate = new Date();
@@ -125,7 +128,7 @@ const DailyJobSheet = ({
       dailyJobsheetData.projectName,
       dailyJobsheetData.projectDate,
       dailyJobsheetData.projectQuantity,
-      ,
+      "",
       dailyJobsheetData.projectNotes,
       // dailyJobsheetData.clientFolderName,
       // dailyJobsheetData.projectDeadline,
@@ -323,6 +326,7 @@ const DailyJobSheet = ({
     let selDateData = {
       selDate: singledate,
       dateType: "Single Date",
+      clientId: clientData.clientId,
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
@@ -334,6 +338,7 @@ const DailyJobSheet = ({
       fromdate: fromdate,
       todate: todate,
       dateType: "Multi Date",
+      clientId: clientData.clientId,
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
@@ -381,9 +386,6 @@ const DailyJobSheet = ({
       });
     }
   };
-  const [clientData, setClientData] = useState("");
-  const [clientId, setClientId] = useState("");
-  const [clientName, setClientName] = useState("");
 
   const activeClientsOpt = [];
   activeDailyJobSheetClients.map((clientsData) =>

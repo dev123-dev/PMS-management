@@ -11,7 +11,7 @@ import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
-const AllProspects = ({
+const Allfollowup = ({
   auth: { isAuthenticated, user, users },
   dct: { allProspectus },
   getDctLeadDetails,
@@ -58,7 +58,7 @@ const AllProspects = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Prospects</h5>
+              <h5 className="heading_color">All FollowUp</h5>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -275,7 +275,7 @@ const AllProspects = ({
   );
 };
 
-AllProspects.propTypes = {
+Allfollowup.propTypes = {
   auth: PropTypes.object.isRequired,
   dct: PropTypes.object.isRequired,
 };
@@ -284,4 +284,4 @@ const mapStateToProps = (state) => ({
   dct: state.dct,
 });
 
-export default connect(mapStateToProps, { getDctLeadDetails })(AllProspects);
+export default connect(mapStateToProps, { getDctLeadDetails })(Allfollowup);

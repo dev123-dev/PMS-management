@@ -67,15 +67,10 @@ const AllContacts = ({
 
 AllContacts.propTypes = {
   auth: PropTypes.object.isRequired,
-  area: PropTypes.object.isRequired,
-  //   AddState: PropTypes.func.isRequired,
-  savedMessage: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  area: state.area,
-  savedMessage: state.auth.savedMessage,
 });
 
 export default connect(mapStateToProps, {

@@ -70,6 +70,9 @@ const DctLeadsSchema = new mongoose.Schema({
   dctLeadDeactivateByDateTime: {
     type: String,
   },
+  dctLeadDeactiveReason: {
+    type: String,
+  },
   // Services: {
   //   text: { type: String },
   // },

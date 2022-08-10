@@ -11,7 +11,7 @@ import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
-const AllProspects = ({
+const RegularClientFollowup = ({
   auth: { isAuthenticated, user, users },
   dct: { allProspectus },
   getDctLeadDetails,
@@ -57,8 +57,8 @@ const AllProspects = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Prospects</h5>
+            <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
+              <h5 className="heading_color">Regular Client FollowUp</h5>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -122,7 +122,7 @@ const AllProspects = ({
               />
             </div>
 
-            <div className="col-lg-5 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 // onClick={() => onClickReset()}
@@ -275,7 +275,7 @@ const AllProspects = ({
   );
 };
 
-AllProspects.propTypes = {
+RegularClientFollowup.propTypes = {
   auth: PropTypes.object.isRequired,
   dct: PropTypes.object.isRequired,
 };
@@ -284,4 +284,6 @@ const mapStateToProps = (state) => ({
   dct: state.dct,
 });
 
-export default connect(mapStateToProps, { getDctLeadDetails })(AllProspects);
+export default connect(mapStateToProps, { getDctLeadDetails })(
+  RegularClientFollowup
+);
