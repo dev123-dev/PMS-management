@@ -123,28 +123,26 @@ const AddLead = ({
         memberName: addedLoanData.staffPhoneNumber,
         loanSanctionedAmt: addedLoanData.staffEmailId,
       };
-
-      console.log("addstaff", loanSanctionedData);
       //}
     });
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
       companyName: companyName,
-      emailId: emailId,
-      clientName: clientName,
       website: website,
-      dctLeadAddress: dctLeadAddress,
+      clientName: clientName,
+      emailId: emailId,
       phone1: phone1,
       phone2: phone2,
+      dctLeadAddress: dctLeadAddress,
       importantPoints: importantPoints,
       countryId: countryId,
+      countryName: country.value,
       dctLeadStatus: "Active",
       dctLeadCategory: "NC",
       dctLeadEnteredById: user._id,
       dctLeadEnteredByName: user.empFullName,
     };
-    console.log(finalData);
     addDctLeadDetails(finalData);
     setFormData({
       ...formData,
@@ -157,7 +155,6 @@ const AddLead = ({
       phone2: "",
       importantPoints: "",
       countryId: "",
-
       isSubmitted: true,
     });
     // }

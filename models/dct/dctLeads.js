@@ -6,9 +6,9 @@ const DctLeadsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // clientId: {
-  //   type: ObjectId,
-  // },
+  website: {
+    type: String,
+  },
   clientName: {
     type: String,
   },
@@ -21,7 +21,7 @@ const DctLeadsSchema = new mongoose.Schema({
   phone2: {
     type: Number,
   },
-  website: {
+  dctLeadAddress: {
     type: String,
   },
   importantPoints: {
@@ -39,14 +39,11 @@ const DctLeadsSchema = new mongoose.Schema({
   districtId: {
     type: ObjectId,
   },
-  dctLeadAddress: {
-    type: String,
-  },
   dctLeadStatus: {
     type: String, //Active, Deactive
   },
   dctLeadCategory: {
-    type: String, //NC, prospect, followup,TC,RC
+    type: String, //NC,prospect,followup,TC,RC
   },
   dctLeadEnteredById: {
     type: ObjectId,

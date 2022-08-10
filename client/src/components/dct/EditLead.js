@@ -5,17 +5,18 @@ import Select from "react-select";
 import { Link, Redirect } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getActiveCountry } from "../../actions/regions";
+import { editDctLeadDetails } from "../../actions/dct";
 
 const EditLead = ({
   auth: { isAuthenticated, user, users, loading },
   regions: { activeCountry },
   alleditLeaddata,
   getActiveCountry,
+  editDctLeadDetails,
 }) => {
   useEffect(() => {
     getActiveCountry();
   }, [getActiveCountry]);
-  // console.log("alleditLeaddata", alleditLeaddata);
 
   //formData
   const [formData, setFormData] = useState({
@@ -94,25 +95,25 @@ const EditLead = ({
     const finalData = {
       recordId: alleditLeaddata ? alleditLeaddata._id : "",
       companyName: companyName,
-      emailId: emailId,
       website: website,
-      dctLeadAddress: dctLeadAddress,
-      phone1: phone1,
       clientName: clientName,
+      emailId: emailId,
+      phone1: phone1,
       phone2: phone2,
+      dctLeadAddress: dctLeadAddress,
       importantPoints: importantPoints,
       countryId: countryId,
+      countryName: country.value,
       dctLeadEditedById: user._id,
+      dctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
     };
-    console.log(finalData);
-    // addProject(finalData);
-    //   setFormData({
-    //     ...formData,
-
-    //     isSubmitted: true,
-    //   });
-    // }
+    editDctLeadDetails(finalData);
+    setFormData({
+      ...formData,
+      isSubmitted: true,
+    });
   };
+
   if (isSubmitted) {
     return <Redirect to="/job-queue" />;
   }
@@ -316,4 +317,7 @@ const mapStateToProps = (state) => ({
   regions: state.regions,
 });
 
-export default connect(mapStateToProps, { getActiveCountry })(EditLead);
+export default connect(mapStateToProps, {
+  getActiveCountry,
+  editDctLeadDetails,
+})(EditLead);

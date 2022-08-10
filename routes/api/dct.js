@@ -27,16 +27,21 @@ router.post("/edit-dct-Leads", async (req, res) => {
       {
         $set: {
           companyName: data.companyName,
-          emailId: data.emailId,
           website: data.website,
+          clientName: data.clientName,
+          emailId: data.emailId,
+          phone1: data.phone1,
+          phone2: data.phone2,
           dctLeadAddress: data.dctLeadAddress,
-          feedbackStatus: data.feedbackStatus,
-          feedbackEditedById: data.feedbackEditedById,
-          feedbackEditedDateTime: Date.now(),
+          importantPoints: data.importantPoints,
+          countryId: data.countryId,
+          countryName: data.countryName,
+          dctLeadEditedById: data.dctLeadEditedById,
+          dctLeadEditedDateTime: data.dctLeadEditedDateTime,
         },
       }
     );
-    res.json(updateFeedback);
+    res.json(updateDctLeads);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
