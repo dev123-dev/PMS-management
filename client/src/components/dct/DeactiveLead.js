@@ -7,14 +7,24 @@ import { Link } from "react-router-dom";
 const DeactiveLead = ({
   auth: { isAuthenticated, user, users, loading },
   Leaddeavtivedata,
+  onDeactiveModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
+    companyName:
+      Leaddeavtivedata && Leaddeavtivedata.companyName
+        ? Leaddeavtivedata.companyName
+        : "",
+
+    website:
+      Leaddeavtivedata && Leaddeavtivedata.website
+        ? Leaddeavtivedata.website
+        : "",
     dctLeadDeactiveReason: "",
     isSubmitted: false,
   });
 
-  const { dctLeadDeactiveReason, isSubmitted } = formData;
+  const { dctLeadDeactiveReason, website, companyName, isSubmitted } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,11 +41,8 @@ const DeactiveLead = ({
       dctLeadDeactiveReason: dctLeadDeactiveReason,
     };
     console.log(finalData);
+    onDeactiveModalChange(true);
     //  addProject(finalData);
-    setFormData({
-      ...formData,
-      isSubmitted: true,
-    });
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -44,6 +51,14 @@ const DeactiveLead = ({
     <Fragment>
       <form className="row" onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
+          <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
+            <label className="label-control">
+              Company Name : {companyName}
+            </label>
+          </div>
+          <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
+            <label className="label-control">Website : {website}</label>
+          </div>
           <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
             <label className="label-control">Deactive Reason :</label>
             <textarea
