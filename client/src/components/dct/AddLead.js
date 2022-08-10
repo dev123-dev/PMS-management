@@ -26,7 +26,7 @@ const AddLead = ({
     emailId: "",
     phone1: "",
     phone2: "",
-    address: "",
+    dctLeadAddress: "",
     clientName: "",
 
     isSubmitted: false,
@@ -39,7 +39,7 @@ const AddLead = ({
     phone1,
     phone2,
     clientName,
-    address,
+    dctLeadAddress,
     importantPoints,
     isSubmitted,
   } = formData;
@@ -134,7 +134,7 @@ const AddLead = ({
       emailId: emailId,
       clientName: clientName,
       website: website,
-      address: address,
+      dctLeadAddress: dctLeadAddress,
       phone1: phone1,
       phone2: phone2,
       importantPoints: importantPoints,
@@ -295,14 +295,14 @@ const AddLead = ({
                     <label className="label-control">Address :</label>
 
                     <textarea
-                      name="address"
+                      name="dctLeadAddress"
                       on
-                      id="address"
+                      id="dctLeadAddress"
                       className="textarea form-control"
                       rows="3"
                       placeholder=" Address"
                       style={{ width: "100%" }}
-                      value={address}
+                      value={dctLeadAddress}
                       onChange={(e) => onInputChange(e)}
                     ></textarea>
                   </div>

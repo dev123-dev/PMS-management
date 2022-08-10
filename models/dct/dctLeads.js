@@ -24,9 +24,6 @@ const DctLeadsSchema = new mongoose.Schema({
   website: {
     type: String,
   },
-  address: {
-    type: String,
-  },
   importantPoints: {
     type: String,
   },

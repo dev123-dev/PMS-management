@@ -18,6 +18,30 @@ router.post("/add-dct-Leads", async (req, res) => {
   }
 });
 
+//EDIT
+router.post("/edit-dct-Leads", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctLeads = await DctLeads.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          companyName: data.companyName,
+          emailId: data.emailId,
+          website: data.website,
+          dctLeadAddress: data.dctLeadAddress,
+          feedbackStatus: data.feedbackStatus,
+          feedbackEditedById: data.feedbackEditedById,
+          feedbackEditedDateTime: Date.now(),
+        },
+      }
+    );
+    res.json(updateFeedback);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 //SELECT
 router.post("/get-dct-Leads", async (req, res) => {
   try {

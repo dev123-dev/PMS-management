@@ -31,6 +31,24 @@ export const addDctLeadDetails = (finalData) => async (dispatch) => {
   }
 };
 
+//EDIT
+export const editDctLeadDetails = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/dct/edit-dct-Leads", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+//SELECT
 export const getDctLeadDetails = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
