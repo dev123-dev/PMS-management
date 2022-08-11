@@ -161,7 +161,6 @@ const AllProspects = ({
                               <td>{allProspectus.emailId}</td>
                               <td>{allProspectus.website}</td>
                               <td>{allProspectus.phone1}</td>
-
                               <td>
                                 <img
                                   className="img_icon_size log"

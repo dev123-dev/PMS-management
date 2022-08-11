@@ -10,31 +10,77 @@ const AllStatuschange = ({
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    clientType: "",
-    countryName: "",
-    countryCode: "",
+    callStatus: "",
+    labeldata: "",
+    callNote: "",
     isSubmitted: false,
   });
-  const { countryName, clientType } = formData;
+  const { callNote, callStatus, labeldata } = formData;
+  //For setting mindate as todays date
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+  var todayDateymd = yyyy + "-" + mm + "-" + dd;
 
+  const StatusMethods = [
+    { value: "VoiceMail", label: "VoiceMail" },
+    { value: "CallBack", label: "CallBack" },
+    { value: "DND", label: "DND" },
+    { value: "NI", label: "NI" },
+    { value: "FollowUp", label: "FollowUp" },
+    { value: "TestClient", label: "TestClient" },
+    { value: "RegularClient", label: "RegularClient" },
+  ];
+
+  const onStatusTypeChange = (e) => {
+    //Required Validation starts
+    // setError({
+    //   ...error,
+    //   TranscationIdChecker: true,
+    //   TranscationIdErrorStyle: { color: "#000" },
+    // });
+    //Required Validation ends showVoiceMailSection1
+
+    if (e) {
+      setFormData({
+        ...formData,
+        callStatus: e,
+      });
+    }
+  };
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const [startStatusDate, setStatusDate] = useState("");
+  const onDateChange = (e) => {
+    setStatusDate(e.target.value);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      Notes: countryName,
-
-      countryEnteredById: user._id,
-      countryEnteredByName: user.userName,
+      callStatus: callStatus.value,
+      callDate: startStatusDate,
+      callNote: callNote,
+      callEnteredDate: todayDateymd,
+      callFromId: user._id,
+      callFromName: user.userName,
     };
     console.log(finalData);
     // AddState(finalData);
     setFormData({
       ...formData,
-      countryName: "",
-      countryCode: "",
+      callStatus: "",
+      callDate: "",
+      callNote: "",
+      // callEnteredDate:
       isSubmitted: true,
     });
   };
@@ -48,39 +94,52 @@ const AllStatuschange = ({
           <div className="col-lg-6 col-md-11 col-sm-10 col-10 ">
             <label className="label-control"> Status :</label>
             <Select
-              name="clientType"
-              isSearchable={true}
-              //  options={clientTypeVal}
-              value={clientType}
-              placeholder="Select"
-              //   onChange={(e) => onClientTypeChange(e)}
+              name="callStatus"
+              options={StatusMethods}
+              isSearchable={false}
+              value={callStatus}
+              placeholder="Select Status"
+              onChange={(e) => onStatusTypeChange(e)}
+              theme={(theme) => ({
+                ...theme,
+                height: 26,
+                minHeight: 26,
+                borderRadius: 1,
+                colors: {
+                  ...theme.colors,
+                  primary: "black",
+                },
+              })}
             />
           </div>
           <div className=" col-lg-4 col-md-11 col-sm-10 col-10 ">
-            <label className="label-control"> CallBack Date :</label>
+            <label className="label-control">
+              {callStatus && callStatus.label} Date
+            </label>
+
             <input
               type="date"
               placeholder="dd/mm/yyyy"
               className="form-control cpp-input datevalidation"
-              name="todate"
-              //    value={todate}
-              //   onChange={(e) => onDateChange1(e)}
+              name="callDate"
+              value={startStatusDate}
+              onChange={(e) => onDateChange(e)}
               style={{
-                width: "110%",
+                width: "100%",
               }}
               required
             />
           </div>
-          <div className="col-lg-8 col-md-11 col-sm-10 col-10 mb-5">
+          <div className="col-lg-8 col-md-11 col-sm-10 col-10 ">
             <label className="label-control"> Notes :</label>
             <textarea
-              name="Notes"
-              id="Notes"
+              name="callNote"
+              id="callNote"
               className="textarea form-control"
               rows="2"
               placeholder="Notes"
               style={{ width: "100%" }}
-              //  value={Notes}
+              value={callNote}
               onChange={(e) => onInputChange(e)}
             ></textarea>
           </div>
