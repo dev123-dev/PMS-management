@@ -17,7 +17,6 @@ const AddLead = ({
   useEffect(() => {
     getActiveCountry();
   }, [getActiveCountry]);
-  // console.log(activeCountry);
 
   //formData
   const [formData, setFormData] = useState({
@@ -28,7 +27,7 @@ const AddLead = ({
     phone2: "",
     dctLeadAddress: "",
     clientName: "",
-
+    importantPoints: "",
     isSubmitted: false,
   });
 
@@ -46,13 +45,14 @@ const AddLead = ({
 
   //add staff start
   const [addData, setFormDatas] = useState({
+    idVal: 1,
     staffName: "",
     staffPhoneNumber: "",
     staffEmailId: "",
     staffDesignation: "",
   });
 
-  const { staffName, staffPhoneNumber, staffEmailId, staffDesignation } =
+  const { idVal, staffName, staffPhoneNumber, staffEmailId, staffDesignation } =
     addData;
 
   const [AddedDetails, AddDetails] = useState([]);
@@ -61,10 +61,12 @@ const AddLead = ({
     const staffList = AddedDetails.filter(
       (AddDetails) => AddDetails.staffName === staffName
     );
+
     e.preventDefault();
     if (staffList.length === 0) {
       // if (checkErrors()) {
       const addData = {
+        id: idVal,
         staffName: staffName,
         staffPhoneNumber: staffPhoneNumber,
         staffEmailId: staffEmailId,
@@ -72,17 +74,21 @@ const AddLead = ({
       };
       setFormDatas({
         ...addData,
+        id: "",
         staffName: "",
         staffPhoneNumber: "",
         staffEmailId: "",
         staffDesignation: "",
+        idVal: idVal + 1,
       });
       let temp = [];
       temp.push(...AddedDetails, addData);
+
       AddDetails(temp);
     }
   };
-
+  console.log(AddedDetails);
+  // console.log(AddedDetails.length);
   const onRemoveChange = (staffName) => {
     const removeList = AddedDetails.filter(
       (AddDetails) => AddDetails.staffName !== staffName
@@ -115,6 +121,24 @@ const AddLead = ({
     countryId = e.countryId;
     setcountryID(countryId);
   };
+
+  const [ServicesDetails, SetServiceDetails] = useState([]);
+
+  const onServicesChange = (e) => {
+    let temp = [];
+    const staffList = ServicesDetails.filter(
+      (ServicesDetails) => ServicesDetails === e.target.value
+    );
+    if (staffList.length === 0) {
+      temp.push(...ServicesDetails, e.target.value);
+      SetServiceDetails(temp);
+    } else {
+      const removeList = ServicesDetails.filter(
+        (ServicesDetails) => ServicesDetails !== e.target.value
+      );
+      SetServiceDetails(removeList);
+    }
+  };
   const onSubmit = (e) => {
     AddedDetails.map((addedLoanData) => {
       //  if (addedLoanData.batchLoanAmt && addedLoanData.batchLoanAmt > 0) {
@@ -123,6 +147,7 @@ const AddLead = ({
         memberName: addedLoanData.staffPhoneNumber,
         loanSanctionedAmt: addedLoanData.staffEmailId,
       };
+      // console.log(loanSanctionedData);
       //}
     });
     e.preventDefault();
@@ -136,28 +161,30 @@ const AddLead = ({
       phone2: phone2,
       dctLeadAddress: dctLeadAddress,
       importantPoints: importantPoints,
-      countryId: countryId,
-      countryName: country.value,
+      countryId: countryId ? countryId : null,
+      countryName: country.value ? country.value : null,
       dctLeadStatus: "Active",
       dctLeadCategory: "NC",
+      services: ServicesDetails,
+      staffs: AddedDetails,
       dctLeadEnteredById: user._id,
       dctLeadEnteredByName: user.empFullName,
     };
-    addDctLeadDetails(finalData);
-    setFormData({
-      ...formData,
-      companyName: "",
-      emailId: "",
-      clientName: "",
-      website: "",
-      address: "",
-      phone1: "",
-      phone2: "",
-      importantPoints: "",
-      countryId: "",
-      isSubmitted: true,
-    });
-    // }
+    // console.log(finalData);
+    // addDctLeadDetails(finalData);
+    // setFormData({
+    //   ...formData,
+    //   companyName: "",
+    //   emailId: "",
+    //   clientName: "",
+    //   website: "",
+    //   address: "",
+    //   phone1: "",
+    //   phone2: "",
+    //   importantPoints: "",
+    //   countryId: "",
+    //   isSubmitted: true,
+    // });
   };
 
   if (isSubmitted) {
@@ -230,6 +257,10 @@ const AddLead = ({
                       value={phone1}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -240,6 +271,10 @@ const AddLead = ({
                       value={phone2}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -253,7 +288,7 @@ const AddLead = ({
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Region :</label>
+                    <label className="label-control">Region* :</label>
                     <Select
                       name="countryName"
                       options={allcountry}
@@ -261,6 +296,7 @@ const AddLead = ({
                       value={country}
                       placeholder="Select Region"
                       onChange={(e) => oncountryChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -282,7 +318,8 @@ const AddLead = ({
                       <input
                         type="checkbox"
                         id="Unconfirmed"
-                        // onChange={handleOnChange}
+                        value="Imaging"
+                        onChange={(e) => onServicesChange(e)}
                       />
                     </div>
                     <div className="col-lg-1 col-md-6 col-sm-6 col-12">
@@ -290,7 +327,8 @@ const AddLead = ({
                       <input
                         type="checkbox"
                         id="Unconfirmed"
-                        // onChange={handleOnChange}
+                        value="CGI"
+                        onChange={(e) => onServicesChange(e)}
                       />
                     </div>
                     <div className="col-lg-1 col-md-6 col-sm-6 col-12">
@@ -298,16 +336,15 @@ const AddLead = ({
                       <input
                         type="checkbox"
                         id="Unconfirmed"
-                        // onChange={handleOnChange}
+                        value="videoEditing"
+                        onChange={(e) => onServicesChange(e)}
                       />
                     </div>
                   </div>
                   <div className="col-lg-6  col-md-6 col-sm-6 col-12">
                     <label className="label-control">Address :</label>
-
                     <textarea
                       name="dctLeadAddress"
-                      on
                       id="dctLeadAddress"
                       className="textarea form-control"
                       rows="3"
@@ -345,6 +382,10 @@ const AddLead = ({
                       value={staffPhoneNumber}
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">

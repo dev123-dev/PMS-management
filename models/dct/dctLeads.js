@@ -70,13 +70,26 @@ const DctLeadsSchema = new mongoose.Schema({
   dctLeadDeactiveReason: {
     type: String,
   },
-  // Services: {
-  //   text: { type: String },
-  // },
-  // staffs: Array,
-  // staffName: { type: String },
-  // staffPhoneNumber: { type: Number },
-  // staffEmailId: { type: String },
-  // staffDesignation: { type: String },
+  services: [],
+  staffs: [
+    {
+      staffId: {
+        type: Number,
+        default: 0,
+      },
+      staffName: {
+        type: String,
+      },
+      staffPhoneNumber: {
+        type: Number,
+      },
+      staffEmailId: {
+        type: String,
+      },
+      staffDesignation: {
+        type: String,
+      },
+    },
+  ],
 });
 module.exports = dctLeads = mongoose.model("dctLeads", DctLeadsSchema);
