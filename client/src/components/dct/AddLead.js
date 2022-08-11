@@ -83,7 +83,6 @@ const AddLead = ({
       });
       let temp = [];
       temp.push(...AddedDetails, addData);
-
       AddDetails(temp);
     }
   };
@@ -171,20 +170,20 @@ const AddLead = ({
       dctLeadEnteredByName: user.empFullName,
     };
     // console.log(finalData);
-    // addDctLeadDetails(finalData);
-    // setFormData({
-    //   ...formData,
-    //   companyName: "",
-    //   emailId: "",
-    //   clientName: "",
-    //   website: "",
-    //   address: "",
-    //   phone1: "",
-    //   phone2: "",
-    //   importantPoints: "",
-    //   countryId: "",
-    //   isSubmitted: true,
-    // });
+    addDctLeadDetails(finalData);
+    setFormData({
+      ...formData,
+      companyName: "",
+      emailId: "",
+      clientName: "",
+      website: "",
+      address: "",
+      phone1: "",
+      phone2: "",
+      importantPoints: "",
+      countryId: "",
+      isSubmitted: true,
+    });
   };
 
   if (isSubmitted) {
