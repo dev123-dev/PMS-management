@@ -45,14 +45,14 @@ const AddLead = ({
 
   //add staff start
   const [addData, setFormDatas] = useState({
-    id: "",
+    idVal: 1,
     staffName: "",
     staffPhoneNumber: "",
     staffEmailId: "",
     staffDesignation: "",
   });
 
-  const { id, staffName, staffPhoneNumber, staffEmailId, staffDesignation } =
+  const { idVal, staffName, staffPhoneNumber, staffEmailId, staffDesignation } =
     addData;
 
   const [AddedDetails, AddDetails] = useState([]);
@@ -66,7 +66,7 @@ const AddLead = ({
     if (staffList.length === 0) {
       // if (checkErrors()) {
       const addData = {
-        id: 1,
+        id: idVal,
         staffName: staffName,
         staffPhoneNumber: staffPhoneNumber,
         staffEmailId: staffEmailId,
@@ -79,6 +79,7 @@ const AddLead = ({
         staffPhoneNumber: "",
         staffEmailId: "",
         staffDesignation: "",
+        idVal: idVal + 1,
       });
       let temp = [];
       temp.push(...AddedDetails, addData);
@@ -87,7 +88,7 @@ const AddLead = ({
     }
   };
   console.log(AddedDetails);
-  console.log(AddedDetails.length);
+  // console.log(AddedDetails.length);
   const onRemoveChange = (staffName) => {
     const removeList = AddedDetails.filter(
       (AddDetails) => AddDetails.staffName !== staffName

@@ -73,7 +73,7 @@ const DctLeadsSchema = new mongoose.Schema({
   services: [],
   staffs: [
     {
-      id: {
+      staffId: {
         type: Number,
         default: 0,
       },
