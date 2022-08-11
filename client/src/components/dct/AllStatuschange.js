@@ -1,13 +1,13 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { AddState } from "../../actions/area";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 const AllStatuschange = ({
   auth: { isAuthenticated, user, users, loading },
-  //   AddState,
+  ProjRestoreVal,
 }) => {
+  console.log("val", ProjRestoreVal);
   //formData
   const [formData, setFormData] = useState({
     callStatus: "",
@@ -74,13 +74,12 @@ const AllStatuschange = ({
       callFromName: user.userName,
     };
     console.log(finalData);
-    // AddState(finalData);
+
     setFormData({
       ...formData,
       callStatus: "",
       callDate: "",
       callNote: "",
-      // callEnteredDate:
       isSubmitted: true,
     });
   };
@@ -144,7 +143,7 @@ const AllStatuschange = ({
             ></textarea>
           </div>
 
-          <div className="col-lg-12 col-md-6 col-sm-12 col-12">
+          <div className="col-lg-4 col-md-6 col-sm-12 col-12 py-5">
             <input
               type="submit"
               name="Submit"

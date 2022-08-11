@@ -50,6 +50,24 @@ const AllProspects = ({
       handleDeactiveModalClose();
     }
   };
+  const [ProjLastchnage, setProjLastchnage] = useState();
+  const [ProjRestore, setProjRestore] = useState();
+  const onClickHandler = (allProspectus, idx) => {
+    //localStorage.removeItem("getLastAmendmentDetails");
+    setProjLastchnage(null);
+    setProjRestore(allProspectus);
+    if (allProspectus !== "") {
+      // const lastAmendment = {
+      //   projectId: allProspectus.projectId,
+      //   amendmentCounter: allProspectus.amendmentCounter,
+      // };
+      // getLastAmendmentHistoryDeatils(lastAmendment);
+    }
+    // setShowHide({
+    //   ...showHide,
+    //   showhistory_submitSection: true,
+    // });
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -156,7 +174,18 @@ const AllProspects = ({
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-                              <td>{allProspectus.companyName}</td>
+
+                              <td>
+                                <Link
+                                  className="float-left ml-3"
+                                  to="#"
+                                  onClick={() =>
+                                    onClickHandler(allProspectus, idx)
+                                  }
+                                >
+                                  {allProspectus.companyName}
+                                </Link>
+                              </td>
                               <td>{allProspectus.website}</td>
                               <td>{allProspectus.emailId}</td>
                               <td>{allProspectus.website}</td>
@@ -193,14 +222,20 @@ const AllProspects = ({
                   <AllContacts />
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding ">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
+                <div
+                  className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
+                  style={{ height: "30vh" }}
+                >
                   <label className="sidePartHeading ">Status</label>
-                  <AllStatuschange />
+                  <AllStatuschange ProjRestoreVal={ProjRestore} />
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding">
+                <div
+                  className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
+                  style={{ height: "23vh" }}
+                >
                   <label className="sidePartHeading ">
                     Last Message Details
                   </label>
