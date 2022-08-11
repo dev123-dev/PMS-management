@@ -47,6 +47,25 @@ router.post("/edit-dct-Leads", async (req, res) => {
   }
 });
 
+router.post("/deactivate-dct-Leads", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctLeads = await DctLeads.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          dctLeadDeactivateByDateTime: data.dctLeadDeactivateByDateTime,
+          dctLeadDeactivateById: data.dctLeadDeactivateById,
+          dctLeadStatus: data.dctLeadStatus,
+          dctLeadDeactiveReason: data.dctLeadDeactiveReason,
+        },
+      }
+    );
+    res.json(updateDctLeads);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
 //SELECT
 router.post("/get-dct-Leads", async (req, res) => {
   try {
