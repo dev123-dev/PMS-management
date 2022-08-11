@@ -4,10 +4,13 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { deactivateDctLeadDetails } from "../../actions/dct";
+
 const DeactiveLead = ({
   auth: { isAuthenticated, user, users, loading },
   Leaddeavtivedata,
   onDeactiveModalChange,
+  deactivateDctLeadDetails,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -35,14 +38,13 @@ const DeactiveLead = ({
 
     const finalData = {
       recordId: Leaddeavtivedata ? Leaddeavtivedata._id : "",
-      dctLeadDeactivateByDateTime: new Date().toLocaleString(),
+      dctLeadDeactivateByDateTime: new Date().toLocaleString("en-GB"),
       dctLeadDeactivateById: user._id,
       dctLeadStatus: "Deactive",
       dctLeadDeactiveReason: dctLeadDeactiveReason,
     };
-    console.log(finalData);
+    deactivateDctLeadDetails(finalData);
     onDeactiveModalChange(true);
-    //  addProject(finalData);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -121,4 +123,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(DeactiveLead);
+export default connect(mapStateToProps, { deactivateDctLeadDetails })(
+  DeactiveLead
+);
