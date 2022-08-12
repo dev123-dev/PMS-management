@@ -70,6 +70,7 @@ const AddCountryDetails = ({
                 onKeyDown={(e) =>
                   (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
                 }
+                required
               />
             </div>
           </div>

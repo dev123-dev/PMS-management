@@ -63,7 +63,25 @@ const AllStatuschange = ({
     setStatusDate(e.target.value);
   };
 
-  const onSubmit = (e) => {};
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const finalData = {
+      callStatus: callStatus.value,
+      callDate: startStatusDate,
+      callNote: callNote,
+      callEnteredDate: todayDateymd,
+      callFromId: user._id,
+      callFromName: user.userName,
+    };
+    console.log(finalData);
+    setFormData({
+      ...formData,
+      callStatus: "",
+      callDate: "",
+      callNote: "",
+      isSubmitted: true,
+    });
+  };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />

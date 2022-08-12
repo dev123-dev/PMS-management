@@ -93,6 +93,7 @@ router.post("/edit-districts-details", async (req, res) => {
       {
         $set: {
           districtName: data.districtName,
+          stateId: data.stateId,
           districtEditedById: data.districtEditedById,
           districtEditedDateTime: new Date().toLocaleString("en-GB"),
         },

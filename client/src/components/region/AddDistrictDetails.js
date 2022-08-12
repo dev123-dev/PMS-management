@@ -20,7 +20,7 @@ const AddDistrictDetails = ({
     districtName: "",
     isSubmitted: false,
   });
-  console.log("statesData", statesData);
+
   const { districtName } = formData;
 
   const onInputChange = (e) => {
@@ -71,22 +71,24 @@ const AddDistrictDetails = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const finalData = {
-      districtName: districtName,
-      districtEnteredById: user._id,
-      stateId: stateId,
-      districtEnteredByName: user.userName,
-      districtBelongsTo: "DCT",
-    };
-    //console.log(finalData);
-    addDistrictDetails(finalData);
-    onAddDistrictModalChange(true);
-    setFormData({
-      ...formData,
-      districtName: "",
+    if (checkErrors()) {
+      const finalData = {
+        districtName: districtName,
+        districtEnteredById: user._id,
+        stateId: stateId,
+        districtEnteredByName: user.userName,
+        districtBelongsTo: "DCT",
+      };
+      //console.log(finalData);
+      addDistrictDetails(finalData);
+      onAddDistrictModalChange(true);
+      setFormData({
+        ...formData,
+        districtName: "",
 
-      isSubmitted: true,
-    });
+        isSubmitted: true,
+      });
+    }
   };
 
   return !isAuthenticated || !user || !users ? (

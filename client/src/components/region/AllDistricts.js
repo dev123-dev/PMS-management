@@ -123,6 +123,7 @@ const AllDistricts = ({
                                   alt="Deactivate"
                                   title="Deactivate"
                                 />
+                                &emsp;
                                 <img
                                   className="img_icon_size log"
                                   onClick={() => onEdit(allDistrics, idx)}
