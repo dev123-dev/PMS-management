@@ -99,6 +99,23 @@ const AllProspects = ({
     setcountryID(countryId);
   };
 
+  const allclient = [];
+  allProspectusDD.map((clients) =>
+    allclient.push({
+      clientsId: clients._id,
+      label: clients.companyName,
+      value: clients.companyName,
+    })
+  );
+  const [clients, getclientsData] = useState();
+  const [clientsId, setclientsID] = useState();
+
+  const onclientsChange = (e) => {
+    var clientsId = "";
+    getclientsData(e);
+    clientsId = e.clientsId;
+    setclientsID(clientsId);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -123,44 +140,16 @@ const AllProspects = ({
 
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
-                name="projectStatusCategory"
-                //  options={StatusCategory}
+                name="companyName"
+                options={allclient}
                 isSearchable={true}
-                //value={projectStatusCategory}
-                placeholder="Select"
-                //  onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
+                value={clients}
+                placeholder="Select Client"
+                onChange={(e) => onclientsChange(e)}
+                required
               />
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
-                name="projectStatusCategory"
-                //  options={StatusCategory}
-                isSearchable={true}
-                //  value={projectStatusCategory}
-                placeholder="Select"
-                //   onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
-              />
-            </div>
+            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2"></div>
 
             <div className="col-lg-5 col-md-11 col-sm-12 col-11 py-3">
               <button

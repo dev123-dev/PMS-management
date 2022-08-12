@@ -10,46 +10,45 @@ const ClientCallHistory = ({
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    dctLeadDeactiveReason: "",
     isSubmitted: false,
   });
 
-  const { dctLeadDeactiveReason, isSubmitted } = formData;
-
-  const onInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  //   const onSubmit = (e) => {
-  //     e.preventDefault();
-
-  //     const finalData = {
-  //       recordId: Leaddeavtivedata ? Leaddeavtivedata._id : "",
-  //       dctLeadDeactivateByDateTime: new Date().toLocaleString(),
-  //       dctLeadDeactivateById: user._id,
-  //       dctLeadStatus: "Deactive",
-  //       dctLeadDeactiveReason: dctLeadDeactiveReason,
-  //     };
-  //     console.log(finalData);
-  //     //  addProject(finalData);
-  //     setFormData({
-  //       ...formData,
-  //       isSubmitted: true,
-  //     });
-  //   };
+  const { isSubmitted } = formData;
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
     <Fragment>
-      {/* <form className="row" onSubmit={(e) => onSubmit(e)}> */}
       <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-        <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
-          <label className="label-control"> Reason :</label>
-        </div>
+        <table
+          className="table table-bordered table-striped table-hover smll_row"
+          id="datatable2"
+        >
+          <thead>
+            <tr>
+              <th style={{ width: "15%" }}>Staff Name </th>
+              <th style={{ width: "13%" }}>Call Date</th>
+              <th style={{ width: "13%" }}>Status</th>
+              <th style={{ width: "6%" }}>Notes</th>
+              <th style={{ width: "6%" }}>Call By</th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* {leadDataVal &&
+              leadDataVal.staffs &&
+              leadDataVal.staffs.map((staff, idx) => {
+                return (
+                  <tr key={idx}>
+                    <td>{staff.staffName}</td>
+                    <td>{staff.staffPhoneNumber}</td>
+                    <td>{staff.staffDesignation}</td>
+                    <td></td>
+                  </tr>
+                );
+              })} */}
+          </tbody>
+        </table>
       </div>
-
-      {/* </form> */}
     </Fragment>
   );
 };
