@@ -69,7 +69,7 @@ router.post("/deactivate-dct-Leads", async (req, res) => {
 //SELECT
 router.post("/get-dct-Leads", async (req, res) => {
   try {
-    const getDctLeadsDetails = await DctLeads.find({});
+    const getDctLeadsDetails = await DctLeads.find({ dctLeadStatus: "Active" });
     res.json(getDctLeadsDetails);
   } catch (err) {
     console.error(err.message);

@@ -51,11 +51,11 @@ const AllProspects = ({
     }
   };
   const [ProjLastchnage, setProjLastchnage] = useState();
-  const [ProjRestore, setProjRestore] = useState();
+  const [leadData, setLeadData] = useState();
   const onClickHandler = (allProspectus, idx) => {
     //localStorage.removeItem("getLastAmendmentDetails");
     setProjLastchnage(null);
-    setProjRestore(allProspectus);
+    setLeadData(allProspectus);
     if (allProspectus !== "") {
       // const lastAmendment = {
       //   projectId: allProspectus.projectId,
@@ -188,7 +188,7 @@ const AllProspects = ({
                               </td>
                               <td>{allProspectus.website}</td>
                               <td>{allProspectus.emailId}</td>
-                              <td>{allProspectus.website}</td>
+                              <td>{allProspectus.countryName}</td>
                               <td>{allProspectus.phone1}</td>
                               <td>
                                 <img
@@ -219,7 +219,7 @@ const AllProspects = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Contacts</label>
-                  <AllContacts />
+                  <AllContacts leadDataVal={leadData} />
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
@@ -228,7 +228,7 @@ const AllProspects = ({
                   style={{ height: "30vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
-                  <AllStatuschange ProjRestoreVal={ProjRestore} />
+                  <AllStatuschange leadDataVal={leadData} />
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding">
