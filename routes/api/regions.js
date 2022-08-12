@@ -225,15 +225,25 @@ router.get("/get-all-districts", async (req, res) => {
 
 router.post("/get-active-country", async (req, res) => {
   const { countryBelongsTo } = req.body;
-  try {
-    const getActiveCountry = await Country.find({
+  let query = {};
+  if (countryBelongsTo) {
+    query = {
       countryStatus: {
         $eq: "Active",
       },
       countryBelongsTo: {
         $eq: countryBelongsTo,
       },
-    });
+    };
+  } else {
+    query = {
+      countryStatus: {
+        $eq: "Active",
+      },
+    };
+  }
+  try {
+    const getActiveCountry = await Country.find(query);
     res.json(getActiveCountry);
   } catch (err) {
     console.error(err.message);
