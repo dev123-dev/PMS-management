@@ -5,6 +5,7 @@ import {
   SET_LOADING_TRUE,
   SET_LOADING_FALSE,
   ALL_PROSPECTUS,
+  ALL_PROSPECTUS_DD,
 } from "./types";
 
 const config = {
@@ -70,6 +71,24 @@ export const getDctLeadDetails = (finalData) => async (dispatch) => {
     const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
     dispatch({
       type: ALL_PROSPECTUS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getDctLeadDetailsDD = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/dct/get-dct-Leads_dd",
+      finalData,
+      config
+    );
+    dispatch({
+      type: ALL_PROSPECTUS_DD,
       payload: res.data,
     });
   } catch (err) {

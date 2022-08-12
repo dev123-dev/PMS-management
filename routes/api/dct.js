@@ -76,4 +76,14 @@ router.post("/get-dct-Leads", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/get-dct-Leads_dd", async (req, res) => {
+  try {
+    const getDctLeadsDetails = await DctLeads.find({ dctLeadStatus: "Active" });
+    res.json(getDctLeadsDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 module.exports = router;

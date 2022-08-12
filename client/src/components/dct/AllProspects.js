@@ -5,7 +5,7 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-import { getDctLeadDetails } from "../../actions/dct";
+import { getDctLeadDetails, getDctLeadDetailsDD } from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
@@ -15,17 +15,23 @@ import { getActiveCountry } from "../../actions/regions";
 
 const AllProspects = ({
   auth: { isAuthenticated, user, users },
-  dct: { allProspectus },
+  dct: { allProspectus, allProspectusDD },
   regions: { activeCountry },
   getDctLeadDetails,
   getActiveCountry,
+  getDctLeadDetailsDD,
 }) => {
   useEffect(() => {
     getDctLeadDetails();
   }, []);
   useEffect(() => {
+    getDctLeadDetailsDD();
+  }, []);
+  useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
+
+  console.log("allProspectusDD", allProspectusDD);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -338,5 +344,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getDctLeadDetails,
+  getDctLeadDetailsDD,
   getActiveCountry,
 })(AllProspects);
