@@ -93,7 +93,7 @@ const AllStatuschange = ({
             <label className="label-control"> Status :</label>
             <Select
               name="callStatus"
-              // options={StatusMethods}
+              options={StatusMethods}
               isSearchable={false}
               value={callStatus}
               placeholder="Select Status"
