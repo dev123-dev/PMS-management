@@ -3,11 +3,21 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
+const StatusMethods = [
+  { value: "VoiceMail", label: "VoiceMail" },
+  { value: "CallBack", label: "Call Back" },
+  { value: "DND", label: "DND" },
+  { value: "NI", label: "NI" },
+  { value: "FollowUp", label: "Follow Up" },
+  { value: "TestClient", label: "Test Client" },
+  { value: "RegularClient", label: "Regular Client" },
+];
+
 const AllStatuschange = ({
   auth: { isAuthenticated, user, users, loading },
-  ProjRestoreVal,
+  leadDataVal,
 }) => {
-  console.log("val", ProjRestoreVal);
+  console.log("val", leadDataVal);
   //formData
   const [formData, setFormData] = useState({
     callStatus: "",
@@ -29,16 +39,16 @@ const AllStatuschange = ({
   }
   var todayDateymd = yyyy + "-" + mm + "-" + dd;
 
-  const StatusMethods = [
-    { value: "VoiceMail", label: "VoiceMail" },
-    { value: "CallBack", label: "CallBack" },
-    { value: "DND", label: "DND" },
-    { value: "NI", label: "NI" },
-    { value: "FollowUp", label: "FollowUp" },
-    { value: "TestClient", label: "TestClient" },
-    { value: "RegularClient", label: "RegularClient" },
-  ];
-
+  const allStaff = [];
+  leadDataVal &&
+    leadDataVal.staffs &&
+    leadDataVal.staffs.map((staffs) =>
+      allStaff.push({
+        label: staffs.staffName,
+        value: staffs._id,
+      })
+    );
+  console.log("allStaff", allStaff);
   const onStatusTypeChange = (e) => {
     //Required Validation starts
     // setError({
@@ -66,12 +76,15 @@ const AllStatuschange = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
+      callToId: leadDataVal._id,
+      callToName: leadDataVal.companyName,
+      callFromId: user._id,
+      callFromName: user.userName,
+      // callCategory,
       callStatus: callStatus.value,
       callDate: startStatusDate,
       callNote: callNote,
       callEnteredDate: todayDateymd,
-      callFromId: user._id,
-      callFromName: user.userName,
     };
     console.log(finalData);
     setFormData({
