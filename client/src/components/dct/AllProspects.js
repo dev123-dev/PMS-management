@@ -27,8 +27,6 @@ const AllProspects = ({
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
 
-  console.log("activeCountry", activeCountry);
-
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
 
@@ -76,6 +74,25 @@ const AllProspects = ({
     //   showhistory_submitSection: true,
     // });
   };
+  const allcountry = [];
+  activeCountry.map((country) =>
+    allcountry.push({
+      countryId: country._id,
+      label: country.countryName,
+      value: country.countryName,
+    })
+  );
+
+  const [country, getcountryData] = useState();
+  const [countryId, setcountryID] = useState();
+
+  const oncountryChange = (e) => {
+    var countryId = "";
+    getcountryData(e);
+    countryId = e.countryId;
+    setcountryID(countryId);
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -88,22 +105,13 @@ const AllProspects = ({
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
-                name="projectStatusCategory"
-                //  options={StatusCategory}
+                name="countryName"
+                options={allcountry}
                 isSearchable={true}
-                //  value={projectStatusCategory}
-                placeholder="Select"
-                //  onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
+                value={country}
+                placeholder="Select Region"
+                onChange={(e) => oncountryChange(e)}
+                required
               />
             </div>
 
