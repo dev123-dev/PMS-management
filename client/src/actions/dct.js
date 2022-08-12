@@ -31,6 +31,21 @@ export const addDctLeadDetails = (finalData) => async (dispatch) => {
     });
   }
 };
+export const addDctCalls = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/dct/add-dct-calls", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
 
 //EDIT
 export const editDctLeadDetails = (finalData) => async (dispatch) => {

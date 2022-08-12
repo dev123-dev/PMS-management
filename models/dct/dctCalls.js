@@ -8,6 +8,12 @@ const DctCallsSchema = new mongoose.Schema({
   callToName: {
     type: String,
   },
+  callToStaffId: {
+    type: ObjectId,
+  },
+  callToStaffName: {
+    type: String,
+  },
   callFromId: {
     type: ObjectId,
   },

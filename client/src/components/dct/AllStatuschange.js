@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
+import { addDctCalls } from "../../actions/dct";
+
 const StatusMethods = [
   { value: "VoiceMail", label: "VoiceMail" },
   { value: "CallBack", label: "Call Back" },
@@ -16,6 +18,7 @@ const StatusMethods = [
 const AllStatuschange = ({
   auth: { isAuthenticated, user, users, loading },
   leadDataVal,
+  addDctCalls,
 }) => {
   console.log("val", leadDataVal);
   //formData
@@ -44,10 +47,16 @@ const AllStatuschange = ({
     leadDataVal.staffs &&
     leadDataVal.staffs.map((staffs) =>
       allStaff.push({
+        staffsId: staffs._id,
         label: staffs.staffName,
-        value: staffs._id,
+        value: staffs.staffName,
       })
     );
+
+  const [staffs, getstaffsData] = useState();
+  const onStaffChange = (e) => {
+    getstaffsData(e);
+  };
   console.log("allStaff", allStaff);
   const onStatusTypeChange = (e) => {
     //Required Validation starts
@@ -78,6 +87,8 @@ const AllStatuschange = ({
     const finalData = {
       callToId: leadDataVal._id,
       callToName: leadDataVal.companyName,
+      callToStaffId: staffs.staffsId,
+      callToStaffName: staffs.value,
       callFromId: user._id,
       callFromName: user.userName,
       // callCategory,
@@ -86,6 +97,7 @@ const AllStatuschange = ({
       callNote: callNote,
       callEnteredDate: todayDateymd,
     };
+    addDctCalls(finalData);
     console.log(finalData);
     setFormData({
       ...formData,
@@ -121,6 +133,15 @@ const AllStatuschange = ({
                   primary: "black",
                 },
               })}
+            />
+            <Select
+              name="staffName"
+              options={allStaff}
+              isSearchable={true}
+              value={staffs}
+              placeholder="Select Staff"
+              onChange={(e) => onStaffChange(e)}
+              required
             />
           </div>
           <div className=" col-lg-4 col-md-11 col-sm-10 col-10 ">
@@ -177,4 +198,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(AllStatuschange);
+export default connect(mapStateToProps, { addDctCalls })(AllStatuschange);
