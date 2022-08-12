@@ -114,7 +114,7 @@ const AllStatuschange = ({
     <Fragment>
       <form className="row" onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-10 col-10 ">
-          <div className="col-lg-6 col-md-11 col-sm-10 col-10 ">
+          <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
             <label className="label-control"> Status :</label>
             <Select
               name="callStatus"
@@ -134,6 +134,11 @@ const AllStatuschange = ({
                 },
               })}
             />
+          </div>
+
+          <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
+            <label className="label-control"> Staff :</label>
+
             <Select
               name="staffName"
               options={allStaff}
