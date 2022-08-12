@@ -50,7 +50,35 @@ const AllContacts = ({
         onSubmit={(e) => onSubmit(e)}
         autoComplete="off"
       > */}
-      <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "></div>
+      <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+        <table
+          className="table table-bordered table-striped table-hover smll_row"
+          id="datatable2"
+        >
+          <thead>
+            <tr>
+              <th style={{ width: "15%" }}>Staff Name </th>
+              <th style={{ width: "13%" }}>Phone No</th>
+              <th style={{ width: "13%" }}>Designation</th>
+              <th style={{ width: "6%" }}>Op</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leadDataVal &&
+              leadDataVal.staffs &&
+              leadDataVal.staffs.map((staff, idx) => {
+                return (
+                  <tr key={idx}>
+                    <td>{staff.staffName}</td>
+                    <td>{staff.staffPhoneNumber}</td>
+                    <td>{staff.staffDesignation}</td>
+                    <td></td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      </div>
       {/* </form> */}
     </Fragment>
   );

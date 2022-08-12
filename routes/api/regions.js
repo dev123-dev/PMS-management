@@ -224,11 +224,14 @@ router.get("/get-all-districts", async (req, res) => {
 });
 
 router.post("/get-active-country", async (req, res) => {
-  // const { institutionId } = req.body;
+  const { countryBelongsTo } = req.body;
   try {
     const getActiveCountry = await Country.find({
       countryStatus: {
         $eq: "Active",
+      },
+      countryBelongsTo: {
+        $eq: countryBelongsTo,
       },
     });
     res.json(getActiveCountry);
