@@ -48,14 +48,29 @@ const LastMessageDetails = ({
     <Spinner />
   ) : (
     <Fragment>
-      <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
-        <input
-          type="submit"
-          name="submit"
-          value="History"
-          onClick={() => onClickHandler()}
-          className="btn sub_form btn_continue blackbrd float-right"
-        />
+      <div className="row col-lg-12 col-md-11 col-sm-10 col-10 ">
+        <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+          <input
+            type="submit"
+            name="submit"
+            value="History"
+            onClick={() => onClickHandler()}
+            className="btn sub_form btn_continue blackbrd float-right"
+          />
+        </div>
+        <div className="col-lg-8 col-md-11 col-sm-10 col-10 ">
+          <label className="label-control"> Last Meeting Details :</label>
+          <textarea
+            //   name="callNote"
+            // id="callNote"
+            className="textarea form-control"
+            rows="2"
+            placeholder="Notes"
+            style={{ width: "100%" }}
+            // value={callNote}
+            onChange={(e) => onInputChange(e)}
+          ></textarea>
+        </div>
       </div>
       <Modal
         show={showClientHistoryModal}
