@@ -1,13 +1,15 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { AddState } from "../../actions/area";
+import { AddState } from "../../actions/dct";
 import Spinner from "../layout/Spinner";
 
 const AllContacts = ({
   auth: { isAuthenticated, user, users, loading },
+  leadDataVal,
   //   AddState,
 }) => {
+  console.log("contact", leadDataVal);
   //formData
   const [formData, setFormData] = useState({
     countryName: "",
@@ -48,18 +50,7 @@ const AllContacts = ({
         onSubmit={(e) => onSubmit(e)}
         autoComplete="off"
       > */}
-      <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-        {/* <table
-          className="tabllll table table-bordered table-striped table-hover smll_row"
-          id="datatable2"
-        >
-          <thead>
-            <tr>
-              <th style={{ width: "100%" }}>Contacts</th>
-            </tr>
-          </thead>
-        </table> */}
-      </div>
+      <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "></div>
       {/* </form> */}
     </Fragment>
   );
