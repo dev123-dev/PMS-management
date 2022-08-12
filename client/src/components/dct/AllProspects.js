@@ -11,15 +11,23 @@ import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
+import { getActiveCountry } from "../../actions/regions";
+
 const AllProspects = ({
   auth: { isAuthenticated, user, users },
   dct: { allProspectus },
+  regions: { activeCountry },
   getDctLeadDetails,
+  getActiveCountry,
 }) => {
   useEffect(() => {
     getDctLeadDetails();
-  }, [getDctLeadDetails]);
-  // console.log(allProspectus);
+  }, []);
+  useEffect(() => {
+    getActiveCountry({ countryBelongsTo: "DCT" });
+  }, []);
+
+  console.log("activeCountry", activeCountry);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -312,10 +320,15 @@ const AllProspects = ({
 AllProspects.propTypes = {
   auth: PropTypes.object.isRequired,
   dct: PropTypes.object.isRequired,
+  regions: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   dct: state.dct,
+  regions: state.regions,
 });
 
-export default connect(mapStateToProps, { getDctLeadDetails })(AllProspects);
+export default connect(mapStateToProps, {
+  getDctLeadDetails,
+  getActiveCountry,
+})(AllProspects);

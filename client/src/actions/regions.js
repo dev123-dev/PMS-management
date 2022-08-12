@@ -229,9 +229,9 @@ export const getAllDistricts = () => async (dispatch) => {
   }
 };
 
-export const getActiveCountry = () => async (dispatch) => {
+export const getActiveCountry = (searchData) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/regions/get-active-country");
+    const res = await axios.post("/api/regions/get-active-country", searchData);
     dispatch({
       type: ACTIVE_COUNTRY,
       payload: res.data,

@@ -44,10 +44,12 @@ const EditLead = ({
       alleditLeaddata && alleditLeaddata.importantPoints
         ? alleditLeaddata.importantPoints
         : "",
-
+    ImagingChecked: false,
+    CGIChecked: false,
+    videoEditingChecked: false,
     isSubmitted: false,
   });
-
+  console.log(alleditLeaddata);
   const {
     companyName,
     website,
@@ -58,6 +60,9 @@ const EditLead = ({
     dctLeadAddress,
     importantPoints,
     isSubmitted,
+    ImagingChecked,
+    CGIChecked,
+    videoEditingChecked,
   } = formData;
 
   const onInputChange = (e) => {
@@ -83,6 +88,30 @@ const EditLead = ({
   );
   const [countryId, setcountryID] = useState(alleditLeaddata.countryId);
 
+  // alleditLeaddata &&
+  //   alleditLeaddata.services &&
+  //   alleditLeaddata.services.map((servicesVal) => {
+  //     switch (servicesVal) {
+  //       case "Imaging":
+  //         setFormData({ ...formData, ImagingChecked: true });
+  //         break;
+  //       case "CGI":
+  //         setFormData({ ...formData, CGIChecked: true });
+  //         break;
+  //       case "videoEditing":
+  //         setFormData({ ...formData, videoEditingChecked: true });
+  //         break;
+  //       default:
+  //         setFormData({
+  //           ...formData,
+  //           ImagingChecked: false,
+  //           CGIChecked: false,
+  //           videoEditingChecked: false,
+  //         });
+  //     }
+  //   });
+
+  console.log(ImagingChecked, "---", CGIChecked, "===", videoEditingChecked);
   const oncountryChange = (e) => {
     var countryId = "";
     getcountryData(e);
@@ -227,6 +256,7 @@ const EditLead = ({
                       <input
                         type="checkbox"
                         id="Unconfirmed"
+                        checked={ImagingChecked}
                         // onChange={handleOnChange}
                       />
                     </div>
@@ -235,6 +265,7 @@ const EditLead = ({
                       <input
                         type="checkbox"
                         id="Unconfirmed"
+                        checked={CGIChecked}
                         // onChange={handleOnChange}
                       />
                     </div>
@@ -243,6 +274,7 @@ const EditLead = ({
                       <input
                         type="checkbox"
                         id="Unconfirmed"
+                        checked={videoEditingChecked}
                         // onChange={handleOnChange}
                       />
                     </div>
