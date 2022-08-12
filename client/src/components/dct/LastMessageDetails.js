@@ -53,7 +53,7 @@ const LastMessageDetails = ({
           type="submit"
           name="submit"
           value="History"
-          onClick={() => onClickHandler()}
+          // onClick={() => onClickHandler()}
           className="btn sub_form btn_continue blackbrd float-right"
         />
       </div>
