@@ -35,16 +35,6 @@ const DeactiveLead = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    const finalData = {
-      recordId: Leaddeavtivedata ? Leaddeavtivedata._id : "",
-      dctLeadDeactivateByDateTime: new Date().toLocaleString("en-GB"),
-      dctLeadDeactivateById: user._id,
-      dctLeadStatus: "Deactive",
-      dctLeadDeactiveReason: dctLeadDeactiveReason,
-    };
-    deactivateDctLeadDetails(finalData);
-    onDeactiveModalChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
