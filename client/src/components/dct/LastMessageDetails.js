@@ -57,38 +57,6 @@ const LastMessageDetails = ({
           className="btn sub_form btn_continue blackbrd float-right"
         />
       </div>
-
-      <Modal
-        show={showClientHistoryModal}
-        backdrop="static"
-        keyboard={false}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header>
-          <div className="col-lg-10">
-            <h3 className="modal-title text-center">Client Call History</h3>
-          </div>
-          <div className="col-lg-1">
-            <button
-              onClick={handleClientCallHistoryModalClose}
-              className="close"
-            >
-              <img
-                src={require("../../static/images/close.png")}
-                alt="X"
-                style={{ height: "20px", width: "20px" }}
-              />
-            </button>
-          </div>
-        </Modal.Header>
-        <Modal.Body>
-          <ClientCallHistory
-            onClientCallHistoryModalChange={onClientCallHistoryModalChange}
-          />
-        </Modal.Body>
-      </Modal>
     </Fragment>
   );
 };
