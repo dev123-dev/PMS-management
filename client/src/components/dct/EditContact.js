@@ -7,12 +7,14 @@ import Spinner from "../layout/Spinner";
 const EditContact = ({
   auth: { isAuthenticated, user, users, loading },
   allStaffdata,
+  allleaddata,
   onEditModalChange,
   EditClient,
 }) => {
   //formData
+  //   console.log("allStaffdata", allStaffdata);
 
-  // console.log("allStaffdata", allStaffdata);
+  //   console.log("allleaddata", allleaddata);
 
   const [formData, setFormData] = useState({
     staffName:
@@ -45,6 +47,7 @@ const EditContact = ({
     // if (checkErrors()) {
     const finalData = {
       recordId: allStaffdata ? allStaffdata._id : "",
+      recordId1: allleaddata ? allleaddata._id : "",
       staffName: staffName,
       staffPhoneNumber: staffPhoneNumber,
       staffEmailId: staffEmailId,

@@ -32,10 +32,13 @@ const AllContacts = ({
   };
 
   const [userDatas, setUserDatas] = useState(null);
+  const [userDatas1, setUserDatas1] = useState(leadDataVal && leadDataVal._id);
   const onUpdate = (staff, idx) => {
     setShowEditModal(true);
     setUserDatas(staff);
+    setUserDatas1(leadDataVal);
   };
+
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
@@ -127,6 +130,7 @@ const AllContacts = ({
           <EditContact
             onEditModalChange={onEditModalChange}
             allStaffdata={userDatas}
+            allleaddata={userDatas1}
           />
         </Modal.Body>
       </Modal>
