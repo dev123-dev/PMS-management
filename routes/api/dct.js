@@ -60,10 +60,31 @@ router.post("/edit-dct-Leads", async (req, res) => {
   }
 });
 
+router.post("/add-new-dct-staff", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctLeads = await DctLeads.updateOne(
+      { _id: data.recordId },
+      {
+        $push: {
+          staffs: {
+            _id: new mongoose.Types.ObjectId(),
+            staffName: data.staffName,
+            staffPhoneNumber: data.staffPhoneNumber,
+            staffEmailId: data.staffEmailId,
+            staffDesignation: data.staffDesignation,
+          },
+        },
+      }
+    );
+    res.json(updateDctLeads);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
 router.post("/edit-dct-staff", async (req, res) => {
   try {
     let data = req.body;
-    console.log(data.staffId);
     const updateDctLeads = await DctLeads.updateOne(
       { "staffs._id": data.staffId },
       {

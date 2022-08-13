@@ -4,11 +4,12 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import EditContact from "./EditContact";
+import { addNewDctStaffDetails } from "../../actions/dct";
 
 const AllContacts = ({
   auth: { isAuthenticated, user, users, loading },
   leadDataVal,
-  //   AddState,
+  addNewDctStaffDetails,
 }) => {
   console.log("contact", leadDataVal);
   //formData
@@ -69,7 +70,7 @@ const AllContacts = ({
       staffEmailId: staffEmailId,
       staffDesignation: staffDesignation,
     };
-    console.log(finalData);
+    addNewDctStaffDetails(finalData);
     onAddModalChange(true);
     setFormData({
       ...formData,
@@ -252,7 +253,7 @@ const AllContacts = ({
                   <input
                     type="submit"
                     name="Submit"
-                    value="Update"
+                    value="Add"
                     className="btn sub_form btn_continue blackbrd Save float-right"
                   />
                 )}
@@ -275,5 +276,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  //   AddState,
+  addNewDctStaffDetails,
 })(AllContacts);
