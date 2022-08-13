@@ -70,7 +70,7 @@ const AllProspects = ({
   const onClickHandler = (allProspectus, idx) => {
     //localStorage.removeItem("getLastAmendmentDetails");
     // setProjLastchnage(null);
-    // setLeadData(allProspectus);
+    setLeadData(allProspectus);
     // if (allProspectus !== "") {
     const searchData = {
       callToId: allProspectus._id,
@@ -94,13 +94,11 @@ const AllProspects = ({
   );
 
   const [country, getcountryData] = useState();
-  const [countryId, setcountryID] = useState();
 
   const oncountryChange = (e) => {
-    var countryId = "";
     getcountryData(e);
-    countryId = e.countryId;
-    setcountryID(countryId);
+    getDctLeadDetails({ countryId: e.countryId });
+    getDctLeadDetailsDD({ countryId: e.countryId });
   };
 
   const allclient = [];
@@ -112,13 +110,9 @@ const AllProspects = ({
     })
   );
   const [clients, getclientsData] = useState();
-  const [clientsId, setclientsID] = useState();
-
   const onclientsChange = (e) => {
-    var clientsId = "";
     getclientsData(e);
-    clientsId = e.clientsId;
-    setclientsID(clientsId);
+    getDctLeadDetails({ countryId: e.countryId });
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />

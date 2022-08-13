@@ -81,8 +81,18 @@ router.post("/deactivate-dct-Leads", async (req, res) => {
 });
 //SELECT
 router.post("/get-dct-Leads", async (req, res) => {
+  let { countryId } = req.body;
+  let query = {};
+  if (countryId) {
+    query = {
+      dctLeadStatus: "Active",
+      countryId: countryId,
+    };
+  } else {
+    query = { dctLeadStatus: "Active" };
+  }
   try {
-    const getDctLeadsDetails = await DctLeads.find({ dctLeadStatus: "Active" });
+    const getDctLeadsDetails = await DctLeads.find(query);
     res.json(getDctLeadsDetails);
   } catch (err) {
     console.error(err.message);
@@ -91,8 +101,18 @@ router.post("/get-dct-Leads", async (req, res) => {
 });
 
 router.post("/get-dct-Leads_dd", async (req, res) => {
+  let { countryId } = req.body;
+  let query = {};
+  if (countryId) {
+    query = {
+      dctLeadStatus: "Active",
+      countryId: countryId,
+    };
+  } else {
+    query = { dctLeadStatus: "Active" };
+  }
   try {
-    const getDctLeadsDetails = await DctLeads.find({ dctLeadStatus: "Active" });
+    const getDctLeadsDetails = await DctLeads.find(query);
     res.json(getDctLeadsDetails);
   } catch (err) {
     console.error(err.message);
