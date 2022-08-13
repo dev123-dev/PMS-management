@@ -266,7 +266,7 @@ const AllStatuschange = ({
               name="callNote"
               id="callNote"
               className="textarea form-control"
-              rows="2"
+              rows="3"
               placeholder="Notes"
               style={{ width: "100%" }}
               value={callNote}
@@ -275,7 +275,8 @@ const AllStatuschange = ({
             ></textarea>
           </div>
 
-          <div className="col-lg-4 col-md-6 col-sm-12 col-12 py-5">
+          <div className="col-lg-4 col-md-6 col-sm-12 col-12 mt-5">
+            <br />
             <input
               type="submit"
               name="Submit"

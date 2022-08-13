@@ -44,7 +44,18 @@ const LastMessageDetails = ({
   ) : (
     <Fragment>
       <div className="row col-lg-12 col-md-11 col-sm-10 col-10 ">
-        <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+        <div className="col-lg-9 col-md-11 col-sm-10 col-10 ">
+          <label className="label-control mt-1"> Last Meeting Details :</label>
+          <textarea
+            className="textarea form-control"
+            rows="4"
+            placeholder="Notes"
+            style={{ width: "100%" }}
+            value={lastMsg && lastMsg.callNote}
+            onChange={(e) => onInputChange(e)}
+          ></textarea>
+        </div>
+        <div className="col-lg-3 col-md-12 col-sm-12 col-12 mt-3">
           <input
             type="submit"
             name="submit"
@@ -52,17 +63,6 @@ const LastMessageDetails = ({
             onClick={() => onClickHandler()}
             className="btn sub_form btn_continue blackbrd float-right"
           />
-        </div>
-        <div className="col-lg-8 col-md-11 col-sm-10 col-10 ">
-          <label className="label-control"> Last Meeting Details :</label>
-          <textarea
-            className="textarea form-control"
-            rows="2"
-            placeholder="Notes"
-            style={{ width: "100%" }}
-            value={lastMsg && lastMsg.callNote}
-            onChange={(e) => onInputChange(e)}
-          ></textarea>
         </div>
       </div>
       <Modal
