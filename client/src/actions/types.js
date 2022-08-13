@@ -79,6 +79,7 @@ export const STATES = "STATES";
 export const ALL_PROSPECTUS = "ALL_PROSPECTUS";
 export const ALL_PROSPECTUS_DD = "ALL_PROSPECTUS_DD";
 export const LAST_MSG = "LAST_MSG";
+export const CALLHISTORY = "CALLHISTORY";
 
 //SETTINGS
 export const ALL_COMPANY_DETAILS = "ALL_COMPANY_DETAILS";

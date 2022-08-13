@@ -6,13 +6,14 @@ import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
 const ClientCallHistory = ({
   auth: { isAuthenticated, user, users, loading },
+  dct: { callHistory },
   onClientCallHistoryModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
     isSubmitted: false,
   });
-
+  console.log("callHistory", callHistory);
   const { isSubmitted } = formData;
 
   return !isAuthenticated || !user || !users ? (
@@ -55,10 +56,12 @@ const ClientCallHistory = ({
 
 ClientCallHistory.propTypes = {
   auth: PropTypes.object.isRequired,
+  dct: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  dct: state.dct,
 });
 
 export default connect(mapStateToProps, {})(ClientCallHistory);

@@ -7,6 +7,7 @@ import {
   ALL_PROSPECTUS,
   ALL_PROSPECTUS_DD,
   LAST_MSG,
+  CALLHISTORY,
 } from "./types";
 
 const config = {
@@ -38,6 +39,7 @@ export const addDctCalls = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/add-dct-calls", finalData, config);
+    dispatch(getDctLeadDetails());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -123,6 +125,18 @@ export const getLastmessage = (searchData) => async (dispatch) => {
     const res = await axios.post("/api/dct/get-last-message", searchData);
     dispatch({
       type: LAST_MSG,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getCallHistory = (searchData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/dct/get-call-history", searchData);
+    dispatch({
+      type: CALLHISTORY,
       payload: res.data,
     });
   } catch (err) {

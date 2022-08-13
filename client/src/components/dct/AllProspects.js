@@ -65,7 +65,7 @@ const AllProspects = ({
       handleDeactiveModalClose();
     }
   };
-  const [ProjLastchnage, setProjLastchnage] = useState();
+  const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
   const onClickHandler = (allProspectus, idx) => {
     //localStorage.removeItem("getLastAmendmentDetails");
@@ -75,7 +75,9 @@ const AllProspects = ({
     const searchData = {
       callToId: allProspectus._id,
     };
+    setsearchDataVal(searchData);
     getLastmessage(searchData);
+
     // }
     // setShowHide({
     //   ...showHide,
@@ -252,7 +254,7 @@ const AllProspects = ({
                   <label className="sidePartHeading ">
                     Last Message Details
                   </label>
-                  <LastMessageDetails />
+                  <LastMessageDetails searchDataVal={searchDataVal} />
                 </div>
               </div>
             </div>

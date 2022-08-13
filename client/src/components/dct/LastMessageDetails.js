@@ -4,9 +4,13 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { Modal } from "react-bootstrap";
 import ClientCallHistory from "./ClientCallHistory";
+import { getCallHistory } from "../../actions/dct";
+
 const LastMessageDetails = ({
   auth: { isAuthenticated, user, users, loading },
   dct: { lastMsg },
+  getCallHistory,
+  searchDataVal,
   //   AddState,
 }) => {
   //formData
@@ -31,6 +35,7 @@ const LastMessageDetails = ({
     }
   };
   const onClickHandler = () => {
+    getCallHistory(searchDataVal);
     setShowClientCallHistoryModal(true);
   };
 
@@ -106,5 +111,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  //   AddState,
+  getCallHistory,
 })(LastMessageDetails);

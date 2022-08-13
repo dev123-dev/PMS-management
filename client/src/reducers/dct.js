@@ -1,9 +1,15 @@
-import { ALL_PROSPECTUS, ALL_PROSPECTUS_DD, LAST_MSG } from "../actions/types";
+import {
+  ALL_PROSPECTUS,
+  ALL_PROSPECTUS_DD,
+  LAST_MSG,
+  CALLHISTORY,
+} from "../actions/types";
 
 const initialState = {
   allProspectus: [],
   allProspectusDD: [],
   lastMsg: [],
+  callHistory: [],
 };
 
 const dct = (state = initialState, action) => {
@@ -23,6 +29,11 @@ const dct = (state = initialState, action) => {
       return {
         ...state,
         lastMsg: payload,
+      };
+    case CALLHISTORY:
+      return {
+        ...state,
+        callHistory: payload,
       };
 
     default:
