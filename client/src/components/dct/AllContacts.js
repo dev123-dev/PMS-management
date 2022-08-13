@@ -109,7 +109,7 @@ const AllContacts = ({
                 <th style={{ width: "15%" }}>Staff Name </th>
                 <th style={{ width: "13%" }}>Phone No</th>
                 <th style={{ width: "13%" }}>Designation</th>
-                <th style={{ width: "6%" }}>Op</th>
+                <th style={{ width: "1%" }}>Op</th>
               </tr>
             </thead>
             <tbody>
@@ -202,6 +202,7 @@ const AllContacts = ({
                     value={staffName}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
+                    required
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
