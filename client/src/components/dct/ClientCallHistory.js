@@ -37,11 +37,15 @@ const ClientCallHistory = ({
           <tbody>
             {callHistory &&
               callHistory.map((callHistory, idx) => {
+                var callDates = "";
+                if (callHistory.callDate) {
+                  var ED = callHistory.callDate.split(/\D/g);
+                  callDates = [ED[2], ED[1], ED[0]].join("-");
+                }
                 return (
                   <tr key={idx}>
                     <td>{callHistory.callToStaffName}</td>
-
-                    <td>{callHistory.callDate}</td>
+                    <td>{callDates}</td>
                     <td>{callHistory.callStatus}</td>
                     <td>{callHistory.callNote}</td>
                     <td>{callHistory.callFromName}</td>
