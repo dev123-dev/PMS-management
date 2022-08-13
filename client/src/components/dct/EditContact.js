@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
 import Spinner from "../layout/Spinner";
+import { editDctStaffDetails } from "../../actions/dct";
 
 const EditContact = ({
   auth: { isAuthenticated, user, users, loading },
   allStaffdata,
   allleaddata,
   onEditModalChange,
-  EditClient,
+  editDctStaffDetails,
 }) => {
   //formData
   //   console.log("allStaffdata", allStaffdata);
@@ -46,15 +47,15 @@ const EditContact = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
-      recordId: allStaffdata ? allStaffdata._id : "",
-      recordId1: allleaddata ? allleaddata._id : "",
+      staffId: allStaffdata ? allStaffdata._id : "",
+      // leadId: allleaddata ? allleaddata._id : "",
       staffName: staffName,
       staffPhoneNumber: staffPhoneNumber,
       staffEmailId: staffEmailId,
       staffDesignation: staffDesignation,
     };
-    console.log(finalData);
-    // EditClient(finalData);
+    // console.log(finalData);
+    editDctStaffDetails(finalData);
     onEditModalChange(true);
   };
 
@@ -145,7 +146,6 @@ const EditContact = ({
 
 EditContact.propTypes = {
   auth: PropTypes.object.isRequired,
-  //   EditClient: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -153,5 +153,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  //   EditClient,
+  editDctStaffDetails,
 })(EditContact);
