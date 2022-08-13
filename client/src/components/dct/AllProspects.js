@@ -120,6 +120,11 @@ const AllProspects = ({
       clientsId: e.clientsId,
     });
   };
+
+  const onClickReset = () => {
+    getcountryData("");
+    getclientsData("");
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -158,7 +163,7 @@ const AllProspects = ({
             <div className="col-lg-5 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
-                // onClick={() => onClickReset()}
+                onClick={() => onClickReset()}
               >
                 Refresh
               </button>
