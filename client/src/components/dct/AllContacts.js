@@ -1,8 +1,9 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { AddState } from "../../actions/dct";
+import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
+import EditContact from "./EditContact";
 
 const AllContacts = ({
   auth: { isAuthenticated, user, users, loading },
@@ -21,7 +22,20 @@ const AllContacts = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const [showEditModal, setShowEditModal] = useState(false);
+  const handleEditModalClose = () => setShowEditModal(false);
 
+  const onEditModalChange = (e) => {
+    if (e) {
+      handleEditModalClose();
+    }
+  };
+
+  const [userDatas, setUserDatas] = useState(null);
+  const onUpdate = (staff, idx) => {
+    setShowEditModal(true);
+    setUserDatas(staff);
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
@@ -72,13 +86,50 @@ const AllContacts = ({
                     <td>{staff.staffName}</td>
                     <td>{staff.staffPhoneNumber}</td>
                     <td>{staff.staffDesignation}</td>
-                    <td></td>
+                    <td>
+                      <img
+                        className="img_icon_size log"
+                        onClick={() => onUpdate(staff, idx)}
+                        src={require("../../static/images/edit_icon.png")}
+                        alt="Edit"
+                        title="Edit"
+                      />
+                    </td>
                   </tr>
                 );
               })}
           </tbody>
         </table>
       </div>
+      <Modal
+        show={showEditModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Edit Staff Details</h3>
+          </div>
+          <div className="col-lg-1">
+            <button onClick={handleEditModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <EditContact
+            onEditModalChange={onEditModalChange}
+            allStaffdata={userDatas}
+          />
+        </Modal.Body>
+      </Modal>
       {/* </form> */}
     </Fragment>
   );
