@@ -5,7 +5,11 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-import { getDctLeadDetails, getDctLeadDetailsDD } from "../../actions/dct";
+import {
+  getDctLeadDetails,
+  getDctLeadDetailsDD,
+  getLastmessage,
+} from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
@@ -20,6 +24,7 @@ const AllProspects = ({
   getDctLeadDetails,
   getActiveCountry,
   getDctLeadDetailsDD,
+  getLastmessage,
 }) => {
   useEffect(() => {
     getDctLeadDetails();
@@ -30,8 +35,6 @@ const AllProspects = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
-
-  console.log("allProspectusDD", allProspectusDD);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -66,15 +69,14 @@ const AllProspects = ({
   const [leadData, setLeadData] = useState();
   const onClickHandler = (allProspectus, idx) => {
     //localStorage.removeItem("getLastAmendmentDetails");
-    setProjLastchnage(null);
-    setLeadData(allProspectus);
-    if (allProspectus !== "") {
-      // const lastAmendment = {
-      //   projectId: allProspectus.projectId,
-      //   amendmentCounter: allProspectus.amendmentCounter,
-      // };
-      // getLastAmendmentHistoryDeatils(lastAmendment);
-    }
+    // setProjLastchnage(null);
+    // setLeadData(allProspectus);
+    // if (allProspectus !== "") {
+    const searchData = {
+      callToId: allProspectus._id,
+    };
+    getLastmessage(searchData);
+    // }
     // setShowHide({
     //   ...showHide,
     //   showhistory_submitSection: true,
@@ -335,4 +337,5 @@ export default connect(mapStateToProps, {
   getDctLeadDetails,
   getDctLeadDetailsDD,
   getActiveCountry,
+  getLastmessage,
 })(AllProspects);

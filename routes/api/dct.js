@@ -99,4 +99,25 @@ router.post("/get-dct-Leads_dd", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/get-last-message", async (req, res) => {
+  const { callToId } = req.body;
+  let query = {};
+  query = {
+    callToId: {
+      $eq: callToId,
+    },
+  };
+  try {
+    const getLastMsgData = await DctCalls.findOne(query)
+      .sort({
+        _id: -1,
+      })
+      .limit(1);
+    res.json(getLastMsgData);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 module.exports = router;

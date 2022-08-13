@@ -1,8 +1,9 @@
-import { ALL_PROSPECTUS, ALL_PROSPECTUS_DD } from "../actions/types";
+import { ALL_PROSPECTUS, ALL_PROSPECTUS_DD, LAST_MSG } from "../actions/types";
 
 const initialState = {
   allProspectus: [],
   allProspectusDD: [],
+  lastMsg: [],
 };
 
 const dct = (state = initialState, action) => {
@@ -17,6 +18,11 @@ const dct = (state = initialState, action) => {
       return {
         ...state,
         allProspectusDD: payload,
+      };
+    case LAST_MSG:
+      return {
+        ...state,
+        lastMsg: payload,
       };
 
     default:

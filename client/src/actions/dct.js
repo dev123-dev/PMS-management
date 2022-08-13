@@ -6,6 +6,7 @@ import {
   SET_LOADING_FALSE,
   ALL_PROSPECTUS,
   ALL_PROSPECTUS_DD,
+  LAST_MSG,
 } from "./types";
 
 const config = {
@@ -110,5 +111,21 @@ export const getDctLeadDetailsDD = (finalData) => async (dispatch) => {
     dispatch({
       type: ERROR,
     });
+  }
+};
+
+export const getLastmessage = (searchData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: LAST_MSG,
+      payload: "",
+    });
+    const res = await axios.post("/api/dct/get-last-message", searchData);
+    dispatch({
+      type: LAST_MSG,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
   }
 };

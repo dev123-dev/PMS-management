@@ -1,12 +1,12 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-
 import Spinner from "../layout/Spinner";
 import { Modal } from "react-bootstrap";
 import ClientCallHistory from "./ClientCallHistory";
 const LastMessageDetails = ({
   auth: { isAuthenticated, user, users, loading },
+  dct: { lastMsg },
   //   AddState,
 }) => {
   //formData
@@ -16,7 +16,6 @@ const LastMessageDetails = ({
     isSubmitted: false,
   });
   const { countryName, countryCode } = formData;
-
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -33,15 +32,6 @@ const LastMessageDetails = ({
   };
   const onClickHandler = () => {
     setShowClientCallHistoryModal(true);
-  };
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const finalData = {};
-    console.log(finalData);
-    // AddState(finalData);
-    setFormData({
-      isSubmitted: true,
-    });
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -61,13 +51,11 @@ const LastMessageDetails = ({
         <div className="col-lg-8 col-md-11 col-sm-10 col-10 ">
           <label className="label-control"> Last Meeting Details :</label>
           <textarea
-            //   name="callNote"
-            // id="callNote"
             className="textarea form-control"
             rows="2"
             placeholder="Notes"
             style={{ width: "100%" }}
-            // value={callNote}
+            value={lastMsg && lastMsg.callNote}
             onChange={(e) => onInputChange(e)}
           ></textarea>
         </div>
@@ -109,10 +97,12 @@ const LastMessageDetails = ({
 
 LastMessageDetails.propTypes = {
   auth: PropTypes.object.isRequired,
+  dct: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  dct: state.dct,
 });
 
 export default connect(mapStateToProps, {
