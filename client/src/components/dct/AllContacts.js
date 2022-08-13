@@ -96,41 +96,46 @@ const AllContacts = ({
             Add Staff
           </button>
         </div>
-        <table
-          className="table table-bordered table-striped table-hover smll_row"
-          id="datatable2"
+        <div
+          className="row col-lg-12 col-md-12 col-sm-12 col-12"
+          style={{ height: "190px", overflowY: "scroll" }}
         >
-          <thead>
-            <tr>
-              <th style={{ width: "15%" }}>Staff Name </th>
-              <th style={{ width: "13%" }}>Phone No</th>
-              <th style={{ width: "13%" }}>Designation</th>
-              <th style={{ width: "6%" }}>Op</th>
-            </tr>
-          </thead>
-          <tbody>
-            {leadDataVal &&
-              leadDataVal.staffs &&
-              leadDataVal.staffs.map((staff, idx) => {
-                return (
-                  <tr key={idx}>
-                    <td>{staff.staffName}</td>
-                    <td>{staff.staffPhoneNumber}</td>
-                    <td>{staff.staffDesignation}</td>
-                    <td>
-                      <img
-                        className="img_icon_size log"
-                        onClick={() => onUpdate(staff, idx)}
-                        src={require("../../static/images/edit_icon.png")}
-                        alt="Edit"
-                        title="Edit"
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
+          <table
+            className="table table-bordered table-striped table-hover smll_row"
+            id="datatable2"
+          >
+            <thead>
+              <tr>
+                <th style={{ width: "15%" }}>Staff Name </th>
+                <th style={{ width: "13%" }}>Phone No</th>
+                <th style={{ width: "13%" }}>Designation</th>
+                <th style={{ width: "6%" }}>Op</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leadDataVal &&
+                leadDataVal.staffs &&
+                leadDataVal.staffs.map((staff, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td>{staff.staffName}</td>
+                      <td>{staff.staffPhoneNumber}</td>
+                      <td>{staff.staffDesignation}</td>
+                      <td>
+                        <img
+                          className="img_icon_size log"
+                          onClick={() => onUpdate(staff, idx)}
+                          src={require("../../static/images/edit_icon.png")}
+                          alt="Edit"
+                          title="Edit"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
       </div>
       <Modal
         show={showEditModal}
