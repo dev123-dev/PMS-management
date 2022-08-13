@@ -43,7 +43,10 @@ const DctLeadsSchema = new mongoose.Schema({
     type: String, //Active, Deactive
   },
   dctLeadCategory: {
-    type: String, //NC,prospect,followup,TC,RC
+    type: String, //NC,P,F,TC,RC
+  },
+  dctCallDate: {
+    type: String,
   },
   dctLeadEnteredById: {
     type: ObjectId,

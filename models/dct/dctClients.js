@@ -68,6 +68,9 @@ const DctClientsSchema = new mongoose.Schema({
   dctClientCategory: {
     type: String, //Active,Deactive
   },
+  dctCallDate: {
+    type: String, //NC,P,F,TC,RC
+  },
   dctClientEnteredById: {
     type: ObjectId,
   },

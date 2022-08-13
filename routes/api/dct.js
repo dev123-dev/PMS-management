@@ -102,6 +102,24 @@ router.post("/edit-dct-staff", async (req, res) => {
   }
 });
 
+router.post("/update-dct-leads-status", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctLeads = await DctLeads.updateOne(
+      { _id: data.callToId },
+      {
+        $set: {
+          dctLeadCategory: data.callCategory,
+          dctCallDate: data.callDate,
+        },
+      }
+    );
+    res.json(updateDctLeads);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 router.post("/deactivate-dct-Leads", async (req, res) => {
   try {
     let data = req.body;
@@ -131,11 +149,13 @@ router.post("/get-dct-Leads", async (req, res) => {
         dctLeadStatus: "Active",
         countryId: countryId,
         _id: clientsId,
+        dctLeadCategory: "P",
       };
     } else {
       query = {
         dctLeadStatus: "Active",
         countryId: countryId,
+        dctLeadCategory: "P",
       };
     }
   } else {
@@ -143,13 +163,16 @@ router.post("/get-dct-Leads", async (req, res) => {
       query = {
         dctLeadStatus: "Active",
         _id: clientsId,
+        dctLeadCategory: "P",
       };
     } else {
       query = {
         dctLeadStatus: "Active",
+        dctLeadCategory: "P",
       };
     }
   }
+  console.log(query);
   try {
     const getDctLeadsDetails = await DctLeads.find(query);
     res.json(getDctLeadsDetails);

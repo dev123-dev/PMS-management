@@ -159,6 +159,12 @@ const AllStatuschange = ({
         callStatus: e,
       });
       setStatusDate(nextday);
+    } else {
+      setFormData({
+        ...formData,
+        callStatus: e,
+      });
+      setStatusDate("");
     }
   };
 
@@ -167,6 +173,14 @@ const AllStatuschange = ({
   };
 
   const onSubmit = (e) => {
+    let callCategoryVal = null;
+    if (callStatus.value === "FollowUp") {
+      callCategoryVal = "F";
+    } else if (callStatus.value === "TestClient") {
+      callCategoryVal = "TC";
+    } else if (callStatus.value === "RegularClient") {
+      callCategoryVal = "RC";
+    }
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
@@ -176,7 +190,7 @@ const AllStatuschange = ({
         callToStaffName: staffs.value,
         callFromId: user._id,
         callFromName: user.userName,
-        // callCategory,
+        callCategory: callCategoryVal,
         callStatus: callStatus.value,
         callDate: startStatusDate,
         callNote: callNote,

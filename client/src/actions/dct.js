@@ -38,7 +38,12 @@ export const addDctCalls = (finalData) => async (dispatch) => {
     dispatch({
       type: SET_LOADING_TRUE,
     });
-    await axios.post("/api/dct/add-dct-calls", finalData, config);
+    const res = await axios.post("/api/dct/add-dct-calls", finalData, config);
+    const res2 = await axios.post(
+      "/api/dct/update-dct-leads-status",
+      finalData,
+      config
+    );
     dispatch(getDctLeadDetails());
     dispatch({
       type: SET_LOADING_FALSE,
