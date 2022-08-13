@@ -33,7 +33,7 @@ const DctCallsSchema = new mongoose.Schema({
     type: String,
   },
   callEnteredDate: {
-    type: Date,
+    type: String,
   },
   callDateTime: {
     type: String,

@@ -20,7 +20,7 @@ const AllStatuschange = ({
   leadDataVal,
   addDctCalls,
 }) => {
-  console.log("val", leadDataVal);
+  // console.log("val", leadDataVal);
   //formData
   const [formData, setFormData] = useState({
     callStatus: "",
@@ -41,6 +41,62 @@ const AllStatuschange = ({
     mm = "0" + mm;
   }
   var todayDateymd = yyyy + "-" + mm + "-" + dd;
+  //for next month
+
+  var d = new Date(todayDateymd);
+  d.setMonth(d.getMonth() + 1);
+  var nextmonth = d.toISOString().split("T")[0];
+
+  //for next year
+
+  var d1 = new Date(todayDateymd);
+  d1.setFullYear(d1.getFullYear() + 1);
+  var nextyear = d1.toISOString().split("T")[0];
+
+  // new Date().setFullYear(new Date().getFullYear() + 1);
+
+  //next day
+
+  var d2 = new Date(todayDateymd);
+  d2.setDate(d2.getDate() + 1);
+  var nextday = d2.toISOString().split("T")[0];
+
+  // new Date().setDate(new Date().getDate() + 1);
+
+  //ends
+
+  //Required Validation Starts
+  const [error, setError] = useState({
+    statusmodeIdChecker: false,
+    statusmodeIdErrorStyle: {},
+    stafftypeIdChecker: false,
+
+    stafftypeIdErrorStyle: {},
+  });
+  const {
+    statusmodeIdChecker,
+    statusmodeIdErrorStyle,
+    stafftypeIdChecker,
+    stafftypeIdErrorStyle,
+  } = error;
+
+  const checkErrors = () => {
+    if (!statusmodeIdChecker) {
+      setError({
+        ...error,
+        statusmodeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!stafftypeIdChecker) {
+      setError({
+        ...error,
+        stafftypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    return true;
+  };
 
   const allStaff = [];
   leadDataVal &&
@@ -53,19 +109,31 @@ const AllStatuschange = ({
       })
     );
 
-  const [staffs, getstaffsData] = useState();
+  const [staffs, getstaffsData] = useState("");
   const onStaffChange = (e) => {
+    //  Required Validation starts
+    setError({
+      ...error,
+      stafftypeIdChecker: true,
+      stafftypeIdErrorStyle: { color: "#000" },
+    });
+    // Required Validation ends
+
     getstaffsData(e);
   };
-  console.log("allStaff", allStaff);
+  const [startStatusDate, setStatusDate] = useState("");
+  const onDateChange = (e) => {
+    setStatusDate(e.target.value);
+  };
+
   const onStatusTypeChange = (e) => {
     //Required Validation starts
-    // setError({
-    //   ...error,
-    //   TranscationIdChecker: true,
-    //   TranscationIdErrorStyle: { color: "#000" },
-    // });
-    //Required Validation ends showVoiceMailSection1
+    setError({
+      ...error,
+      statusmodeIdChecker: true,
+      statusmodeIdErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
 
     if (e) {
       setFormData({
@@ -73,39 +141,59 @@ const AllStatuschange = ({
         callStatus: e,
       });
     }
+    if (e.value === "DND") {
+      setFormData({
+        ...formData,
+        callStatus: e,
+      });
+      setStatusDate(nextmonth);
+    } else if (e.value === "NI") {
+      setFormData({
+        ...formData,
+        callStatus: e,
+      });
+      setStatusDate(nextyear);
+    } else if (e.value === "VoiceMail") {
+      setFormData({
+        ...formData,
+        callStatus: e,
+      });
+      setStatusDate(nextday);
+    }
   };
+
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-  const [startStatusDate, setStatusDate] = useState("");
-  const onDateChange = (e) => {
-    setStatusDate(e.target.value);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const finalData = {
-      callToId: leadDataVal._id,
-      callToName: leadDataVal.companyName,
-      callToStaffId: staffs.staffsId,
-      callToStaffName: staffs.value,
-      callFromId: user._id,
-      callFromName: user.userName,
-      // callCategory,
-      callStatus: callStatus.value,
-      callDate: startStatusDate,
-      callNote: callNote,
-      callEnteredDate: todayDateymd,
-    };
-    addDctCalls(finalData);
-    console.log(finalData);
-    setFormData({
-      ...formData,
-      callStatus: "",
-      callDate: "",
-      callNote: "",
-      isSubmitted: true,
-    });
+    if (checkErrors()) {
+      const finalData = {
+        callToId: leadDataVal._id,
+        callToName: leadDataVal.companyName,
+        callToStaffId: staffs.staffsId,
+        callToStaffName: staffs.value,
+        callFromId: user._id,
+        callFromName: user.userName,
+        // callCategory,
+        callStatus: callStatus.value,
+        callDate: startStatusDate,
+        callNote: callNote,
+        callEnteredDate: new Date().toLocaleString("en-GB"),
+      };
+      addDctCalls(finalData);
+
+      setFormData({
+        ...formData,
+        callStatus: "",
+        callDate: "",
+        callNote: "",
+        isSubmitted: true,
+      });
+      setStatusDate("");
+      getstaffsData("");
+    }
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -115,7 +203,10 @@ const AllStatuschange = ({
       <form className="row" onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-10 col-10 ">
           <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
-            <label className="label-control"> Status :</label>
+            <label className="label-control" style={statusmodeIdErrorStyle}>
+              {" "}
+              Status :
+            </label>
             <Select
               name="callStatus"
               options={StatusMethods}
@@ -137,7 +228,9 @@ const AllStatuschange = ({
           </div>
 
           <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
-            <label className="label-control"> Staff :</label>
+            <label className="label-control" style={stafftypeIdErrorStyle}>
+              Staff :
+            </label>
 
             <Select
               name="staffName"
@@ -178,6 +271,7 @@ const AllStatuschange = ({
               style={{ width: "100%" }}
               value={callNote}
               onChange={(e) => onInputChange(e)}
+              required
             ></textarea>
           </div>
 
