@@ -94,9 +94,12 @@ const AllProspects = ({
   );
 
   const [country, getcountryData] = useState();
+  const [countryId, getcountryIdData] = useState(null);
 
   const oncountryChange = (e) => {
     getcountryData(e);
+    getclientsData("");
+    getcountryIdData(e.countryId);
     getDctLeadDetails({ countryId: e.countryId });
     getDctLeadDetailsDD({ countryId: e.countryId });
   };
@@ -112,7 +115,10 @@ const AllProspects = ({
   const [clients, getclientsData] = useState();
   const onclientsChange = (e) => {
     getclientsData(e);
-    getDctLeadDetails({ countryId: e.countryId });
+    getDctLeadDetails({
+      countryId: countryId,
+      clientsId: e.clientsId,
+    });
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -142,7 +148,7 @@ const AllProspects = ({
                 options={allclient}
                 isSearchable={true}
                 value={clients}
-                placeholder="Select Client"
+                placeholder="Select Lead"
                 onChange={(e) => onclientsChange(e)}
                 required
               />
