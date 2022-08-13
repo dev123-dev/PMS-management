@@ -35,18 +35,21 @@ const ClientCallHistory = ({
             </tr>
           </thead>
           <tbody>
-            {/* {leadDataVal &&
-              leadDataVal.staffs &&
-              leadDataVal.staffs.map((staff, idx) => {
+            {callHistory &&
+              callHistory.map((callHistory, idx) => {
                 return (
                   <tr key={idx}>
-                    <td>{staff.staffName}</td>
-                    <td>{staff.staffPhoneNumber}</td>
-                    <td>{staff.staffDesignation}</td>
-                    <td></td>
+                    <td>{callHistory.callToStaffName}</td>
+
+                    <td>
+                      {new Date(callHistory.callDate).toLocaleString("en-GB")}
+                    </td>
+                    <td>{callHistory.callStatus}</td>
+                    <td>{callHistory.callNote}</td>
+                    <td>{callHistory.callFromName}</td>
                   </tr>
                 );
-              })} */}
+              })}
           </tbody>
         </table>
       </div>
