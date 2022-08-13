@@ -81,15 +81,32 @@ router.post("/deactivate-dct-Leads", async (req, res) => {
 });
 //SELECT
 router.post("/get-dct-Leads", async (req, res) => {
-  let { countryId } = req.body;
+  let { countryId, clientsId } = req.body;
   let query = {};
   if (countryId) {
-    query = {
-      dctLeadStatus: "Active",
-      countryId: countryId,
-    };
+    if (clientsId) {
+      query = {
+        dctLeadStatus: "Active",
+        countryId: countryId,
+        _id: clientsId,
+      };
+    } else {
+      query = {
+        dctLeadStatus: "Active",
+        countryId: countryId,
+      };
+    }
   } else {
-    query = { dctLeadStatus: "Active" };
+    if (clientsId) {
+      query = {
+        dctLeadStatus: "Active",
+        _id: clientsId,
+      };
+    } else {
+      query = {
+        dctLeadStatus: "Active",
+      };
+    }
   }
   try {
     const getDctLeadsDetails = await DctLeads.find(query);
