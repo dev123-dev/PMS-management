@@ -27,7 +27,7 @@ const DctCallsSchema = new mongoose.Schema({
     type: String,
   },
   callDate: {
-    type: Date,
+    type: String,
   },
   callNote: {
     type: String,

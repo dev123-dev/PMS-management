@@ -41,9 +41,7 @@ const ClientCallHistory = ({
                   <tr key={idx}>
                     <td>{callHistory.callToStaffName}</td>
 
-                    <td>
-                      {new Date(callHistory.callDate).toLocaleString("en-GB")}
-                    </td>
+                    <td>{callHistory.callDate}</td>
                     <td>{callHistory.callStatus}</td>
                     <td>{callHistory.callNote}</td>
                     <td>{callHistory.callFromName}</td>
