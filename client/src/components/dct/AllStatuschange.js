@@ -180,6 +180,8 @@ const AllStatuschange = ({
       callCategoryVal = "TC";
     } else if (callStatus.value === "RegularClient") {
       callCategoryVal = "RC";
+    } else {
+      callCategoryVal = "P";
     }
     e.preventDefault();
     if (checkErrors()) {
