@@ -35,7 +35,7 @@ const AllProspects = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
-  console.log("aaa");
+
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
 
@@ -44,6 +44,11 @@ const AllProspects = ({
       handleEditModalClose();
     }
   };
+  const [showHide, setShowHide] = useState({
+    showdateselectionSection: false,
+  });
+
+  const { showdateselectionSection } = showHide;
 
   const [userDatas, setUserDatas] = useState(null);
   const onUpdate = (allLeads, idx) => {
@@ -79,10 +84,10 @@ const AllProspects = ({
     getLastmessage(searchData);
 
     // }
-    // setShowHide({
-    //   ...showHide,
-    //   showhistory_submitSection: true,
-    // });
+    setShowHide({
+      ...showHide,
+      showdateselectionSection: true,
+    });
   };
   const allcountry = [];
   activeCountry.map((country) =>
@@ -240,7 +245,9 @@ const AllProspects = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Contacts</label>
-                  <AllContacts leadDataVal={leadData} />
+                  {showdateselectionSection && (
+                    <AllContacts leadDataVal={leadData} />
+                  )}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
@@ -249,7 +256,9 @@ const AllProspects = ({
                   style={{ height: "30vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
-                  <AllStatuschange leadDataVal={leadData} />
+                  {showdateselectionSection && (
+                    <AllStatuschange leadDataVal={leadData} />
+                  )}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding">
@@ -260,7 +269,9 @@ const AllProspects = ({
                   <label className="sidePartHeading ">
                     Last Message Details
                   </label>
-                  <LastMessageDetails searchDataVal={searchDataVal} />
+                  {showdateselectionSection && (
+                    <LastMessageDetails searchDataVal={searchDataVal} />
+                  )}
                 </div>
               </div>
             </div>
