@@ -32,10 +32,10 @@ const StateSchema = new mongoose.Schema({
   stateDeactiveById: {
     type: ObjectId,
   },
-  stateDeactivateDateTime: {
+  stateDeactivateReason: {
     type: String,
   },
-  stateDeactivateReason: {
+  stateDeactivateDateTime: {
     type: String,
   },
 });
