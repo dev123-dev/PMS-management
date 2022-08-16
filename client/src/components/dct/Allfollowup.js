@@ -119,6 +119,8 @@ const Allfollowup = ({
   const onClickReset = () => {
     getcountryData("");
     getclientsData("");
+    getDctLeadDetails({ dctLeadCategory: "F" });
+    getDctLeadDetailsDD({ dctLeadCategory: "F" });
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
