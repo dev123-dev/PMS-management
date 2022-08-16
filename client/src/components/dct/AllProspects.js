@@ -83,7 +83,7 @@ const AllProspects = ({
     // }
     setShowHide({
       ...showHide,
-      showhistory_submitSection: true,
+      showdateselectionSection: true,
     });
   };
   const allcountry = [];
@@ -253,7 +253,10 @@ const AllProspects = ({
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
-                    <AllStatuschange leadDataVal={leadData} />
+                    <AllStatuschange
+                      leadDataVal={leadData}
+                      showdateselectionSection={showdateselectionSection}
+                    />
                   )}
                 </div>
               </div>
