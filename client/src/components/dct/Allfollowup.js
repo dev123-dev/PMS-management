@@ -50,6 +50,18 @@ const Allfollowup = ({
       handleDeactiveModalClose();
     }
   };
+
+  const [searchDataVal, setsearchDataVal] = useState();
+  const [leadData, setLeadData] = useState();
+  const onClickHandler = (allProspectus, idx) => {
+    setLeadData(allProspectus);
+
+    const searchData = {
+      callToId: allProspectus._id,
+    };
+    setsearchDataVal(searchData);
+    // getLastmessage(searchData);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -119,7 +131,17 @@ const Allfollowup = ({
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-                              <td>{allProspectus.companyName}</td>
+                              <td>
+                                <Link
+                                  className="float-left ml-3"
+                                  to="#"
+                                  onClick={() =>
+                                    onClickHandler(allProspectus, idx)
+                                  }
+                                >
+                                  {allProspectus.companyName}
+                                </Link>
+                              </td>
                               <td>{allProspectus.website}</td>
                               <td>{allProspectus.emailId}</td>
                               <td>{allProspectus.website}</td>
@@ -154,7 +176,7 @@ const Allfollowup = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Contacts</label>
-                  <AllContacts />
+                  <AllContacts leadDataVal={leadData} />
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding ">
