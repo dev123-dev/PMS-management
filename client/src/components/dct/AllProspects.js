@@ -253,10 +253,7 @@ const AllProspects = ({
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
-                    <AllStatuschange
-                      leadDataVal={leadData}
-                      showdateselectionSection={showdateselectionSection}
-                    />
+                    <AllStatuschange leadDataVal={leadData} />
                   )}
                 </div>
               </div>
