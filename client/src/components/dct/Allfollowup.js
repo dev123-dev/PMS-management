@@ -62,70 +62,33 @@ const Allfollowup = ({
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
-                name="projectStatusCategory"
-                //  options={StatusCategory}
+                name="countryName"
+                // options={allcountry}
                 isSearchable={true}
-                //  value={projectStatusCategory}
-                placeholder="Select"
-                //  onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
+                //  value={country}
+                placeholder="Select Region"
+                //  onChange={(e) => oncountryChange(e)}
+                required
               />
             </div>
 
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
-                name="projectStatusCategory"
-                //  options={StatusCategory}
+                name="companyName"
+                //   options={allclient}
                 isSearchable={true}
-                //value={projectStatusCategory}
-                placeholder="Select"
-                //  onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
+                //  value={clients}
+                placeholder="Select Lead"
+                //   onChange={(e) => onclientsChange(e)}
+                required
               />
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
-                name="projectStatusCategory"
-                //  options={StatusCategory}
-                isSearchable={true}
-                //  value={projectStatusCategory}
-                placeholder="Select"
-                //   onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
-              />
-            </div>
+            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2"></div>
 
             <div className="col-lg-5 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
-                // onClick={() => onClickReset()}
+                //    onClick={() => onClickReset()}
               >
                 Refresh
               </button>
