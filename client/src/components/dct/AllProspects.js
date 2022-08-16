@@ -19,7 +19,7 @@ import { getActiveCountry } from "../../actions/regions";
 
 const AllProspects = ({
   auth: { isAuthenticated, user, users },
-  dct: { allProspectus, allProspectusDD },
+  dct: { allLeads, allLeadsDD },
   regions: { activeCountry },
   getDctLeadDetails,
   getActiveCountry,
@@ -27,10 +27,10 @@ const AllProspects = ({
   getLastmessage,
 }) => {
   useEffect(() => {
-    getDctLeadDetails();
+    getDctLeadDetails({ dctLeadCategory: "P" });
   }, []);
   useEffect(() => {
-    getDctLeadDetailsDD();
+    getDctLeadDetailsDD({ dctLeadCategory: "P" });
   }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
@@ -46,9 +46,9 @@ const AllProspects = ({
   };
 
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allProspectus, idx) => {
+  const onUpdate = (allLeads, idx) => {
     setShowEditModal(true);
-    setUserDatas(allProspectus);
+    setUserDatas(allLeads);
   };
 
   const [userDatadeactive, setUserDatadeactive] = useState(null);
@@ -67,13 +67,13 @@ const AllProspects = ({
   };
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
-  const onClickHandler = (allProspectus, idx) => {
+  const onClickHandler = (allLeads, idx) => {
     //localStorage.removeItem("getLastAmendmentDetails");
     // setProjLastchnage(null);
-    setLeadData(allProspectus);
-    // if (allProspectus !== "") {
+    setLeadData(allLeads);
+    // if (allLeads !== "") {
     const searchData = {
-      callToId: allProspectus._id,
+      callToId: allLeads._id,
     };
     setsearchDataVal(searchData);
     getLastmessage(searchData);
@@ -100,12 +100,12 @@ const AllProspects = ({
     getcountryData(e);
     getclientsData("");
     getcountryIdData(e.countryId);
-    getDctLeadDetails({ countryId: e.countryId });
-    getDctLeadDetailsDD({ countryId: e.countryId });
+    getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "P" });
+    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "P" });
   };
 
   const allclient = [];
-  allProspectusDD.map((clients) =>
+  allLeadsDD.map((clients) =>
     allclient.push({
       clientsId: clients._id,
       label: clients.companyName,
@@ -118,6 +118,7 @@ const AllProspects = ({
     getDctLeadDetails({
       countryId: countryId,
       clientsId: e.clientsId,
+      dctLeadCategory: "P",
     });
   };
 
@@ -189,8 +190,8 @@ const AllProspects = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {allProspectus &&
-                        allProspectus.map((allProspectus, idx) => {
+                      {allLeads &&
+                        allLeads.map((allLeads, idx) => {
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
@@ -199,21 +200,19 @@ const AllProspects = ({
                                 <Link
                                   className="float-left ml-3"
                                   to="#"
-                                  onClick={() =>
-                                    onClickHandler(allProspectus, idx)
-                                  }
+                                  onClick={() => onClickHandler(allLeads, idx)}
                                 >
-                                  {allProspectus.companyName}
+                                  {allLeads.companyName}
                                 </Link>
                               </td>
-                              <td>{allProspectus.website}</td>
-                              <td>{allProspectus.emailId}</td>
-                              <td>{allProspectus.countryName}</td>
-                              <td>{allProspectus.phone1}</td>
+                              <td>{allLeads.website}</td>
+                              <td>{allLeads.emailId}</td>
+                              <td>{allLeads.countryName}</td>
+                              <td>{allLeads.phone1}</td>
                               <td>
                                 <img
                                   className="img_icon_size log"
-                                  onClick={() => onDeactive(allProspectus, idx)}
+                                  onClick={() => onDeactive(allLeads, idx)}
                                   src={require("../../static/images/delete.png")}
                                   alt="Delete Project"
                                   title="Delete Project"
@@ -221,7 +220,7 @@ const AllProspects = ({
                                 &emsp;
                                 <img
                                   className="img_icon_size log"
-                                  onClick={() => onUpdate(allProspectus, idx)}
+                                  onClick={() => onUpdate(allLeads, idx)}
                                   src={require("../../static/images/edit_icon.png")}
                                   alt="Edit"
                                   title="Edit"
