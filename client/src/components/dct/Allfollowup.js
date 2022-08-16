@@ -15,7 +15,7 @@ import { getActiveCountry } from "../../actions/regions";
 
 const Allfollowup = ({
   auth: { isAuthenticated, user, users },
-  dct: { allLeads },
+  dct: { allLeads, allLeadsDD },
   regions: { activeCountry },
   getDctLeadDetails,
   getActiveCountry,
@@ -73,6 +73,48 @@ const Allfollowup = ({
     setsearchDataVal(searchData);
     // getLastmessage(searchData);
   };
+  const allcountry = [];
+  activeCountry.map((country) =>
+    allcountry.push({
+      countryId: country._id,
+      label: country.countryName,
+      value: country.countryName,
+    })
+  );
+
+  const [country, getcountryData] = useState();
+  const [countryId, getcountryIdData] = useState(null);
+
+  const oncountryChange = (e) => {
+    getcountryData(e);
+    getclientsData("");
+    getcountryIdData(e.countryId);
+    getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "P" });
+    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "P" });
+  };
+
+  const allclient = [];
+  allLeadsDD.map((clients) =>
+    allclient.push({
+      clientsId: clients._id,
+      label: clients.companyName,
+      value: clients.companyName,
+    })
+  );
+  const [clients, getclientsData] = useState();
+  const onclientsChange = (e) => {
+    getclientsData(e);
+    getDctLeadDetails({
+      countryId: countryId,
+      clientsId: e.clientsId,
+      dctLeadCategory: "P",
+    });
+  };
+
+  const onClickReset = () => {
+    getcountryData("");
+    getclientsData("");
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -86,11 +128,11 @@ const Allfollowup = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="countryName"
-                // options={allcountry}
+                options={allcountry}
                 isSearchable={true}
-                //  value={country}
+                value={country}
                 placeholder="Select Region"
-                //  onChange={(e) => oncountryChange(e)}
+                onChange={(e) => oncountryChange(e)}
                 required
               />
             </div>
@@ -98,11 +140,11 @@ const Allfollowup = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="companyName"
-                //   options={allclient}
+                options={allclient}
                 isSearchable={true}
-                //  value={clients}
+                value={clients}
                 placeholder="Select Lead"
-                //   onChange={(e) => onclientsChange(e)}
+                onChange={(e) => onclientsChange(e)}
                 required
               />
             </div>
@@ -111,7 +153,7 @@ const Allfollowup = ({
             <div className="col-lg-5 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
-                //    onClick={() => onClickReset()}
+                onClick={() => onClickReset()}
               >
                 Refresh
               </button>
