@@ -143,7 +143,7 @@ const AllContacts = ({
                 <th style={{ width: "15%" }}>Staff Name </th>
                 <th style={{ width: "13%" }}>Phone No</th>
                 <th style={{ width: "13%" }}>Designation</th>
-                <th style={{ width: "1%" }}>Op</th>
+                <th style={{ width: "5%" }}>Op</th>
               </tr>
             </thead>
             <tbody>
@@ -156,15 +156,14 @@ const AllContacts = ({
                       <td>{staff.staffPhoneNumber}</td>
                       <td>{staff.staffDesignation}</td>
                       <td>
-                        {" "}
                         <img
                           className="img_icon_size log"
                           onClick={() => onDeactive(staff, idx)}
                           src={require("../../static/images/delete.png")}
                           alt="Delete Project"
                           title="Delete Project"
-                        />{" "}
-                        &emsp;
+                        />
+                        &nbsp;
                         <img
                           className="img_icon_size log"
                           onClick={() => onUpdate(staff, idx)}
