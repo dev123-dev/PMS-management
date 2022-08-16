@@ -163,12 +163,12 @@ const AddLead = ({
       countryName: country.value ? country.value : null,
       dctLeadStatus: "Active",
       dctLeadCategory: "NL",
+      dctCallDate: new Date().toISOString().split("T")[0],
       services: ServicesDetails,
       staffs: AddedDetails,
       dctLeadEnteredById: user._id,
       dctLeadEnteredByName: user.empFullName,
     };
-    // console.log(finalData);
     addDctLeadDetails(finalData);
     setFormData({
       ...formData,
