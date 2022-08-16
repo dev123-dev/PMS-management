@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 ObjectId = mongoose.Schema.ObjectId;
 
 const DctClientsSchema = new mongoose.Schema({
-  dctCompanyName: {
+  companyName: {
     type: String,
   },
   clientName: {
@@ -63,13 +63,16 @@ const DctClientsSchema = new mongoose.Schema({
     type: ObjectId,
   },
   dctClientStatus: {
-    type: String,
-  },
-  dctClientCategory: {
     type: String, //Active,Deactive
   },
-  dctCallDate: {
+  dctClientCategory: {
     type: String, //NC,P,F,TC,RC
+  },
+  dctClientCategoryStatus: {
+    type: String,
+  },
+  dctCallDate: {
+    type: String,
   },
   dctClientEnteredById: {
     type: ObjectId,
@@ -102,9 +105,35 @@ const DctClientsSchema = new mongoose.Schema({
   dctClientAssignedToName: {
     type: String,
   },
-
-  //   Services: {
-  //     text: { type: String },
-  //   },
+  services: [],
+  staffs: [
+    {
+      staffName: {
+        type: String,
+      },
+      staffPhoneNumber: {
+        type: Number,
+      },
+      staffEmailId: {
+        type: String,
+      },
+      staffDesignation: {
+        type: String,
+      },
+      staffStatus: {
+        type: String,
+        default: "Active",
+      },
+      staffDeactiveReason: {
+        type: String,
+      },
+      staffDeactivateById: {
+        type: ObjectId,
+      },
+      staffDeactiveByDateTime: {
+        type: String,
+      },
+    },
+  ],
 });
 module.exports = dctClients = mongoose.model("dctClients", DctClientsSchema);
