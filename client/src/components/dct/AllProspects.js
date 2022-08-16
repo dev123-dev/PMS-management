@@ -224,6 +224,8 @@ const AllProspects = ({
                               <td>{allLeads.emailId}</td>
                               <td>{allLeads.countryName}</td>
                               <td>{allLeads.phone1}</td>
+                              <td>{allLeads.dctCallDate}</td>
+                              <td>{allLeads.dctLeadCategory}</td>
                               <td>
                                 <img
                                   className="img_icon_size log"
