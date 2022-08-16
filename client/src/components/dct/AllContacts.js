@@ -160,8 +160,8 @@ const AllContacts = ({
                           className="img_icon_size log"
                           onClick={() => onDeactive(staff, idx)}
                           src={require("../../static/images/delete.png")}
-                          alt="Delete Project"
-                          title="Delete Project"
+                          alt="Delete Staff"
+                          title="Delelte Staff"
                         />
                         &nbsp;
                         <img
