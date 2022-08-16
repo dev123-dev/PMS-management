@@ -72,11 +72,8 @@ const AllProspects = ({
   };
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
-  const onClickHandler = (allLeads, idx) => {
-    //localStorage.removeItem("getLastAmendmentDetails");
-    // setProjLastchnage(null);
+  const onClickHandler = (allLeads) => {
     setLeadData(allLeads);
-    // if (allLeads !== "") {
     const searchData = {
       callToId: allLeads._id,
     };
@@ -86,7 +83,7 @@ const AllProspects = ({
     // }
     setShowHide({
       ...showHide,
-      showdateselectionSection: true,
+      showhistory_submitSection: true,
     });
   };
   const allcountry = [];
@@ -202,7 +199,6 @@ const AllProspects = ({
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-
                               <td>
                                 <Link
                                   className="float-left ml-3"

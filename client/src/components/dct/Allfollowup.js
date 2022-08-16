@@ -37,6 +37,11 @@ const Allfollowup = ({
   }, []);
   console.log(activeCountry);
   console.log(allLeads);
+  const [showHide, setShowHide] = useState({
+    showdateselectionSection: false,
+  });
+
+  const { showdateselectionSection } = showHide;
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
 
@@ -77,6 +82,10 @@ const Allfollowup = ({
     };
     setsearchDataVal(searchData);
     getLastmessage(searchData);
+    setShowHide({
+      ...showHide,
+      showdateselectionSection: true,
+    });
   };
   const allcountry = [];
   activeCountry.map((country) =>
@@ -234,7 +243,9 @@ const Allfollowup = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Contacts</label>
-                  <AllContacts leadDataVal={leadData} />
+                  {showdateselectionSection && (
+                    <AllContacts leadDataVal={leadData} />
+                  )}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding ">
@@ -243,7 +254,13 @@ const Allfollowup = ({
                   style={{ height: "30vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
-                  <AllStatuschange leadDataVal={leadData} from="FollowUp" />
+                  {showdateselectionSection && (
+                    <AllStatuschange
+                      leadDataVal={leadData}
+                      from="FollowUp"
+                      showdateselectionSection={showdateselectionSection}
+                    />
+                  )}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
@@ -254,7 +271,9 @@ const Allfollowup = ({
                   <label className="sidePartHeading ">
                     Last Message Details
                   </label>
-                  <LastMessageDetails searchDataVal={searchDataVal} />
+                  {showdateselectionSection && (
+                    <LastMessageDetails searchDataVal={searchDataVal} />
+                  )}
                 </div>
               </div>
             </div>

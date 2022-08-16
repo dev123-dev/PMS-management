@@ -129,6 +129,7 @@ router.post("/update-dct-leads-status", async (req, res) => {
       {
         $set: {
           dctLeadCategory: data.callCategory,
+          dctLeadCategoryStatus: data.callStatus,
           dctCallDate: data.callDate,
         },
       }
@@ -165,7 +166,7 @@ router.post("/get-dct-Leads", async (req, res) => {
   let { countryId, clientsId, dctLeadCategory } = req.body;
   let cat1 = "",
     cat2 = "";
-  if (dctLeadCategory == "P") {
+  if (dctLeadCategory == "P" || dctLeadCategory == "NL") {
     cat1 = "P";
     cat2 = "NL";
   } else if (dctLeadCategory == "F") {

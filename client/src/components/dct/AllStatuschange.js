@@ -60,27 +60,17 @@ const AllStatuschange = ({
   }
   var todayDateymd = yyyy + "-" + mm + "-" + dd;
   //for next month
-
   var d = new Date(todayDateymd);
   d.setMonth(d.getMonth() + 1);
   var nextmonth = d.toISOString().split("T")[0];
-
   //for next year
-
   var d1 = new Date(todayDateymd);
   d1.setFullYear(d1.getFullYear() + 1);
   var nextyear = d1.toISOString().split("T")[0];
-
-  // new Date().setFullYear(new Date().getFullYear() + 1);
-
   //next day
-
   var d2 = new Date(todayDateymd);
   d2.setDate(d2.getDate() + 1);
   var nextday = d2.toISOString().split("T")[0];
-
-  // new Date().setDate(new Date().getDate() + 1);
-
   //ends
 
   //Required Validation Starts
