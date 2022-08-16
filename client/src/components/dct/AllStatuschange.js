@@ -28,7 +28,7 @@ const AllStatuschange = ({
     callNote: "",
     isSubmitted: false,
   });
-  const { callNote, callStatus, labeldata } = formData;
+  const { callNote, callStatus } = formData;
   //For setting mindate as todays date
   var today = new Date();
   var dd = today.getDate();

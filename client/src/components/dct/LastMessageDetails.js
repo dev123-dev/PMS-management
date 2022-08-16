@@ -14,15 +14,6 @@ const LastMessageDetails = ({
   //   AddState,
 }) => {
   //formData
-  const [formData, setFormData] = useState({
-    countryName: "",
-    countryCode: "",
-    isSubmitted: false,
-  });
-  const { countryName, countryCode } = formData;
-  const onInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const [showClientHistoryModal, setShowClientCallHistoryModal] =
     useState(false);
@@ -52,7 +43,6 @@ const LastMessageDetails = ({
             placeholder="Notes"
             style={{ width: "100%" }}
             value={lastMsg && lastMsg.callNote}
-            onChange={(e) => onInputChange(e)}
           ></textarea>
         </div>
         <div className="col-lg-3 col-md-12 col-sm-12 col-12 mt-3">
