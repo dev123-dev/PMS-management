@@ -125,6 +125,8 @@ const AllProspects = ({
   const onClickReset = () => {
     getcountryData("");
     getclientsData("");
+    getDctLeadDetails({ dctLeadCategory: "P" });
+    getDctLeadDetailsDD({ dctLeadCategory: "P" });
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
