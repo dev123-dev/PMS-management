@@ -89,8 +89,8 @@ const Allfollowup = ({
     getcountryData(e);
     getclientsData("");
     getcountryIdData(e.countryId);
-    getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "P" });
-    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "P" });
+    getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "F" });
+    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "F" });
   };
 
   const allclient = [];
@@ -107,7 +107,7 @@ const Allfollowup = ({
     getDctLeadDetails({
       countryId: countryId,
       clientsId: e.clientsId,
-      dctLeadCategory: "P",
+      dctLeadCategory: "F",
     });
   };
 
@@ -195,7 +195,7 @@ const Allfollowup = ({
                               </td>
                               <td>{allLeads.website}</td>
                               <td>{allLeads.emailId}</td>
-                              <td>{allLeads.website}</td>
+                              <td>{allLeads.countryName}</td>
                               <td>{allLeads.phone1}</td>
 
                               <td>
