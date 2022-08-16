@@ -1,21 +1,13 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { Redirect } from "react-router-dom";
-import { Link } from "react-router-dom";
+
 const ClientCallHistory = ({
   auth: { isAuthenticated, user, users, loading },
   dct: { callHistory },
   onClientCallHistoryModalChange,
 }) => {
-  //formData
-  const [formData, setFormData] = useState({
-    isSubmitted: false,
-  });
-  console.log("callHistory", callHistory);
-  const { isSubmitted } = formData;
-
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
