@@ -5,22 +5,33 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-import { getDctLeadDetails } from "../../actions/dct";
+import { getDctLeadDetails, getDctLeadDetailsDD } from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
+import { getActiveCountry } from "../../actions/regions";
+
 const Allfollowup = ({
   auth: { isAuthenticated, user, users },
-  dct: { allProspectus },
+  dct: { allLeads },
+  regions: { activeCountry },
   getDctLeadDetails,
+  getActiveCountry,
+  getDctLeadDetailsDD,
 }) => {
   useEffect(() => {
-    getDctLeadDetails();
-  }, [getDctLeadDetails]);
-  // console.log(allProspectus);
-
+    getDctLeadDetails({ dctLeadCategory: "F" });
+  }, []);
+  useEffect(() => {
+    getDctLeadDetailsDD({ dctLeadCategory: "F" });
+  }, []);
+  useEffect(() => {
+    getActiveCountry({ countryBelongsTo: "DCT" });
+  }, []);
+  console.log(activeCountry);
+  console.log(allLeads);
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
 
@@ -31,9 +42,9 @@ const Allfollowup = ({
   };
 
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allProspectus, idx) => {
+  const onUpdate = (allLeads, idx) => {
     setShowEditModal(true);
-    setUserDatas(allProspectus);
+    setUserDatas(allLeads);
   };
 
   const [userDatadeactive, setUserDatadeactive] = useState(null);
@@ -53,11 +64,11 @@ const Allfollowup = ({
 
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
-  const onClickHandler = (allProspectus, idx) => {
-    setLeadData(allProspectus);
+  const onClickHandler = (allLeads, idx) => {
+    setLeadData(allLeads);
 
     const searchData = {
-      callToId: allProspectus._id,
+      callToId: allLeads._id,
     };
     setsearchDataVal(searchData);
     // getLastmessage(searchData);
@@ -126,8 +137,8 @@ const Allfollowup = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {allProspectus &&
-                        allProspectus.map((allProspectus, idx) => {
+                      {allLeads &&
+                        allLeads.map((allLeads, idx) => {
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
@@ -135,22 +146,20 @@ const Allfollowup = ({
                                 <Link
                                   className="float-left ml-3"
                                   to="#"
-                                  onClick={() =>
-                                    onClickHandler(allProspectus, idx)
-                                  }
+                                  onClick={() => onClickHandler(allLeads, idx)}
                                 >
-                                  {allProspectus.companyName}
+                                  {allLeads.companyName}
                                 </Link>
                               </td>
-                              <td>{allProspectus.website}</td>
-                              <td>{allProspectus.emailId}</td>
-                              <td>{allProspectus.website}</td>
-                              <td>{allProspectus.phone1}</td>
+                              <td>{allLeads.website}</td>
+                              <td>{allLeads.emailId}</td>
+                              <td>{allLeads.website}</td>
+                              <td>{allLeads.phone1}</td>
 
                               <td>
                                 <img
                                   className="img_icon_size log"
-                                  onClick={() => onDeactive(allProspectus, idx)}
+                                  onClick={() => onDeactive(allLeads, idx)}
                                   src={require("../../static/images/delete.png")}
                                   alt="Delete Project"
                                   title="Delete Project"
@@ -158,7 +167,7 @@ const Allfollowup = ({
                                 &emsp;
                                 <img
                                   className="img_icon_size log"
-                                  onClick={() => onUpdate(allProspectus, idx)}
+                                  onClick={() => onUpdate(allLeads, idx)}
                                   src={require("../../static/images/edit_icon.png")}
                                   alt="Edit"
                                   title="Edit"
@@ -263,10 +272,16 @@ const Allfollowup = ({
 Allfollowup.propTypes = {
   auth: PropTypes.object.isRequired,
   dct: PropTypes.object.isRequired,
+  regions: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   dct: state.dct,
+  regions: state.regions,
 });
 
-export default connect(mapStateToProps, { getDctLeadDetails })(Allfollowup);
+export default connect(mapStateToProps, {
+  getDctLeadDetails,
+  getDctLeadDetailsDD,
+  getActiveCountry,
+})(Allfollowup);

@@ -4,8 +4,8 @@ import {
   ERROR,
   SET_LOADING_TRUE,
   SET_LOADING_FALSE,
-  ALL_PROSPECTUS,
-  ALL_PROSPECTUS_DD,
+  ALL_LEADS,
+  ALL_LEADS_DD,
   LAST_MSG,
   CALLHISTORY,
 } from "./types";
@@ -125,7 +125,7 @@ export const getDctLeadDetails = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
     dispatch({
-      type: ALL_PROSPECTUS,
+      type: ALL_LEADS,
       payload: res.data,
     });
   } catch (err) {
@@ -139,7 +139,7 @@ export const getDctLeadDetailsDD = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
     dispatch({
-      type: ALL_PROSPECTUS_DD,
+      type: ALL_LEADS_DD,
       payload: res.data,
     });
   } catch (err) {

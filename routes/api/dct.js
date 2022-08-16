@@ -143,7 +143,16 @@ router.post("/deactivate-dct-Leads", async (req, res) => {
 //SELECT
 router.post("/get-dct-Leads", async (req, res) => {
   var todayDate = new Date().toISOString().split("T")[0];
-  let { countryId, clientsId } = req.body;
+  let { countryId, clientsId, dctLeadCategory } = req.body;
+  let cat1 = "",
+    cat2 = "";
+  if (dctLeadCategory == "P") {
+    cat1 = "P";
+    cat2 = "NL";
+  } else if (dctLeadCategory == "F") {
+    cat1 = "F";
+    cat2 = "F";
+  }
   let query = {};
   if (countryId) {
     if (clientsId) {
@@ -151,15 +160,15 @@ router.post("/get-dct-Leads", async (req, res) => {
         dctLeadStatus: "Active",
         countryId: countryId,
         _id: clientsId,
-        $or: [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }],
-        dctCallDate: { $gte: todayDate },
+        $or: [{ dctLeadCategory: cat1 }, { dctLeadCategory: cat2 }],
+        dctCallDate: { $lte: todayDate },
       };
     } else {
       query = {
         dctLeadStatus: "Active",
         countryId: countryId,
-        $or: [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }],
-        dctCallDate: { $gte: todayDate },
+        $or: [{ dctLeadCategory: cat1 }, { dctLeadCategory: cat2 }],
+        dctCallDate: { $lte: todayDate },
       };
     }
   } else {
@@ -167,17 +176,18 @@ router.post("/get-dct-Leads", async (req, res) => {
       query = {
         dctLeadStatus: "Active",
         _id: clientsId,
-        $or: [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }],
-        dctCallDate: { $gte: todayDate },
+        $or: [{ dctLeadCategory: cat1 }, { dctLeadCategory: cat2 }],
+        dctCallDate: { $lte: todayDate },
       };
     } else {
       query = {
         dctLeadStatus: "Active",
-        $or: [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }],
-        dctCallDate: { $gte: todayDate },
+        $or: [{ dctLeadCategory: cat1 }, { dctLeadCategory: cat2 }],
+        dctCallDate: { $lte: todayDate },
       };
     }
   }
+  // console.log(query);
   try {
     const getDctLeadsDetails = await DctLeads.find(query);
     res.json(getDctLeadsDetails);

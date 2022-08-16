@@ -13,13 +13,13 @@ import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
 const TestClientFollowup = ({
   auth: { isAuthenticated, user, users },
-  dct: { allProspectus },
+  dct: { allLeads },
   getDctLeadDetails,
 }) => {
   useEffect(() => {
     getDctLeadDetails();
   }, [getDctLeadDetails]);
-  // console.log(allProspectus);
+  // console.log(allLeads);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -31,9 +31,9 @@ const TestClientFollowup = ({
   };
 
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allProspectus, idx) => {
+  const onUpdate = (allLeads, idx) => {
     setShowEditModal(true);
-    setUserDatas(allProspectus);
+    setUserDatas(allLeads);
   };
 
   const [userDatadeactive, setUserDatadeactive] = useState(null);
@@ -151,21 +151,21 @@ const TestClientFollowup = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {allProspectus &&
-                        allProspectus.map((allProspectus, idx) => {
+                      {allLeads &&
+                        allLeads.map((allLeads, idx) => {
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-                              <td>{allProspectus.companyName}</td>
-                              <td>{allProspectus.website}</td>
-                              <td>{allProspectus.emailId}</td>
-                              <td>{allProspectus.website}</td>
-                              <td>{allProspectus.phone1}</td>
+                              <td>{allLeads.companyName}</td>
+                              <td>{allLeads.website}</td>
+                              <td>{allLeads.emailId}</td>
+                              <td>{allLeads.website}</td>
+                              <td>{allLeads.phone1}</td>
 
                               <td>
                                 <img
                                   className="img_icon_size log"
-                                  onClick={() => onDeactive(allProspectus, idx)}
+                                  onClick={() => onDeactive(allLeads, idx)}
                                   src={require("../../static/images/delete.png")}
                                   alt="Delete Project"
                                   title="Delete Project"
@@ -173,7 +173,7 @@ const TestClientFollowup = ({
                                 &emsp;
                                 <img
                                   className="img_icon_size log"
-                                  onClick={() => onUpdate(allProspectus, idx)}
+                                  onClick={() => onUpdate(allLeads, idx)}
                                   src={require("../../static/images/edit_icon.png")}
                                   alt="Edit"
                                   title="Edit"

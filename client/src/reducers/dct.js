@@ -1,13 +1,13 @@
 import {
-  ALL_PROSPECTUS,
-  ALL_PROSPECTUS_DD,
+  ALL_LEADS,
+  ALL_LEADS_DD,
   LAST_MSG,
   CALLHISTORY,
 } from "../actions/types";
 
 const initialState = {
-  allProspectus: [],
-  allProspectusDD: [],
+  allLeads: [],
+  allLeadsDD: [],
   lastMsg: [],
   callHistory: [],
 };
@@ -15,15 +15,15 @@ const initialState = {
 const dct = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case ALL_PROSPECTUS:
+    case ALL_LEADS:
       return {
         ...state,
-        allProspectus: payload,
+        allLeads: payload,
       };
-    case ALL_PROSPECTUS_DD:
+    case ALL_LEADS_DD:
       return {
         ...state,
-        allProspectusDD: payload,
+        allLeadsDD: payload,
       };
     case LAST_MSG:
       return {
@@ -35,7 +35,6 @@ const dct = (state = initialState, action) => {
         ...state,
         callHistory: payload,
       };
-
     default:
       return state;
   }
