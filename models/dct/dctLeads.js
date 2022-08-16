@@ -97,6 +97,19 @@ const DctLeadsSchema = new mongoose.Schema({
       staffDesignation: {
         type: String,
       },
+      staffDeactiveReason: {
+        type: String,
+      },
+      staffStatus: {
+        type: String,
+        default: "Active",
+      },
+      staffDeactivateById: {
+        type: ObjectId,
+      },
+      staffDeactiveByDateTime: {
+        type: String,
+      },
     },
   ],
 });

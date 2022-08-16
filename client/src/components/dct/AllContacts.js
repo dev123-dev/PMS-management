@@ -19,12 +19,17 @@ const AllContacts = ({
     staffPhoneNumber: "",
     staffEmailId: "",
     staffDesignation: "",
-
+    staffDeactiveReason: "",
     isSubmitted: false,
   });
 
-  const { staffName, staffPhoneNumber, staffEmailId, staffDesignation } =
-    formData;
+  const {
+    staffName,
+    staffPhoneNumber,
+    staffEmailId,
+    staffDesignation,
+    staffDeactiveReason,
+  } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -46,10 +51,10 @@ const AllContacts = ({
     setUserDatas1(leadDataVal);
   };
 
-  const [userDatadeactive, setUserDatadeactive] = useState(null);
+  const [userDataadd, setUserDataadd] = useState(null);
   const onAddstaff = (leadDataVal, idx) => {
     setshowStaffAddModal(true);
-    setUserDatadeactive(leadDataVal);
+    setUserDataadd(leadDataVal);
   };
 
   const [showStaffAddModal, setshowStaffAddModal] = useState(false);
@@ -61,10 +66,25 @@ const AllContacts = ({
     }
   };
 
+  const [userDatadeactive, setUserDatadeactive] = useState(null);
+  const onDeactive = (staff, idx) => {
+    setShowDeactiveModal(true);
+    setUserDatadeactive(staff);
+  };
+
+  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
+
+  const onDeactiveModalChange = (e) => {
+    if (e) {
+      handleDeactiveModalClose();
+    }
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
       recordId: leadDataVal ? leadDataVal._id : "",
+
       staffName: staffName,
       staffPhoneNumber: staffPhoneNumber,
       staffEmailId: staffEmailId,
@@ -83,6 +103,20 @@ const AllContacts = ({
     });
   };
 
+  const onSubmitDeactive = (e) => {
+    e.preventDefault();
+    const finalData = {
+      recordId: leadDataVal ? leadDataVal._id : "",
+      staffId: userDatadeactive ? userDatadeactive._id : "",
+      staffDeactivateById: user._id,
+      staffDeactiveByDateTime: new Date().toLocaleString("en-GB"),
+      staffStatus: "Deactive",
+      staffDeactiveReason: staffDeactiveReason,
+    };
+    console.log(finalData);
+    // deactivateDctLeadDetails(finalData);
+    onDeactiveModalChange(true);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -122,6 +156,15 @@ const AllContacts = ({
                       <td>{staff.staffPhoneNumber}</td>
                       <td>{staff.staffDesignation}</td>
                       <td>
+                        {" "}
+                        <img
+                          className="img_icon_size log"
+                          onClick={() => onDeactive(staff, idx)}
+                          src={require("../../static/images/delete.png")}
+                          alt="Delete Project"
+                          title="Delete Project"
+                        />{" "}
+                        &emsp;
                         <img
                           className="img_icon_size log"
                           onClick={() => onUpdate(staff, idx)}
@@ -263,6 +306,80 @@ const AllContacts = ({
                     className="btn sub_form btn_continue blackbrd Save float-right"
                   />
                 )}
+              </div>
+            </div>
+          </form>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        show={showDeactiveModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Deactivate Lead</h3>
+          </div>
+          <div className="col-lg-1">
+            <button onClick={handleDeactiveModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <form className="row" onSubmit={(e) => onSubmitDeactive(e)}>
+            <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
+              <label className="label-control">Deactive Staff Reason :</label>
+              <textarea
+                name="staffDeactiveReason"
+                id="staffDeactiveReason"
+                className="textarea form-control"
+                rows="3"
+                placeholder="Staff Deactive Reason"
+                style={{ width: "100%" }}
+                value={staffDeactiveReason}
+                onChange={(e) => onInputChange(e)}
+                required
+              ></textarea>
+            </div>
+            <div
+              className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
+              size="lg"
+            >
+              <div className="col-lg-8 col-md-6 col-sm-12 col-12">
+                <label className="label-control colorRed">
+                  * Indicates mandatory fields.
+                </label>
+              </div>
+              <div className="col-lg-12 col-md-6 col-sm-12 col-12">
+                {loading ? (
+                  <button
+                    className="btn sub_form btn_continue blackbrd Save float-right"
+                    disabled
+                  >
+                    Loading...
+                  </button>
+                ) : (
+                  <input
+                    type="submit"
+                    name="Submit"
+                    value="Submit"
+                    className="btn sub_form btn_continue blackbrd Save float-right"
+                  />
+                )}
+                {/* <Link
+                className="btn sub_form btn_continue blackbrd float-right"
+                to="/job-queue"
+              >
+                Cancel
+              </Link> */}
               </div>
             </div>
           </form>
