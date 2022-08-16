@@ -144,6 +144,12 @@ const AllStatuschange = ({
     setStatusDate(e.target.value);
   };
 
+  const [showHide, setShowHide] = useState({
+    showdateselectionSection: true,
+  });
+
+  const { showdateselectionSection } = showHide;
+
   const onStatusTypeChange = (e) => {
     //Required Validation starts
     setError({
@@ -165,24 +171,60 @@ const AllStatuschange = ({
         callStatus: e,
       });
       setStatusDate(nextmonth);
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: true,
+      });
     } else if (e.value === "NI") {
       setFormData({
         ...formData,
         callStatus: e,
       });
       setStatusDate(nextyear);
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: true,
+      });
+    } else if (e.value === "CallBack") {
+      setFormData({
+        ...formData,
+        callStatus: e,
+      });
+      setStatusDate("");
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: true,
+      });
     } else if (e.value === "VoiceMail") {
       setFormData({
         ...formData,
         callStatus: e,
       });
       setStatusDate(nextday);
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: true,
+      });
+    } else if (e.value === "FollowUp") {
+      setFormData({
+        ...formData,
+        callStatus: e,
+      });
+      setStatusDate("");
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: true,
+      });
     } else {
       setFormData({
         ...formData,
         callStatus: e,
       });
       setStatusDate("");
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: false,
+      });
     }
   };
 
@@ -277,22 +319,26 @@ const AllStatuschange = ({
             />
           </div>
           <div className=" col-lg-4 col-md-11 col-sm-10 col-10 ">
-            <label className="label-control">
-              {callStatus && callStatus.label} Date
-            </label>
+            {showdateselectionSection && (
+              <>
+                <label className="label-control">
+                  {callStatus && callStatus.label} Date
+                </label>
 
-            <input
-              type="date"
-              placeholder="dd/mm/yyyy"
-              className="form-control cpp-input datevalidation"
-              name="callDate"
-              value={startStatusDate}
-              onChange={(e) => onDateChange(e)}
-              style={{
-                width: "100%",
-              }}
-              required
-            />
+                <input
+                  type="date"
+                  placeholder="dd/mm/yyyy"
+                  className="form-control cpp-input datevalidation"
+                  name="callDate"
+                  value={startStatusDate}
+                  onChange={(e) => onDateChange(e)}
+                  style={{
+                    width: "100%",
+                  }}
+                  required
+                />
+              </>
+            )}
           </div>
           <div className="col-lg-8 col-md-11 col-sm-10 col-10 ">
             <label className="label-control"> Notes :</label>
