@@ -5,7 +5,11 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-import { getDctLeadDetails, getDctLeadDetailsDD } from "../../actions/dct";
+import {
+  getDctLeadDetails,
+  getDctLeadDetailsDD,
+  getLastmessage,
+} from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
@@ -20,6 +24,7 @@ const Allfollowup = ({
   getDctLeadDetails,
   getActiveCountry,
   getDctLeadDetailsDD,
+  getLastmessage,
 }) => {
   useEffect(() => {
     getDctLeadDetails({ dctLeadCategory: "F" });
@@ -71,7 +76,7 @@ const Allfollowup = ({
       callToId: allLeads._id,
     };
     setsearchDataVal(searchData);
-    // getLastmessage(searchData);
+    getLastmessage(searchData);
   };
   const allcountry = [];
   activeCountry.map((country) =>
@@ -236,7 +241,7 @@ const Allfollowup = ({
                   style={{ height: "30vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
-                  <AllStatuschange />
+                  <AllStatuschange leadDataVal={leadData} />
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
@@ -247,7 +252,7 @@ const Allfollowup = ({
                   <label className="sidePartHeading ">
                     Last Message Details
                   </label>
-                  <LastMessageDetails />
+                  <LastMessageDetails searchDataVal={searchDataVal} />
                 </div>
               </div>
             </div>
@@ -332,4 +337,5 @@ export default connect(mapStateToProps, {
   getDctLeadDetails,
   getDctLeadDetailsDD,
   getActiveCountry,
+  getLastmessage,
 })(Allfollowup);
