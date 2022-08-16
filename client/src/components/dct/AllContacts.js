@@ -4,12 +4,16 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import EditContact from "./EditContact";
-import { addNewDctStaffDetails } from "../../actions/dct";
+import {
+  addNewDctStaffDetails,
+  deactivateDctStaffDetails,
+} from "../../actions/dct";
 
 const AllContacts = ({
   auth: { isAuthenticated, user, users, loading },
   leadDataVal,
   addNewDctStaffDetails,
+  deactivateDctStaffDetails,
 }) => {
   console.log("contact", leadDataVal);
   //formData
@@ -114,7 +118,7 @@ const AllContacts = ({
       staffDeactiveReason: staffDeactiveReason,
     };
     console.log(finalData);
-    // deactivateDctLeadDetails(finalData);
+    deactivateDctStaffDetails(finalData);
     onDeactiveModalChange(true);
   };
   return !isAuthenticated || !user || !users ? (
@@ -150,30 +154,31 @@ const AllContacts = ({
               {leadDataVal &&
                 leadDataVal.staffs &&
                 leadDataVal.staffs.map((staff, idx) => {
-                  return (
-                    <tr key={idx}>
-                      <td>{staff.staffName}</td>
-                      <td>{staff.staffPhoneNumber}</td>
-                      <td>{staff.staffDesignation}</td>
-                      <td>
-                        <img
-                          className="img_icon_size log"
-                          onClick={() => onDeactive(staff, idx)}
-                          src={require("../../static/images/delete.png")}
-                          alt="Delete Staff"
-                          title="Delelte Staff"
-                        />
-                        &nbsp;
-                        <img
-                          className="img_icon_size log"
-                          onClick={() => onUpdate(staff, idx)}
-                          src={require("../../static/images/edit_icon.png")}
-                          alt="Edit"
-                          title="Edit"
-                        />
-                      </td>
-                    </tr>
-                  );
+                  if (staff.staffStatus === "Active")
+                    return (
+                      <tr key={idx}>
+                        <td>{staff.staffName}</td>
+                        <td>{staff.staffPhoneNumber}</td>
+                        <td>{staff.staffDesignation}</td>
+                        <td>
+                          <img
+                            className="img_icon_size log"
+                            onClick={() => onDeactive(staff, idx)}
+                            src={require("../../static/images/delete.png")}
+                            alt="Delete Staff"
+                            title="Delelte Staff"
+                          />
+                          &nbsp;
+                          <img
+                            className="img_icon_size log"
+                            onClick={() => onUpdate(staff, idx)}
+                            src={require("../../static/images/edit_icon.png")}
+                            alt="Edit"
+                            title="Edit"
+                          />
+                        </td>
+                      </tr>
+                    );
                 })}
             </tbody>
           </table>
@@ -399,4 +404,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   addNewDctStaffDetails,
+  deactivateDctStaffDetails,
 })(AllContacts);

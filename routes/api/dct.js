@@ -102,6 +102,25 @@ router.post("/edit-dct-staff", async (req, res) => {
   }
 });
 
+router.post("/deactivate-dct-staff", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactivateDctStaffs = await DctLeads.updateOne(
+      { "staffs._id": data.staffId },
+      {
+        $set: {
+          "staffs.$.staffStatus": data.staffStatus,
+          "staffs.$.staffDeactivateById": data.staffDeactivateById,
+          "staffs.$.staffDeactiveByDateTime": data.staffDeactiveByDateTime,
+        },
+      }
+    );
+    res.json(deactivateDctStaffs);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 router.post("/update-dct-leads-status", async (req, res) => {
   try {
     let data = req.body;
