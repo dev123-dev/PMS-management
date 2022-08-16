@@ -207,7 +207,7 @@ router.post("/get-dct-Leads", async (req, res) => {
       };
     }
   }
-  // console.log(query);
+
   try {
     const getDctLeadsDetails = await DctLeads.find(query);
     res.json(getDctLeadsDetails);

@@ -9,7 +9,7 @@ const AllStatuschange = ({
   auth: { isAuthenticated, user, users, loading },
   leadDataVal,
   addDctCalls,
-
+  ondivcloseChange,
   from,
 }) => {
   let StatusMethods = [
@@ -258,8 +258,10 @@ const AllStatuschange = ({
         callNote: "",
         isSubmitted: true,
       });
+
       setStatusDate("");
       getstaffsData("");
+      ondivcloseChange(true);
     }
   };
 

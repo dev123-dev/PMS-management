@@ -86,6 +86,17 @@ const AllProspects = ({
       showdateselectionSection: true,
     });
   };
+
+  const ondivcloseChange = (e) => {
+    if (e) {
+      handledivModalClose();
+    }
+    getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "P" });
+    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "P" });
+  };
+
+  const handledivModalClose = () => setShowHide(false);
+
   const allcountry = [];
   activeCountry.map((country) =>
     allcountry.push({
@@ -130,6 +141,7 @@ const AllProspects = ({
     getDctLeadDetails({ dctLeadCategory: "P" });
     getDctLeadDetailsDD({ dctLeadCategory: "P" });
   };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -242,7 +254,10 @@ const AllProspects = ({
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Contacts</label>
                   {showdateselectionSection && (
-                    <AllContacts leadDataVal={leadData} />
+                    <AllContacts
+                      leadDataVal={leadData}
+                      ondivcloseChange={ondivcloseChange}
+                    />
                   )}
                 </div>
               </div>
@@ -253,7 +268,10 @@ const AllProspects = ({
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
-                    <AllStatuschange leadDataVal={leadData} />
+                    <AllStatuschange
+                      leadDataVal={leadData}
+                      ondivcloseChange={ondivcloseChange}
+                    />
                   )}
                 </div>
               </div>
@@ -266,7 +284,10 @@ const AllProspects = ({
                     Last Message Details
                   </label>
                   {showdateselectionSection && (
-                    <LastMessageDetails searchDataVal={searchDataVal} />
+                    <LastMessageDetails
+                      searchDataVal={searchDataVal}
+                      ondivcloseChange={ondivcloseChange}
+                    />
                   )}
                 </div>
               </div>

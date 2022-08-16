@@ -14,6 +14,7 @@ const AllContacts = ({
   leadDataVal,
   addNewDctStaffDetails,
   deactivateDctStaffDetails,
+  ondivcloseChange,
 }) => {
   console.log("contact", leadDataVal);
   //formData
@@ -84,6 +85,11 @@ const AllContacts = ({
       handleDeactiveModalClose();
     }
   };
+  // const [showHide, setShowHide] = useState({
+  //   showdateselectionSection: true,
+  // });
+
+  // const { showdateselectionSection } = showHide;
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
@@ -94,6 +100,10 @@ const AllContacts = ({
       staffEmailId: staffEmailId,
       staffDesignation: staffDesignation,
     };
+    // setShowHide({
+    //   ...showHide,
+    //   showdateselectionSection: false,
+    // });
     addNewDctStaffDetails(finalData);
     onAddModalChange(true);
     setFormData({
@@ -105,6 +115,7 @@ const AllContacts = ({
       staffDesignation: "",
       isSubmitted: true,
     });
+    ondivcloseChange(true);
   };
 
   const onSubmitDeactive = (e) => {
@@ -121,68 +132,73 @@ const AllContacts = ({
     deactivateDctStaffDetails(finalData);
     onDeactiveModalChange(true);
   };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
     <Fragment>
       <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-        <div className=" col-lg-11 col-md-12 col-sm-12 col-12 no_padding ml-4">
-          <button
-            className="btn btn_green_bg float-right"
-            onClick={() => onAddstaff()}
+        {/* {showdateselectionSection && ( */}
+        <>
+          <div className=" col-lg-11 col-md-12 col-sm-12 col-12 no_padding ml-4">
+            <button
+              className="btn btn_green_bg float-right"
+              onClick={() => onAddstaff()}
+            >
+              Add Staff
+            </button>
+          </div>
+          <div
+            className="row col-lg-12 col-md-12 col-sm-12 col-12"
+            style={{ height: "190px", overflowY: "scroll" }}
           >
-            Add Staff
-          </button>
-        </div>
-        <div
-          className="row col-lg-12 col-md-12 col-sm-12 col-12"
-          style={{ height: "190px", overflowY: "scroll" }}
-        >
-          <table
-            className="table table-bordered table-striped table-hover smll_row"
-            id="datatable2"
-          >
-            <thead>
-              <tr>
-                <th style={{ width: "15%" }}>Staff Name </th>
-                <th style={{ width: "13%" }}>Phone No</th>
-                <th style={{ width: "13%" }}>Designation</th>
-                <th style={{ width: "5%" }}>Op</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leadDataVal &&
-                leadDataVal.staffs &&
-                leadDataVal.staffs.map((staff, idx) => {
-                  if (staff.staffStatus === "Active")
-                    return (
-                      <tr key={idx}>
-                        <td>{staff.staffName}</td>
-                        <td>{staff.staffPhoneNumber}</td>
-                        <td>{staff.staffDesignation}</td>
-                        <td>
-                          <img
-                            className="img_icon_size log"
-                            onClick={() => onDeactive(staff, idx)}
-                            src={require("../../static/images/delete.png")}
-                            alt="Delete Staff"
-                            title="Delelte Staff"
-                          />
-                          &nbsp;
-                          <img
-                            className="img_icon_size log"
-                            onClick={() => onUpdate(staff, idx)}
-                            src={require("../../static/images/edit_icon.png")}
-                            alt="Edit"
-                            title="Edit"
-                          />
-                        </td>
-                      </tr>
-                    );
-                })}
-            </tbody>
-          </table>
-        </div>
+            <table
+              className="table table-bordered table-striped table-hover smll_row"
+              id="datatable2"
+            >
+              <thead>
+                <tr>
+                  <th style={{ width: "15%" }}>Staff Name </th>
+                  <th style={{ width: "13%" }}>Phone No</th>
+                  <th style={{ width: "13%" }}>Designation</th>
+                  <th style={{ width: "5%" }}>Op</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leadDataVal &&
+                  leadDataVal.staffs &&
+                  leadDataVal.staffs.map((staff, idx) => {
+                    if (staff.staffStatus === "Active")
+                      return (
+                        <tr key={idx}>
+                          <td>{staff.staffName}</td>
+                          <td>{staff.staffPhoneNumber}</td>
+                          <td>{staff.staffDesignation}</td>
+                          <td>
+                            <img
+                              className="img_icon_size log"
+                              onClick={() => onDeactive(staff, idx)}
+                              src={require("../../static/images/delete.png")}
+                              alt="Delete Staff"
+                              title="Delelte Staff"
+                            />
+                            &nbsp;
+                            <img
+                              className="img_icon_size log"
+                              onClick={() => onUpdate(staff, idx)}
+                              src={require("../../static/images/edit_icon.png")}
+                              alt="Edit"
+                              title="Edit"
+                            />
+                          </td>
+                        </tr>
+                      );
+                  })}
+              </tbody>
+            </table>
+          </div>
+        </>
+        {/* )} */}
       </div>
       <Modal
         show={showEditModal}
