@@ -139,8 +139,10 @@ router.post("/deactivate-dct-Leads", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
+
 //SELECT
 router.post("/get-dct-Leads", async (req, res) => {
+  var todayDate = new Date().toISOString().split("T")[0];
   let { countryId, clientsId } = req.body;
   let query = {};
   if (countryId) {
@@ -149,13 +151,15 @@ router.post("/get-dct-Leads", async (req, res) => {
         dctLeadStatus: "Active",
         countryId: countryId,
         _id: clientsId,
-        dctLeadCategory: "P",
+        $or: [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }],
+        dctCallDate: { $gte: todayDate },
       };
     } else {
       query = {
         dctLeadStatus: "Active",
         countryId: countryId,
-        dctLeadCategory: "P",
+        $or: [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }],
+        dctCallDate: { $gte: todayDate },
       };
     }
   } else {
@@ -163,35 +167,16 @@ router.post("/get-dct-Leads", async (req, res) => {
       query = {
         dctLeadStatus: "Active",
         _id: clientsId,
-        dctLeadCategory: "P",
+        $or: [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }],
+        dctCallDate: { $gte: todayDate },
       };
     } else {
       query = {
         dctLeadStatus: "Active",
-        dctLeadCategory: "P",
+        $or: [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }],
+        dctCallDate: { $gte: todayDate },
       };
     }
-  }
-  console.log(query);
-  try {
-    const getDctLeadsDetails = await DctLeads.find(query);
-    res.json(getDctLeadsDetails);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
-router.post("/get-dct-Leads_dd", async (req, res) => {
-  let { countryId } = req.body;
-  let query = {};
-  if (countryId) {
-    query = {
-      dctLeadStatus: "Active",
-      countryId: countryId,
-    };
-  } else {
-    query = { dctLeadStatus: "Active" };
   }
   try {
     const getDctLeadsDetails = await DctLeads.find(query);

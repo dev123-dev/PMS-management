@@ -162,7 +162,7 @@ const AddLead = ({
       countryId: countryId ? countryId : null,
       countryName: country.value ? country.value : null,
       dctLeadStatus: "Active",
-      dctLeadCategory: "NC",
+      dctLeadCategory: "NL",
       services: ServicesDetails,
       staffs: AddedDetails,
       dctLeadEnteredById: user._id,

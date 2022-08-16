@@ -137,11 +137,7 @@ export const getDctLeadDetails = (finalData) => async (dispatch) => {
 
 export const getDctLeadDetailsDD = (finalData) => async (dispatch) => {
   try {
-    const res = await axios.post(
-      "/api/dct/get-dct-Leads_dd",
-      finalData,
-      config
-    );
+    const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
     dispatch({
       type: ALL_PROSPECTUS_DD,
       payload: res.data,

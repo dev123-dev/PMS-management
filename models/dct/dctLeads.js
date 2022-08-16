@@ -43,7 +43,7 @@ const DctLeadsSchema = new mongoose.Schema({
     type: String, //Active, Deactive
   },
   dctLeadCategory: {
-    type: String, //NC,P,F,TC,RC
+    type: String, //NL,P,F,TC,RC
   },
   dctLeadCategoryStatus: {
     type: String, //(FL,VM,CB,DND,NI)
@@ -74,9 +74,6 @@ const DctLeadsSchema = new mongoose.Schema({
     type: String,
   },
   dctLeadDeactiveReason: {
-    type: String,
-  },
-  dctLeadNextCallDate: {
     type: String,
   },
   dctLeadAssignedToId: {
