@@ -50,6 +50,62 @@ const TestClientFollowup = ({
       handleDeactiveModalClose();
     }
   };
+
+  // const [searchDataVal, setsearchDataVal] = useState();
+  // const [leadData, setLeadData] = useState();
+  // const onClickHandler = (allLeads, idx) => {
+  //   setLeadData(allLeads);
+
+  //   const searchData = {
+  //     callToId: allLeads._id,
+  //   };
+  //   setsearchDataVal(searchData);
+  //   getLastmessage(searchData);
+  // };
+  // const allcountry = [];
+  // activeCountry.map((country) =>
+  //   allcountry.push({
+  //     countryId: country._id,
+  //     label: country.countryName,
+  //     value: country.countryName,
+  //   })
+  // );
+
+  // const [country, getcountryData] = useState();
+  // const [countryId, getcountryIdData] = useState(null);
+
+  // const oncountryChange = (e) => {
+  //   getcountryData(e);
+  //   getclientsData("");
+  //   getcountryIdData(e.countryId);
+  //   getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "F" });
+  //   getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "F" });
+  // };
+
+  // const allclient = [];
+  // allLeadsDD.map((clients) =>
+  //   allclient.push({
+  //     clientsId: clients._id,
+  //     label: clients.companyName,
+  //     value: clients.companyName,
+  //   })
+  // );
+  // const [clients, getclientsData] = useState();
+  // const onclientsChange = (e) => {
+  //   getclientsData(e);
+  //   getDctLeadDetails({
+  //     countryId: countryId,
+  //     clientsId: e.clientsId,
+  //     dctLeadCategory: "F",
+  //   });
+  // };
+
+  // const onClickReset = () => {
+  //   getcountryData("");
+  //   getclientsData("");
+  //   getDctLeadDetails({ dctLeadCategory: "F" });
+  //   getDctLeadDetailsDD({ dctLeadCategory: "F" });
+  // };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -62,70 +118,31 @@ const TestClientFollowup = ({
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
-                name="projectStatusCategory"
-                //  options={StatusCategory}
+                name="countryName"
+                //   options={allcountry}
                 isSearchable={true}
-                //  value={projectStatusCategory}
-                placeholder="Select"
-                //  onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
+                //   value={country}
+                placeholder="Select Region"
+                //   onChange={(e) => oncountryChange(e)}
+                required
               />
             </div>
 
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
-                name="projectStatusCategory"
-                //  options={StatusCategory}
+                name="companyName"
+                //  options={allclient}
                 isSearchable={true}
-                //value={projectStatusCategory}
-                placeholder="Select"
-                //  onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
+                //  value={clients}
+                placeholder="Select Lead"
+                //  onChange={(e) => onclientsChange(e)}
+                required
               />
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
-                name="projectStatusCategory"
-                //  options={StatusCategory}
-                isSearchable={true}
-                //  value={projectStatusCategory}
-                placeholder="Select"
-                //   onChange={(e) => onStatuscatChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
-              />
-            </div>
-
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
-                // onClick={() => onClickReset()}
+                //  onClick={() => onClickReset()}
               >
                 Refresh
               </button>
