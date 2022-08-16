@@ -50,6 +50,61 @@ const RegularClientFollowup = ({
       handleDeactiveModalClose();
     }
   };
+  // const allcountry = [];
+  // activeCountry.map((country) =>
+  //   allcountry.push({
+  //     countryId: country._id,
+  //     label: country.countryName,
+  //     value: country.countryName,
+  //   })
+  // );
+
+  // const [country, getcountryData] = useState();
+  // const [countryId, getcountryIdData] = useState(null);
+
+  // const oncountryChange = (e) => {
+  //   getcountryData(e);
+  //   getclientsData("");
+  //   getcountryIdData(e.countryId);
+  //   getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "F" });
+  //   getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "F" });
+  // };
+
+  // const allclient = [];
+  // allLeadsDD.map((clients) =>
+  //   allclient.push({
+  //     clientsId: clients._id,
+  //     label: clients.companyName,
+  //     value: clients.companyName,
+  //   })
+  // );
+  // const [clients, getclientsData] = useState();
+  // const onclientsChange = (e) => {
+  //   getclientsData(e);
+  //   getDctLeadDetails({
+  //     countryId: countryId,
+  //     clientsId: e.clientsId,
+  //     dctLeadCategory: "F",
+  //   });
+  // };
+
+  // const onClickReset = () => {
+  //   getcountryData("");
+  //   getclientsData("");
+  //   getDctLeadDetails({ dctLeadCategory: "F" });
+  //   getDctLeadDetailsDD({ dctLeadCategory: "F" });
+  // };
+  const [searchDataVal, setsearchDataVal] = useState();
+  const [leadData, setLeadData] = useState();
+  const onClickHandler = (allLeads, idx) => {
+    setLeadData(allLeads);
+
+    const searchData = {
+      callToId: allLeads._id,
+    };
+    setsearchDataVal(searchData);
+    //getLastmessage(searchData);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -117,7 +172,16 @@ const RegularClientFollowup = ({
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-                              <td>{allLeads.companyName}</td>
+                              <td>
+                                {" "}
+                                <Link
+                                  className="float-left ml-3"
+                                  to="#"
+                                  onClick={() => onClickHandler(allLeads, idx)}
+                                >
+                                  {allLeads.companyName}
+                                </Link>
+                              </td>
                               <td>{allLeads.website}</td>
                               <td>{allLeads.emailId}</td>
                               <td>{allLeads.website}</td>
@@ -152,7 +216,7 @@ const RegularClientFollowup = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Contacts</label>
-                  <AllContacts />
+                  <AllContacts leadDataVal={leadData} />
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding ">
@@ -161,7 +225,10 @@ const RegularClientFollowup = ({
                   style={{ height: "30vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
-                  <AllStatuschange />
+                  <AllStatuschange
+                    leadDataVal={leadData}
+                    from="RegularClient"
+                  />
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
@@ -172,7 +239,7 @@ const RegularClientFollowup = ({
                   <label className="sidePartHeading ">
                     Last Message Details
                   </label>
-                  <LastMessageDetails />
+                  <LastMessageDetails searchDataVal={searchDataVal} />
                 </div>
               </div>
             </div>

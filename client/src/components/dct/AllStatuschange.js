@@ -5,22 +5,40 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { addDctCalls } from "../../actions/dct";
 
-const StatusMethods = [
-  { value: "VoiceMail", label: "VoiceMail" },
-  { value: "CallBack", label: "Call Back" },
-  { value: "DND", label: "DND" },
-  { value: "NI", label: "NI" },
-  { value: "FollowUp", label: "Follow Up" },
-  { value: "TestClient", label: "Test Client" },
-  { value: "RegularClient", label: "Regular Client" },
-];
-
 const AllStatuschange = ({
   auth: { isAuthenticated, user, users, loading },
   leadDataVal,
   addDctCalls,
+  from,
 }) => {
-  // console.log("val", leadDataVal);
+  let StatusMethods = [
+    { value: "VoiceMail", label: "VoiceMail" },
+    { value: "CallBack", label: "Call Back" },
+    { value: "DND", label: "DND" },
+    { value: "NI", label: "NI" },
+    { value: "FollowUp", label: "Follow Up" },
+    { value: "TestClient", label: "Test Client" },
+    { value: "RegularClient", label: "Regular Client" },
+  ];
+  if (from === "FollowUp") {
+    StatusMethods = StatusMethods.filter(
+      (StatusMethods) => StatusMethods.value !== "FollowUp"
+    );
+  } else if (from === "TestClient") {
+    StatusMethods = StatusMethods.filter(
+      (StatusMethods) =>
+        StatusMethods.value !== "TestClient" &&
+        StatusMethods.value !== "FollowUp"
+    );
+  } else if (from === "RegularClient") {
+    StatusMethods = StatusMethods.filter(
+      (StatusMethods) =>
+        StatusMethods.value !== "TestClient" &&
+        StatusMethods.value !== "FollowUp" &&
+        StatusMethods.value !== "RegularClient"
+    );
+  }
+
   //formData
   const [formData, setFormData] = useState({
     callStatus: "",
