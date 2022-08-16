@@ -51,17 +51,17 @@ const TestClientFollowup = ({
     }
   };
 
-  // const [searchDataVal, setsearchDataVal] = useState();
-  // const [leadData, setLeadData] = useState();
-  // const onClickHandler = (allLeads, idx) => {
-  //   setLeadData(allLeads);
+  const [searchDataVal, setsearchDataVal] = useState();
+  const [leadData, setLeadData] = useState();
+  const onClickHandler = (allLeads, idx) => {
+    setLeadData(allLeads);
 
-  //   const searchData = {
-  //     callToId: allLeads._id,
-  //   };
-  //   setsearchDataVal(searchData);
-  //   getLastmessage(searchData);
-  // };
+    const searchData = {
+      callToId: allLeads._id,
+    };
+    setsearchDataVal(searchData);
+    //getLastmessage(searchData);
+  };
   // const allcountry = [];
   // activeCountry.map((country) =>
   //   allcountry.push({
@@ -173,7 +173,16 @@ const TestClientFollowup = ({
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-                              <td>{allLeads.companyName}</td>
+                              <td>
+                                {" "}
+                                <Link
+                                  className="float-left ml-3"
+                                  to="#"
+                                  onClick={() => onClickHandler(allLeads, idx)}
+                                >
+                                  {allLeads.companyName}
+                                </Link>
+                              </td>
                               <td>{allLeads.website}</td>
                               <td>{allLeads.emailId}</td>
                               <td>{allLeads.website}</td>
@@ -208,13 +217,13 @@ const TestClientFollowup = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Contacts</label>
-                  <AllContacts />
+                  <AllContacts leadDataVal={leadData} />
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding ">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Status</label>
-                  <AllStatuschange />
+                  <AllStatuschange leadDataVal={leadData} />
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
@@ -222,7 +231,7 @@ const TestClientFollowup = ({
                   <label className="sidePartHeading ">
                     Last Message Details
                   </label>
-                  <LastMessageDetails />
+                  <LastMessageDetails searchDataVal={searchDataVal} />
                 </div>
               </div>
             </div>
