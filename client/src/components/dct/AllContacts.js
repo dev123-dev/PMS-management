@@ -88,7 +88,7 @@ const AllContacts = ({
   ) : (
     <Fragment>
       <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-        <div className=" col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+        <div className=" col-lg-11 col-md-12 col-sm-12 col-12 no_padding ml-4">
           <button
             className="btn btn_green_bg float-right"
             onClick={() => onAddstaff()}
