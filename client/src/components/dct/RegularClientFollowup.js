@@ -161,7 +161,7 @@ const RegularClientFollowup = ({
                   style={{ height: "30vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
-                  <AllStatuschange />
+                  <AllStatuschange from="RegularClient" />
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">

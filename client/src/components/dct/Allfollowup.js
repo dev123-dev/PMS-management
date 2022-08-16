@@ -243,7 +243,7 @@ const Allfollowup = ({
                   style={{ height: "30vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
-                  <AllStatuschange leadDataVal={leadData} />
+                  <AllStatuschange leadDataVal={leadData} from="FollowUp" />
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
