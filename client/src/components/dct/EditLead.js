@@ -47,9 +47,9 @@ const EditLead = ({
     ImagingChecked: false,
     CGIChecked: false,
     videoEditingChecked: false,
+    isCheck: false,
     isSubmitted: false,
   });
-  console.log(alleditLeaddata);
   const {
     companyName,
     website,
@@ -63,6 +63,7 @@ const EditLead = ({
     ImagingChecked,
     CGIChecked,
     videoEditingChecked,
+    isCheck,
   } = formData;
 
   const onInputChange = (e) => {
@@ -88,28 +89,20 @@ const EditLead = ({
   );
   const [countryId, setcountryID] = useState(alleditLeaddata.countryId);
 
-  // alleditLeaddata &&
-  //   alleditLeaddata.services &&
-  //   alleditLeaddata.services.map((servicesVal) => {
-  //     switch (servicesVal) {
-  //       case "Imaging":
-  //         setFormData({ ...formData, ImagingChecked: true });
-  //         break;
-  //       case "CGI":
-  //         setFormData({ ...formData, CGIChecked: true });
-  //         break;
-  //       case "videoEditing":
-  //         setFormData({ ...formData, videoEditingChecked: true });
-  //         break;
-  //       default:
-  //         setFormData({
-  //           ...formData,
-  //           ImagingChecked: false,
-  //           CGIChecked: false,
-  //           videoEditingChecked: false,
-  //         });
-  //     }
-  //   });
+  if (alleditLeaddata && alleditLeaddata.services && !isCheck) {
+    alleditLeaddata.services.map((servicesVal) => {
+      console.log(servicesVal);
+      if (servicesVal === "Imaging") {
+        setFormData({ ...formData, ImagingChecked: true, isCheck: true });
+      }
+      if (servicesVal === "videoEditing") {
+        setFormData({ ...formData, CGIChecked: true, isCheck: true });
+      }
+      if (servicesVal === "Imaging") {
+        setFormData({ ...formData, CGIChecked: true, isCheck: true });
+      }
+    });
+  }
 
   console.log(ImagingChecked, "---", CGIChecked, "===", videoEditingChecked);
   const oncountryChange = (e) => {
