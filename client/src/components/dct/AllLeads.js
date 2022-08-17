@@ -6,8 +6,8 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import {
-  getDctLeadDetails,
-  getDctLeadDetailsDD,
+  getAllDctLead,
+  getAllDctLeadDD,
   getLastmessage,
 } from "../../actions/dct";
 import AllContacts from "./AllContacts";
@@ -21,16 +21,16 @@ const AllLeads = ({
   auth: { isAuthenticated, user, users },
   dct: { allLeads, allLeadsDD },
   regions: { activeCountry },
-  getDctLeadDetails,
+  getAllDctLead,
   getActiveCountry,
-  getDctLeadDetailsDD,
+  getAllDctLeadDD,
   getLastmessage,
 }) => {
   useEffect(() => {
-    getDctLeadDetails({ dctLeadCategory: "P" });
+    getAllDctLead({ dctLeadCategory: "AL" });
   }, []);
   useEffect(() => {
-    getDctLeadDetailsDD({ dctLeadCategory: "P" });
+    getAllDctLeadDD({ dctLeadCategory: "AL" });
   }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
@@ -91,8 +91,8 @@ const AllLeads = ({
     if (e) {
       handledivModalClose();
     }
-    getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "P" });
-    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "P" });
+    getAllDctLead({ countryId: e.countryId, dctLeadCategory: "AL" });
+    getAllDctLeadDD({ countryId: e.countryId, dctLeadCategory: "AL" });
   };
 
   const handledivModalClose = () => setShowHide(false);
@@ -113,8 +113,8 @@ const AllLeads = ({
     getcountryData(e);
     getclientsData("");
     getcountryIdData(e.countryId);
-    getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "P" });
-    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "P" });
+    getAllDctLead({ countryId: e.countryId, dctLeadCategory: "AL" });
+    getAllDctLeadDD({ countryId: e.countryId, dctLeadCategory: "AL" });
   };
 
   const allclient = [];
@@ -128,7 +128,7 @@ const AllLeads = ({
   const [clients, getclientsData] = useState();
   const onclientsChange = (e) => {
     getclientsData(e);
-    getDctLeadDetails({
+    getAllDctLead({
       countryId: countryId,
       clientsId: e.clientsId,
       dctLeadCategory: "P",
@@ -138,8 +138,8 @@ const AllLeads = ({
   const onClickReset = () => {
     getcountryData("");
     getclientsData("");
-    getDctLeadDetails({ dctLeadCategory: "P" });
-    getDctLeadDetailsDD({ dctLeadCategory: "P" });
+    getAllDctLead({ dctLeadCategory: "AL" });
+    getAllDctLeadDD({ dctLeadCategory: "AL" });
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -373,8 +373,8 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getDctLeadDetails,
-  getDctLeadDetailsDD,
+  getAllDctLead,
+  getAllDctLeadDD,
   getActiveCountry,
   getLastmessage,
 })(AllLeads);

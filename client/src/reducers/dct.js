@@ -1,6 +1,8 @@
 import {
   ALL_LEADS,
   ALL_LEADS_DD,
+  GET_ALL_LEADS,
+  GET_ALL_LEADS_DD,
   LAST_MSG,
   CALLHISTORY,
 } from "../actions/types";
@@ -8,6 +10,8 @@ import {
 const initialState = {
   allLeads: [],
   allLeadsDD: [],
+  getAllLeads: [],
+  getAllLeadsDD: [],
   lastMsg: [],
   callHistory: [],
 };
@@ -24,6 +28,16 @@ const dct = (state = initialState, action) => {
       return {
         ...state,
         allLeadsDD: payload,
+      };
+    case GET_ALL_LEADS:
+      return {
+        ...state,
+        getAllLeads: payload,
+      };
+    case GET_ALL_LEADS_DD:
+      return {
+        ...state,
+        getAllLeadsDD: payload,
       };
     case LAST_MSG:
       return {

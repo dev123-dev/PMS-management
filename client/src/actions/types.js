@@ -80,6 +80,8 @@ export const ALL_LEADS = "ALL_LEADS";
 export const ALL_LEADS_DD = "ALL_LEADS_DD";
 export const LAST_MSG = "LAST_MSG";
 export const CALLHISTORY = "CALLHISTORY";
+export const GET_ALL_LEADS = "GET_ALL_LEADS";
+export const GET_ALL_LEADS_DD = "GET_ALL_LEADS_DD";
 
 //SETTINGS
 export const ALL_COMPANY_DETAILS = "ALL_COMPANY_DETAILS";

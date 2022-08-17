@@ -164,14 +164,11 @@ router.post("/deactivate-dct-Leads", async (req, res) => {
 router.post("/get-dct-Leads", async (req, res) => {
   var todayDate = new Date().toISOString().split("T")[0];
   let { countryId, clientsId, dctLeadCategory } = req.body;
-  let cat1 = "",
-    cat2 = "";
+  let catCondition = [];
   if (dctLeadCategory == "P" || dctLeadCategory == "NL") {
-    cat1 = "P";
-    cat2 = "NL";
+    catCondition = [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }];
   } else if (dctLeadCategory == "F") {
-    cat1 = "F";
-    cat2 = "F";
+    catCondition = [{ dctLeadCategory: "F" }, { dctLeadCategory: "F" }];
   }
   let query = {};
   if (countryId) {
@@ -180,14 +177,14 @@ router.post("/get-dct-Leads", async (req, res) => {
         dctLeadStatus: "Active",
         countryId: countryId,
         _id: clientsId,
-        $or: [{ dctLeadCategory: cat1 }, { dctLeadCategory: cat2 }],
+        $or: catCondition,
         dctCallDate: { $lte: todayDate },
       };
     } else {
       query = {
         dctLeadStatus: "Active",
         countryId: countryId,
-        $or: [{ dctLeadCategory: cat1 }, { dctLeadCategory: cat2 }],
+        $or: catCondition,
         dctCallDate: { $lte: todayDate },
       };
     }
@@ -196,18 +193,58 @@ router.post("/get-dct-Leads", async (req, res) => {
       query = {
         dctLeadStatus: "Active",
         _id: clientsId,
-        $or: [{ dctLeadCategory: cat1 }, { dctLeadCategory: cat2 }],
+        $or: catCondition,
         dctCallDate: { $lte: todayDate },
       };
     } else {
       query = {
         dctLeadStatus: "Active",
-        $or: [{ dctLeadCategory: cat1 }, { dctLeadCategory: cat2 }],
+        $or: catCondition,
         dctCallDate: { $lte: todayDate },
       };
     }
   }
+  try {
+    const getDctLeadsDetails = await DctLeads.find(query).sort({
+      dctCallDate: -1,
+      dctLeadCategory: -1,
+    });
+    res.json(getDctLeadsDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 
+router.post("/get-dct-Leads", async (req, res) => {
+  var todayDate = new Date().toISOString().split("T")[0];
+  let { countryId, clientsId, dctLeadCategory } = req.body;
+  let query = {};
+  if (countryId) {
+    if (clientsId) {
+      query = {
+        dctLeadStatus: "Active",
+        countryId: countryId,
+        _id: clientsId,
+      };
+    } else {
+      query = {
+        dctLeadStatus: "Active",
+        countryId: countryId,
+      };
+    }
+  } else {
+    if (clientsId) {
+      query = {
+        dctLeadStatus: "Active",
+        _id: clientsId,
+      };
+    } else {
+      query = {
+        dctLeadStatus: "Active",
+      };
+    }
+  }
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
       dctCallDate: -1,

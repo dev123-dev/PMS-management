@@ -8,6 +8,8 @@ import {
   ALL_LEADS_DD,
   LAST_MSG,
   CALLHISTORY,
+  GET_ALL_LEADS,
+  GET_ALL_LEADS_DD,
 } from "./types";
 
 const config = {
@@ -33,6 +35,7 @@ export const addDctLeadDetails = (finalData) => async (dispatch) => {
     });
   }
 };
+
 export const addDctCalls = (finalData) => async (dispatch) => {
   try {
     dispatch({
@@ -155,6 +158,42 @@ export const getDctLeadDetailsDD = (finalData) => async (dispatch) => {
     const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
     dispatch({
       type: ALL_LEADS_DD,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllDctLead = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/dct/get-all-dct-Leads",
+      finalData,
+      config
+    );
+    dispatch({
+      type: GET_ALL_LEADS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllDctLeadDD = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/dct/get-all-dct-Leads",
+      finalData,
+      config
+    );
+    dispatch({
+      type: GET_ALL_LEADS_DD,
       payload: res.data,
     });
   } catch (err) {
