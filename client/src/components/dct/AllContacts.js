@@ -16,7 +16,7 @@ const AllContacts = ({
   deactivateDctStaffDetails,
   ondivcloseChange,
 }) => {
-  console.log("contact", leadDataVal);
+  // console.log("contact", leadDataVal);
   //formData
 
   const [formData, setFormData] = useState({
@@ -128,7 +128,7 @@ const AllContacts = ({
       staffStatus: "Deactive",
       staffDeactiveReason: staffDeactiveReason,
     };
-    console.log(finalData);
+    // console.log(finalData);
     deactivateDctStaffDetails(finalData);
     onDeactiveModalChange(true);
   };

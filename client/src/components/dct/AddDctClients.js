@@ -4,91 +4,147 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { getALLPaymentMode } from "../../actions/settings";
-import { getActiveClients, AddClient } from "../../actions/client";
 import { Redirect } from "react-router-dom";
-const clientTypeVal = [
-  { value: "Regular", label: "Regular Client" },
-  { value: "Test", label: "Test Client" },
-];
+import { addDctLeadDetails } from "../../actions/dct";
+import { getActiveCountry } from "../../actions/regions";
+
+import { getALLPaymentMode } from "../../actions/settings";
 
 const AddDctClients = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { paymentMode },
-  client: { activeClient },
+  regions: { activeCountry },
+  addDctLeadDetails,
   getALLPaymentMode,
-  getActiveClients,
-  onAddDistrictModalChange,
-  AddClient,
+  getActiveCountry,
 }) => {
   useEffect(() => {
     getALLPaymentMode();
   }, [getALLPaymentMode]);
   useEffect(() => {
-    getActiveClients();
-  }, [getActiveClients]);
+    getActiveCountry();
+  }, [getActiveCountry]);
 
   //formData
   const [formData, setFormData] = useState({
-    clientName: "",
+    companyName: "",
+    website: "",
+    emailId: "",
     clientEmail: "",
     clientBillingEmail: "",
-    clientContactNo1: "",
-    clientContactNo2: "",
-    clientAddress: "",
-    clientCountry: "",
-    clientBelongsTo: "",
-    clientFolderName: "",
     clientCurrency: "",
-    clientType: "",
-    clientCompanyName: "",
-    clientCompanyFounderName: "",
-    clientWebsite: "",
-    standardInstruction: "",
+    phone1: "",
+    phone2: "",
+    dctLeadAddress: "",
+    clientName: "",
+    importantPoints: "",
     isSubmitted: false,
   });
 
   const {
-    clientName,
+    companyName,
+    website,
+    emailId,
     clientEmail,
     clientBillingEmail,
-    clientContactNo1,
-    clientContactNo2,
-    clientAddress,
-    clientCountry,
-    clientBelongsTo,
-    clientFolderName,
     clientCurrency,
-    clientType,
-    clientCompanyName,
-    clientCompanyFounderName,
-    PaymentMode,
-    clientWebsite,
-    standardInstruction,
+    phone1,
+    phone2,
+    clientName,
+    dctLeadAddress,
+    importantPoints,
     isSubmitted,
   } = formData;
 
-  const onClientTypeChange = (e) => {
-    //  Required Validation starts
-    setError({
-      ...error,
-      clienttypeIdChecker: true,
-      clienttypeIdErrorStyle: { color: "#000" },
-    });
-    // Required Validation ends
+  //add staff start
+  const [addData, setFormDatas] = useState({
+    staffName: "",
+    staffPhoneNumber: "",
+    staffEmailId: "",
+    staffDesignation: "",
+  });
 
-    if (e) {
-      setFormData({
-        ...formData,
-        clientType: e,
+  const { staffName, staffPhoneNumber, staffEmailId, staffDesignation } =
+    addData;
+
+  const [AddedDetails, AddDetails] = useState([]);
+
+  const onAdd = (e) => {
+    const staffList = AddedDetails.filter(
+      (AddDetails) => AddDetails.staffName === staffName
+    );
+
+    e.preventDefault();
+    if (staffList.length === 0) {
+      const addData = {
+        staffName: staffName,
+        staffPhoneNumber: staffPhoneNumber,
+        staffEmailId: staffEmailId,
+        staffDesignation: staffDesignation,
+      };
+      setFormDatas({
+        ...addData,
+
+        staffName: "",
+        staffPhoneNumber: "",
+        staffEmailId: "",
+        staffDesignation: "",
       });
+      let temp = [];
+      temp.push(...AddedDetails, addData);
+      AddDetails(temp);
     }
   };
+  const onRemoveChange = (staffName) => {
+    const removeList = AddedDetails.filter(
+      (AddDetails) => AddDetails.staffName !== staffName
+    );
+    AddDetails(removeList);
+  };
+  //add staff end
+  const allcountry = [];
+  activeCountry.map((country) =>
+    allcountry.push({
+      countryId: country._id,
+      label: country.countryName,
+      value: country.countryName,
+    })
+  );
 
-  const onInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const [country, getcountryData] = useState();
+  const [countryId, setcountryID] = useState();
+
+  const oncountryChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   sIdChecker: true,
+    //   sIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var countryId = "";
+    getcountryData(e);
+    countryId = e.countryId;
+    setcountryID(countryId);
   };
 
+  const [ServicesDetails, SetServiceDetails] = useState([]);
+
+  const onServicesChange = (e) => {
+    let temp = [];
+    const staffList = ServicesDetails.filter(
+      (ServicesDetails) => ServicesDetails === e.target.value
+    );
+    if (staffList.length === 0) {
+      temp.push(...ServicesDetails, e.target.value);
+      SetServiceDetails(temp);
+    } else {
+      const removeList = ServicesDetails.filter(
+        (ServicesDetails) => ServicesDetails !== e.target.value
+      );
+      SetServiceDetails(removeList);
+    }
+  };
   const allpaymentmodes = [];
   paymentMode.map((payment) =>
     allpaymentmodes.push({
@@ -101,7 +157,38 @@ const AddDctClients = ({
   const [payment, getStateData] = useState("");
   const [paymentId, setpaymentId] = useState("");
   const [paymentname, setpaymentname] = useState("");
+  const [error, setError] = useState({
+    paymentmodeIdChecker: false,
+    paymentmodeIdErrorStyle: {},
+    clienttypeIdChecker: false,
 
+    clienttypeIdErrorStyle: {},
+  });
+  const {
+    paymentmodeIdChecker,
+    paymentmodeIdErrorStyle,
+    clienttypeIdChecker,
+    clienttypeIdErrorStyle,
+  } = error;
+
+  const checkErrors = () => {
+    // if (!clienttypeIdChecker) {
+    //   setError({
+    //     ...error,
+    //     clienttypeIdErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
+    if (!paymentmodeIdChecker) {
+      setError({
+        ...error,
+        paymentmodeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    return true;
+  };
   const onPayModeChange = (e) => {
     //Required Validation starts
     setError({
@@ -119,168 +206,122 @@ const AddDctClients = ({
     setpaymentId(paymentId);
     setpaymentname(paymentname);
   };
-
-  const [clients, getclientsData] = useState("");
-  const [clientsId, setclientsId] = useState("");
-  const [clientsName, setclientsName] = useState("");
-  // console.log(clients);
-
-  const allclientBelongsTo = [];
-  activeClient.map((clients) =>
-    allclientBelongsTo.push({
-      clientsId: clients._id,
-      label: clients.clientName,
-      value: clients.clientName,
-    })
-  );
-
-  const onBelongstoChange = (e) => {
-    var clientsId = "";
-    var clientsName = "";
-    getclientsData(e);
-    clientsId = e.clientsId;
-    clientsName = e.value;
-    setclientsId(clientsId);
-    setclientsName(clientsName);
-  };
-
-  //Required Validation Starts
-  const [error, setError] = useState({
-    paymentmodeIdChecker: false,
-    paymentmodeIdErrorStyle: {},
-    clienttypeIdChecker: false,
-
-    clienttypeIdErrorStyle: {},
-  });
-  const {
-    paymentmodeIdChecker,
-    paymentmodeIdErrorStyle,
-    clienttypeIdChecker,
-    clienttypeIdErrorStyle,
-  } = error;
-
-  const checkErrors = () => {
-    if (!clienttypeIdChecker) {
-      setError({
-        ...error,
-        clienttypeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-    if (!paymentmodeIdChecker) {
-      setError({
-        ...error,
-        paymentmodeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-
-    return true;
-  };
   const onSubmit = (e) => {
-    e.preventDefault();
-    if (checkErrors()) {
-      // if (checkErrors()) {
-      const finalData = {
-        clientName: clientName,
-        clientBelongsToId: clientsId ? clientsId : null,
-        clientBelongsToName: clientsName,
-        clientEmail: clientEmail,
-        clientBillingEmail: clientBillingEmail,
-        clientContactNo1: clientContactNo1,
-        clientContactNo2: clientContactNo2,
-        clientAddress: clientAddress,
-        clientCountry: clientCountry,
-        clientCurrency: clientCurrency,
-        clientFolderName: clientFolderName,
-        clientType: clientType.value,
-        clientCompanyName: clientCompanyName,
-        paymentId: paymentId,
-        paymentModeName: paymentname,
-        clientCompanyFounderName: clientCompanyFounderName,
-        clientWebsite: clientWebsite,
-        standardInstruction: standardInstruction,
-        clientEnteredById: user._id,
+    AddedDetails.map((addedLoanData) => {
+      const loanSanctionedData = {
+        memberId: addedLoanData.staffName,
+        memberName: addedLoanData.staffPhoneNumber,
+        loanSanctionedAmt: addedLoanData.staffEmailId,
       };
-      console.log(finalData);
-      AddClient(finalData);
-      setFormData({
-        ...formData,
+    });
+    e.preventDefault();
 
-        isSubmitted: true,
-      });
-    }
+    const finalData = {
+      companyName: companyName,
+      website: website,
+      clientName: clientName,
+      emailId: emailId,
+      clientEmail: clientEmail,
+      clientBillingEmail: clientBillingEmail,
+      clientCurrency: clientCurrency,
+      phone1: phone1,
+      phone2: phone2,
+      paymentId: paymentId,
+      paymentModeName: paymentname,
+      dctLeadAddress: dctLeadAddress,
+      importantPoints: importantPoints,
+      countryId: countryId ? countryId : null,
+      countryName: country.value ? country.value : null,
+      dctLeadStatus: "Active",
+      dctLeadCategory: "NL",
+      dctCallDate: new Date().toISOString().split("T")[0],
+      services: ServicesDetails,
+      staffs: AddedDetails,
+      dctLeadEnteredById: user._id,
+      dctLeadEnteredByName: user.empFullName,
+    };
+    console.log(finalData);
+    //addDctLeadDetails(finalData);
+    // setFormData({
+    //   ...formData,
+    //   companyName: "",
+    //   emailId: "",
+    //   clientName: "",
+    //   website: "",
+    //   address: "",
+    //   phone1: "",
+    //   phone2: "",
+    //   importantPoints: "",
+    //   countryId: "",
+    //   isSubmitted: true,
+    // });
   };
+
   if (isSubmitted) {
-    return <Redirect to="/all-clients" />;
+    return <Redirect to="/all-prospects" />;
   }
+  const onInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onInputChange1 = (e) => {
+    setFormDatas({ ...addData, [e.target.name]: e.target.value });
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
     <Fragment>
-      {" "}
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
-          <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
-            <div className="col-lg-10 col-md-11 col-sm-12 col-12">
-              <h2 className="heading_color">Add Client Details </h2>
-            </div>
-            <div className="col-lg-2 col-md-11 col-sm-12 col-12 py-2">
-              <Link className="btn btn_green_bg float-right" to="/all-clients">
-                Back
-              </Link>
-            </div>
+          <div className="col-lg-12 col-md-11 col-sm-12 col-12">
+            {/* <h2 className="heading_color">Add DCT Clients</h2> */}
+            <br />
           </div>
-          <hr />
           <section className="sub_reg">
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new  pb-3">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+                <div className="row card-new ">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h5>Client Info </h5>
+                    <h2 className="heading_color">Add DCT Clients</h2>
+                    <hr />
+                    <h5>Company Info</h5>
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client Name* :</label>
+
+                  <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
+                    <label className="label-control">Company Name* :</label>
                     <input
                       type="text"
-                      name="clientName"
-                      value={clientName}
+                      name="companyName"
+                      value={companyName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                       required
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Company Name :</label>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Website* :</label>
                     <input
                       type="text"
-                      name="clientCompanyName"
-                      value={clientCompanyName}
+                      name="website"
+                      value={website}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Founder Name :</label>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Email Id* :</label>
                     <input
                       type="text"
-                      name="clientCompanyFounderName"
-                      value={clientCompanyFounderName}
+                      name="emailId"
+                      value={emailId}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Company Website :</label>
-                    <input
-                      type="text"
-                      name="clientWebsite"
-                      value={clientWebsite}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Production Email :</label>
                     <input
                       type="text"
@@ -290,7 +331,7 @@ const AddDctClients = ({
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Billing Email :</label>
                     <input
                       type="text"
@@ -300,12 +341,12 @@ const AddDctClients = ({
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client Contact 1 :</label>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Phone 1 :</label>
                     <input
-                      type="Number"
-                      name="clientContactNo1"
-                      value={clientContactNo1}
+                      type="number"
+                      name="phone1"
+                      value={phone1}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                       onKeyDown={(e) =>
@@ -314,13 +355,12 @@ const AddDctClients = ({
                       }
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client Contact 2 :</label>
-
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Phone 2 :</label>
                     <input
-                      type="Number"
-                      name="clientContactNo2"
-                      value={clientContactNo2}
+                      type="number"
+                      name="phone2"
+                      value={phone2}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                       onKeyDown={(e) =>
@@ -329,55 +369,43 @@ const AddDctClients = ({
                       }
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">
-                      Client Folder Name* :
-                    </label>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Client Name:</label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      name="clientName"
+                      value={clientName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Region* :</label>
+                    <Select
+                      name="countryName"
+                      options={allcountry}
+                      isSearchable={true}
+                      value={country}
+                      placeholder="Select Region"
+                      onChange={(e) => oncountryChange(e)}
                       required
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Belongs To :</label>
-
-                    <Select
-                      name="clientName"
-                      options={allclientBelongsTo}
-                      isSearchable={true}
-                      value={clients}
-                      placeholder="Select Mode"
-                      onChange={(e) => onBelongstoChange(e)}
-                      theme={(theme) => ({
-                        ...theme,
-                        height: 26,
-                        minHeight: 26,
-                        borderRadius: 1,
-                        colors: {
-                          ...theme.colors,
-                          primary: "black",
-                        },
-                      })}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label
                       className="label-control"
-                      style={clienttypeIdErrorStyle}
+                      style={paymentmodeIdErrorStyle}
                     >
-                      Client Type* :
+                      Mode of Payment* :
                     </label>
+
                     <Select
-                      name="clientType"
-                      options={clientTypeVal}
-                      isSearchable={false}
-                      value={clientType}
-                      placeholder="Select Meeting Type"
-                      onChange={(e) => onClientTypeChange(e)}
+                      name="paymentMode"
+                      options={allpaymentmodes}
+                      isSearchable={true}
+                      value={payment}
+                      placeholder="Select Mode"
+                      onChange={(e) => onPayModeChange(e)}
                       theme={(theme) => ({
                         ...theme,
                         height: 26,
@@ -390,98 +418,190 @@ const AddDctClients = ({
                       })}
                     />
                   </div>
-                </div>
-              </div>
-
-              <div className="row col-lg-6 col-md-12 col-sm-12 col-12">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-3 no_padding">
-                  <div className="row card-new pb-3">
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                      <h5>Other Info </h5>
-                    </div>
-
-                    <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-                      <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                        <label className="label-control">Address :</label>
-                        <textarea
-                          name="clientAddress"
-                          id="clientAddress"
-                          className="textarea form-control"
-                          rows="3"
-                          placeholder="Client Address"
-                          style={{ width: "100%" }}
-                          value={clientAddress}
-                          onChange={(e) => onInputChange(e)}
-                        ></textarea>
-                      </div>
-
-                      <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                        <label className="label-control">Country :</label>
-                        <input
-                          type="text"
-                          name="clientCountry"
-                          value={clientCountry}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                        <label className="label-control">Currency :</label>
-                        <input
-                          type="text"
-                          name="clientCurrency"
-                          value={clientCurrency}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                        <label
-                          className="label-control"
-                          style={paymentmodeIdErrorStyle}
-                        >
-                          Mode of Payment* :
-                        </label>
-
-                        <Select
-                          name="paymentMode"
-                          options={allpaymentmodes}
-                          isSearchable={true}
-                          value={payment}
-                          placeholder="Select Mode"
-                          onChange={(e) => onPayModeChange(e)}
-                          theme={(theme) => ({
-                            ...theme,
-                            height: 26,
-                            minHeight: 26,
-                            borderRadius: 1,
-                            colors: {
-                              ...theme.colors,
-                              primary: "black",
-                            },
-                          })}
-                        />
-                      </div>
-                    </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Currency :</label>
+                    <input
+                      type="text"
+                      name="clientCurrency"
+                      value={clientCurrency}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
                   </div>
-                  <div className="row py-1"></div>
-                  <div className="row card-new pb-3 ">
-                    <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-                      <label className="label-control">
-                        Standard Instruction :
-                      </label>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Important Points :</label>
+                    <input
+                      type="text"
+                      name="importantPoints"
+                      value={importantPoints}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+                  <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
+                    <div className="row col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">Services :</label>
+                      </div>
+                      <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">Imaging</label>
+                        <input
+                          type="checkbox"
+                          id="Unconfirmed"
+                          value="Imaging"
+                          onChange={(e) => onServicesChange(e)}
+                        />
+                      </div>
+                      <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">CGI</label>
+                        <input
+                          type="checkbox"
+                          id="Unconfirmed"
+                          value="CGI"
+                          onChange={(e) => onServicesChange(e)}
+                        />
+                      </div>
+                      <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">Video Editing</label>
+                        <input
+                          type="checkbox"
+                          id="Unconfirmed"
+                          value="videoEditing"
+                          onChange={(e) => onServicesChange(e)}
+                        />
+                      </div>
+                    </div>
+                    <div className="row col-lg-6 col-md-6 col-sm-6 col-12 ">
+                      <label className="label-control">Address :</label>
                       <textarea
-                        name="standardInstruction"
-                        id="standardInstruction"
+                        name="dctLeadAddress"
+                        id="dctLeadAddress"
                         className="textarea form-control"
-                        rows="5"
-                        placeholder="Standard Instruction"
+                        rows="3"
+                        placeholder=" Address"
                         style={{ width: "100%" }}
-                        value={standardInstruction}
+                        value={dctLeadAddress}
                         onChange={(e) => onInputChange(e)}
                       ></textarea>
                     </div>
                   </div>
+                  <br />
+                </div>
+              </div>
+
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                {/* <form onSubmit={(e) =>Add(e)}> */}
+                <div className="row card-new  py-3">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h5>Contact Info</h5>
+                  </div>
+
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Staff Name:</label>
+                    <input
+                      type="text"
+                      name="staffName"
+                      value={staffName}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Phone Number :</label>
+                    <input
+                      type="number"
+                      name="staffPhoneNumber"
+                      value={staffPhoneNumber}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Email Id :</label>
+                    <input
+                      type="text"
+                      name="staffEmailId"
+                      value={staffEmailId}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Designation :</label>
+                    <input
+                      type="text"
+                      name="staffDesignation"
+                      value={staffDesignation}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                    />
+                  </div>
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    {/* <input
+                        type="submit"
+                        name="Submit"
+                        value="ADD"
+                        className="btn sub_form btn_continue blackbrd Save float-right"
+                      /> */}
+
+                    <button
+                      variant="success"
+                      className="btn sub_form btn_continue Save float-right"
+                      onClick={(e) => onAdd(e)}
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
+                {/* </form> */}
+              </div>
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                <div
+                  className="row card-new"
+                  style={{ height: "340px", overflowY: "scroll" }}
+                >
+                  <table
+                    className="tabllll table table-bordered table-striped table-hover"
+                    id="datatable2"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Staff Name</th>
+                        <th>Phone Number</th>
+                        <th>Email Id</th>
+                        <th>Designation</th>
+                        <th>Remove</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {AddedDetails &&
+                        AddedDetails.map((AddDetail, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td>{AddDetail.staffName}</td>
+                              <td>{AddDetail.staffPhoneNumber}</td>
+                              <td>{AddDetail.staffEmailId}</td>
+                              <td>{AddDetail.staffDesignation}</td>
+                              <td>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() =>
+                                    onRemoveChange(AddDetail.staffName)
+                                  }
+                                  src={require("../../static/images/close-buttonRed.png")}
+                                  alt="Remove"
+                                  title="Remove"
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -514,7 +634,7 @@ const AddDctClients = ({
                 )}
                 <Link
                   className="btn sub_form btn_continue blackbrd float-right"
-                  to="/all-clients"
+                  to="/job-queue"
                 >
                   Cancel
                 </Link>
@@ -531,19 +651,19 @@ AddDctClients.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
-  AddClient: PropTypes.func.isRequired,
+  regions: PropTypes.object.isRequired,
   getALLPaymentMode: PropTypes.func.isRequired,
-  getActiveClients: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   settings: state.settings,
   client: state.client,
+  regions: state.regions,
 });
 
 export default connect(mapStateToProps, {
+  addDctLeadDetails,
   getALLPaymentMode,
-  getActiveClients,
-  AddClient,
+  getActiveCountry,
 })(AddDctClients);
