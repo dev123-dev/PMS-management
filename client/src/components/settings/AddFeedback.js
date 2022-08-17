@@ -112,7 +112,7 @@ const AddFeedback = ({
         feedbackEnteredByName: user.empFullName,
         feedbackEnteredDate: new Date().toISOString().split("T")[0],
       };
-      console.log(finalData);
+      // console.log(finalData);
       AddFeedbackData(finalData);
 
       onAddFeedbackModalChange(true);

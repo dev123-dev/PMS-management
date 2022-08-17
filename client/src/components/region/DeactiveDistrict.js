@@ -43,7 +43,7 @@ const DeactiveDistrict = ({
       districtDeactivateById: user._id,
       districtDeactivateDateTime: new Date().toLocaleString(),
     };
-    console.log(finalData);
+    // console.log(finalData);
     deactiveDistrictsData(finalData);
     onDeactiveModalChange(true);
   };

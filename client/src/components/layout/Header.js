@@ -240,6 +240,23 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
+                <NavItem>
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
+                    <NavLink
+                      to="/add-dct-client"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Add Dct Clients
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>

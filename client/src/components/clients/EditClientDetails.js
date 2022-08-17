@@ -213,8 +213,8 @@ const EditClientDetails = ({
     paymentModeName = e.value;
     setpaymentId(paymentId);
     setpaymentname(paymentModeName);
-    console.log(paymentId);
-    console.log(paymentModeName);
+    // console.log(paymentId);
+    // console.log(paymentModeName);
   };
 
   // console.log(paymentModeName);

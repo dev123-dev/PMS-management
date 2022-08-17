@@ -50,6 +50,7 @@ import Trash from "../settings/Trash";
 import AllCompany from "../settings/AllCompany";
 import AddCompany from "../settings/AddCompany";
 //dct
+import AddDctClients from "../dct/AddDctClients";
 import AllLeads from "../dct/AllLeads";
 import AllProspects from "../dct/AllProspects";
 import Allfollowup from "../dct/Allfollowup";
@@ -80,6 +81,7 @@ const RoutesFile = () => {
           component={TestClientFollowup}
         />
         <PrivateRoute exact path="/all-leads" component={AllLeads} />
+        <PrivateRoute exact path="/add-dct-client" component={AddDctClients} />
 
         <PrivateRoute
           exact

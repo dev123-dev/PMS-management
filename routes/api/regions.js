@@ -216,7 +216,6 @@ router.get("/get-all-districts", async (req, res) => {
       { $unwind: "$output" },
     ]);
     res.json(getAllDistricts);
-    console.log(getAllDistricts);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

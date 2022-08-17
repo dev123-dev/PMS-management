@@ -12,7 +12,7 @@ const clientTypeVal = [
   { value: "Test", label: "Test Client" },
 ];
 
-const AddClientDetails = ({
+const AddDctClients = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { paymentMode },
   client: { activeClient },
@@ -202,7 +202,7 @@ const AddClientDetails = ({
         standardInstruction: standardInstruction,
         clientEnteredById: user._id,
       };
-      //  console.log(finalData);
+      console.log(finalData);
       AddClient(finalData);
       setFormData({
         ...formData,
@@ -527,7 +527,7 @@ const AddClientDetails = ({
   );
 };
 
-AddClientDetails.propTypes = {
+AddDctClients.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
@@ -546,4 +546,4 @@ export default connect(mapStateToProps, {
   getALLPaymentMode,
   getActiveClients,
   AddClient,
-})(AddClientDetails);
+})(AddDctClients);

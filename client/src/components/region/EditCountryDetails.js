@@ -43,7 +43,7 @@ const EditCountryDetails = ({
       countryEditedById: user._id,
       countryEditedDateTime: new Date().toLocaleString(),
     };
-    console.log(finalData);
+    // console.log(finalData);
     EditCountryData(finalData);
     onUpdateModalChange(true);
   };

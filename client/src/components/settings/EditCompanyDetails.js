@@ -99,7 +99,7 @@ const EditCompanyDetails = ({
       companyEditedById: user._id,
       companyEditedDateTime: new Date().toLocaleString(),
     };
-    console.log(finalData);
+    // console.log(finalData);
     EditCompanyData(finalData);
     onEditModalChange(true);
   };
