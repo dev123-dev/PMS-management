@@ -232,7 +232,8 @@ const AllStatuschange = ({
     } else if (callStatus.value === "RegularClient") {
       callCategoryVal = "RC";
     } else {
-      callCategoryVal = leadDataVal.dctLeadCategory;
+      if (leadDataVal.dctLeadCategory === "NL") callCategoryVal = "P";
+      else callCategoryVal = leadDataVal.dctLeadCategory;
     }
     e.preventDefault();
     if (checkErrors()) {
