@@ -356,74 +356,75 @@ const AddLead = ({
               </div>
 
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                {/* <form onSubmit={(e) =>Add(e)}> */}
-                <div className="row card-new  py-3">
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h5>Contact Info</h5>
-                  </div>
+                <form onSubmit={(e) => onAdd(e)}>
+                  <div className="row card-new  py-3">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                      <h5>Contact Info</h5>
+                    </div>
 
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Staff Name:</label>
-                    <input
-                      type="text"
-                      name="staffName"
-                      value={staffName}
-                      className="form-control"
-                      onChange={(e) => onInputChange1(e)}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Phone Number :</label>
-                    <input
-                      type="number"
-                      name="staffPhoneNumber"
-                      value={staffPhoneNumber}
-                      className="form-control"
-                      onChange={(e) => onInputChange1(e)}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Email Id :</label>
-                    <input
-                      type="text"
-                      name="staffEmailId"
-                      value={staffEmailId}
-                      className="form-control"
-                      onChange={(e) => onInputChange1(e)}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Designation :</label>
-                    <input
-                      type="text"
-                      name="staffDesignation"
-                      value={staffDesignation}
-                      className="form-control"
-                      onChange={(e) => onInputChange1(e)}
-                    />
-                  </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    {/* <input
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Staff Name:</label>
+                      <input
+                        type="text"
+                        name="staffName"
+                        value={staffName}
+                        className="form-control"
+                        onChange={(e) => onInputChange1(e)}
+                        required
+                      />
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Phone Number :</label>
+                      <input
+                        type="number"
+                        name="staffPhoneNumber"
+                        value={staffPhoneNumber}
+                        className="form-control"
+                        onChange={(e) => onInputChange1(e)}
+                        onKeyDown={(e) =>
+                          (e.keyCode === 69 || e.keyCode === 190) &&
+                          e.preventDefault()
+                        }
+                      />
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Email Id :</label>
+                      <input
+                        type="text"
+                        name="staffEmailId"
+                        value={staffEmailId}
+                        className="form-control"
+                        onChange={(e) => onInputChange1(e)}
+                      />
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Designation :</label>
+                      <input
+                        type="text"
+                        name="staffDesignation"
+                        value={staffDesignation}
+                        className="form-control"
+                        onChange={(e) => onInputChange1(e)}
+                      />
+                    </div>
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                      <input
                         type="submit"
                         name="Submit"
                         value="ADD"
                         className="btn sub_form btn_continue blackbrd Save float-right"
-                      /> */}
-
-                    <button
-                      variant="success"
-                      className="btn sub_form btn_continue Save float-right"
-                      onClick={(e) => onAdd(e)}
-                    >
-                      Add
-                    </button>
+                      />
+                      {/* 
+                      <button
+                        variant="success"
+                        className="btn sub_form btn_continue Save float-right"
+                        onClick={(e) => onAdd(e)}
+                      >
+                        Add
+                      </button> */}
+                    </div>
                   </div>
-                </div>
-                {/* </form> */}
+                </form>
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
                 <div

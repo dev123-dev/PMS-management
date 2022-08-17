@@ -244,7 +244,7 @@ const EditLead = ({
                     <div className="col-lg-1 col-md-6 col-sm-6 col-12">
                       <label className="label-control">Services :</label>
                     </div>
-                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                    <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                       <label className="label-control">Imaging</label>
                       <input
                         type="checkbox"
@@ -253,7 +253,7 @@ const EditLead = ({
                         // onChange={handleOnChange}
                       />
                     </div>
-                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                    <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                       <label className="label-control">CGI</label>
                       <input
                         type="checkbox"
@@ -262,7 +262,7 @@ const EditLead = ({
                         // onChange={handleOnChange}
                       />
                     </div>
-                    <div className="col-lg-1 col-md-6 col-sm-6 col-12">
+                    <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                       <label className="label-control">Video Editing</label>
                       <input
                         type="checkbox"
