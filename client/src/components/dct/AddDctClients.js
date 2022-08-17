@@ -24,7 +24,10 @@ const AddDctClients = ({
   useEffect(() => {
     getActiveCountry();
   }, [getActiveCountry]);
-
+  const clientTypeVal = [
+    { value: "Regular", label: "Regular Client" },
+    { value: "Test", label: "Test Client" },
+  ];
   //formData
   const [formData, setFormData] = useState({
     companyName: "",
@@ -34,6 +37,7 @@ const AddDctClients = ({
     clientBillingEmail: "",
     clientCurrency: "",
     phone1: "",
+    clientType: "",
     phone2: "",
     dctLeadAddress: "",
     clientName: "",
@@ -49,6 +53,7 @@ const AddDctClients = ({
     clientBillingEmail,
     clientCurrency,
     phone1,
+    clientType,
     phone2,
     clientName,
     dctLeadAddress,
@@ -172,13 +177,13 @@ const AddDctClients = ({
   } = error;
 
   const checkErrors = () => {
-    // if (!clienttypeIdChecker) {
-    //   setError({
-    //     ...error,
-    //     clienttypeIdErrorStyle: { color: "#F00" },
-    //   });
-    //   return false;
-    // }
+    if (!clienttypeIdChecker) {
+      setError({
+        ...error,
+        clienttypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
     if (!paymentmodeIdChecker) {
       setError({
         ...error,
@@ -206,6 +211,23 @@ const AddDctClients = ({
     setpaymentId(paymentId);
     setpaymentname(paymentname);
   };
+
+  const onClientTypeChange = (e) => {
+    //  Required Validation starts
+    setError({
+      ...error,
+      clienttypeIdChecker: true,
+      clienttypeIdErrorStyle: { color: "#000" },
+    });
+    // Required Validation ends
+
+    if (e) {
+      setFormData({
+        ...formData,
+        clientType: e,
+      });
+    }
+  };
   const onSubmit = (e) => {
     AddedDetails.map((addedLoanData) => {
       const loanSanctionedData = {
@@ -215,46 +237,48 @@ const AddDctClients = ({
       };
     });
     e.preventDefault();
-
-    const finalData = {
-      companyName: companyName,
-      website: website,
-      clientName: clientName,
-      emailId: emailId,
-      clientEmail: clientEmail,
-      clientBillingEmail: clientBillingEmail,
-      clientCurrency: clientCurrency,
-      phone1: phone1,
-      phone2: phone2,
-      paymentId: paymentId,
-      paymentModeName: paymentname,
-      dctLeadAddress: dctLeadAddress,
-      importantPoints: importantPoints,
-      countryId: countryId ? countryId : null,
-      countryName: country.value ? country.value : null,
-      dctLeadStatus: "Active",
-      dctLeadCategory: "NL",
-      dctCallDate: new Date().toISOString().split("T")[0],
-      services: ServicesDetails,
-      staffs: AddedDetails,
-      dctLeadEnteredById: user._id,
-      dctLeadEnteredByName: user.empFullName,
-    };
-    console.log(finalData);
-    //addDctLeadDetails(finalData);
-    // setFormData({
-    //   ...formData,
-    //   companyName: "",
-    //   emailId: "",
-    //   clientName: "",
-    //   website: "",
-    //   address: "",
-    //   phone1: "",
-    //   phone2: "",
-    //   importantPoints: "",
-    //   countryId: "",
-    //   isSubmitted: true,
-    // });
+    if (checkErrors()) {
+      const finalData = {
+        companyName: companyName,
+        website: website,
+        clientName: clientName,
+        emailId: emailId,
+        clientEmail: clientEmail,
+        clientType: clientType.value,
+        clientBillingEmail: clientBillingEmail,
+        clientCurrency: clientCurrency,
+        phone1: phone1,
+        phone2: phone2,
+        paymentId: paymentId,
+        paymentModeName: paymentname,
+        dctLeadAddress: dctLeadAddress,
+        importantPoints: importantPoints,
+        countryId: countryId ? countryId : null,
+        countryName: country.value ? country.value : null,
+        dctLeadStatus: "Active",
+        dctLeadCategory: "NL",
+        dctCallDate: new Date().toISOString().split("T")[0],
+        services: ServicesDetails,
+        staffs: AddedDetails,
+        dctLeadEnteredById: user._id,
+        dctLeadEnteredByName: user.empFullName,
+      };
+      console.log(finalData);
+      //addDctLeadDetails(finalData);
+      // setFormData({
+      //   ...formData,
+      //   companyName: "",
+      //   emailId: "",
+      //   clientName: "",
+      //   website: "",
+      //   address: "",
+      //   phone1: "",
+      //   phone2: "",
+      //   importantPoints: "",
+      //   countryId: "",
+      //   isSubmitted: true,
+      // });
+    }
   };
 
   if (isSubmitted) {
@@ -308,6 +332,32 @@ const AddDctClients = ({
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                       required
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label
+                      className="label-control"
+                      style={clienttypeIdErrorStyle}
+                    >
+                      Client Type* :
+                    </label>
+                    <Select
+                      name="clientType"
+                      options={clientTypeVal}
+                      isSearchable={false}
+                      value={clientType}
+                      placeholder="Select Meeting Type"
+                      onChange={(e) => onClientTypeChange(e)}
+                      theme={(theme) => ({
+                        ...theme,
+                        height: 26,
+                        minHeight: 26,
+                        borderRadius: 1,
+                        colors: {
+                          ...theme.colors,
+                          primary: "black",
+                        },
+                      })}
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -438,54 +488,51 @@ const AddDctClients = ({
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
-                  <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
-                    <div className="row col-lg-6 col-md-6 col-sm-6 col-12">
-                      <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                        <label className="label-control">Services :</label>
-                      </div>
-                      <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                        <label className="label-control">Imaging</label>
-                        <input
-                          type="checkbox"
-                          id="Unconfirmed"
-                          value="Imaging"
-                          onChange={(e) => onServicesChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                        <label className="label-control">CGI</label>
-                        <input
-                          type="checkbox"
-                          id="Unconfirmed"
-                          value="CGI"
-                          onChange={(e) => onServicesChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                        <label className="label-control">Video Editing</label>
-                        <input
-                          type="checkbox"
-                          id="Unconfirmed"
-                          value="videoEditing"
-                          onChange={(e) => onServicesChange(e)}
-                        />
-                      </div>
-                    </div>
-                    <div className="row col-lg-6 col-md-6 col-sm-6 col-12 ">
-                      <label className="label-control">Address :</label>
-                      <textarea
-                        name="dctLeadAddress"
-                        id="dctLeadAddress"
-                        className="textarea form-control"
-                        rows="3"
-                        placeholder=" Address"
-                        style={{ width: "100%" }}
-                        value={dctLeadAddress}
-                        onChange={(e) => onInputChange(e)}
-                      ></textarea>
-                    </div>
+
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Services :</label>
                   </div>
-                  <br />
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Imaging</label>
+                    <input
+                      type="checkbox"
+                      id="Unconfirmed"
+                      value="Imaging"
+                      onChange={(e) => onServicesChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">CGI</label>
+                    <input
+                      type="checkbox"
+                      id="Unconfirmed"
+                      value="CGI"
+                      onChange={(e) => onServicesChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Video Editing</label>
+                    <input
+                      type="checkbox"
+                      id="Unconfirmed"
+                      value="videoEditing"
+                      onChange={(e) => onServicesChange(e)}
+                    />
+                  </div>
+
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12 ">
+                    <label className="label-control">Address :</label>
+                    <textarea
+                      name="dctLeadAddress"
+                      id="dctLeadAddress"
+                      className="textarea form-control"
+                      rows="3"
+                      placeholder=" Address"
+                      style={{ width: "100%" }}
+                      value={dctLeadAddress}
+                      onChange={(e) => onInputChange(e)}
+                    ></textarea>
+                  </div>
                 </div>
               </div>
 
