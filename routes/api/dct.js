@@ -211,7 +211,7 @@ router.post("/get-dct-Leads", async (req, res) => {
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
       dctCallDate: -1,
-      dctLeadCategory: 1,
+      dctLeadCategory: -1,
     });
     res.json(getDctLeadsDetails);
   } catch (err) {
