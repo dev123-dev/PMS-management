@@ -150,7 +150,7 @@ const AllLeads = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Prospects</h5>
+              <h5 className="heading_color">All Leads</h5>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -270,10 +270,11 @@ const AllLeads = ({
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
-                    <AllStatuschange
-                      leadDataVal={leadData}
-                      ondivcloseChange={ondivcloseChange}
-                    />
+                    <></>
+                    // <AllStatuschange
+                    //   leadDataVal={leadData}
+                    //   ondivcloseChange={ondivcloseChange}
+                    // />
                   )}
                 </div>
               </div>
