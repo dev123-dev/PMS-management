@@ -14,7 +14,7 @@ const EditStateDetails = ({
   //   useEffect(() => {
   //     getStates();
   //   }, [getStates]);
-  console.log(stateeditdata);
+  // console.log(stateeditdata);
   //formData
   const [formData, setFormData] = useState({
     stateName:
@@ -34,7 +34,7 @@ const EditStateDetails = ({
       stateEditedById: user._id,
       stateEditedDateTime: user.userName,
     };
-    console.log(finalData);
+    // console.log(finalData);
     EditStateData(finalData);
     onUpdateModalChange(true);
     // setFormData({
