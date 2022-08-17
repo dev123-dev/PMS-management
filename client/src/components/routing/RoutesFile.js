@@ -50,6 +50,7 @@ import Trash from "../settings/Trash";
 import AllCompany from "../settings/AllCompany";
 import AddCompany from "../settings/AddCompany";
 //dct
+import AllLeads from "../dct/AllLeads";
 import AllProspects from "../dct/AllProspects";
 import Allfollowup from "../dct/Allfollowup";
 import TestClientFollowup from "../dct/TestClientFollowup";
@@ -78,13 +79,13 @@ const RoutesFile = () => {
           path="/test-client-followup"
           component={TestClientFollowup}
         />
+        <PrivateRoute exact path="/all-leads" component={AllLeads} />
 
         <PrivateRoute
           exact
           path="/regular-client-followup"
           component={RegularClientFollowup}
         />
-
         <PrivateRoute exact path="/add-lead" component={AddLead} />
         <PrivateRoute exact path="/edit-lead" component={EditLead} />
         <PrivateRoute exact path="/deactive-lead" component={DeactiveLead} />
@@ -96,7 +97,6 @@ const RoutesFile = () => {
           path="/job-verification"
           component={ProjectVerification}
         />
-
         <PrivateRoute exact path="/add-project" component={AddProject} />
         <PrivateRoute
           exact
@@ -118,7 +118,6 @@ const RoutesFile = () => {
         />
         <PrivateRoute exact path="/all-Amendments" component={Amendments} />
         {/* clients */}
-
         <PrivateRoute exact path="/all-clients" component={AllClientDetails} />
         <PrivateRoute exact path="/add-client" component={AddClientDetails} />
         <PrivateRoute exact path="/edit-client" component={EditClientDetails} />
@@ -141,7 +140,6 @@ const RoutesFile = () => {
           component={DeactivateDepartment}
         />
         <PrivateRoute exact path="/all-department" component={AllDepartment} />
-
         {/* Designation */}
         <PrivateRoute
           exact
@@ -173,7 +171,6 @@ const RoutesFile = () => {
           path="/all-project-status"
           component={AllProjectStatus}
         />
-
         {/* payment methods */}
         <PrivateRoute
           exact
@@ -185,9 +182,7 @@ const RoutesFile = () => {
           path="/add-payment-method"
           component={AddPaymentMethod}
         />
-
         <PrivateRoute exact path="/all-usergroups" component={AllUserGroups} />
-
         <PrivateRoute
           exact
           path="/change-password"

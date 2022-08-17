@@ -137,7 +137,23 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-
+                <NavItem>
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
+                    <NavLink
+                      to="/all-leads"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      All Leads
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
                 <NavItem>
                   {!loading &&
                   isAuthenticated &&
