@@ -36,6 +36,8 @@ const Allfollowup = ({
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
 
+  const [filterData, setFilterData] = useState({ dctLeadCategory: "F" });
+
   const [showHide, setShowHide] = useState({
     showdateselectionSection: false,
   });
@@ -104,6 +106,7 @@ const Allfollowup = ({
     getcountryIdData(e.countryId);
     getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "F" });
     getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "F" });
+    setFilterData({ countryId: e.countryId, dctLeadCategory: "F" });
   };
 
   const allclient = [];
@@ -127,8 +130,6 @@ const Allfollowup = ({
     if (e) {
       handledivModalClose();
     }
-    getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "F" });
-    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "F" });
   };
 
   const handledivModalClose = () => setShowHide(false);
@@ -138,6 +139,7 @@ const Allfollowup = ({
     getclientsData("");
     getDctLeadDetails({ dctLeadCategory: "F" });
     getDctLeadDetailsDD({ dctLeadCategory: "F" });
+    setFilterData({ dctLeadCategory: "F" });
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -270,6 +272,7 @@ const Allfollowup = ({
                       leadDataVal={leadData}
                       from="FollowUp"
                       ondivcloseChange={ondivcloseChange}
+                      filterData={filterData}
                     />
                   )}
                 </div>

@@ -36,6 +36,8 @@ const AllProspects = ({
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
 
+  const [filterData, setFilterData] = useState({ dctLeadCategory: "P" });
+
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
 
@@ -91,8 +93,6 @@ const AllProspects = ({
     if (e) {
       handledivModalClose();
     }
-    getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "P" });
-    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "P" });
   };
 
   const handledivModalClose = () => setShowHide(false);
@@ -115,6 +115,7 @@ const AllProspects = ({
     getcountryIdData(e.countryId);
     getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "P" });
     getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "P" });
+    setFilterData({ countryId: e.countryId, dctLeadCategory: "P" });
   };
 
   const allclient = [];
@@ -133,6 +134,11 @@ const AllProspects = ({
       clientsId: e.clientsId,
       dctLeadCategory: "P",
     });
+    setFilterData({
+      countryId: countryId,
+      clientsId: e.clientsId,
+      dctLeadCategory: "P",
+    });
   };
 
   const onClickReset = () => {
@@ -140,6 +146,7 @@ const AllProspects = ({
     getclientsData("");
     getDctLeadDetails({ dctLeadCategory: "P" });
     getDctLeadDetailsDD({ dctLeadCategory: "P" });
+    setFilterData({ dctLeadCategory: "P" });
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -273,6 +280,7 @@ const AllProspects = ({
                     <AllStatuschange
                       leadDataVal={leadData}
                       ondivcloseChange={ondivcloseChange}
+                      filterData={filterData}
                     />
                   )}
                 </div>

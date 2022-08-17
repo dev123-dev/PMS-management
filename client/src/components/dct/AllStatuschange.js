@@ -11,6 +11,7 @@ const AllStatuschange = ({
   addDctCalls,
   ondivcloseChange,
   from,
+  filterData,
 }) => {
   let StatusMethods = [
     { value: "VoiceMail", label: "VoiceMail" },
@@ -249,9 +250,9 @@ const AllStatuschange = ({
         callDate: startStatusDate,
         callNote: callNote,
         callEnteredDate: new Date().toLocaleString("en-GB"),
+        filterData: filterData,
       };
       addDctCalls(finalData);
-
       setFormData({
         ...formData,
         callStatus: "",
@@ -259,7 +260,6 @@ const AllStatuschange = ({
         callNote: "",
         isSubmitted: true,
       });
-
       setStatusDate("");
       getstaffsData("");
       ondivcloseChange(true);
