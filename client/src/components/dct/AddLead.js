@@ -138,16 +138,6 @@ const AddLead = ({
     }
   };
   const onSubmit = (e) => {
-    AddedDetails.map((addedLoanData) => {
-      //  if (addedLoanData.batchLoanAmt && addedLoanData.batchLoanAmt > 0) {
-      const loanSanctionedData = {
-        memberId: addedLoanData.staffName,
-        memberName: addedLoanData.staffPhoneNumber,
-        loanSanctionedAmt: addedLoanData.staffEmailId,
-      };
-      // console.log(loanSanctionedData);
-      //}
-    });
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {

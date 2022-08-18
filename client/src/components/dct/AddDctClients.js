@@ -5,7 +5,7 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
-import { addDctLeadDetails } from "../../actions/dct";
+import { addDctClientDetails } from "../../actions/dct";
 import { getActiveCountry } from "../../actions/regions";
 import { getALLPaymentMode } from "../../actions/settings";
 
@@ -13,7 +13,7 @@ const AddDctClients = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { paymentMode },
   regions: { activeCountry },
-  addDctLeadDetails,
+  addDctClientDetails,
   getALLPaymentMode,
   getActiveCountry,
 }) => {
@@ -90,7 +90,6 @@ const AddDctClients = ({
       };
       setFormDatas({
         ...addData,
-
         staffName: "",
         staffPhoneNumber: "",
         staffEmailId: "",
@@ -241,13 +240,6 @@ const AddDctClients = ({
     }
   };
   const onSubmit = (e) => {
-    AddedDetails.map((addedLoanData) => {
-      const loanSanctionedData = {
-        memberId: addedLoanData.staffName,
-        memberName: addedLoanData.staffPhoneNumber,
-        loanSanctionedAmt: addedLoanData.staffEmailId,
-      };
-    });
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
@@ -269,7 +261,7 @@ const AddDctClients = ({
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
         dctClientStatus: "Active",
-        dctClientCategory: "TC",
+        dctClientCategory: clientType.value === "Test" ? "TC" : "RC",
         dctCallDate: new Date().toISOString().split("T")[0],
         services: ServicesDetails,
         staffs: AddedDetails,
@@ -277,7 +269,7 @@ const AddDctClients = ({
         dctClientEnteredByName: user.empFullName,
       };
       console.log(finalData);
-      //addDctLeadDetails(finalData);
+      addDctClientDetails(finalData);
       // setFormData({
       //   ...formData,
       //   companyName: "",
@@ -744,7 +736,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  addDctLeadDetails,
+  addDctClientDetails,
   getALLPaymentMode,
   getActiveCountry,
 })(AddDctClients);

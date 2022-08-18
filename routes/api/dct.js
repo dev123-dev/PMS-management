@@ -5,6 +5,7 @@ const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const DctLeads = require("../../models/dct/dctLeads");
 const DctCalls = require("../../models/dct/dctCalls");
+const DctClients = require("../../models/dct/dctClients");
 
 //ADD
 router.post("/add-dct-Leads", async (req, res) => {
@@ -12,6 +13,18 @@ router.post("/add-dct-Leads", async (req, res) => {
   try {
     let AddDctLeadsDetails = new DctLeads(data);
     output = await AddDctLeadsDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/add-dct-client", async (req, res) => {
+  let data = req.body;
+  try {
+    let AddDctClientsDetails = new DctClients(data);
+    output = await AddDctClientsDetails.save();
     res.send(output);
   } catch (err) {
     console.error(err.message);
@@ -250,6 +263,45 @@ router.post("/get-all-dct-Leads", async (req, res) => {
       _id: -1,
     });
     res.json(getDctLeadsDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-dct-clients", async (req, res) => {
+  // let { countryId, clientsId } = req.body;
+  // let query = {};
+  // if (countryId) {
+  //   if (clientsId) {
+  //     query = {
+  //       dctLeadStatus: "Active",
+  //       countryId: countryId,
+  //       _id: clientsId,
+  //     };
+  //   } else {
+  //     query = {
+  //       dctLeadStatus: "Active",
+  //       countryId: countryId,
+  //     };
+  //   }
+  // } else {
+  //   if (clientsId) {
+  //     query = {
+  //       dctLeadStatus: "Active",
+  //       _id: clientsId,
+  //     };
+  //   } else {
+  //     query = {
+  //       dctLeadStatus: "Active",
+  //     };
+  //   }
+  // }
+  try {
+    const getDctClientsDetails = await DctClients.find().sort({
+      _id: -1,
+    });
+    res.json(getDctClientsDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

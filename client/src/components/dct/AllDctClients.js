@@ -5,19 +5,19 @@ import Select from "react-select";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { getAllClients } from "../../actions/client";
+import { getDctClient } from "../../actions/dct";
 import EditDctClients from "./EditDctClients";
 import DeactiveDctClient from "./DeactiveDctClient";
 const AllDctClients = ({
   auth: { isAuthenticated, user, users },
-  client: { allClient },
-  getAllClients,
+  dct: { dctClients, dctClientsDD },
+  getDctClient,
 }) => {
   useEffect(() => {
-    getAllClients();
-  }, [getAllClients]);
+    getDctClient();
+  }, [getDctClient]);
 
-  // console.log("allClient", allClient);
+  console.log("dctClients", dctClients);
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
@@ -42,10 +42,10 @@ const AllDctClients = ({
   };
 
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allClient, idx) => {
-    setShowEditModal(true);
-    setUserDatas(allClient);
-  };
+  // const onUpdate = (allClient, idx) => {
+  //   setShowEditModal(true);
+  //   setUserDatas(allClient);
+  // };
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
   const handleDeactiveModalClose = () => setShowDeactiveModal(false);
@@ -58,10 +58,10 @@ const AllDctClients = ({
     }
   };
   const [userDatadeactive, setUserDatadeactive] = useState(null);
-  const onDeactive = (allClient, idx) => {
-    setShowDeactiveModal(true);
-    setUserDatadeactive(allClient);
-  };
+  // const onDeactive = (allClient, idx) => {
+  //   setShowDeactiveModal(true);
+  //   setUserDatadeactive(allClient);
+  // };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -105,7 +105,7 @@ const AllDctClients = ({
                         <th>Op</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    {/* <tbody>
                       {allClient &&
                         allClient.map((allClient, idx) => {
                           return (
@@ -142,7 +142,7 @@ const AllDctClients = ({
                             </tr>
                           );
                         })}
-                    </tbody>
+                    </tbody> */}
                   </table>
                 </div>
               </section>
@@ -152,7 +152,7 @@ const AllDctClients = ({
           <div className="row col-md-12 col-lg-12 col-sm-12 col-12  ">
             <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
-              <strong> No of Clients:{allClient.length}</strong>
+              {/* <strong> No of Clients:{allClient.length}</strong> */}
             </div>
           </div>
         </section>
@@ -253,11 +253,10 @@ const AllDctClients = ({
 
 AllDctClients.propTypes = {
   auth: PropTypes.object.isRequired,
-  getAllClients: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  client: state.client,
+  dct: state.dct,
 });
 
-export default connect(mapStateToProps, { getAllClients })(AllDctClients);
+export default connect(mapStateToProps, { getDctClient })(AllDctClients);

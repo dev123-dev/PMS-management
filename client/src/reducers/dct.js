@@ -3,6 +3,8 @@ import {
   ALL_LEADS_DD,
   GET_ALL_LEADS,
   GET_ALL_LEADS_DD,
+  DCT_CLIENTS,
+  DCT_CLIENTS_DD,
   LAST_MSG,
   CALLHISTORY,
 } from "../actions/types";
@@ -12,6 +14,8 @@ const initialState = {
   allLeadsDD: [],
   getAllLeads: [],
   getAllLeadsDD: [],
+  dctClients: [],
+  dctClientsDD: [],
   lastMsg: [],
   callHistory: [],
 };
@@ -38,6 +42,16 @@ const dct = (state = initialState, action) => {
       return {
         ...state,
         getAllLeadsDD: payload,
+      };
+    case DCT_CLIENTS:
+      return {
+        ...state,
+        dctClients: payload,
+      };
+    case DCT_CLIENTS_DD:
+      return {
+        ...state,
+        dctClientsDD: payload,
       };
     case LAST_MSG:
       return {
