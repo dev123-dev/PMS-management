@@ -47,8 +47,10 @@ export const addDctCalls = (finalData) => async (dispatch) => {
       finalData,
       config
     );
-    dispatch(getDctLeadDetails(finalData.filterData));
-    dispatch(getDctLeadDetailsDD(finalData.filterData));
+    if (finalData.filterData) {
+      dispatch(getDctLeadDetails(finalData.filterData));
+      dispatch(getDctLeadDetailsDD(finalData.filterData));
+    }
     dispatch({
       type: SET_LOADING_FALSE,
     });

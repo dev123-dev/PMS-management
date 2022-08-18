@@ -22,7 +22,7 @@ const AllStatuschange = ({
     { value: "TestClient", label: "Test Client" },
     { value: "RegularClient", label: "Regular Client" },
   ];
-  if (from === "FollowUp") {
+  if (from === "FollowUp" || from === "F") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) => StatusMethods.value !== "FollowUp"
     );
@@ -247,11 +247,12 @@ const AllStatuschange = ({
         callFromName: user.userName,
         callCategory: callCategoryVal,
         callStatus: callStatus.value,
-        callDate: startStatusDate,
+        callDate: startStatusDate || todayDateymd,
         callNote: callNote,
         callEnteredDate: new Date().toLocaleString("en-GB"),
         filterData: filterData,
       };
+      // console.log(finalData);
       addDctCalls(finalData);
       setFormData({
         ...formData,

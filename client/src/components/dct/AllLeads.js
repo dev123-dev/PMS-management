@@ -79,8 +79,6 @@ const AllLeads = ({
     };
     setsearchDataVal(searchData);
     getLastmessage(searchData);
-
-    // }
     setShowHide({
       ...showHide,
       showdateselectionSection: true,
@@ -272,11 +270,11 @@ const AllLeads = ({
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
-                    <></>
-                    // <AllStatuschange
-                    //   leadDataVal={leadData}
-                    //   ondivcloseChange={ondivcloseChange}
-                    // />
+                    <AllStatuschange
+                      leadDataVal={leadData}
+                      ondivcloseChange={ondivcloseChange}
+                      from={leadData.dctLeadCategory}
+                    />
                   )}
                 </div>
               </div>
