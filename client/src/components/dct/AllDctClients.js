@@ -212,7 +212,7 @@ const AllDctClients = ({
         <Modal.Body>
           <DeactiveDctClient
             onDeactiveModalChange={onDeactiveModalChange}
-            clientdeactivedata={userDatadeactive}
+            dctclientdeactivedata={userDatadeactive}
           />
         </Modal.Body>
       </Modal>

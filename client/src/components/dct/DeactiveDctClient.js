@@ -7,35 +7,31 @@ import Spinner from "../layout/Spinner";
 
 const DeactiveDctClient = ({
   auth: { isAuthenticated, user, users, loading },
-  allProjectStatusdeavtivedata,
-  clientdeactivedata,
+
+  dctclientdeactivedata,
   onDeactiveModalChange,
   deactiveClient,
-  editProjectStatus,
 }) => {
-  // console.log(clientdeactivedata);
+  console.log(dctclientdeactivedata);
   const [formData, setFormData] = useState({
     clientName:
-      clientdeactivedata && clientdeactivedata.clientName
-        ? clientdeactivedata.clientName
+      dctclientdeactivedata && dctclientdeactivedata.clientName
+        ? dctclientdeactivedata.clientName
         : "",
     clientFolderName:
-      clientdeactivedata && clientdeactivedata.clientFolderName
-        ? clientdeactivedata.clientFolderName
+      dctclientdeactivedata && dctclientdeactivedata.clientFolderName
+        ? dctclientdeactivedata.clientFolderName
         : "",
-    clientEmail:
-      clientdeactivedata && clientdeactivedata.clientEmail
-        ? clientdeactivedata.clientEmail
+    emailId:
+      dctclientdeactivedata && dctclientdeactivedata.emailId
+        ? dctclientdeactivedata.emailId
         : "",
-    // clientFolderName:
-    //   clientdeactivedata && clientdeactivedata.clientFolderName
-    //     ? clientdeactivedata.clientFolderName
-    //     : "",
-    projectStatusDeactiveReason: "",
+
+    dctClientDeactivateReason: "",
     isSubmitted: false,
   });
 
-  const { clientName, clientFolderName, clientEmail, clientDeactiveReason } =
+  const { clientName, clientFolderName, emailId, dctClientDeactivateReason } =
     formData;
 
   const onInputChange = (e) => {
@@ -44,23 +40,15 @@ const DeactiveDctClient = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    // if (checkErrors()) {
     const finalData = {
-      recordId: clientdeactivedata ? clientdeactivedata._id : "",
-      clientDeactiveReason: clientDeactiveReason,
-      clientDeactiveById: user._id,
-      clientDeactiveDate: new Date().toLocaleString(),
+      recordId: dctclientdeactivedata ? dctclientdeactivedata._id : "",
+      dctClientDeactivateReason: dctClientDeactivateReason,
+      dctClientDeactivateById: user._id,
+      dctClientDeactivateDateTime: new Date().toLocaleString(),
     };
-    // console.log(finalData);
-    deactiveClient(finalData);
+    console.log(finalData);
+    //deactiveClient(finalData);
     onDeactiveModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // }
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -78,22 +66,20 @@ const DeactiveDctClient = ({
             </label>
           </div>
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-            <label className="label-control">
-              Client Email : {clientEmail}
-            </label>
+            <label className="label-control">Client Email : {emailId}</label>
           </div>
 
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">
             <label className="label-control">Deactive Reason :</label>
 
             <textarea
-              name="clientDeactiveReason"
-              id="clientDeactiveReason"
+              name="dctClientDeactivateReason"
+              id="dctClientDeactivateReason"
               className="textarea form-control"
               rows="3"
-              placeholder="Project Status Deactive Reason"
+              placeholder="Client Deactive Reason"
               style={{ width: "100%" }}
-              value={clientDeactiveReason}
+              value={dctClientDeactivateReason}
               onChange={(e) => onInputChange(e)}
               required
             ></textarea>
