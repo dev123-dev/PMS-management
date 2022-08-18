@@ -255,11 +255,11 @@ const EditDctClients = ({
 
   const onPayModeChange = (e) => {
     //Required Validation starts
-    setError({
-      ...error,
-      paymentmodeIdChecker: true,
-      paymentmodeIdErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   paymentmodeIdChecker: true,
+    //   paymentmodeIdErrorStyle: { color: "#000" },
+    // });
     //Required Validation ends
 
     var paymentId = "";
