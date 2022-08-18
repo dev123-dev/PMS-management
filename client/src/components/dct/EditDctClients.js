@@ -39,6 +39,7 @@ const EditDctClients = ({
     phone1: "",
     clientType: "",
     phone2: "",
+    clientFolderName: "",
     address: "",
     clientName: "",
     importantPoints: "",
@@ -53,6 +54,7 @@ const EditDctClients = ({
     emailId,
     clientEmail,
     billingEmail,
+    clientFolderName,
     clientCurrency,
     phone1,
     clientType,
@@ -264,6 +266,7 @@ const EditDctClients = ({
         phone1: phone1,
         phone2: phone2,
         paymentId: paymentId,
+        clientFolderName: clientFolderName,
         paymentModeName: paymentModeName,
         address: address,
         importantPoints: importantPoints,
@@ -448,6 +451,17 @@ const EditDctClients = ({
                 />
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Client Folder Name* :</label>
+                <input
+                  type="text"
+                  name="clientFolderName"
+                  value={clientFolderName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                  required
+                />
+              </div>
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                 <label
                   className="label-control"
                   style={countrytypeIdErrorStyle}
@@ -501,7 +515,7 @@ const EditDctClients = ({
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12"></div>
               <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Services :</label>
               </div>

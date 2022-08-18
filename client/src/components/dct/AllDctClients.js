@@ -41,10 +41,10 @@ const AllDctClients = ({
   };
 
   const [userDatas, setUserDatas] = useState(null);
-  // const onUpdate = (allClient, idx) => {
-  //   setShowEditModal(true);
-  //   setUserDatas(allClient);
-  // };
+  const onUpdate = (allClient, idx) => {
+    setShowEditModal(true);
+    setUserDatas(allClient);
+  };
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
   const handleDeactiveModalClose = () => setShowDeactiveModal(false);
@@ -57,10 +57,10 @@ const AllDctClients = ({
     }
   };
   const [userDatadeactive, setUserDatadeactive] = useState(null);
-  // const onDeactive = (allClient, idx) => {
-  //   setShowDeactiveModal(true);
-  //   setUserDatadeactive(allClient);
-  // };
+  const onDeactive = (allClient, idx) => {
+    setShowDeactiveModal(true);
+    setUserDatadeactive(allClient);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -121,7 +121,7 @@ const AllDctClients = ({
                               <td>{dctClients.countryName}</td>
                               <td>
                                 <>
-                                  {/* <img
+                                  <img
                                     className="img_icon_size log"
                                     onClick={() => onDeactive(dctClients, idx)}
                                     src={require("../../static/images/delete.png")}
@@ -135,7 +135,7 @@ const AllDctClients = ({
                                     src={require("../../static/images/edit_icon.png")}
                                     alt="Edit"
                                     title="Edit"
-                                  /> */}
+                                  />
                                 </>
                               </td>
                             </tr>
