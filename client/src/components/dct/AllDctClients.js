@@ -1,7 +1,6 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
-import Select from "react-select";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
@@ -156,36 +155,6 @@ const AllDctClients = ({
             </div>
           </div>
         </section>
-        <Modal
-          show={showAllDistrictModal}
-          backdrop="static"
-          keyboard={false}
-          size="xl"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header>
-            <div className="col-lg-10">
-              <h3 className="modal-title text-center">
-                Add Department Details
-              </h3>
-            </div>
-            <div className="col-lg-1">
-              <button onClick={handleAddDistrictModalClose} className="close">
-                <img
-                  src={require("../../static/images/close.png")}
-                  alt="X"
-                  style={{ height: "20px", width: "20px" }}
-                />
-              </button>
-            </div>
-          </Modal.Header>
-          <Modal.Body>
-            {/* <AddDepartment
-              onAddDistrictModalChange={onAddDistrictModalChange}
-            /> */}
-          </Modal.Body>
-        </Modal>
       </div>
 
       <Modal
