@@ -68,6 +68,7 @@ const DctClientsSchema = new mongoose.Schema({
   },
   dctClientStatus: {
     type: String, //Active,Deactive
+    default: "Active",
   },
   clientFolderName: {
     type: String,
