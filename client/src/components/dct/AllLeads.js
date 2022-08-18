@@ -269,13 +269,13 @@ const AllLeads = ({
                   style={{ height: "30vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
-                  {showdateselectionSection && (
+                  {/* {showdateselectionSection && (
                     <AllStatuschange
                       leadDataVal={leadData}
                       ondivcloseChange={ondivcloseChange}
                       from={leadData.dctLeadCategory}
                     />
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding">

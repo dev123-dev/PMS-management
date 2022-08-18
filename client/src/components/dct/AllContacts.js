@@ -131,6 +131,7 @@ const AllContacts = ({
     // console.log(finalData);
     deactivateDctStaffDetails(finalData);
     onDeactiveModalChange(true);
+    ondivcloseChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -227,6 +228,7 @@ const AllContacts = ({
             onEditModalChange={onEditModalChange}
             allStaffdata={userDatas}
             allleaddata={userDatas1}
+            ondivcloseChange={ondivcloseChange}
           />
         </Modal.Body>
       </Modal>

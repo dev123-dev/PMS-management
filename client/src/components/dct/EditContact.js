@@ -9,6 +9,7 @@ const EditContact = ({
   auth: { isAuthenticated, user, users, loading },
   allStaffdata,
   allleaddata,
+  ondivcloseChange,
   onEditModalChange,
   editDctStaffDetails,
 }) => {
@@ -57,6 +58,7 @@ const EditContact = ({
     // console.log(finalData);
     editDctStaffDetails(finalData);
     onEditModalChange(true);
+    ondivcloseChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
