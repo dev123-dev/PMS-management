@@ -113,7 +113,7 @@ const AllDctClients = ({
                               <td>{dctClients.clientName}</td>
                               {/* <td>{dctClients.clientBelongsToName}</td> */}
                               <td>{dctClients.clientFolderName}</td>
-                              <td>{dctClients.clientEmail}</td>
+                              <td>{dctClients.emailId}</td>
                               <td>{dctClients.phone1}</td>
                               <td>{dctClients.phone2}</td>
                               <td>{dctClients.clientCurrency}</td>
