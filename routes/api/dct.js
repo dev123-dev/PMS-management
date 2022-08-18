@@ -217,9 +217,8 @@ router.post("/get-dct-Leads", async (req, res) => {
   }
 });
 
-router.post("/get-dct-Leads", async (req, res) => {
-  var todayDate = new Date().toISOString().split("T")[0];
-  let { countryId, clientsId, dctLeadCategory } = req.body;
+router.post("/get-all-dct-Leads", async (req, res) => {
+  let { countryId, clientsId } = req.body;
   let query = {};
   if (countryId) {
     if (clientsId) {
@@ -248,8 +247,7 @@ router.post("/get-dct-Leads", async (req, res) => {
   }
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
-      dctCallDate: -1,
-      dctLeadCategory: -1,
+      _id: -1,
     });
     res.json(getDctLeadsDetails);
   } catch (err) {
