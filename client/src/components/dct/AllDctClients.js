@@ -16,24 +16,9 @@ const AllDctClients = ({
     getDctClient();
   }, [getDctClient]);
 
-  console.log("dctClients", dctClients);
-
-  const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
-  const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
-  const onClickHandler = () => {
-    setShowAddDistrictModal(true);
-  };
-  const onAddDistrictModalChange = (e) => {
-    if (e) {
-      handleAddDistrictModalClose();
-    }
-  };
-
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
-  const onClickHandler1 = () => {
-    setShowEditModal(true);
-  };
+
   const onEditModalChange = (e) => {
     if (e) {
       handleEditModalClose();
@@ -48,9 +33,7 @@ const AllDctClients = ({
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
   const handleDeactiveModalClose = () => setShowDeactiveModal(false);
-  const onClickHandler2 = () => {
-    setShowDeactiveModal(true);
-  };
+
   const onDeactiveModalChange = (e) => {
     if (e) {
       handleDeactiveModalClose();
