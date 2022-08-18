@@ -240,23 +240,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-                <NavItem>
-                  {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
-                    <NavLink
-                      to="/add-dct-client"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      Add Dct Clients
-                    </NavLink>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </NavItem>
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>
@@ -279,6 +262,17 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                         user.userGroupName === "Clarical Admins" ? (
                           <li>
                             <Link to="/all-clients">All Clients</Link>
+                          </li>
+                        ) : (
+                          <></>
+                        )}
+                        {(user &&
+                          user.userGroupName &&
+                          user.userGroupName === "Administrator") ||
+                        user.userGroupName === "Super Admin" ||
+                        user.userGroupName === "Clarical Admins" ? (
+                          <li>
+                            <Link to="/all-dct-client">All Dct Clients</Link>
                           </li>
                         ) : (
                           <></>
