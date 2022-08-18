@@ -220,10 +220,10 @@ router.post("/deactivate-dct-client", async (req, res) => {
       { _id: data.recordId },
       {
         $set: {
-          dctClientDeactivateDateTime: data.dctLeadDeactivateByDateTime,
-          dctClientDeactivateById: data.dctLeadDeactivateById,
+          dctClientDeactivateDateTime: data.dctClientDeactivateDateTime,
+          dctClientDeactivateById: data.dctClientDeactivateById,
           dctClientStatus: data.dctClientStatus,
-          dctClientDeactivateReason: data.dctLeadDeactiveReason,
+          dctClientDeactivateReason: data.dctClientDeactivateReason,
         },
       }
     );

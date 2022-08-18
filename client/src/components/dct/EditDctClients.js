@@ -723,6 +723,36 @@ const EditDctClients = ({
                   </tr>
                 </thead>
                 <tbody>
+                  {alldctClientdata &&
+                    alldctClientdata.staffs &&
+                    alldctClientdata.staffs.map((staff, idx) => {
+                      if (staff.staffStatus === "Active")
+                        return (
+                          <tr key={idx}>
+                            <td>{staff.staffName}</td>
+                            <td>{staff.staffPhoneNumber}</td>
+                            <td>{staff.staffEmailId}</td>
+                            <td>{staff.staffDesignation}</td>
+                            <td>
+                              {/* <img
+                                className="img_icon_size log"
+                                onClick={() => onDeactive(staff, idx)}
+                                src={require("../../static/images/delete.png")}
+                                alt="Delete Staff"
+                                title="Delelte Staff"
+                              />
+                              &nbsp;
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onUpdate(staff, idx)}
+                                src={require("../../static/images/edit_icon.png")}
+                                alt="Edit"
+                                title="Edit"
+                              /> */}
+                            </td>
+                          </tr>
+                        );
+                    })}
                   {AddedDetails &&
                     AddedDetails.map((AddDetail, idx) => {
                       return (
