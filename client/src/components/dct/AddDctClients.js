@@ -510,16 +510,6 @@ const AddDctClients = ({
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Important Points :</label>
-                    <input
-                      type="text"
-                      name="importantPoints"
-                      value={importantPoints}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
 
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Services :</label>
@@ -550,6 +540,27 @@ const AddDctClients = ({
                       value="videoEditing"
                       onChange={(e) => onServicesChange(e)}
                     />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Important Points :</label>
+                    {/* <input
+                      type="text"
+                      name="importantPoints"
+                      value={importantPoints}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    /> */}
+
+                    <textarea
+                      name="importantPoints"
+                      id="importantPoints"
+                      className="textarea form-control"
+                      rows="3"
+                      placeholder="importantPoints"
+                      style={{ width: "100%" }}
+                      value={importantPoints}
+                      onChange={(e) => onInputChange(e)}
+                    ></textarea>
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12 ">
