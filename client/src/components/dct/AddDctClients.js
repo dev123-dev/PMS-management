@@ -32,6 +32,7 @@ const AddDctClients = ({
     companyName: "",
     website: "",
     emailId: "",
+    clientFolderName: "",
     clientEmail: "",
     billingEmail: "",
     clientCurrency: "",
@@ -49,6 +50,7 @@ const AddDctClients = ({
     clientCompanyFounderName,
     companyName,
     website,
+    clientFolderName,
     emailId,
     clientEmail,
     billingEmail,
@@ -252,6 +254,7 @@ const AddDctClients = ({
         clientType: clientType.value,
         billingEmail: billingEmail,
         clientCurrency: clientCurrency,
+        clientFolderName: clientFolderName,
         phone1: phone1,
         phone2: phone2,
         paymentId: paymentId,
@@ -317,7 +320,7 @@ const AddDctClients = ({
                     <h5>Company Info</h5>
                   </div>
 
-                  <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
                     <label className="label-control">Company Name* :</label>
                     <input
                       type="text"
@@ -448,6 +451,19 @@ const AddDctClients = ({
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">
+                      Client Folder Name* :
+                    </label>
+                    <input
+                      type="text"
+                      name="clientFolderName"
+                      value={clientFolderName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label
                       className="label-control"
                       style={countrytypeIdErrorStyle}
@@ -501,8 +517,8 @@ const AddDctClients = ({
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
-
-                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12"></div>
+                  <div className="col-lg-1 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Services :</label>
                   </div>
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">

@@ -93,7 +93,7 @@ const AllDctClients = ({
                       <tr>
                         <th>Sl No.</th>
                         <th>Client Name</th>
-                        <th>Belongs To</th>
+                        {/* <th>Belongs To</th> */}
                         <th>Folder Name</th>
                         <th>Email</th>
                         <th>Contact 1 </th>
@@ -104,26 +104,26 @@ const AllDctClients = ({
                         <th>Op</th>
                       </tr>
                     </thead>
-                    {/* <tbody>
-                      {allClient &&
-                        allClient.map((allClient, idx) => {
+                    <tbody>
+                      {dctClients &&
+                        dctClients.map((dctClients, idx) => {
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-                              <td>{allClient.clientName}</td>
-                              <td>{allClient.clientBelongsToName}</td>
-                              <td>{allClient.clientFolderName}</td>
-                              <td>{allClient.clientEmail}</td>
-                              <td>{allClient.clientContactNo1}</td>
-                              <td>{allClient.clientContactNo2}</td>
-                              <td>{allClient.clientCurrency}</td>
-                              <td>{allClient.paymentModeName}</td>
-                              <td>{allClient.clientCountry}</td>
+                              <td>{dctClients.clientName}</td>
+                              {/* <td>{dctClients.clientBelongsToName}</td> */}
+                              <td>{dctClients.clientFolderName}</td>
+                              <td>{dctClients.clientEmail}</td>
+                              <td>{dctClients.phone1}</td>
+                              <td>{dctClients.phone2}</td>
+                              <td>{dctClients.clientCurrency}</td>
+                              <td>{dctClients.paymentModeName}</td>
+                              <td>{dctClients.countryName}</td>
                               <td>
                                 <>
-                                  <img
+                                  {/* <img
                                     className="img_icon_size log"
-                                    onClick={() => onDeactive(allClient, idx)}
+                                    onClick={() => onDeactive(dctClients, idx)}
                                     src={require("../../static/images/delete.png")}
                                     alt="Deactivate"
                                     title="Deactivate"
@@ -131,17 +131,17 @@ const AllDctClients = ({
                                   &nbsp;
                                   <img
                                     className="img_icon_size log"
-                                    onClick={() => onUpdate(allClient, idx)}
+                                    onClick={() => onUpdate(dctClients, idx)}
                                     src={require("../../static/images/edit_icon.png")}
                                     alt="Edit"
                                     title="Edit"
-                                  />
+                                  /> */}
                                 </>
                               </td>
                             </tr>
                           );
                         })}
-                    </tbody> */}
+                    </tbody>
                   </table>
                 </div>
               </section>
