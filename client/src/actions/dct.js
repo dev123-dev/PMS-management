@@ -96,6 +96,22 @@ export const editDctLeadDetails = (finalData) => async (dispatch) => {
   }
 };
 
+export const editDctClientsDetails = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/dct/edit-dct-clients", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 export const addNewDctStaffDetails = (finalData) => async (dispatch) => {
   try {
     dispatch({
@@ -150,6 +166,23 @@ export const deactivateDctLeadDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/deactivate-dct-Leads", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const deactivateDctClient = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/dct/deactivate-dct-client", finalData, config);
+    dispatch(getDctClient());
     dispatch({
       type: SET_LOADING_FALSE,
     });

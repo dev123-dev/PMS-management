@@ -73,6 +73,34 @@ router.post("/edit-dct-Leads", async (req, res) => {
   }
 });
 
+router.post("/edit-dct-clients", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctClients = await DctClients.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          companyName: data.companyName,
+          website: data.website,
+          clientName: data.clientName,
+          // emailId: data.emailId,
+          // phone1: data.phone1,
+          // phone2: data.phone2,
+          // dctLeadAddress: data.dctLeadAddress,
+          // importantPoints: data.importantPoints,
+          // countryId: data.countryId,
+          // countryName: data.countryName,
+          // dctLeadEditedById: data.dctLeadEditedById,
+          // dctLeadEditedDateTime: data.dctLeadEditedDateTime,
+        },
+      }
+    );
+    res.json(updateDctClients);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 router.post("/add-new-dct-staff", async (req, res) => {
   try {
     let data = req.body;
@@ -173,6 +201,26 @@ router.post("/deactivate-dct-Leads", async (req, res) => {
   }
 });
 
+router.post("/deactivate-dct-client", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctClients = await DctClients.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          dctClientDeactivateDateTime: data.dctLeadDeactivateByDateTime,
+          dctClientDeactivateById: data.dctLeadDeactivateById,
+          dctClientStatus: data.dctClientStatus,
+          dctClientDeactivateReason: data.dctLeadDeactiveReason,
+        },
+      }
+    );
+    res.json(updateDctClients);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 //SELECT
 router.post("/get-dct-Leads", async (req, res) => {
   var todayDate = new Date().toISOString().split("T")[0];
@@ -239,11 +287,19 @@ router.post("/get-all-dct-Leads", async (req, res) => {
         dctLeadStatus: "Active",
         countryId: countryId,
         _id: clientsId,
+        $and: [
+          { dctLeadCategory: { $ne: "TC" } },
+          { dctLeadCategory: { $ne: "RC" } },
+        ],
       };
     } else {
       query = {
         dctLeadStatus: "Active",
         countryId: countryId,
+        $and: [
+          { dctLeadCategory: { $ne: "TC" } },
+          { dctLeadCategory: { $ne: "RC" } },
+        ],
       };
     }
   } else {
@@ -251,10 +307,18 @@ router.post("/get-all-dct-Leads", async (req, res) => {
       query = {
         dctLeadStatus: "Active",
         _id: clientsId,
+        $and: [
+          { dctLeadCategory: { $ne: "TC" } },
+          { dctLeadCategory: { $ne: "RC" } },
+        ],
       };
     } else {
       query = {
         dctLeadStatus: "Active",
+        $and: [
+          { dctLeadCategory: { $ne: "TC" } },
+          { dctLeadCategory: { $ne: "RC" } },
+        ],
       };
     }
   }
@@ -270,35 +334,35 @@ router.post("/get-all-dct-Leads", async (req, res) => {
 });
 
 router.post("/get-dct-clients", async (req, res) => {
-  // let { countryId, clientsId } = req.body;
-  // let query = {};
-  // if (countryId) {
-  //   if (clientsId) {
-  //     query = {
-  //       dctLeadStatus: "Active",
-  //       countryId: countryId,
-  //       _id: clientsId,
-  //     };
-  //   } else {
-  //     query = {
-  //       dctLeadStatus: "Active",
-  //       countryId: countryId,
-  //     };
-  //   }
-  // } else {
-  //   if (clientsId) {
-  //     query = {
-  //       dctLeadStatus: "Active",
-  //       _id: clientsId,
-  //     };
-  //   } else {
-  //     query = {
-  //       dctLeadStatus: "Active",
-  //     };
-  //   }
-  // }
+  let { countryId, clientsId } = req.body;
+  let query = {};
+  if (countryId) {
+    if (clientsId) {
+      query = {
+        dctClientStatus: "Active",
+        countryId: countryId,
+        _id: clientsId,
+      };
+    } else {
+      query = {
+        dctClientStatus: "Active",
+        countryId: countryId,
+      };
+    }
+  } else {
+    if (clientsId) {
+      query = {
+        dctClientStatus: "Active",
+        _id: clientsId,
+      };
+    } else {
+      query = {
+        dctClientStatus: "Active",
+      };
+    }
+  }
   try {
-    const getDctClientsDetails = await DctClients.find().sort({
+    const getDctClientsDetails = await DctClients.find(query).sort({
       _id: -1,
     });
     res.json(getDctClientsDetails);
