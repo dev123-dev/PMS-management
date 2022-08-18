@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -201,11 +202,11 @@ const EditDctClients = ({
 
   const oncountryChange = (e) => {
     //Required Validation Starts
-    setError({
-      ...error,
-      countrytypeIdChecker: true,
-      countrytypeIdErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   countrytypeIdChecker: true,
+    //   countrytypeIdErrorStyle: { color: "#000" },
+    // });
     //Required Validation ends
     var countryId = "";
     getcountryData(e);
@@ -270,57 +271,57 @@ const EditDctClients = ({
     setpaymentname(paymentModeName);
   };
 
-  const [error, setError] = useState({
-    paymentmodeIdChecker: false,
-    paymentmodeIdErrorStyle: {},
-    clienttypeIdChecker: false,
+  // const [error, setError] = useState({
+  //   paymentmodeIdChecker: false,
+  //   paymentmodeIdErrorStyle: {},
+  //   clienttypeIdChecker: false,
 
-    clienttypeIdErrorStyle: {},
-    countrytypeIdChecker: false,
-    countrytypeIdErrorStyle: {},
-  });
-  const {
-    paymentmodeIdChecker,
-    paymentmodeIdErrorStyle,
-    clienttypeIdChecker,
-    clienttypeIdErrorStyle,
-    countrytypeIdChecker,
-    countrytypeIdErrorStyle,
-  } = error;
+  //   clienttypeIdErrorStyle: {},
+  //   countrytypeIdChecker: false,
+  //   countrytypeIdErrorStyle: {},
+  // });
+  // const {
+  //   paymentmodeIdChecker,
+  //   paymentmodeIdErrorStyle,
+  //   clienttypeIdChecker,
+  //   clienttypeIdErrorStyle,
+  //   countrytypeIdChecker,
+  //   countrytypeIdErrorStyle,
+  // } = error;
 
-  const checkErrors = () => {
-    if (!clienttypeIdChecker) {
-      setError({
-        ...error,
-        clienttypeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-    if (!countrytypeIdChecker) {
-      setError({
-        ...error,
-        countrytypeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-    if (!paymentmodeIdChecker) {
-      setError({
-        ...error,
-        paymentmodeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+  // const checkErrors = () => {
+  //   if (!clienttypeIdChecker) {
+  //     setError({
+  //       ...error,
+  //       clienttypeIdErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
+  //   if (!countrytypeIdChecker) {
+  //     setError({
+  //       ...error,
+  //       countrytypeIdErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
+  //   if (!paymentmodeIdChecker) {
+  //     setError({
+  //       ...error,
+  //       paymentmodeIdErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
 
-    return true;
-  };
+  //   return true;
+  // };
 
   const onClientTypeChange = (e) => {
     //  Required Validation starts
-    setError({
-      ...error,
-      clienttypeIdChecker: true,
-      clienttypeIdErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   clienttypeIdChecker: true,
+    //   clienttypeIdErrorStyle: { color: "#000" },
+    // });
     // Required Validation ends
 
     if (e) {
