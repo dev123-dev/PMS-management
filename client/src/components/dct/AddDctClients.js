@@ -34,12 +34,12 @@ const AddDctClients = ({
     website: "",
     emailId: "",
     clientEmail: "",
-    clientBillingEmail: "",
+    billingEmail: "",
     clientCurrency: "",
     phone1: "",
     clientType: "",
     phone2: "",
-    dctLeadAddress: "",
+    address: "",
     clientName: "",
     importantPoints: "",
     clientCompanyFounderName: "",
@@ -52,13 +52,13 @@ const AddDctClients = ({
     website,
     emailId,
     clientEmail,
-    clientBillingEmail,
+    billingEmail,
     clientCurrency,
     phone1,
     clientType,
     phone2,
     clientName,
-    dctLeadAddress,
+    address,
     importantPoints,
     isSubmitted,
   } = formData;
@@ -163,7 +163,7 @@ const AddDctClients = ({
 
   const [payment, getStateData] = useState("");
   const [paymentId, setpaymentId] = useState("");
-  const [paymentname, setpaymentname] = useState("");
+  const [paymentModeName, setpaymentname] = useState("");
   const [error, setError] = useState({
     paymentmodeIdChecker: false,
     paymentmodeIdErrorStyle: {},
@@ -217,12 +217,12 @@ const AddDctClients = ({
     //Required Validation ends
 
     var paymentId = "";
-    var paymentname = "";
+    var paymentModeName = "";
     getStateData(e);
     paymentId = e.paymentId;
-    paymentname = e.value;
+    paymentModeName = e.value;
     setpaymentId(paymentId);
-    setpaymentname(paymentname);
+    setpaymentname(paymentModeName);
   };
 
   const onClientTypeChange = (e) => {
@@ -259,13 +259,13 @@ const AddDctClients = ({
         emailId: emailId,
         clientEmail: clientEmail,
         clientType: clientType.value,
-        billingEmail: clientBillingEmail,
+        billingEmail: billingEmail,
         clientCurrency: clientCurrency,
         phone1: phone1,
         phone2: phone2,
         paymentId: paymentId,
-        paymentModeName: paymentname,
-        address: dctLeadAddress,
+        paymentModeName: paymentModeName,
+        address: address,
         importantPoints: importantPoints,
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
@@ -412,8 +412,8 @@ const AddDctClients = ({
                     <label className="label-control">Billing Email :</label>
                     <input
                       type="text"
-                      name="clientBillingEmail"
-                      value={clientBillingEmail}
+                      name="billingEmail"
+                      value={billingEmail}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
@@ -555,13 +555,13 @@ const AddDctClients = ({
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12 ">
                     <label className="label-control">Address :</label>
                     <textarea
-                      name="dctLeadAddress"
-                      id="dctLeadAddress"
+                      name="address"
+                      id="address"
                       className="textarea form-control"
                       rows="3"
                       placeholder=" Address"
                       style={{ width: "100%" }}
-                      value={dctLeadAddress}
+                      value={address}
                       onChange={(e) => onInputChange(e)}
                     ></textarea>
                   </div>
