@@ -6,7 +6,7 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
-import { addDctLeadDetails } from "../../actions/dct";
+import { editDctClientsDetails } from "../../actions/dct";
 import { getActiveCountry } from "../../actions/regions";
 import { getALLPaymentMode } from "../../actions/settings";
 
@@ -14,7 +14,7 @@ const EditDctClients = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { paymentMode },
   regions: { activeCountry },
-  addDctLeadDetails,
+  editDctClientsDetails,
   getALLPaymentMode,
   getActiveCountry,
   onEditModalChange,
@@ -335,6 +335,7 @@ const EditDctClients = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
+      recordId: alldctClientdata ? alldctClientdata._id : "",
       companyName: companyName,
       website: website,
       clientName: clientName,
@@ -358,10 +359,11 @@ const EditDctClients = ({
       dctCallDate: new Date().toISOString().split("T")[0],
       services: ServicesDetails,
       staffs: AddedDetails,
-      dctClientEnteredById: user._id,
-      dctClientEnteredByName: user.empFullName,
+      dctClientEditedById: user._id,
+      dctClientEditedDateTime: new Date().toLocaleString("en-GB"),
     };
     console.log(finalData);
+    editDctClientsDetails(finalData);
     onEditModalChange(true);
     // }
   };
@@ -806,7 +808,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  addDctLeadDetails,
+  editDctClientsDetails,
   getALLPaymentMode,
   getActiveCountry,
 })(EditDctClients);

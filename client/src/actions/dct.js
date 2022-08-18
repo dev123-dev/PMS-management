@@ -86,6 +86,7 @@ export const editDctLeadDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/edit-dct-Leads", finalData, config);
+    dispatch(getAllDctLead());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -102,6 +103,7 @@ export const editDctClientsDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/edit-dct-clients", finalData, config);
+    dispatch(getDctClient());
     dispatch({
       type: SET_LOADING_FALSE,
     });
