@@ -7,7 +7,6 @@ import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
 import { addDctLeadDetails } from "../../actions/dct";
 import { getActiveCountry } from "../../actions/regions";
-
 import { getALLPaymentMode } from "../../actions/settings";
 
 const EditDctClients = ({
@@ -17,6 +16,8 @@ const EditDctClients = ({
   addDctLeadDetails,
   getALLPaymentMode,
   getActiveCountry,
+  onEditModalChange,
+  alldctClientdata,
 }) => {
   useEffect(() => {
     getALLPaymentMode();
@@ -24,26 +25,94 @@ const EditDctClients = ({
   useEffect(() => {
     getActiveCountry();
   }, [getActiveCountry]);
+
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
   ];
   //formData
   const [formData, setFormData] = useState({
-    companyName: "",
-    website: "",
-    emailId: "",
-    clientEmail: "",
-    billingEmail: "",
-    clientCurrency: "",
-    phone1: "",
-    clientType: "",
-    phone2: "",
-    clientFolderName: "",
-    address: "",
-    clientName: "",
-    importantPoints: "",
-    clientCompanyFounderName: "",
+    clientName:
+      alldctClientdata && alldctClientdata.clientName
+        ? alldctClientdata.clientName
+        : "",
+    emailId:
+      alldctClientdata && alldctClientdata.emailId
+        ? alldctClientdata.emailId
+        : "",
+    billingEmail:
+      alldctClientdata && alldctClientdata.billingEmail
+        ? alldctClientdata.billingEmail
+        : "",
+    phone1:
+      alldctClientdata && alldctClientdata.phone1
+        ? alldctClientdata.phone1
+        : "",
+
+    importantPoints:
+      alldctClientdata && alldctClientdata.importantPoints
+        ? alldctClientdata.importantPoints
+        : "",
+
+    clientEmail:
+      alldctClientdata && alldctClientdata.clientEmail
+        ? alldctClientdata.clientEmail
+        : "",
+
+    phone2:
+      alldctClientdata && alldctClientdata.phone2
+        ? alldctClientdata.phone2
+        : "",
+
+    address:
+      alldctClientdata && alldctClientdata.address
+        ? alldctClientdata.address
+        : "",
+
+    clientCountry:
+      alldctClientdata && alldctClientdata.clientCountry
+        ? alldctClientdata.clientCountry
+        : "",
+
+    clientFolderName:
+      alldctClientdata && alldctClientdata.clientFolderName
+        ? alldctClientdata.clientFolderName
+        : "",
+    clientCurrency:
+      alldctClientdata && alldctClientdata.clientCurrency
+        ? alldctClientdata.clientCurrency
+        : "",
+    companyName:
+      alldctClientdata && alldctClientdata.companyName
+        ? alldctClientdata.companyName
+        : "",
+    clientCompanyFounderName:
+      alldctClientdata && alldctClientdata.clientCompanyFounderName
+        ? alldctClientdata.clientCompanyFounderName
+        : "",
+    website:
+      alldctClientdata && alldctClientdata.website
+        ? alldctClientdata.website
+        : "",
+
+    clientType:
+      alldctClientdata && alldctClientdata.clientType
+        ? {
+            value: alldctClientdata.clientType,
+            label: alldctClientdata.clientType,
+          }
+        : "",
+
+    paymentModeName:
+      alldctClientdata && alldctClientdata.paymentModeName
+        ? alldctClientdata.paymentModeName
+        : "",
+
+    standardInstruction:
+      alldctClientdata && alldctClientdata.standardInstruction
+        ? alldctClientdata.standardInstruction
+        : "",
+
     isSubmitted: false,
   });
 
@@ -120,8 +189,15 @@ const EditDctClients = ({
     })
   );
 
-  const [country, getcountryData] = useState();
-  const [countryId, setcountryID] = useState();
+  const [country, getcountryData] = useState(
+    alldctClientdata
+      ? allcountry &&
+          allcountry.filter(
+            (x) => x.countryId === alldctClientdata.countryId
+          )[0]
+      : ""
+  );
+  const [countryId, setcountryID] = useState(alldctClientdata.countryId);
 
   const oncountryChange = (e) => {
     //Required Validation Starts
@@ -163,9 +239,37 @@ const EditDctClients = ({
     })
   );
 
-  const [payment, getStateData] = useState("");
-  const [paymentId, setpaymentId] = useState("");
-  const [paymentModeName, setpaymentname] = useState("");
+  const [payment, getStateData] = useState(
+    alldctClientdata
+      ? allpaymentmodes &&
+          allpaymentmodes.filter(
+            (x) => x.paymentId === alldctClientdata.paymentId
+          )[0]
+      : ""
+  );
+  const [paymentId, setpaymentId] = useState(alldctClientdata.paymentId);
+  const [paymentModeName, setpaymentname] = useState(
+    alldctClientdata.paymentModeName
+  );
+
+  const onPayModeChange = (e) => {
+    //Required Validation starts
+    setError({
+      ...error,
+      paymentmodeIdChecker: true,
+      paymentmodeIdErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
+
+    var paymentId = "";
+    var paymentModeName = "";
+    getStateData(e);
+    paymentId = e.paymentId;
+    paymentModeName = e.value;
+    setpaymentId(paymentId);
+    setpaymentname(paymentModeName);
+  };
+
   const [error, setError] = useState({
     paymentmodeIdChecker: false,
     paymentmodeIdErrorStyle: {},
@@ -209,23 +313,6 @@ const EditDctClients = ({
 
     return true;
   };
-  const onPayModeChange = (e) => {
-    //Required Validation starts
-    setError({
-      ...error,
-      paymentmodeIdChecker: true,
-      paymentmodeIdErrorStyle: { color: "#000" },
-    });
-    //Required Validation ends
-
-    var paymentId = "";
-    var paymentModeName = "";
-    getStateData(e);
-    paymentId = e.paymentId;
-    paymentModeName = e.value;
-    setpaymentId(paymentId);
-    setpaymentname(paymentModeName);
-  };
 
   const onClientTypeChange = (e) => {
     //  Required Validation starts
@@ -244,58 +331,38 @@ const EditDctClients = ({
     }
   };
   const onSubmit = (e) => {
-    AddedDetails.map((addedLoanData) => {
-      const loanSanctionedData = {
-        memberId: addedLoanData.staffName,
-        memberName: addedLoanData.staffPhoneNumber,
-        loanSanctionedAmt: addedLoanData.staffEmailId,
-      };
-    });
     e.preventDefault();
-    if (checkErrors()) {
-      const finalData = {
-        companyName: companyName,
-        website: website,
-        clientName: clientName,
-        clientCompanyFounderName: clientCompanyFounderName,
-        emailId: emailId,
-        clientEmail: clientEmail,
-        clientType: clientType.value,
-        billingEmail: billingEmail,
-        clientCurrency: clientCurrency,
-        phone1: phone1,
-        phone2: phone2,
-        paymentId: paymentId,
-        clientFolderName: clientFolderName,
-        paymentModeName: paymentModeName,
-        address: address,
-        importantPoints: importantPoints,
-        countryId: countryId ? countryId : null,
-        countryName: country.value ? country.value : null,
-        dctClientStatus: "Active",
-        dctClientCategory: "TC",
-        dctCallDate: new Date().toISOString().split("T")[0],
-        services: ServicesDetails,
-        staffs: AddedDetails,
-        dctClientEnteredById: user._id,
-        dctClientEnteredByName: user.empFullName,
-      };
-      console.log(finalData);
-      //addDctLeadDetails(finalData);
-      // setFormData({
-      //   ...formData,
-      //   companyName: "",
-      //   emailId: "",
-      //   clientName: "",
-      //   website: "",
-      //   address: "",
-      //   phone1: "",
-      //   phone2: "",
-      //   importantPoints: "",
-      //   countryId: "",
-      //   isSubmitted: true,
-      // });
-    }
+    // if (checkErrors()) {
+    const finalData = {
+      companyName: companyName,
+      website: website,
+      clientName: clientName,
+      clientCompanyFounderName: clientCompanyFounderName,
+      emailId: emailId,
+      clientEmail: clientEmail,
+      clientType: clientType.value,
+      billingEmail: billingEmail,
+      clientCurrency: clientCurrency,
+      phone1: phone1,
+      phone2: phone2,
+      paymentId: paymentId,
+      clientFolderName: clientFolderName,
+      paymentModeName: paymentModeName,
+      address: address,
+      importantPoints: importantPoints,
+      countryId: countryId ? countryId : null,
+      countryName: country.value ? country.value : null,
+      dctClientStatus: "Active",
+      dctClientCategory: "TC",
+      dctCallDate: new Date().toISOString().split("T")[0],
+      services: ServicesDetails,
+      staffs: AddedDetails,
+      dctClientEnteredById: user._id,
+      dctClientEnteredByName: user.empFullName,
+    };
+    console.log(finalData);
+    onEditModalChange(true);
+    // }
   };
 
   if (isSubmitted) {

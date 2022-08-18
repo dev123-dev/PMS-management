@@ -41,9 +41,9 @@ const AllDctClients = ({
   };
 
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allClient, idx) => {
+  const onUpdate = (dctClients, idx) => {
     setShowEditModal(true);
-    setUserDatas(allClient);
+    setUserDatas(dctClients);
   };
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
@@ -57,9 +57,9 @@ const AllDctClients = ({
     }
   };
   const [userDatadeactive, setUserDatadeactive] = useState(null);
-  const onDeactive = (allClient, idx) => {
+  const onDeactive = (dctClients, idx) => {
     setShowDeactiveModal(true);
-    setUserDatadeactive(allClient);
+    setUserDatadeactive(dctClients);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -182,7 +182,7 @@ const AllDctClients = ({
         <Modal.Body>
           <EditDctClients
             onEditModalChange={onEditModalChange}
-            allClientdata={userDatas}
+            alldctClientdata={userDatas}
           />
         </Modal.Body>
       </Modal>

@@ -14,15 +14,19 @@ const DctClientsSchema = new mongoose.Schema({
   emailId: {
     type: String,
   },
+  billingEmail: {
+    type: String,
+  },
+  clientEmail: {
+    type: String,
+  },
   phone1: {
     type: Number,
   },
   phone2: {
     type: Number,
   },
-  billingEmail: {
-    type: String,
-  },
+
   website: {
     type: String,
   },
