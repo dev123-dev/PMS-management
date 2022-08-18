@@ -7,10 +7,10 @@ import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
 import { addDctLeadDetails } from "../../actions/dct";
 import { getActiveCountry } from "../../actions/regions";
-import { Modal } from "react-bootstrap";
+
 import { getALLPaymentMode } from "../../actions/settings";
 
-const AddDctClients = ({
+const EditDctClients = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { paymentMode },
   regions: { activeCountry },
@@ -295,26 +295,6 @@ const AddDctClients = ({
     }
   };
 
-  //modal edit
-  const [showEditModal, setShowEditModal] = useState(false);
-  const handleEditModalClose = () => setShowEditModal(false);
-  const onClickHandler1 = () => {
-    setShowEditModal(true);
-  };
-  const onEditModalChange = (e) => {
-    if (e) {
-      handleEditModalClose();
-    }
-  };
-
-  const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allClient, idx) => {
-    setShowEditModal(true);
-    setUserDatas(allClient);
-  };
-
-  //end modal
-
   if (isSubmitted) {
     return <Redirect to="/all-prospects" />;
   }
@@ -341,7 +321,7 @@ const AddDctClients = ({
               <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
                 <div className="row card-new ">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h2 className="heading_color">Add DCT Clients</h2>
+                    <h2 className="heading_color">Edit DCT Clients</h2>
                     <hr />
                     <h5>Company Info</h5>
                   </div>
@@ -745,41 +725,11 @@ const AddDctClients = ({
           </section>
         </form>
       </div>
-
-      <Modal
-        show={showEditModal}
-        backdrop="static"
-        keyboard={false}
-        size="xl"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header>
-          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
-            <h3 className="modal-title text-center">Edit Client Details</h3>
-          </div>
-          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
-            <button onClick={handleEditModalClose} className="close">
-              <img
-                src={require("../../static/images/close.png")}
-                alt="X"
-                style={{ height: "20px", width: "20px" }}
-              />
-            </button>
-          </div>
-        </Modal.Header>
-        <Modal.Body>
-          {/* <EditDctClients
-            onEditModalChange={onEditModalChange}
-            allClientdata={userDatas}
-          /> */}
-        </Modal.Body>
-      </Modal>
     </Fragment>
   );
 };
 
-AddDctClients.propTypes = {
+EditDctClients.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
@@ -798,4 +748,4 @@ export default connect(mapStateToProps, {
   addDctLeadDetails,
   getALLPaymentMode,
   getActiveCountry,
-})(AddDctClients);
+})(EditDctClients);
