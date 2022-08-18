@@ -120,13 +120,13 @@ const AddDctClients = ({
   const [countryId, setcountryID] = useState();
 
   const oncountryChange = (e) => {
-    // //Required Validation Starts
-    // setError({
-    //   ...error,
-    //   sIdChecker: true,
-    //   sIdErrorStyle: { color: "#000" },
-    // });
-    // //Required Validation ends
+    //Required Validation Starts
+    setError({
+      ...error,
+      countrytypeIdChecker: true,
+      countrytypeIdErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
     var countryId = "";
     getcountryData(e);
     countryId = e.countryId;
@@ -168,12 +168,16 @@ const AddDctClients = ({
     clienttypeIdChecker: false,
 
     clienttypeIdErrorStyle: {},
+    countrytypeIdChecker: false,
+    countrytypeIdErrorStyle: {},
   });
   const {
     paymentmodeIdChecker,
     paymentmodeIdErrorStyle,
     clienttypeIdChecker,
     clienttypeIdErrorStyle,
+    countrytypeIdChecker,
+    countrytypeIdErrorStyle,
   } = error;
 
   const checkErrors = () => {
@@ -181,6 +185,13 @@ const AddDctClients = ({
       setError({
         ...error,
         clienttypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!countrytypeIdChecker) {
+      setError({
+        ...error,
+        countrytypeIdErrorStyle: { color: "#F00" },
       });
       return false;
     }
@@ -430,7 +441,12 @@ const AddDctClients = ({
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Region* :</label>
+                    <label
+                      className="label-control"
+                      style={countrytypeIdErrorStyle}
+                    >
+                      Region* :
+                    </label>
                     <Select
                       name="countryName"
                       options={allcountry}
