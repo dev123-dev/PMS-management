@@ -27,13 +27,13 @@ const AllLeads = ({
   getLastmessage,
 }) => {
   useEffect(() => {
-    getAllDctLead({ dctLeadCategory: "AL" });
+    getAllDctLead();
   }, []);
   useEffect(() => {
-    getAllDctLeadDD({ dctLeadCategory: "AL" });
+    getAllDctLeadDD();
   }, []);
   useEffect(() => {
-    getActiveCountry({ countryBelongsTo: "DCT" });
+    getActiveCountry();
   }, []);
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -89,8 +89,6 @@ const AllLeads = ({
     if (e) {
       handledivModalClose();
     }
-    getAllDctLead({ countryId: e.countryId, dctLeadCategory: "AL" });
-    getAllDctLeadDD({ countryId: e.countryId, dctLeadCategory: "AL" });
   };
 
   const handledivModalClose = () => setShowHide(false);
@@ -111,8 +109,8 @@ const AllLeads = ({
     getcountryData(e);
     getclientsData("");
     getcountryIdData(e.countryId);
-    getAllDctLead({ countryId: e.countryId, dctLeadCategory: "AL" });
-    getAllDctLeadDD({ countryId: e.countryId, dctLeadCategory: "AL" });
+    getAllDctLead({ countryId: e.countryId });
+    getAllDctLeadDD({ countryId: e.countryId });
   };
 
   const allclient = [];
@@ -129,15 +127,14 @@ const AllLeads = ({
     getAllDctLead({
       countryId: countryId,
       clientsId: e.clientsId,
-      dctLeadCategory: "P",
     });
   };
 
   const onClickReset = () => {
     getcountryData("");
     getclientsData("");
-    getAllDctLead({ dctLeadCategory: "AL" });
-    getAllDctLeadDD({ dctLeadCategory: "AL" });
+    getAllDctLead();
+    getAllDctLeadDD();
   };
 
   return !isAuthenticated || !user || !users ? (
