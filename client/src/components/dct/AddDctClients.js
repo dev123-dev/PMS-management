@@ -42,10 +42,12 @@ const AddDctClients = ({
     dctLeadAddress: "",
     clientName: "",
     importantPoints: "",
+    clientCompanyFounderName: "",
     isSubmitted: false,
   });
 
   const {
+    clientCompanyFounderName,
     companyName,
     website,
     emailId,
@@ -253,26 +255,27 @@ const AddDctClients = ({
         companyName: companyName,
         website: website,
         clientName: clientName,
+        clientCompanyFounderName: clientCompanyFounderName,
         emailId: emailId,
         clientEmail: clientEmail,
         clientType: clientType.value,
-        clientBillingEmail: clientBillingEmail,
+        billingEmail: clientBillingEmail,
         clientCurrency: clientCurrency,
         phone1: phone1,
         phone2: phone2,
         paymentId: paymentId,
         paymentModeName: paymentname,
-        dctLeadAddress: dctLeadAddress,
+        address: dctLeadAddress,
         importantPoints: importantPoints,
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
-        dctLeadStatus: "Active",
-        dctLeadCategory: "NL",
+        dctClientStatus: "Active",
+        dctClientCategory: "TC",
         dctCallDate: new Date().toISOString().split("T")[0],
         services: ServicesDetails,
         staffs: AddedDetails,
-        dctLeadEnteredById: user._id,
-        dctLeadEnteredByName: user.empFullName,
+        dctClientEnteredById: user._id,
+        dctClientEnteredByName: user.empFullName,
       };
       console.log(finalData);
       //addDctLeadDetails(finalData);
@@ -371,6 +374,19 @@ const AddDctClients = ({
                       })}
                     />
                   </div>
+
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Founder Name* :</label>
+                    <input
+                      type="text"
+                      name="clientCompanyFounderName"
+                      value={clientCompanyFounderName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    />
+                  </div>
+
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Email Id* :</label>
                     <input
