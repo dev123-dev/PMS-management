@@ -414,9 +414,7 @@ const EditDctClients = ({
                 />
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control" style={clienttypeIdErrorStyle}>
-                  Client Type* :
-                </label>
+                <label className="label-control">Client Type* :</label>
                 <Select
                   name="clientType"
                   options={clientTypeVal}
@@ -530,12 +528,7 @@ const EditDctClients = ({
                 />
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label
-                  className="label-control"
-                  style={countrytypeIdErrorStyle}
-                >
-                  Region* :
-                </label>
+                <label className="label-control">Region* :</label>
                 <Select
                   name="countryName"
                   options={allcountry}
@@ -547,12 +540,7 @@ const EditDctClients = ({
                 />
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label
-                  className="label-control"
-                  style={paymentmodeIdErrorStyle}
-                >
-                  Mode of Payment* :
-                </label>
+                <label className="label-control">Mode of Payment* :</label>
 
                 <Select
                   name="paymentMode"
