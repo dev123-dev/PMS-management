@@ -1,18 +1,14 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Select from "react-select";
-import { deactiveClient } from "../../actions/client";
+
 import Spinner from "../layout/Spinner";
 
 const DeactiveDctClient = ({
   auth: { isAuthenticated, user, users, loading },
-
   dctclientdeactivedata,
   onDeactiveModalChange,
-  deactiveClient,
 }) => {
-  console.log(dctclientdeactivedata);
   const [formData, setFormData] = useState({
     clientName:
       dctclientdeactivedata && dctclientdeactivedata.clientName
@@ -110,11 +106,10 @@ const DeactiveDctClient = ({
 
 DeactiveDctClient.propTypes = {
   auth: PropTypes.object.isRequired,
-  deactiveClient: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { deactiveClient })(DeactiveDctClient);
+export default connect(mapStateToProps, {})(DeactiveDctClient);
