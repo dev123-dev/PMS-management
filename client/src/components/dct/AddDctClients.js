@@ -273,24 +273,16 @@ const AddDctClients = ({
       };
       console.log(finalData);
       addDctClientDetails(finalData);
-      // setFormData({
-      //   ...formData,
-      //   companyName: "",
-      //   emailId: "",
-      //   clientName: "",
-      //   website: "",
-      //   address: "",
-      //   phone1: "",
-      //   phone2: "",
-      //   importantPoints: "",
-      //   countryId: "",
-      //   isSubmitted: true,
-      // });
+      setFormData({
+        ...formData,
+
+        isSubmitted: true,
+      });
     }
   };
 
   if (isSubmitted) {
-    return <Redirect to="/all-prospects" />;
+    return <Redirect to="/all-dct-client" />;
   }
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
