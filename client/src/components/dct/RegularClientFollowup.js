@@ -5,7 +5,7 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-import { getDctLeadDetails } from "../../actions/dct";
+// import { getDctLeadDetails } from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
@@ -14,11 +14,11 @@ import DeactiveLead from "./DeactiveLead";
 const RegularClientFollowup = ({
   auth: { isAuthenticated, user, users },
   dct: { allLeads },
-  getDctLeadDetails,
+  // getDctLeadDetails,
 }) => {
-  useEffect(() => {
-    getDctLeadDetails();
-  }, [getDctLeadDetails]);
+  // useEffect(() => {
+  //   getDctLeadDetails();
+  // }, [getDctLeadDetails]);
   // console.log(allLeads);
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -166,7 +166,7 @@ const RegularClientFollowup = ({
                         <th style={{ width: "13%" }}>Op</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    {/* <tbody>
                       {allLeads &&
                         allLeads.map((allLeads, idx) => {
                           return (
@@ -207,7 +207,7 @@ const RegularClientFollowup = ({
                             </tr>
                           );
                         })}
-                    </tbody>
+                    </tbody> */}
                   </table>
                 </div>
               </section>
@@ -318,6 +318,6 @@ const mapStateToProps = (state) => ({
   dct: state.dct,
 });
 
-export default connect(mapStateToProps, { getDctLeadDetails })(
-  RegularClientFollowup
-);
+export default connect(mapStateToProps, {
+  //  getDctLeadDetails
+})(RegularClientFollowup);
