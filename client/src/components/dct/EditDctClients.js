@@ -6,7 +6,10 @@ import Select from "react-select";
 import { Link, useHistory } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
-import { editDctClientsDetails } from "../../actions/dct";
+import {
+  editDctClientsDetails,
+  deactivateDctClientStaffDetails,
+} from "../../actions/dct";
 import { getActiveCountry } from "../../actions/regions";
 import { getALLPaymentMode } from "../../actions/settings";
 import { Modal } from "react-bootstrap";
@@ -18,11 +21,10 @@ const EditDctClients = ({
   editDctClientsDetails,
   getALLPaymentMode,
   getActiveCountry,
+  deactivateDctClientStaffDetails,
 }) => {
   const data = useHistory().location.data;
-
   console.log("data", data);
-
   useEffect(() => {
     getALLPaymentMode();
   }, [getALLPaymentMode]);
@@ -301,13 +303,9 @@ const EditDctClients = ({
       staffStatus: "Deactive",
       staffDeactiveReason: staffDeactiveReason,
     };
-    if (from === "client") {
-      deactivateDctClientStaffDetails(finalData);
-    } else {
-      deactivateDctStaffDetails(finalData);
-    }
+    deactivateDctClientStaffDetails(finalData);
     onDeactiveModalChange(true);
-    ondivcloseChange(true);
+    // ondivcloseChange(true);
   };
 
   const onSubmit = (e) => {
@@ -374,7 +372,7 @@ const EditDctClients = ({
               <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
                 <div className="row card-new ">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h2 className="heading_color">Add DCT Clients</h2>
+                    <h2 className="heading_color">Edit DCT Clients</h2>
                     <hr />
                     <h5>Company Info</h5>
                   </div>
@@ -832,7 +830,7 @@ const EditDctClients = ({
               onEditModalChange={onEditModalChange}
               allStaffdata={userDatas}
               allleaddata={userDatas1}
-              // from={from}
+              from="client"
             />
           </Modal.Body>
         </Modal>
@@ -935,4 +933,5 @@ export default connect(mapStateToProps, {
   editDctClientsDetails,
   getALLPaymentMode,
   getActiveCountry,
+  deactivateDctClientStaffDetails,
 })(EditDctClients);
