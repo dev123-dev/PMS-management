@@ -652,7 +652,7 @@ const EditDctClients = ({
                         <th>Phone Number</th>
                         <th>Email Id</th>
                         <th>Designation</th>
-                        <th>Remove</th>
+                        <th>Op</th>
                       </tr>
                     </thead>
                     <tbody>
