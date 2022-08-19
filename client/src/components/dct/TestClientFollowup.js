@@ -97,9 +97,9 @@ const TestClientFollowup = ({
     getcountryData(e);
     getclientsData("");
     getcountryIdData(e.countryId);
-    getDctClientDetails({ countryId: e.countryId, dctLeadCategory: "TC" });
-    getDctClientDetailsDD({ countryId: e.countryId, dctLeadCategory: "TC" });
-    setFilterData({ countryId: e.countryId, dctLeadCategory: "TC" });
+    getDctClientDetails({ countryId: e.countryId, dctClientCategory: "TC" });
+    getDctClientDetailsDD({ countryId: e.countryId, dctClientCategory: "TC" });
+    setFilterData({ countryId: e.countryId, dctClientCategory: "TC" });
   };
 
   const allclient = [];
@@ -116,21 +116,21 @@ const TestClientFollowup = ({
     getDctClientDetails({
       countryId: countryId,
       clientsId: e.clientsId,
-      dctLeadCategory: "TC",
+      dctClientCategory: "TC",
     });
     setFilterData({
       countryId: countryId,
       clientsId: e.clientsId,
-      dctLeadCategory: "TC",
+      dctClientCategory: "TC",
     });
   };
 
   const onClickReset = () => {
     getcountryData("");
     getclientsData("");
-    getDctClientDetails({ dctLeadCategory: "TC" });
-    getDctClientDetailsDD({ dctLeadCategory: "TC" });
-    setFilterData({ dctLeadCategory: "TC" });
+    getDctClientDetails({ dctClientCategory: "TC" });
+    getDctClientDetailsDD({ dctClientCategory: "TC" });
+    setFilterData({ dctClientCategory: "TC" });
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
