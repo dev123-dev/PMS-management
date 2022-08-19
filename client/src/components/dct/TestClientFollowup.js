@@ -10,10 +10,9 @@ import {
   getDctClientDetailsDD,
   getLastmessage,
 } from "../../actions/dct";
-import AllContacts from "./AllContacts";
+import AllDctContacts from "./AllDctContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
-import EditLead from "./EditLead";
 import { getActiveCountry } from "../../actions/regions";
 
 // import DeactiveLead from "./DeactiveLead";
@@ -48,8 +47,23 @@ const TestClientFollowup = ({
     };
     setsearchDataVal(searchData);
     getLastmessage(searchData);
+    setShowHide({
+      ...showHide,
+      showdateselectionSection: true,
+    });
   };
 
+  const [showHide, setShowHide] = useState({
+    showdateselectionSection: false,
+  });
+
+  const { showdateselectionSection } = showHide;
+  const handledivModalClose = () => setShowHide(false);
+  const ondivcloseChange = (e) => {
+    if (e) {
+      handledivModalClose();
+    }
+  };
   const allcountry = [];
   activeCountry.map((country) =>
     allcountry.push({
@@ -100,6 +114,7 @@ const TestClientFollowup = ({
     getDctClientDetails({ dctClientCategory: "TC" });
     getDctClientDetailsDD({ dctClientCategory: "TC" });
     setFilterData({ dctClientCategory: "TC" });
+    ondivcloseChange(true);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -195,7 +210,9 @@ const TestClientFollowup = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Contacts</label>
-                  <AllContacts leadDataVal={leadData} />
+                  {showdateselectionSection && (
+                    <AllDctContacts leadDataVal={leadData} />
+                  )}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding ">
