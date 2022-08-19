@@ -346,7 +346,7 @@ const AddDctClients = ({
                       options={clientTypeVal}
                       isSearchable={false}
                       value={clientType}
-                      placeholder="Select Meeting Type"
+                      placeholder="Select Client Type"
                       onChange={(e) => onClientTypeChange(e)}
                       theme={(theme) => ({
                         ...theme,
