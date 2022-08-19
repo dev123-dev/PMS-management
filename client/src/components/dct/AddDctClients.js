@@ -270,8 +270,6 @@ const AddDctClients = ({
         staffs: AddedDetails,
         dctClientEnteredById: user._id,
         dctClientEnteredByName: user.empFullName,
-        dctClientAssignedToId: user._id,
-        dctClientAssignedToName: user.empFullName,
       };
       console.log(finalData);
       addDctClientDetails(finalData);
@@ -717,7 +715,7 @@ const AddDctClients = ({
                 )}
                 <Link
                   className="btn sub_form btn_continue blackbrd float-right"
-                  to="/job-queue"
+                  to="/all-dct-client"
                 >
                   Cancel
                 </Link>
