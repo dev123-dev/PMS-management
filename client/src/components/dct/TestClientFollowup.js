@@ -74,25 +74,25 @@ const TestClientFollowup = ({
     //getLastmessage(searchData);
   };
 
-  // const allcountry = [];
-  // activeCountry.map((country) =>
-  //   allcountry.push({
-  //     countryId: country._id,
-  //     label: country.countryName,
-  //     value: country.countryName,
-  //   })
-  // );
+  const allcountry = [];
+  activeCountry.map((country) =>
+    allcountry.push({
+      countryId: country._id,
+      label: country.countryName,
+      value: country.countryName,
+    })
+  );
 
-  // const [country, getcountryData] = useState();
-  // const [countryId, getcountryIdData] = useState(null);
+  const [country, getcountryData] = useState();
+  const [countryId, getcountryIdData] = useState(null);
 
-  // const oncountryChange = (e) => {
-  //   getcountryData(e);
-  //   getclientsData("");
-  //   getcountryIdData(e.countryId);
-  //   getDctClientDetails({ countryId: e.countryId, dctLeadCategory: "F" });
-  //   getDctClientDetailsDD({ countryId: e.countryId, dctLeadCategory: "F" });
-  // };
+  const oncountryChange = (e) => {
+    getcountryData(e);
+    getclientsData("");
+    getcountryIdData(e.countryId);
+    getDctClientDetails({ countryId: e.countryId, dctLeadCategory: "TC" });
+    getDctClientDetailsDD({ countryId: e.countryId, dctLeadCategory: "TC" });
+  };
 
   const allclient = [];
   dctClientsDD.map((clients) =>
@@ -106,18 +106,18 @@ const TestClientFollowup = ({
   const onclientsChange = (e) => {
     getclientsData(e);
     getDctClientDetails({
-      //countryId: countryId,
+      countryId: countryId,
       clientsId: e.clientsId,
-      dctLeadCategory: "F",
+      dctLeadCategory: "TC",
     });
   };
 
-  // const onClickReset = () => {
-  //   getcountryData("");
-  //   getclientsData("");
-  //  getDctClientDetails({ dctLeadCategory: "TC" });
-  //   getDctClientDetailsDD({ dctLeadCategory: "TC" });
-  // };
+  const onClickReset = () => {
+    getcountryData("");
+    getclientsData("");
+    getDctClientDetails({ dctLeadCategory: "TC" });
+    getDctClientDetailsDD({ dctLeadCategory: "TC" });
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -131,11 +131,11 @@ const TestClientFollowup = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="countryName"
-                //   options={allcountry}
+                options={allcountry}
                 isSearchable={true}
-                //   value={country}
+                value={country}
                 placeholder="Select Region"
-                //   onChange={(e) => oncountryChange(e)}
+                onChange={(e) => oncountryChange(e)}
                 required
               />
             </div>
@@ -154,7 +154,7 @@ const TestClientFollowup = ({
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
-                //  onClick={() => onClickReset()}
+                onClick={() => onClickReset()}
               >
                 Refresh
               </button>
@@ -176,7 +176,6 @@ const TestClientFollowup = ({
                         <th style={{ width: "13%" }}>Email</th>
                         <th style={{ width: "13%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
-                        <th style={{ width: "13%" }}>Op</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -201,24 +200,6 @@ const TestClientFollowup = ({
                               <td>{dctClients.emailId}</td>
                               <td>{dctClients.website}</td>
                               <td>{dctClients.phone1}</td>
-
-                              <td>
-                                {/* <img
-                                  className="img_icon_size log"
-                                  onClick={() => onDeactive(dctClients, idx)}
-                                  src={require("../../static/images/delete.png")}
-                                  alt="Delete Project"
-                                  title="Delete Project"
-                                />{" "}
-                                &emsp;
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() => onUpdate(dctClients, idx)}
-                                  src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
-                                /> */}
-                              </td>
                             </tr>
                           );
                         })}
