@@ -5,20 +5,20 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-import { getDctLeadDetails } from "../../actions/dct";
+// import { getDctLeadDetails } from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
-import DeactiveLead from "./DeactiveLead";
+// import DeactiveLead from "./DeactiveLead";
 const TestClientFollowup = ({
   auth: { isAuthenticated, user, users },
-  dct: { allLeads },
-  getDctLeadDetails,
+  // dct: { allLeads },
+  // getDctLeadDetails,
 }) => {
-  useEffect(() => {
-    getDctLeadDetails({ dctLeadCategory: "TC" });
-  }, [getDctLeadDetails]);
+  // useEffect(() => {
+  //   getDctLeadDetails({ dctLeadCategory: "TC" });
+  // }, [getDctLeadDetails]);
   // console.log(allLeads);
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -31,16 +31,16 @@ const TestClientFollowup = ({
   };
 
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allLeads, idx) => {
-    setShowEditModal(true);
-    setUserDatas(allLeads);
-  };
+  // const onUpdate = (allLeads, idx) => {
+  //   setShowEditModal(true);
+  //   setUserDatas(allLeads);
+  // };
 
-  const [userDatadeactive, setUserDatadeactive] = useState(null);
-  const onDeactive = (jobQueueProjects, idx) => {
-    setShowDeactiveModal(true);
-    setUserDatadeactive(jobQueueProjects);
-  };
+  // const [userDatadeactive, setUserDatadeactive] = useState(null);
+  // const onDeactive = (jobQueueProjects, idx) => {
+  //   setShowDeactiveModal(true);
+  //   setUserDatadeactive(jobQueueProjects);
+  // };
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
   const handleDeactiveModalClose = () => setShowDeactiveModal(false);
@@ -53,15 +53,16 @@ const TestClientFollowup = ({
 
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
-  const onClickHandler = (allLeads, idx) => {
-    setLeadData(allLeads);
+  // const onClickHandler = (allLeads, idx) => {
+  //   setLeadData(allLeads);
 
-    const searchData = {
-      callToId: allLeads._id,
-    };
-    setsearchDataVal(searchData);
-    //getLastmessage(searchData);
-  };
+  //   const searchData = {
+  //     callToId: allLeads._id,
+  //   };
+  //   setsearchDataVal(searchData);
+  //   //getLastmessage(searchData);
+  // };
+
   // const allcountry = [];
   // activeCountry.map((country) =>
   //   allcountry.push({
@@ -167,7 +168,7 @@ const TestClientFollowup = ({
                         <th style={{ width: "13%" }}>Op</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    {/* <tbody>
                       {allLeads &&
                         allLeads.map((allLeads, idx) => {
                           return (
@@ -208,7 +209,7 @@ const TestClientFollowup = ({
                             </tr>
                           );
                         })}
-                    </tbody>
+                    </tbody> */}
                   </table>
                 </div>
               </section>
@@ -297,10 +298,10 @@ const TestClientFollowup = ({
           </div>
         </Modal.Header>
         <Modal.Body>
-          <DeactiveLead
+          {/* <DeactiveLead
             onDeactiveModalChange={onDeactiveModalChange}
             Leaddeavtivedata={userDatadeactive}
-          />
+          /> */}
         </Modal.Body>
       </Modal>
     </Fragment>
@@ -309,13 +310,11 @@ const TestClientFollowup = ({
 
 TestClientFollowup.propTypes = {
   auth: PropTypes.object.isRequired,
-  dct: PropTypes.object.isRequired,
+  //dct: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  dct: state.dct,
+  //dct: state.dct,
 });
 
-export default connect(mapStateToProps, { getDctLeadDetails })(
-  TestClientFollowup
-);
+export default connect(mapStateToProps, {})(TestClientFollowup);
