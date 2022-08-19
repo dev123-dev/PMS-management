@@ -75,8 +75,9 @@ const AllDctClients = ({
                     <thead>
                       <tr>
                         <th>Sl No.</th>
+                        <th>Company Name</th>
                         <th>Client Name</th>
-                        {/* <th>Belongs To</th> */}
+
                         <th>Folder Name</th>
                         <th>Email</th>
                         <th>Contact 1 </th>
@@ -93,8 +94,9 @@ const AllDctClients = ({
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
+                              <td>{allDctClients.companyName}</td>
                               <td>{allDctClients.clientName}</td>
-                              {/* <td>{allDctClients.clientBelongsToName}</td> */}
+
                               <td>{allDctClients.clientFolderName}</td>
                               <td>{allDctClients.emailId}</td>
                               <td>{allDctClients.phone1}</td>
