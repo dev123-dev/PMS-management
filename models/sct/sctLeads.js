@@ -85,7 +85,7 @@ const SctLeadsSchema = new mongoose.Schema({
   sctCallSchedule: {
     type: String, //Morning or afternoon
   },
-  staffs: [
+  sctStaffs: [
     {
       sctStaffName: {
         type: String,
