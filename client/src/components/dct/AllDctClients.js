@@ -132,7 +132,7 @@ const AllDctClients = ({
                                       },
                                     }}
                                   >
-                                    Add client
+                                    Edit
                                   </Link>
                                 </>
                               </td>
