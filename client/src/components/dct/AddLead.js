@@ -492,7 +492,7 @@ const AddLead = ({
                 )}
                 <Link
                   className="btn sub_form btn_continue blackbrd float-right"
-                  to="/job-queue"
+                  to="/all-leads"
                 >
                   Cancel
                 </Link>
