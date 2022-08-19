@@ -7,6 +7,7 @@ import EditContact from "./EditContact";
 import {
   addNewDctStaffDetails,
   deactivateDctStaffDetails,
+  deactivateDctClientStaffDetails,
 } from "../../actions/dct";
 
 const AllContacts = ({
@@ -14,11 +15,10 @@ const AllContacts = ({
   leadDataVal,
   addNewDctStaffDetails,
   deactivateDctStaffDetails,
+  deactivateDctClientStaffDetails,
   ondivcloseChange,
+  from,
 }) => {
-  // console.log("contact", leadDataVal);
-  //formData
-
   const [formData, setFormData] = useState({
     staffName: "",
     staffPhoneNumber: "",
@@ -128,8 +128,11 @@ const AllContacts = ({
       staffStatus: "Deactive",
       staffDeactiveReason: staffDeactiveReason,
     };
-    // console.log(finalData);
-    deactivateDctStaffDetails(finalData);
+    if (from === "client") {
+      deactivateDctClientStaffDetails(finalData);
+    } else {
+      deactivateDctStaffDetails(finalData);
+    }
     onDeactiveModalChange(true);
     ondivcloseChange(true);
   };
@@ -229,6 +232,7 @@ const AllContacts = ({
             allStaffdata={userDatas}
             allleaddata={userDatas1}
             ondivcloseChange={ondivcloseChange}
+            from={from}
           />
         </Modal.Body>
       </Modal>
@@ -423,4 +427,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   addNewDctStaffDetails,
   deactivateDctStaffDetails,
+  deactivateDctClientStaffDetails,
 })(AllContacts);
