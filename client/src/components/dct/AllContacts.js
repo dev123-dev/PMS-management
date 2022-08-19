@@ -139,7 +139,6 @@ const AllContacts = ({
   ) : (
     <Fragment>
       <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-        {/* {showdateselectionSection && ( */}
         <>
           <div className=" col-lg-11 col-md-12 col-sm-12 col-12 no_padding ml-4">
             <button
@@ -199,7 +198,6 @@ const AllContacts = ({
             </table>
           </div>
         </>
-        {/* )} */}
       </div>
       <Modal
         show={showEditModal}
