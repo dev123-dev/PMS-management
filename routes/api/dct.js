@@ -7,6 +7,7 @@ const auth = require("../../middleware/auth");
 const DctLeads = require("../../models/dct/dctLeads");
 const DctCalls = require("../../models/dct/dctCalls");
 const DctClients = require("../../models/dct/dctClients");
+const EmployeeDetails = require("../../models/EmpDetails");
 
 //ADD
 router.post("/add-dct-Leads", async (req, res) => {
@@ -298,7 +299,10 @@ router.post("/deactivate-dct-client", async (req, res) => {
 });
 
 //SELECT
-router.post("/get-dct-Leads", async (req, res) => {
+router.post("/get-dct-Leads", auth, async (req, res) => {
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
   var todayDate = new Date().toISOString().split("T")[0];
   let { countryId, clientsId, dctLeadCategory } = req.body;
   let catCondition = [];
@@ -316,6 +320,7 @@ router.post("/get-dct-Leads", async (req, res) => {
         _id: clientsId,
         $or: catCondition,
         dctCallDate: { $lte: todayDate },
+        dctLeadAssignedToId: userInfo._id,
       };
     } else {
       query = {
@@ -323,6 +328,7 @@ router.post("/get-dct-Leads", async (req, res) => {
         countryId: countryId,
         $or: catCondition,
         dctCallDate: { $lte: todayDate },
+        dctLeadAssignedToId: userInfo._id,
       };
     }
   } else {
@@ -332,12 +338,14 @@ router.post("/get-dct-Leads", async (req, res) => {
         _id: clientsId,
         $or: catCondition,
         dctCallDate: { $lte: todayDate },
+        dctLeadAssignedToId: userInfo._id,
       };
     } else {
       query = {
         dctLeadStatus: "Active",
         $or: catCondition,
         dctCallDate: { $lte: todayDate },
+        dctLeadAssignedToId: userInfo._id,
       };
     }
   }
@@ -354,7 +362,10 @@ router.post("/get-dct-Leads", async (req, res) => {
   }
 });
 
-router.post("/get-all-dct-Leads", async (req, res) => {
+router.post("/get-all-dct-Leads", auth, async (req, res) => {
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
   let { countryId, clientsId } = req.body;
   let query = {};
   if (countryId) {
@@ -367,6 +378,7 @@ router.post("/get-all-dct-Leads", async (req, res) => {
           { dctLeadCategory: { $ne: "TC" } },
           { dctLeadCategory: { $ne: "RC" } },
         ],
+        dctLeadAssignedToId: userInfo._id,
       };
     } else {
       query = {
@@ -376,6 +388,7 @@ router.post("/get-all-dct-Leads", async (req, res) => {
           { dctLeadCategory: { $ne: "TC" } },
           { dctLeadCategory: { $ne: "RC" } },
         ],
+        dctLeadAssignedToId: userInfo._id,
       };
     }
   } else {
@@ -387,6 +400,7 @@ router.post("/get-all-dct-Leads", async (req, res) => {
           { dctLeadCategory: { $ne: "TC" } },
           { dctLeadCategory: { $ne: "RC" } },
         ],
+        dctLeadAssignedToId: userInfo._id,
       };
     } else {
       query = {
@@ -395,6 +409,7 @@ router.post("/get-all-dct-Leads", async (req, res) => {
           { dctLeadCategory: { $ne: "TC" } },
           { dctLeadCategory: { $ne: "RC" } },
         ],
+        dctLeadAssignedToId: userInfo._id,
       };
     }
   }
@@ -485,7 +500,7 @@ router.post("/get-dct-clients", async (req, res) => {
       };
     }
   }
-  console.log(query);
+  // console.log(query);
   try {
     const getDctClientDetails = await DctClients.find(query).sort({
       dctCallDate: -1,
