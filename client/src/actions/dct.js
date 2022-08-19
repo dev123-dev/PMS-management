@@ -148,6 +148,21 @@ export const editDctStaffDetails = (finalData) => async (dispatch) => {
     });
   }
 };
+export const editDctClientStaffDetails = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/dct/edit-dct-client-staff", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
 
 export const deactivateDctStaffDetails = (finalData) => async (dispatch) => {
   try {
@@ -164,6 +179,26 @@ export const deactivateDctStaffDetails = (finalData) => async (dispatch) => {
     });
   }
 };
+export const deactivateDctClientStaffDetails =
+  (finalData) => async (dispatch) => {
+    try {
+      dispatch({
+        type: SET_LOADING_TRUE,
+      });
+      await axios.post(
+        "/api/dct/deactivate-dct-client-staff",
+        finalData,
+        config
+      );
+      dispatch({
+        type: SET_LOADING_FALSE,
+      });
+    } catch (err) {
+      dispatch({
+        type: ERROR,
+      });
+    }
+  };
 
 export const deactivateDctLeadDetails = (finalData) => async (dispatch) => {
   try {

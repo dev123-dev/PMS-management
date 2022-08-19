@@ -155,10 +155,49 @@ router.post("/edit-dct-staff", async (req, res) => {
   }
 });
 
+router.post("/edit-dct-client-staff", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctLeads = await DctClients.updateOne(
+      { "staffs._id": data.staffId },
+      {
+        $set: {
+          "staffs.$.staffName": data.staffName,
+          "staffs.$.staffPhoneNumber": data.staffPhoneNumber,
+          "staffs.$.staffEmailId": data.staffEmailId,
+          "staffs.$.staffDesignation": data.staffDesignation,
+        },
+      }
+    );
+    res.json(updateDctLeads);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 router.post("/deactivate-dct-staff", async (req, res) => {
   try {
     let data = req.body;
     const deactivateDctStaffs = await DctLeads.updateOne(
+      { "staffs._id": data.staffId },
+      {
+        $set: {
+          "staffs.$.staffStatus": data.staffStatus,
+          "staffs.$.staffDeactivateById": data.staffDeactivateById,
+          "staffs.$.staffDeactiveByDateTime": data.staffDeactiveByDateTime,
+        },
+      }
+    );
+    res.json(deactivateDctStaffs);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/deactivate-dct-client-staff", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactivateDctStaffs = await DctClients.updateOne(
       { "staffs._id": data.staffId },
       {
         $set: {

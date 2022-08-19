@@ -266,6 +266,7 @@ const AllProspects = ({
                     <AllContacts
                       leadDataVal={leadData}
                       ondivcloseChange={ondivcloseChange}
+                      from="lead"
                     />
                   )}
                 </div>

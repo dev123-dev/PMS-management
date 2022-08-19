@@ -10,7 +10,7 @@ import {
   getDctClientDetailsDD,
   getLastmessage,
 } from "../../actions/dct";
-import AllDctContacts from "./AllDctContacts";
+import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 import { getActiveCountry } from "../../actions/regions";
@@ -211,7 +211,7 @@ const TestClientFollowup = ({
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Contacts</label>
                   {showdateselectionSection && (
-                    <AllDctContacts leadDataVal={leadData} />
+                    <AllContacts leadDataVal={leadData} from="client" />
                   )}
                 </div>
               </div>
