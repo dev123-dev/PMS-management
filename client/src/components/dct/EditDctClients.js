@@ -9,6 +9,7 @@ import { Redirect } from "react-router-dom";
 import {
   editDctClientsDetails,
   deactivateDctClientStaffDetails,
+  addNewDctClientStaffDetails,
 } from "../../actions/dct";
 import { getActiveCountry } from "../../actions/regions";
 import { getALLPaymentMode } from "../../actions/settings";
@@ -22,9 +23,9 @@ const EditDctClients = ({
   getALLPaymentMode,
   getActiveCountry,
   deactivateDctClientStaffDetails,
+  addNewDctClientStaffDetails,
 }) => {
   const data = useHistory().location.data;
-  console.log("data", data);
   useEffect(() => {
     getALLPaymentMode();
   }, [getALLPaymentMode]);
@@ -152,6 +153,8 @@ const EditDctClients = ({
     e.preventDefault();
     if (staffList.length === 0) {
       const addData = {
+        recordId:
+          data && data.dctdata && data.dctdata._id ? data.dctdata._id : "",
         staffName: staffName,
         staffPhoneNumber: staffPhoneNumber,
         staffEmailId: staffEmailId,
@@ -310,7 +313,6 @@ const EditDctClients = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-
     const finalData = {
       recordId: data.dctdata ? data.dctdata._id : "",
       companyName: companyName,
@@ -335,12 +337,14 @@ const EditDctClients = ({
       dctClientCategory: "TC",
       dctCallDate: new Date().toISOString().split("T")[0],
       services: ServicesDetails,
-      staffs: AddedDetails,
       dctClientEditedById: user._id,
       dctClientEditedDateTime: new Date().toLocaleString("en-GB"),
     };
-    console.log(finalData);
     editDctClientsDetails(finalData);
+    let i = 0;
+    for (i = 0; i < AddedDetails.length; i++) {
+      addNewDctClientStaffDetails(AddedDetails[i]);
+    }
     onEditModalChange(true);
   };
   if (!data) {
@@ -934,4 +938,5 @@ export default connect(mapStateToProps, {
   getALLPaymentMode,
   getActiveCountry,
   deactivateDctClientStaffDetails,
+  addNewDctClientStaffDetails,
 })(EditDctClients);
