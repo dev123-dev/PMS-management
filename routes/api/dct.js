@@ -73,6 +73,46 @@ router.post("/edit-dct-Leads", async (req, res) => {
   }
 });
 
+router.post("/edit-dct-clients", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctClients = await DctClients.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          companyName: data.companyName,
+          website: data.website,
+          clientName: data.clientName,
+          clientCompanyFounderName: data.clientCompanyFounderName,
+          emailId: data.emailId,
+          clientEmail: data.clientEmail,
+          clientType: data.clientType,
+          billingEmail: data.billingEmail,
+          clientCurrency: data.clientCurrency,
+          phone1: data.phone1,
+          phone2: data.phone2,
+          paymentId: data.paymentId,
+          clientFolderName: data.clientFolderName,
+          paymentModeName: data.paymentModeName,
+          address: data.address,
+          importantPoints: data.importantPoints,
+          countryId: data.countryId,
+          countryName: data.countryName,
+          dctClientStatus: data.dctClientStatus,
+          dctClientCategory: data.dctClientCategory,
+          dctCallDate: data.dctCallDate,
+          services: data.services,
+          dctClientEditedById: data.dctClientEditedById,
+          dctClientEditedDateTime: data.dctClientEditedDateTime,
+        },
+      }
+    );
+    res.json(updateDctClients);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 router.post("/add-new-dct-staff", async (req, res) => {
   try {
     let data = req.body;
@@ -115,10 +155,49 @@ router.post("/edit-dct-staff", async (req, res) => {
   }
 });
 
+router.post("/edit-dct-client-staff", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctLeads = await DctClients.updateOne(
+      { "staffs._id": data.staffId },
+      {
+        $set: {
+          "staffs.$.staffName": data.staffName,
+          "staffs.$.staffPhoneNumber": data.staffPhoneNumber,
+          "staffs.$.staffEmailId": data.staffEmailId,
+          "staffs.$.staffDesignation": data.staffDesignation,
+        },
+      }
+    );
+    res.json(updateDctLeads);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 router.post("/deactivate-dct-staff", async (req, res) => {
   try {
     let data = req.body;
     const deactivateDctStaffs = await DctLeads.updateOne(
+      { "staffs._id": data.staffId },
+      {
+        $set: {
+          "staffs.$.staffStatus": data.staffStatus,
+          "staffs.$.staffDeactivateById": data.staffDeactivateById,
+          "staffs.$.staffDeactiveByDateTime": data.staffDeactiveByDateTime,
+        },
+      }
+    );
+    res.json(deactivateDctStaffs);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/deactivate-dct-client-staff", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactivateDctStaffs = await DctClients.updateOne(
       { "staffs._id": data.staffId },
       {
         $set: {
@@ -168,6 +247,26 @@ router.post("/deactivate-dct-Leads", async (req, res) => {
       }
     );
     res.json(updateDctLeads);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/deactivate-dct-client", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctClients = await DctClients.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          dctClientDeactivateDateTime: data.dctClientDeactivateDateTime,
+          dctClientDeactivateById: data.dctClientDeactivateById,
+          dctClientStatus: data.dctClientStatus,
+          dctClientDeactivateReason: data.dctClientDeactivateReason,
+        },
+      }
+    );
+    res.json(updateDctClients);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
@@ -239,11 +338,19 @@ router.post("/get-all-dct-Leads", async (req, res) => {
         dctLeadStatus: "Active",
         countryId: countryId,
         _id: clientsId,
+        $and: [
+          { dctLeadCategory: { $ne: "TC" } },
+          { dctLeadCategory: { $ne: "RC" } },
+        ],
       };
     } else {
       query = {
         dctLeadStatus: "Active",
         countryId: countryId,
+        $and: [
+          { dctLeadCategory: { $ne: "TC" } },
+          { dctLeadCategory: { $ne: "RC" } },
+        ],
       };
     }
   } else {
@@ -251,10 +358,18 @@ router.post("/get-all-dct-Leads", async (req, res) => {
       query = {
         dctLeadStatus: "Active",
         _id: clientsId,
+        $and: [
+          { dctLeadCategory: { $ne: "TC" } },
+          { dctLeadCategory: { $ne: "RC" } },
+        ],
       };
     } else {
       query = {
         dctLeadStatus: "Active",
+        $and: [
+          { dctLeadCategory: { $ne: "TC" } },
+          { dctLeadCategory: { $ne: "RC" } },
+        ],
       };
     }
   }
@@ -269,39 +384,89 @@ router.post("/get-all-dct-Leads", async (req, res) => {
   }
 });
 
-router.post("/get-dct-clients", async (req, res) => {
-  // let { countryId, clientsId } = req.body;
-  // let query = {};
-  // if (countryId) {
-  //   if (clientsId) {
-  //     query = {
-  //       dctLeadStatus: "Active",
-  //       countryId: countryId,
-  //       _id: clientsId,
-  //     };
-  //   } else {
-  //     query = {
-  //       dctLeadStatus: "Active",
-  //       countryId: countryId,
-  //     };
-  //   }
-  // } else {
-  //   if (clientsId) {
-  //     query = {
-  //       dctLeadStatus: "Active",
-  //       _id: clientsId,
-  //     };
-  //   } else {
-  //     query = {
-  //       dctLeadStatus: "Active",
-  //     };
-  //   }
-  // }
+router.post("/get-all-dct-clients", async (req, res) => {
+  let { countryId, clientsId } = req.body;
+  let query = {};
+  if (countryId) {
+    if (clientsId) {
+      query = {
+        dctClientStatus: "Active",
+        countryId: countryId,
+        _id: clientsId,
+      };
+    } else {
+      query = {
+        dctClientStatus: "Active",
+        countryId: countryId,
+      };
+    }
+  } else {
+    if (clientsId) {
+      query = {
+        dctClientStatus: "Active",
+        _id: clientsId,
+      };
+    } else {
+      query = {
+        dctClientStatus: "Active",
+      };
+    }
+  }
   try {
-    const getDctClientsDetails = await DctClients.find().sort({
+    const getAllDctClientsDetails = await DctClients.find(query).sort({
       _id: -1,
     });
-    res.json(getDctClientsDetails);
+    res.json(getAllDctClientsDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-dct-clients", async (req, res) => {
+  var todayDate = new Date().toISOString().split("T")[0];
+  let { countryId, clientsId, dctClientCategory } = req.body;
+  let query = {};
+  if (countryId) {
+    if (clientsId) {
+      query = {
+        dctClientStatus: "Active",
+        countryId: countryId,
+        _id: clientsId,
+        dctClientCategory: dctClientCategory,
+        dctCallDate: { $lte: todayDate },
+      };
+    } else {
+      query = {
+        dctClientStatus: "Active",
+        countryId: countryId,
+        dctClientCategory: dctClientCategory,
+        dctCallDate: { $lte: todayDate },
+      };
+    }
+  } else {
+    if (clientsId) {
+      query = {
+        dctClientStatus: "Active",
+        _id: clientsId,
+        dctClientCategory: dctClientCategory,
+        dctCallDate: { $lte: todayDate },
+      };
+    } else {
+      query = {
+        dctClientStatus: "Active",
+        dctClientCategory: dctClientCategory,
+        dctCallDate: { $lte: todayDate },
+      };
+    }
+  }
+  console.log(query);
+  try {
+    const getDctClientDetails = await DctClients.find(query).sort({
+      dctCallDate: -1,
+      dctClientCategory: -1,
+    });
+    res.json(getDctClientDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

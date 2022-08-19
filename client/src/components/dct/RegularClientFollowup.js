@@ -5,7 +5,7 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-import { getDctLeadDetails } from "../../actions/dct";
+// import { getDctLeadDetails } from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
@@ -14,11 +14,11 @@ import DeactiveLead from "./DeactiveLead";
 const RegularClientFollowup = ({
   auth: { isAuthenticated, user, users },
   dct: { allLeads },
-  getDctLeadDetails,
+  // getDctLeadDetails,
 }) => {
-  useEffect(() => {
-    getDctLeadDetails();
-  }, [getDctLeadDetails]);
+  // useEffect(() => {
+  //   getDctLeadDetails();
+  // }, [getDctLeadDetails]);
   // console.log(allLeads);
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -166,7 +166,7 @@ const RegularClientFollowup = ({
                         <th style={{ width: "13%" }}>Op</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    {/* <tbody>
                       {allLeads &&
                         allLeads.map((allLeads, idx) => {
                           return (
@@ -207,7 +207,7 @@ const RegularClientFollowup = ({
                             </tr>
                           );
                         })}
-                    </tbody>
+                    </tbody> */}
                   </table>
                 </div>
               </section>
@@ -216,7 +216,7 @@ const RegularClientFollowup = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Contacts</label>
-                  <AllContacts leadDataVal={leadData} />
+                  <AllContacts leadDataVal={leadData} from="client" />
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding ">
@@ -318,6 +318,6 @@ const mapStateToProps = (state) => ({
   dct: state.dct,
 });
 
-export default connect(mapStateToProps, { getDctLeadDetails })(
-  RegularClientFollowup
-);
+export default connect(mapStateToProps, {
+  //  getDctLeadDetails
+})(RegularClientFollowup);

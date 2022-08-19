@@ -10,8 +10,11 @@ import {
   CALLHISTORY,
   GET_ALL_LEADS,
   GET_ALL_LEADS_DD,
+  ALL_DCT_CLIENTS,
+  ALL_DCT_CLIENTS_DD,
   DCT_CLIENTS,
   DCT_CLIENTS_DD,
+  ALL_CLIENTS,
 } from "./types";
 
 const config = {
@@ -86,6 +89,24 @@ export const editDctLeadDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/edit-dct-Leads", finalData, config);
+    dispatch(getAllDctLead());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const editDctClientsDetails = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/dct/edit-dct-clients", finalData, config);
+    dispatch(getAllDctClient());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -127,6 +148,21 @@ export const editDctStaffDetails = (finalData) => async (dispatch) => {
     });
   }
 };
+export const editDctClientStaffDetails = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/dct/edit-dct-client-staff", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
 
 export const deactivateDctStaffDetails = (finalData) => async (dispatch) => {
   try {
@@ -143,6 +179,26 @@ export const deactivateDctStaffDetails = (finalData) => async (dispatch) => {
     });
   }
 };
+export const deactivateDctClientStaffDetails =
+  (finalData) => async (dispatch) => {
+    try {
+      dispatch({
+        type: SET_LOADING_TRUE,
+      });
+      await axios.post(
+        "/api/dct/deactivate-dct-client-staff",
+        finalData,
+        config
+      );
+      dispatch({
+        type: SET_LOADING_FALSE,
+      });
+    } catch (err) {
+      dispatch({
+        type: ERROR,
+      });
+    }
+  };
 
 export const deactivateDctLeadDetails = (finalData) => async (dispatch) => {
   try {
@@ -150,6 +206,23 @@ export const deactivateDctLeadDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/deactivate-dct-Leads", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const deactivateDctClient = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/dct/deactivate-dct-client", finalData, config);
+    dispatch(getAllDctClient());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -225,7 +298,7 @@ export const getAllDctLeadDD = (finalData) => async (dispatch) => {
   }
 };
 
-export const getDctClient = (finalData) => async (dispatch) => {
+export const getDctClientDetails = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/dct/get-dct-clients", finalData, config);
     dispatch({
@@ -239,11 +312,47 @@ export const getDctClient = (finalData) => async (dispatch) => {
   }
 };
 
-export const getDctClientDD = (finalData) => async (dispatch) => {
+export const getDctClientDetailsDD = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/dct/get-dct-clients", finalData, config);
     dispatch({
       type: DCT_CLIENTS_DD,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllDctClient = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/dct/get-all-dct-clients",
+      finalData,
+      config
+    );
+    dispatch({
+      type: ALL_DCT_CLIENTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllDctClientDD = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/dct/get-all-dct-clients",
+      finalData,
+      config
+    );
+    dispatch({
+      type: ALL_DCT_CLIENTS_DD,
       payload: res.data,
     });
   } catch (err) {

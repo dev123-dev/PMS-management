@@ -26,14 +26,10 @@ const DctClientsSchema = new mongoose.Schema({
   phone2: {
     type: Number,
   },
-
   website: {
     type: String,
   },
   address: {
-    type: String,
-  },
-  clientStatus: {
     type: String,
   },
   clientFolderName: {
@@ -68,12 +64,13 @@ const DctClientsSchema = new mongoose.Schema({
   },
   dctClientStatus: {
     type: String, //Active,Deactive
+    default: "Active",
   },
   clientFolderName: {
     type: String,
   },
   dctClientCategory: {
-    type: String, //NC,P,F,TC,RC
+    type: String, //TC,RC
   },
   dctClientCategoryStatus: {
     type: String,

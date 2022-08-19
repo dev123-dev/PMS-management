@@ -13,6 +13,7 @@ const EditLead = ({
   alleditLeaddata,
   getActiveCountry,
   editDctLeadDetails,
+  onEditModalChange,
 }) => {
   useEffect(() => {
     getActiveCountry();
@@ -130,15 +131,9 @@ const EditLead = ({
       dctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
     };
     editDctLeadDetails(finalData);
-    setFormData({
-      ...formData,
-      isSubmitted: true,
-    });
+    onEditModalChange(true);
   };
 
-  if (isSubmitted) {
-    return <Redirect to="/job-queue" />;
-  }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (

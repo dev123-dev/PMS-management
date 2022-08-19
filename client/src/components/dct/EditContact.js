@@ -3,19 +3,23 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
 import Spinner from "../layout/Spinner";
-import { editDctStaffDetails } from "../../actions/dct";
+import {
+  editDctStaffDetails,
+  editDctClientStaffDetails,
+} from "../../actions/dct";
 
 const EditContact = ({
   auth: { isAuthenticated, user, users, loading },
   allStaffdata,
   allleaddata,
+  ondivcloseChange,
   onEditModalChange,
   editDctStaffDetails,
+  editDctClientStaffDetails,
+  from,
 }) => {
   //formData
   //   console.log("allStaffdata", allStaffdata);
-
-  //   console.log("allleaddata", allleaddata);
 
   const [formData, setFormData] = useState({
     staffName:
@@ -54,9 +58,13 @@ const EditContact = ({
       staffEmailId: staffEmailId,
       staffDesignation: staffDesignation,
     };
-    // console.log(finalData);
-    editDctStaffDetails(finalData);
+    if (from === "client") {
+      editDctClientStaffDetails(finalData);
+    } else {
+      editDctStaffDetails(finalData);
+    }
     onEditModalChange(true);
+    ondivcloseChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -154,4 +162,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   editDctStaffDetails,
+  editDctClientStaffDetails,
 })(EditContact);

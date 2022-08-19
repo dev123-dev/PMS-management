@@ -21,7 +21,7 @@ const AddDctClients = ({
     getALLPaymentMode();
   }, [getALLPaymentMode]);
   useEffect(() => {
-    getActiveCountry();
+    getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
@@ -273,24 +273,16 @@ const AddDctClients = ({
       };
       console.log(finalData);
       addDctClientDetails(finalData);
-      // setFormData({
-      //   ...formData,
-      //   companyName: "",
-      //   emailId: "",
-      //   clientName: "",
-      //   website: "",
-      //   address: "",
-      //   phone1: "",
-      //   phone2: "",
-      //   importantPoints: "",
-      //   countryId: "",
-      //   isSubmitted: true,
-      // });
+      setFormData({
+        ...formData,
+
+        isSubmitted: true,
+      });
     }
   };
 
   if (isSubmitted) {
-    return <Redirect to="/all-prospects" />;
+    return <Redirect to="/all-dct-client" />;
   }
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -354,7 +346,7 @@ const AddDctClients = ({
                       options={clientTypeVal}
                       isSearchable={false}
                       value={clientType}
-                      placeholder="Select Meeting Type"
+                      placeholder="Select Client Type"
                       onChange={(e) => onClientTypeChange(e)}
                       theme={(theme) => ({
                         ...theme,

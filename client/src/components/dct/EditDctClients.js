@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -5,7 +6,7 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
-import { addDctLeadDetails } from "../../actions/dct";
+import { editDctClientsDetails } from "../../actions/dct";
 import { getActiveCountry } from "../../actions/regions";
 import { getALLPaymentMode } from "../../actions/settings";
 
@@ -13,7 +14,7 @@ const EditDctClients = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { paymentMode },
   regions: { activeCountry },
-  addDctLeadDetails,
+  editDctClientsDetails,
   getALLPaymentMode,
   getActiveCountry,
   onEditModalChange,
@@ -201,11 +202,11 @@ const EditDctClients = ({
 
   const oncountryChange = (e) => {
     //Required Validation Starts
-    setError({
-      ...error,
-      countrytypeIdChecker: true,
-      countrytypeIdErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   countrytypeIdChecker: true,
+    //   countrytypeIdErrorStyle: { color: "#000" },
+    // });
     //Required Validation ends
     var countryId = "";
     getcountryData(e);
@@ -254,11 +255,11 @@ const EditDctClients = ({
 
   const onPayModeChange = (e) => {
     //Required Validation starts
-    setError({
-      ...error,
-      paymentmodeIdChecker: true,
-      paymentmodeIdErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   paymentmodeIdChecker: true,
+    //   paymentmodeIdErrorStyle: { color: "#000" },
+    // });
     //Required Validation ends
 
     var paymentId = "";
@@ -270,57 +271,57 @@ const EditDctClients = ({
     setpaymentname(paymentModeName);
   };
 
-  const [error, setError] = useState({
-    paymentmodeIdChecker: false,
-    paymentmodeIdErrorStyle: {},
-    clienttypeIdChecker: false,
+  // const [error, setError] = useState({
+  //   paymentmodeIdChecker: false,
+  //   paymentmodeIdErrorStyle: {},
+  //   clienttypeIdChecker: false,
 
-    clienttypeIdErrorStyle: {},
-    countrytypeIdChecker: false,
-    countrytypeIdErrorStyle: {},
-  });
-  const {
-    paymentmodeIdChecker,
-    paymentmodeIdErrorStyle,
-    clienttypeIdChecker,
-    clienttypeIdErrorStyle,
-    countrytypeIdChecker,
-    countrytypeIdErrorStyle,
-  } = error;
+  //   clienttypeIdErrorStyle: {},
+  //   countrytypeIdChecker: false,
+  //   countrytypeIdErrorStyle: {},
+  // });
+  // const {
+  //   paymentmodeIdChecker,
+  //   paymentmodeIdErrorStyle,
+  //   clienttypeIdChecker,
+  //   clienttypeIdErrorStyle,
+  //   countrytypeIdChecker,
+  //   countrytypeIdErrorStyle,
+  // } = error;
 
-  const checkErrors = () => {
-    if (!clienttypeIdChecker) {
-      setError({
-        ...error,
-        clienttypeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-    if (!countrytypeIdChecker) {
-      setError({
-        ...error,
-        countrytypeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-    if (!paymentmodeIdChecker) {
-      setError({
-        ...error,
-        paymentmodeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+  // const checkErrors = () => {
+  //   if (!clienttypeIdChecker) {
+  //     setError({
+  //       ...error,
+  //       clienttypeIdErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
+  //   if (!countrytypeIdChecker) {
+  //     setError({
+  //       ...error,
+  //       countrytypeIdErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
+  //   if (!paymentmodeIdChecker) {
+  //     setError({
+  //       ...error,
+  //       paymentmodeIdErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
 
-    return true;
-  };
+  //   return true;
+  // };
 
   const onClientTypeChange = (e) => {
     //  Required Validation starts
-    setError({
-      ...error,
-      clienttypeIdChecker: true,
-      clienttypeIdErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   clienttypeIdChecker: true,
+    //   clienttypeIdErrorStyle: { color: "#000" },
+    // });
     // Required Validation ends
 
     if (e) {
@@ -334,6 +335,7 @@ const EditDctClients = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
+      recordId: alldctClientdata ? alldctClientdata._id : "",
       companyName: companyName,
       website: website,
       clientName: clientName,
@@ -357,10 +359,11 @@ const EditDctClients = ({
       dctCallDate: new Date().toISOString().split("T")[0],
       services: ServicesDetails,
       staffs: AddedDetails,
-      dctClientEnteredById: user._id,
-      dctClientEnteredByName: user.empFullName,
+      dctClientEditedById: user._id,
+      dctClientEditedDateTime: new Date().toLocaleString("en-GB"),
     };
     console.log(finalData);
+    editDctClientsDetails(finalData);
     onEditModalChange(true);
     // }
   };
@@ -413,9 +416,7 @@ const EditDctClients = ({
                 />
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control" style={clienttypeIdErrorStyle}>
-                  Client Type* :
-                </label>
+                <label className="label-control">Client Type* :</label>
                 <Select
                   name="clientType"
                   options={clientTypeVal}
@@ -529,12 +530,7 @@ const EditDctClients = ({
                 />
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label
-                  className="label-control"
-                  style={countrytypeIdErrorStyle}
-                >
-                  Region* :
-                </label>
+                <label className="label-control">Region* :</label>
                 <Select
                   name="countryName"
                   options={allcountry}
@@ -546,12 +542,7 @@ const EditDctClients = ({
                 />
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label
-                  className="label-control"
-                  style={paymentmodeIdErrorStyle}
-                >
-                  Mode of Payment* :
-                </label>
+                <label className="label-control">Mode of Payment* :</label>
 
                 <Select
                   name="paymentMode"
@@ -732,6 +723,36 @@ const EditDctClients = ({
                   </tr>
                 </thead>
                 <tbody>
+                  {alldctClientdata &&
+                    alldctClientdata.staffs &&
+                    alldctClientdata.staffs.map((staff, idx) => {
+                      if (staff.staffStatus === "Active")
+                        return (
+                          <tr key={idx}>
+                            <td>{staff.staffName}</td>
+                            <td>{staff.staffPhoneNumber}</td>
+                            <td>{staff.staffEmailId}</td>
+                            <td>{staff.staffDesignation}</td>
+                            <td>
+                              {/* <img
+                                className="img_icon_size log"
+                                onClick={() => onDeactive(staff, idx)}
+                                src={require("../../static/images/delete.png")}
+                                alt="Delete Staff"
+                                title="Delelte Staff"
+                              />
+                              &nbsp;
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onUpdate(staff, idx)}
+                                src={require("../../static/images/edit_icon.png")}
+                                alt="Edit"
+                                title="Edit"
+                              /> */}
+                            </td>
+                          </tr>
+                        );
+                    })}
                   {AddedDetails &&
                     AddedDetails.map((AddDetail, idx) => {
                       return (
@@ -817,7 +838,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  addDctLeadDetails,
+  editDctClientsDetails,
   getALLPaymentMode,
   getActiveCountry,
 })(EditDctClients);
