@@ -5,7 +5,11 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-import { getDctClientDetails, getDctClientDetailsDD } from "../../actions/dct";
+import {
+  getDctClientDetails,
+  getDctClientDetailsDD,
+  getLastmessage,
+} from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
@@ -20,6 +24,7 @@ const TestClientFollowup = ({
   getDctClientDetails,
   getDctClientDetailsDD,
   getActiveCountry,
+  getLastmessage,
 }) => {
   useEffect(() => {
     getDctClientDetails({ dctClientCategory: "TC" });
@@ -30,7 +35,9 @@ const TestClientFollowup = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
-  console.log(activeCountry);
+  console.log("dctClients", dctClients);
+
+  const [filterData, setFilterData] = useState({ dctLeadCategory: "TC" });
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -71,7 +78,7 @@ const TestClientFollowup = ({
       callToId: dctClients._id,
     };
     setsearchDataVal(searchData);
-    //getLastmessage(searchData);
+    getLastmessage(searchData);
   };
 
   const allcountry = [];
@@ -92,6 +99,7 @@ const TestClientFollowup = ({
     getcountryIdData(e.countryId);
     getDctClientDetails({ countryId: e.countryId, dctLeadCategory: "TC" });
     getDctClientDetailsDD({ countryId: e.countryId, dctLeadCategory: "TC" });
+    setFilterData({ countryId: e.countryId, dctLeadCategory: "TC" });
   };
 
   const allclient = [];
@@ -110,6 +118,11 @@ const TestClientFollowup = ({
       clientsId: e.clientsId,
       dctLeadCategory: "TC",
     });
+    setFilterData({
+      countryId: countryId,
+      clientsId: e.clientsId,
+      dctLeadCategory: "TC",
+    });
   };
 
   const onClickReset = () => {
@@ -117,6 +130,7 @@ const TestClientFollowup = ({
     getclientsData("");
     getDctClientDetails({ dctLeadCategory: "TC" });
     getDctClientDetailsDD({ dctLeadCategory: "TC" });
+    setFilterData({ dctLeadCategory: "TC" });
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -198,7 +212,7 @@ const TestClientFollowup = ({
                               </td>
                               <td>{dctClients.website}</td>
                               <td>{dctClients.emailId}</td>
-                              <td>{dctClients.website}</td>
+                              <td>{dctClients.countryName}</td>
                               <td>{dctClients.phone1}</td>
                             </tr>
                           );
@@ -317,4 +331,5 @@ export default connect(mapStateToProps, {
   getDctClientDetails,
   getDctClientDetailsDD,
   getActiveCountry,
+  getLastmessage,
 })(TestClientFollowup);
