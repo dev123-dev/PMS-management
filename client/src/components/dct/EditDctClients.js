@@ -3,7 +3,7 @@ import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
 import { editDctClientsDetails } from "../../actions/dct";
@@ -18,8 +18,11 @@ const EditDctClients = ({
   getALLPaymentMode,
   getActiveCountry,
   onEditModalChange,
-  alldctClientdata,
 }) => {
+  const data = useHistory().location.data;
+
+  console.log("data", data);
+
   useEffect(() => {
     getALLPaymentMode();
   }, [getALLPaymentMode]);
@@ -34,84 +37,74 @@ const EditDctClients = ({
   //formData
   const [formData, setFormData] = useState({
     clientName:
-      alldctClientdata && alldctClientdata.clientName
-        ? alldctClientdata.clientName
+      data && data.dctdata && data.dctdata.clientName
+        ? data.dctdata.clientName
         : "",
     emailId:
-      alldctClientdata && alldctClientdata.emailId
-        ? alldctClientdata.emailId
-        : "",
+      data && data.dctdata && data.dctdata.emailId ? data.dctdata.emailId : "",
     billingEmail:
-      alldctClientdata && alldctClientdata.billingEmail
-        ? alldctClientdata.billingEmail
+      data && data.dctdata && data.dctdata.billingEmail
+        ? data.dctdata.billingEmail
         : "",
     phone1:
-      alldctClientdata && alldctClientdata.phone1
-        ? alldctClientdata.phone1
-        : "",
+      data && data.dctdata && data.dctdata.phone1 ? data.dctdata.phone1 : "",
 
     importantPoints:
-      alldctClientdata && alldctClientdata.importantPoints
-        ? alldctClientdata.importantPoints
+      data && data.dctdata && data.dctdata.importantPoints
+        ? data.dctdata.importantPoints
         : "",
 
     clientEmail:
-      alldctClientdata && alldctClientdata.clientEmail
-        ? alldctClientdata.clientEmail
+      data && data.dctdata && data.dctdata.clientEmail
+        ? data.dctdata.clientEmail
         : "",
 
     phone2:
-      alldctClientdata && alldctClientdata.phone2
-        ? alldctClientdata.phone2
-        : "",
+      data && data.dctdata && data.dctdata.phone2 ? data.dctdata.phone2 : "",
 
     address:
-      alldctClientdata && alldctClientdata.address
-        ? alldctClientdata.address
-        : "",
+      data && data.dctdata && data.dctdata.address ? data.dctdata.address : "",
 
     clientCountry:
-      alldctClientdata && alldctClientdata.clientCountry
-        ? alldctClientdata.clientCountry
+      data && data.dctdata && data.dctdata.clientCountry
+        ? data.dctdata.clientCountry
         : "",
 
     clientFolderName:
-      alldctClientdata && alldctClientdata.clientFolderName
-        ? alldctClientdata.clientFolderName
+      data && data.dctdata && data.dctdata.clientFolderName
+        ? data.dctdata.clientFolderName
         : "",
     clientCurrency:
-      alldctClientdata && alldctClientdata.clientCurrency
-        ? alldctClientdata.clientCurrency
+      data && data.dctdata && data.dctdata.clientCurrency
+        ? data.dctdata.clientCurrency
         : "",
     companyName:
-      alldctClientdata && alldctClientdata.companyName
-        ? alldctClientdata.companyName
+      data && data.dctdata && data.dctdata.companyName
+        ? data.dctdata.companyName
         : "",
     clientCompanyFounderName:
-      alldctClientdata && alldctClientdata.clientCompanyFounderName
-        ? alldctClientdata.clientCompanyFounderName
+      data && data.dctdata && data.dctdata.clientCompanyFounderName
+        ? data.dctdata.clientCompanyFounderName
         : "",
     website:
-      alldctClientdata && alldctClientdata.website
-        ? alldctClientdata.website
-        : "",
+      data && data.dctdata && data.dctdata.website ? data.dctdata.website : "",
 
     clientType:
-      alldctClientdata && alldctClientdata.clientType
+      data && data.dctdata && data.dctdata.clientType
         ? {
-            value: alldctClientdata.clientType,
-            label: alldctClientdata.clientType,
+            value: data.dctdata.clientType,
+            label: data.dctdata.clientType,
           }
         : "",
 
     paymentModeName:
-      alldctClientdata && alldctClientdata.paymentModeName
-        ? alldctClientdata.paymentModeName
+      data && data.dctdata && data.dctdata.paymentModeName
+        ? data.dctdata.paymentModeName
         : "",
 
     standardInstruction:
-      alldctClientdata && alldctClientdata.standardInstruction
-        ? alldctClientdata.standardInstruction
+      data && data.dctdata && data.dctdata.standardInstruction
+        ? data.dctdata.standardInstruction
         : "",
 
     isSubmitted: false,
@@ -191,23 +184,14 @@ const EditDctClients = ({
   );
 
   const [country, getcountryData] = useState(
-    alldctClientdata
+    data.dctdata
       ? allcountry &&
-          allcountry.filter(
-            (x) => x.countryId === alldctClientdata.countryId
-          )[0]
+          allcountry.filter((x) => x.countryId === data.dctdata.countryId)[0]
       : ""
   );
-  const [countryId, setcountryID] = useState(alldctClientdata.countryId);
+  const [countryId, setcountryID] = useState(data.dctdata.countryId);
 
   const oncountryChange = (e) => {
-    //Required Validation Starts
-    // setError({
-    //   ...error,
-    //   countrytypeIdChecker: true,
-    //   countrytypeIdErrorStyle: { color: "#000" },
-    // });
-    //Required Validation ends
     var countryId = "";
     getcountryData(e);
     countryId = e.countryId;
@@ -241,27 +225,19 @@ const EditDctClients = ({
   );
 
   const [payment, getStateData] = useState(
-    alldctClientdata
+    data.dctdata
       ? allpaymentmodes &&
           allpaymentmodes.filter(
-            (x) => x.paymentId === alldctClientdata.paymentId
+            (x) => x.paymentId === data.dctdata.paymentId
           )[0]
       : ""
   );
-  const [paymentId, setpaymentId] = useState(alldctClientdata.paymentId);
+  const [paymentId, setpaymentId] = useState(data.dctdata.paymentId);
   const [paymentModeName, setpaymentname] = useState(
-    alldctClientdata.paymentModeName
+    data.dctdata.paymentModeName
   );
 
   const onPayModeChange = (e) => {
-    //Required Validation starts
-    // setError({
-    //   ...error,
-    //   paymentmodeIdChecker: true,
-    //   paymentmodeIdErrorStyle: { color: "#000" },
-    // });
-    //Required Validation ends
-
     var paymentId = "";
     var paymentModeName = "";
     getStateData(e);
@@ -271,59 +247,7 @@ const EditDctClients = ({
     setpaymentname(paymentModeName);
   };
 
-  // const [error, setError] = useState({
-  //   paymentmodeIdChecker: false,
-  //   paymentmodeIdErrorStyle: {},
-  //   clienttypeIdChecker: false,
-
-  //   clienttypeIdErrorStyle: {},
-  //   countrytypeIdChecker: false,
-  //   countrytypeIdErrorStyle: {},
-  // });
-  // const {
-  //   paymentmodeIdChecker,
-  //   paymentmodeIdErrorStyle,
-  //   clienttypeIdChecker,
-  //   clienttypeIdErrorStyle,
-  //   countrytypeIdChecker,
-  //   countrytypeIdErrorStyle,
-  // } = error;
-
-  // const checkErrors = () => {
-  //   if (!clienttypeIdChecker) {
-  //     setError({
-  //       ...error,
-  //       clienttypeIdErrorStyle: { color: "#F00" },
-  //     });
-  //     return false;
-  //   }
-  //   if (!countrytypeIdChecker) {
-  //     setError({
-  //       ...error,
-  //       countrytypeIdErrorStyle: { color: "#F00" },
-  //     });
-  //     return false;
-  //   }
-  //   if (!paymentmodeIdChecker) {
-  //     setError({
-  //       ...error,
-  //       paymentmodeIdErrorStyle: { color: "#F00" },
-  //     });
-  //     return false;
-  //   }
-
-  //   return true;
-  // };
-
   const onClientTypeChange = (e) => {
-    //  Required Validation starts
-    // setError({
-    //   ...error,
-    //   clienttypeIdChecker: true,
-    //   clienttypeIdErrorStyle: { color: "#000" },
-    // });
-    // Required Validation ends
-
     if (e) {
       setFormData({
         ...formData,
@@ -333,9 +257,9 @@ const EditDctClients = ({
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
+
     const finalData = {
-      recordId: alldctClientdata ? alldctClientdata._id : "",
+      recordId: data.dctdata ? data.dctdata._id : "",
       companyName: companyName,
       website: website,
       clientName: clientName,
@@ -365,12 +289,14 @@ const EditDctClients = ({
     console.log(finalData);
     editDctClientsDetails(finalData);
     onEditModalChange(true);
-    // }
   };
-
+  if (!data) {
+    return <Redirect to="/all-dct-client" />;
+  }
   if (isSubmitted) {
     return <Redirect to="/all-prospects" />;
   }
+
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -383,358 +309,365 @@ const EditDctClients = ({
     <Spinner />
   ) : (
     <Fragment>
-      {/* <div className="container container_align"> */}
-      <form className="row" onSubmit={(e) => onSubmit(e)}>
-        {/* <section className="sub_reg"> */}
-        <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-          <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
-            <div className="row card-new ">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                <h5>Company Info</h5>
-              </div>
-
-              <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
-                <label className="label-control">Company Name* :</label>
-                <input
-                  type="text"
-                  name="companyName"
-                  value={companyName}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                  required
-                />
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Website* :</label>
-                <input
-                  type="text"
-                  name="website"
-                  value={website}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                  required
-                />
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Client Type* :</label>
-                <Select
-                  name="clientType"
-                  options={clientTypeVal}
-                  isSearchable={false}
-                  value={clientType}
-                  placeholder="Select Meeting Type"
-                  onChange={(e) => onClientTypeChange(e)}
-                  theme={(theme) => ({
-                    ...theme,
-                    height: 26,
-                    minHeight: 26,
-                    borderRadius: 1,
-                    colors: {
-                      ...theme.colors,
-                      primary: "black",
-                    },
-                  })}
-                />
-              </div>
-
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Founder Name* :</label>
-                <input
-                  type="text"
-                  name="clientCompanyFounderName"
-                  value={clientCompanyFounderName}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                  required
-                />
-              </div>
-
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Email Id* :</label>
-                <input
-                  type="text"
-                  name="emailId"
-                  value={emailId}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                  required
-                />
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Production Email :</label>
-                <input
-                  type="text"
-                  name="clientEmail"
-                  value={clientEmail}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Billing Email :</label>
-                <input
-                  type="text"
-                  name="billingEmail"
-                  value={billingEmail}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Phone 1 :</label>
-                <input
-                  type="number"
-                  name="phone1"
-                  value={phone1}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                  onKeyDown={(e) =>
-                    (e.keyCode === 69 || e.keyCode === 190) &&
-                    e.preventDefault()
-                  }
-                />
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Phone 2 :</label>
-                <input
-                  type="number"
-                  name="phone2"
-                  value={phone2}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                  onKeyDown={(e) =>
-                    (e.keyCode === 69 || e.keyCode === 190) &&
-                    e.preventDefault()
-                  }
-                />
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Client Name:</label>
-                <input
-                  type="text"
-                  name="clientName"
-                  value={clientName}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Client Folder Name* :</label>
-                <input
-                  type="text"
-                  name="clientFolderName"
-                  value={clientFolderName}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                  required
-                />
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Region* :</label>
-                <Select
-                  name="countryName"
-                  options={allcountry}
-                  isSearchable={true}
-                  value={country}
-                  placeholder="Select Region"
-                  onChange={(e) => oncountryChange(e)}
-                  required
-                />
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Mode of Payment* :</label>
-
-                <Select
-                  name="paymentMode"
-                  options={allpaymentmodes}
-                  isSearchable={true}
-                  value={payment}
-                  placeholder="Select Mode"
-                  onChange={(e) => onPayModeChange(e)}
-                  theme={(theme) => ({
-                    ...theme,
-                    height: 26,
-                    minHeight: 26,
-                    borderRadius: 1,
-                    colors: {
-                      ...theme.colors,
-                      primary: "black",
-                    },
-                  })}
-                />
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Currency :</label>
-                <input
-                  type="text"
-                  name="clientCurrency"
-                  value={clientCurrency}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12"></div>
-              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Services :</label>
-              </div>
-              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Imaging</label>
-                <input
-                  type="checkbox"
-                  id="Unconfirmed"
-                  value="Imaging"
-                  onChange={(e) => onServicesChange(e)}
-                />
-              </div>
-              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                <label className="label-control">CGI</label>
-                <input
-                  type="checkbox"
-                  id="Unconfirmed"
-                  value="CGI"
-                  onChange={(e) => onServicesChange(e)}
-                />
-              </div>
-              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Video Editing</label>
-                <input
-                  type="checkbox"
-                  id="Unconfirmed"
-                  value="videoEditing"
-                  onChange={(e) => onServicesChange(e)}
-                />
-              </div>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12 py-2">
-                <label className="label-control">Important Points :</label>
-                <textarea
-                  name="importantPoints"
-                  id="importantPoints"
-                  className="textarea form-control"
-                  rows="3"
-                  placeholder="importantPoints"
-                  style={{ width: "100%" }}
-                  value={importantPoints}
-                  onChange={(e) => onInputChange(e)}
-                ></textarea>
-              </div>
-
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12 py-2">
-                <label className="label-control">Address :</label>
-                <textarea
-                  name="address"
-                  id="address"
-                  className="textarea form-control"
-                  rows="3"
-                  placeholder=" Address"
-                  style={{ width: "100%" }}
-                  value={address}
-                  onChange={(e) => onInputChange(e)}
-                ></textarea>
-              </div>
-            </div>
+      <div className="container container_align">
+        <form className="row" onSubmit={(e) => onSubmit(e)}>
+          <div className="col-lg-12 col-md-11 col-sm-12 col-12">
+            <br />
           </div>
+          <section className="sub_reg">
+            <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+                <div className="row card-new ">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h2 className="heading_color">Add DCT Clients</h2>
+                    <hr />
+                    <h5>Company Info</h5>
+                  </div>
 
-          <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-            {/* <form onSubmit={(e) =>Add(e)}> */}
-            <div className="row card-new  py-3">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                <h5>Contact Info</h5>
+                  <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
+                    <label className="label-control">Company Name* :</label>
+                    <input
+                      type="text"
+                      name="companyName"
+                      value={companyName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Website* :</label>
+                    <input
+                      type="text"
+                      name="website"
+                      value={website}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Client Type* :</label>
+                    <Select
+                      name="clientType"
+                      options={clientTypeVal}
+                      isSearchable={false}
+                      value={clientType}
+                      placeholder="Select Meeting Type"
+                      onChange={(e) => onClientTypeChange(e)}
+                      theme={(theme) => ({
+                        ...theme,
+                        height: 26,
+                        minHeight: 26,
+                        borderRadius: 1,
+                        colors: {
+                          ...theme.colors,
+                          primary: "black",
+                        },
+                      })}
+                    />
+                  </div>
+
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Founder Name* :</label>
+                    <input
+                      type="text"
+                      name="clientCompanyFounderName"
+                      value={clientCompanyFounderName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    />
+                  </div>
+
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Email Id* :</label>
+                    <input
+                      type="text"
+                      name="emailId"
+                      value={emailId}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Production Email :</label>
+                    <input
+                      type="text"
+                      name="clientEmail"
+                      value={clientEmail}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Billing Email :</label>
+                    <input
+                      type="text"
+                      name="billingEmail"
+                      value={billingEmail}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Phone 1 :</label>
+                    <input
+                      type="number"
+                      name="phone1"
+                      value={phone1}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Phone 2 :</label>
+                    <input
+                      type="number"
+                      name="phone2"
+                      value={phone2}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Client Name:</label>
+                    <input
+                      type="text"
+                      name="clientName"
+                      value={clientName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">
+                      Client Folder Name* :
+                    </label>
+                    <input
+                      type="text"
+                      name="clientFolderName"
+                      value={clientFolderName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Region* :</label>
+                    <Select
+                      name="countryName"
+                      options={allcountry}
+                      isSearchable={true}
+                      value={country}
+                      placeholder="Select Region"
+                      onChange={(e) => oncountryChange(e)}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Mode of Payment* :</label>
+
+                    <Select
+                      name="paymentMode"
+                      options={allpaymentmodes}
+                      isSearchable={true}
+                      value={payment}
+                      placeholder="Select Mode"
+                      onChange={(e) => onPayModeChange(e)}
+                      theme={(theme) => ({
+                        ...theme,
+                        height: 26,
+                        minHeight: 26,
+                        borderRadius: 1,
+                        colors: {
+                          ...theme.colors,
+                          primary: "black",
+                        },
+                      })}
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Currency :</label>
+                    <input
+                      type="text"
+                      name="clientCurrency"
+                      value={clientCurrency}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12"></div>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Services :</label>
+                  </div>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Imaging</label>
+                    <input
+                      type="checkbox"
+                      id="Unconfirmed"
+                      value="Imaging"
+                      onChange={(e) => onServicesChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">CGI</label>
+                    <input
+                      type="checkbox"
+                      id="Unconfirmed"
+                      value="CGI"
+                      onChange={(e) => onServicesChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Video Editing</label>
+                    <input
+                      type="checkbox"
+                      id="Unconfirmed"
+                      value="videoEditing"
+                      onChange={(e) => onServicesChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12 py-2">
+                    <label className="label-control">Important Points :</label>
+                    <textarea
+                      name="importantPoints"
+                      id="importantPoints"
+                      className="textarea form-control"
+                      rows="3"
+                      placeholder="importantPoints"
+                      style={{ width: "100%" }}
+                      value={importantPoints}
+                      onChange={(e) => onInputChange(e)}
+                    ></textarea>
+                  </div>
+
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12 py-2">
+                    <label className="label-control">Address :</label>
+                    <textarea
+                      name="address"
+                      id="address"
+                      className="textarea form-control"
+                      rows="3"
+                      placeholder=" Address"
+                      style={{ width: "100%" }}
+                      value={address}
+                      onChange={(e) => onInputChange(e)}
+                    ></textarea>
+                  </div>
+                </div>
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Staff Name:</label>
-                <input
-                  type="text"
-                  name="staffName"
-                  value={staffName}
-                  className="form-control"
-                  onChange={(e) => onInputChange1(e)}
-                />
-              </div>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Phone Number :</label>
-                <input
-                  type="number"
-                  name="staffPhoneNumber"
-                  value={staffPhoneNumber}
-                  className="form-control"
-                  onChange={(e) => onInputChange1(e)}
-                  onKeyDown={(e) =>
-                    (e.keyCode === 69 || e.keyCode === 190) &&
-                    e.preventDefault()
-                  }
-                />
-              </div>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Email Id :</label>
-                <input
-                  type="text"
-                  name="staffEmailId"
-                  value={staffEmailId}
-                  className="form-control"
-                  onChange={(e) => onInputChange1(e)}
-                />
-              </div>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Designation :</label>
-                <input
-                  type="text"
-                  name="staffDesignation"
-                  value={staffDesignation}
-                  className="form-control"
-                  onChange={(e) => onInputChange1(e)}
-                />
-              </div>
-              <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                {/* <input
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                {/* <form onSubmit={(e) =>Add(e)}> */}
+                <div className="row card-new  py-3">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h5>Contact Info</h5>
+                  </div>
+
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Staff Name:</label>
+                    <input
+                      type="text"
+                      name="staffName"
+                      value={staffName}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Phone Number :</label>
+                    <input
+                      type="number"
+                      name="staffPhoneNumber"
+                      value={staffPhoneNumber}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Email Id :</label>
+                    <input
+                      type="text"
+                      name="staffEmailId"
+                      value={staffEmailId}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                    />
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Designation :</label>
+                    <input
+                      type="text"
+                      name="staffDesignation"
+                      value={staffDesignation}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                    />
+                  </div>
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    {/* <input
                         type="submit"
                         name="Submit"
                         value="ADD"
                         className="btn sub_form btn_continue blackbrd Save float-right"
                       /> */}
 
-                <button
-                  variant="success"
-                  className="btn sub_form btn_continue Save float-right"
-                  onClick={(e) => onAdd(e)}
-                >
-                  Add
-                </button>
+                    <button
+                      variant="success"
+                      className="btn sub_form btn_continue Save float-right"
+                      onClick={(e) => onAdd(e)}
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
+                {/* </form> */}
               </div>
-            </div>
-            {/* </form> */}
-          </div>
-          <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-            <div
-              className="row card-new"
-              style={{ height: "340px", overflowY: "scroll" }}
-            >
-              <table
-                className="tabllll table table-bordered table-striped table-hover"
-                id="datatable2"
-              >
-                <thead>
-                  <tr>
-                    <th>Staff Name</th>
-                    <th>Phone Number</th>
-                    <th>Email Id</th>
-                    <th>Designation</th>
-                    <th>Remove</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {alldctClientdata &&
-                    alldctClientdata.staffs &&
-                    alldctClientdata.staffs.map((staff, idx) => {
-                      if (staff.staffStatus === "Active")
-                        return (
-                          <tr key={idx}>
-                            <td>{staff.staffName}</td>
-                            <td>{staff.staffPhoneNumber}</td>
-                            <td>{staff.staffEmailId}</td>
-                            <td>{staff.staffDesignation}</td>
-                            <td>
-                              {/* <img
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                <div
+                  className="row card-new"
+                  style={{ height: "340px", overflowY: "scroll" }}
+                >
+                  <table
+                    className="tabllll table table-bordered table-striped table-hover"
+                    id="datatable2"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Staff Name</th>
+                        <th>Phone Number</th>
+                        <th>Email Id</th>
+                        <th>Designation</th>
+                        <th>Remove</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.dctdata &&
+                        data.dctdata.staffs &&
+                        data.dctdata.staffs.map((staff, idx) => {
+                          if (staff.staffStatus === "Active")
+                            return (
+                              <tr key={idx}>
+                                <td>{staff.staffName}</td>
+                                <td>{staff.staffPhoneNumber}</td>
+                                <td>{staff.staffEmailId}</td>
+                                <td>{staff.staffDesignation}</td>
+                                <td>
+                                  {/* <img
                                 className="img_icon_size log"
                                 onClick={() => onDeactive(staff, idx)}
                                 src={require("../../static/images/delete.png")}
@@ -749,77 +682,77 @@ const EditDctClients = ({
                                 alt="Edit"
                                 title="Edit"
                               /> */}
-                            </td>
-                          </tr>
-                        );
-                    })}
-                  {AddedDetails &&
-                    AddedDetails.map((AddDetail, idx) => {
-                      return (
-                        <tr key={idx}>
-                          <td>{AddDetail.staffName}</td>
-                          <td>{AddDetail.staffPhoneNumber}</td>
-                          <td>{AddDetail.staffEmailId}</td>
-                          <td>{AddDetail.staffDesignation}</td>
-                          <td>
-                            <img
-                              className="img_icon_size log"
-                              onClick={() =>
-                                onRemoveChange(AddDetail.staffName)
-                              }
-                              src={require("../../static/images/close-buttonRed.png")}
-                              alt="Remove"
-                              title="Remove"
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
+                                </td>
+                              </tr>
+                            );
+                        })}
+                      {AddedDetails &&
+                        AddedDetails.map((AddDetail, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td>{AddDetail.staffName}</td>
+                              <td>{AddDetail.staffPhoneNumber}</td>
+                              <td>{AddDetail.staffEmailId}</td>
+                              <td>{AddDetail.staffDesignation}</td>
+                              <td>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() =>
+                                    onRemoveChange(AddDetail.staffName)
+                                  }
+                                  src={require("../../static/images/close-buttonRed.png")}
+                                  alt="Remove"
+                                  title="Remove"
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div
-          className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
-          size="lg"
-        >
-          <div className="col-lg-8 col-md-6 col-sm-12 col-12">
-            <label className="label-control colorRed">
-              * Indicates mandatory fields, Please fill mandatory fields before
-              Submit
-            </label>
-          </div>
-          <div className="col-lg-4 col-md-6 col-sm-12 col-12">
-            {loading ? (
-              <button
-                className="btn sub_form btn_continue blackbrd Save float-right"
-                disabled
-              >
-                Loading...
-              </button>
-            ) : (
-              <input
-                type="submit"
-                name="Submit"
-                value="Update"
-                className="btn sub_form btn_continue blackbrd Save float-right"
-              />
-            )}
-            <Link
-              className="btn sub_form btn_continue blackbrd float-right"
-              to="#"
-              onClick={() => onEditModalChange(true)}
-              // onClick={onEditModalChange(true)}
+            <div
+              className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
+              size="lg"
             >
-              Cancel
-            </Link>
-          </div>
-        </div>
-        {/* </section> */}
-      </form>
-      {/* </div> */}
+              <div className="col-lg-8 col-md-6 col-sm-12 col-12">
+                <label className="label-control colorRed">
+                  * Indicates mandatory fields, Please fill mandatory fields
+                  before Submit
+                </label>
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-12 col-12">
+                {loading ? (
+                  <button
+                    className="btn sub_form btn_continue blackbrd Save float-right"
+                    disabled
+                  >
+                    Loading...
+                  </button>
+                ) : (
+                  <input
+                    type="submit"
+                    name="Submit"
+                    value="Update"
+                    className="btn sub_form btn_continue blackbrd Save float-right"
+                  />
+                )}
+                <Link
+                  className="btn sub_form btn_continue blackbrd float-right"
+                  to="#"
+                  onClick={() => onEditModalChange(true)}
+                  // onClick={onEditModalChange(true)}
+                >
+                  Cancel
+                </Link>
+              </div>
+            </div>
+          </section>
+        </form>
+      </div>
     </Fragment>
   );
 };

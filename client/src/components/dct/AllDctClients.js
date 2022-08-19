@@ -116,13 +116,24 @@ const AllDctClients = ({
                                     title="Deactivate"
                                   />
                                   &nbsp;
-                                  <img
+                                  {/* <img
                                     className="img_icon_size log"
                                     onClick={() => onUpdate(allDctClients, idx)}
                                     src={require("../../static/images/edit_icon.png")}
                                     alt="Edit"
                                     title="Edit"
-                                  />
+                                  /> */}
+                                  <Link
+                                    className="btn btn_green_bg float-right"
+                                    to={{
+                                      pathname: "/edit-dct-client",
+                                      data: {
+                                        dctdata: allDctClients,
+                                      },
+                                    }}
+                                  >
+                                    Add client
+                                  </Link>
                                 </>
                               </td>
                             </tr>
