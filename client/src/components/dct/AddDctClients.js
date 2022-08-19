@@ -270,6 +270,8 @@ const AddDctClients = ({
         staffs: AddedDetails,
         dctClientEnteredById: user._id,
         dctClientEnteredByName: user.empFullName,
+        dctClientAssignedToId: user._id,
+        dctClientAssignedToName: user.empFullName,
       };
       console.log(finalData);
       addDctClientDetails(finalData);

@@ -158,6 +158,8 @@ const AddLead = ({
       staffs: AddedDetails,
       dctLeadEnteredById: user._id,
       dctLeadEnteredByName: user.empFullName,
+      dctLeadAssignedToId: user._id,
+      dctLeadAssignedToName: user.empFullName,
     };
     addDctLeadDetails(finalData);
     setFormData({

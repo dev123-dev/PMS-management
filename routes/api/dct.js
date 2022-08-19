@@ -3,6 +3,7 @@ const router = express.Router();
 const config = require("config");
 const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
+const auth = require("../../middleware/auth");
 const DctLeads = require("../../models/dct/dctLeads");
 const DctCalls = require("../../models/dct/dctCalls");
 const DctClients = require("../../models/dct/dctClients");
