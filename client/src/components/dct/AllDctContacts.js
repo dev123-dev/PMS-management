@@ -17,6 +17,7 @@ const AllDctContacts = ({
   ondivcloseChange,
 }) => {
   // console.log("contact", leadDataVal);
+
   //formData
 
   const [formData, setFormData] = useState({
@@ -85,11 +86,7 @@ const AllDctContacts = ({
       handleDeactiveModalClose();
     }
   };
-  // const [showHide, setShowHide] = useState({
-  //   showdateselectionSection: true,
-  // });
 
-  // const { showdateselectionSection } = showHide;
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
@@ -100,10 +97,7 @@ const AllDctContacts = ({
       staffEmailId: staffEmailId,
       staffDesignation: staffDesignation,
     };
-    // setShowHide({
-    //   ...showHide,
-    //   showdateselectionSection: false,
-    // });
+
     addNewDctStaffDetails(finalData);
     onAddModalChange(true);
     setFormData({
