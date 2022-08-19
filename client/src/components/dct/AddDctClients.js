@@ -21,7 +21,7 @@ const AddDctClients = ({
     getALLPaymentMode();
   }, [getALLPaymentMode]);
   useEffect(() => {
-    getActiveCountry();
+    getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
