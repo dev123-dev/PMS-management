@@ -135,6 +135,30 @@ router.post("/add-new-dct-staff", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
+
+router.post("/add-new-dct-client-staff", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctClientStaff = await DctClients.updateOne(
+      { _id: data.recordId },
+      {
+        $push: {
+          staffs: {
+            _id: new mongoose.Types.ObjectId(),
+            staffName: data.staffName,
+            staffPhoneNumber: data.staffPhoneNumber,
+            staffEmailId: data.staffEmailId,
+            staffDesignation: data.staffDesignation,
+          },
+        },
+      }
+    );
+    res.json(updateDctClientStaff);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 router.post("/edit-dct-staff", async (req, res) => {
   try {
     let data = req.body;

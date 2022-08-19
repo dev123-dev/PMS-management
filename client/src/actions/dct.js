@@ -133,6 +133,22 @@ export const addNewDctStaffDetails = (finalData) => async (dispatch) => {
   }
 };
 
+export const addNewDctClientStaffDetails = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/dct/add-new-dct-client-staff", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 export const editDctStaffDetails = (finalData) => async (dispatch) => {
   try {
     dispatch({

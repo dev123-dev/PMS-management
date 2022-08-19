@@ -6,6 +6,7 @@ import Spinner from "../layout/Spinner";
 import EditContact from "./EditContact";
 import {
   addNewDctStaffDetails,
+  addNewDctClientStaffDetails,
   deactivateDctStaffDetails,
   deactivateDctClientStaffDetails,
 } from "../../actions/dct";
@@ -14,6 +15,7 @@ const AllContacts = ({
   auth: { isAuthenticated, user, users, loading },
   leadDataVal,
   addNewDctStaffDetails,
+  addNewDctClientStaffDetails,
   deactivateDctStaffDetails,
   deactivateDctClientStaffDetails,
   ondivcloseChange,
@@ -94,17 +96,17 @@ const AllContacts = ({
     e.preventDefault();
     const finalData = {
       recordId: leadDataVal ? leadDataVal._id : "",
-
       staffName: staffName,
       staffPhoneNumber: staffPhoneNumber,
       staffEmailId: staffEmailId,
       staffDesignation: staffDesignation,
     };
-    // setShowHide({
-    //   ...showHide,
-    //   showdateselectionSection: false,
-    // });
-    addNewDctStaffDetails(finalData);
+    if (from === "client") {
+      addNewDctClientStaffDetails(finalData);
+    } else {
+      addNewDctStaffDetails(finalData);
+    }
+
     onAddModalChange(true);
     setFormData({
       ...formData,
@@ -424,6 +426,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   addNewDctStaffDetails,
+  addNewDctClientStaffDetails,
   deactivateDctStaffDetails,
   deactivateDctClientStaffDetails,
 })(AllContacts);
