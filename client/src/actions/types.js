@@ -82,6 +82,8 @@ export const LAST_MSG = "LAST_MSG";
 export const CALLHISTORY = "CALLHISTORY";
 export const GET_ALL_LEADS = "GET_ALL_LEADS";
 export const GET_ALL_LEADS_DD = "GET_ALL_LEADS_DD";
+export const ALL_DCT_CLIENTS = "ALL_DCT_CLIENTS";
+export const ALL_DCT_CLIENTS_DD = "ALL_DCT_CLIENTS_DD";
 export const DCT_CLIENTS = "DCT_CLIENTS";
 export const DCT_CLIENTS_DD = "DCT_CLIENTS_DD";
 

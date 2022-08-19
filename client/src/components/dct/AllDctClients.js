@@ -4,17 +4,17 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { getDctClient } from "../../actions/dct";
+import { getAllDctClient } from "../../actions/dct";
 import EditDctClients from "./EditDctClients";
 import DeactiveDctClient from "./DeactiveDctClient";
 const AllDctClients = ({
   auth: { isAuthenticated, user, users },
-  dct: { dctClients, dctClientsDD },
-  getDctClient,
+  dct: { allDctClients, allDctClientsDD },
+  getAllDctClient,
 }) => {
   useEffect(() => {
-    getDctClient();
-  }, [getDctClient]);
+    getAllDctClient();
+  }, [getAllDctClient]);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -26,9 +26,9 @@ const AllDctClients = ({
   };
 
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (dctClients, idx) => {
+  const onUpdate = (allDctClients, idx) => {
     setShowEditModal(true);
-    setUserDatas(dctClients);
+    setUserDatas(allDctClients);
   };
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
@@ -40,9 +40,9 @@ const AllDctClients = ({
     }
   };
   const [userDatadeactive, setUserDatadeactive] = useState(null);
-  const onDeactive = (dctClients, idx) => {
+  const onDeactive = (allDctClients, idx) => {
     setShowDeactiveModal(true);
-    setUserDatadeactive(dctClients);
+    setUserDatadeactive(allDctClients);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -88,25 +88,27 @@ const AllDctClients = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {dctClients &&
-                        dctClients.map((dctClients, idx) => {
+                      {allDctClients &&
+                        allDctClients.map((allDctClients, idx) => {
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-                              <td>{dctClients.clientName}</td>
-                              {/* <td>{dctClients.clientBelongsToName}</td> */}
-                              <td>{dctClients.clientFolderName}</td>
-                              <td>{dctClients.emailId}</td>
-                              <td>{dctClients.phone1}</td>
-                              <td>{dctClients.phone2}</td>
-                              <td>{dctClients.clientCurrency}</td>
-                              <td>{dctClients.paymentModeName}</td>
-                              <td>{dctClients.countryName}</td>
+                              <td>{allDctClients.clientName}</td>
+                              {/* <td>{allDctClients.clientBelongsToName}</td> */}
+                              <td>{allDctClients.clientFolderName}</td>
+                              <td>{allDctClients.emailId}</td>
+                              <td>{allDctClients.phone1}</td>
+                              <td>{allDctClients.phone2}</td>
+                              <td>{allDctClients.clientCurrency}</td>
+                              <td>{allDctClients.paymentModeName}</td>
+                              <td>{allDctClients.countryName}</td>
                               <td>
                                 <>
                                   <img
                                     className="img_icon_size log"
-                                    onClick={() => onDeactive(dctClients, idx)}
+                                    onClick={() =>
+                                      onDeactive(allDctClients, idx)
+                                    }
                                     src={require("../../static/images/delete.png")}
                                     alt="Deactivate"
                                     title="Deactivate"
@@ -114,7 +116,7 @@ const AllDctClients = ({
                                   &nbsp;
                                   <img
                                     className="img_icon_size log"
-                                    onClick={() => onUpdate(dctClients, idx)}
+                                    onClick={() => onUpdate(allDctClients, idx)}
                                     src={require("../../static/images/edit_icon.png")}
                                     alt="Edit"
                                     title="Edit"
@@ -211,4 +213,4 @@ const mapStateToProps = (state) => ({
   dct: state.dct,
 });
 
-export default connect(mapStateToProps, { getDctClient })(AllDctClients);
+export default connect(mapStateToProps, { getAllDctClient })(AllDctClients);

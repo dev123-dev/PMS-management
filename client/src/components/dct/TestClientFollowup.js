@@ -5,7 +5,7 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-// import { getDctLeadDetails } from "../../actions/dct";
+import { getDctClientDetails, getDctClientDetailsDD } from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
@@ -13,13 +13,18 @@ import EditLead from "./EditLead";
 // import DeactiveLead from "./DeactiveLead";
 const TestClientFollowup = ({
   auth: { isAuthenticated, user, users },
-  // dct: { allLeads },
-  // getDctLeadDetails,
+  dct: { dctClients, dctClientsDD },
+  getDctClientDetails,
+  getDctClientDetailsDD,
 }) => {
-  // useEffect(() => {
-  //   getDctLeadDetails({ dctLeadCategory: "TC" });
-  // }, [getDctLeadDetails]);
-  // console.log(allLeads);
+  useEffect(() => {
+    getDctClientDetails({ dctClientCategory: "TC" });
+  }, [getDctClientDetails]);
+  useEffect(() => {
+    getDctClientDetailsDD({ dctClientCategory: "TC" });
+  }, [getDctClientDetailsDD]);
+  console.log(dctClients);
+  console.log(dctClientsDD);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -79,8 +84,8 @@ const TestClientFollowup = ({
   //   getcountryData(e);
   //   getclientsData("");
   //   getcountryIdData(e.countryId);
-  //   getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "F" });
-  //   getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "F" });
+  //   getDctClientDetails({ countryId: e.countryId, dctLeadCategory: "F" });
+  //   getDctClientDetailsDD({ countryId: e.countryId, dctLeadCategory: "F" });
   // };
 
   // const allclient = [];
@@ -94,7 +99,7 @@ const TestClientFollowup = ({
   // const [clients, getclientsData] = useState();
   // const onclientsChange = (e) => {
   //   getclientsData(e);
-  //   getDctLeadDetails({
+  //   getDctClientDetails({
   //     countryId: countryId,
   //     clientsId: e.clientsId,
   //     dctLeadCategory: "F",
@@ -104,8 +109,8 @@ const TestClientFollowup = ({
   // const onClickReset = () => {
   //   getcountryData("");
   //   getclientsData("");
-  //   getDctLeadDetails({ dctLeadCategory: "F" });
-  //   getDctLeadDetailsDD({ dctLeadCategory: "F" });
+  //  getDctClientDetails({ dctLeadCategory: "F" });
+  //   getDctClientDetailsDD({ dctLeadCategory: "F" });
   // };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -310,11 +315,14 @@ const TestClientFollowup = ({
 
 TestClientFollowup.propTypes = {
   auth: PropTypes.object.isRequired,
-  //dct: PropTypes.object.isRequired,
+  dct: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  //dct: state.dct,
+  dct: state.dct,
 });
 
-export default connect(mapStateToProps, {})(TestClientFollowup);
+export default connect(mapStateToProps, {
+  getDctClientDetails,
+  getDctClientDetailsDD,
+})(TestClientFollowup);

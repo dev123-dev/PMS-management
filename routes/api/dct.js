@@ -345,7 +345,7 @@ router.post("/get-all-dct-Leads", async (req, res) => {
   }
 });
 
-router.post("/get-dct-clients", async (req, res) => {
+router.post("/get-all-dct-clients", async (req, res) => {
   let { countryId, clientsId } = req.body;
   let query = {};
   if (countryId) {
@@ -374,10 +374,60 @@ router.post("/get-dct-clients", async (req, res) => {
     }
   }
   try {
-    const getDctClientsDetails = await DctClients.find(query).sort({
+    const getAllDctClientsDetails = await DctClients.find(query).sort({
       _id: -1,
     });
-    res.json(getDctClientsDetails);
+    res.json(getAllDctClientsDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-dct-clients", async (req, res) => {
+  var todayDate = new Date().toISOString().split("T")[0];
+  let { countryId, clientsId, dctClientCategory } = req.body;
+  let query = {};
+  if (countryId) {
+    if (clientsId) {
+      query = {
+        dctClientStatus: "Active",
+        countryId: countryId,
+        _id: clientsId,
+        dctClientCategory: dctClientCategory,
+        dctCallDate: { $lte: todayDate },
+      };
+    } else {
+      query = {
+        dctClientStatus: "Active",
+        countryId: countryId,
+        dctClientCategory: dctClientCategory,
+        dctCallDate: { $lte: todayDate },
+      };
+    }
+  } else {
+    if (clientsId) {
+      query = {
+        dctClientStatus: "Active",
+        _id: clientsId,
+        dctClientCategory: dctClientCategory,
+        dctCallDate: { $lte: todayDate },
+      };
+    } else {
+      query = {
+        dctClientStatus: "Active",
+        dctClientCategory: dctClientCategory,
+        dctCallDate: { $lte: todayDate },
+      };
+    }
+  }
+  console.log(query);
+  try {
+    const getDctClientDetails = await DctClients.find(query).sort({
+      dctCallDate: -1,
+      dctClientCategory: -1,
+    });
+    res.json(getDctClientDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

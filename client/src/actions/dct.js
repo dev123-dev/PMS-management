@@ -10,8 +10,11 @@ import {
   CALLHISTORY,
   GET_ALL_LEADS,
   GET_ALL_LEADS_DD,
+  ALL_DCT_CLIENTS,
+  ALL_DCT_CLIENTS_DD,
   DCT_CLIENTS,
   DCT_CLIENTS_DD,
+  ALL_CLIENTS,
 } from "./types";
 
 const config = {
@@ -103,7 +106,7 @@ export const editDctClientsDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/edit-dct-clients", finalData, config);
-    dispatch(getDctClient());
+    dispatch(getAllDctClient());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -184,7 +187,7 @@ export const deactivateDctClient = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/deactivate-dct-client", finalData, config);
-    dispatch(getDctClient());
+    dispatch(getAllDctClient());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -260,7 +263,7 @@ export const getAllDctLeadDD = (finalData) => async (dispatch) => {
   }
 };
 
-export const getDctClient = (finalData) => async (dispatch) => {
+export const getDctClientDetails = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/dct/get-dct-clients", finalData, config);
     dispatch({
@@ -274,11 +277,47 @@ export const getDctClient = (finalData) => async (dispatch) => {
   }
 };
 
-export const getDctClientDD = (finalData) => async (dispatch) => {
+export const getDctClientDetailsDD = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/dct/get-dct-clients", finalData, config);
     dispatch({
       type: DCT_CLIENTS_DD,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllDctClient = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/dct/get-all-dct-clients",
+      finalData,
+      config
+    );
+    dispatch({
+      type: ALL_DCT_CLIENTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllDctClientDD = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/dct/get-all-dct-clients",
+      finalData,
+      config
+    );
+    dispatch({
+      type: ALL_DCT_CLIENTS_DD,
       payload: res.data,
     });
   } catch (err) {

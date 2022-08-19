@@ -70,7 +70,7 @@ const DctClientsSchema = new mongoose.Schema({
     type: String,
   },
   dctClientCategory: {
-    type: String, //NC,P,F,TC,RC
+    type: String, //TC,RC
   },
   dctClientCategoryStatus: {
     type: String,
