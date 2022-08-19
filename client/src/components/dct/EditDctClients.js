@@ -809,7 +809,7 @@ const EditDctClients = ({
             )}
             <Link
               className="btn sub_form btn_continue blackbrd float-right"
-              to="/job-queue"
+              to="/all-dct-client"
             >
               Cancel
             </Link>
