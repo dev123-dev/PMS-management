@@ -10,12 +10,16 @@ import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
+import { getActiveCountry } from "../../actions/regions";
+
 // import DeactiveLead from "./DeactiveLead";
 const TestClientFollowup = ({
   auth: { isAuthenticated, user, users },
   dct: { dctClients, dctClientsDD },
+  regions: { activeCountry },
   getDctClientDetails,
   getDctClientDetailsDD,
+  getActiveCountry,
 }) => {
   useEffect(() => {
     getDctClientDetails({ dctClientCategory: "TC" });
@@ -23,8 +27,10 @@ const TestClientFollowup = ({
   useEffect(() => {
     getDctClientDetailsDD({ dctClientCategory: "TC" });
   }, [getDctClientDetailsDD]);
-  console.log(dctClients);
-  console.log(dctClientsDD);
+  useEffect(() => {
+    getActiveCountry({ countryBelongsTo: "DCT" });
+  }, []);
+  console.log(activeCountry);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -318,13 +324,16 @@ const TestClientFollowup = ({
 TestClientFollowup.propTypes = {
   auth: PropTypes.object.isRequired,
   dct: PropTypes.object.isRequired,
+  regions: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   dct: state.dct,
+  regions: state.regions,
 });
 
 export default connect(mapStateToProps, {
   getDctClientDetails,
   getDctClientDetailsDD,
+  getActiveCountry,
 })(TestClientFollowup);
