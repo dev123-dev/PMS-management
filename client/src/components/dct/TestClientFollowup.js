@@ -35,39 +35,8 @@ const TestClientFollowup = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
-  console.log("dctClients", dctClients);
 
   const [filterData, setFilterData] = useState({ dctLeadCategory: "TC" });
-
-  const [showEditModal, setShowEditModal] = useState(false);
-  const handleEditModalClose = () => setShowEditModal(false);
-
-  const onEditModalChange = (e) => {
-    if (e) {
-      handleEditModalClose();
-    }
-  };
-
-  const [userDatas, setUserDatas] = useState(null);
-  // const onUpdate = (allLeads, idx) => {
-  //   setShowEditModal(true);
-  //   setUserDatas(allLeads);
-  // };
-
-  // const [userDatadeactive, setUserDatadeactive] = useState(null);
-  // const onDeactive = (jobQueueProjects, idx) => {
-  //   setShowDeactiveModal(true);
-  //   setUserDatadeactive(jobQueueProjects);
-  // };
-
-  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
-  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
-
-  const onDeactiveModalChange = (e) => {
-    if (e) {
-      handleDeactiveModalClose();
-    }
-  };
 
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
@@ -253,65 +222,6 @@ const TestClientFollowup = ({
           </div>
         </section>
       </div>
-      <Modal
-        show={showEditModal}
-        backdrop="static"
-        keyboard={false}
-        size="xl"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header>
-          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
-            <h3 className="modal-title text-center">Edit Lead Details</h3>
-          </div>
-          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
-            <button onClick={handleEditModalClose} className="close">
-              <img
-                src={require("../../static/images/close.png")}
-                alt="X"
-                style={{ height: "20px", width: "20px" }}
-              />
-            </button>
-          </div>
-        </Modal.Header>
-        <Modal.Body>
-          <EditLead
-            onEditModalChange={onEditModalChange}
-            alleditLeaddata={userDatas}
-          />
-        </Modal.Body>
-      </Modal>
-
-      <Modal
-        show={showDeactiveModal}
-        backdrop="static"
-        keyboard={false}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header>
-          <div className="col-lg-10">
-            <h3 className="modal-title text-center">Deactivate Lead</h3>
-          </div>
-          <div className="col-lg-1">
-            <button onClick={handleDeactiveModalClose} className="close">
-              <img
-                src={require("../../static/images/close.png")}
-                alt="X"
-                style={{ height: "20px", width: "20px" }}
-              />
-            </button>
-          </div>
-        </Modal.Header>
-        <Modal.Body>
-          {/* <DeactiveLead
-            onDeactiveModalChange={onDeactiveModalChange}
-            Leaddeavtivedata={userDatadeactive}
-          /> */}
-        </Modal.Body>
-      </Modal>
     </Fragment>
   );
 };
