@@ -9,7 +9,8 @@ import { Redirect } from "react-router-dom";
 import { editDctClientsDetails } from "../../actions/dct";
 import { getActiveCountry } from "../../actions/regions";
 import { getALLPaymentMode } from "../../actions/settings";
-
+import { Modal } from "react-bootstrap";
+import EditContact from "./EditContact";
 const EditDctClients = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { paymentMode },
@@ -17,7 +18,6 @@ const EditDctClients = ({
   editDctClientsDetails,
   getALLPaymentMode,
   getActiveCountry,
-  onEditModalChange,
 }) => {
   const data = useHistory().location.data;
 
@@ -106,11 +106,12 @@ const EditDctClients = ({
       data && data.dctdata && data.dctdata.standardInstruction
         ? data.dctdata.standardInstruction
         : "",
-
+    staffDeactiveReason: "",
     isSubmitted: false,
   });
 
   const {
+    staffDeactiveReason,
     clientCompanyFounderName,
     companyName,
     website,
@@ -255,6 +256,60 @@ const EditDctClients = ({
       });
     }
   };
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  const handleEditModalClose = () => setShowEditModal(false);
+
+  const onEditModalChange = (e) => {
+    if (e) {
+      handleEditModalClose();
+    }
+  };
+
+  const [userDatas, setUserDatas] = useState(null);
+  const [userDatas1, setUserDatas1] = useState(
+    data.dctdata && data.dctdata._id
+  );
+  const onUpdate = (staff, idx) => {
+    setShowEditModal(true);
+    setUserDatas(staff);
+    setUserDatas1(data.dctdata);
+  };
+
+  const [userDatadeactive, setUserDatadeactive] = useState(null);
+  const onDeactive = (staff, idx) => {
+    setShowDeactiveModal(true);
+    setUserDatadeactive(staff);
+  };
+
+  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
+  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
+
+  const onDeactiveModalChange = (e) => {
+    if (e) {
+      handleDeactiveModalClose();
+    }
+  };
+
+  const onSubmitDeactive = (e) => {
+    e.preventDefault();
+    const finalData = {
+      recordId: data.dctdata ? data.dctdata._id : "",
+      staffId: userDatadeactive ? userDatadeactive._id : "",
+      staffDeactivateById: user._id,
+      staffDeactiveByDateTime: new Date().toLocaleString("en-GB"),
+      staffStatus: "Deactive",
+      staffDeactiveReason: staffDeactiveReason,
+    };
+    if (from === "client") {
+      deactivateDctClientStaffDetails(finalData);
+    } else {
+      deactivateDctStaffDetails(finalData);
+    }
+    onDeactiveModalChange(true);
+    ondivcloseChange(true);
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -667,21 +722,21 @@ const EditDctClients = ({
                                 <td>{staff.staffEmailId}</td>
                                 <td>{staff.staffDesignation}</td>
                                 <td>
-                                  {/* <img
-                                className="img_icon_size log"
-                                onClick={() => onDeactive(staff, idx)}
-                                src={require("../../static/images/delete.png")}
-                                alt="Delete Staff"
-                                title="Delelte Staff"
-                              />
-                              &nbsp;
-                              <img
-                                className="img_icon_size log"
-                                onClick={() => onUpdate(staff, idx)}
-                                src={require("../../static/images/edit_icon.png")}
-                                alt="Edit"
-                                title="Edit"
-                              /> */}
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onDeactive(staff, idx)}
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Delete Staff"
+                                    title="Delelte Staff"
+                                  />
+                                  &nbsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(staff, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
                                 </td>
                               </tr>
                             );
@@ -750,6 +805,112 @@ const EditDctClients = ({
             </div>
           </section>
         </form>
+        <Modal
+          show={showEditModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">Edit Staff Details</h3>
+            </div>
+            <div className="col-lg-1">
+              <button onClick={handleEditModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <EditContact
+              onEditModalChange={onEditModalChange}
+              allStaffdata={userDatas}
+              allleaddata={userDatas1}
+              // from={from}
+            />
+          </Modal.Body>
+        </Modal>
+
+        <Modal
+          show={showDeactiveModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">Deactivate Lead</h3>
+            </div>
+            <div className="col-lg-1">
+              <button onClick={handleDeactiveModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <form className="row" onSubmit={(e) => onSubmitDeactive(e)}>
+              <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
+                <label className="label-control">Deactive Staff Reason :</label>
+                <textarea
+                  name="staffDeactiveReason"
+                  id="staffDeactiveReason"
+                  className="textarea form-control"
+                  rows="3"
+                  placeholder="Staff Deactive Reason"
+                  style={{ width: "100%" }}
+                  value={staffDeactiveReason}
+                  onChange={(e) => onInputChange(e)}
+                  required
+                ></textarea>
+              </div>
+              <div
+                className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
+                size="lg"
+              >
+                <div className="col-lg-8 col-md-6 col-sm-12 col-12">
+                  <label className="label-control colorRed">
+                    * Indicates mandatory fields.
+                  </label>
+                </div>
+                <div className="col-lg-12 col-md-6 col-sm-12 col-12">
+                  {loading ? (
+                    <button
+                      className="btn sub_form btn_continue blackbrd Save float-right"
+                      disabled
+                    >
+                      Loading...
+                    </button>
+                  ) : (
+                    <input
+                      type="submit"
+                      name="Submit"
+                      value="Submit"
+                      className="btn sub_form btn_continue blackbrd Save float-right"
+                    />
+                  )}
+                  {/* <Link
+                className="btn sub_form btn_continue blackbrd float-right"
+                to="/job-queue"
+              >
+                Cancel
+              </Link> */}
+                </div>
+              </div>
+            </form>
+          </Modal.Body>
+        </Modal>
       </div>
     </Fragment>
   );
