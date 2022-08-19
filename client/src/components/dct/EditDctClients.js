@@ -809,7 +809,9 @@ const EditDctClients = ({
             )}
             <Link
               className="btn sub_form btn_continue blackbrd float-right"
-              to="/all-dct-client"
+              to="#"
+              onClick={() => onEditModalChange(true)}
+              // onClick={onEditModalChange(true)}
             >
               Cancel
             </Link>
