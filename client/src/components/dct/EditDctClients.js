@@ -187,12 +187,12 @@ const EditDctClients = ({
   );
 
   const [country, getcountryData] = useState(
-    data.dctdata
+    data && data.dctdata
       ? allcountry &&
           allcountry.filter((x) => x.countryId === data.dctdata.countryId)[0]
       : ""
   );
-  const [countryId, setcountryID] = useState(data.dctdata.countryId);
+  const [countryId, setcountryID] = useState(data && data.dctdata.countryId);
 
   const oncountryChange = (e) => {
     var countryId = "";
@@ -228,16 +228,16 @@ const EditDctClients = ({
   );
 
   const [payment, getStateData] = useState(
-    data.dctdata
+    data && data.dctdata
       ? allpaymentmodes &&
           allpaymentmodes.filter(
             (x) => x.paymentId === data.dctdata.paymentId
           )[0]
       : ""
   );
-  const [paymentId, setpaymentId] = useState(data.dctdata.paymentId);
+  const [paymentId, setpaymentId] = useState(data && data.dctdata.paymentId);
   const [paymentModeName, setpaymentname] = useState(
-    data.dctdata.paymentModeName
+    data && data.dctdata.paymentModeName
   );
 
   const onPayModeChange = (e) => {
@@ -270,7 +270,7 @@ const EditDctClients = ({
 
   const [userDatas, setUserDatas] = useState(null);
   const [userDatas1, setUserDatas1] = useState(
-    data.dctdata && data.dctdata._id
+    data && data.dctdata && data.dctdata._id
   );
   const onUpdate = (staff, idx) => {
     setShowEditModal(true);
