@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getAllDctClient } from "../../actions/dct";
-import EditDctClients from "./EditDctClients";
 import DeactiveDctClient from "./DeactiveDctClient";
 const AllDctClients = ({
   auth: { isAuthenticated, user, users },
