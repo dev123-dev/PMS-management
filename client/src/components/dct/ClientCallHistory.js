@@ -22,6 +22,7 @@ const ClientCallHistory = ({
               <th style={{ width: "15%" }}>Staff Name </th>
               <th style={{ width: "13%" }}>Call Date</th>
               <th style={{ width: "13%" }}>Status</th>
+              <th style={{ width: "13%" }}>Category</th>
               <th style={{ width: "6%" }}>Notes</th>
               <th style={{ width: "6%" }}>Call By</th>
             </tr>
@@ -34,11 +35,17 @@ const ClientCallHistory = ({
                   var ED = callHistory.callDate.split(/\D/g);
                   callDates = [ED[2], ED[1], ED[0]].join("-");
                 }
+                if (callHistory.callCategory === "F") {
+                  var callCategory = "Followup";
+                } else {
+                  var callCategory = "Prospects";
+                }
                 return (
                   <tr key={idx}>
                     <td>{callHistory.callToStaffName}</td>
                     <td>{callDates}</td>
                     <td>{callHistory.callStatus}</td>
+                    <td>{callCategory}</td>
                     <td>{callHistory.callNote}</td>
                     <td>{callHistory.callFromName}</td>
                   </tr>
