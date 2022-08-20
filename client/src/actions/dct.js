@@ -197,6 +197,10 @@ export const editDctClientStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/edit-dct-client-staff", finalData, config);
+    if (finalData.filterData) {
+      dispatch(getDctClientDetails(finalData.filterData));
+      dispatch(getDctClientDetails(finalData.filterData));
+    }
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -234,6 +238,10 @@ export const deactivateDctClientStaffDetails =
         finalData,
         config
       );
+      if (finalData.filterData) {
+        dispatch(getDctClientDetails(finalData.filterData));
+        dispatch(getDctClientDetails(finalData.filterData));
+      }
       dispatch({
         type: SET_LOADING_FALSE,
       });
