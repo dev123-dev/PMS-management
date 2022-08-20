@@ -210,7 +210,11 @@ const TestClientFollowup = ({
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Contacts</label>
                   {showdateselectionSection && (
-                    <AllContacts leadDataVal={leadData} from="client" />
+                    <AllContacts
+                      leadDataVal={leadData}
+                      from="client"
+                      ondivcloseChange={ondivcloseChange}
+                    />
                   )}
                 </div>
               </div>
@@ -221,7 +225,11 @@ const TestClientFollowup = ({
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
-                    <AllStatuschange leadDataVal={leadData} from="TestClient" />
+                    <AllStatuschange
+                      leadDataVal={leadData}
+                      from="TestClient"
+                      ondivcloseChange={ondivcloseChange}
+                    />
                   )}
                 </div>
               </div>
@@ -234,7 +242,10 @@ const TestClientFollowup = ({
                     Last Message Details
                   </label>
                   {showdateselectionSection && (
-                    <LastMessageDetails searchDataVal={searchDataVal} />
+                    <LastMessageDetails
+                      searchDataVal={searchDataVal}
+                      ondivcloseChange={ondivcloseChange}
+                    />
                   )}
                 </div>
               </div>
