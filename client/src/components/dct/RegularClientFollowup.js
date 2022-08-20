@@ -123,7 +123,7 @@ const RegularClientFollowup = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Test Client FollowUp</h5>
+              <h5 className="heading_color">Regular Client FollowUp</h5>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
