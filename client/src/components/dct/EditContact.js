@@ -18,7 +18,6 @@ const EditContact = ({
   from,
 }) => {
   //formData
-  //   console.log("allStaffdata", allStaffdata);
 
   const [formData, setFormData] = useState({
     staffName:
@@ -48,10 +47,8 @@ const EditContact = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
     const finalData = {
       staffId: allStaffdata ? allStaffdata._id : "",
-      // leadId: allleaddata ? allleaddata._id : "",
       staffName: staffName,
       staffPhoneNumber: staffPhoneNumber,
       staffEmailId: staffEmailId,
@@ -73,9 +70,6 @@ const EditContact = ({
       <form className="row" onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
           <div className="row card-new  pb-3">
-            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-              <h5>Staff Info </h5>
-            </div> */}
             <div className="col-lg-6 col-md-6 col-sm-6 col-12">
               <label className="label-control">Staff Name :</label>
               <input
