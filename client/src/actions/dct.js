@@ -24,7 +24,6 @@ const config = {
 };
 
 //ADD
-
 export const addDctLeadDetails = (finalData) => async (dispatch) => {
   try {
     dispatch({
@@ -274,7 +273,7 @@ export const deactivateDctClient = (finalData) => async (dispatch) => {
   }
 };
 
-//SELECT
+//**********************************SELECT**********************************
 export const getDctLeadDetails = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
@@ -415,7 +414,9 @@ export const getLastmessage = (searchData) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: ERROR,
+    });
   }
 };
 
@@ -427,6 +428,8 @@ export const getCallHistory = (searchData) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: ERROR,
+    });
   }
 };

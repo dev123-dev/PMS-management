@@ -34,7 +34,7 @@ const TestClientFollowup = ({
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
 
-  const [filterData, setFilterData] = useState({ dctLeadCategory: "TC" });
+  const [filterData, setFilterData] = useState({ dctClientCategory: "TC" });
 
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
@@ -229,6 +229,7 @@ const TestClientFollowup = ({
                       leadDataVal={leadData}
                       from="TestClient"
                       ondivcloseChange={ondivcloseChange}
+                      filterData={filterData}
                     />
                   )}
                 </div>

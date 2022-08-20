@@ -34,7 +34,7 @@ const RegularClientFollowup = ({
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
 
-  const [filterData, setFilterData] = useState({ dctLeadCategory: "RC" });
+  const [filterData, setFilterData] = useState({ dctClientCategory: "RC" });
 
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
@@ -229,6 +229,7 @@ const RegularClientFollowup = ({
                       leadDataVal={leadData}
                       from="RegularClient"
                       ondivcloseChange={ondivcloseChange}
+                      filterData={filterData}
                     />
                   )}
                 </div>
