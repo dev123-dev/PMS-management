@@ -16,21 +16,6 @@ const AllDctClients = ({
     getAllDctClient();
   }, [getAllDctClient]);
 
-  const [showEditModal, setShowEditModal] = useState(false);
-  const handleEditModalClose = () => setShowEditModal(false);
-
-  const onEditModalChange = (e) => {
-    if (e) {
-      handleEditModalClose();
-    }
-  };
-
-  const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allDctClients, idx) => {
-    setShowEditModal(true);
-    setUserDatas(allDctClients);
-  };
-
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
   const handleDeactiveModalClose = () => setShowDeactiveModal(false);
 
@@ -116,13 +101,6 @@ const AllDctClients = ({
                                     title="Deactivate"
                                   />
                                   &nbsp;
-                                  {/* <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(allDctClients, idx)}
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  /> */}
                                   <Link
                                     className="btn btn_green_bg float-right"
                                     to={{
@@ -154,36 +132,6 @@ const AllDctClients = ({
           </div>
         </section>
       </div>
-
-      <Modal
-        show={showEditModal}
-        backdrop="static"
-        keyboard={false}
-        size="xl"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header>
-          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
-            <h3 className="modal-title text-center">Edit Client Details</h3>
-          </div>
-          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
-            <button onClick={handleEditModalClose} className="close">
-              <img
-                src={require("../../static/images/close.png")}
-                alt="X"
-                style={{ height: "20px", width: "20px" }}
-              />
-            </button>
-          </div>
-        </Modal.Header>
-        <Modal.Body>
-          <EditDctClients
-            onEditModalChange={onEditModalChange}
-            alldctClientdata={userDatas}
-          />
-        </Modal.Body>
-      </Modal>
 
       <Modal
         show={showDeactiveModal}
