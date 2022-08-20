@@ -37,8 +37,12 @@ const ClientCallHistory = ({
                 }
                 if (callHistory.callCategory === "F") {
                   var callCategory = "Followup";
-                } else {
+                } else if (callHistory.callCategory === "P") {
                   var callCategory = "Prospects";
+                } else if (callHistory.callCategory === "TC") {
+                  var callCategory = "TestClient";
+                } else {
+                  var callCategory = "RegularClient";
                 }
                 return (
                   <tr key={idx}>
