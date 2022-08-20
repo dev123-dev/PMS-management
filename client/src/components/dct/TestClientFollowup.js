@@ -214,6 +214,7 @@ const TestClientFollowup = ({
                       leadDataVal={leadData}
                       from="client"
                       ondivcloseChange={ondivcloseChange}
+                      filterData={filterData}
                     />
                   )}
                 </div>

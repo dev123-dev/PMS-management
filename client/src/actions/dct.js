@@ -67,10 +67,7 @@ export const addDctCalls = (finalData) => async (dispatch) => {
       finalData,
       config
     );
-    if (finalData.filterData) {
-      dispatch(getDctLeadDetails(finalData.filterData));
-      dispatch(getDctLeadDetailsDD(finalData.filterData));
-    }
+    dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -113,7 +110,7 @@ export const editDctLeadDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/edit-dct-Leads", finalData, config);
-    dispatch(getAllDctLead());
+    dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -147,11 +144,7 @@ export const addNewDctStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/add-new-dct-staff", finalData, config);
-    if (finalData.filterData) {
-      dispatch(getDctLeadDetails(finalData.filterData));
-      dispatch(getDctLeadDetails(finalData.filterData));
-    }
-
+    dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -188,6 +181,7 @@ export const editDctStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/edit-dct-staff", finalData, config);
+    dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -219,6 +213,7 @@ export const deactivateDctStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/deactivate-dct-staff", finalData, config);
+    dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -275,6 +270,21 @@ export const deactivateDctClient = (finalData) => async (dispatch) => {
     dispatch({
       type: SET_LOADING_FALSE,
     });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const refreshLead = (finalData) => async (dispatch) => {
+  try {
+    if (finalData.filterData) {
+      dispatch(getDctLeadDetails(finalData.filterData));
+      dispatch(getDctLeadDetails(finalData.filterData));
+    }
+    dispatch(getAllDctLead());
+    dispatch(getAllDctLeadDD());
   } catch (err) {
     dispatch({
       type: ERROR,

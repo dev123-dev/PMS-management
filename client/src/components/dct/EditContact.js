@@ -16,6 +16,7 @@ const EditContact = ({
   editDctStaffDetails,
   editDctClientStaffDetails,
   from,
+  filterData,
 }) => {
   //formData
 
@@ -53,6 +54,7 @@ const EditContact = ({
       staffPhoneNumber: staffPhoneNumber,
       staffEmailId: staffEmailId,
       staffDesignation: staffDesignation,
+      filterData: filterData,
     };
     if (from === "client") {
       editDctClientStaffDetails(finalData);

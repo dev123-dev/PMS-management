@@ -131,6 +131,7 @@ const AllContacts = ({
       staffDeactiveByDateTime: new Date().toLocaleString("en-GB"),
       staffStatus: "Deactive",
       staffDeactiveReason: staffDeactiveReason,
+      filterData: filterData,
     };
     if (from === "client") {
       deactivateDctClientStaffDetails(finalData);
@@ -235,6 +236,7 @@ const AllContacts = ({
             allleaddata={userDatas1}
             ondivcloseChange={ondivcloseChange}
             from={from}
+            filterData={filterData}
           />
         </Modal.Body>
       </Modal>
