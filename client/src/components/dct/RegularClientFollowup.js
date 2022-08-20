@@ -50,6 +50,19 @@ const RegularClientFollowup = ({
       handleDeactiveModalClose();
     }
   };
+
+  const [showHide, setShowHide] = useState({
+    showdateselectionSection: false,
+  });
+
+  const { showdateselectionSection } = showHide;
+  const handledivModalClose = () => setShowHide(false);
+  const ondivcloseChange = (e) => {
+    if (e) {
+      handledivModalClose();
+    }
+  };
+
   // const allcountry = [];
   // activeCountry.map((country) =>
   //   allcountry.push({
@@ -93,6 +106,7 @@ const RegularClientFollowup = ({
   //   getclientsData("");
   //   getDctLeadDetails({ dctLeadCategory: "F" });
   //   getDctLeadDetailsDD({ dctLeadCategory: "F" });
+  // ondivcloseChange(true);
   // };
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
@@ -216,7 +230,9 @@ const RegularClientFollowup = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Contacts</label>
-                  <AllContacts leadDataVal={leadData} from="client" />
+                  {showdateselectionSection && (
+                    <AllContacts leadDataVal={leadData} from="client" />
+                  )}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding ">
@@ -225,10 +241,12 @@ const RegularClientFollowup = ({
                   style={{ height: "30vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
-                  <AllStatuschange
-                    leadDataVal={leadData}
-                    from="RegularClient"
-                  />
+                  {showdateselectionSection && (
+                    <AllStatuschange
+                      leadDataVal={leadData}
+                      from="RegularClient"
+                    />
+                  )}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
@@ -239,7 +257,9 @@ const RegularClientFollowup = ({
                   <label className="sidePartHeading ">
                     Last Message Details
                   </label>
-                  <LastMessageDetails searchDataVal={searchDataVal} />
+                  {showdateselectionSection && (
+                    <LastMessageDetails searchDataVal={searchDataVal} />
+                  )}
                 </div>
               </div>
             </div>
