@@ -44,6 +44,8 @@ const LastMessageDetails = ({
             placeholder="Notes"
             style={{ width: "100%" }}
             value={lastMsg && lastMsg.callNote}
+            disabled
+            // editable={false}
           ></textarea>
         </div>
         <div className="col-lg-3 col-md-12 col-sm-12 col-12 mt-3">
