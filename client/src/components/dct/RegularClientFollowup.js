@@ -227,7 +227,7 @@ const RegularClientFollowup = ({
                   {showdateselectionSection && (
                     <AllStatuschange
                       leadDataVal={leadData}
-                      from="TestClient"
+                      from="RegularClient"
                       ondivcloseChange={ondivcloseChange}
                     />
                   )}
