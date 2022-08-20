@@ -443,7 +443,10 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
   }
 });
 
-router.post("/get-all-dct-clients", async (req, res) => {
+router.post("/get-all-dct-clients", auth, async (req, res) => {
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
   let { countryId, clientsId } = req.body;
   let query = {};
   if (countryId) {
@@ -452,11 +455,13 @@ router.post("/get-all-dct-clients", async (req, res) => {
         dctClientStatus: "Active",
         countryId: countryId,
         _id: clientsId,
+        dctClientAssignedToId: userInfo._id,
       };
     } else {
       query = {
         dctClientStatus: "Active",
         countryId: countryId,
+        dctClientAssignedToId: userInfo._id,
       };
     }
   } else {
@@ -464,10 +469,12 @@ router.post("/get-all-dct-clients", async (req, res) => {
       query = {
         dctClientStatus: "Active",
         _id: clientsId,
+        dctClientAssignedToId: userInfo._id,
       };
     } else {
       query = {
         dctClientStatus: "Active",
+        dctClientAssignedToId: userInfo._id,
       };
     }
   }
@@ -482,7 +489,10 @@ router.post("/get-all-dct-clients", async (req, res) => {
   }
 });
 
-router.post("/get-dct-clients", async (req, res) => {
+router.post("/get-dct-clients", auth, async (req, res) => {
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
   var todayDate = new Date().toISOString().split("T")[0];
   let { countryId, clientsId, dctClientCategory } = req.body;
   let query = {};
@@ -494,6 +504,7 @@ router.post("/get-dct-clients", async (req, res) => {
         _id: clientsId,
         dctClientCategory: dctClientCategory,
         dctCallDate: { $lte: todayDate },
+        dctClientAssignedToId: userInfo._id,
       };
     } else {
       query = {
@@ -501,6 +512,7 @@ router.post("/get-dct-clients", async (req, res) => {
         countryId: countryId,
         dctClientCategory: dctClientCategory,
         dctCallDate: { $lte: todayDate },
+        dctClientAssignedToId: userInfo._id,
       };
     }
   } else {
@@ -510,12 +522,14 @@ router.post("/get-dct-clients", async (req, res) => {
         _id: clientsId,
         dctClientCategory: dctClientCategory,
         dctCallDate: { $lte: todayDate },
+        dctClientAssignedToId: userInfo._id,
       };
     } else {
       query = {
         dctClientStatus: "Active",
         dctClientCategory: dctClientCategory,
         dctCallDate: { $lte: todayDate },
+        dctClientAssignedToId: userInfo._id,
       };
     }
   }
