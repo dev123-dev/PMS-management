@@ -1,54 +1,55 @@
 import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-// import { getDctLeadDetails } from "../../actions/dct";
+import {
+  getDctClientDetails,
+  getDctClientDetailsDD,
+  getLastmessage,
+} from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
-import EditLead from "./EditLead";
-import DeactiveLead from "./DeactiveLead";
+import { getActiveCountry } from "../../actions/regions";
+
+// import DeactiveLead from "./DeactiveLead";
 const RegularClientFollowup = ({
   auth: { isAuthenticated, user, users },
-  dct: { allLeads },
-  // getDctLeadDetails,
+  dct: { dctClients, dctClientsDD },
+  regions: { activeCountry },
+  getDctClientDetails,
+  getDctClientDetailsDD,
+  getActiveCountry,
+  getLastmessage,
 }) => {
-  // useEffect(() => {
-  //   getDctLeadDetails();
-  // }, [getDctLeadDetails]);
-  // console.log(allLeads);
+  useEffect(() => {
+    getDctClientDetails({ dctClientCategory: "RC" });
+  }, [getDctClientDetails]);
+  useEffect(() => {
+    getDctClientDetailsDD({ dctClientCategory: "RC" });
+  }, [getDctClientDetailsDD]);
+  useEffect(() => {
+    getActiveCountry({ countryBelongsTo: "DCT" });
+  }, []);
 
-  const [showEditModal, setShowEditModal] = useState(false);
-  const handleEditModalClose = () => setShowEditModal(false);
+  const [filterData, setFilterData] = useState({ dctLeadCategory: "RC" });
 
-  const onEditModalChange = (e) => {
-    if (e) {
-      handleEditModalClose();
-    }
-  };
+  const [searchDataVal, setsearchDataVal] = useState();
+  const [leadData, setLeadData] = useState();
+  const onClickHandler = (dctClients, idx) => {
+    setLeadData(dctClients);
 
-  const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allLeads, idx) => {
-    setShowEditModal(true);
-    setUserDatas(allLeads);
-  };
-
-  const [userDatadeactive, setUserDatadeactive] = useState(null);
-  const onDeactive = (jobQueueProjects, idx) => {
-    setShowDeactiveModal(true);
-    setUserDatadeactive(jobQueueProjects);
-  };
-
-  const [showDeactiveModal, setShowDeactiveModal] = useState(false);
-  const handleDeactiveModalClose = () => setShowDeactiveModal(false);
-
-  const onDeactiveModalChange = (e) => {
-    if (e) {
-      handleDeactiveModalClose();
-    }
+    const searchData = {
+      callToId: dctClients._id,
+    };
+    setsearchDataVal(searchData);
+    getLastmessage(searchData);
+    setShowHide({
+      ...showHide,
+      showdateselectionSection: true,
+    });
   };
 
   const [showHide, setShowHide] = useState({
@@ -62,62 +63,57 @@ const RegularClientFollowup = ({
       handledivModalClose();
     }
   };
+  const allcountry = [];
+  activeCountry.map((country) =>
+    allcountry.push({
+      countryId: country._id,
+      label: country.countryName,
+      value: country.countryName,
+    })
+  );
 
-  // const allcountry = [];
-  // activeCountry.map((country) =>
-  //   allcountry.push({
-  //     countryId: country._id,
-  //     label: country.countryName,
-  //     value: country.countryName,
-  //   })
-  // );
+  const [country, getcountryData] = useState();
+  const [countryId, getcountryIdData] = useState(null);
 
-  // const [country, getcountryData] = useState();
-  // const [countryId, getcountryIdData] = useState(null);
+  const oncountryChange = (e) => {
+    getcountryData(e);
+    getclientsData("");
+    getcountryIdData(e.countryId);
+    getDctClientDetails({ countryId: e.countryId, dctClientCategory: "RC" });
+    getDctClientDetailsDD({ countryId: e.countryId, dctClientCategory: "RC" });
+    setFilterData({ countryId: e.countryId, dctClientCategory: "RC" });
+  };
 
-  // const oncountryChange = (e) => {
-  //   getcountryData(e);
-  //   getclientsData("");
-  //   getcountryIdData(e.countryId);
-  //   getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "F" });
-  //   getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "F" });
-  // };
+  const allclient = [];
+  dctClientsDD.map((clients) =>
+    allclient.push({
+      clientsId: clients._id,
+      label: clients.companyName,
+      value: clients.companyName,
+    })
+  );
+  const [clients, getclientsData] = useState();
+  const onclientsChange = (e) => {
+    getclientsData(e);
+    getDctClientDetails({
+      countryId: countryId,
+      clientsId: e.clientsId,
+      dctClientCategory: "RC",
+    });
+    setFilterData({
+      countryId: countryId,
+      clientsId: e.clientsId,
+      dctClientCategory: "RC",
+    });
+  };
 
-  // const allclient = [];
-  // allLeadsDD.map((clients) =>
-  //   allclient.push({
-  //     clientsId: clients._id,
-  //     label: clients.companyName,
-  //     value: clients.companyName,
-  //   })
-  // );
-  // const [clients, getclientsData] = useState();
-  // const onclientsChange = (e) => {
-  //   getclientsData(e);
-  //   getDctLeadDetails({
-  //     countryId: countryId,
-  //     clientsId: e.clientsId,
-  //     dctLeadCategory: "F",
-  //   });
-  // };
-
-  // const onClickReset = () => {
-  //   getcountryData("");
-  //   getclientsData("");
-  //   getDctLeadDetails({ dctLeadCategory: "F" });
-  //   getDctLeadDetailsDD({ dctLeadCategory: "F" });
-  // ondivcloseChange(true);
-  // };
-  const [searchDataVal, setsearchDataVal] = useState();
-  const [leadData, setLeadData] = useState();
-  const onClickHandler = (allLeads, idx) => {
-    setLeadData(allLeads);
-
-    const searchData = {
-      callToId: allLeads._id,
-    };
-    setsearchDataVal(searchData);
-    //getLastmessage(searchData);
+  const onClickReset = () => {
+    getcountryData("");
+    getclientsData("");
+    getDctClientDetails({ dctClientCategory: "RC" });
+    getDctClientDetailsDD({ dctClientCategory: "RC" });
+    setFilterData({ dctClientCategory: "RC" });
+    ondivcloseChange(true);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -127,16 +123,16 @@ const RegularClientFollowup = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Regular Client FollowUp</h5>
+              <h5 className="heading_color">Test Client FollowUp</h5>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="countryName"
-                //   options={allcountry}
+                options={allcountry}
                 isSearchable={true}
-                //   value={country}
+                value={country}
                 placeholder="Select Region"
-                //   onChange={(e) => oncountryChange(e)}
+                onChange={(e) => oncountryChange(e)}
                 required
               />
             </div>
@@ -144,18 +140,18 @@ const RegularClientFollowup = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="companyName"
-                //  options={allclient}
+                options={allclient}
                 isSearchable={true}
-                //  value={clients}
+                value={clients}
                 placeholder="Select Lead"
-                //  onChange={(e) => onclientsChange(e)}
+                onChange={(e) => onclientsChange(e)}
                 required
               />
             </div>
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
-                //  onClick={() => onClickReset()}
+                onClick={() => onClickReset()}
               >
                 Refresh
               </button>
@@ -177,12 +173,11 @@ const RegularClientFollowup = ({
                         <th style={{ width: "13%" }}>Email</th>
                         <th style={{ width: "13%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
-                        <th style={{ width: "13%" }}>Op</th>
                       </tr>
                     </thead>
-                    {/* <tbody>
-                      {allLeads &&
-                        allLeads.map((allLeads, idx) => {
+                    <tbody>
+                      {dctClients &&
+                        dctClients.map((dctClients, idx) => {
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
@@ -191,37 +186,21 @@ const RegularClientFollowup = ({
                                 <Link
                                   className="float-left ml-3"
                                   to="#"
-                                  onClick={() => onClickHandler(allLeads, idx)}
+                                  onClick={() =>
+                                    onClickHandler(dctClients, idx)
+                                  }
                                 >
-                                  {allLeads.companyName}
+                                  {dctClients.companyName}
                                 </Link>
                               </td>
-                              <td>{allLeads.website}</td>
-                              <td>{allLeads.emailId}</td>
-                              <td>{allLeads.website}</td>
-                              <td>{allLeads.phone1}</td>
-
-                              <td>
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() => onDeactive(allLeads, idx)}
-                                  src={require("../../static/images/delete.png")}
-                                  alt="Delete Project"
-                                  title="Delete Project"
-                                />{" "}
-                                &emsp;
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() => onUpdate(allLeads, idx)}
-                                  src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
-                                />
-                              </td>
+                              <td>{dctClients.website}</td>
+                              <td>{dctClients.emailId}</td>
+                              <td>{dctClients.countryName}</td>
+                              <td>{dctClients.phone1}</td>
                             </tr>
                           );
                         })}
-                    </tbody> */}
+                    </tbody>
                   </table>
                 </div>
               </section>
@@ -242,10 +221,7 @@ const RegularClientFollowup = ({
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
-                    <AllStatuschange
-                      leadDataVal={leadData}
-                      from="RegularClient"
-                    />
+                    <AllStatuschange leadDataVal={leadData} from="TestClient" />
                   )}
                 </div>
               </div>
@@ -266,65 +242,6 @@ const RegularClientFollowup = ({
           </div>
         </section>
       </div>
-      <Modal
-        show={showEditModal}
-        backdrop="static"
-        keyboard={false}
-        size="xl"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header>
-          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
-            <h3 className="modal-title text-center">Edit Lead Details</h3>
-          </div>
-          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
-            <button onClick={handleEditModalClose} className="close">
-              <img
-                src={require("../../static/images/close.png")}
-                alt="X"
-                style={{ height: "20px", width: "20px" }}
-              />
-            </button>
-          </div>
-        </Modal.Header>
-        <Modal.Body>
-          <EditLead
-            onEditModalChange={onEditModalChange}
-            alleditLeaddata={userDatas}
-          />
-        </Modal.Body>
-      </Modal>
-
-      <Modal
-        show={showDeactiveModal}
-        backdrop="static"
-        keyboard={false}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header>
-          <div className="col-lg-10">
-            <h3 className="modal-title text-center">Deactivate Lead</h3>
-          </div>
-          <div className="col-lg-1">
-            <button onClick={handleDeactiveModalClose} className="close">
-              <img
-                src={require("../../static/images/close.png")}
-                alt="X"
-                style={{ height: "20px", width: "20px" }}
-              />
-            </button>
-          </div>
-        </Modal.Header>
-        <Modal.Body>
-          <DeactiveLead
-            onDeactiveModalChange={onDeactiveModalChange}
-            Leaddeavtivedata={userDatadeactive}
-          />
-        </Modal.Body>
-      </Modal>
     </Fragment>
   );
 };
@@ -332,12 +249,17 @@ const RegularClientFollowup = ({
 RegularClientFollowup.propTypes = {
   auth: PropTypes.object.isRequired,
   dct: PropTypes.object.isRequired,
+  regions: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   dct: state.dct,
+  regions: state.regions,
 });
 
 export default connect(mapStateToProps, {
-  //  getDctLeadDetails
+  getDctClientDetails,
+  getDctClientDetailsDD,
+  getActiveCountry,
+  getLastmessage,
 })(RegularClientFollowup);
