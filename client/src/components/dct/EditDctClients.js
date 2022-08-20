@@ -345,13 +345,18 @@ const EditDctClients = ({
     for (i = 0; i < AddedDetails.length; i++) {
       addNewDctClientStaffDetails(AddedDetails[i]);
     }
-    onEditModalChange(true);
+
+    setFormData({
+      ...formData,
+
+      isSubmitted: true,
+    });
   };
   if (!data) {
     return <Redirect to="/all-dct-client" />;
   }
   if (isSubmitted) {
-    return <Redirect to="/all-prospects" />;
+    return <Redirect to="/all-dct-client" />;
   }
 
   const onInputChange = (e) => {
