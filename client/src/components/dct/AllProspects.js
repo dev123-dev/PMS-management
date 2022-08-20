@@ -209,6 +209,7 @@ const AllProspects = ({
                         <th style={{ width: "13%" }}>Email</th>
                         <th style={{ width: "13%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
+                        <th style={{ width: "13%" }}>Call Date</th>
                         <th style={{ width: "13%" }}>Op</th>
                       </tr>
                     </thead>
@@ -232,7 +233,6 @@ const AllProspects = ({
                               <td>{allLeads.countryName}</td>
                               <td>{allLeads.phone1}</td>
                               <td>{allLeads.dctCallDate}</td>
-                              <td>{allLeads.dctLeadCategory}</td>
                               <td>
                                 <img
                                   className="img_icon_size log"

@@ -173,6 +173,7 @@ const RegularClientFollowup = ({
                         <th style={{ width: "13%" }}>Email</th>
                         <th style={{ width: "13%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
+                        <th style={{ width: "13%" }}>Call Date</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -197,6 +198,7 @@ const RegularClientFollowup = ({
                               <td>{dctClients.emailId}</td>
                               <td>{dctClients.countryName}</td>
                               <td>{dctClients.phone1}</td>
+                              <td>{dctClients.dctCallDate}</td>
                             </tr>
                           );
                         })}

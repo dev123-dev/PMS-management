@@ -201,6 +201,7 @@ const Allfollowup = ({
                         <th style={{ width: "13%" }}>Email</th>
                         <th style={{ width: "13%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
+                        <th style={{ width: "13%" }}>Call Date</th>
                         <th style={{ width: "13%" }}>Op</th>
                       </tr>
                     </thead>
@@ -223,7 +224,7 @@ const Allfollowup = ({
                               <td>{allLeads.emailId}</td>
                               <td>{allLeads.countryName}</td>
                               <td>{allLeads.phone1}</td>
-
+                              <td>{allLeads.dctCallDate}</td>
                               <td>
                                 <img
                                   className="img_icon_size log"
