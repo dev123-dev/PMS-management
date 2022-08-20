@@ -112,12 +112,14 @@ const AllStatuschange = ({
   const allStaff = [];
   leadDataVal &&
     leadDataVal.staffs &&
-    leadDataVal.staffs.map((staffs) =>
-      allStaff.push({
-        staffsId: staffs._id,
-        label: staffs.staffName,
-        value: staffs.staffName,
-      })
+    leadDataVal.staffs.map(
+      (staffs) =>
+        staffs.staffStatus === "Active" &&
+        allStaff.push({
+          staffsId: staffs._id,
+          label: staffs.staffName,
+          value: staffs.staffName,
+        })
     );
 
   const [staffs, getstaffsData] = useState("");
