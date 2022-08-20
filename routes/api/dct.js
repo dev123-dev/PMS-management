@@ -258,6 +258,25 @@ router.post("/update-dct-leads-status", async (req, res) => {
   }
 });
 
+router.post("/update-dct-clients-status", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctClientsStatus = await DctClients.updateOne(
+      { _id: data.callToId },
+      {
+        $set: {
+          dctClientCategory: data.callCategory,
+          dctClientCategoryStatus: data.callStatus,
+          dctCallDate: data.callDate,
+        },
+      }
+    );
+    res.json(updateDctClientsStatus);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 router.post("/deactivate-dct-Leads", async (req, res) => {
   try {
     let data = req.body;

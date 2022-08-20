@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { addDctCalls } from "../../actions/dct";
+import { addDctCalls, addDctClientCalls } from "../../actions/dct";
 
 const AllStatuschange = ({
   auth: { isAuthenticated, user, users, loading },
   leadDataVal,
   addDctCalls,
+  addDctClientCalls,
   ondivcloseChange,
   from,
   filterData,
@@ -253,7 +254,11 @@ const AllStatuschange = ({
         filterData: filterData,
       };
       // console.log(finalData);
-      addDctCalls(finalData);
+      if (from === "TestClient" || from === "RegularClient") {
+        addDctClientCalls(finalData);
+      } else {
+        addDctCalls(finalData);
+      }
       setFormData({
         ...formData,
         callStatus: "",
@@ -373,4 +378,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { addDctCalls })(AllStatuschange);
+export default connect(mapStateToProps, { addDctCalls, addDctClientCalls })(
+  AllStatuschange
+);
