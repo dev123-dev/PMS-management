@@ -267,6 +267,7 @@ const AllProspects = ({
                       leadDataVal={leadData}
                       ondivcloseChange={ondivcloseChange}
                       from="lead"
+                      filterData={filterData}
                     />
                   )}
                 </div>

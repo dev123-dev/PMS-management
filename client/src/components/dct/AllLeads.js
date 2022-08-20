@@ -36,6 +36,8 @@ const AllLeads = ({
     getActiveCountry();
   }, []);
 
+  const [filterData, setFilterData] = useState();
+
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
 
@@ -111,6 +113,7 @@ const AllLeads = ({
     getcountryIdData(e.countryId);
     getAllDctLead({ countryId: e.countryId });
     getAllDctLeadDD({ countryId: e.countryId });
+    setFilterData({ countryId: e.countryId });
   };
 
   const allclient = [];
@@ -128,6 +131,10 @@ const AllLeads = ({
       countryId: countryId,
       clientsId: e.clientsId,
     });
+    setFilterData({
+      countryId: countryId,
+      clientsId: e.clientsId,
+    });
   };
 
   const onClickReset = () => {
@@ -135,6 +142,7 @@ const AllLeads = ({
     getclientsData("");
     getAllDctLead();
     getAllDctLeadDD();
+    setFilterData();
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -257,6 +265,7 @@ const AllLeads = ({
                       leadDataVal={leadData}
                       ondivcloseChange={ondivcloseChange}
                       from="lead"
+                      filterData={filterData}
                     />
                   )}
                 </div>
@@ -272,6 +281,7 @@ const AllLeads = ({
                       leadDataVal={leadData}
                       ondivcloseChange={ondivcloseChange}
                       from={leadData.dctLeadCategory}
+                      filterData={filterData}
                     />
                   )}
                 </div>

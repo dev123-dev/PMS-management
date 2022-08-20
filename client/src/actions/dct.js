@@ -147,6 +147,11 @@ export const addNewDctStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/add-new-dct-staff", finalData, config);
+    if (finalData.filterData) {
+      dispatch(getDctLeadDetails(finalData.filterData));
+      dispatch(getDctLeadDetails(finalData.filterData));
+    }
+
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -163,6 +168,10 @@ export const addNewDctClientStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/add-new-dct-client-staff", finalData, config);
+    if (finalData.filterData) {
+      dispatch(getDctClientDetails(finalData.filterData));
+      dispatch(getDctClientDetails(finalData.filterData));
+    }
     dispatch({
       type: SET_LOADING_FALSE,
     });

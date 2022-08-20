@@ -20,6 +20,7 @@ const AllContacts = ({
   deactivateDctClientStaffDetails,
   ondivcloseChange,
   from,
+  filterData,
 }) => {
   const [formData, setFormData] = useState({
     staffName: "",
@@ -100,6 +101,7 @@ const AllContacts = ({
       staffPhoneNumber: staffPhoneNumber,
       staffEmailId: staffEmailId,
       staffDesignation: staffDesignation,
+      filterData: filterData,
     };
     if (from === "client") {
       addNewDctClientStaffDetails(finalData);
