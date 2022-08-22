@@ -151,7 +151,7 @@ const AddLead = ({
     var empName = "";
     getempData(e);
     empId = e.empId;
-    empName = e.empName;
+    empName = e.empFullName;
     setempID(empId);
     setNameID(empName);
   };
