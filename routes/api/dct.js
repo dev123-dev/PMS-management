@@ -317,11 +317,15 @@ router.post("/deactivate-dct-client", async (req, res) => {
   }
 });
 
-//SELECT
+//*********************************\SELECT/*********************************\\
 router.post("/get-dct-Leads", auth, async (req, res) => {
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
+  let dctLeadAssignedToId = "";
+  if (userInfo.empCtAccess === "individual") dctLeadAssignedToId = userInfo._id;
+  else dctLeadAssignedToId = { $ne: null };
+
   var todayDate = new Date().toISOString().split("T")[0];
   let { countryId, clientsId, dctLeadCategory } = req.body;
   let catCondition = [];
@@ -339,7 +343,7 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
         _id: clientsId,
         $or: catCondition,
         dctCallDate: { $lte: todayDate },
-        dctLeadAssignedToId: userInfo._id,
+        dctLeadAssignedToId,
       };
     } else {
       query = {
@@ -347,7 +351,7 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
         countryId: countryId,
         $or: catCondition,
         dctCallDate: { $lte: todayDate },
-        dctLeadAssignedToId: userInfo._id,
+        dctLeadAssignedToId,
       };
     }
   } else {
@@ -357,14 +361,14 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
         _id: clientsId,
         $or: catCondition,
         dctCallDate: { $lte: todayDate },
-        dctLeadAssignedToId: userInfo._id,
+        dctLeadAssignedToId,
       };
     } else {
       query = {
         dctLeadStatus: "Active",
         $or: catCondition,
         dctCallDate: { $lte: todayDate },
-        dctLeadAssignedToId: userInfo._id,
+        dctLeadAssignedToId,
       };
     }
   }
@@ -385,6 +389,9 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
+  let dctLeadAssignedToId = "";
+  if (userInfo.empCtAccess === "individual") dctLeadAssignedToId = userInfo._id;
+  else dctLeadAssignedToId = { $ne: null };
   let { countryId, clientsId } = req.body;
   let query = {};
   if (countryId) {
@@ -397,7 +404,7 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
           { dctLeadCategory: { $ne: "TC" } },
           { dctLeadCategory: { $ne: "RC" } },
         ],
-        dctLeadAssignedToId: userInfo._id,
+        dctLeadAssignedToId,
       };
     } else {
       query = {
@@ -407,7 +414,7 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
           { dctLeadCategory: { $ne: "TC" } },
           { dctLeadCategory: { $ne: "RC" } },
         ],
-        dctLeadAssignedToId: userInfo._id,
+        dctLeadAssignedToId,
       };
     }
   } else {
@@ -419,7 +426,7 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
           { dctLeadCategory: { $ne: "TC" } },
           { dctLeadCategory: { $ne: "RC" } },
         ],
-        dctLeadAssignedToId: userInfo._id,
+        dctLeadAssignedToId,
       };
     } else {
       query = {
@@ -428,7 +435,7 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
           { dctLeadCategory: { $ne: "TC" } },
           { dctLeadCategory: { $ne: "RC" } },
         ],
-        dctLeadAssignedToId: userInfo._id,
+        dctLeadAssignedToId,
       };
     }
   }
@@ -447,6 +454,11 @@ router.post("/get-all-dct-clients", auth, async (req, res) => {
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
+  let dctClientAssignedToId = "";
+  if (userInfo.empCtAccess === "individual")
+    dctClientAssignedToId = userInfo._id;
+  else dctClientAssignedToId = { $ne: null };
+
   let { countryId, clientsId } = req.body;
   let query = {};
   if (countryId) {
@@ -455,13 +467,13 @@ router.post("/get-all-dct-clients", auth, async (req, res) => {
         dctClientStatus: "Active",
         countryId: countryId,
         _id: clientsId,
-        dctClientAssignedToId: userInfo._id,
+        dctClientAssignedToId,
       };
     } else {
       query = {
         dctClientStatus: "Active",
         countryId: countryId,
-        dctClientAssignedToId: userInfo._id,
+        dctClientAssignedToId,
       };
     }
   } else {
@@ -469,12 +481,12 @@ router.post("/get-all-dct-clients", auth, async (req, res) => {
       query = {
         dctClientStatus: "Active",
         _id: clientsId,
-        dctClientAssignedToId: userInfo._id,
+        dctClientAssignedToId,
       };
     } else {
       query = {
         dctClientStatus: "Active",
-        dctClientAssignedToId: userInfo._id,
+        dctClientAssignedToId,
       };
     }
   }
@@ -493,6 +505,10 @@ router.post("/get-dct-clients", auth, async (req, res) => {
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
+  let dctClientAssignedToId = "";
+  if (userInfo.empCtAccess === "individual")
+    dctClientAssignedToId = userInfo._id;
+  else dctClientAssignedToId = { $ne: null };
   var todayDate = new Date().toISOString().split("T")[0];
   let { countryId, clientsId, dctClientCategory } = req.body;
   let query = {};
@@ -504,7 +520,7 @@ router.post("/get-dct-clients", auth, async (req, res) => {
         _id: clientsId,
         dctClientCategory: dctClientCategory,
         dctCallDate: { $lte: todayDate },
-        dctClientAssignedToId: userInfo._id,
+        dctClientAssignedToId,
       };
     } else {
       query = {
@@ -512,7 +528,7 @@ router.post("/get-dct-clients", auth, async (req, res) => {
         countryId: countryId,
         dctClientCategory: dctClientCategory,
         dctCallDate: { $lte: todayDate },
-        dctClientAssignedToId: userInfo._id,
+        dctClientAssignedToId,
       };
     }
   } else {
@@ -522,14 +538,14 @@ router.post("/get-dct-clients", auth, async (req, res) => {
         _id: clientsId,
         dctClientCategory: dctClientCategory,
         dctCallDate: { $lte: todayDate },
-        dctClientAssignedToId: userInfo._id,
+        dctClientAssignedToId,
       };
     } else {
       query = {
         dctClientStatus: "Active",
         dctClientCategory: dctClientCategory,
         dctCallDate: { $lte: todayDate },
-        dctClientAssignedToId: userInfo._id,
+        dctClientAssignedToId,
       };
     }
   }

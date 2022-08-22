@@ -231,6 +231,19 @@ router.post("/get-all-user-groups", async (req, res) => {
   }
 });
 
+router.post("/get-marketing-employees", async (req, res) => {
+  try {
+    const getMarketingEmployeeDetails = await EmployeeDetails.find({
+      empStatus: "Active",
+      userGroupName: "Marketing",
+    });
+    res.json(getMarketingEmployeeDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 router.post("/get-last-entered-emp-code", async (req, res) => {
   try {
     const getActiveEmployeeEmpCode = await EmployeeDetails.find({

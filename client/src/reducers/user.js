@@ -5,6 +5,7 @@ import {
   LEAVES,
   GET_LEAVES_STAFF,
   LEAVE_TYPECAT_MODE,
+  MARKETING_EMPLOYEE,
 } from "../actions/types";
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   leaves: [],
   leaveCatMode: [],
   staffLeaves: [],
+  marketingEmployees: [],
 };
 
 const user = (state = initialState, action) => {
@@ -56,6 +58,11 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         staffLeaves: payload,
+      };
+    case MARKETING_EMPLOYEE:
+      return {
+        ...state,
+        marketingEmployees: payload,
       };
 
     default:

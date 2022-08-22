@@ -6,19 +6,25 @@ import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
 import { addDctLeadDetails } from "../../actions/dct";
+import { getMarketingEmployee } from "../../actions/user";
 import { getActiveCountry } from "../../actions/regions";
 
 const AddLead = ({
   auth: { isAuthenticated, user, users, loading },
+  user: { marketingEmployees },
   regions: { activeCountry },
   addDctLeadDetails,
   getActiveCountry,
+  getMarketingEmployee,
 }) => {
   useEffect(() => {
     getActiveCountry();
   }, [getActiveCountry]);
+  useEffect(() => {
+    getMarketingEmployee();
+  }, [getMarketingEmployee]);
 
-  console.log(user);
+  console.log(marketingEmployees);
   //formData
   const [formData, setFormData] = useState({
     companyName: "",
@@ -534,6 +540,7 @@ AddLead.propTypes = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  user: state.user,
   settings: state.settings,
   client: state.client,
   regions: state.regions,
@@ -542,4 +549,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   addDctLeadDetails,
   getActiveCountry,
+  getMarketingEmployee,
 })(AddLead);

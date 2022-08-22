@@ -13,6 +13,7 @@ import {
   LEAVES,
   GET_LEAVES_STAFF,
   LEAVE_TYPECAT_MODE,
+  MARKETING_EMPLOYEE,
 } from "./types";
 
 const config = {
@@ -194,6 +195,20 @@ export const getALLUserGroups = () => async (dispatch) => {
     localStorage.setItem("allUserGroupData", JSON.stringify(res.data));
     dispatch({
       type: USER_GROUPS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getMarketingEmployee = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/users/get-marketing-employees");
+    dispatch({
+      type: MARKETING_EMPLOYEE,
       payload: res.data,
     });
   } catch (err) {
