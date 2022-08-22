@@ -151,7 +151,7 @@ const AddLead = ({
     var empName = "";
     getempData(e);
     empId = e.empId;
-    empName = e.empFullName;
+    empName = e.value;
     setempID(empId);
     setNameID(empName);
   };
@@ -197,7 +197,7 @@ const AddLead = ({
       dctLeadAssignedToId: empId,
       dctLeadAssignedToName: empName,
     };
-    addDctLeadDetails(finalData);
+    //  addDctLeadDetails(finalData);
     setFormData({
       ...formData,
       companyName: "",
