@@ -35,11 +35,13 @@ const AddEmployeeDetails = ({
   useEffect(() => {
     getLastEnteredEmpCode();
   }, [getLastEnteredEmpCode]);
-  const clientTypeVal = [
-    { value: "Regular", label: "Regular Client" },
-    { value: "Test", label: "Test Client" },
+  const ctAcessOpt = [
+    { value: "None", label: "None" },
+    { value: "All", label: "All" },
+    { value: "Individual", label: "Individual" },
   ];
   const [formData, setFormData] = useState({
+    empCtAccess: ctAcessOpt[0],
     employeeName: "",
     employeePhone: "",
     employeeAadharNo: "",
@@ -96,7 +98,7 @@ const AddEmployeeDetails = ({
     employeeUANNo,
     employeeBasic,
     employeeHRA,
-    clientType,
+    empCtAccess,
     employeeDA,
     cityallowance,
     Others,
@@ -285,9 +287,6 @@ const AddEmployeeDetails = ({
     repwdValResult: "",
     repwdValStyle: {},
     repwdInptErrStyle: {},
-    clienttypeIdChecker: false,
-
-    clienttypeIdErrorStyle: {},
   });
 
   const {
@@ -297,8 +296,7 @@ const AddEmployeeDetails = ({
     DesignationErrorStyle,
     UserGroupIdChecker,
     UserGroupErrorStyle,
-    clienttypeIdChecker,
-    clienttypeIdErrorStyle,
+
     passwordValChecker,
     passwordValResult,
     passwordValStyle,
@@ -452,19 +450,11 @@ const AddEmployeeDetails = ({
     return true;
   };
 
-  const onClientTypeChange = (e) => {
-    //  Required Validation starts
-    setError({
-      ...error,
-      clienttypeIdChecker: true,
-      clienttypeIdErrorStyle: { color: "#000" },
-    });
-    // Required Validation ends
-
+  const onctAcesstypeChange = (e) => {
     if (e) {
       setFormData({
         ...formData,
-        clientType: e,
+        empCtAccess: e,
       });
     }
   };
@@ -507,12 +497,13 @@ const AddEmployeeDetails = ({
         password: password,
         userName: userName,
         empCA: empCA,
+        empCtAccess: empCtAccess.value ? empCtAccess.value : "None",
         usergroupsId: usergroupsId,
         userGroupName: usergroups.value,
         profilephoto: profilephoto,
         empEnteredById: user._id,
       };
-      // console.log(finalData);
+      console.log(finalData);
       localStorage.removeItem("lastEnteredCode");
       AddEmployee(finalData);
       setFormData({
@@ -556,345 +547,341 @@ const AddEmployeeDetails = ({
               <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
                 <form onSubmit={(e) => NextBackBtn(1)}>
                   <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    {/* <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                       <h5>Personal Info</h5>
-                    </div>
-                    <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
-                      <div className="col-lg-2 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">
-                          Employee Name* :
-                        </label>
-                        <input
-                          type="text"
-                          name="empFullName"
-                          value={empFullName}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                          required
-                        />
-                      </div>
-                      <div className="col-lg-2 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">
-                          Employee Phone :
-                        </label>
-                        <input
-                          type="number"
-                          name="employeePhone"
-                          value={employeePhone}
-                          className="form-control"
-                          onWheel={() => document.activeElement.blur()}
-                          onChange={(e) => onInputChange(e)}
-                          onKeyDown={(e) =>
-                            (e.keyCode === 69 || e.keyCode === 190) &&
-                            e.preventDefault()
-                          }
-                        />
-                      </div>
-                      <div className="col-lg-2 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">
-                          Adhaar Card No :
-                        </label>
-                        <input
-                          type="text"
-                          name="employeeAadharNo"
-                          value={employeeAadharNo}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-2 col-md-12 col-sm-12 col-12">
-                        <label className="label-control">Pan Card No :</label>
-                        <input
-                          type="text"
-                          name="employeePanNo"
-                          value={employeePanNo}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 py-3">
-                        <label> DoB* :</label>
-                        <br />
-                        <input
-                          type="date"
-                          placeholder="dd/mm/yyyy"
-                          className="form-control cpp-input datevalidation"
-                          name="employeeDOBDate"
-                          value={employeeDOBDate}
-                          onChange={(e) => onDateChange1(e)}
-                          style={{
-                            width: "75%",
-                          }}
-                          required
-                        />
-                      </div>
+                    </div> */}
+                    <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
+                      <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                        <div className="row card-new  py-3">
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h5>Personal Info</h5>
+                          </div>
 
-                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 ">
-                        <label className="label-control">Email :</label>
-                        <input
-                          type="text"
-                          name="employeeEmail"
-                          value={employeeEmail}
-                          className="form-control"
-                          onChange={(e) => onInputChange(e)}
-                        />
-                      </div>
-                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 py-3">
-                        <label> DoJ* :</label>
-                        <br />
-                        <input
-                          type="date"
-                          placeholder="dd/mm/yyyy"
-                          className="form-control cpp-input datevalidation"
-                          name="employeeDOJDate"
-                          value={employeeDOJDate}
-                          onChange={(e) => onDateChange(e)}
-                          style={{
-                            width: "75%",
-                          }}
-                          required
-                        />
-                      </div>
+                          <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
+                            <label className="label-control">
+                              Employee Name* :
+                            </label>
+                            <input
+                              type="text"
+                              name="empFullName"
+                              value={empFullName}
+                              className="form-control"
+                              onChange={(e) => onInputChange(e)}
+                              required
+                            />
+                          </div>
+                          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                            <label className="label-control">
+                              Employee Phone :
+                            </label>
+                            <input
+                              type="number"
+                              name="employeePhone"
+                              value={employeePhone}
+                              className="form-control"
+                              onWheel={() => document.activeElement.blur()}
+                              onChange={(e) => onInputChange(e)}
+                              onKeyDown={(e) =>
+                                (e.keyCode === 69 || e.keyCode === 190) &&
+                                e.preventDefault()
+                              }
+                            />
+                          </div>
+                          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                            <label className="label-control">
+                              Adhaar Card No :
+                            </label>
+                            <input
+                              type="text"
+                              name="employeeAadharNo"
+                              value={employeeAadharNo}
+                              className="form-control"
+                              onChange={(e) => onInputChange(e)}
+                            />
+                          </div>
+                          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                            <label className="label-control">
+                              Pan Card No :
+                            </label>
+                            <input
+                              type="text"
+                              name="employeePanNo"
+                              value={employeePanNo}
+                              className="form-control"
+                              onChange={(e) => onInputChange(e)}
+                            />
+                          </div>
+                          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                            <label className="label-control">DoB* :</label>
+                            <br />
+                            <input
+                              type="date"
+                              placeholder="dd/mm/yyyy"
+                              className="form-control cpp-input datevalidation"
+                              name="employeeDOBDate"
+                              value={employeeDOBDate}
+                              onChange={(e) => onDateChange1(e)}
+                              style={{
+                                width: "100%",
+                              }}
+                              required
+                            />
+                          </div>
 
-                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 ">
-                        <label
-                          className="label-control"
-                          style={DepartmentErrorStyle}
-                        >
-                          Department* :
-                        </label>
-                        <Select
-                          name="departmentName"
-                          options={activeDepartment}
-                          isSearchable={true}
-                          value={department}
-                          placeholder="Select Mode"
-                          onChange={(e) => onDepartmentChange(e)}
-                          theme={(theme) => ({
-                            ...theme,
-                            height: 26,
-                            minHeight: 26,
-                            borderRadius: 1,
-                            colors: {
-                              ...theme.colors,
-                              primary: "black",
-                            },
-                          })}
-                        />
-                      </div>
-                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 ">
-                        <label
-                          className="label-control"
-                          style={UserGroupErrorStyle}
-                        >
-                          Employee Group* :
-                        </label>
-                        <Select
-                          name="userGroupName"
-                          options={allusergroups}
-                          isSearchable={true}
-                          value={usergroups}
-                          placeholder="Select UserGroup"
-                          onChange={(e) => onUsergroupChange(e)}
-                          theme={(theme) => ({
-                            ...theme,
-                            height: 26,
-                            minHeight: 26,
-                            borderRadius: 1,
-                            colors: {
-                              ...theme.colors,
-                              primary: "black",
-                            },
-                          })}
-                        />
-                      </div>
-                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 ">
-                        <label
-                          className="label-control"
-                          style={DesignationErrorStyle}
-                        >
-                          Designation* :
-                        </label>
-
-                        <Select
-                          name="designationName"
-                          options={alldesignation}
-                          isSearchable={true}
-                          value={designation}
-                          placeholder="Select Desig"
-                          onChange={(e) => onDesigChange(e)}
-                          theme={(theme) => ({
-                            ...theme,
-                            height: 26,
-                            minHeight: 26,
-                            borderRadius: 1,
-                            colors: {
-                              ...theme.colors,
-                              primary: "black",
-                            },
-                          })}
-                        />
-                      </div>
-
-                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 py-3">
-                        <label> Designation Date* :</label>
-                        <br />
-                        <input
-                          type="date"
-                          placeholder="dd/mm/yyyy"
-                          className="form-control cpp-input datevalidation"
-                          name="employeeDesigDate"
-                          value={employeeDesigDate}
-                          onChange={(e) => onDateChange2(e)}
-                          style={{
-                            width: "75%",
-                          }}
-                          required
-                        />
-                      </div>
-                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 ">
-                        <label className="label-control">
-                          Employee color :
-                        </label>
-                        <br />
-                        <input
-                          className="form-control"
-                          type="color"
-                          value={color}
-                          onChange={(e) => setColor(e.target.value)}
-                        />
-                      </div>
-                      <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                        <label
-                          className="label-control"
-                          style={clienttypeIdErrorStyle}
-                        >
-                          Client Type* :
-                        </label>
-                        <Select
-                          name="clientType"
-                          options={clientTypeVal}
-                          isSearchable={false}
-                          value={clientType}
-                          placeholder="Select Meeting Type"
-                          onChange={(e) => onClientTypeChange(e)}
-                        />
-                      </div>
-                      <div className=" col-lg-6 col-md-12 col-sm-12 col-12 ">
-                        <label className="label-control">Profile Photo:</label>
-
-                        <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-                          <FileBase64
-                            type="file"
-                            multiple={false}
-                            onDone={({ base64 }) =>
-                              setFormData({
-                                ...formData,
-                                profilephoto: base64,
-                              })
-                            }
-                          />
-
-                          <img
-                            className="log_size"
-                            alt="Preview"
-                            src={`${profilephoto}`}
-                          />
+                          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                            <label className="label-control">Email :</label>
+                            <input
+                              type="text"
+                              name="employeeEmail"
+                              value={employeeEmail}
+                              className="form-control"
+                              onChange={(e) => onInputChange(e)}
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
 
-                  <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
-                    <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                      <label className="label-control">UserName* :</label>
-                      <input
-                        type="text"
-                        name="userName"
-                        value={userName}
-                        className="form-control"
-                        onChange={(e) => onInputChange(e)}
-                        autoComplete="false"
-                        required
-                      />
-                    </div>
-                    <div className=" col-lg-3 col-md-9 col-sm-9 col-12 py-4">
-                      <label> Password* :</label>
-                      <div className="">
-                        <input
-                          type="password"
-                          name="password"
-                          className="form-control "
-                          value={password}
-                          style={passwordInptErrStyle}
-                          onChange={(e) => onInputChange3(e)}
-                          autoComplete="false"
-                          required
-                        />
-                        {passwordValChecker && (
-                          <span
-                            className="form-input-info positioning"
-                            style={passwordValStyle}
-                          >
-                            {passwordValResult}
-                          </span>
-                        )}
-                        <div
-                          className="cstm-hint"
-                          id="pass_admin_help"
-                          //   style={{ top: "100px" }}
-                        >
-                          <img
-                            src={require("../../static/images/help1.png")}
-                            alt="help"
-                            id="img_tool_admin"
-                            className="pass_admin_help_icon_question"
-                          />
-                          <div
-                            id="tooltipPassAdmin"
-                            className="syle-hint"
-                            style={passwrdTooltip}
-                            data-hint="Password  at least 1 uppercase and 1 lowercase, 1 digit, 1 symbol, length from 8 to 20"
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-3 col-md-9 col-sm-9 col-12 py-4">
-                      <label className="">Confirm Password* :</label>
-
-                      <div>
-                        <input
-                          type="password"
-                          name="rePassword"
-                          className="form-control "
-                          value={rePassword}
-                          style={repwdInptErrStyle}
-                          onChange={(e) => onInputChange3(e)}
-                          autoComplete="false"
-                          required
-                        />
-                        {repwdValChecker && (
-                          <Fragment>
-                            <span
-                              className="form-input-info positioning"
-                              style={repwdValStyle}
+                      <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                        <div className="row card-new  py-3">
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h5>Other Info</h5>
+                          </div>
+                          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                            <label
+                              className="label-control"
+                              style={DepartmentErrorStyle}
                             >
-                              {repwdValResult}
-                            </span>
-                          </Fragment>
-                        )}
+                              Department* :
+                            </label>
+                            <Select
+                              name="departmentName"
+                              options={activeDepartment}
+                              isSearchable={true}
+                              value={department}
+                              placeholder="Select Mode"
+                              onChange={(e) => onDepartmentChange(e)}
+                              theme={(theme) => ({
+                                ...theme,
+                                height: 26,
+                                minHeight: 26,
+                                borderRadius: 1,
+                                colors: {
+                                  ...theme.colors,
+                                  primary: "black",
+                                },
+                              })}
+                            />
+                          </div>
+                          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                            <label
+                              className="label-control"
+                              style={DesignationErrorStyle}
+                            >
+                              Designation* :
+                            </label>
+
+                            <Select
+                              name="designationName"
+                              options={alldesignation}
+                              isSearchable={true}
+                              value={designation}
+                              placeholder="Select Desig"
+                              onChange={(e) => onDesigChange(e)}
+                              theme={(theme) => ({
+                                ...theme,
+                                height: 26,
+                                minHeight: 26,
+                                borderRadius: 1,
+                                colors: {
+                                  ...theme.colors,
+                                  primary: "black",
+                                },
+                              })}
+                            />
+                          </div>
+                          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                            <label className="label-control">
+                              {" "}
+                              Designation Date* :
+                            </label>
+                            <br />
+                            <input
+                              type="date"
+                              placeholder="dd/mm/yyyy"
+                              className="form-control cpp-input datevalidation"
+                              name="employeeDesigDate"
+                              value={employeeDesigDate}
+                              onChange={(e) => onDateChange2(e)}
+                              style={{
+                                width: "75%",
+                              }}
+                              required
+                            />
+                          </div>
+                          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                            <label className="label-control"> DoJ* :</label>
+                            <br />
+                            <input
+                              type="date"
+                              placeholder="dd/mm/yyyy"
+                              className="form-control cpp-input datevalidation"
+                              name="employeeDOJDate"
+                              value={employeeDOJDate}
+                              onChange={(e) => onDateChange(e)}
+                              style={{
+                                width: "75%",
+                              }}
+                              required
+                            />
+                          </div>
+
+                          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                            <label
+                              className="label-control"
+                              style={UserGroupErrorStyle}
+                            >
+                              Employee Group* :
+                            </label>
+                            <Select
+                              name="userGroupName"
+                              options={allusergroups}
+                              isSearchable={true}
+                              value={usergroups}
+                              placeholder="Select UserGroup"
+                              onChange={(e) => onUsergroupChange(e)}
+                              theme={(theme) => ({
+                                ...theme,
+                                height: 26,
+                                minHeight: 26,
+                                borderRadius: 1,
+                                colors: {
+                                  ...theme.colors,
+                                  primary: "black",
+                                },
+                              })}
+                            />
+                          </div>
+                          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                            <label className="label-control">CT Access :</label>
+                            <Select
+                              name="empCtAccess"
+                              options={ctAcessOpt}
+                              isSearchable={false}
+                              value={empCtAccess}
+                              placeholder="Select Access Type"
+                              onChange={(e) => onctAcesstypeChange(e)}
+                            />
+                          </div>
+                          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                            <label className="label-control">
+                              Employee color :
+                            </label>
+                            <br />
+                            <input
+                              className="form-control"
+                              type="color"
+                              value={color}
+                              onChange={(e) => setColor(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+                        <div className="row card-new  py-3">
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h5>Credentials</h5>
+                          </div>
+                          <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                            <label className="label-control">UserName* :</label>
+                            <input
+                              type="text"
+                              name="userName"
+                              value={userName}
+                              className="form-control"
+                              onChange={(e) => onInputChange(e)}
+                              autoComplete="false"
+                              required
+                            />
+                          </div>
+                          <div className=" col-lg-3 col-md-9 col-sm-9 col-12 py-4">
+                            <label> Password* :</label>
+                            <div className="">
+                              <input
+                                type="password"
+                                name="password"
+                                className="form-control "
+                                value={password}
+                                style={passwordInptErrStyle}
+                                onChange={(e) => onInputChange3(e)}
+                                autoComplete="false"
+                                required
+                              />
+                              {passwordValChecker && (
+                                <span
+                                  className="form-input-info positioning"
+                                  style={passwordValStyle}
+                                >
+                                  {passwordValResult}
+                                </span>
+                              )}
+                              <div
+                                className="cstm-hint"
+                                id="pass_admin_help"
+                                //   style={{ top: "100px" }}
+                              >
+                                <img
+                                  src={require("../../static/images/help1.png")}
+                                  alt="help"
+                                  id="img_tool_admin"
+                                  className="pass_admin_help_icon_question"
+                                />
+                                <div
+                                  id="tooltipPassAdmin"
+                                  className="syle-hint"
+                                  style={passwrdTooltip}
+                                  data-hint="Password  at least 1 uppercase and 1 lowercase, 1 digit, 1 symbol, length from 8 to 20"
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-lg-3 col-md-9 col-sm-9 col-12 py-4">
+                            <label className="">Confirm Password* :</label>
+
+                            <div>
+                              <input
+                                type="password"
+                                name="rePassword"
+                                className="form-control "
+                                value={rePassword}
+                                style={repwdInptErrStyle}
+                                onChange={(e) => onInputChange3(e)}
+                                autoComplete="false"
+                                required
+                              />
+                              {repwdValChecker && (
+                                <Fragment>
+                                  <span
+                                    className="form-input-info positioning"
+                                    style={repwdValStyle}
+                                  >
+                                    {repwdValResult}
+                                  </span>
+                                </Fragment>
+                              )}
+                            </div>
+                          </div>
+                          <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
+                            <input
+                              type="submit"
+                              name="submit"
+                              value="Next"
+                              className="btn sub_form btn_continue Save float-right"
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
-                    <input
-                      type="submit"
-                      name="submit"
-                      value="Next"
-                      className="btn sub_form btn_continue Save float-right"
-                    />
                   </div>
                 </form>
               </div>
