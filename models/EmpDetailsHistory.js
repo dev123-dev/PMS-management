@@ -52,6 +52,10 @@ const EmpDetailsHistorySchema = new mongoose.Schema({
   edhGroupId: {
     type: ObjectId,
   },
+  edhCtAccess: {
+    type: String,
+    default: "None",
+  },
   edhEditedById: {
     type: ObjectId,
   },

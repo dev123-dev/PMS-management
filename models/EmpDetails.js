@@ -77,6 +77,10 @@ const EmpDetailsSchema = new mongoose.Schema({
   empColorCode: {
     type: String,
   },
+  empCtAccess: {
+    type: String,
+    default: "None",
+  },
   empEnteredById: {
     type: ObjectId,
   },
