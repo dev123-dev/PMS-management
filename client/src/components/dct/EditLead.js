@@ -6,18 +6,26 @@ import { Link, Redirect } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getActiveCountry } from "../../actions/regions";
 import { editDctLeadDetails } from "../../actions/dct";
+import { getMarketingEmployee } from "../../actions/user";
 
 const EditLead = ({
   auth: { isAuthenticated, user, users, loading },
+  user: { marketingEmployees },
   regions: { activeCountry },
   alleditLeaddata,
   getActiveCountry,
   editDctLeadDetails,
   onEditModalChange,
+  getMarketingEmployee,
 }) => {
   useEffect(() => {
     getActiveCountry();
   }, [getActiveCountry]);
+  useEffect(() => {
+    getMarketingEmployee();
+  }, [getMarketingEmployee]);
+
+  console.log(marketingEmployees);
 
   //formData
   const [formData, setFormData] = useState({
@@ -353,10 +361,12 @@ EditLead.propTypes = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  user: state.user,
   regions: state.regions,
 });
 
 export default connect(mapStateToProps, {
   getActiveCountry,
   editDctLeadDetails,
+  getMarketingEmployee,
 })(EditLead);
