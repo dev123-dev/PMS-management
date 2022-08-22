@@ -179,6 +179,11 @@ const TestClientFollowup = ({
                     <tbody>
                       {dctClients &&
                         dctClients.map((dctClients, idx) => {
+                          var callDates = "";
+                          if (dctClients.dctCallDate) {
+                            var ED = dctClients.dctCallDate.split(/\D/g);
+                            callDates = [ED[2], ED[1], ED[0]].join("-");
+                          }
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
@@ -198,7 +203,7 @@ const TestClientFollowup = ({
                               <td>{dctClients.emailId}</td>
                               <td>{dctClients.countryName}</td>
                               <td>{dctClients.phone1}</td>
-                              <td>{dctClients.dctCallDate}</td>
+                              <td>{callDates}</td>
                             </tr>
                           );
                         })}

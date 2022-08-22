@@ -208,6 +208,11 @@ const Allfollowup = ({
                     <tbody>
                       {allLeads &&
                         allLeads.map((allLeads, idx) => {
+                          var callDates = "";
+                          if (allLeads.dctCallDate) {
+                            var ED = allLeads.dctCallDate.split(/\D/g);
+                            callDates = [ED[2], ED[1], ED[0]].join("-");
+                          }
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
@@ -224,7 +229,7 @@ const Allfollowup = ({
                               <td>{allLeads.emailId}</td>
                               <td>{allLeads.countryName}</td>
                               <td>{allLeads.phone1}</td>
-                              <td>{allLeads.dctCallDate}</td>
+                              <td>{callDates}</td>
                               <td>
                                 <img
                                   className="img_icon_size log"

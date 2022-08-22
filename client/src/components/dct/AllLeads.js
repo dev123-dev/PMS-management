@@ -211,6 +211,11 @@ const AllLeads = ({
                     <tbody>
                       {getAllLeads &&
                         getAllLeads.map((getAllLeads, idx) => {
+                          var callDates = "";
+                          if (getAllLeads.dctCallDate) {
+                            var ED = getAllLeads.dctCallDate.split(/\D/g);
+                            callDates = [ED[2], ED[1], ED[0]].join("-");
+                          }
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
@@ -229,7 +234,7 @@ const AllLeads = ({
                               <td>{getAllLeads.emailId}</td>
                               <td>{getAllLeads.countryName}</td>
                               <td>{getAllLeads.phone1}</td>
-                              <td>{getAllLeads.dctCallDate}</td>
+                              <td>{callDates}</td>
                               <td>{getAllLeads.dctLeadCategory}</td>
                               <td>
                                 <img
