@@ -250,6 +250,35 @@ const AddDctClients = ({
       });
     }
   };
+
+  const allemp = [];
+  marketingEmployees.map((emp) =>
+    allemp.push({
+      empId: emp._id,
+      label: emp.empFullName,
+      value: emp.empFullName,
+    })
+  );
+
+  const [emp, getempData] = useState();
+  const [empId, setempID] = useState(user._id);
+  const [empName, setNameID] = useState(user.empFullName);
+  const onempChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   sIdChecker: true,
+    //   sIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var empId = "";
+    var empName = "";
+    getempData(e);
+    empId = e.empId;
+    empName = e.value;
+    setempID(empId);
+    setNameID(empName);
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     if (checkErrors()) {
@@ -279,8 +308,9 @@ const AddDctClients = ({
         staffs: AddedDetails,
         dctClientEnteredById: user._id,
         dctClientEnteredByName: user.empFullName,
-        dctClientAssignedToId: user._id,
-        dctClientAssignedToName: user.empFullName,
+
+        dctClientAssignedToId: empId,
+        dctClientAssignedToName: empName,
       };
       console.log(finalData);
       addDctClientDetails(finalData);
@@ -510,6 +540,24 @@ const AddDctClients = ({
                       })}
                     />
                   </div>
+                  {(user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                  user.userGroupName === "Super Admin" ? (
+                    <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Assigned To :</label>
+                      <Select
+                        name="empFullName"
+                        options={allemp}
+                        isSearchable={true}
+                        value={emp}
+                        placeholder="Select"
+                        onChange={(e) => onempChange(e)}
+                        required
+                      />
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Currency :</label>
                     <input
@@ -520,7 +568,8 @@ const AddDctClients = ({
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12"></div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12"></div>
+
                   <div className="col-lg-1 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Services :</label>
                   </div>
