@@ -6,16 +6,19 @@ import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
 import { addDctClientDetails } from "../../actions/dct";
+import { getMarketingEmployee } from "../../actions/user";
 import { getActiveCountry } from "../../actions/regions";
 import { getALLPaymentMode } from "../../actions/settings";
 
 const AddDctClients = ({
   auth: { isAuthenticated, user, users, loading },
+  user: { marketingEmployees },
   settings: { paymentMode },
   regions: { activeCountry },
   addDctClientDetails,
   getALLPaymentMode,
   getActiveCountry,
+  getMarketingEmployee,
 }) => {
   useEffect(() => {
     getALLPaymentMode();
@@ -23,6 +26,12 @@ const AddDctClients = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
+  useEffect(() => {
+    getMarketingEmployee();
+  }, [getMarketingEmployee]);
+
+  console.log("marketingEmployees", marketingEmployees);
+
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
@@ -740,6 +749,7 @@ AddDctClients.propTypes = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  user: state.user,
   settings: state.settings,
   client: state.client,
   regions: state.regions,
@@ -749,4 +759,5 @@ export default connect(mapStateToProps, {
   addDctClientDetails,
   getALLPaymentMode,
   getActiveCountry,
+  getMarketingEmployee,
 })(AddDctClients);
