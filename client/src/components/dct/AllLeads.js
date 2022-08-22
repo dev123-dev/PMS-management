@@ -187,6 +187,9 @@ const AllLeads = ({
               >
                 Refresh
               </button>
+              <Link className="btn btn_green_bg float-right" to="/add-lead">
+                Add Lead
+              </Link>
             </div>
           </div>
           <div className="row">

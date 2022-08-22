@@ -223,7 +223,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-                <NavItem>
+                {/* <NavItem>
                   {!loading &&
                   isAuthenticated &&
                   user &&
@@ -239,7 +239,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   ) : (
                     <NavItem></NavItem>
                   )}
-                </NavItem>
+                </NavItem> */}
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>
