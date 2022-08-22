@@ -18,6 +18,7 @@ const AddLead = ({
     getActiveCountry();
   }, [getActiveCountry]);
 
+  console.log(user);
   //formData
   const [formData, setFormData] = useState({
     companyName: "",
@@ -299,7 +300,26 @@ const AddLead = ({
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
+
                   <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
+                    {(user.userGroupName &&
+                      user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin" ? (
+                      <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">Assigned To :</label>
+                        <Select
+                          name="countryName"
+                          options={allcountry}
+                          isSearchable={true}
+                          value={country}
+                          placeholder="Select Region"
+                          onChange={(e) => oncountryChange(e)}
+                          required
+                        />
+                      </div>
+                    ) : (
+                      <></>
+                    )}
                     <div className="col-lg-1 col-md-6 col-sm-6 col-12">
                       <label className="label-control">Services :</label>
                     </div>
