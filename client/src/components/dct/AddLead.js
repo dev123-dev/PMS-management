@@ -301,7 +301,7 @@ const AddLead = ({
                     />
                   </div>
 
-                  <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
+                  <div className="row col-lg-12 col-md-6 col-sm-6 col-12 no_padding">
                     {(user.userGroupName &&
                       user.userGroupName === "Administrator") ||
                     user.userGroupName === "Super Admin" ? (
