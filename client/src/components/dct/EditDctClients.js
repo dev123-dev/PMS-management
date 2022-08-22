@@ -11,12 +11,15 @@ import {
   deactivateDctClientStaffDetails,
   addNewDctClientStaffDetails,
 } from "../../actions/dct";
+import { getMarketingEmployee } from "../../actions/user";
+
 import { getActiveCountry } from "../../actions/regions";
 import { getALLPaymentMode } from "../../actions/settings";
 import { Modal } from "react-bootstrap";
 import EditContact from "./EditContact";
 const EditDctClients = ({
   auth: { isAuthenticated, user, users, loading },
+  user: { marketingEmployees },
   settings: { paymentMode },
   regions: { activeCountry },
   editDctClientsDetails,
@@ -32,6 +35,11 @@ const EditDctClients = ({
   useEffect(() => {
     getActiveCountry();
   }, [getActiveCountry]);
+  useEffect(() => {
+    getMarketingEmployee();
+  }, [getMarketingEmployee]);
+
+  console.log("marketingEmployees", marketingEmployees);
 
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
@@ -933,6 +941,7 @@ EditDctClients.propTypes = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  user: state.user,
   settings: state.settings,
   client: state.client,
   regions: state.regions,
@@ -944,4 +953,5 @@ export default connect(mapStateToProps, {
   getActiveCountry,
   deactivateDctClientStaffDetails,
   addNewDctClientStaffDetails,
+  getMarketingEmployee,
 })(EditDctClients);
