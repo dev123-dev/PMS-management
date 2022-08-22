@@ -24,7 +24,7 @@ const AddLead = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
-  console.log(marketingEmployees);
+  console.log("marketingEmployees", marketingEmployees);
   //formData
   const [formData, setFormData] = useState({
     companyName: "",
@@ -125,6 +125,32 @@ const AddLead = ({
     getcountryData(e);
     countryId = e.countryId;
     setcountryID(countryId);
+  };
+
+  const allemp = [];
+  marketingEmployees.map((emp) =>
+    allemp.push({
+      empId: emp._id,
+      label: emp.empFullName,
+      value: emp.empFullName,
+    })
+  );
+
+  const [emp, getempData] = useState();
+  const [empId, setempID] = useState();
+
+  const onempChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   sIdChecker: true,
+    //   sIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var empId = "";
+    getempData(e);
+    empId = e.empId;
+    setempID(empId);
   };
 
   const [ServicesDetails, SetServiceDetails] = useState([]);
@@ -314,12 +340,12 @@ const AddLead = ({
                       <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                         <label className="label-control">Assigned To :</label>
                         <Select
-                          name="countryName"
-                          options={allcountry}
+                          name="empFullName"
+                          options={allemp}
                           isSearchable={true}
-                          value={country}
-                          placeholder="Select Region"
-                          onChange={(e) => oncountryChange(e)}
+                          value={emp}
+                          placeholder="Select"
+                          onChange={(e) => onempChange(e)}
                           required
                         />
                       </div>
