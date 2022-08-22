@@ -35,7 +35,10 @@ const AddEmployeeDetails = ({
   useEffect(() => {
     getLastEnteredEmpCode();
   }, [getLastEnteredEmpCode]);
-
+  const clientTypeVal = [
+    { value: "Regular", label: "Regular Client" },
+    { value: "Test", label: "Test Client" },
+  ];
   const [formData, setFormData] = useState({
     employeeName: "",
     employeePhone: "",
@@ -68,6 +71,7 @@ const AddEmployeeDetails = ({
     empCA: "",
     userName: "",
     profilephoto: "",
+    clientType: "",
     isSubmitted: false,
   });
 
@@ -92,7 +96,7 @@ const AddEmployeeDetails = ({
     employeeUANNo,
     employeeBasic,
     employeeHRA,
-
+    clientType,
     employeeDA,
     cityallowance,
     Others,
@@ -281,6 +285,9 @@ const AddEmployeeDetails = ({
     repwdValResult: "",
     repwdValStyle: {},
     repwdInptErrStyle: {},
+    clienttypeIdChecker: false,
+
+    clienttypeIdErrorStyle: {},
   });
 
   const {
@@ -290,7 +297,8 @@ const AddEmployeeDetails = ({
     DesignationErrorStyle,
     UserGroupIdChecker,
     UserGroupErrorStyle,
-
+    clienttypeIdChecker,
+    clienttypeIdErrorStyle,
     passwordValChecker,
     passwordValResult,
     passwordValStyle,
@@ -443,6 +451,23 @@ const AddEmployeeDetails = ({
 
     return true;
   };
+
+  const onClientTypeChange = (e) => {
+    //  Required Validation starts
+    setError({
+      ...error,
+      clienttypeIdChecker: true,
+      clienttypeIdErrorStyle: { color: "#000" },
+    });
+    // Required Validation ends
+
+    if (e) {
+      setFormData({
+        ...formData,
+        clientType: e,
+      });
+    }
+  };
   // console.log(designationId);
   const onSubmit = (e) => {
     e.preventDefault();
@@ -535,7 +560,7 @@ const AddEmployeeDetails = ({
                       <h5>Personal Info</h5>
                     </div>
                     <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <div className="col-lg-2 col-md-12 col-sm-12 col-12">
                         <label className="label-control">
                           Employee Name* :
                         </label>
@@ -548,7 +573,7 @@ const AddEmployeeDetails = ({
                           required
                         />
                       </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <div className="col-lg-2 col-md-12 col-sm-12 col-12">
                         <label className="label-control">
                           Employee Phone :
                         </label>
@@ -565,7 +590,7 @@ const AddEmployeeDetails = ({
                           }
                         />
                       </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <div className="col-lg-2 col-md-12 col-sm-12 col-12">
                         <label className="label-control">
                           Adhaar Card No :
                         </label>
@@ -577,7 +602,7 @@ const AddEmployeeDetails = ({
                           onChange={(e) => onInputChange(e)}
                         />
                       </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12">
+                      <div className="col-lg-2 col-md-12 col-sm-12 col-12">
                         <label className="label-control">Pan Card No :</label>
                         <input
                           type="text"
@@ -587,7 +612,7 @@ const AddEmployeeDetails = ({
                           onChange={(e) => onInputChange(e)}
                         />
                       </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
+                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 py-3">
                         <label> DoB* :</label>
                         <br />
                         <input
@@ -604,7 +629,7 @@ const AddEmployeeDetails = ({
                         />
                       </div>
 
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 ">
                         <label className="label-control">Email :</label>
                         <input
                           type="text"
@@ -614,7 +639,7 @@ const AddEmployeeDetails = ({
                           onChange={(e) => onInputChange(e)}
                         />
                       </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
+                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 py-3">
                         <label> DoJ* :</label>
                         <br />
                         <input
@@ -631,7 +656,7 @@ const AddEmployeeDetails = ({
                         />
                       </div>
 
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 ">
                         <label
                           className="label-control"
                           style={DepartmentErrorStyle}
@@ -657,7 +682,7 @@ const AddEmployeeDetails = ({
                           })}
                         />
                       </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 ">
                         <label
                           className="label-control"
                           style={UserGroupErrorStyle}
@@ -683,7 +708,7 @@ const AddEmployeeDetails = ({
                           })}
                         />
                       </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 ">
                         <label
                           className="label-control"
                           style={DesignationErrorStyle}
@@ -711,7 +736,7 @@ const AddEmployeeDetails = ({
                         />
                       </div>
 
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 py-3">
+                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 py-3">
                         <label> Designation Date* :</label>
                         <br />
                         <input
@@ -727,7 +752,7 @@ const AddEmployeeDetails = ({
                           required
                         />
                       </div>
-                      <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                      <div className="col-lg-2 col-md-12 col-sm-12 col-12 ">
                         <label className="label-control">
                           Employee color :
                         </label>
@@ -739,7 +764,23 @@ const AddEmployeeDetails = ({
                           onChange={(e) => setColor(e.target.value)}
                         />
                       </div>
-                      <div className=" col-lg-12 col-md-12 col-sm-12 col-12 py-3">
+                      <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                        <label
+                          className="label-control"
+                          style={clienttypeIdErrorStyle}
+                        >
+                          Client Type* :
+                        </label>
+                        <Select
+                          name="clientType"
+                          options={clientTypeVal}
+                          isSearchable={false}
+                          value={clientType}
+                          placeholder="Select Meeting Type"
+                          onChange={(e) => onClientTypeChange(e)}
+                        />
+                      </div>
+                      <div className=" col-lg-6 col-md-12 col-sm-12 col-12 ">
                         <label className="label-control">Profile Photo:</label>
 
                         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
