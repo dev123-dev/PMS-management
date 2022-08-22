@@ -25,7 +25,7 @@ const EditLead = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
-  console.log(marketingEmployees);
+  // console.log(alleditLeaddata);
 
   //formData
   const [formData, setFormData] = useState({
@@ -113,7 +113,7 @@ const EditLead = ({
     });
   }
 
-  console.log(ImagingChecked, "---", CGIChecked, "===", videoEditingChecked);
+  // console.log(ImagingChecked, "---", CGIChecked, "===", videoEditingChecked);
   const oncountryChange = (e) => {
     var countryId = "";
     getcountryData(e);
@@ -132,12 +132,17 @@ const EditLead = ({
 
   const [emp, getempData] = useState(
     alleditLeaddata && alleditLeaddata
-      ? allemp && allemp.filter((x) => x.empId === alleditLeaddata.empId)[0]
+      ? allemp &&
+          allemp.filter(
+            (x) => x.empId === alleditLeaddata.dctLeadAssignedToId
+          )[0]
       : ""
   );
-  const [empId, setempID] = useState(alleditLeaddata && alleditLeaddata.empId);
+  const [empId, setempID] = useState(
+    alleditLeaddata && alleditLeaddata.dctLeadAssignedToId
+  );
   const [empName, setNameID] = useState(
-    alleditLeaddata && alleditLeaddata.empFullName
+    alleditLeaddata && alleditLeaddata.dctLeadAssignedToName
   );
   const onempChange = (e) => {
     // //Required Validation Starts
@@ -175,6 +180,7 @@ const EditLead = ({
       dctLeadEditedById: user._id,
       dctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
     };
+    console.log(finalData);
     editDctLeadDetails(finalData);
     onEditModalChange(true);
   };

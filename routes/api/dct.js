@@ -66,6 +66,8 @@ router.post("/edit-dct-Leads", async (req, res) => {
           countryName: data.countryName,
           dctLeadEditedById: data.dctLeadEditedById,
           dctLeadEditedDateTime: data.dctLeadEditedDateTime,
+          dctLeadAssignedToId: data.dctLeadAssignedToId,
+          dctLeadAssignedToName: data.dctLeadAssignedToName,
         },
       }
     );
