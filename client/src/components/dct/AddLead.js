@@ -138,7 +138,7 @@ const AddLead = ({
 
   const [emp, getempData] = useState();
   const [empId, setempID] = useState();
-
+  const [empName, setNameID] = useState();
   const onempChange = (e) => {
     // //Required Validation Starts
     // setError({
@@ -148,9 +148,12 @@ const AddLead = ({
     // });
     // //Required Validation ends
     var empId = "";
+    var empName = "";
     getempData(e);
     empId = e.empId;
+    empName = e.empName;
     setempID(empId);
+    setNameID(empName);
   };
 
   const [ServicesDetails, SetServiceDetails] = useState([]);
@@ -191,8 +194,8 @@ const AddLead = ({
       staffs: AddedDetails,
       dctLeadEnteredById: user._id,
       dctLeadEnteredByName: user.empFullName,
-      dctLeadAssignedToId: user._id,
-      dctLeadAssignedToName: user.empFullName,
+      dctLeadAssignedToId: empId,
+      dctLeadAssignedToName: empName,
     };
     addDctLeadDetails(finalData);
     setFormData({
