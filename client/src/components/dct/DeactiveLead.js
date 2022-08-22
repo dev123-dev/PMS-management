@@ -103,7 +103,8 @@ const DeactiveLead = ({
             )}
             <Link
               className="btn sub_form btn_continue blackbrd float-right"
-              to="/job-queue"
+              // to="/job-queue"
+              onClick={() => onDeactiveModalChange(true)}
             >
               Cancel
             </Link>
