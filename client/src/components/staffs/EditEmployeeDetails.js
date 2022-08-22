@@ -15,6 +15,11 @@ const EditEmployeeDetails = ({
   allEmployeedata,
   editEmployeeDetails,
 }) => {
+  const ctAcessOpt = [
+    { value: "None", label: "None" },
+    { value: "All", label: "All" },
+    { value: "Individual", label: "Individual" },
+  ];
   const [formData, setFormData] = useState({
     empFullName:
       allEmployeedata && allEmployeedata.empFullName
@@ -141,6 +146,13 @@ const EditEmployeeDetails = ({
       allEmployeedata && allEmployeedata.profilephoto
         ? allEmployeedata.profilephoto
         : "",
+    empCtAccess:
+      allEmployeedata && allEmployeedata.empCtAccess
+        ? {
+            value: allEmployeedata.empCtAccess,
+            label: allEmployeedata.empCtAccess,
+          }
+        : "",
 
     isSubmitted: false,
   });
@@ -150,9 +162,8 @@ const EditEmployeeDetails = ({
     employeePhone,
     employeeAadharNo,
     employeePanNo,
-
+    empCtAccess,
     employeeEmail,
-
     employeeCode,
     empAddress,
     employeeState,
@@ -341,6 +352,14 @@ const EditEmployeeDetails = ({
   const onDateChange3 = (e) => {
     setPfDate(e.target.value);
   };
+  const onctAcesstypeChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        empCtAccess: e,
+      });
+    }
+  };
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -499,6 +518,7 @@ const EditEmployeeDetails = ({
       userGroupName: usergroups.value,
       empEditedById: user._id,
       profilephoto: profilephoto,
+      empCtAccess: empCtAccess.value,
       allEmployeedata: allEmployeedata,
     };
     console.log(finalData);
@@ -714,7 +734,17 @@ const EditEmployeeDetails = ({
                         disabled
                       />
                     </div>
-
+                    <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">CT Access :</label>
+                      <Select
+                        name="empCtAccess"
+                        options={ctAcessOpt}
+                        isSearchable={false}
+                        value={empCtAccess}
+                        placeholder="Select Access Type"
+                        onChange={(e) => onctAcesstypeChange(e)}
+                      />
+                    </div>
                     <div className=" col-lg-12 col-md-12 col-sm-12 col-12 py-3">
                       <label className="label-control">Profile Photo:</label>
 
