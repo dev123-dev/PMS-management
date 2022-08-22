@@ -137,8 +137,8 @@ const AddLead = ({
   );
 
   const [emp, getempData] = useState();
-  const [empId, setempID] = useState();
-  const [empName, setNameID] = useState();
+  const [empId, setempID] = useState(user._id);
+  const [empName, setNameID] = useState(user.empFullName);
   const onempChange = (e) => {
     // //Required Validation Starts
     // setError({
