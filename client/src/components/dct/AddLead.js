@@ -197,7 +197,7 @@ const AddLead = ({
       dctLeadAssignedToId: empId,
       dctLeadAssignedToName: empName,
     };
-    addDctLeadDetails(finalData);
+    //  addDctLeadDetails(finalData);
     setFormData({
       ...formData,
       companyName: "",

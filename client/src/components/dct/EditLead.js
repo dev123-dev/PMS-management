@@ -120,6 +120,41 @@ const EditLead = ({
     countryId = e.countryId;
     setcountryID(countryId);
   };
+
+  const allemp = [];
+  marketingEmployees.map((emp) =>
+    allemp.push({
+      empId: emp._id,
+      label: emp.empFullName,
+      value: emp.empFullName,
+    })
+  );
+
+  const [emp, getempData] = useState(
+    alleditLeaddata && alleditLeaddata
+      ? allemp && allemp.filter((x) => x.empId === alleditLeaddata.empId)[0]
+      : ""
+  );
+  const [empId, setempID] = useState(alleditLeaddata && alleditLeaddata.empId);
+  const [empName, setNameID] = useState(
+    alleditLeaddata && alleditLeaddata.empFullName
+  );
+  const onempChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   sIdChecker: true,
+    //   sIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var empId = "";
+    var empName = "";
+    getempData(e);
+    empId = e.empId;
+    empName = e.value;
+    setempID(empId);
+    setNameID(empName);
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
@@ -135,6 +170,8 @@ const EditLead = ({
       importantPoints: importantPoints,
       countryId: countryId,
       countryName: country.value,
+      dctLeadAssignedToId: empId,
+      dctLeadAssignedToName: empName,
       dctLeadEditedById: user._id,
       dctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
     };
@@ -250,12 +287,12 @@ const EditLead = ({
                       <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                         <label className="label-control">Assigned To :</label>
                         <Select
-                          name="countryName"
-                          options={allcountry}
+                          name="empFullName"
+                          options={allemp}
                           isSearchable={true}
-                          value={country}
-                          placeholder="Select Region"
-                          onChange={(e) => oncountryChange(e)}
+                          value={emp}
+                          placeholder="Select"
+                          onChange={(e) => onempChange(e)}
                           required
                         />
                       </div>
@@ -265,6 +302,7 @@ const EditLead = ({
                     <div className="col-lg-1 col-md-6 col-sm-6 col-12">
                       <label className="label-control">Services :</label>
                     </div>
+
                     <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                       <label className="label-control">Imaging</label>
                       <input
