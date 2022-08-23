@@ -162,16 +162,16 @@ const AllProspects = ({
   const onempChange = (e) => {
     getempData(e);
     setempID(e.empId);
-    // getAllDctLead({
-    //   countryId: countryId,
-    //   clientsId: clients ? clients.clientsId : null,
-    //   assignedTo: e.empId,
-    // });
-    // getAllDctLeadDD({
-    //   countryId: countryId,
-    //   clientsId: clients ? clients.clientsId : null,
-    //   assignedTo: e.empId,
-    // });
+    getDctLeadDetails({
+      countryId: countryId,
+      clientsId: clients ? clients.clientsId : null,
+      assignedTo: e.empId,
+    });
+    getDctLeadDetailsDD({
+      countryId: countryId,
+      clientsId: clients ? clients.clientsId : null,
+      assignedTo: e.empId,
+    });
     setFilterData({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
@@ -182,6 +182,7 @@ const AllProspects = ({
   const onClickReset = () => {
     getcountryData("");
     getclientsData("");
+    getempData("");
     getDctLeadDetails({ dctLeadCategory: "P" });
     getDctLeadDetailsDD({ dctLeadCategory: "P" });
     setFilterData({ dctLeadCategory: "P" });
