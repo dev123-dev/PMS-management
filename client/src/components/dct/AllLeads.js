@@ -143,6 +143,7 @@ const AllLeads = ({
     getAllDctLead();
     getAllDctLeadDD();
     setFilterData();
+    ondivcloseChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (

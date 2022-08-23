@@ -140,6 +140,7 @@ const Allfollowup = ({
     getDctLeadDetails({ dctLeadCategory: "F" });
     getDctLeadDetailsDD({ dctLeadCategory: "F" });
     setFilterData({ dctLeadCategory: "F" });
+    ondivcloseChange(true);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />

@@ -147,6 +147,7 @@ const AllProspects = ({
     getDctLeadDetails({ dctLeadCategory: "P" });
     getDctLeadDetailsDD({ dctLeadCategory: "P" });
     setFilterData({ dctLeadCategory: "P" });
+    ondivcloseChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
