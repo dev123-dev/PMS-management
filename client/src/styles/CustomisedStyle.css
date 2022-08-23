@@ -791,7 +791,10 @@ label {
   overflow-y: auto;
   height:80vh;
 }
-
+.fixTableHeadcontact{
+  overflow-y: auto;
+  height:190px;
+}
 
 .smll_row td,.smll_row th{
   padding: 0.15rem !important;
