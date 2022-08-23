@@ -42,7 +42,7 @@ const AllProspects = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
-  console.log("marketingEmployees", marketingEmployees);
+  console.log("marketingEmployees ", marketingEmployees);
 
   const [filterData, setFilterData] = useState({ dctLeadCategory: "P" });
 
