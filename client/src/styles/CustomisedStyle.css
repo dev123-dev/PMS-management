@@ -2047,3 +2047,8 @@ padding: 0.15rem !important;
 
 .sidePart2divHeight{  height: 40vh;}
 /* side partitions ends */
+
+.changecolor{
+  background-color: #456792;
+  color: white;
+}

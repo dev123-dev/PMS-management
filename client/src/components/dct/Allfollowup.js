@@ -80,12 +80,12 @@ const Allfollowup = ({
       handleDeactiveModalClose();
     }
   };
-
+  const [colorData, setcolorData] = useState();
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
   const onClickHandler = (allLeads, idx) => {
     setLeadData(allLeads);
-
+    setcolorData(idx);
     const searchData = {
       callToId: allLeads._id,
     };
@@ -248,7 +248,7 @@ const Allfollowup = ({
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
-                    className="table table-bordered table-striped table-hover smll_row"
+                    className="table table-bordered table-striped  smll_row"
                     id="datatable2"
                   >
                     <thead>
@@ -272,7 +272,10 @@ const Allfollowup = ({
                             callDates = [ED[2], ED[1], ED[0]].join("-");
                           }
                           return (
-                            <tr key={idx}>
+                            <tr
+                              key={idx}
+                              className={colorData === idx ? "changecolor" : ""}
+                            >
                               <td>{idx + 1}</td>
                               <td>
                                 <Link

@@ -43,13 +43,14 @@ const RegularClientFollowup = ({
   // console.log("marketingEmployeesRC", marketingEmployees);
 
   const [filterData, setFilterData] = useState({ dctClientCategory: "RC" });
-
+  const [colorData, setcolorData] = useState();
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
   const [selectedclientname, setselectedclientname] = useState();
 
   const onClickHandler = (dctClients, idx) => {
     setLeadData(dctClients);
+    setcolorData(idx);
     setselectedclientname(dctClients.companyName);
     const searchData = {
       callToId: dctClients._id,
@@ -222,7 +223,7 @@ const RegularClientFollowup = ({
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
-                    className="table table-bordered table-striped table-hover smll_row"
+                    className="table table-bordered table-striped  smll_row"
                     id="datatable2"
                   >
                     <thead>
@@ -245,7 +246,10 @@ const RegularClientFollowup = ({
                             callDates = [ED[2], ED[1], ED[0]].join("-");
                           }
                           return (
-                            <tr key={idx}>
+                            <tr
+                              key={idx}
+                              className={colorData === idx ? "changecolor" : ""}
+                            >
                               <td>{idx + 1}</td>
                               <td>
                                 {" "}
