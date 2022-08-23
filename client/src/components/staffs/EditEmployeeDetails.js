@@ -521,7 +521,7 @@ const EditEmployeeDetails = ({
       empCtAccess: empCtAccess.value,
       allEmployeedata: allEmployeedata,
     };
-    console.log(finalData);
+
     editEmployeeDetails(finalData);
     onEditModalChange(true);
     // setFormData({
