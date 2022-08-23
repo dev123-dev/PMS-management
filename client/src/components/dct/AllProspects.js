@@ -166,16 +166,19 @@ const AllProspects = ({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
+      dctLeadCategory: "P",
     });
     getDctLeadDetailsDD({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
+      dctLeadCategory: "P",
     });
     setFilterData({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
+      dctLeadCategory: "P",
     });
   };
 
