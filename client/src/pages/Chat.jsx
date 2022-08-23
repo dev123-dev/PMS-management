@@ -49,7 +49,7 @@ export default function Chat() {
       if (currentUser) {
         if (currentUser.userName) {
           const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
-          console.log("data.data",data.data)
+          
           setContacts(data.data);
         }
       }

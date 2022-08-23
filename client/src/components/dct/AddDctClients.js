@@ -30,8 +30,6 @@ const AddDctClients = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
-  console.log("marketingEmployees", marketingEmployees);
-
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
@@ -311,7 +309,6 @@ const AddDctClients = ({
         dctClientAssignedToId: empId,
         dctClientAssignedToName: empName,
       };
-      console.log(finalData);
       addDctClientDetails(finalData);
       setFormData({
         ...formData,

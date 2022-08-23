@@ -295,7 +295,7 @@ const EditClientDetails = ({
       standardInstruction: standardInstruction,
       allClientdata: allClientdata,
     };
-    console.log(finalData);
+
     EditClient(finalData);
     onEditModalChange(true);
   };

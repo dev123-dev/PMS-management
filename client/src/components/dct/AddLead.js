@@ -24,7 +24,6 @@ const AddLead = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
-  console.log("marketingEmployees", marketingEmployees);
   //formData
   const [formData, setFormData] = useState({
     companyName: "",
