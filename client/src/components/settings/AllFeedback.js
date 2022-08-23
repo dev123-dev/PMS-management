@@ -93,7 +93,7 @@ const AllFeedback = ({
       handleStatusModalClose();
     }
   };
-  console.log(allFeedback);
+
   const [userDatas1, setUserDatas1] = useState(null);
 
   const [statusValue, setStatusValue] = useState("");

@@ -100,7 +100,7 @@ const EditLead = ({
 
   if (alleditLeaddata && alleditLeaddata.services && !isCheck) {
     alleditLeaddata.services.map((servicesVal) => {
-      console.log(servicesVal);
+      // console.log(servicesVal);
       if (servicesVal === "Imaging") {
         setFormData({ ...formData, ImagingChecked: true, isCheck: true });
       }
@@ -180,7 +180,7 @@ const EditLead = ({
       dctLeadEditedById: user._id,
       dctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
     };
-    console.log(finalData);
+    // console.log(finalData);
     editDctLeadDetails(finalData);
     onEditModalChange(true);
   };

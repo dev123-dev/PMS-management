@@ -40,14 +40,14 @@ const EditDctClients = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
-  console.log("marketingEmployees", marketingEmployees);
+  // console.log("marketingEmployees", marketingEmployees);
 
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
   ];
   //formData
-  console.log(data);
+  // console.log(data);
   const [formData, setFormData] = useState({
     clientName:
       data && data.dctdata && data.dctdata.clientName

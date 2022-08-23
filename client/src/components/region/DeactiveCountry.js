@@ -41,7 +41,7 @@ const DeactiveCountry = ({
       countryDeactivateById: user._id,
       countryDeactivateDateTime: new Date().toLocaleString(),
     };
-    console.log(finalData);
+
     deactiveCountryData(finalData);
     onDeactiveModalChange(true);
   };
