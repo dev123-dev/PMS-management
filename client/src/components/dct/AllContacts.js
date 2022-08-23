@@ -148,17 +148,36 @@ const AllContacts = ({
   ) : (
     <Fragment>
       <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-        <label className="sidePartHeading ">Contacts</label>
+        <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+          <div className="col-lg-11 col-md-12 col-sm-12 col-12 no_padding ">
+            <label className="sidePartHeading">Contacts</label>
+          </div>
+          {showdateselectionSection && (
+            <div className="col-lg-1 col-md-12 col-sm-12 col-12 no_padding ">
+              <img
+                src={require("../../static/images/add-icon-wh.png")}
+                alt="X"
+                style={{
+                  height: "20px",
+                  width: "20px",
+                  backgroundColor: "#456792",
+                }}
+                onClick={() => onAddstaff()}
+              />
+            </div>
+          )}
+        </div>
+
         {showdateselectionSection && (
           <>
-            <div className=" col-lg-11 col-md-12 col-sm-12 col-12 no_padding ml-4">
+            {/* <div className=" col-lg-11 col-md-12 col-sm-12 col-12 no_padding ml-4">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onAddstaff()}
               >
                 Add Staff
               </button>
-            </div>
+            </div> */}
             <div
               className="row col-lg-12 col-md-12 col-sm-12 col-12"
               style={{ height: "190px", overflowY: "scroll" }}
