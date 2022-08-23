@@ -146,7 +146,7 @@ const AllLeads = ({
     });
   };
 
-  const allemp = [];
+  const allemp = [{ empId: null, label: "All", value: null }];
   marketingEmployees.map((emp) =>
     allemp.push({
       empId: emp._id,
@@ -157,15 +157,24 @@ const AllLeads = ({
 
   const [emp, getempData] = useState();
   const [empId, setempID] = useState();
-  const [empName, setNameID] = useState();
   const onempChange = (e) => {
-    var empId = "";
-    var empName = "";
     getempData(e);
-    empId = e.empId;
-    empName = e.value;
-    setempID(empId);
-    setNameID(empName);
+    setempID(e.empId);
+    getAllDctLead({
+      countryId: countryId,
+      clientsId: clients ? clients.clientsId : null,
+      assignedTo: e.empId,
+    });
+    getAllDctLeadDD({
+      countryId: countryId,
+      clientsId: clients ? clients.clientsId : null,
+      assignedTo: e.empId,
+    });
+    setFilterData({
+      countryId: countryId,
+      clientsId: clients ? clients.clientsId : null,
+      assignedTo: e.empId,
+    });
   };
 
   const onClickReset = () => {

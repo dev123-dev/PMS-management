@@ -321,15 +321,22 @@ router.post("/deactivate-dct-client", async (req, res) => {
 
 //*********************************\SELECT/*********************************\\
 router.post("/get-dct-Leads", auth, async (req, res) => {
+  let { countryId, clientsId, dctLeadCategory, assignedTo } = req.body;
+
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
   let dctLeadAssignedToId = "";
   if (userInfo.empCtAccess === "individual") dctLeadAssignedToId = userInfo._id;
-  else dctLeadAssignedToId = { $ne: null };
+  else {
+    if (assignedTo) {
+      dctLeadAssignedToId = assignedTo;
+    } else {
+      dctLeadAssignedToId = { $ne: null };
+    }
+  }
 
   var todayDate = new Date().toISOString().split("T")[0];
-  let { countryId, clientsId, dctLeadCategory } = req.body;
   let catCondition = [];
   if (dctLeadCategory == "P" || dctLeadCategory == "NL") {
     catCondition = [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }];
@@ -374,7 +381,7 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
       };
     }
   }
-  // console.log(query);
+  console.log(query);
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
       dctCallDate: -1,
@@ -388,13 +395,20 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
 });
 
 router.post("/get-all-dct-Leads", auth, async (req, res) => {
+  let { countryId, clientsId, assignedTo } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
   let dctLeadAssignedToId = "";
   if (userInfo.empCtAccess === "individual") dctLeadAssignedToId = userInfo._id;
-  else dctLeadAssignedToId = { $ne: null };
-  let { countryId, clientsId } = req.body;
+  else {
+    if (assignedTo) {
+      dctLeadAssignedToId = assignedTo;
+    } else {
+      dctLeadAssignedToId = { $ne: null };
+    }
+  }
+
   let query = {};
   if (countryId) {
     if (clientsId) {
@@ -441,6 +455,7 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
       };
     }
   }
+  // console.log(query);
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
       _id: -1,
