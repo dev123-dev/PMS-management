@@ -180,6 +180,7 @@ const AllLeads = ({
   const onClickReset = () => {
     getcountryData("");
     getclientsData("");
+    getempData("");
     getAllDctLead();
     getAllDctLeadDD();
     setFilterData();
