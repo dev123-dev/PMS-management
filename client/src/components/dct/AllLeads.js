@@ -80,6 +80,7 @@ const AllLeads = ({
       handleDeactiveModalClose();
     }
   };
+
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
   const onClickHandler = (getAllLeads) => {
@@ -145,6 +146,28 @@ const AllLeads = ({
     });
   };
 
+  const allemp = [];
+  marketingEmployees.map((emp) =>
+    allemp.push({
+      empId: emp._id,
+      label: emp.empFullName,
+      value: emp.empFullName,
+    })
+  );
+
+  const [emp, getempData] = useState();
+  const [empId, setempID] = useState();
+  const [empName, setNameID] = useState();
+  const onempChange = (e) => {
+    var empId = "";
+    var empName = "";
+    getempData(e);
+    empId = e.empId;
+    empName = e.value;
+    setempID(empId);
+    setNameID(empName);
+  };
+
   const onClickReset = () => {
     getcountryData("");
     getclientsData("");
@@ -172,7 +195,6 @@ const AllLeads = ({
                 value={country}
                 placeholder="Select Region"
                 onChange={(e) => oncountryChange(e)}
-                required
               />
             </div>
 
@@ -184,10 +206,40 @@ const AllLeads = ({
                 value={clients}
                 placeholder="Select Lead"
                 onChange={(e) => onclientsChange(e)}
-                required
               />
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2"></div>
+            {(user.userGroupName && user.userGroupName === "Administrator") ||
+            user.userGroupName === "Super Admin" ? (
+              <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                <Select
+                  name="empFullName"
+                  options={allemp}
+                  isSearchable={true}
+                  value={emp}
+                  placeholder="Select Emp"
+                  onChange={(e) => onempChange(e)}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+            {/* {(user.userGroupName && user.userGroupName === "Administrator") ||
+            user.userGroupName === "Super Admin" ? (
+              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Assigned To :</label>
+                <Select
+                  name="empFullName"
+                  options={allemp}
+                  isSearchable={true}
+                  value={emp}
+                  placeholder="Select"
+                  onChange={(e) => onempChange(e)}
+                  required
+                />
+              </div>
+            ) : (
+              <></>
+            )} */}
 
             <div className="col-lg-5 col-md-11 col-sm-12 col-11 py-3">
               <button
