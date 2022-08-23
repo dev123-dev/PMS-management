@@ -230,17 +230,22 @@ const AllStatuschange = ({
   const onSubmit = (e) => {
     let callCategoryVal = null;
     let callComeFromVal = "Lead";
+    if (from === "TestClient" || from === "RegularClient")
+      callComeFromVal = "Client";
+
     if (callStatus.value === "FollowUp") {
       callCategoryVal = "F";
     } else if (callStatus.value === "TestClient") {
       callCategoryVal = "TC";
-      callComeFromVal = "Client";
     } else if (callStatus.value === "RegularClient") {
       callCategoryVal = "RC";
-      callComeFromVal = "Client";
     } else {
       if (leadDataVal.dctLeadCategory === "NL") callCategoryVal = "P";
-      else callCategoryVal = leadDataVal.dctLeadCategory;
+      else {
+        if (from === "TestClient" || from === "RegularClient")
+          callCategoryVal = leadDataVal.dctClientCategory;
+        else callCategoryVal = leadDataVal.dctLeadCategory;
+      }
     }
     e.preventDefault();
     if (checkErrors()) {
