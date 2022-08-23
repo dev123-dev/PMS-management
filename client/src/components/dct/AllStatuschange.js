@@ -229,12 +229,15 @@ const AllStatuschange = ({
 
   const onSubmit = (e) => {
     let callCategoryVal = null;
+    let callComeFromVal = "Lead";
     if (callStatus.value === "FollowUp") {
       callCategoryVal = "F";
     } else if (callStatus.value === "TestClient") {
       callCategoryVal = "TC";
+      callComeFromVal = "Client";
     } else if (callStatus.value === "RegularClient") {
       callCategoryVal = "RC";
+      callComeFromVal = "Client";
     } else {
       if (leadDataVal.dctLeadCategory === "NL") callCategoryVal = "P";
       else callCategoryVal = leadDataVal.dctLeadCategory;
@@ -252,6 +255,8 @@ const AllStatuschange = ({
         callStatus: callStatus.value,
         callDate: startStatusDate || todayDateymd,
         callNote: callNote,
+        callComeFrom: callComeFromVal,
+        callTakenDate: new Date().toISOString().split("T")[0],
         callEnteredDate: new Date().toLocaleString("en-GB"),
         filterData: filterData,
       };

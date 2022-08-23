@@ -308,7 +308,6 @@ const AddDctClients = ({
         staffs: AddedDetails,
         dctClientEnteredById: user._id,
         dctClientEnteredByName: user.empFullName,
-
         dctClientAssignedToId: empId,
         dctClientAssignedToName: empName,
       };

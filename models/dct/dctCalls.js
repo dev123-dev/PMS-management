@@ -27,15 +27,18 @@ const DctCallsSchema = new mongoose.Schema({
     type: String,
   },
   callDate: {
-    type: String,
+    type: String, //Next call Date
   },
   callNote: {
     type: String,
   },
-  callEnteredDate: {
-    type: String,
+  callTakenDate: {
+    type: String, //Todays Date
   },
-  callDateTime: {
+  callComeFrom: {
+    type: String, //Leads or Clients
+  },
+  callEnteredDateTime: {
     type: String,
     default: new Date().toLocaleString("en-GB"),
   },

@@ -27,6 +27,7 @@ const EditDctClients = ({
   getActiveCountry,
   deactivateDctClientStaffDetails,
   addNewDctClientStaffDetails,
+  getMarketingEmployee,
 }) => {
   const data = useHistory().location.data;
   useEffect(() => {
@@ -46,6 +47,7 @@ const EditDctClients = ({
     { value: "Test", label: "Test Client" },
   ];
   //formData
+  console.log(data);
   const [formData, setFormData] = useState({
     clientName:
       data && data.dctdata && data.dctdata.clientName
@@ -304,6 +306,46 @@ const EditDctClients = ({
     }
   };
 
+  const allemp = [];
+  marketingEmployees.map((emp) =>
+    allemp.push({
+      empId: emp._id,
+      label: emp.empFullName,
+      value: emp.empFullName,
+    })
+  );
+
+  const [emp, getempData] = useState(
+    data && data.dctdata && data.dctdata
+      ? allemp &&
+          allemp.filter(
+            (x) => x.empId === data.dctdata.dctClientAssignedToId
+          )[0]
+      : ""
+  );
+  const [empId, setempID] = useState(
+    data && data.dctdata && data.dctdata.dctClientAssignedToId
+  );
+  const [empName, setNameID] = useState(
+    data && data.dctdata && data.dctdata.dctClientAssignedToName
+  );
+  const onempChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   sIdChecker: true,
+    //   sIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var empId = "";
+    var empName = "";
+    getempData(e);
+    empId = e.empId;
+    empName = e.value;
+    setempID(empId);
+    setNameID(empName);
+  };
+
   const onSubmitDeactive = (e) => {
     e.preventDefault();
     const finalData = {
@@ -347,6 +389,8 @@ const EditDctClients = ({
       services: ServicesDetails,
       dctClientEditedById: user._id,
       dctClientEditedDateTime: new Date().toLocaleString("en-GB"),
+      dctClientAssignedToId: empId,
+      dctClientAssignedToName: empName,
     };
     editDctClientsDetails(finalData);
     let i = 0;
@@ -576,7 +620,25 @@ const EditDctClients = ({
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12"></div>
+                  {(user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                  user.userGroupName === "Super Admin" ? (
+                    <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Assigned To :</label>
+                      <Select
+                        name="empFullName"
+                        options={allemp}
+                        isSearchable={true}
+                        value={emp}
+                        placeholder="Select"
+                        onChange={(e) => onempChange(e)}
+                        required
+                      />
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12"></div>
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Services :</label>
                   </div>
