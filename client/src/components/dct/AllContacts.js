@@ -153,7 +153,14 @@ const AllContacts = ({
             <label className="sidePartHeading">Contacts</label>
           </div>
           {showdateselectionSection && (
-            <div className="col-lg-1 col-md-12 col-sm-12 col-12 no_padding ">
+            <div
+              className="col-lg-1 col-md-12 col-sm-12 col-12 no_padding "
+              style={{
+                height: "30px",
+                width: "20px",
+                backgroundColor: "#456792",
+              }}
+            >
               <img
                 src={require("../../static/images/add-icon-wh.png")}
                 alt="X"
