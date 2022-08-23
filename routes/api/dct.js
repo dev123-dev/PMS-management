@@ -64,6 +64,7 @@ router.post("/edit-dct-Leads", async (req, res) => {
           importantPoints: data.importantPoints,
           countryId: data.countryId,
           countryName: data.countryName,
+          services: data.services,
           dctLeadEditedById: data.dctLeadEditedById,
           dctLeadEditedDateTime: data.dctLeadEditedDateTime,
           dctLeadAssignedToId: data.dctLeadAssignedToId,

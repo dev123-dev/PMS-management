@@ -53,10 +53,6 @@ const EditLead = ({
       alleditLeaddata && alleditLeaddata.importantPoints
         ? alleditLeaddata.importantPoints
         : "",
-    ImagingChecked: false,
-    CGIChecked: false,
-    videoEditingChecked: false,
-    isCheck: false,
     isSubmitted: false,
   });
   const {
@@ -69,11 +65,12 @@ const EditLead = ({
     dctLeadAddress,
     importantPoints,
     isSubmitted,
-    ImagingChecked,
-    CGIChecked,
-    videoEditingChecked,
-    isCheck,
   } = formData;
+
+  const [ImagingChecked, setImagingChecked] = useState(false);
+  const [CGIChecked, setCGIChecked] = useState(false);
+  const [videoEditingChecked, setVideoEditingChecked] = useState(false);
+  const [isCheck, setIsCheck] = useState(false);
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -99,21 +96,24 @@ const EditLead = ({
   const [countryId, setcountryID] = useState(alleditLeaddata.countryId);
 
   if (alleditLeaddata && alleditLeaddata.services && !isCheck) {
-    alleditLeaddata.services.map((servicesVal) => {
-      // console.log(servicesVal);
+    let i = 0,
+      servicesVal = "";
+    for (i = 0; i < alleditLeaddata.services.length; i++) {
+      servicesVal = alleditLeaddata.services[i];
       if (servicesVal === "Imaging") {
-        setFormData({ ...formData, ImagingChecked: true, isCheck: true });
+        setImagingChecked(true);
+      }
+      if (servicesVal === "CGI") {
+        setCGIChecked(true);
       }
       if (servicesVal === "videoEditing") {
-        setFormData({ ...formData, CGIChecked: true, isCheck: true });
+        setVideoEditingChecked(true);
       }
-      if (servicesVal === "Imaging") {
-        setFormData({ ...formData, CGIChecked: true, isCheck: true });
+      if (alleditLeaddata.services.length - 1 === i) {
+        setIsCheck(true);
       }
-    });
+    }
   }
-
-  // console.log(ImagingChecked, "---", CGIChecked, "===", videoEditingChecked);
   const oncountryChange = (e) => {
     var countryId = "";
     getcountryData(e);
@@ -160,6 +160,35 @@ const EditLead = ({
     setempID(empId);
     setNameID(empName);
   };
+
+  const [ServicesDetails, SetServiceDetails] = useState(
+    alleditLeaddata && alleditLeaddata.services
+  );
+
+  const onServicesChange = (e) => {
+    let funcVal = e.target.value;
+    if (funcVal === "Imaging") {
+      setImagingChecked(ImagingChecked === true ? false : true);
+    } else if (funcVal === "CGI") {
+      setCGIChecked(CGIChecked === true ? false : true);
+    } else if (funcVal === "videoEditing") {
+      setVideoEditingChecked(videoEditingChecked === true ? false : true);
+    }
+
+    let temp = [];
+    const staffList = ServicesDetails.filter(
+      (ServicesDetails) => ServicesDetails === e.target.value
+    );
+    if (staffList.length === 0) {
+      temp.push(...ServicesDetails, e.target.value);
+      SetServiceDetails(temp);
+    } else {
+      const removeList = ServicesDetails.filter(
+        (ServicesDetails) => ServicesDetails !== e.target.value
+      );
+      SetServiceDetails(removeList);
+    }
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
@@ -175,12 +204,12 @@ const EditLead = ({
       importantPoints: importantPoints,
       countryId: countryId,
       countryName: country.value,
+      services: ServicesDetails,
       dctLeadAssignedToId: empId,
       dctLeadAssignedToName: empName,
       dctLeadEditedById: user._id,
       dctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
     };
-    // console.log(finalData);
     editDctLeadDetails(finalData);
     onEditModalChange(true);
   };
@@ -313,27 +342,33 @@ const EditLead = ({
                       <label className="label-control">Imaging</label>
                       <input
                         type="checkbox"
-                        id="Unconfirmed"
+                        id="serviceCheckbox"
+                        name="setImagingChecked"
                         checked={ImagingChecked}
-                        // onChange={handleOnChange}
+                        value="Imaging"
+                        onChange={(e) => onServicesChange(e)}
                       />
                     </div>
                     <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                       <label className="label-control">CGI</label>
                       <input
                         type="checkbox"
-                        id="Unconfirmed"
+                        id="serviceCheckbox"
+                        name="setCGIChecked"
                         checked={CGIChecked}
-                        // onChange={handleOnChange}
+                        value="CGI"
+                        onChange={(e) => onServicesChange(e)}
                       />
                     </div>
                     <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                       <label className="label-control">Video Editing</label>
                       <input
                         type="checkbox"
-                        id="Unconfirmed"
+                        id="serviceCheckbox"
+                        name="setVideoEditingChecked"
                         checked={videoEditingChecked}
-                        // onChange={handleOnChange}
+                        value="videoEditing"
+                        onChange={(e) => onServicesChange(e)}
                       />
                     </div>
                   </div>

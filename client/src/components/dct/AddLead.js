@@ -361,7 +361,7 @@ const AddLead = ({
                       <label className="label-control">Imaging</label>
                       <input
                         type="checkbox"
-                        id="Unconfirmed"
+                        id="serviceCheckbox"
                         value="Imaging"
                         onChange={(e) => onServicesChange(e)}
                       />
@@ -370,7 +370,7 @@ const AddLead = ({
                       <label className="label-control">CGI</label>
                       <input
                         type="checkbox"
-                        id="Unconfirmed"
+                        id="serviceCheckbox"
                         value="CGI"
                         onChange={(e) => onServicesChange(e)}
                       />
@@ -379,7 +379,7 @@ const AddLead = ({
                       <label className="label-control">Video Editing</label>
                       <input
                         type="checkbox"
-                        id="Unconfirmed"
+                        id="serviceCheckbox"
                         value="videoEditing"
                         onChange={(e) => onServicesChange(e)}
                       />
