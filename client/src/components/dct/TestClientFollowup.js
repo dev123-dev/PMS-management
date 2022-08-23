@@ -13,16 +13,19 @@ import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 import { getActiveCountry } from "../../actions/regions";
+import { getMarketingEmployee } from "../../actions/user";
 
 // import DeactiveLead from "./DeactiveLead";
 const TestClientFollowup = ({
   auth: { isAuthenticated, user, users },
+  user: { marketingEmployees },
   dct: { dctClients, dctClientsDD },
   regions: { activeCountry },
   getDctClientDetails,
   getDctClientDetailsDD,
   getActiveCountry,
   getLastmessage,
+  getMarketingEmployee,
 }) => {
   useEffect(() => {
     getDctClientDetails({ dctClientCategory: "TC" });
@@ -33,6 +36,11 @@ const TestClientFollowup = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
+  useEffect(() => {
+    getMarketingEmployee();
+  }, [getMarketingEmployee]);
+
+  console.log("marketingEmployees", marketingEmployees);
 
   const [filterData, setFilterData] = useState({ dctClientCategory: "TC" });
 
@@ -274,6 +282,7 @@ TestClientFollowup.propTypes = {
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  user: state.user,
   dct: state.dct,
   regions: state.regions,
 });
@@ -283,4 +292,5 @@ export default connect(mapStateToProps, {
   getDctClientDetailsDD,
   getActiveCountry,
   getLastmessage,
+  getMarketingEmployee,
 })(TestClientFollowup);
