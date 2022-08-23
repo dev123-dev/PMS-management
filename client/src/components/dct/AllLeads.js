@@ -16,15 +16,18 @@ import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
 import { getActiveCountry } from "../../actions/regions";
+import { getMarketingEmployee } from "../../actions/user";
 
 const AllLeads = ({
   auth: { isAuthenticated, user, users },
+  user: { marketingEmployees },
   dct: { getAllLeads, getAllLeadsDD },
   regions: { activeCountry },
   getAllDctLead,
   getActiveCountry,
   getAllDctLeadDD,
   getLastmessage,
+  getMarketingEmployee,
 }) => {
   useEffect(() => {
     getAllDctLead();
@@ -35,6 +38,11 @@ const AllLeads = ({
   useEffect(() => {
     getActiveCountry();
   }, []);
+  useEffect(() => {
+    getMarketingEmployee();
+  }, [getMarketingEmployee]);
+
+  console.log("marketingEmployees", marketingEmployees);
 
   const [filterData, setFilterData] = useState();
 
@@ -386,6 +394,7 @@ AllLeads.propTypes = {
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  user: state.user,
   dct: state.dct,
   regions: state.regions,
 });
@@ -395,4 +404,5 @@ export default connect(mapStateToProps, {
   getAllDctLeadDD,
   getActiveCountry,
   getLastmessage,
+  getMarketingEmployee,
 })(AllLeads);
