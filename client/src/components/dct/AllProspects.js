@@ -148,6 +148,36 @@ const AllProspects = ({
       dctLeadCategory: "P",
     });
   };
+  const allemp = [{ empId: null, label: "All", value: null }];
+  marketingEmployees.map((emp) =>
+    allemp.push({
+      empId: emp._id,
+      label: emp.empFullName,
+      value: emp.empFullName,
+    })
+  );
+
+  const [emp, getempData] = useState();
+  const [empId, setempID] = useState();
+  const onempChange = (e) => {
+    getempData(e);
+    setempID(e.empId);
+    // getAllDctLead({
+    //   countryId: countryId,
+    //   clientsId: clients ? clients.clientsId : null,
+    //   assignedTo: e.empId,
+    // });
+    // getAllDctLeadDD({
+    //   countryId: countryId,
+    //   clientsId: clients ? clients.clientsId : null,
+    //   assignedTo: e.empId,
+    // });
+    setFilterData({
+      countryId: countryId,
+      clientsId: clients ? clients.clientsId : null,
+      assignedTo: e.empId,
+    });
+  };
 
   const onClickReset = () => {
     getcountryData("");
@@ -191,7 +221,21 @@ const AllProspects = ({
                 required
               />
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2"></div>
+            {(user.userGroupName && user.userGroupName === "Administrator") ||
+            user.userGroupName === "Super Admin" ? (
+              <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                <Select
+                  name="empFullName"
+                  options={allemp}
+                  isSearchable={true}
+                  value={emp}
+                  placeholder="Select Emp"
+                  onChange={(e) => onempChange(e)}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
 
             <div className="col-lg-5 col-md-11 col-sm-12 col-11 py-3">
               <button
