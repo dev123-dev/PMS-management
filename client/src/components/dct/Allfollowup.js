@@ -160,16 +160,19 @@ const Allfollowup = ({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
+      dctLeadCategory: "F",
     });
     getDctLeadDetailsDD({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
+      dctLeadCategory: "F",
     });
     setFilterData({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
+      dctLeadCategory: "F",
     });
   };
 

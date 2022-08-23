@@ -468,15 +468,21 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
 });
 
 router.post("/get-all-dct-clients", auth, async (req, res) => {
+  let { countryId, clientsId, assignedTo } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
   let dctClientAssignedToId = "";
   if (userInfo.empCtAccess === "individual")
     dctClientAssignedToId = userInfo._id;
-  else dctClientAssignedToId = { $ne: null };
+  else {
+    if (assignedTo) {
+      dctClientAssignedToId = assignedTo;
+    } else {
+      dctClientAssignedToId = { $ne: null };
+    }
+  }
 
-  let { countryId, clientsId } = req.body;
   let query = {};
   if (countryId) {
     if (clientsId) {
@@ -519,15 +525,21 @@ router.post("/get-all-dct-clients", auth, async (req, res) => {
 });
 
 router.post("/get-dct-clients", auth, async (req, res) => {
+  let { countryId, clientsId, dctClientCategory, assignedTo } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
   let dctClientAssignedToId = "";
   if (userInfo.empCtAccess === "individual")
     dctClientAssignedToId = userInfo._id;
-  else dctClientAssignedToId = { $ne: null };
+  else {
+    if (assignedTo) {
+      dctClientAssignedToId = assignedTo;
+    } else {
+      dctClientAssignedToId = { $ne: null };
+    }
+  }
   var todayDate = new Date().toISOString().split("T")[0];
-  let { countryId, clientsId, dctClientCategory } = req.body;
   let query = {};
   if (countryId) {
     if (clientsId) {

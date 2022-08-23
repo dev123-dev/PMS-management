@@ -133,16 +133,19 @@ const TestClientFollowup = ({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
+      dctClientCategory: "TC",
     });
     getDctClientDetailsDD({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
+      dctClientCategory: "TC",
     });
     setFilterData({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
+      dctClientCategory: "TC",
     });
   };
 
