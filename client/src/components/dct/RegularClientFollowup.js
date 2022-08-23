@@ -46,12 +46,10 @@ const RegularClientFollowup = ({
   const [colorData, setcolorData] = useState();
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
-  const [selectedclientname, setselectedclientname] = useState();
 
   const onClickHandler = (dctClients, idx) => {
     setLeadData(dctClients);
     setcolorData(idx);
-    setselectedclientname(dctClients.companyName);
     const searchData = {
       callToId: dctClients._id,
     };
