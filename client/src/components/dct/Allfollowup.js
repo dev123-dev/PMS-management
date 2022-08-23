@@ -192,7 +192,7 @@ const Allfollowup = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
+            <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All FollowUp</h5>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -234,7 +234,7 @@ const Allfollowup = ({
               <></>
             )}
 
-            <div className="col-lg-5 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
