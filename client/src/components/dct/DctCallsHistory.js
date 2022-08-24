@@ -53,6 +53,10 @@ const DctCallsHistory = ({
     getAllDctCallEmp({ selectedDate: e.target.value });
   };
 
+  const onClickReset = () => {
+    getempData("");
+    setfromdate("");
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -92,7 +96,7 @@ const DctCallsHistory = ({
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
-                // onClick={() => onClickReset()}
+                onClick={() => onClickReset()}
               >
                 Refresh
               </button>
@@ -110,11 +114,11 @@ const DctCallsHistory = ({
                     <thead>
                       <tr>
                         <th style={{ width: "4%" }}>Sl No.</th>
+                        <th style={{ width: "8%" }}>Call Taken Date</th>
                         <th style={{ width: "15%" }}>Company Name</th>
                         <th style={{ width: "15%" }}>Call To</th>
                         <th style={{ width: "25%" }}>Notes</th>
-                        <th style={{ width: "6%" }}>Call Date</th>
-                        <th style={{ width: "8%" }}>Call Taken Date</th>
+                        <th style={{ width: "6%" }}>Next Date</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -133,11 +137,11 @@ const DctCallsHistory = ({
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
+                              <td>{calltakenDate}</td>
                               <td>{allDctCalls.callToName}</td>
                               <td>{allDctCalls.callToStaffName}</td>
                               <td>{allDctCalls.callNote}</td>
                               <td>{callDates}</td>
-                              <td>{calltakenDate}</td>
                             </tr>
                           );
                         })}
