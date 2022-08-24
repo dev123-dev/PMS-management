@@ -1,11 +1,8 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getAllDctCall } from "../../actions/dct";
-import DeactiveDctClient from "./DeactiveDctClient";
 import Select from "react-select";
 const DctCallsHistory = ({
   auth: { isAuthenticated, user, users },
@@ -113,37 +110,38 @@ const DctCallsHistory = ({
                   >
                     <thead>
                       <tr>
-                        <th>Sl No.</th>
-                        <th>Company Name</th>
-                        <th>Client Name</th>
-                        <th>Folder Name</th>
-                        <th>Email</th>
-                        <th>Contact 1 </th>
-                        <th>Contact 2</th>
-                        <th>Currency</th>
-                        <th>Mode of Pay</th>
-                        <th>Country</th>
+                        <th style={{ width: "4%" }}>Sl No.</th>
+                        <th style={{ width: "15%" }}>Company Name</th>
+                        <th style={{ width: "15%" }}>Call To</th>
+                        <th style={{ width: "25%" }}>Notes</th>
+                        <th style={{ width: "6%" }}>Call Date</th>
+                        <th style={{ width: "8%" }}>Call Taken Date</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {/* {allDctClients &&
-                        allDctClients.map((allDctClients, idx) => {
+                      {allDctCalls &&
+                        allDctCalls.map((allDctCalls, idx) => {
+                          var callDates = "";
+                          if (allDctCalls.callDate) {
+                            var ED = allDctCalls.callDate.split(/\D/g);
+                            callDates = [ED[2], ED[1], ED[0]].join("-");
+                          }
+                          var calltakenDate = "";
+                          if (allDctCalls.callTakenDate) {
+                            var ED1 = allDctCalls.callTakenDate.split(/\D/g);
+                            calltakenDate = [ED1[2], ED1[1], ED1[0]].join("-");
+                          }
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-                              <td>{allDctClients.companyName}</td>
-                              <td>{allDctClients.clientName}</td>
-
-                              <td>{allDctClients.clientFolderName}</td>
-                              <td>{allDctClients.emailId}</td>
-                              <td>{allDctClients.phone1}</td>
-                              <td>{allDctClients.phone2}</td>
-                              <td>{allDctClients.clientCurrency}</td>
-                              <td>{allDctClients.paymentModeName}</td>
-                              <td>{allDctClients.countryName}</td>
+                              <td>{allDctCalls.callToName}</td>
+                              <td>{allDctCalls.callToStaffName}</td>
+                              <td>{allDctCalls.callNote}</td>
+                              <td>{callDates}</td>
+                              <td>{calltakenDate}</td>
                             </tr>
                           );
-                        })} */}
+                        })}
                     </tbody>
                   </table>
                 </div>
