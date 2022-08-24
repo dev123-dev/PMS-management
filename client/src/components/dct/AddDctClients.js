@@ -603,7 +603,7 @@ const AddDctClients = ({
                       id="importantPoints"
                       className="textarea form-control"
                       rows="3"
-                      placeholder="importantPoints"
+                      placeholder="Important Points"
                       style={{ width: "100%" }}
                       value={importantPoints}
                       onChange={(e) => onInputChange(e)}
