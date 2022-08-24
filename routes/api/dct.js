@@ -634,51 +634,36 @@ router.post("/get-call-history", async (req, res) => {
 });
 
 router.post("/get-all-dct-calls", auth, async (req, res) => {
-  let { countryId, clientsId, assignedTo } = req.body;
+  let { selectedDate, assignedTo } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
-  let callFromId = "";
+  var dateVal = new Date().toISOString().split("T")[0];
+  let callFromId = "",
+    query = {};
+
   if (userInfo.empCtAccess === "individual") callFromId = userInfo._id;
   else {
-    if (assignedTo) {
-      callFromId = assignedTo;
-    } else {
-      callFromId = { $ne: null };
-    }
+    if (assignedTo) callFromId = assignedTo;
+    else callFromId = { $ne: null };
   }
-  let query = {};
-  // if (countryId) {
-  //   if (clientsId) {
-  //     query = {
-  //       dctClientStatus: "Active",
-  //       countryId: countryId,
-  //       _id: clientsId,
-  //       callFromId,
-  //     };
-  //   } else {
-  //     query = {
-  //       dctClientStatus: "Active",
-  //       countryId: countryId,
-  //       callFromId,
-  //     };
-  //   }
-  // } else {
-  //   if (clientsId) {
-  //     query = {
-  //       dctClientStatus: "Active",
-  //       _id: clientsId,
-  //       callFromId,
-  //     };
-  //   } else {
-  query = {
-    callTakenDate: "2022-08-23",
-    callFromId,
-  };
-  //   }
-  // }
+  if (selectedDate) {
+    dateVal = selectedDate;
+  }
+
+  if (selectedDate) {
+    query = {
+      callTakenDate: dateVal,
+      callFromId,
+    };
+  } else {
+    query = {
+      callTakenDate: dateVal,
+      callFromId,
+    };
+  }
   try {
-    const getAllDctCallsDetails = await DctCalls.find().sort({
+    const getAllDctCallsDetails = await DctCalls.find(query).sort({
       _id: -1,
     });
     res.json(getAllDctCallsDetails);

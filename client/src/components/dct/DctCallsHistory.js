@@ -44,17 +44,13 @@ const DctCallsHistory = ({
     //   assignedTo: e.empId,
     //   dctClientCategory: "RC",
     // });
-    // setFilterData({
-    //   countryId: countryId,
-    //   clientsId: clients ? clients.clientsId : null,
-    //   assignedTo: e.empId,
-    //   dctClientCategory: "RC",
-    // });
   };
 
   const [fromdate, setfromdate] = useState("");
   const onDateChange = (e) => {
     setfromdate(e.target.value);
+    getAllDctCall({ selectedDate: e.target.value });
+    getAllDctCallEmp({ selectedDate: e.target.value });
   };
 
   return !isAuthenticated || !user || !users ? (
