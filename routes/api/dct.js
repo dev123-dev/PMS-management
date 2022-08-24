@@ -632,4 +632,59 @@ router.post("/get-call-history", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/get-all-dct-calls", auth, async (req, res) => {
+  let { countryId, clientsId, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  let callFromId = "";
+  if (userInfo.empCtAccess === "individual") callFromId = userInfo._id;
+  else {
+    if (assignedTo) {
+      callFromId = assignedTo;
+    } else {
+      callFromId = { $ne: null };
+    }
+  }
+  let query = {};
+  // if (countryId) {
+  //   if (clientsId) {
+  //     query = {
+  //       dctClientStatus: "Active",
+  //       countryId: countryId,
+  //       _id: clientsId,
+  //       callFromId,
+  //     };
+  //   } else {
+  //     query = {
+  //       dctClientStatus: "Active",
+  //       countryId: countryId,
+  //       callFromId,
+  //     };
+  //   }
+  // } else {
+  //   if (clientsId) {
+  //     query = {
+  //       dctClientStatus: "Active",
+  //       _id: clientsId,
+  //       callFromId,
+  //     };
+  //   } else {
+  query = {
+    callTakenDate: "2022-08-23",
+    callFromId,
+  };
+  //   }
+  // }
+  try {
+    const getAllDctCallsDetails = await DctCalls.find().sort({
+      _id: -1,
+    });
+    res.json(getAllDctCallsDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 module.exports = router;
