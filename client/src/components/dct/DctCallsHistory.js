@@ -28,10 +28,8 @@ const DctCallsHistory = ({
     );
 
   const [emp, getempData] = useState();
-  const [empId, setempID] = useState();
   const onempChange = (e) => {
     getempData(e);
-    setempID(e.empId);
     getAllDctCall({ selectedDate: fromdate, assignedTo: e.empId });
   };
 
@@ -40,6 +38,7 @@ const DctCallsHistory = ({
     setfromdate(e.target.value);
     getAllDctCall({ selectedDate: e.target.value });
     getAllDctCallEmp({ selectedDate: e.target.value });
+    getempData("");
   };
 
   const onClickReset = () => {
