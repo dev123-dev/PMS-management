@@ -250,17 +250,18 @@ const AddDctClients = ({
   };
 
   const allemp = [];
-  marketingEmployees.map((emp) =>
-    allemp.push({
-      empId: emp._id,
-      label: emp.empFullName,
-      value: emp.empFullName,
-    })
-  );
+  marketingEmployees &&
+    marketingEmployees.map((emp) =>
+      allemp.push({
+        empId: emp._id,
+        label: emp.empFullName,
+        value: emp.empFullName,
+      })
+    );
 
   const [emp, getempData] = useState();
-  const [empId, setempID] = useState(user._id);
-  const [empName, setNameID] = useState(user.empFullName);
+  const [empId, setempID] = useState(user && user._id);
+  const [empName, setNameID] = useState(user && user.empFullName);
   const onempChange = (e) => {
     // //Required Validation Starts
     // setError({
