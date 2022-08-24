@@ -32,8 +32,8 @@ const DctCallsHistory = ({
   const [emp, getempData] = useState();
   const [empId, setempID] = useState();
   const onempChange = (e) => {
-    // getempData(e);
-    // setempID(e.empId);
+    getempData(e);
+    setempID(e.empId);
     // getDctClientDetails({
     //   countryId: countryId,
     //   clientsId: clients ? clients.clientsId : null,
