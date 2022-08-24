@@ -328,7 +328,7 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
     "-password"
   );
   let dctLeadAssignedToId = "";
-  if (userInfo.empCtAccess === "individual") dctLeadAssignedToId = userInfo._id;
+  if (userInfo.empCtAccess !== "All") dctLeadAssignedToId = userInfo._id;
   else {
     if (assignedTo) {
       dctLeadAssignedToId = assignedTo;
@@ -401,7 +401,7 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
     "-password"
   );
   let dctLeadAssignedToId = "";
-  if (userInfo.empCtAccess === "individual") dctLeadAssignedToId = userInfo._id;
+  if (userInfo.empCtAccess !== "All") dctLeadAssignedToId = userInfo._id;
   else {
     if (assignedTo) {
       dctLeadAssignedToId = assignedTo;
@@ -474,8 +474,7 @@ router.post("/get-all-dct-clients", auth, async (req, res) => {
     "-password"
   );
   let dctClientAssignedToId = "";
-  if (userInfo.empCtAccess === "individual")
-    dctClientAssignedToId = userInfo._id;
+  if (userInfo.empCtAccess !== "All") dctClientAssignedToId = userInfo._id;
   else {
     if (assignedTo) {
       dctClientAssignedToId = assignedTo;
@@ -531,8 +530,7 @@ router.post("/get-dct-clients", auth, async (req, res) => {
     "-password"
   );
   let dctClientAssignedToId = "";
-  if (userInfo.empCtAccess === "individual")
-    dctClientAssignedToId = userInfo._id;
+  if (userInfo.empCtAccess !== "All") dctClientAssignedToId = userInfo._id;
   else {
     if (assignedTo) {
       dctClientAssignedToId = assignedTo;
@@ -642,7 +640,7 @@ router.post("/get-all-dct-calls", auth, async (req, res) => {
   let callFromId = "",
     query = {};
 
-  if (userInfo.empCtAccess === "individual") callFromId = userInfo._id;
+  if (userInfo.empCtAccess !== "All") callFromId = userInfo._id;
   else {
     if (assignedTo) callFromId = assignedTo;
     else callFromId = { $ne: null };
@@ -682,7 +680,7 @@ router.post("/get-all-dct-calls-emp", auth, async (req, res) => {
   let callFromId = "",
     query = {};
 
-  if (userInfo.empCtAccess === "individual") callFromId = userInfo._id;
+  if (userInfo.empCtAccess !== "All") callFromId = userInfo._id;
   else {
     callFromId = { $ne: null };
   }
