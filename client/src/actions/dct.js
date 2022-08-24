@@ -14,7 +14,7 @@ import {
   ALL_DCT_CLIENTS_DD,
   DCT_CLIENTS,
   DCT_CLIENTS_DD,
-  ALL_CLIENTS,
+  ALL_DCT_CALLS,
 } from "./types";
 
 const config = {
@@ -452,6 +452,24 @@ export const getCallHistory = (searchData) => async (dispatch) => {
     const res = await axios.post("/api/dct/get-call-history", searchData);
     dispatch({
       type: CALLHISTORY,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllDctCall = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/dct/get-all-dct-calls",
+      finalData,
+      config
+    );
+    dispatch({
+      type: ALL_DCT_CALLS,
       payload: res.data,
     });
   } catch (err) {

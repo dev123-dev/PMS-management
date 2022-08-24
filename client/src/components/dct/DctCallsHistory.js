@@ -4,17 +4,19 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { getAllDctClient } from "../../actions/dct";
+import { getAllDctCall } from "../../actions/dct";
 import DeactiveDctClient from "./DeactiveDctClient";
 import Select from "react-select";
 const DctCallsHistory = ({
   auth: { isAuthenticated, user, users },
-  dct: { allDctClients, allDctClientsDD },
-  getAllDctClient,
+  dct: { allDctCalls },
+  getAllDctCall,
 }) => {
   useEffect(() => {
-    getAllDctClient();
-  }, [getAllDctClient]);
+    getAllDctCall();
+  }, [getAllDctCall]);
+
+  console.log(allDctCalls, "allDctCalls");
 
   // const allemp = [{ empId: null, label: "All", value: null }];
   // marketingEmployees.map((emp) =>
@@ -124,7 +126,7 @@ const DctCallsHistory = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {allDctClients &&
+                      {/* {allDctClients &&
                         allDctClients.map((allDctClients, idx) => {
                           return (
                             <tr key={idx}>
@@ -141,7 +143,7 @@ const DctCallsHistory = ({
                               <td>{allDctClients.countryName}</td>
                             </tr>
                           );
-                        })}
+                        })} */}
                     </tbody>
                   </table>
                 </div>
@@ -169,4 +171,4 @@ const mapStateToProps = (state) => ({
   dct: state.dct,
 });
 
-export default connect(mapStateToProps, { getAllDctClient })(DctCallsHistory);
+export default connect(mapStateToProps, { getAllDctCall })(DctCallsHistory);
