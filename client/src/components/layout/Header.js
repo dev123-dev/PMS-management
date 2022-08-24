@@ -16,6 +16,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const handleLogoutModalShow = () => setShowLogout(true);
   //client in websocket
   //SLAP IP
+
+  console.log(user);
   const client = new w3cwebsocket("ws://192.168.6.159:8000");
   const LogoutModalClose = () => {
     handleLogoutModalClose();
@@ -143,7 +145,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   user &&
                   ((user.userGroupName &&
                     user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
+                    user.userGroupName === "Super Admin" ||
+                    user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/all-leads"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -160,7 +163,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   user &&
                   ((user.userGroupName &&
                     user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
+                    user.userGroupName === "Super Admin" ||
+                    user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/all-prospects"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -178,7 +182,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   user &&
                   ((user.userGroupName &&
                     user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
+                    user.userGroupName === "Super Admin" ||
+                    user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/all-followup"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -195,7 +200,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   user &&
                   ((user.userGroupName &&
                     user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
+                    user.userGroupName === "Super Admin" ||
+                    user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/test-client-followup"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -212,7 +218,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   user &&
                   ((user.userGroupName &&
                     user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
+                    user.userGroupName === "Super Admin" ||
+                    user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/regular-client-followup"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -229,7 +236,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   user &&
                   ((user.userGroupName &&
                     user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
+                    user.userGroupName === "Super Admin" ||
+                    user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/dct-calls"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
