@@ -158,6 +158,7 @@ const RegularClientFollowup = ({
     getDctClientDetailsDD({ dctClientCategory: "RC" });
     setFilterData({ dctClientCategory: "RC" });
     ondivcloseChange(true);
+    setcolorData("");
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -246,17 +247,19 @@ const RegularClientFollowup = ({
                           return (
                             <tr
                               key={idx}
-                              className={colorData === idx ? "changecolor" : ""}
+                              className={
+                                colorData === idx ? "seletedrowcolorchange" : ""
+                              }
+                              onClick={() => onClickHandler(dctClients, idx)}
                             >
                               <td>{idx + 1}</td>
                               <td>
-                                {" "}
                                 <Link
                                   className="float-left ml-3"
                                   to="#"
-                                  onClick={() =>
-                                    onClickHandler(dctClients, idx)
-                                  }
+                                  // onClick={() =>
+                                  //   onClickHandler(dctClients, idx)
+                                  // }
                                 >
                                   {dctClients.companyName}
                                 </Link>
@@ -285,6 +288,7 @@ const RegularClientFollowup = ({
                     ondivcloseChange={ondivcloseChange}
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
+                    setcolorData={setcolorData}
                   />
                   {/* )} */}
                 </div>
@@ -301,6 +305,7 @@ const RegularClientFollowup = ({
                       from="RegularClient"
                       ondivcloseChange={ondivcloseChange}
                       filterData={filterData}
+                      setcolorData={setcolorData}
                     />
                   )}
                 </div>

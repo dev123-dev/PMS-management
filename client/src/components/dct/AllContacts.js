@@ -22,6 +22,7 @@ const AllContacts = ({
   showdateselectionSection,
   from,
   filterData,
+  setcolorData,
 }) => {
   const [formData, setFormData] = useState({
     staffName: "",
@@ -120,6 +121,7 @@ const AllContacts = ({
       staffDesignation: "",
       isSubmitted: true,
     });
+    setcolorData("");
     ondivcloseChange(true);
   };
 
@@ -141,6 +143,7 @@ const AllContacts = ({
     }
     onDeactiveModalChange(true);
     ondivcloseChange(true);
+    setcolorData("");
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -261,6 +264,7 @@ const AllContacts = ({
             ondivcloseChange={ondivcloseChange}
             from={from}
             filterData={filterData}
+            setcolorData={setcolorData}
           />
         </Modal.Body>
       </Modal>

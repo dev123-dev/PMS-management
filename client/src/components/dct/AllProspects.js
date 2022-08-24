@@ -283,7 +283,9 @@ const AllProspects = ({
                           return (
                             <tr
                               key={idx}
-                              className={colorData === idx ? "changecolor" : ""}
+                              className={
+                                colorData === idx ? "seletedrowcolorchange" : ""
+                              }
                             >
                               <td>{idx + 1}</td>
                               <td>

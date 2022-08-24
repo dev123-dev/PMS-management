@@ -17,6 +17,7 @@ const EditContact = ({
   editDctClientStaffDetails,
   from,
   filterData,
+  setcolorData,
 }) => {
   //formData
 
@@ -63,6 +64,7 @@ const EditContact = ({
     }
     onEditModalChange(true);
     ondivcloseChange(true);
+    setcolorData("");
   };
 
   return !isAuthenticated || !user || !users ? (
