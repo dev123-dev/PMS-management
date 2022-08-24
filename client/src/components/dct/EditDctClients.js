@@ -142,6 +142,31 @@ const EditDctClients = ({
     isSubmitted,
   } = formData;
 
+  const [ImagingChecked, setImagingChecked] = useState(false);
+  const [CGIChecked, setCGIChecked] = useState(false);
+  const [videoEditingChecked, setVideoEditingChecked] = useState(false);
+  const [isCheck, setIsCheck] = useState(false);
+  if (data && data.dctdata && data.dctdata.services && !isCheck) {
+    console.log(data.dctdata);
+    let i = 0,
+      servicesVal = "";
+    for (i = 0; i < data.dctdata.services.length; i++) {
+      servicesVal = data.dctdata.services[i];
+      if (servicesVal === "Imaging") {
+        setImagingChecked(true);
+      }
+      if (servicesVal === "CGI") {
+        setCGIChecked(true);
+      }
+      if (servicesVal === "videoEditing") {
+        setVideoEditingChecked(true);
+      }
+      if (data.dctdata.services.length - 1 === i) {
+        setIsCheck(true);
+      }
+    }
+  }
+
   //add staff start
   const [addData, setFormDatas] = useState({
     staffName: "",
@@ -214,9 +239,20 @@ const EditDctClients = ({
     setcountryID(countryId);
   };
 
-  const [ServicesDetails, SetServiceDetails] = useState([]);
+  const [ServicesDetails, SetServiceDetails] = useState(
+    data && data.dctdata && data.dctdata.services
+  );
 
   const onServicesChange = (e) => {
+    let funcVal = e.target.value;
+    if (funcVal === "Imaging") {
+      setImagingChecked(ImagingChecked === true ? false : true);
+    } else if (funcVal === "CGI") {
+      setCGIChecked(CGIChecked === true ? false : true);
+    } else if (funcVal === "videoEditing") {
+      setVideoEditingChecked(videoEditingChecked === true ? false : true);
+    }
+
     let temp = [];
     const staffList = ServicesDetails.filter(
       (ServicesDetails) => ServicesDetails === e.target.value
@@ -647,6 +683,7 @@ const EditDctClients = ({
                     <input
                       type="checkbox"
                       id="Unconfirmed"
+                      checked={ImagingChecked}
                       value="Imaging"
                       onChange={(e) => onServicesChange(e)}
                     />
@@ -656,6 +693,7 @@ const EditDctClients = ({
                     <input
                       type="checkbox"
                       id="Unconfirmed"
+                      checked={CGIChecked}
                       value="CGI"
                       onChange={(e) => onServicesChange(e)}
                     />
@@ -665,6 +703,7 @@ const EditDctClients = ({
                     <input
                       type="checkbox"
                       id="Unconfirmed"
+                      checked={videoEditingChecked}
                       value="videoEditing"
                       onChange={(e) => onServicesChange(e)}
                     />
