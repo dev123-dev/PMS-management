@@ -59,8 +59,6 @@ const DctCallsHistory = ({
               <h5 className="heading_color">DCT Calls </h5>
             </div>
             <div className="col-lg-2 col-md-4 col-sm-4 col-12 py-2">
-              {/* SLAP UserGroupRights */}
-
               <input
                 type="date"
                 placeholder="dd/mm/yyyy"
