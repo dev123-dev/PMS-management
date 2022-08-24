@@ -703,39 +703,19 @@ router.post("/get-all-dct-calls-emp", auth, async (req, res) => {
     }
   }
   let query = {};
-  // if (countryId) {
-  //   if (clientsId) {
-  //     query = {
-  //       dctClientStatus: "Active",
-  //       countryId: countryId,
-  //       _id: clientsId,
-  //       callFromId,
-  //     };
-  //   } else {
-  //     query = {
-  //       dctClientStatus: "Active",
-  //       countryId: countryId,
-  //       callFromId,
-  //     };
-  //   }
-  // } else {
-  //   if (clientsId) {
-  //     query = {
-  //       dctClientStatus: "Active",
-  //       _id: clientsId,
-  //       callFromId,
-  //     };
-  //   } else {
-  query = {
-    callTakenDate: "2022-08-23",
-    callFromId,
-  };
-  //   }
-  // }
+
   try {
-    const getAllDctCallsDetails = await DctCalls.find().sort({
-      _id: -1,
-    });
+    const getAllDctCallsDetails = await DctCalls.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$callFromId",
+          callFromName: { $first: "$callFromName" },
+        },
+      },
+    ]).sort({ _id: 1 });
     res.json(getAllDctCallsDetails);
   } catch (err) {
     console.error(err.message);
