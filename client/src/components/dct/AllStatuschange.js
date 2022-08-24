@@ -371,12 +371,21 @@ const AllStatuschange = ({
 
           <div className="col-lg-4 col-md-6 col-sm-12 col-12 mt-5">
             <br />
-            <input
-              type="submit"
-              name="Submit"
-              value="Submit"
-              className="btn sub_form btn_continue blackbrd Save float-right"
-            />
+            {loading ? (
+              <button
+                className="btn sub_form btn_continue blackbrd Save float-right"
+                disabled
+              >
+                Loading...
+              </button>
+            ) : (
+              <input
+                type="submit"
+                name="Submit"
+                value="Submit"
+                className="btn sub_form btn_continue blackbrd Save float-right"
+              />
+            )}
           </div>
         </div>
       </form>
