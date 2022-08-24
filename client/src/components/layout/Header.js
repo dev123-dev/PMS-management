@@ -223,7 +223,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-                {/* <NavItem>
+                <NavItem>
                   {!loading &&
                   isAuthenticated &&
                   user &&
@@ -231,15 +231,15 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     user.userGroupName === "Administrator") ||
                     user.userGroupName === "Super Admin") ? (
                     <NavLink
-                      to="/add-lead"
+                      to="/dct-calls"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      Add Lead
+                      Dct Calls
                     </NavLink>
                   ) : (
                     <NavItem></NavItem>
                   )}
-                </NavItem> */}
+                </NavItem>
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>

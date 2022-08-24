@@ -62,6 +62,7 @@ import AddLead from "../dct/AddLead";
 import EditLead from "../dct/EditLead";
 import DeactiveLead from "../dct/DeactiveLead";
 import Amendments from "../dashboard/Amendments";
+import DctCallsHistory from "../dct/DctCallsHistory";
 //leavemanagement
 import AllLeave from "../leave/AllLeave";
 
@@ -91,6 +92,7 @@ const RoutesFile = () => {
           path="/edit-dct-client"
           component={EditDctClients}
         />
+        <PrivateRoute exact path="/dct-calls" component={DctCallsHistory} />
 
         <PrivateRoute
           exact
