@@ -16,8 +16,6 @@ const DctCallsHistory = ({
   useEffect(() => {
     getAllDctCallEmp();
   }, [getAllDctCallEmp]);
-  console.log(allDctCalls, "allDctCalls");
-  console.log(allDctCallsEmp, "allDctCallsEmp");
 
   const allemp = [{ empId: null, label: "All", value: null }];
   allDctCallsEmp &&
