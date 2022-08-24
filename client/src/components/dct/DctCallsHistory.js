@@ -2,18 +2,22 @@ import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getAllDctCall } from "../../actions/dct";
+import { getAllDctCall, getAllDctCallEmp } from "../../actions/dct";
 import Select from "react-select";
 const DctCallsHistory = ({
   auth: { isAuthenticated, user, users },
-  dct: { allDctCalls },
+  dct: { allDctCalls, allDctCallsEmp },
   getAllDctCall,
+  getAllDctCallEmp,
 }) => {
   useEffect(() => {
     getAllDctCall();
   }, [getAllDctCall]);
-
+  useEffect(() => {
+    getAllDctCallEmp();
+  }, [getAllDctCallEmp]);
   console.log(allDctCalls, "allDctCalls");
+  console.log(allDctCallsEmp, "allDctCallsEmp");
 
   // const allemp = [{ empId: null, label: "All", value: null }];
   // marketingEmployees.map((emp) =>
@@ -169,4 +173,6 @@ const mapStateToProps = (state) => ({
   dct: state.dct,
 });
 
-export default connect(mapStateToProps, { getAllDctCall })(DctCallsHistory);
+export default connect(mapStateToProps, { getAllDctCall, getAllDctCallEmp })(
+  DctCallsHistory
+);

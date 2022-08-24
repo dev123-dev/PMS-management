@@ -15,6 +15,7 @@ import {
   DCT_CLIENTS,
   DCT_CLIENTS_DD,
   ALL_DCT_CALLS,
+  ALL_DCT_CALLS_EMP,
 } from "./types";
 
 const config = {
@@ -470,6 +471,23 @@ export const getAllDctCall = (finalData) => async (dispatch) => {
     );
     dispatch({
       type: ALL_DCT_CALLS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+export const getAllDctCallEmp = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/dct/get-all-dct-calls-emp",
+      finalData,
+      config
+    );
+    dispatch({
+      type: ALL_DCT_CALLS_EMP,
       payload: res.data,
     });
   } catch (err) {

@@ -10,6 +10,7 @@ import {
   LAST_MSG,
   CALLHISTORY,
   ALL_DCT_CALLS,
+  ALL_DCT_CALLS_EMP,
 } from "../actions/types";
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
   lastMsg: [],
   callHistory: [],
   allDctCalls: null,
+  allDctCallsEmp: null,
 };
 
 const dct = (state = initialState, action) => {
@@ -83,6 +85,11 @@ const dct = (state = initialState, action) => {
       return {
         ...state,
         allDctCalls: payload,
+      };
+    case ALL_DCT_CALLS_EMP:
+      return {
+        ...state,
+        allDctCallsEmp: payload,
       };
 
     default:
