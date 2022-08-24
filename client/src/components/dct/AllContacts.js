@@ -22,7 +22,6 @@ const AllContacts = ({
   showdateselectionSection,
   from,
   filterData,
-  setcolorData,
 }) => {
   const [formData, setFormData] = useState({
     staffName: "",
@@ -90,11 +89,7 @@ const AllContacts = ({
       handleDeactiveModalClose();
     }
   };
-  // const [showHide, setShowHide] = useState({
-  //   showdateselectionSection: true,
-  // });
 
-  // const { showdateselectionSection } = showHide;
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
@@ -121,7 +116,7 @@ const AllContacts = ({
       staffDesignation: "",
       isSubmitted: true,
     });
-    setcolorData("");
+
     ondivcloseChange(true);
   };
 
@@ -143,7 +138,6 @@ const AllContacts = ({
     }
     onDeactiveModalChange(true);
     ondivcloseChange(true);
-    setcolorData("");
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -264,7 +258,6 @@ const AllContacts = ({
             ondivcloseChange={ondivcloseChange}
             from={from}
             filterData={filterData}
-            setcolorData={setcolorData}
           />
         </Modal.Body>
       </Modal>
@@ -432,18 +425,11 @@ const AllContacts = ({
                     className="btn sub_form btn_continue blackbrd Save float-right"
                   />
                 )}
-                {/* <Link
-                className="btn sub_form btn_continue blackbrd float-right"
-                to="/job-queue"
-              >
-                Cancel
-              </Link> */}
               </div>
             </div>
           </form>
         </Modal.Body>
       </Modal>
-      {/* </form> */}
     </Fragment>
   );
 };

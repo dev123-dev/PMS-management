@@ -13,7 +13,6 @@ const AllStatuschange = ({
   ondivcloseChange,
   from,
   filterData,
-  setcolorData,
 }) => {
   let StatusMethods = [
     { value: "VoiceMail", label: "VoiceMail" },
@@ -279,10 +278,9 @@ const AllStatuschange = ({
         callNote: "",
         isSubmitted: true,
       });
+      ondivcloseChange(true);
       setStatusDate("");
       getstaffsData("");
-      setcolorData("");
-      ondivcloseChange(true);
     }
   };
 

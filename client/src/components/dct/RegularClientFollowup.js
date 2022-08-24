@@ -288,7 +288,6 @@ const RegularClientFollowup = ({
                     ondivcloseChange={ondivcloseChange}
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
-                    setcolorData={setcolorData}
                   />
                   {/* )} */}
                 </div>
@@ -305,7 +304,6 @@ const RegularClientFollowup = ({
                       from="RegularClient"
                       ondivcloseChange={ondivcloseChange}
                       filterData={filterData}
-                      setcolorData={setcolorData}
                     />
                   )}
                 </div>
