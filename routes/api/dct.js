@@ -674,21 +674,33 @@ router.post("/get-all-dct-calls", auth, async (req, res) => {
 });
 
 router.post("/get-all-dct-calls-emp", auth, async (req, res) => {
-  let { countryId, clientsId, assignedTo } = req.body;
+  let { selectedDate } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
-  let callFromId = "";
+  var dateVal = new Date().toISOString().split("T")[0];
+  let callFromId = "",
+    query = {};
+
   if (userInfo.empCtAccess === "individual") callFromId = userInfo._id;
   else {
-    if (assignedTo) {
-      callFromId = assignedTo;
-    } else {
-      callFromId = { $ne: null };
-    }
+    callFromId = { $ne: null };
   }
-  let query = {};
+  if (selectedDate) {
+    dateVal = selectedDate;
+  }
 
+  if (selectedDate) {
+    query = {
+      callTakenDate: dateVal,
+      callFromId,
+    };
+  } else {
+    query = {
+      callTakenDate: dateVal,
+      callFromId,
+    };
+  }
   try {
     const getAllDctCallsDetails = await DctCalls.aggregate([
       {
