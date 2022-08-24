@@ -19,14 +19,15 @@ const DctCallsHistory = ({
   console.log(allDctCalls, "allDctCalls");
   console.log(allDctCallsEmp, "allDctCallsEmp");
 
-  // const allemp = [{ empId: null, label: "All", value: null }];
-  // marketingEmployees.map((emp) =>
-  //   allemp.push({
-  //     empId: emp._id,
-  //     label: emp.empFullName,
-  //     value: emp.empFullName,
-  //   })
-  // );
+  const allemp = [{ empId: null, label: "All", value: null }];
+  allDctCallsEmp &&
+    allDctCallsEmp.map((emp) =>
+      allemp.push({
+        empId: emp._id,
+        label: emp.callFromName,
+        value: emp.callFromName,
+      })
+    );
 
   const [emp, getempData] = useState();
   const [empId, setempID] = useState();
@@ -87,11 +88,11 @@ const DctCallsHistory = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="empFullName"
-                //options={allemp}
+                options={allemp}
                 isSearchable={true}
-                //value={emp}
+                value={emp}
                 placeholder="Select Emp"
-                //  onChange={(e) => onempChange(e)}
+                onChange={(e) => onempChange(e)}
               />
             </div>
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
