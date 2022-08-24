@@ -186,6 +186,7 @@ const AllLeads = ({
     getAllDctLeadDD();
     setFilterData();
     ondivcloseChange(true);
+    setcolorData("");
   };
 
   return !isAuthenticated || !user || !users ? (

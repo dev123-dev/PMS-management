@@ -192,6 +192,7 @@ const AllProspects = ({
     getDctLeadDetailsDD({ dctLeadCategory: "P" });
     setFilterData({ dctLeadCategory: "P" });
     ondivcloseChange(true);
+    setcolorData("");
   };
 
   return !isAuthenticated || !user || !users ? (

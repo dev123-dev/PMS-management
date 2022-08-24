@@ -157,6 +157,7 @@ const TestClientFollowup = ({
     getDctClientDetailsDD({ dctClientCategory: "TC" });
     setFilterData({ dctClientCategory: "TC" });
     ondivcloseChange(true);
+    setcolorData("");
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />

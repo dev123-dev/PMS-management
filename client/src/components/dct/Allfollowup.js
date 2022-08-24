@@ -184,6 +184,7 @@ const Allfollowup = ({
     getDctLeadDetailsDD({ dctLeadCategory: "F" });
     setFilterData({ dctLeadCategory: "F" });
     ondivcloseChange(true);
+    setcolorData("");
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
