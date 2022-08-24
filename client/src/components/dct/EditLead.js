@@ -2,7 +2,7 @@ import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getActiveCountry } from "../../actions/regions";
 import { editDctLeadDetails } from "../../actions/dct";
