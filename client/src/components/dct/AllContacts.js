@@ -137,6 +137,16 @@ const AllContacts = ({
       deactivateDctStaffDetails(finalData);
     }
     onDeactiveModalChange(true);
+    setFormData({
+      ...formData,
+      recordId: "",
+      staffName: "",
+      staffPhoneNumber: "",
+      staffEmailId: "",
+      staffDesignation: "",
+      staffDeactiveReason: "",
+      isSubmitted: true,
+    });
     ondivcloseChange(true);
   };
 
