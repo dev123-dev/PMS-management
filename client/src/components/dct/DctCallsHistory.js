@@ -45,6 +45,8 @@ const DctCallsHistory = ({
   const onClickReset = () => {
     getempData("");
     setfromdate("");
+    getAllDctCall();
+    getAllDctCallEmp();
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
