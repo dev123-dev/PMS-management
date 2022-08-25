@@ -74,6 +74,11 @@ const AllStatuschange = ({
   var d2 = new Date(todayDateymd);
   d2.setDate(d2.getDate() + 1);
   var nextday = d2.toISOString().split("T")[0];
+
+  //less than today
+  var d2 = new Date(todayDateymd);
+  d2.setDate(d2.getDate());
+  var today = d2.toISOString().split("T")[0];
   //ends
 
   //Required Validation Starts
@@ -342,6 +347,7 @@ const AllStatuschange = ({
                   placeholder="dd/mm/yyyy"
                   className="form-control cpp-input datevalidation"
                   name="callDate"
+                  min={today}
                   value={startStatusDate}
                   onChange={(e) => onDateChange(e)}
                   style={{
