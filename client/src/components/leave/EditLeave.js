@@ -72,6 +72,7 @@ const EditLeave = ({
       });
     }
   };
+  console.log(allLeavedata);
 
   const allleavecatmodes = [];
   leaveCatMode.map((leavecat) =>
@@ -91,7 +92,7 @@ const EditLeave = ({
       : ""
   );
   const [leavecatId, setleavecatId] = useState(
-    allLeavedata && allLeavedata.leavecatId
+    allLeavedata && allLeavedata.leavecategoryId
   );
   const [leavecatname, setleavecatname] = useState(
     allLeavedata && allLeavedata.leavecategoryName
