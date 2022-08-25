@@ -656,25 +656,27 @@ const EditDctClients = ({
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
-                  {(user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                  user.userGroupName === "Super Admin" ? (
-                    <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                      <label className="label-control">Assigned To :</label>
-                      <Select
-                        name="empFullName"
-                        options={allemp}
-                        isSearchable={true}
-                        value={emp}
-                        placeholder="Select"
-                        onChange={(e) => onempChange(e)}
-                        required
-                      />
-                    </div>
-                  ) : (
-                    <></>
-                  )}
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12"></div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    {(user.userGroupName &&
+                      user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin" ? (
+                      <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">Assigned To :</label>
+                        <Select
+                          name="empFullName"
+                          options={allemp}
+                          isSearchable={true}
+                          value={emp}
+                          placeholder="Select"
+                          onChange={(e) => onempChange(e)}
+                          required
+                        />
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                  {/* <div className="col-lg-3 col-md-6 col-sm-6 col-12"></div> */}
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Services :</label>
                   </div>

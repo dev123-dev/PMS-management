@@ -213,7 +213,7 @@ const AddLead = ({
   };
 
   if (isSubmitted) {
-    return <Redirect to="/all-prospects" />;
+    return <Redirect to="/all-leads" />;
   }
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

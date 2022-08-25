@@ -137,6 +137,7 @@ const Allfollowup = ({
   const ondivcloseChange = (e) => {
     if (e) {
       handledivModalClose();
+      setcolorData("");
     }
   };
 

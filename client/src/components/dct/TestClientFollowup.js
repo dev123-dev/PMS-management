@@ -69,6 +69,7 @@ const TestClientFollowup = ({
   const ondivcloseChange = (e) => {
     if (e) {
       handledivModalClose();
+      setcolorData("");
     }
   };
   const allcountry = [];
