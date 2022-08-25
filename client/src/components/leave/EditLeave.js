@@ -72,7 +72,6 @@ const EditLeave = ({
       });
     }
   };
-  console.log(allLeavedata);
 
   const allleavecatmodes = [];
   leaveCatMode.map((leavecat) =>
