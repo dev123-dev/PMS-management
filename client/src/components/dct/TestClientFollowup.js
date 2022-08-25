@@ -231,13 +231,13 @@ const TestClientFollowup = ({
                     {/* table-hover */}
                     <thead>
                       <tr>
-                        <th style={{ width: "10%" }}>Sl.No</th>
-                        <th style={{ width: "6%" }}>Company </th>
+                        <th style={{ width: "3%" }}>Sl.No</th>
+                        <th style={{ width: "15%" }}>Company </th>
                         <th style={{ width: "15%" }}>Website </th>
                         <th style={{ width: "13%" }}>Email</th>
-                        <th style={{ width: "13%" }}>Region</th>
+                        <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
-                        <th style={{ width: "13%" }}>Call Date</th>
+                        <th style={{ width: "8%" }}>Call Date</th>
                       </tr>
                     </thead>
                     <tbody>
