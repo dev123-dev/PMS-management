@@ -17,7 +17,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   //client in websocket
   //SLAP IP
 
-  console.log(user);
   const client = new w3cwebsocket("ws://192.168.6.159:8000");
   const LogoutModalClose = () => {
     handleLogoutModalClose();
@@ -45,7 +44,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     }
   };
 
-  // console.log(user);
   return (
     <Fragment>
       <header>
