@@ -267,7 +267,7 @@ const AllStatuschange = ({
         callNote: callNote,
         callComeFrom: callComeFromVal,
         callTakenDate: new Date().toISOString().split("T")[0],
-        callEnteredDate: new Date().toLocaleString("en-GB"),
+        callEnteredDateTime: new Date().toLocaleString("en-GB"),
         filterData: filterData,
       };
       // console.log(finalData);
