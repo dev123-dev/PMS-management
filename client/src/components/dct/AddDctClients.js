@@ -548,7 +548,7 @@ const AddDctClients = ({
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12 no_padding">
                     {user.empCtAccess && user.empCtAccess === "All" ? (
                       <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                         <label className="label-control">Assigned To :</label>
