@@ -23,7 +23,7 @@ const AddLead = ({
   useEffect(() => {
     getMarketingEmployee();
   }, [getMarketingEmployee]);
-
+  console.log(user);
   //formData
   const [formData, setFormData] = useState({
     companyName: "",
@@ -336,9 +336,7 @@ const AddLead = ({
                   </div>
 
                   <div className="row col-lg-12 col-md-6 col-sm-6 col-12 no_padding">
-                    {(user.userGroupName &&
-                      user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin" ? (
+                    {user.empCtAccess && user.empCtAccess === "All" ? (
                       <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                         <label className="label-control">Assigned To :</label>
                         <Select
