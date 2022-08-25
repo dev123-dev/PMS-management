@@ -90,8 +90,12 @@ const EditLeave = ({
           )
       : ""
   );
-  const [leavecatId, setleavecatId] = useState("");
-  const [leavecatname, setleavecatname] = useState("");
+  const [leavecatId, setleavecatId] = useState(
+    allLeavedata && allLeavedata.leavecatId
+  );
+  const [leavecatname, setleavecatname] = useState(
+    allLeavedata && allLeavedata.leavecategoryName
+  );
 
   const onLeaveCatModeChange = (e) => {
     var leavecatId = "";
@@ -115,7 +119,7 @@ const EditLeave = ({
       leaveEditedById: user._id,
       leaveEditedDateTime: new Date().toLocaleString(),
     };
-
+    console.log(finalData);
     editLeaveDetails(finalData);
     onEditModalChange(true);
   };
