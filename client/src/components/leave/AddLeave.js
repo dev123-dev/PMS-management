@@ -71,29 +71,6 @@ const AddLeave = ({
     return dates;
   }
 
-  const allleavecatmodes = [];
-  leaveCatMode.map((leavecat) =>
-    allleavecatmodes.push({
-      leavecatId: leavecat._id,
-      label: leavecat.leavecategoryName,
-      value: leavecat.leavecategoryName,
-    })
-  );
-
-  const [leavecat, getleavecatData] = useState("");
-  const [leavecatId, setleavecatId] = useState("");
-  const [leavecatname, setleavecatname] = useState("");
-
-  const onLeaveCatModeChange = (e) => {
-    var leavecatId = "";
-    var leavecatname = "";
-    getleavecatData(e);
-    leavecatId = e.leavecatId;
-    leavecatname = e.value;
-    setleavecatId(leavecatId);
-    setleavecatname(leavecatname);
-  };
-
   //========================
 
   const [showHide, setShowHide] = useState({
@@ -141,8 +118,15 @@ const AddLeave = ({
     clienttypeIdChecker: false,
 
     clienttypeIdErrorStyle: {},
+    leavetypeIdChecker: false,
+    leavetypeIdErrorStyle: {},
   });
-  const { clienttypeIdChecker, clienttypeIdErrorStyle } = error;
+  const {
+    clienttypeIdChecker,
+    clienttypeIdErrorStyle,
+    leavetypeIdChecker,
+    leavetypeIdErrorStyle,
+  } = error;
 
   const checkErrors = () => {
     if (!clienttypeIdChecker) {
@@ -152,12 +136,49 @@ const AddLeave = ({
       });
       return false;
     }
+    if (!leavetypeIdChecker) {
+      setError({
+        ...error,
+        leavetypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
 
     return true;
   };
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const allleavecatmodes = [];
+  leaveCatMode.map((leavecat) =>
+    allleavecatmodes.push({
+      leavecatId: leavecat._id,
+      label: leavecat.leavecategoryName,
+      value: leavecat.leavecategoryName,
+    })
+  );
+
+  const [leavecat, getleavecatData] = useState("");
+  const [leavecatId, setleavecatId] = useState("");
+  const [leavecatname, setleavecatname] = useState("");
+
+  const onLeaveCatModeChange = (e) => {
+    //  Required Validation starts
+    setError({
+      ...error,
+      leavetypeIdChecker: true,
+      leavetypeIdErrorStyle: { color: "#000" },
+    });
+    // Required Validation ends
+    var leavecatId = "";
+    var leavecatname = "";
+    getleavecatData(e);
+    leavecatId = e.leavecatId;
+    leavecatname = e.value;
+    setleavecatId(leavecatId);
+    setleavecatname(leavecatname);
   };
 
   const [staffData, setstaffData] = useState("");
@@ -199,29 +220,30 @@ const AddLeave = ({
   const onSubmit = (e) => {
     e.preventDefault();
 
-    // if (checkErrors()) {
-    let leaveDateVals = [];
-    if (showChequenoSection) {
-      const d1 = new Date(leaveStartDate);
-      const d2 = new Date(leaveEndDate);
-      leaveDateVals = getDatesInRange(d1, d2);
-    } else {
-      const d1 = new Date(leaveDate);
-      const d2 = new Date(leaveDate);
-      leaveDateVals = getDatesInRange(d1, d2);
-    }
+    if (checkErrors()) {
+      let leaveDateVals = [];
+      if (showChequenoSection) {
+        const d1 = new Date(leaveStartDate);
+        const d2 = new Date(leaveEndDate);
+        leaveDateVals = getDatesInRange(d1, d2);
+      } else {
+        const d1 = new Date(leaveDate);
+        const d2 = new Date(leaveDate);
+        leaveDateVals = getDatesInRange(d1, d2);
+      }
 
-    const finalData = {
-      leaveDateVals: leaveDateVals,
-      leaveType: leaveTypedaymode.value,
-      leaveReason: leaveReason,
-      empId: employeeId,
-      leavecategoryName: leavecatname,
-      leavecategoryId: leavecatId,
-    };
-    addLeaves(finalData);
-    onAddDistrictModalChange(true);
-    // }
+      const finalData = {
+        leaveDateVals: leaveDateVals,
+        leaveType: leaveTypedaymode.value,
+        leaveReason: leaveReason,
+        empId: employeeId,
+        leavecategoryName: leavecatname,
+        leavecategoryId: leavecatId,
+      };
+      console.log(finalData);
+      addLeaves(finalData);
+      onAddDistrictModalChange(true);
+    }
   };
 
   const onOpenCategory = () => {
@@ -356,7 +378,10 @@ const AddLeave = ({
           )}
 
           <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> Leave Category * :</label>
+            <label className="label-control" style={leavetypeIdErrorStyle}>
+              {" "}
+              Leave Category * :
+            </label>
 
             <Select
               name="leaveCatMode"
@@ -387,6 +412,7 @@ const AddLeave = ({
               style={{ width: "100%" }}
               value={leaveReason}
               onChange={(e) => onInputChange(e)}
+              required
             ></textarea>
           </div>
           <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
