@@ -240,7 +240,7 @@ const AddLeave = ({
         leavecategoryName: leavecatname,
         leavecategoryId: leavecatId,
       };
-      console.log(finalData);
+
       addLeaves(finalData);
       onAddDistrictModalChange(true);
     }

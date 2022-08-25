@@ -119,7 +119,7 @@ const EditLeave = ({
       leaveEditedById: user._id,
       leaveEditedDateTime: new Date().toLocaleString(),
     };
-    console.log(finalData);
+
     editLeaveDetails(finalData);
     onEditModalChange(true);
   };
