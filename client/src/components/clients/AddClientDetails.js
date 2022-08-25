@@ -123,7 +123,6 @@ const AddClientDetails = ({
   const [clients, getclientsData] = useState("");
   const [clientsId, setclientsId] = useState("");
   const [clientsName, setclientsName] = useState("");
-  // console.log(clients);
 
   const allclientBelongsTo = [];
   activeClient.map((clients) =>

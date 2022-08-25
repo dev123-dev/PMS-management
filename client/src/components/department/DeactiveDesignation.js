@@ -39,7 +39,7 @@ const DeactiveDesignation = ({
       designationDeactiveById: user._id,
       designationDeactiveDateTime: new Date().toLocaleString(),
     };
-    // console.log(finalData);
+
     deactiveDesignationData(finalData);
     onDeactiveModalChange(true);
     // setFormData({

@@ -11,7 +11,6 @@ const AmendHistory = ({
   amenddata,
   getAmendmentHistoryDeatils,
 }) => {
-  // console.log("amenddata", amenddata);
   useEffect(() => {
     getAmendmentHistoryDeatils(amenddata);
   }, [getAmendmentHistoryDeatils]);

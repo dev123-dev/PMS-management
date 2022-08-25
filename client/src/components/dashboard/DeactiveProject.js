@@ -11,7 +11,7 @@ const DeactiveProject = ({
   deactiveProjectData,
 }) => {
   //formData
-  // console.log("data", Projectdeavtivedata);
+
   const [formData, setFormData] = useState({
     projectName:
       Projectdeavtivedata && Projectdeavtivedata.projectName
@@ -38,7 +38,7 @@ const DeactiveProject = ({
       projectDeleteById: user._id,
       projectDeleteDateTime: Date.now(),
     };
-    // console.log(finalData);
+
     deactiveProjectData(finalData);
     onDeactiveModalChange(true);
   };

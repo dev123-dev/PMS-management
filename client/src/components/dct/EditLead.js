@@ -26,8 +26,6 @@ const EditLead = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
-  // console.log(alleditLeaddata);
-
   //formData
   const [formData, setFormData] = useState({
     companyName:

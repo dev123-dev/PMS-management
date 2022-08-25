@@ -24,8 +24,6 @@ const EditClientDetails = ({
   }, [getActiveClients]);
   //formData
 
-  // console.log("paymentMode", paymentMode);
-  // console.log("dd", allClientdata);
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
@@ -162,8 +160,7 @@ const EditClientDetails = ({
   //         )[0]
   //     : ""
   // );
-  // console.log(allClientdata);
-  // console.log(allpaymentmodes);
+
   // const [paymentId, setpaymentId] = useState("");
   // const [paymentModeName, setpaymentname] = useState("");
 
@@ -175,8 +172,7 @@ const EditClientDetails = ({
   //   paymentModeName = e.paymentModeName;
   //   setpaymentId(paymentId);
   //   setpaymentname(paymentModeName);
-  //   console.log(paymentId);
-  //   console.log(paymentId);
+
   // };
 
   ///////////////////////////////////////////////////////////////
@@ -213,11 +209,8 @@ const EditClientDetails = ({
     paymentModeName = e.value;
     setpaymentId(paymentId);
     setpaymentname(paymentModeName);
-    // console.log(paymentId);
-    // console.log(paymentModeName);
   };
 
-  // console.log(paymentModeName);
   let allClientBelongsToData = JSON.parse(
     localStorage.getItem("allClientBelongsToData")
   );

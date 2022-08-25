@@ -11,7 +11,6 @@ const DeactiveProjectStatus = ({
   onDeactiveModalChange,
   deactiveProjectStatus,
 }) => {
-  // console.log(allProjectStatusdeavtivedata);
   const [formData, setFormData] = useState({
     projectStatusType:
       allProjectStatusdeavtivedata &&

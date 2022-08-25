@@ -17,7 +17,6 @@ const AllStates = ({
     getAllState();
   }, [getAllState]);
 
-  // console.log("allState", allState);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {

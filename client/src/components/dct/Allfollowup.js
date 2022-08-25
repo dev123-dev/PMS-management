@@ -42,8 +42,6 @@ const Allfollowup = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
-  // console.log("marketingEmployees", marketingEmployees);
-
   const [filterData, setFilterData] = useState({ dctLeadCategory: "F" });
 
   const [showHide, setShowHide] = useState({

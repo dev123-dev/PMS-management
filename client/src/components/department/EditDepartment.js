@@ -40,7 +40,6 @@ const EditDepartment = ({
       departmentEditedById: user._id,
     };
 
-    // console.log(finalData);
     editDepartment(finalData);
     onEditModalChange(true);
     // setFormData({

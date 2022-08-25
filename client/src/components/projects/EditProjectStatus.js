@@ -43,7 +43,7 @@ const EditProjectStatus = ({
       projectStatusType: projectStatusType,
       projectStutusEditedById: user._id,
     };
-    // console.log(finalData);
+
     editProjectStatus(finalData);
     onEditModalChange(true);
     // setFormData({

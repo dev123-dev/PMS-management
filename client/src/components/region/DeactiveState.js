@@ -12,7 +12,7 @@ const DeactiveState = ({
   deactiveStateData,
 }) => {
   //formData
-  //console.log("data", statedeavtivedata);
+
   const [formData, setFormData] = useState({
     stateName:
       statedeavtivedata && statedeavtivedata.stateName

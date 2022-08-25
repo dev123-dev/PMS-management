@@ -12,7 +12,7 @@ const DeactiveCountry = ({
   deactivecountrydata,
 }) => {
   //formData
-  // console.log("data", Projectdeavtivedata);
+
   const [formData, setFormData] = useState({
     countryName:
       deactivecountrydata && deactivecountrydata.countryName

@@ -17,7 +17,6 @@ const AllProjectStatus = ({
     getAllProjectStatus();
   }, [getAllProjectStatus]);
 
-  // console.log(allProjectStatus);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {

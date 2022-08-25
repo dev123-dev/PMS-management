@@ -30,7 +30,7 @@ const AddCountryDetails = ({
       countryEnteredByName: user.userName,
       countryBelongsTo: "DCT",
     };
-    // console.log(finalData);
+
     addCountryDetails(finalData);
     onAddDistrictModalChange(true);
     setFormData({

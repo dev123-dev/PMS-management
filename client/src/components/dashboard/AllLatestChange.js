@@ -13,7 +13,7 @@ const AllLatestChange = ({
   let getAllChangesDetailsData = JSON.parse(
     localStorage.getItem("getAllChangesDetails")
   );
-  // console.log(getAllChangesDetailsData);
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (

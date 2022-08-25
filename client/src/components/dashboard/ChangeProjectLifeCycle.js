@@ -67,7 +67,7 @@ const ChangeProjectLifeCycle = ({
         ? true
         : false,
   });
-  // console.log(ProjectCycledata);
+
   const { showTimerSection } = showHide;
   //client in websocket
   //SLAP IP

@@ -42,8 +42,6 @@ const AllProspects = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
-  // console.log("marketingEmployees ", marketingEmployees);
-
   const [filterData, setFilterData] = useState({ dctLeadCategory: "P" });
 
   const [showEditModal, setShowEditModal] = useState(false);

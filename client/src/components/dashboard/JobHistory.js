@@ -17,7 +17,7 @@ const JobHistory = ({
   let getLatestChangesDetails = JSON.parse(
     localStorage.getItem("getLatestChangesDetails")
   );
-  // console.log(getLatestChangesDetails);
+
   //formData
   const [formData, setFormData] = useState({
     projectName: "",

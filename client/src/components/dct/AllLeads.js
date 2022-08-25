@@ -42,8 +42,6 @@ const AllLeads = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
-  // console.log("marketingEmployees", marketingEmployees);
-
   const [filterData, setFilterData] = useState();
 
   const [showEditModal, setShowEditModal] = useState(false);

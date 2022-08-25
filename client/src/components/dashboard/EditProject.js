@@ -142,7 +142,6 @@ const EditProject = ({
     })
   );
 
-  // console.log("allprojectdata", allProjectdata);
   let activeClientData = JSON.parse(localStorage.getItem("activeClientData"));
   const activeClientsOpt = [];
 

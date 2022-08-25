@@ -40,8 +40,6 @@ const TestClientFollowup = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
-  // console.log("marketingEmployees", marketingEmployees);
-
   const [filterData, setFilterData] = useState({ dctClientCategory: "TC" });
   const [colorData, setcolorData] = useState();
   const [searchDataVal, setsearchDataVal] = useState();

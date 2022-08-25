@@ -11,7 +11,6 @@ const DeactiveLeave = ({
   onDeactiveModalChange,
   deactiveLeaveData,
 }) => {
-  // console.log(clientdeactivedata);
   const [formData, setFormData] = useState({
     leaveReason:
       LeaveDeactiveData && LeaveDeactiveData.leaveReason

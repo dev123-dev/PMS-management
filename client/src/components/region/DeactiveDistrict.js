@@ -11,7 +11,7 @@ const DeactiveDistrict = ({
   deactiveDistrictsData,
 }) => {
   //formData
-  //console.log("data", districtdeactivedata);
+
   const [formData, setFormData] = useState({
     districtDeactivateReason: "",
     districtName:
@@ -43,7 +43,7 @@ const DeactiveDistrict = ({
       districtDeactivateById: user._id,
       districtDeactivateDateTime: new Date().toLocaleString(),
     };
-    // console.log(finalData);
+
     deactiveDistrictsData(finalData);
     onDeactiveModalChange(true);
   };

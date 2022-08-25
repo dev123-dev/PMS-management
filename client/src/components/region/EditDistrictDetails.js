@@ -59,7 +59,7 @@ const EditDistrictDetails = ({
       districtEditedById: user._id,
       districtEditedDateTime: user.userName,
     };
-    // console.log(finalData);
+
     EditDistrictData(finalData);
     onUpdateModalChange(true);
     // setFormData({

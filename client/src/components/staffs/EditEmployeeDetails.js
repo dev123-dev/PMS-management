@@ -156,7 +156,7 @@ const EditEmployeeDetails = ({
 
     isSubmitted: false,
   });
-  // console.log(allEmployeedata.password);
+
   const {
     empFullName,
     employeePhone,

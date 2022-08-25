@@ -23,7 +23,7 @@ const AddLead = ({
   useEffect(() => {
     getMarketingEmployee();
   }, [getMarketingEmployee]);
-  console.log(user);
+
   //formData
   const [formData, setFormData] = useState({
     companyName: "",

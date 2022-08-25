@@ -29,7 +29,7 @@ const AddStateDetails = ({
       stateEnteredByName: user.userName,
       stateBelongsTo: "DCT",
     };
-    // console.log(finalData);
+
     addStateDetails(finalData);
     onAddDistrictModalChange(true);
     setFormData({

@@ -111,9 +111,7 @@ const AddEmployeeDetails = ({
     isSubmitted,
   } = formData;
 
-  // console.log(lastEnteredEmpCode[0].empCode);
   let lastEnteredCodeData = JSON.parse(localStorage.getItem("lastEnteredCode"));
-  // console.log(lastEnteredCodeData);
 
   const [memberCounter, setMemberCounter] = useState("01");
   // const str = memberCounter.toString();
@@ -141,7 +139,6 @@ const AddEmployeeDetails = ({
     if (NewCode > 99) {
       new_str = name.substr(-3);
       str = name.slice(0, -3);
-      // console.log("new_str", new_str);
     }
     if (NewCode > 999) {
       new_str = name.substr(-4);
@@ -458,7 +455,7 @@ const AddEmployeeDetails = ({
       });
     }
   };
-  // console.log(designationId);
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (checkErrors()) {

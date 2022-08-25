@@ -40,8 +40,6 @@ const RegularClientFollowup = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
-  // console.log("marketingEmployeesRC", marketingEmployees);
-
   const [filterData, setFilterData] = useState({ dctClientCategory: "RC" });
   const [colorData, setcolorData] = useState();
   const [searchDataVal, setsearchDataVal] = useState();

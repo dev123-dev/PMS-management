@@ -16,7 +16,6 @@ const AllCountry = ({
     getAllCountries();
   }, [getAllCountries]);
 
-  // console.log("allCountries", allCountries);
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
   const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
   const onClickHandler = () => {

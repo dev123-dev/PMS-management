@@ -13,7 +13,6 @@ const DeactivateClient = ({
   deactiveClient,
   editProjectStatus,
 }) => {
-  // console.log(clientdeactivedata);
   const [formData, setFormData] = useState({
     clientName:
       clientdeactivedata && clientdeactivedata.clientName

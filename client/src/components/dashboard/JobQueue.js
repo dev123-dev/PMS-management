@@ -58,7 +58,7 @@ const JobQueue = ({
   useEffect(() => {
     getAllFolder();
   }, [getAllFolder]);
-  // console.log(user);
+
   const [filterData, setFilterData] = useState("");
   getJobQueueProjectDeatils(filterData);
 
@@ -99,7 +99,7 @@ const JobQueue = ({
       handleProjectCycleModalClose();
     }
   };
-  // console.log(allFolderName);
+
   const [clientData, setClientData] = useState("");
   const [clientId, setClientId] = useState("");
   const [clientFolderName, setClientName] = useState("");
@@ -147,7 +147,7 @@ const JobQueue = ({
         projectStatusChangedbyName: user.empFullName,
         projectStatusChangedById: user._id,
       };
-      // console.log("page", finalData);
+
       AddProjectTrack(finalData);
       client.send(
         JSON.stringify({
@@ -167,7 +167,7 @@ const JobQueue = ({
         projectStatusChangedById: user._id,
         amendmentCounter: "1",
       };
-      // console.log("page", finalData);
+
       AddProjectTrack(finalData);
       client.send(
         JSON.stringify({
@@ -188,7 +188,6 @@ const JobQueue = ({
   };
 
   const onRadioProjCatTypeChange = (e) => {
-    // console.log(e.target.value);
     // if (e.target.value === "student") {
     //   setFormData({ ...formData, userRole: e.target.value });
     // } else {
@@ -238,7 +237,7 @@ const JobQueue = ({
       projectId: jobQueueProjects._id,
     };
     localStorage.removeItem("getLatestChangesDetails");
-    // console.log("finalDataView", finalData);
+
     getLatestChanges(finalData);
     setshowhistoryModal(true);
     setUserDatas1(jobQueueProjects);

@@ -79,7 +79,7 @@ const AddDistrictDetails = ({
         districtEnteredByName: user.userName,
         districtBelongsTo: "DCT",
       };
-      //console.log(finalData);
+
       addDistrictDetails(finalData);
       onAddDistrictModalChange(true);
       setFormData({

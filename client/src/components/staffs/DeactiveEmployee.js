@@ -11,7 +11,6 @@ const DeactiveEmployee = ({
   onDeactiveModalChange,
   editProjectStatus,
 }) => {
-  // console.log(staffDeactivedata);
   const [formData, setFormData] = useState({
     empFullName:
       staffDeactivedata && staffDeactivedata.empFullName

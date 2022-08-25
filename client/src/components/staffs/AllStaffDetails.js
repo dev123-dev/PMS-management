@@ -35,7 +35,7 @@ const AllStaffDetails = ({
   useEffect(() => {
     getFilterEmpDetails();
   }, [getFilterEmpDetails]);
-  // console.log("drfwe", allStaffName);
+
   useEffect(() => {
     getALLDepartment();
   }, [getALLDepartment]);
