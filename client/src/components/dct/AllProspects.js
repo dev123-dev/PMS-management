@@ -228,23 +228,25 @@ const AllProspects = ({
                 required
               />
             </div>
-            {(user.userGroupName && user.userGroupName === "Administrator") ||
-            user.userGroupName === "Super Admin" ? (
-              <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-                <Select
-                  name="empFullName"
-                  options={allemp}
-                  isSearchable={true}
-                  value={emp}
-                  placeholder="Select Emp"
-                  onChange={(e) => onempChange(e)}
-                />
-              </div>
-            ) : (
-              <></>
-            )}
+            <div className=" col-lg-4 col-md-11 col-sm-10 col-10">
+              {(user.userGroupName && user.userGroupName === "Administrator") ||
+              user.userGroupName === "Super Admin" ? (
+                <div className=" col-lg-4 col-md-11 col-sm-10 col-10 py-2">
+                  <Select
+                    name="empFullName"
+                    options={allemp}
+                    isSearchable={true}
+                    value={emp}
+                    placeholder="Select Emp"
+                    onChange={(e) => onempChange(e)}
+                  />
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}

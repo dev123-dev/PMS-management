@@ -278,7 +278,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                           user.userGroupName &&
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ||
-                        user.userGroupName === "Clarical Admins" ? (
+                        user.userGroupName === "Marketing" ? (
                           <li>
                             <Link to="/all-dct-client">All Dct Clients</Link>
                           </li>

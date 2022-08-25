@@ -100,6 +100,7 @@ const AllLeads = ({
   const ondivcloseChange = (e) => {
     if (e) {
       handledivModalClose();
+      setcolorData("");
     }
   };
 
@@ -220,40 +221,25 @@ const AllLeads = ({
                 onChange={(e) => onclientsChange(e)}
               />
             </div>
-            {(user.userGroupName && user.userGroupName === "Administrator") ||
-            user.userGroupName === "Super Admin" ? (
-              <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-                <Select
-                  name="empFullName"
-                  options={allemp}
-                  isSearchable={true}
-                  value={emp}
-                  placeholder="Select Emp"
-                  onChange={(e) => onempChange(e)}
-                />
-              </div>
-            ) : (
-              <></>
-            )}
-            {/* {(user.userGroupName && user.userGroupName === "Administrator") ||
-            user.userGroupName === "Super Admin" ? (
-              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Assigned To :</label>
-                <Select
-                  name="empFullName"
-                  options={allemp}
-                  isSearchable={true}
-                  value={emp}
-                  placeholder="Select"
-                  onChange={(e) => onempChange(e)}
-                  required
-                />
-              </div>
-            ) : (
-              <></>
-            )} */}
+            <div className=" col-lg-4 col-md-11 col-sm-10 col-10 ">
+              {(user.userGroupName && user.userGroupName === "Administrator") ||
+              user.userGroupName === "Super Admin" ? (
+                <div className=" col-lg-4 col-md-11 col-sm-10 col-10 py-2">
+                  <Select
+                    name="empFullName"
+                    options={allemp}
+                    isSearchable={true}
+                    value={emp}
+                    placeholder="Select Emp"
+                    onChange={(e) => onempChange(e)}
+                  />
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
