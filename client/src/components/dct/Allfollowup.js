@@ -399,6 +399,7 @@ const Allfollowup = ({
           <EditLead
             onEditModalChange={onEditModalChange}
             alleditLeaddata={userDatas}
+            filterData={filterData}
           />
         </Modal.Body>
       </Modal>

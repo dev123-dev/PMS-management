@@ -407,6 +407,7 @@ const AllProspects = ({
           <EditLead
             onEditModalChange={onEditModalChange}
             alleditLeaddata={userDatas}
+            filterData={filterData}
           />
         </Modal.Body>
       </Modal>

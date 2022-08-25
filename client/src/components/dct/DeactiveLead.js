@@ -11,6 +11,7 @@ const DeactiveLead = ({
   Leaddeavtivedata,
   onDeactiveModalChange,
   deactivateDctLeadDetails,
+  filterData,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -41,6 +42,7 @@ const DeactiveLead = ({
       dctLeadDeactivateById: user._id,
       dctLeadStatus: "Deactive",
       dctLeadDeactiveReason: dctLeadDeactiveReason,
+      filterData: filterData,
     };
     deactivateDctLeadDetails(finalData);
     onDeactiveModalChange(true);

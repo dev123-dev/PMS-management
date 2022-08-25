@@ -17,6 +17,7 @@ const EditLead = ({
   editDctLeadDetails,
   onEditModalChange,
   getMarketingEmployee,
+  filterData,
 }) => {
   useEffect(() => {
     getActiveCountry();
@@ -209,6 +210,7 @@ const EditLead = ({
       dctLeadAssignedToName: empName,
       dctLeadEditedById: user._id,
       dctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
+      filterData: filterData,
     };
     editDctLeadDetails(finalData);
     onEditModalChange(true);

@@ -405,6 +405,7 @@ const AllLeads = ({
           <EditLead
             onEditModalChange={onEditModalChange}
             alleditLeaddata={userDatas}
+            filterData={filterData}
           />
         </Modal.Body>
       </Modal>
@@ -435,6 +436,7 @@ const AllLeads = ({
           <DeactiveLead
             onDeactiveModalChange={onDeactiveModalChange}
             Leaddeavtivedata={userDatadeactive}
+            filterData={filterData}
           />
         </Modal.Body>
       </Modal>

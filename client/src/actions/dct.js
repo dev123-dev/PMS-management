@@ -259,6 +259,7 @@ export const deactivateDctLeadDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/deactivate-dct-Leads", finalData, config);
+    dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
