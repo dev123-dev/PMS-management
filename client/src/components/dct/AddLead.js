@@ -425,6 +425,7 @@ const AddLead = ({
                       value={countrycode}
                       className="form-control"
                       style={{ width: "50px" }}
+                      disabled
                     />
                   </div>
 
