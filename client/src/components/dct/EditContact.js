@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
@@ -7,10 +7,13 @@ import {
   editDctStaffDetails,
   editDctClientStaffDetails,
 } from "../../actions/dct";
+import { getActiveCountry } from "../../actions/regions";
 
 const EditContact = ({
   auth: { isAuthenticated, user, users, loading },
   allStaffdata,
+  getActiveCountry,
+  regions: { activeCountry },
   allleaddata,
   ondivcloseChange,
   onEditModalChange,
@@ -20,7 +23,9 @@ const EditContact = ({
   filterData,
 }) => {
   //formData
-
+  useEffect(() => {
+    getActiveCountry();
+  }, [getActiveCountry]);
   const [formData, setFormData] = useState({
     staffName:
       allStaffdata && allStaffdata.staffName ? allStaffdata.staffName : "",
@@ -51,29 +56,37 @@ const EditContact = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // const allstaffcountry = [];
-  // activeCountry &&
-  //   activeCountry.map((staffcountry) =>
-  //     allstaffcountry.push({
-  //       staffcountryId: staffcountry._id,
-  //       staffcountrycode: staffcountry.countryCode,
-  //       label: staffcountry.countryName + " (" + staffcountry.countryCode + ")",
-  //       value: staffcountry.countryName,
-  //     })
-  //   );
+  const allstaffcountry = [];
+  activeCountry &&
+    activeCountry.map((staffcountry) =>
+      allstaffcountry.push({
+        staffcountryId: staffcountry._id,
+        staffcountrycode: staffcountry.countryCode,
+        label: staffcountry.countryName + " (" + staffcountry.countryCode + ")",
+        value: staffcountry.countryName,
+      })
+    );
 
-  const [staffcountry, getstaffcountryData] = useState();
-  const [staffcountryId, setstaffcountryID] = useState();
-  const [staffcountrycode, setstaffcountrycode] = useState();
-  const [staffcountryname, setstaffcountryname] = useState();
+  const [staffcountry, getstaffcountryData] = useState(
+    allStaffdata
+      ? allstaffcountry.length !== 0
+        ? allstaffcountry &&
+          allstaffcountry.filter(
+            (x) => x.staffcountryId === allStaffdata.staffRegionId
+          )[0]
+        : ""
+      : ""
+  );
+  const [staffcountryId, setstaffcountryID] = useState(
+    allStaffdata.staffRegionId
+  );
+  const [staffcountrycode, setstaffcountrycode] = useState(
+    allStaffdata.staffCountryCode
+  );
+  const [staffcountryname, setstaffcountryname] = useState(
+    allStaffdata.staffRegion
+  );
   const onstaffcountryChange = (e) => {
-    // //Required Validation Starts
-    // setError({
-    //   ...error,
-    //   sIdChecker: true,
-    //   sIdErrorStyle: { color: "#000" },
-    // });
-    // //Required Validation ends
     var staffcountryId = "";
     var staffcountrycode = "";
     var staffcountryname = "";
@@ -94,11 +107,12 @@ const EditContact = ({
       staffPhoneNumber: staffPhoneNumber,
       staffEmailId: staffEmailId,
       staffDesignation: staffDesignation,
-      // staffRegion:,
-      // staffRegionId:,
+      staffRegion: staffcountryname,
+      staffRegionId: staffcountryId,
       staffcountrycode: staffcountrycode,
       filterData: filterData,
     };
+
     if (from === "client") {
       editDctClientStaffDetails(finalData);
     } else {
@@ -139,9 +153,9 @@ const EditContact = ({
               <label className="label-control">Region* :</label>
               <Select
                 name="countryName"
-                //   options={allstaffcountry}
+                options={allstaffcountry}
                 isSearchable={true}
-                //   value={staffcountry}
+                value={staffcountry}
                 placeholder="Select Region"
                 onChange={(e) => onstaffcountryChange(e)}
               />
@@ -174,16 +188,6 @@ const EditContact = ({
                 }
               />
             </div>
-            {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-              <label className="label-control">Phone Number :</label>
-              <input
-                type="text"
-                name="staffPhoneNumber"
-                value={staffPhoneNumber}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-              />
-            </div> */}
 
             <div className="col-lg-6 col-md-6 col-sm-6 col-12">
               <label className="label-control">Designation :</label>
@@ -232,13 +236,16 @@ const EditContact = ({
 
 EditContact.propTypes = {
   auth: PropTypes.object.isRequired,
+  regions: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  regions: state.regions,
 });
 
 export default connect(mapStateToProps, {
   editDctStaffDetails,
+  getActiveCountry,
   editDctClientStaffDetails,
 })(EditContact);
