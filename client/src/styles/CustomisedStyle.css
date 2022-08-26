@@ -786,6 +786,12 @@ label {
   top: 0;
   /* z-index: 999; */
 }
+@media screen and (max-width: 1200px) {
+  .fixTableHead {
+    overflow-y: auto;
+    height:72.5vh !important;
+  }
+}
 
 .fixTableHead {
   overflow-y: auto;
@@ -797,7 +803,7 @@ label {
 }
 .fixTableHeadhistory{
   overflow-y: auto;
-  height:15vh;
+  height:16vh;
 
 }
 
