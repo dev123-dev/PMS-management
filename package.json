@@ -22,6 +22,7 @@
     "password-validator": "^5.1.0",
     "react-datepicker": "^4.6.0",
     "request": "^2.88.0",
+    "rsuite": "^5.16.6",
     "shelljs": "^0.8.5",
     "shortid": "^2.2.15",
     "websocket": "^1.0.34"

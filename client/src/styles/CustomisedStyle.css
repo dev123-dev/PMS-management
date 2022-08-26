@@ -2052,3 +2052,21 @@ padding: 0.15rem !important;
   background-color: #91908f;
   color: white;
 }
+.rs-dropdown-toggle, .rs-dropdown-toggle.rs-btn {
+  color: white  !important;
+  background-color: #456792 !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  position: relative !important;
+  padding: 12px 15px !important;
+}
+
+
+.rs-dropdown-toggle-caret {
+ /* margin-left: 10px !important; */
+ /* padding: 13px 15px !important; */
+  right: 2px !important;
+  height: 20px;
+  font-size: 12px;
+  top: 14px !important;
+}

@@ -7,7 +7,8 @@ import { logout } from "../../actions/auth";
 import Login from "../auth/Login";
 import "react-datepicker/dist/react-datepicker.css";
 import { w3cwebsocket } from "websocket";
-
+import Dropdown from "rsuite/Dropdown";
+import "rsuite/dist/rsuite.min.css";
 const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const [showLogin, setShowLogin] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
@@ -64,13 +65,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto navbar_Collapse_content">
-                {/* <NavItem>
-                  {!loading && isAuthenticated && user ? (
-                    <Link to="/tenant-add-details">Rent Details</Link>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </NavItem> */}
                 <NavItem>
                   {!loading && isAuthenticated && user ? (
                     <NavLink
@@ -137,7 +131,59 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-                <NavItem>
+                <Dropdown title="DCT">
+                  <Dropdown.Item>
+                    <NavLink
+                      to="/all-leads"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      All Leads
+                    </NavLink>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <NavLink
+                      to="/all-prospects"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      All Prospectus
+                    </NavLink>
+                  </Dropdown.Item>
+
+                  <Dropdown.Item>
+                    <NavLink
+                      to="/all-followup"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      All Followup
+                    </NavLink>
+                  </Dropdown.Item>
+
+                  <Dropdown.Item>
+                    <NavLink
+                      to="/test-client-followup"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Test Client Followup
+                    </NavLink>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <NavLink
+                      to="/regular-client-followup"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Regular Client Followup
+                    </NavLink>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <NavLink
+                      to="/dct-calls"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Dct Calls
+                    </NavLink>
+                  </Dropdown.Item>
+                </Dropdown>
+                {/* <NavItem>
                   {!loading &&
                   isAuthenticated &&
                   user &&
@@ -245,7 +291,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   ) : (
                     <NavItem></NavItem>
                   )}
-                </NavItem>
+                </NavItem> */}
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>
