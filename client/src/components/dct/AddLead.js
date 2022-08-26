@@ -58,6 +58,7 @@ const AddLead = ({
     staffEmailId: "",
     staffDesignation: "",
     staffRegion: "",
+    staffcountrycode: "",
   });
 
   const {
@@ -86,6 +87,8 @@ const AddLead = ({
         staffEmailId: staffEmailId,
         staffDesignation: staffDesignation,
         staffRegion: staffcountryname,
+        staffRegionId: staffcountryId,
+        staffCountryCode: staffcountrycode,
       };
       setFormDatas({
         ...addData,
@@ -95,8 +98,11 @@ const AddLead = ({
         staffEmailId: "",
         staffDesignation: "",
         staffRegion: "",
+        staffCountryCode: "",
         // idVal: idVal + 1,
       });
+      setstaffcountrycode("");
+      getstaffcountryData("");
       let temp = [];
       temp.push(...AddedDetails, addData);
       AddDetails(temp);
@@ -485,8 +491,8 @@ const AddLead = ({
                     <label className="label-control">Staff Phone:</label>
                     <input
                       type="number"
-                      name="countrycode"
-                      value={countrycode}
+                      name="staffcountrycode"
+                      value={staffcountrycode}
                       className="form-control"
                       style={{ width: "50px" }}
                       disabled

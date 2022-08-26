@@ -110,6 +110,9 @@ const DctLeadsSchema = new mongoose.Schema({
       staffRegionId: {
         type: ObjectId,
       },
+      staffCountryCode: {
+        type: String,
+      },
       staffDeactivateById: {
         type: ObjectId,
       },
