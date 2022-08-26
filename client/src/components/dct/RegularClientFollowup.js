@@ -62,7 +62,7 @@ const RegularClientFollowup = ({
   const ondivcloseChange = (e) => {
     if (e) {
       handledivModalClose();
-      setcolorData("");
+      // setcolorData("");
     }
   };
   const allcountry = [];

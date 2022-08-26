@@ -92,7 +92,7 @@ const AllLeads = ({
   const ondivcloseChange = (e) => {
     if (e) {
       handledivModalClose();
-      setcolorData("");
+      // setcolorData("");
     }
   };
 
