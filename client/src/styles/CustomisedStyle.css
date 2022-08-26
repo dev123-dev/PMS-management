@@ -792,7 +792,10 @@ label {
     height:72.5vh !important;
   }
 }
-
+.fixTableHeadstatus{
+  overflow-y: auto;
+  height:26vh;
+}
 .fixTableHead {
   overflow-y: auto;
   height:77.5vh;
