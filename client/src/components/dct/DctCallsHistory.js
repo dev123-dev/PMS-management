@@ -142,6 +142,11 @@ const DctCallsHistory = ({
                     </tbody>
                   </table>
                 </div>
+                <div className="row">
+                  <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
+                    <label>No of Calls : {allDctCalls.length}</label>
+                  </div>
+                </div>
               </section>
             </div>
           </div>
