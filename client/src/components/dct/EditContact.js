@@ -149,7 +149,7 @@ const EditContact = ({
                 onChange={(e) => onInputChange(e)}
               />
             </div>
-            <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+            {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
               <label className="label-control">Region* :</label>
               <Select
                 name="countryName"
@@ -159,8 +159,8 @@ const EditContact = ({
                 placeholder="Select Region"
                 onChange={(e) => onstaffcountryChange(e)}
               />
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+            </div> */}
+            {/* <div className="col-lg-3 col-md-6 col-sm-6 col-12">
               <label className="label-control">Staff Phone:</label>
               <input
                 type="number"
@@ -170,9 +170,9 @@ const EditContact = ({
                 style={{ width: "50px" }}
                 disabled
               />
-            </div>
+            </div> */}
 
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+            {/* <div className="col-lg-3 col-md-6 col-sm-6 col-12">
               <label className="label-control">
                 <br />
               </label>
@@ -187,8 +187,20 @@ const EditContact = ({
                   (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
                 }
               />
+            </div> */}
+            <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+              <label className="label-control">Staff Phone:</label>
+              <input
+                type="number"
+                name="staffPhoneNumber"
+                value={staffPhoneNumber}
+                className="form-control"
+                onChange={(e) => onInputChange(e)}
+                onKeyDown={(e) =>
+                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+                }
+              />
             </div>
-
             <div className="col-lg-6 col-md-6 col-sm-6 col-12">
               <label className="label-control">Designation :</label>
               <input
