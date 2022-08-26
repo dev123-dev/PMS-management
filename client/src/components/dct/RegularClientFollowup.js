@@ -272,6 +272,13 @@ const RegularClientFollowup = ({
                     </tbody>
                   </table>
                 </div>
+                <div className="row">
+                  <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
+                    <label>
+                      No of Regular Client Followup : {dctClients.length}
+                    </label>
+                  </div>
+                </div>
               </section>
             </div>
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 ">
