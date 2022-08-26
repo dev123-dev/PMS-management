@@ -15,7 +15,7 @@ const AllStatuschange = ({
   filterData,
 }) => {
   let StatusMethods = [
-    { value: "VoiceMail", label: "VoiceMail" },
+    { value: "VoiceMail", label: "Voice Mail" },
     { value: "CallBack", label: "Call Back" },
     { value: "DND", label: "DND" },
     { value: "NI", label: "NI" },
