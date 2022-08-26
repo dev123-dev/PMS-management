@@ -793,7 +793,7 @@ label {
 }
 .fixTableHeadcontact{
   overflow-y: auto;
-  height:190px;
+  height:20vh;
 }
 
 .smll_row td,.smll_row th{
