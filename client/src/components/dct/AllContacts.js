@@ -23,6 +23,7 @@ const AllContacts = ({
   from,
   filterData,
 }) => {
+  console.log(leadDataVal);
   const [formData, setFormData] = useState({
     staffName: "",
     staffPhoneNumber: "",

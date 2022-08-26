@@ -57,10 +57,16 @@ const AddLead = ({
     staffPhoneNumber: "",
     staffEmailId: "",
     staffDesignation: "",
+    staffRegion: "",
   });
 
-  const { staffName, staffPhoneNumber, staffEmailId, staffDesignation } =
-    addData;
+  const {
+    staffName,
+    staffPhoneNumber,
+    staffEmailId,
+    staffDesignation,
+    staffRegion,
+  } = addData;
   // idVal
 
   const [AddedDetails, AddDetails] = useState([]);
@@ -79,6 +85,7 @@ const AddLead = ({
         staffPhoneNumber: staffPhoneNumber,
         staffEmailId: staffEmailId,
         staffDesignation: staffDesignation,
+        staffRegion: staffcountryname,
       };
       setFormDatas({
         ...addData,
@@ -87,6 +94,7 @@ const AddLead = ({
         staffPhoneNumber: "",
         staffEmailId: "",
         staffDesignation: "",
+        staffRegion: "",
         // idVal: idVal + 1,
       });
       let temp = [];
@@ -154,6 +162,41 @@ const AddLead = ({
     empName = e.value;
     setempID(empId);
     setNameID(empName);
+  };
+
+  const allstaffcountry = [];
+  activeCountry &&
+    activeCountry.map((staffcountry) =>
+      allstaffcountry.push({
+        staffcountryId: staffcountry._id,
+        staffcountrycode: staffcountry.countryCode,
+        label: staffcountry.countryName + " (" + staffcountry.countryCode + ")",
+        value: staffcountry.countryName,
+      })
+    );
+
+  const [staffcountry, getstaffcountryData] = useState();
+  const [staffcountryId, setstaffcountryID] = useState();
+  const [staffcountrycode, setstaffcountrycode] = useState();
+  const [staffcountryname, setstaffcountryname] = useState();
+  const onstaffcountryChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   sIdChecker: true,
+    //   sIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var staffcountryId = "";
+    var staffcountrycode = "";
+    var staffcountryname = "";
+    getstaffcountryData(e);
+    staffcountrycode = e.staffcountrycode;
+    staffcountryId = e.staffcountryId;
+    staffcountryname = e.value;
+    setstaffcountryname(staffcountryname);
+    setstaffcountryID(staffcountryId);
+    setstaffcountrycode(staffcountrycode);
   };
 
   const [ServicesDetails, SetServiceDetails] = useState([]);
@@ -417,6 +460,27 @@ const AddLead = ({
                       onChange={(e) => onInputChange1(e)}
                     />
                   </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Email Id :</label>
+                    <input
+                      type="text"
+                      name="staffEmailId"
+                      value={staffEmailId}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                    />
+                  </div>
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Region* :</label>
+                    <Select
+                      name="countryName"
+                      options={allstaffcountry}
+                      isSearchable={true}
+                      value={staffcountry}
+                      placeholder="Select Region"
+                      onChange={(e) => onstaffcountryChange(e)}
+                    />
+                  </div>
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Staff Phone:</label>
                     <input
@@ -429,7 +493,7 @@ const AddLead = ({
                     />
                   </div>
 
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">
                       <br />
                     </label>
@@ -439,7 +503,7 @@ const AddLead = ({
                       value={staffPhoneNumber}
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
-                      style={{ marginLeft: "-5em", width: "37vh" }}
+                      style={{ marginLeft: "-6em", width: "22vh" }}
                       onKeyDown={(e) =>
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
@@ -447,17 +511,7 @@ const AddLead = ({
                     />
                   </div>
 
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Email Id :</label>
-                    <input
-                      type="text"
-                      name="staffEmailId"
-                      value={staffEmailId}
-                      className="form-control"
-                      onChange={(e) => onInputChange1(e)}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Designation :</label>
                     <input
                       type="text"
@@ -498,6 +552,7 @@ const AddLead = ({
                     <thead>
                       <tr>
                         <th>Staff Name</th>
+                        <th>Region</th>
                         <th>Phone Number</th>
                         <th>Email Id</th>
                         <th>Designation</th>
@@ -510,6 +565,7 @@ const AddLead = ({
                           return (
                             <tr key={idx}>
                               <td>{AddDetail.staffName}</td>
+                              <td>{AddDetail.staffRegion}</td>
                               <td>{AddDetail.staffPhoneNumber}</td>
                               <td>{AddDetail.staffEmailId}</td>
                               <td>{AddDetail.staffDesignation}</td>
