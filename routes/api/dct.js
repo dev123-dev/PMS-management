@@ -328,15 +328,15 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
     "-password"
   );
   let dctLeadAssignedToId = "";
-  if (userInfo.empCtAccess !== "All") dctLeadAssignedToId = userInfo._id;
+  if (userInfo.empCtAccess !== "All")
+    dctLeadAssignedToId = mongoose.Types.ObjectId(userInfo._id);
   else {
     if (assignedTo) {
-      dctLeadAssignedToId = assignedTo;
+      dctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
     } else {
       dctLeadAssignedToId = { $ne: null };
     }
   }
-
   var todayDate = new Date().toISOString().split("T")[0];
   let catCondition = [];
   if (dctLeadCategory == "P" || dctLeadCategory == "NL") {
@@ -349,8 +349,8 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
     if (clientsId) {
       query = {
         dctLeadStatus: "Active",
-        countryId: countryId,
-        _id: clientsId,
+        countryId: mongoose.Types.ObjectId(countryId),
+        _id: mongoose.Types.ObjectId(clientsId),
         $or: catCondition,
         dctCallDate: { $lte: todayDate },
         dctLeadAssignedToId,
@@ -358,7 +358,7 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
     } else {
       query = {
         dctLeadStatus: "Active",
-        countryId: countryId,
+        countryId: mongoose.Types.ObjectId(countryId),
         $or: catCondition,
         dctCallDate: { $lte: todayDate },
         dctLeadAssignedToId,
@@ -368,7 +368,7 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
     if (clientsId) {
       query = {
         dctLeadStatus: "Active",
-        _id: clientsId,
+        _id: mongoose.Types.ObjectId(clientsId),
         $or: catCondition,
         dctCallDate: { $lte: todayDate },
         dctLeadAssignedToId,
@@ -388,7 +388,18 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
       dctCallDate: -1,
       dctLeadCategory: -1,
     });
-    res.json(getDctLeadsDetails);
+    const getDctLeadsEmp = await DctLeads.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$dctLeadAssignedToId",
+          dctLeadAssignedToName: { $first: "$dctLeadAssignedToName" },
+        },
+      },
+    ]).sort({ _id: 1 });
+    res.json({ result1: getDctLeadsDetails, result2: getDctLeadsEmp });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -401,10 +412,11 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
     "-password"
   );
   let dctLeadAssignedToId = "";
-  if (userInfo.empCtAccess !== "All") dctLeadAssignedToId = userInfo._id;
+  if (userInfo.empCtAccess !== "All")
+    dctLeadAssignedToId = mongoose.Types.ObjectId(userInfo._id);
   else {
     if (assignedTo) {
-      dctLeadAssignedToId = assignedTo;
+      dctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
     } else {
       dctLeadAssignedToId = { $ne: null };
     }
@@ -415,8 +427,8 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
     if (clientsId) {
       query = {
         dctLeadStatus: "Active",
-        countryId: countryId,
-        _id: clientsId,
+        countryId: mongoose.Types.ObjectId(countryId),
+        _id: mongoose.Types.ObjectId(clientsId),
         $and: [
           { dctLeadCategory: { $ne: "TC" } },
           { dctLeadCategory: { $ne: "RC" } },
@@ -426,7 +438,7 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
     } else {
       query = {
         dctLeadStatus: "Active",
-        countryId: countryId,
+        countryId: mongoose.Types.ObjectId(countryId),
         $and: [
           { dctLeadCategory: { $ne: "TC" } },
           { dctLeadCategory: { $ne: "RC" } },
@@ -438,7 +450,7 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
     if (clientsId) {
       query = {
         dctLeadStatus: "Active",
-        _id: clientsId,
+        _id: mongoose.Types.ObjectId(clientsId),
         $and: [
           { dctLeadCategory: { $ne: "TC" } },
           { dctLeadCategory: { $ne: "RC" } },
@@ -461,7 +473,18 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
       _id: -1,
     });
-    res.json(getDctLeadsDetails);
+    const getDctLeadsEmp = await DctLeads.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$dctLeadAssignedToId",
+          dctLeadAssignedToName: { $first: "$dctLeadAssignedToName" },
+        },
+      },
+    ]).sort({ _id: 1 });
+    res.json({ result1: getDctLeadsDetails, result2: getDctLeadsEmp });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -474,10 +497,11 @@ router.post("/get-all-dct-clients", auth, async (req, res) => {
     "-password"
   );
   let dctClientAssignedToId = "";
-  if (userInfo.empCtAccess !== "All") dctClientAssignedToId = userInfo._id;
+  if (userInfo.empCtAccess !== "All")
+    dctClientAssignedToId = mongoose.Types.ObjectId(userInfo._id);
   else {
     if (assignedTo) {
-      dctClientAssignedToId = assignedTo;
+      dctClientAssignedToId = mongoose.Types.ObjectId(assignedTo);
     } else {
       dctClientAssignedToId = { $ne: null };
     }
@@ -488,14 +512,14 @@ router.post("/get-all-dct-clients", auth, async (req, res) => {
     if (clientsId) {
       query = {
         dctClientStatus: "Active",
-        countryId: countryId,
-        _id: clientsId,
+        countryId: mongoose.Types.ObjectId(countryId),
+        _id: mongoose.Types.ObjectId(clientsId),
         dctClientAssignedToId,
       };
     } else {
       query = {
         dctClientStatus: "Active",
-        countryId: countryId,
+        countryId: mongoose.Types.ObjectId(countryId),
         dctClientAssignedToId,
       };
     }
@@ -503,7 +527,7 @@ router.post("/get-all-dct-clients", auth, async (req, res) => {
     if (clientsId) {
       query = {
         dctClientStatus: "Active",
-        _id: clientsId,
+        _id: mongoose.Types.ObjectId(clientsId),
         dctClientAssignedToId,
       };
     } else {
@@ -530,10 +554,11 @@ router.post("/get-dct-clients", auth, async (req, res) => {
     "-password"
   );
   let dctClientAssignedToId = "";
-  if (userInfo.empCtAccess !== "All") dctClientAssignedToId = userInfo._id;
+  if (userInfo.empCtAccess !== "All")
+    dctClientAssignedToId = mongoose.Types.ObjectId(userInfo._id);
   else {
     if (assignedTo) {
-      dctClientAssignedToId = assignedTo;
+      dctClientAssignedToId = mongoose.Types.ObjectId(assignedTo);
     } else {
       dctClientAssignedToId = { $ne: null };
     }
@@ -577,7 +602,7 @@ router.post("/get-dct-clients", auth, async (req, res) => {
       };
     }
   }
-  console.log(query);
+  // console.log(query);
   try {
     const getDctClientDetails = await DctClients.find(query).sort({
       dctCallDate: -1,
@@ -591,7 +616,7 @@ router.post("/get-dct-clients", auth, async (req, res) => {
       {
         $group: {
           _id: "$dctClientAssignedToId",
-          dctLeadAssignedToName: { $first: "$dctClientAssignedToName" },
+          dctClientAssignedToName: { $first: "$dctClientAssignedToName" },
         },
       },
     ]).sort({ _id: 1 });

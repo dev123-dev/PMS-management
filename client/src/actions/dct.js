@@ -312,7 +312,7 @@ export const getDctLeadDetails = (finalData) => async (dispatch) => {
     const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
     dispatch({
       type: ALL_LEADS,
-      payload: res.data,
+      payload: res.data.result1,
     });
   } catch (err) {
     dispatch({
@@ -326,12 +326,12 @@ export const getDctLeadDetailsDD = (finalData) => async (dispatch) => {
     const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
     dispatch({
       type: ALL_LEADS_DD,
-      payload: res.data,
+      payload: res.data.result1,
     });
     if (finalData === undefined || (finalData && finalData.emp !== true)) {
       dispatch({
         type: ALL_LEADS_EMP,
-        payload: res.data,
+        payload: res.data.result2,
       });
     }
   } catch (err) {
@@ -350,7 +350,7 @@ export const getAllDctLead = (finalData) => async (dispatch) => {
     );
     dispatch({
       type: GET_ALL_LEADS,
-      payload: res.data,
+      payload: res.data.result1,
     });
   } catch (err) {
     dispatch({
@@ -368,12 +368,12 @@ export const getAllDctLeadDD = (finalData) => async (dispatch) => {
     );
     dispatch({
       type: GET_ALL_LEADS_DD,
-      payload: res.data,
+      payload: res.data.result1,
     });
     if (finalData === undefined || (finalData && finalData.emp !== true)) {
       dispatch({
         type: GET_ALL_LEADS_EMP,
-        payload: res.data,
+        payload: res.data.result2,
       });
     }
   } catch (err) {

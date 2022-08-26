@@ -114,8 +114,8 @@ const RegularClientFollowup = ({
   dctClientsEmp.map((emp) =>
     allemp.push({
       empId: emp._id,
-      label: emp.dctLeadAssignedToName,
-      value: emp.dctLeadAssignedToName,
+      label: emp.dctClientAssignedToName,
+      value: emp.dctClientAssignedToName,
     })
   );
 

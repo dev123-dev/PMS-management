@@ -140,17 +140,11 @@ const AllLeads = ({
       clientsId: e.clientsId,
     });
   };
-  let allEmployees = [];
-  // getAllLeadsEmp.filter(
-  //   (value, index, self) =>
-  //     index ===
-  //     self.findIndex((t) => t.dctLeadAssignedToId === value.dctLeadAssignedToId)
-  // );
-  const allemp = [{ empId: null, label: "All", value: null }];
 
-  allEmployees.map((emp) =>
+  const allemp = [{ empId: null, label: "All", value: null }];
+  getAllLeadsEmp.map((emp) =>
     allemp.push({
-      empId: emp.dctLeadAssignedToId,
+      empId: emp._id,
       label: emp.dctLeadAssignedToName,
       value: emp.dctLeadAssignedToName,
     })
