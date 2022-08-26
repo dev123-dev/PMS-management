@@ -35,7 +35,7 @@ const LastMessageDetails = ({
     <Spinner />
   ) : (
     <Fragment>
-      <div className="row col-lg-12 col-md-11 col-sm-10 col-10 ">
+      <div className="row col-lg-12 col-md-11 col-sm-10 col-10 fixTableHeadhistory">
         <div className="col-lg-9 col-md-11 col-sm-10 col-10 ">
           <label className="label-control mt-1"> Last Meeting Details :</label>
           <textarea
