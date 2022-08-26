@@ -217,7 +217,8 @@ const AllLeads = ({
             </div>
             <div className=" col-lg-4 col-md-11 col-sm-10 col-10 ">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
-              user.userGroupName === "Super Admin" ? (
+              user.userGroupName === "Super Admin" ||
+              user.empCtAccess === "All" ? (
                 <div className=" col-lg-4 col-md-11 col-sm-10 col-10 py-2">
                   <Select
                     name="empFullName"
