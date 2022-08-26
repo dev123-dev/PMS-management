@@ -544,8 +544,8 @@ router.post("/get-dct-clients", auth, async (req, res) => {
     if (clientsId) {
       query = {
         dctClientStatus: "Active",
-        countryId: countryId,
-        _id: clientsId,
+        countryId: mongoose.Types.ObjectId(countryId),
+        _id: mongoose.Types.ObjectId(clientsId),
         dctClientCategory: dctClientCategory,
         dctCallDate: { $lte: todayDate },
         dctClientAssignedToId,
@@ -553,7 +553,7 @@ router.post("/get-dct-clients", auth, async (req, res) => {
     } else {
       query = {
         dctClientStatus: "Active",
-        countryId: countryId,
+        countryId: mongoose.Types.ObjectId(countryId),
         dctClientCategory: dctClientCategory,
         dctCallDate: { $lte: todayDate },
         dctClientAssignedToId,
@@ -563,7 +563,7 @@ router.post("/get-dct-clients", auth, async (req, res) => {
     if (clientsId) {
       query = {
         dctClientStatus: "Active",
-        _id: clientsId,
+        _id: mongoose.Types.ObjectId(clientsId),
         dctClientCategory: dctClientCategory,
         dctCallDate: { $lte: todayDate },
         dctClientAssignedToId,
@@ -577,13 +577,25 @@ router.post("/get-dct-clients", auth, async (req, res) => {
       };
     }
   }
-  // console.log(query);
+  console.log(query);
   try {
     const getDctClientDetails = await DctClients.find(query).sort({
       dctCallDate: -1,
       dctClientCategory: -1,
     });
-    res.json(getDctClientDetails);
+
+    const getDctClientEmp = await DctClients.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$dctClientAssignedToId",
+          dctLeadAssignedToName: { $first: "$dctClientAssignedToName" },
+        },
+      },
+    ]).sort({ _id: 1 });
+    res.json({ result1: getDctClientDetails, result2: getDctClientEmp });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
