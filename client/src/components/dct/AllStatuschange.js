@@ -294,7 +294,7 @@ const AllStatuschange = ({
   ) : (
     <Fragment>
       <form className="row" onSubmit={(e) => onSubmit(e)}>
-        <div className="row col-lg-12 col-md-11 col-sm-10 col-10 fixTableHeadcontact">
+        <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadcontact">
           <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
             <label className="label-control" style={statusmodeIdErrorStyle}>
               {" "}
@@ -335,7 +335,7 @@ const AllStatuschange = ({
               required
             />
           </div>
-          <div className=" col-lg-4 col-md-11 col-sm-10 col-10 ">
+          <div className=" col-lg-4 col-md-12 col-sm-12 col-12 ">
             {showdateselectionSection && (
               <>
                 <label className="label-control">
@@ -358,7 +358,7 @@ const AllStatuschange = ({
               </>
             )}
           </div>
-          <div className="col-lg-8 col-md-11 col-sm-10 col-10 ">
+          <div className="col-lg-8 col-md-12 col-sm-12 col-12 ">
             <label className="label-control"> Notes :</label>
             <textarea
               name="callNote"
