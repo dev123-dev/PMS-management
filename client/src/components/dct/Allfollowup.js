@@ -318,7 +318,9 @@ const Allfollowup = ({
                 </div>
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
-                    <label>No of FollowUp : {allLeads.length}</label>
+                    <label>
+                      No of FollowUp : {allLeads && allLeads.length}
+                    </label>
                   </div>
                 </div>
               </section>

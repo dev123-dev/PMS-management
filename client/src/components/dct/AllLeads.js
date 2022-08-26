@@ -324,7 +324,9 @@ const AllLeads = ({
                 </div>
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
-                    <label>No of Leads : {getAllLeads.length}</label>
+                    <label>
+                      No of Leads : {getAllLeads && getAllLeads.length}
+                    </label>
                   </div>
                 </div>
               </section>

@@ -506,7 +506,7 @@ const AddLead = ({
                       />
                     </div>
                   </div>
-                  <div className="col-lg-6  col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-6  col-md-6 col-sm-6 col-12 py-2">
                     <label className="label-control">Address :</label>
                     <textarea
                       name="dctLeadAddress"
