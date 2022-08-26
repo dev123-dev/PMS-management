@@ -251,7 +251,7 @@ const EditLead = ({
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Email Id :</label>
+                    <label className="label-control">Email Id* :</label>
                     <input
                       type="text"
                       name="emailId"
@@ -269,7 +269,6 @@ const EditLead = ({
                       value={phone1}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
-                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -280,7 +279,6 @@ const EditLead = ({
                       value={phone2}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
-                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -312,7 +310,6 @@ const EditLead = ({
                       value={importantPoints}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
-                      required
                     />
                   </div>
                   <div className="row col-lg-12 col-md-6 col-sm-6 col-12 no_padding">
