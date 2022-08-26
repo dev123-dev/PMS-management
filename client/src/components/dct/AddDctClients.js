@@ -71,6 +71,22 @@ const AddDctClients = ({
     isSubmitted,
   } = formData;
 
+  const [error1, setError1] = useState({
+    nametypeIdChecker: false,
+    nametypeIdErrorStyle: {},
+  });
+  const { nametypeIdChecker, nametypeIdErrorStyle } = error1;
+  const checkErrorscontact = () => {
+    if (!nametypeIdChecker) {
+      setError1({
+        ...error1,
+        nametypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    return true;
+  };
   //add staff start
   const [addData, setFormDatas] = useState({
     staffName: "",
@@ -91,22 +107,24 @@ const AddDctClients = ({
 
     e.preventDefault();
     if (staffList.length === 0) {
-      const addData = {
-        staffName: staffName,
-        staffPhoneNumber: staffPhoneNumber,
-        staffEmailId: staffEmailId,
-        staffDesignation: staffDesignation,
-      };
-      setFormDatas({
-        ...addData,
-        staffName: "",
-        staffPhoneNumber: "",
-        staffEmailId: "",
-        staffDesignation: "",
-      });
-      let temp = [];
-      temp.push(...AddedDetails, addData);
-      AddDetails(temp);
+      if (checkErrorscontact()) {
+        const addData = {
+          staffName: staffName,
+          staffPhoneNumber: staffPhoneNumber,
+          staffEmailId: staffEmailId,
+          staffDesignation: staffDesignation,
+        };
+        setFormDatas({
+          ...addData,
+          staffName: "",
+          staffPhoneNumber: "",
+          staffEmailId: "",
+          staffDesignation: "",
+        });
+        let temp = [];
+        temp.push(...AddedDetails, addData);
+        AddDetails(temp);
+      }
     }
   };
   const onRemoveChange = (staffName) => {
@@ -327,6 +345,11 @@ const AddDctClients = ({
   };
 
   const onInputChange1 = (e) => {
+    setError1({
+      ...error1,
+      nametypeIdChecker: true,
+      nametypeIdErrorStyle: { color: "#000" },
+    });
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
 
@@ -636,7 +659,12 @@ const AddDctClients = ({
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Staff Name:</label>
+                    <label
+                      className="label-control"
+                      style={nametypeIdErrorStyle}
+                    >
+                      Staff Name:
+                    </label>
                     <input
                       type="text"
                       name="staffName"

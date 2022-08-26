@@ -69,6 +69,22 @@ const AddLead = ({
     //  staffRegion,
   } = addData;
 
+  const [error1, setError1] = useState({
+    nametypeIdChecker: false,
+    nametypeIdErrorStyle: {},
+  });
+  const { nametypeIdChecker, nametypeIdErrorStyle } = error1;
+  const checkErrorscontact = () => {
+    if (!nametypeIdChecker) {
+      setError1({
+        ...error1,
+        nametypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    return true;
+  };
   const [AddedDetails, AddDetails] = useState([]);
 
   const onAdd = (e) => {
@@ -78,32 +94,33 @@ const AddLead = ({
 
     e.preventDefault();
     if (staffList.length === 0) {
-      // if (checkErrors()) {
-      const addData = {
-        // id: idVal,
-        staffName: staffName,
-        staffPhoneNumber: staffPhoneNumber,
-        staffEmailId: staffEmailId,
-        staffDesignation: staffDesignation,
-        // staffRegion: staffcountryname,
-        //  staffRegionId: staffcountryId,
-        //  staffCountryCode: staffcountrycode,
-      };
-      setFormDatas({
-        ...addData,
+      if (checkErrorscontact()) {
+        const addData = {
+          // id: idVal,
+          staffName: staffName,
+          staffPhoneNumber: staffPhoneNumber,
+          staffEmailId: staffEmailId,
+          staffDesignation: staffDesignation,
+          // staffRegion: staffcountryname,
+          //  staffRegionId: staffcountryId,
+          //  staffCountryCode: staffcountrycode,
+        };
+        setFormDatas({
+          ...addData,
 
-        staffName: "",
-        staffPhoneNumber: "",
-        staffEmailId: "",
-        staffDesignation: "",
-        //  staffRegion: "",
-        //  staffCountryCode: "",
-      });
-      // setstaffcountrycode("");
-      // getstaffcountryData("");
-      let temp = [];
-      temp.push(...AddedDetails, addData);
-      AddDetails(temp);
+          staffName: "",
+          staffPhoneNumber: "",
+          staffEmailId: "",
+          staffDesignation: "",
+          //  staffRegion: "",
+          //  staffCountryCode: "",
+        });
+        // setstaffcountrycode("");
+        // getstaffcountryData("");
+        let temp = [];
+        temp.push(...AddedDetails, addData);
+        AddDetails(temp);
+      }
     }
   };
   const onRemoveChange = (staffName) => {
@@ -130,11 +147,11 @@ const AddLead = ({
   const [countrycode, setcountrycode] = useState();
   const oncountryChange = (e) => {
     // //Required Validation Starts
-    // setError({
-    //   ...error,
-    //   sIdChecker: true,
-    //   sIdErrorStyle: { color: "#000" },
-    // });
+    setError({
+      ...error,
+      countrytypeIdChecker: true,
+      countrytypeIdErrorStyle: { color: "#000" },
+    });
     // //Required Validation ends
     var countryId = "";
     var countrycode = "";
@@ -159,6 +176,13 @@ const AddLead = ({
   const [empId, setempID] = useState(user && user._id);
   const [empName, setNameID] = useState(user && user.empFullName);
   const onempChange = (e) => {
+    // //Required Validation Starts
+    setError({
+      ...error,
+      AssignedtypeIdChecker: true,
+      AssignedtypeIdErrorStyle: { color: "#000" },
+    });
+    // //Required Validation ends
     var empId = "";
     var empName = "";
     getempData(e);
@@ -220,44 +244,80 @@ const AddLead = ({
       SetServiceDetails(removeList);
     }
   };
+
+  const [error, setError] = useState({
+    countrytypeIdChecker: false,
+    countrytypeIdErrorStyle: {},
+    AssignedtypeIdChecker: false,
+    AssignedtypeIdErrorStyle: {},
+  });
+  const {
+    countrytypeIdChecker,
+    countrytypeIdErrorStyle,
+    AssignedtypeIdChecker,
+    AssignedtypeIdErrorStyle,
+  } = error;
+
+  const checkErrors = () => {
+    if (!countrytypeIdChecker) {
+      setError({
+        ...error,
+        countrytypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (user.empCtAccess === "All") {
+      if (!AssignedtypeIdChecker) {
+        setError({
+          ...error,
+          AssignedtypeIdErrorStyle: { color: "#F00" },
+        });
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
-    const finalData = {
-      companyName: companyName,
-      website: website,
-      clientName: clientName,
-      emailId: emailId,
-      phone1: phone1,
-      phone2: phone2,
-      dctLeadAddress: dctLeadAddress,
-      importantPoints: importantPoints,
-      countryId: countryId ? countryId : null,
-      countryName: country.value ? country.value : null,
-      dctLeadStatus: "Active",
-      dctLeadCategory: "NL",
-      dctCallDate: new Date().toISOString().split("T")[0],
-      services: ServicesDetails,
-      staffs: AddedDetails,
-      dctLeadEnteredById: user._id,
-      dctLeadEnteredByName: user.empFullName,
-      dctLeadAssignedToId: empId,
-      dctLeadAssignedToName: empName,
-    };
-    addDctLeadDetails(finalData);
-    setFormData({
-      ...formData,
-      companyName: "",
-      emailId: "",
-      clientName: "",
-      website: "",
-      address: "",
-      phone1: "",
-      phone2: "",
-      importantPoints: "",
-      countryId: "",
-      isSubmitted: true,
-    });
+    if (checkErrors()) {
+      const finalData = {
+        companyName: companyName,
+        website: website,
+        clientName: clientName,
+        emailId: emailId,
+        phone1: phone1,
+        phone2: phone2,
+        dctLeadAddress: dctLeadAddress,
+        importantPoints: importantPoints,
+        countryId: countryId ? countryId : null,
+        countryName: country.value ? country.value : null,
+        dctLeadStatus: "Active",
+        dctLeadCategory: "NL",
+        dctCallDate: new Date().toISOString().split("T")[0],
+        services: ServicesDetails,
+        staffs: AddedDetails,
+        dctLeadEnteredById: user._id,
+        dctLeadEnteredByName: user.empFullName,
+        dctLeadAssignedToId: empId,
+        dctLeadAssignedToName: empName,
+      };
+      addDctLeadDetails(finalData);
+      setFormData({
+        ...formData,
+        companyName: "",
+        emailId: "",
+        clientName: "",
+        website: "",
+        address: "",
+        phone1: "",
+        phone2: "",
+        importantPoints: "",
+        countryId: "",
+        isSubmitted: true,
+      });
+    }
   };
 
   if (isSubmitted) {
@@ -268,6 +328,11 @@ const AddLead = ({
   };
 
   const onInputChange1 = (e) => {
+    setError1({
+      ...error1,
+      nametypeIdChecker: true,
+      nametypeIdErrorStyle: { color: "#000" },
+    });
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
 
@@ -361,7 +426,12 @@ const AddLead = ({
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Region* :</label>
+                    <label
+                      className="label-control"
+                      style={countrytypeIdErrorStyle}
+                    >
+                      Region* :
+                    </label>
                     <Select
                       name="countryName"
                       options={allcountry}
@@ -386,7 +456,12 @@ const AddLead = ({
                   <div className="row col-lg-12 col-md-6 col-sm-6 col-12 no_padding">
                     {user.empCtAccess && user.empCtAccess === "All" ? (
                       <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                        <label className="label-control">Assigned To :</label>
+                        <label
+                          className="label-control"
+                          style={AssignedtypeIdErrorStyle}
+                        >
+                          Assigned To :
+                        </label>
                         <Select
                           name="empFullName"
                           options={allemp}
@@ -455,7 +530,12 @@ const AddLead = ({
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Staff Name:</label>
+                    <label
+                      className="label-control"
+                      style={nametypeIdErrorStyle}
+                    >
+                      Staff Name*:
+                    </label>
                     <input
                       type="text"
                       name="staffName"
