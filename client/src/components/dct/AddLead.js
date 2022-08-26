@@ -108,7 +108,7 @@ const AddLead = ({
       allcountry.push({
         countryId: country._id,
         countrycode: country.countryCode,
-        label: country.countryName,
+        label: country.countryName + " (" + country.countryCode + ")",
         value: country.countryName,
       })
     );
