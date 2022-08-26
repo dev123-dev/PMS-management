@@ -16,18 +16,15 @@ import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
 import { getActiveCountry } from "../../actions/regions";
-import { getMarketingEmployee } from "../../actions/user";
 
 const AllProspects = ({
   auth: { isAuthenticated, user, users },
-  user: { marketingEmployees },
-  dct: { allLeads, allLeadsDD },
+  dct: { allLeads, allLeadsDD, allLeadsEmp },
   regions: { activeCountry },
   getDctLeadDetails,
   getActiveCountry,
   getDctLeadDetailsDD,
   getLastmessage,
-  getMarketingEmployee,
 }) => {
   useEffect(() => {
     getDctLeadDetails({ dctLeadCategory: "P" });
@@ -38,9 +35,6 @@ const AllProspects = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
-  useEffect(() => {
-    getMarketingEmployee();
-  }, [getMarketingEmployee]);
 
   const [filterData, setFilterData] = useState({ dctLeadCategory: "P" });
 
@@ -121,6 +115,7 @@ const AllProspects = ({
   const oncountryChange = (e) => {
     getcountryData(e);
     getclientsData("");
+    getempData("");
     getcountryIdData(e.countryId);
     getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "P" });
     getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "P" });
@@ -149,12 +144,18 @@ const AllProspects = ({
       dctLeadCategory: "P",
     });
   };
+
+  let allEmployees = allLeadsEmp.filter(
+    (value, index, self) =>
+      index ===
+      self.findIndex((t) => t.dctLeadAssignedToId === value.dctLeadAssignedToId)
+  );
   const allemp = [{ empId: null, label: "All", value: null }];
-  marketingEmployees.map((emp) =>
+  allEmployees.map((emp) =>
     allemp.push({
-      empId: emp._id,
-      label: emp.empFullName,
-      value: emp.empFullName,
+      empId: emp.dctLeadAssignedToId,
+      label: emp.dctLeadAssignedToName,
+      value: emp.dctLeadAssignedToName,
     })
   );
 
@@ -174,6 +175,7 @@ const AllProspects = ({
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
       dctLeadCategory: "P",
+      emp: true,
     });
     setFilterData({
       countryId: countryId,
@@ -450,7 +452,6 @@ AllProspects.propTypes = {
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  user: state.user,
   dct: state.dct,
   regions: state.regions,
 });
@@ -460,5 +461,4 @@ export default connect(mapStateToProps, {
   getDctLeadDetailsDD,
   getActiveCountry,
   getLastmessage,
-  getMarketingEmployee,
 })(AllProspects);

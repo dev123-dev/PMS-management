@@ -11,6 +11,10 @@ import {
   CALLHISTORY,
   ALL_DCT_CALLS,
   ALL_DCT_CALLS_EMP,
+  ALL_LEADS_EMP,
+  GET_ALL_LEADS_EMP,
+  ALL_DCT_CLIENTS_EMP,
+  DCT_CLIENTS_EMP,
 } from "../actions/types";
 
 const initialState = {
@@ -26,6 +30,10 @@ const initialState = {
   callHistory: [],
   allDctCalls: null,
   allDctCallsEmp: null,
+  allLeadsEmp: [],
+  getAllLeadsEmp: [],
+  allDctClientsEmp: [],
+  dctClientsEmp: [],
 };
 
 const dct = (state = initialState, action) => {
@@ -91,7 +99,26 @@ const dct = (state = initialState, action) => {
         ...state,
         allDctCallsEmp: payload,
       };
-
+    case ALL_LEADS_EMP:
+      return {
+        ...state,
+        allLeadsEmp: payload,
+      };
+    case GET_ALL_LEADS_EMP:
+      return {
+        ...state,
+        getAllLeadsEmp: payload,
+      };
+    case ALL_DCT_CLIENTS_EMP:
+      return {
+        ...state,
+        allDctClientsEmp: payload,
+      };
+    case DCT_CLIENTS_EMP:
+      return {
+        ...state,
+        dctClientsEmp: payload,
+      };
     default:
       return state;
   }
