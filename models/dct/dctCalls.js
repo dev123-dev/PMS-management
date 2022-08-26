@@ -32,11 +32,11 @@ const DctCallsSchema = new mongoose.Schema({
   callNote: {
     type: String,
   },
-  callTakenDate: {
-    type: String, //Todays Date
-  },
   callComeFrom: {
     type: String, //Leads or Clients
+  },
+  callTakenDate: {
+    type: String, //Todays Date
   },
   callEnteredDateTime: {
     type: String,
