@@ -140,11 +140,12 @@ const AllLeads = ({
       clientsId: e.clientsId,
     });
   };
-  let allEmployees = getAllLeadsEmp.filter(
-    (value, index, self) =>
-      index ===
-      self.findIndex((t) => t.dctLeadAssignedToId === value.dctLeadAssignedToId)
-  );
+  let allEmployees = [];
+  // getAllLeadsEmp.filter(
+  //   (value, index, self) =>
+  //     index ===
+  //     self.findIndex((t) => t.dctLeadAssignedToId === value.dctLeadAssignedToId)
+  // );
   const allemp = [{ empId: null, label: "All", value: null }];
 
   allEmployees.map((emp) =>

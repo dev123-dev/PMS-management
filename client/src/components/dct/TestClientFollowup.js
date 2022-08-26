@@ -19,7 +19,7 @@ import { getMarketingEmployee } from "../../actions/user";
 const TestClientFollowup = ({
   auth: { isAuthenticated, user, users },
   user: { marketingEmployees },
-  dct: { dctClients, dctClientsDD },
+  dct: { dctClients, dctClientsDD, dctClientsEmp },
   regions: { activeCountry },
   getDctClientDetails,
   getDctClientDetailsDD,
@@ -40,6 +40,7 @@ const TestClientFollowup = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
+  console.log(dctClientsEmp, "dctClientsEmp");
   const [filterData, setFilterData] = useState({ dctClientCategory: "TC" });
   const [colorData, setcolorData] = useState();
   const [searchDataVal, setsearchDataVal] = useState();
@@ -85,6 +86,7 @@ const TestClientFollowup = ({
   const oncountryChange = (e) => {
     getcountryData(e);
     getclientsData("");
+    getempData("");
     getcountryIdData(e.countryId);
     getDctClientDetails({ countryId: e.countryId, dctClientCategory: "TC" });
     getDctClientDetailsDD({ countryId: e.countryId, dctClientCategory: "TC" });
@@ -115,11 +117,11 @@ const TestClientFollowup = ({
   };
 
   const allemp = [{ empId: null, label: "All", value: null }];
-  marketingEmployees.map((emp) =>
+  dctClientsEmp.map((emp) =>
     allemp.push({
       empId: emp._id,
-      label: emp.empFullName,
-      value: emp.empFullName,
+      label: emp.dctLeadAssignedToName,
+      value: emp.dctLeadAssignedToName,
     })
   );
 
@@ -139,6 +141,7 @@ const TestClientFollowup = ({
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
       dctClientCategory: "TC",
+      emp: true,
     });
     setFilterData({
       countryId: countryId,

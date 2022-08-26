@@ -388,7 +388,7 @@ export const getDctClientDetails = (finalData) => async (dispatch) => {
     const res = await axios.post("/api/dct/get-dct-clients", finalData, config);
     dispatch({
       type: DCT_CLIENTS,
-      payload: res.data,
+      payload: res.data.result1,
     });
   } catch (err) {
     dispatch({
@@ -402,12 +402,12 @@ export const getDctClientDetailsDD = (finalData) => async (dispatch) => {
     const res = await axios.post("/api/dct/get-dct-clients", finalData, config);
     dispatch({
       type: DCT_CLIENTS_DD,
-      payload: res.data,
+      payload: res.data.result1,
     });
     if (finalData === undefined || (finalData && finalData.emp !== true)) {
       dispatch({
         type: DCT_CLIENTS_EMP,
-        payload: res.data,
+        payload: res.data.result2,
       });
     }
   } catch (err) {
