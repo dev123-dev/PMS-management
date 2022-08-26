@@ -2,6 +2,7 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import Select from "react-select";
 import {
   editDctStaffDetails,
   editDctClientStaffDetails,
@@ -35,6 +36,10 @@ const EditContact = ({
       allStaffdata && allStaffdata.staffDesignation
         ? allStaffdata.staffDesignation
         : "",
+    staffCountryCode:
+      allStaffdata && allStaffdata.staffCountryCode
+        ? allStaffdata.staffCountryCode
+        : "",
 
     isSubmitted: false,
   });
@@ -46,6 +51,41 @@ const EditContact = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // const allstaffcountry = [];
+  // activeCountry &&
+  //   activeCountry.map((staffcountry) =>
+  //     allstaffcountry.push({
+  //       staffcountryId: staffcountry._id,
+  //       staffcountrycode: staffcountry.countryCode,
+  //       label: staffcountry.countryName + " (" + staffcountry.countryCode + ")",
+  //       value: staffcountry.countryName,
+  //     })
+  //   );
+
+  const [staffcountry, getstaffcountryData] = useState();
+  const [staffcountryId, setstaffcountryID] = useState();
+  const [staffcountrycode, setstaffcountrycode] = useState();
+  const [staffcountryname, setstaffcountryname] = useState();
+  const onstaffcountryChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   sIdChecker: true,
+    //   sIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var staffcountryId = "";
+    var staffcountrycode = "";
+    var staffcountryname = "";
+    getstaffcountryData(e);
+    staffcountrycode = e.staffcountrycode;
+    staffcountryId = e.staffcountryId;
+    staffcountryname = e.value;
+    setstaffcountryname(staffcountryname);
+    setstaffcountryID(staffcountryId);
+    setstaffcountrycode(staffcountrycode);
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
@@ -54,6 +94,9 @@ const EditContact = ({
       staffPhoneNumber: staffPhoneNumber,
       staffEmailId: staffEmailId,
       staffDesignation: staffDesignation,
+      // staffRegion:,
+      // staffRegionId:,
+      staffcountrycode: staffcountrycode,
       filterData: filterData,
     };
     if (from === "client") {
@@ -83,16 +126,6 @@ const EditContact = ({
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-              <label className="label-control">Phone Number :</label>
-              <input
-                type="text"
-                name="staffPhoneNumber"
-                value={staffPhoneNumber}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-              />
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-6 col-12">
               <label className="label-control">EmailId:</label>
               <input
                 type="text"
@@ -102,6 +135,56 @@ const EditContact = ({
                 onChange={(e) => onInputChange(e)}
               />
             </div>
+            <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+              <label className="label-control">Region* :</label>
+              <Select
+                name="countryName"
+                //   options={allstaffcountry}
+                isSearchable={true}
+                //   value={staffcountry}
+                placeholder="Select Region"
+                onChange={(e) => onstaffcountryChange(e)}
+              />
+            </div>
+            <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+              <label className="label-control">Staff Phone:</label>
+              <input
+                type="number"
+                name="staffcountrycode"
+                value={staffcountrycode}
+                className="form-control"
+                style={{ width: "50px" }}
+                disabled
+              />
+            </div>
+
+            <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+              <label className="label-control">
+                <br />
+              </label>
+              <input
+                type="number"
+                name="staffPhoneNumber"
+                value={staffPhoneNumber}
+                className="form-control"
+                onChange={(e) => onInputChange(e)}
+                style={{ marginLeft: "-5em", width: "20vh" }}
+                onKeyDown={(e) =>
+                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+                }
+              />
+            </div>
+            {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+              <label className="label-control">Phone Number :</label>
+              <input
+                type="text"
+                name="staffPhoneNumber"
+                value={staffPhoneNumber}
+                className="form-control"
+                onChange={(e) => onInputChange(e)}
+              />
+            </div> */}
+
             <div className="col-lg-6 col-md-6 col-sm-6 col-12">
               <label className="label-control">Designation :</label>
               <input
