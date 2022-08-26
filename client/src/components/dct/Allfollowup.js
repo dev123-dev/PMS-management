@@ -173,6 +173,7 @@ const Allfollowup = ({
 
   const onClickReset = () => {
     getcountryData("");
+    getcountryIdData("");
     getclientsData("");
     getempData("");
     getDctLeadDetails({ dctLeadCategory: "F" });

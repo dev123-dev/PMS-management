@@ -175,6 +175,7 @@ const AllLeads = ({
 
   const onClickReset = () => {
     getcountryData("");
+    getcountryIdData("");
     getclientsData("");
     getempData("");
     getAllDctLead();

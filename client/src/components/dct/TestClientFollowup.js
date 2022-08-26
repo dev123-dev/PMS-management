@@ -146,6 +146,7 @@ const TestClientFollowup = ({
 
   const onClickReset = () => {
     getcountryData("");
+    getcountryIdData("");
     getempData("");
     getclientsData("");
     getDctClientDetails({ dctClientCategory: "TC" });

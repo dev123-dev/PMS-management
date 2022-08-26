@@ -182,6 +182,7 @@ const AllProspects = ({
 
   const onClickReset = () => {
     getcountryData("");
+    getcountryIdData("");
     getclientsData("");
     getempData("");
     getDctLeadDetails({ dctLeadCategory: "P" });
