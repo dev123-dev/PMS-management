@@ -31,6 +31,7 @@ const AddLead = ({
     emailId: "",
     phone1: "",
     phone2: "",
+    countrycode: "",
     dctLeadAddress: "",
     clientName: "",
     importantPoints: "",
@@ -99,19 +100,22 @@ const AddLead = ({
     );
     AddDetails(removeList);
   };
+
   //add staff end
   const allcountry = [];
-  activeCountry.map((country) =>
-    allcountry.push({
-      countryId: country._id,
-      label: country.countryName,
-      value: country.countryName,
-    })
-  );
+  activeCountry &&
+    activeCountry.map((country) =>
+      allcountry.push({
+        countryId: country._id,
+        countrycode: country.countryCode,
+        label: country.countryName,
+        value: country.countryName,
+      })
+    );
 
   const [country, getcountryData] = useState();
   const [countryId, setcountryID] = useState();
-
+  const [countrycode, setcountrycode] = useState();
   const oncountryChange = (e) => {
     // //Required Validation Starts
     // setError({
@@ -121,31 +125,28 @@ const AddLead = ({
     // });
     // //Required Validation ends
     var countryId = "";
+    var countrycode = "";
     getcountryData(e);
+    countrycode = e.countrycode;
     countryId = e.countryId;
     setcountryID(countryId);
+    setcountrycode(countrycode);
   };
 
   const allemp = [];
-  marketingEmployees.map((emp) =>
-    allemp.push({
-      empId: emp._id,
-      label: emp.empFullName,
-      value: emp.empFullName,
-    })
-  );
+  marketingEmployees &&
+    marketingEmployees.map((emp) =>
+      allemp.push({
+        empId: emp._id,
+        label: emp.empFullName,
+        value: emp.empFullName,
+      })
+    );
 
   const [emp, getempData] = useState();
-  const [empId, setempID] = useState(user._id);
-  const [empName, setNameID] = useState(user.empFullName);
+  const [empId, setempID] = useState(user && user._id);
+  const [empName, setNameID] = useState(user && user.empFullName);
   const onempChange = (e) => {
-    // //Required Validation Starts
-    // setError({
-    //   ...error,
-    //   sIdChecker: true,
-    //   sIdErrorStyle: { color: "#000" },
-    // });
-    // //Required Validation ends
     var empId = "";
     var empName = "";
     getempData(e);
@@ -416,20 +417,35 @@ const AddLead = ({
                       onChange={(e) => onInputChange1(e)}
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Phone Number :</label>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Staff Phone:</label>
+                    <input
+                      type="number"
+                      name="countrycode"
+                      value={countrycode}
+                      className="form-control"
+                      style={{ width: "50px" }}
+                    />
+                  </div>
+
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">
+                      <br />
+                    </label>
                     <input
                       type="number"
                       name="staffPhoneNumber"
                       value={staffPhoneNumber}
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
+                      style={{ marginLeft: "-5em", width: "37vh" }}
                       onKeyDown={(e) =>
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
                       }
                     />
                   </div>
+
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Email Id :</label>
                     <input
