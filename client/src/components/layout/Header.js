@@ -131,58 +131,46 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-                <Dropdown title="DCT">
-                  <Dropdown.Item>
+                {!loading && isAuthenticated && user && (
+                  <Dropdown title="DCT">
                     <NavLink
                       to="/all-leads"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      All Leads
+                      <Dropdown.Item>All Leads</Dropdown.Item>
                     </NavLink>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
                     <NavLink
                       to="/all-prospects"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      All Prospectus
+                      <Dropdown.Item>All Prospectus</Dropdown.Item>
                     </NavLink>
-                  </Dropdown.Item>
-
-                  <Dropdown.Item>
                     <NavLink
                       to="/all-followup"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      All Followup
+                      <Dropdown.Item>All Followup</Dropdown.Item>
                     </NavLink>
-                  </Dropdown.Item>
-
-                  <Dropdown.Item>
                     <NavLink
                       to="/test-client-followup"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      Test Client Followup
+                      <Dropdown.Item>Test Client Followup</Dropdown.Item>
                     </NavLink>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
                     <NavLink
                       to="/regular-client-followup"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      Regular Client Followup
+                      <Dropdown.Item>Regular Client Followup</Dropdown.Item>
                     </NavLink>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
                     <NavLink
                       to="/dct-calls"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      Dct Calls
+                      <Dropdown.Item>Dct Calls History</Dropdown.Item>
                     </NavLink>
-                  </Dropdown.Item>
-                </Dropdown>
+                  </Dropdown>
+                )}
                 {/* <NavItem>
                   {!loading &&
                   isAuthenticated &&
