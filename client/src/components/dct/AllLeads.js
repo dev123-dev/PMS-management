@@ -16,18 +16,15 @@ import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
 import { getActiveCountry } from "../../actions/regions";
-import { getMarketingEmployee } from "../../actions/user";
 
 const AllLeads = ({
   auth: { isAuthenticated, user, users },
-  user: { marketingEmployees },
-  dct: { getAllLeads, getAllLeadsDD },
+  dct: { getAllLeads, getAllLeadsDD, getAllLeadsEmp },
   regions: { activeCountry },
   getAllDctLead,
   getActiveCountry,
   getAllDctLeadDD,
   getLastmessage,
-  getMarketingEmployee,
 }) => {
   useEffect(() => {
     getAllDctLead();
@@ -38,9 +35,6 @@ const AllLeads = ({
   useEffect(() => {
     getActiveCountry();
   }, []);
-  useEffect(() => {
-    getMarketingEmployee();
-  }, [getMarketingEmployee]);
 
   const [filterData, setFilterData] = useState();
 
@@ -119,6 +113,7 @@ const AllLeads = ({
   const oncountryChange = (e) => {
     getcountryData(e);
     getclientsData("");
+    getempData("");
     getcountryIdData(e.countryId);
     getAllDctLead({ countryId: e.countryId });
     getAllDctLeadDD({ countryId: e.countryId });
@@ -145,13 +140,18 @@ const AllLeads = ({
       clientsId: e.clientsId,
     });
   };
-
+  let allEmployees = getAllLeadsEmp.filter(
+    (value, index, self) =>
+      index ===
+      self.findIndex((t) => t.dctLeadAssignedToId === value.dctLeadAssignedToId)
+  );
   const allemp = [{ empId: null, label: "All", value: null }];
-  marketingEmployees.map((emp) =>
+
+  allEmployees.map((emp) =>
     allemp.push({
-      empId: emp._id,
-      label: emp.empFullName,
-      value: emp.empFullName,
+      empId: emp.dctLeadAssignedToId,
+      label: emp.dctLeadAssignedToName,
+      value: emp.dctLeadAssignedToName,
     })
   );
 
@@ -169,6 +169,7 @@ const AllLeads = ({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
+      emp: true,
     });
     setFilterData({
       countryId: countryId,
@@ -459,5 +460,4 @@ export default connect(mapStateToProps, {
   getAllDctLeadDD,
   getActiveCountry,
   getLastmessage,
-  getMarketingEmployee,
 })(AllLeads);

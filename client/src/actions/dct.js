@@ -16,6 +16,10 @@ import {
   DCT_CLIENTS_DD,
   ALL_DCT_CALLS,
   ALL_DCT_CALLS_EMP,
+  ALL_LEADS_EMP,
+  GET_ALL_LEADS_EMP,
+  ALL_DCT_CLIENTS_EMP,
+  DCT_CLIENTS_EMP,
 } from "./types";
 
 const config = {
@@ -324,6 +328,12 @@ export const getDctLeadDetailsDD = (finalData) => async (dispatch) => {
       type: ALL_LEADS_DD,
       payload: res.data,
     });
+    if (finalData === undefined || (finalData && finalData.emp !== true)) {
+      dispatch({
+        type: ALL_LEADS_EMP,
+        payload: res.data,
+      });
+    }
   } catch (err) {
     dispatch({
       type: ERROR,
@@ -360,6 +370,12 @@ export const getAllDctLeadDD = (finalData) => async (dispatch) => {
       type: GET_ALL_LEADS_DD,
       payload: res.data,
     });
+    if (finalData === undefined || (finalData && finalData.emp !== true)) {
+      dispatch({
+        type: GET_ALL_LEADS_EMP,
+        payload: res.data,
+      });
+    }
   } catch (err) {
     dispatch({
       type: ERROR,
@@ -388,6 +404,12 @@ export const getDctClientDetailsDD = (finalData) => async (dispatch) => {
       type: DCT_CLIENTS_DD,
       payload: res.data,
     });
+    if (finalData === undefined || (finalData && finalData.emp !== true)) {
+      dispatch({
+        type: DCT_CLIENTS_EMP,
+        payload: res.data,
+      });
+    }
   } catch (err) {
     dispatch({
       type: ERROR,
@@ -424,6 +446,12 @@ export const getAllDctClientDD = (finalData) => async (dispatch) => {
       type: ALL_DCT_CLIENTS_DD,
       payload: res.data,
     });
+    if (finalData === undefined || (finalData && finalData.emp !== true)) {
+      dispatch({
+        type: ALL_DCT_CLIENTS_EMP,
+        payload: res.data,
+      });
+    }
   } catch (err) {
     dispatch({
       type: ERROR,
