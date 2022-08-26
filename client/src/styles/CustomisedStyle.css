@@ -2074,6 +2074,12 @@ padding: 0.15rem !important;
   position: relative !important;
   padding: 12px 15px !important;
 }
+a:focus, a:hover {
+ 
+  color: black !important;
+}
+
+
 
 
 .rs-dropdown-toggle-caret {
