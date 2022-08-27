@@ -5,6 +5,7 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
+import Clock from "react-live-clock";
 import {
   getAllDctLead,
   getAllDctLeadDD,
@@ -36,6 +37,12 @@ const AllLeads = ({
     getActiveCountry();
   }, []);
 
+  const [showHide1, setShowHide1] = useState({
+    showUSSection: false,
+    showAUDSection: false,
+    showUKSection: false,
+  });
+  const { showUSSection, showAUDSection, showUKSection } = showHide1;
   const [filterData, setFilterData] = useState();
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -111,6 +118,35 @@ const AllLeads = ({
   const [countryId, getcountryIdData] = useState(null);
 
   const oncountryChange = (e) => {
+    if (e.value === "US") {
+      setShowHide1({
+        ...showHide1,
+        showUSSection: true,
+        showAUDSection: false,
+        showUKSection: false,
+      });
+    } else if (e.value === "AUS") {
+      setShowHide1({
+        ...showHide1,
+        showUSSection: false,
+        showAUDSection: true,
+        showUKSection: false,
+      });
+    } else if (e.value === "UK") {
+      setShowHide1({
+        ...showHide1,
+        showUSSection: false,
+        showAUDSection: false,
+        showUKSection: true,
+      });
+    } else {
+      setShowHide1({
+        ...showHide1,
+        showUSSection: false,
+        showAUDSection: false,
+        showUKSection: false,
+      });
+    }
     getcountryData(e);
     getclientsData("");
     getempData("");
@@ -189,9 +225,68 @@ const AllLeads = ({
     <Spinner />
   ) : (
     <Fragment>
-      <div className="container container_align ">
+      <div className="container container_align_CT ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
+            <div
+              className="row col-lg-12 col-md-11 col-sm-10 col-10"
+              style={{ minHeight: "54px" }}
+            >
+              {showUSSection && (
+                <h6>
+                  PST :&nbsp;
+                  <Clock
+                    ticking={true}
+                    timezone={"US/Pacific"}
+                    format={"DD/MM/YYYY, h:mm:ss a"}
+                  />
+                  &emsp;&emsp; MST :
+                  <Clock
+                    ticking={true}
+                    timezone={"US/Mountain"}
+                    format={" DD/MM/YYYY, h:mm:ss a"}
+                  />{" "}
+                  &emsp;&emsp; EST :
+                  <Clock
+                    ticking={true}
+                    timezone={"US/Eastern"}
+                    format={" DD/MM/YYYY, h:mm:ss a"}
+                  />{" "}
+                  &emsp;&emsp; CST :
+                  <Clock
+                    ticking={true}
+                    timezone={"US/Central"}
+                    format={" DD/MM/YYYY, h:mm:ss a"}
+                  />
+                </h6>
+              )}
+              {showAUDSection && (
+                <h6>
+                  Sydney :
+                  <Clock
+                    ticking={true}
+                    timezone={"Australia/Sydney"}
+                    format={" DD/MM/YYYY, h:mm:ss a"}
+                  />
+                  &emsp; &emsp;Perth :
+                  <Clock
+                    ticking={true}
+                    timezone={"Australia/Perth"}
+                    format={" DD/MM/YYYY, h:mm:ss a"}
+                  />
+                </h6>
+              )}
+              {showUKSection && (
+                <h6>
+                  UK :
+                  <Clock
+                    ticking={true}
+                    timezone={"Europe/London"}
+                    format={" DD/MM/YYYY, h:mm:ss a"}
+                  />
+                </h6>
+              )}
+            </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Leads</h5>
             </div>
@@ -250,7 +345,7 @@ const AllLeads = ({
           <div className="row">
             <div className="col-lg-8 col-md-12 col-sm-12 col-12 text-center ">
               <section className="body">
-                <div className=" body-inner no-padding table-responsive fixTableHead">
+                <div className=" body-inner no-padding table-responsive fixTableHeadCT">
                   <table
                     className="table table-bordered table-striped hoverrow smll_row"
                     id="datatable2"
@@ -337,11 +432,9 @@ const AllLeads = ({
                 </div>
               </section>
             </div>
-            <div className="row col-lg-4 col-md-12 col-sm-12 col-12 ">
+            <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead">
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-                  {/* <label className="sidePartHeading ">Contacts</label> */}
-                  {/* {showdateselectionSection && ( */}
                   <AllContacts
                     leadDataVal={leadData}
                     ondivcloseChange={ondivcloseChange}
@@ -349,7 +442,6 @@ const AllLeads = ({
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
                   />
-                  {/* )} */}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">

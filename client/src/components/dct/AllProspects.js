@@ -233,97 +233,69 @@ const AllProspects = ({
     <Spinner />
   ) : (
     <Fragment>
-      <div className="container container_align ">
+      <div className="container container_align_CT ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            {/* {showUSSection && ( */}
-            <div className=" col-lg-12 col-md-11 col-sm-10 col-10">
+            <div
+              className="row col-lg-12 col-md-11 col-sm-10 col-10"
+              style={{ minHeight: "54px" }}
+            >
               {showUSSection && (
-                <h4>
-                  PST :
+                <h6>
+                  PST :&nbsp;
                   <Clock
                     ticking={true}
                     timezone={"US/Pacific"}
-                    format={"HH:mm:ss"}
+                    format={"DD/MM/YYYY, h:mm:ss a"}
                   />
-                  &emsp; MST :
+                  &emsp;&emsp; MST :
                   <Clock
                     ticking={true}
                     timezone={"US/Mountain"}
-                    format={"HH:mm:ss"}
+                    format={" DD/MM/YYYY, h:mm:ss a"}
                   />{" "}
-                  &emsp; EST :
+                  &emsp;&emsp; EST :
                   <Clock
                     ticking={true}
                     timezone={"US/Eastern"}
-                    format={"HH:mm:ss"}
+                    format={" DD/MM/YYYY, h:mm:ss a"}
                   />{" "}
-                  &emsp; CST :
+                  &emsp;&emsp; CST :
                   <Clock
                     ticking={true}
                     timezone={"US/Central"}
-                    format={"HH:mm:ss"}
+                    format={" DD/MM/YYYY, h:mm:ss a"}
                   />
-                </h4>
+                </h6>
               )}
               {showAUDSection && (
-                <h4>
+                <h6>
                   Sydney :
                   <Clock
                     ticking={true}
                     timezone={"Australia/Sydney"}
-                    format={"HH:mm:ss"}
+                    format={" DD/MM/YYYY, h:mm:ss a"}
                   />
-                  &emsp; Perth :
+                  &emsp; &emsp;Perth :
                   <Clock
                     ticking={true}
                     timezone={"Australia/Perth"}
-                    format={"HH:mm:ss"}
+                    format={" DD/MM/YYYY, h:mm:ss a"}
                   />
-                </h4>
+                </h6>
               )}
               {showUKSection && (
-                <h4>
+                <h6>
                   UK :
                   <Clock
                     ticking={true}
                     timezone={"Europe/London"}
-                    format={"HH:mm:ss"}
+                    format={" DD/MM/YYYY, h:mm:ss a"}
                   />
-                </h4>
+                </h6>
               )}
             </div>
-            {/* )} */}
-            {/* {showAUDSection && (
-              <div className="col-lg-12 col-md-11 col-sm-10 col-10 ">
-                <h4>
-                  Sydney :
-                  <Clock
-                    ticking={true}
-                    timezone={"Australia/Sydney"}
-                    format={"HH:mm:ss"}
-                  />
-                  &emsp; Perth :
-                  <Clock
-                    ticking={true}
-                    timezone={"Australia/Perth"}
-                    format={"HH:mm:ss"}
-                  />
-                </h4>
-              </div>
-            )} */}
-            {/* {showUKSection && (
-              <div className="col-lg-12 col-md-11 col-sm-10 col-10 ">
-                <h4>
-                  UK :
-                  <Clock
-                    ticking={true}
-                    timezone={"Europe/London"}
-                    format={"HH:mm:ss"}
-                  />
-                </h4>
-              </div>
-            )} */}
+
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Prospects</h5>
             </div>
@@ -367,6 +339,7 @@ const AllProspects = ({
                 <></>
               )}
             </div>
+
             <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
@@ -379,7 +352,7 @@ const AllProspects = ({
           <div className="row">
             <div className="col-lg-8 col-md-12 col-sm-12 col-12 text-center ">
               <section className="body">
-                <div className=" body-inner no-padding table-responsive fixTableHead">
+                <div className=" body-inner no-padding table-responsive fixTableHeadCT">
                   <table
                     className="table table-bordered table-striped  smll_row"
                     id="datatable2"
@@ -464,11 +437,9 @@ const AllProspects = ({
                 </div>
               </section>
             </div>
-            <div className="row col-lg-4 col-md-12 col-sm-12 col-12 ">
+            <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead">
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-                  {/* <label className="sidePartHeading ">Contacts</label> */}
-                  {/* {showdateselectionSection && ( */}
                   <AllContacts
                     leadDataVal={leadData}
                     ondivcloseChange={ondivcloseChange}
@@ -476,7 +447,6 @@ const AllProspects = ({
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
                   />
-                  {/* )} */}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
