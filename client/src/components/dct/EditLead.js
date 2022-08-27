@@ -79,7 +79,8 @@ const EditLead = ({
     activeCountry.map((country) =>
       allcountry.push({
         countryId: country._id,
-        label: country.countryName,
+        countrycode: country.countryCode,
+        label: country.countryName + " (" + country.countryCode + ")",
         value: country.countryName,
       })
     );
@@ -93,7 +94,7 @@ const EditLead = ({
       : ""
   );
   const [countryId, setcountryID] = useState(alleditLeaddata.countryId);
-
+  const [countrycode, setcountrycode] = useState(alleditLeaddata.countrycode);
   if (alleditLeaddata && alleditLeaddata.services && !isCheck) {
     let i = 0,
       servicesVal = "";
@@ -115,9 +116,12 @@ const EditLead = ({
   }
   const oncountryChange = (e) => {
     var countryId = "";
+    var countrycode = "";
     getcountryData(e);
+    countrycode = e.countrycode;
     countryId = e.countryId;
     setcountryID(countryId);
+    setcountrycode(countrycode);
   };
 
   const allemp = [];
@@ -199,6 +203,7 @@ const EditLead = ({
       emailId: emailId,
       phone1: phone1,
       phone2: phone2,
+      countrycode: countrycode,
       dctLeadAddress: dctLeadAddress,
       importantPoints: importantPoints,
       countryId: countryId,
