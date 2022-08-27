@@ -36,7 +36,14 @@ const AllProspects = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
+  //formData
 
+  const [showHide1, setShowHide1] = useState({
+    showUSSection: false,
+    showAUDSection: false,
+    showUKSection: false,
+  });
+  const { showUSSection, showAUDSection, showUKSection } = showHide1;
   const [filterData, setFilterData] = useState({ dctLeadCategory: "P" });
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -114,6 +121,35 @@ const AllProspects = ({
   const [countryId, getcountryIdData] = useState(null);
 
   const oncountryChange = (e) => {
+    if (e.value === "US") {
+      setShowHide1({
+        ...showHide1,
+        showUSSection: true,
+        showAUDSection: false,
+        showUKSection: false,
+      });
+    } else if (e.value === "AUS") {
+      setShowHide1({
+        ...showHide1,
+        showUSSection: false,
+        showAUDSection: true,
+        showUKSection: false,
+      });
+    } else if (e.value === "UK") {
+      setShowHide1({
+        ...showHide1,
+        showUSSection: false,
+        showAUDSection: false,
+        showUKSection: true,
+      });
+    } else {
+      setShowHide1({
+        ...showHide1,
+        showUSSection: false,
+        showAUDSection: false,
+        showUKSection: false,
+      });
+    }
     getcountryData(e);
     getclientsData("");
     getempData("");
@@ -200,34 +236,66 @@ const AllProspects = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className=" col-lg-12 col-md-11 col-sm-10 col-10">
-              <h3>
-                PST :
-                <Clock
-                  ticking={true}
-                  timezone={"US/Pacific"}
-                  format={"HH:mm:ss"}
-                />
-                &emsp; MST :
-                <Clock
-                  ticking={true}
-                  timezone={"US/Mountain"}
-                  format={"HH:mm:ss"}
-                />{" "}
-                &emsp; EST :
-                <Clock
-                  ticking={true}
-                  timezone={"US/Eastern"}
-                  format={"HH:mm:ss"}
-                />{" "}
-                &emsp; CST :
-                <Clock
-                  ticking={true}
-                  timezone={"US/Central"}
-                  format={"HH:mm:ss"}
-                />
-              </h3>
-            </div>
+            {showUSSection && (
+              <div className=" col-lg-12 col-md-11 col-sm-10 col-10">
+                <h4>
+                  PST :
+                  <Clock
+                    ticking={true}
+                    timezone={"US/Pacific"}
+                    format={"HH:mm:ss"}
+                  />
+                  &emsp; MST :
+                  <Clock
+                    ticking={true}
+                    timezone={"US/Mountain"}
+                    format={"HH:mm:ss"}
+                  />{" "}
+                  &emsp; EST :
+                  <Clock
+                    ticking={true}
+                    timezone={"US/Eastern"}
+                    format={"HH:mm:ss"}
+                  />{" "}
+                  &emsp; CST :
+                  <Clock
+                    ticking={true}
+                    timezone={"US/Central"}
+                    format={"HH:mm:ss"}
+                  />
+                </h4>
+              </div>
+            )}
+            {showAUDSection && (
+              <div className="col-lg-12 col-md-11 col-sm-10 col-10 ">
+                <h4>
+                  Sydney :
+                  <Clock
+                    ticking={true}
+                    timezone={"Australia/Sydney"}
+                    format={"HH:mm:ss"}
+                  />
+                  &emsp; Perth :
+                  <Clock
+                    ticking={true}
+                    timezone={"Australia/Perth"}
+                    format={"HH:mm:ss"}
+                  />
+                </h4>
+              </div>
+            )}
+            {showUKSection && (
+              <div className="col-lg-12 col-md-11 col-sm-10 col-10 ">
+                <h4>
+                  UK :
+                  <Clock
+                    ticking={true}
+                    timezone={"Europe/London"}
+                    format={"HH:mm:ss"}
+                  />
+                </h4>
+              </div>
+            )}
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Prospects</h5>
             </div>
