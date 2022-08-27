@@ -257,10 +257,10 @@ const AddLead = ({
     AssignedtypeIdChecker: false,
     AssignedtypeIdErrorStyle: {},
 
-    repwdValChecker: false,
-    repwdValResult: "",
-    repwdValStyle: {},
-    repwdInptErrStyle: {},
+    websiteValChecker: false,
+    websiteValResult: "",
+    websiteValStyle: {},
+    websiteInptErrStyle: {},
   });
   const {
     countrytypeIdChecker,
@@ -268,10 +268,10 @@ const AddLead = ({
     AssignedtypeIdChecker,
     AssignedtypeIdErrorStyle,
 
-    repwdValChecker,
-    repwdValResult,
-    repwdValStyle,
-    repwdInptErrStyle,
+    websiteValChecker,
+    websiteValResult,
+    websiteValStyle,
+    websiteInptErrStyle,
   } = error;
 
   const checkErrors = () => {
@@ -353,26 +353,26 @@ const AddLead = ({
     if (e.target.value === "") {
       setError({
         ...error,
-        repwdValChecker: false,
-        repwdValResult: "",
-        repwdValStyle: {},
-        repwdInptErrStyle: {},
+        websiteValChecker: false,
+        websiteValResult: "",
+        websiteValStyle: {},
+        websiteInptErrStyle: {},
       });
     } else if (listWebsite.length > 0) {
       setError({
         ...error,
-        repwdValChecker: true,
-        repwdValResult: "Exist",
-        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-        repwdInptErrStyle: { border: "1px solid #FF0000" },
+        websiteValChecker: true,
+        websiteValResult: "Exist",
+        websiteValStyle: { color: "#FF0000", marginTop: "30px" },
+        websiteInptErrStyle: { border: "1px solid #FF0000" },
       });
     } else {
       setError({
         ...error,
-        repwdValChecker: true,
-        repwdValResult: "Not Exist",
-        repwdValStyle: { color: "#43b90f", marginTop: "30px" },
-        repwdInptErrStyle: { border: "1px solid #43b90f" },
+        websiteValChecker: true,
+        websiteValResult: "Not Exist",
+        websiteValStyle: { color: "#43b90f", marginTop: "30px" },
+        websiteInptErrStyle: { border: "1px solid #43b90f" },
       });
     }
   };
@@ -407,6 +407,29 @@ const AddLead = ({
                     <h5>Company Info</h5>
                   </div>
 
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Website* :</label>
+                    <input
+                      type="text"
+                      name="website"
+                      value={website}
+                      style={websiteInptErrStyle}
+                      className="form-control"
+                      // onChange={(e) => onInputChange(e)}
+                      onChange={(e) => onleadCheck(e)}
+                      required
+                    />
+                    {websiteValChecker && (
+                      <Fragment>
+                        <span
+                          className="form-input-info positioning"
+                          style={websiteValStyle}
+                        >
+                          {websiteValResult}
+                        </span>
+                      </Fragment>
+                    )}
+                  </div>
                   <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
                     <label className="label-control">Company Name* :</label>
                     <input
@@ -417,29 +440,6 @@ const AddLead = ({
                       onChange={(e) => onInputChange(e)}
                       required
                     />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Website Name* :</label>
-                    <input
-                      type="text"
-                      name="website"
-                      value={website}
-                      style={repwdInptErrStyle}
-                      className="form-control"
-                      // onChange={(e) => onInputChange(e)}
-                      onChange={(e) => onleadCheck(e)}
-                      required
-                    />
-                    {repwdValChecker && (
-                      <Fragment>
-                        <span
-                          className="form-input-info positioning"
-                          style={repwdValStyle}
-                        >
-                          {repwdValResult}
-                        </span>
-                      </Fragment>
-                    )}
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Email Id* :</label>

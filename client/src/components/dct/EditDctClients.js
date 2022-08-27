@@ -531,23 +531,23 @@ const EditDctClients = ({
                     <h5>Company Info</h5>
                   </div>
 
-                  <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control">Company Name* :</label>
-                    <input
-                      type="text"
-                      name="companyName"
-                      value={companyName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                      required
-                    />
-                  </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Website* :</label>
                     <input
                       type="text"
                       name="website"
                       value={website}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
+                    <label className="label-control">Company Name* :</label>
+                    <input
+                      type="text"
+                      name="companyName"
+                      value={companyName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                       required
