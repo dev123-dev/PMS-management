@@ -309,6 +309,7 @@ const AddLead = ({
         importantPoints: importantPoints,
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
+        countryCode: countrycode,
         dctLeadStatus: "Active",
         dctLeadCategory: "NL",
         dctCallDate: new Date().toISOString().split("T")[0],
