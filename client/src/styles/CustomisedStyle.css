@@ -17,6 +17,10 @@
   margin-top: 55px;
   margin-bottom: 55px;
 }
+.container_align_CT{
+  margin-top: 55px;
+  margin-bottom: 30px;
+}
 
 .btnLink,
 .btnLink:active {
@@ -351,6 +355,11 @@ fieldset[disabled] {
   padding-right: 0px;
 }
 
+.no_margin_y {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
 .heading {
   font-size: 38px;
   line-height: 38px;
@@ -682,7 +691,7 @@ hr {
 
 .btn_green_bg {
   background-color: #456792;
-  color: #fff;
+  color: #fff !important;
   padding: 5px 30px;
   border-radius: 5px;
   transition: 500ms all;
@@ -791,6 +800,10 @@ label {
     overflow-y: auto;
     height:72.5vh !important;
   }
+  .fixTableHeadCT{
+    overflow-y: auto;
+    height:66.5vh;
+  }
 }
 .fixTableHeadstatus{
   overflow-y: auto;
@@ -798,7 +811,11 @@ label {
 }
 .fixTableHead {
   overflow-y: auto;
-  height:77.5vh;
+  height:77.5vh;/*77.5*/
+}
+.fixTableHeadCT{
+  overflow-y: auto;
+  height:74.5vh;
 }
 .fixTableHeadcontact{
   overflow-y: auto;
@@ -2055,7 +2072,7 @@ font-size: 17px;
 padding: 0.15rem !important;
 }
 .sidePartHeight{
-  height: 26.9vh;
+  height: 24vh;/*26.9*/
 
 }
 

@@ -15,7 +15,7 @@ const LastMessageDetails = ({
   //   AddState,
 }) => {
   //formData
-
+  console.log(lastMsg, "lastMsg");
   const [showClientHistoryModal, setShowClientCallHistoryModal] =
     useState(false);
   const handleClientCallHistoryModalClose = () =>
@@ -30,17 +30,32 @@ const LastMessageDetails = ({
     getCallHistory(searchDataVal);
     setShowClientCallHistoryModal(true);
   };
+  var callDate = "";
+  console.log(lastMsg && lastMsg.callDate);
+  var ED = lastMsg && lastMsg.callDate && lastMsg.callDate.split(/\D/g);
+  if (ED) {
+    callDate = [ED[2], ED[1], ED[0]].join("-");
+  }
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
     <Fragment>
       <div className="row col-lg-12 col-md-11 col-sm-10 col-10 fixTableHeadhistory">
+        <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
+          <label>Staff Name : {lastMsg && lastMsg.callToStaffName}</label>
+        </div>
+        <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
+          <label>Call Date : {callDate} </label>
+        </div>
+        <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
+          <label>Status : {lastMsg && lastMsg.callStatus}</label>
+        </div>
         <div className="col-lg-9 col-md-11 col-sm-10 col-10 ">
           <label className="label-control mt-1"> Last Meeting Details :</label>
           <textarea
             className="textarea form-control"
-            rows="4"
+            rows="2"
             placeholder="Notes"
             style={{ width: "100%" }}
             value={lastMsg && lastMsg.callNote}
