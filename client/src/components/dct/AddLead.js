@@ -343,7 +343,40 @@ const AddLead = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onInputChange1 = (e) => {
+  const onleadCheck = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    var arr = e.target.value.split(".");
+    const listWebsite = leadsList.filter(
+      (leadsList) => leadsList.website.split(".")[1] === arr[1]
+    );
+    if (e.target.value === "") {
+      setError({
+        ...error,
+        repwdValChecker: false,
+        repwdValResult: "",
+        repwdValStyle: {},
+        repwdInptErrStyle: {},
+      });
+    } else if (listWebsite.length > 0) {
+      setError({
+        ...error,
+        repwdValChecker: true,
+        repwdValResult: "Exist",
+        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+        repwdInptErrStyle: { border: "1px solid #FF0000" },
+      });
+    } else {
+      setError({
+        ...error,
+        repwdValChecker: true,
+        repwdValResult: "Not Exist",
+        repwdValStyle: { color: "#43b90f", marginTop: "30px" },
+        repwdInptErrStyle: { border: "1px solid #43b90f" },
+      });
+    }
+  };
+
+  const onInputChange2 = (e) => {
     setError1({
       ...error1,
       nametypeIdChecker: true,
