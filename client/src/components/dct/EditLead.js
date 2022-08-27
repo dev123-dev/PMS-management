@@ -267,13 +267,14 @@ const EditLead = ({
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Phone 1 :</label>
+                    <label className="label-control">Phone 1* :</label>
                     <input
                       type="text"
                       name="phone1"
                       value={phone1}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
