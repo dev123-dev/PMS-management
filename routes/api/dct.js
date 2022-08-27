@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const config = require("config");
-const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const auth = require("../../middleware/auth");
 const DctLeads = require("../../models/dct/dctLeads");
@@ -104,6 +102,7 @@ router.post("/edit-dct-clients", async (req, res) => {
           importantPoints: data.importantPoints,
           countryId: data.countryId,
           countryName: data.countryName,
+          countryCode: data.countryCode,
           dctClientStatus: data.dctClientStatus,
           dctClientCategory: data.dctClientCategory,
           dctCallDate: data.dctCallDate,
@@ -158,6 +157,9 @@ router.post("/add-new-dct-client-staff", async (req, res) => {
             staffPhoneNumber: data.staffPhoneNumber,
             staffEmailId: data.staffEmailId,
             staffDesignation: data.staffDesignation,
+            staffRegion: data.staffRegion,
+            staffRegionId: data.staffRegionId,
+            staffCountryCode: data.staffCountryCode,
           },
         },
       }
@@ -214,44 +216,6 @@ router.post("/edit-dct-client-staff", async (req, res) => {
   }
 });
 
-router.post("/deactivate-dct-staff", async (req, res) => {
-  try {
-    let data = req.body;
-    const deactivateDctStaffs = await DctLeads.updateOne(
-      { "staffs._id": data.staffId },
-      {
-        $set: {
-          "staffs.$.staffStatus": data.staffStatus,
-          "staffs.$.staffDeactivateById": data.staffDeactivateById,
-          "staffs.$.staffDeactiveByDateTime": data.staffDeactiveByDateTime,
-        },
-      }
-    );
-    res.json(deactivateDctStaffs);
-  } catch (error) {
-    res.status(500).json({ errors: [{ msg: "Server Error" }] });
-  }
-});
-
-router.post("/deactivate-dct-client-staff", async (req, res) => {
-  try {
-    let data = req.body;
-    const deactivateDctStaffs = await DctClients.updateOne(
-      { "staffs._id": data.staffId },
-      {
-        $set: {
-          "staffs.$.staffStatus": data.staffStatus,
-          "staffs.$.staffDeactivateById": data.staffDeactivateById,
-          "staffs.$.staffDeactiveByDateTime": data.staffDeactiveByDateTime,
-        },
-      }
-    );
-    res.json(deactivateDctStaffs);
-  } catch (error) {
-    res.status(500).json({ errors: [{ msg: "Server Error" }] });
-  }
-});
-
 router.post("/update-dct-leads-status", async (req, res) => {
   try {
     let data = req.body;
@@ -285,6 +249,44 @@ router.post("/update-dct-clients-status", async (req, res) => {
       }
     );
     res.json(updateDctClientsStatus);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+//DEACTIVE
+router.post("/deactivate-dct-staff", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactivateDctStaffs = await DctLeads.updateOne(
+      { "staffs._id": data.staffId },
+      {
+        $set: {
+          "staffs.$.staffStatus": data.staffStatus,
+          "staffs.$.staffDeactivateById": data.staffDeactivateById,
+          "staffs.$.staffDeactiveByDateTime": data.staffDeactiveByDateTime,
+        },
+      }
+    );
+    res.json(deactivateDctStaffs);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/deactivate-dct-client-staff", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactivateDctStaffs = await DctClients.updateOne(
+      { "staffs._id": data.staffId },
+      {
+        $set: {
+          "staffs.$.staffStatus": data.staffStatus,
+          "staffs.$.staffDeactivateById": data.staffDeactivateById,
+          "staffs.$.staffDeactiveByDateTime": data.staffDeactiveByDateTime,
+        },
+      }
+    );
+    res.json(deactivateDctStaffs);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
@@ -639,7 +641,7 @@ router.post("/get-all-dct-clients", auth, async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
-//*****
+//********************************************************
 router.post("/get-last-message", async (req, res) => {
   const { callToId } = req.body;
   let query = {};
