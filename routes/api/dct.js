@@ -64,6 +64,7 @@ router.post("/edit-dct-Leads", async (req, res) => {
           importantPoints: data.importantPoints,
           countryId: data.countryId,
           countryName: data.countryName,
+          countryCode: data.countryCode,
           services: data.services,
           dctLeadEditedById: data.dctLeadEditedById,
           dctLeadEditedDateTime: data.dctLeadEditedDateTime,
@@ -131,6 +132,9 @@ router.post("/add-new-dct-staff", async (req, res) => {
             staffPhoneNumber: data.staffPhoneNumber,
             staffEmailId: data.staffEmailId,
             staffDesignation: data.staffDesignation,
+            staffRegion: data.staffRegion,
+            staffRegionId: data.staffRegionId,
+            staffCountryCode: data.staffCountryCode,
           },
         },
       }
@@ -175,6 +179,9 @@ router.post("/edit-dct-staff", async (req, res) => {
           "staffs.$.staffPhoneNumber": data.staffPhoneNumber,
           "staffs.$.staffEmailId": data.staffEmailId,
           "staffs.$.staffDesignation": data.staffDesignation,
+          "staffs.$.staffRegion": data.staffRegion,
+          "staffs.$.staffRegionId": data.staffRegionId,
+          "staffs.$.staffCountryCode": data.staffCountryCode,
         },
       }
     );
@@ -187,7 +194,7 @@ router.post("/edit-dct-staff", async (req, res) => {
 router.post("/edit-dct-client-staff", async (req, res) => {
   try {
     let data = req.body;
-    const updateDctLeads = await DctClients.updateOne(
+    const updateDctClientStaff = await DctClients.updateOne(
       { "staffs._id": data.staffId },
       {
         $set: {
@@ -195,10 +202,13 @@ router.post("/edit-dct-client-staff", async (req, res) => {
           "staffs.$.staffPhoneNumber": data.staffPhoneNumber,
           "staffs.$.staffEmailId": data.staffEmailId,
           "staffs.$.staffDesignation": data.staffDesignation,
+          "staffs.$.staffRegion": data.staffRegion,
+          "staffs.$.staffRegionId": data.staffRegionId,
+          "staffs.$.staffCountryCode": data.staffCountryCode,
         },
       }
     );
-    res.json(updateDctLeads);
+    res.json(updateDctClientStaff);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
