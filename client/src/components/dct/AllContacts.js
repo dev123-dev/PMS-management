@@ -257,7 +257,13 @@ const AllContacts = ({
                             return (
                               <tr key={idx}>
                                 <td>{staff.staffName}</td>
-                                <td>{staff.staffPhoneNumber}</td>
+                                <td>
+                                  {staff.staffCountryCode
+                                    ? "+" + staff.staffCountryCode
+                                    : ""}
+                                  &nbsp;
+                                  {staff.staffPhoneNumber}
+                                </td>
                                 <td>{staff.staffDesignation}</td>
                                 <td>
                                   <img

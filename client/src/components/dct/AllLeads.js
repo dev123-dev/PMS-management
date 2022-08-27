@@ -297,7 +297,13 @@ const AllLeads = ({
                               <td>{getAllLeads.website}</td>
                               <td>{getAllLeads.emailId}</td>
                               <td>{getAllLeads.countryName}</td>
-                              <td>{getAllLeads.phone1}</td>
+                              <td>
+                                {getAllLeads.countryCode
+                                  ? "+" + getAllLeads.countryCode
+                                  : ""}
+                                &nbsp;
+                                {getAllLeads.phone1}
+                              </td>
                               <td>{callDates}</td>
                               <td>
                                 <img

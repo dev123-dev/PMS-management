@@ -330,7 +330,13 @@ const AllProspects = ({
                               <td>{allLeads.website}</td>
                               <td>{allLeads.emailId}</td>
                               <td>{allLeads.countryName}</td>
-                              <td>{allLeads.phone1}</td>
+                              <td>
+                                {allLeads.countryCode
+                                  ? "+" + allLeads.countryCode
+                                  : ""}
+                                &nbsp;
+                                {allLeads.phone1}
+                              </td>
                               <td>{callDates}</td>
                               <td>
                                 <img

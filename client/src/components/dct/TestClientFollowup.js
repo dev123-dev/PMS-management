@@ -267,7 +267,13 @@ const TestClientFollowup = ({
                               <td>{dctClients.website}</td>
                               <td>{dctClients.emailId}</td>
                               <td>{dctClients.countryName}</td>
-                              <td>{dctClients.phone1}</td>
+                              <td>
+                                {dctClients.countryCode
+                                  ? "+" + dctClients.countryCode
+                                  : ""}
+                                &nbsp;
+                                {dctClients.phone1}
+                              </td>
                               <td>{callDates}</td>
                             </tr>
                           );

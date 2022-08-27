@@ -83,8 +83,20 @@ const AllDctClients = ({
 
                               <td>{allDctClients.clientFolderName}</td>
                               <td>{allDctClients.emailId}</td>
-                              <td>{allDctClients.phone1}</td>
-                              <td>{allDctClients.phone2}</td>
+                              <td>
+                                {allDctClients.countryCode
+                                  ? "+" + allDctClients.countryCode
+                                  : ""}
+                                &nbsp;
+                                {allDctClients.phone1}
+                              </td>
+                              <td>
+                                {allDctClients.countryCode
+                                  ? "+" + allDctClients.countryCode
+                                  : ""}
+                                &nbsp;
+                                {allDctClients.phone2}
+                              </td>
                               <td>{allDctClients.clientCurrency}</td>
                               <td>{allDctClients.paymentModeName}</td>
                               <td>{allDctClients.countryName}</td>
