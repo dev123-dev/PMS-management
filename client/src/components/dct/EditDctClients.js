@@ -165,12 +165,57 @@ const EditDctClients = ({
     }
   }
 
+  const allstaffcountry = [];
+  activeCountry &&
+    activeCountry.map((staffcountry) =>
+      allstaffcountry.push({
+        staffcountryId: staffcountry._id,
+        staffCountryCode: staffcountry.countryCode,
+        label: staffcountry.countryName + " (" + staffcountry.countryCode + ")",
+        value: staffcountry.countryName,
+      })
+    );
+
+  const [staffcountry, getstaffcountryData] = useState(
+    data && data.dctdata
+      ? allstaffcountry.length !== 0
+        ? allstaffcountry &&
+          allstaffcountry.filter(
+            (x) => x.staffcountryId === data && data.dctdata.staffRegionId
+          )[0]
+        : ""
+      : ""
+  );
+  const [staffcountryId, setstaffcountryID] = useState(
+    data && data.dctdata.staffRegionId
+  );
+  const [staffCountryCode, setstaffCountryCode] = useState(
+    data && data.dctdata.staffCountryCode
+  );
+  const [staffcountryname, setstaffcountryname] = useState(
+    data && data.dctdata.staffRegion
+  );
+  const onstaffcountryChange = (e) => {
+    var staffcountryId = "";
+    var staffCountryCode = "";
+    var staffcountryname = "";
+    getstaffcountryData(e);
+    staffCountryCode = e.staffCountryCode;
+    staffcountryId = e.staffcountryId;
+    staffcountryname = e.value;
+    setstaffcountryname(staffcountryname);
+    setstaffcountryID(staffcountryId);
+    setstaffCountryCode(staffCountryCode);
+  };
+
   //add staff start
   const [addData, setFormDatas] = useState({
     staffName: "",
     staffPhoneNumber: "",
     staffEmailId: "",
     staffDesignation: "",
+    staffRegion: "",
+    staffCountryCode: "",
   });
 
   const { staffName, staffPhoneNumber, staffEmailId, staffDesignation } =
@@ -192,6 +237,9 @@ const EditDctClients = ({
         staffPhoneNumber: staffPhoneNumber,
         staffEmailId: staffEmailId,
         staffDesignation: staffDesignation,
+        staffRegion: staffcountryname,
+        staffRegionId: staffcountryId,
+        staffCountryCode: staffCountryCode,
       };
       setFormDatas({
         ...addData,
@@ -200,7 +248,11 @@ const EditDctClients = ({
         staffPhoneNumber: "",
         staffEmailId: "",
         staffDesignation: "",
+        staffRegion: "",
+        staffCountryCode: "",
       });
+      setstaffCountryCode("");
+      getstaffcountryData("");
       let temp = [];
       temp.push(...AddedDetails, addData);
       AddDetails(temp);
@@ -217,7 +269,8 @@ const EditDctClients = ({
   activeCountry.map((country) =>
     allcountry.push({
       countryId: country._id,
-      label: country.countryName,
+      countrycode: country.countryCode,
+      label: country.countryName + " (" + country.countryCode + ")",
       value: country.countryName,
     })
   );
@@ -229,12 +282,17 @@ const EditDctClients = ({
       : ""
   );
   const [countryId, setcountryID] = useState(data && data.dctdata.countryId);
-
+  const [countrycode, setcountrycode] = useState(
+    data && data.dctdata.countrycode
+  );
   const oncountryChange = (e) => {
     var countryId = "";
+    var countrycode = "";
+    countrycode = e.countrycode;
     getcountryData(e);
     countryId = e.countryId;
     setcountryID(countryId);
+    setcountrycode(countrycode);
   };
 
   const [ServicesDetails, SetServiceDetails] = useState(
@@ -417,6 +475,7 @@ const EditDctClients = ({
       importantPoints: importantPoints,
       countryId: countryId ? countryId : null,
       countryName: country.value ? country.value : null,
+      countrycode: countrycode,
       dctClientStatus: "Active",
       dctClientCategory: "TC",
       dctCallDate: new Date().toISOString().split("T")[0],
@@ -754,20 +813,6 @@ const EditDctClients = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Phone Number :</label>
-                    <input
-                      type="number"
-                      name="staffPhoneNumber"
-                      value={staffPhoneNumber}
-                      className="form-control"
-                      onChange={(e) => onInputChange1(e)}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Email Id :</label>
                     <input
                       type="text"
@@ -777,7 +822,49 @@ const EditDctClients = ({
                       onChange={(e) => onInputChange1(e)}
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Region* :</label>
+                    <Select
+                      name="countryName"
+                      options={allstaffcountry}
+                      isSearchable={true}
+                      value={staffcountry}
+                      placeholder="Select Region"
+                      onChange={(e) => onstaffcountryChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Staff Phone:</label>
+                    <input
+                      type="number"
+                      name="staffCountryCode"
+                      value={staffCountryCode}
+                      className="form-control"
+                      style={{ width: "50px" }}
+                      disabled
+                    />
+                  </div>
+
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">
+                      <br />
+                    </label>
+                    <input
+                      type="number"
+                      name="staffPhoneNumber"
+                      value={staffPhoneNumber}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                      style={{ marginLeft: "-6em", width: "22vh" }}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
+                    />
+                  </div>
+
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Designation :</label>
                     <input
                       type="text"
@@ -818,6 +905,7 @@ const EditDctClients = ({
                     <thead>
                       <tr>
                         <th>Staff Name</th>
+                        <th>Region</th>
                         <th>Phone Number</th>
                         <th>Email Id</th>
                         <th>Designation</th>
@@ -832,6 +920,7 @@ const EditDctClients = ({
                             return (
                               <tr key={idx}>
                                 <td>{staff.staffName}</td>
+                                <td>{staff.staffRegion}</td>
                                 <td>{staff.staffPhoneNumber}</td>
                                 <td>{staff.staffEmailId}</td>
                                 <td>{staff.staffDesignation}</td>
@@ -860,6 +949,7 @@ const EditDctClients = ({
                           return (
                             <tr key={idx}>
                               <td>{AddDetail.staffName}</td>
+                              <td>{AddDetail.staffRegion}</td>
                               <td>{AddDetail.staffPhoneNumber}</td>
                               <td>{AddDetail.staffEmailId}</td>
                               <td>{AddDetail.staffDesignation}</td>
