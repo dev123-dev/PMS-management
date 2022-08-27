@@ -5,7 +5,7 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
-import { addDctLeadDetails } from "../../actions/dct";
+import { addDctLeadDetails, getLeadsList } from "../../actions/dct";
 import { getMarketingEmployee } from "../../actions/user";
 import { getActiveCountry } from "../../actions/regions";
 
@@ -13,9 +13,11 @@ const AddLead = ({
   auth: { isAuthenticated, user, users, loading },
   user: { marketingEmployees },
   regions: { activeCountry },
+  dct: { leadsList },
   addDctLeadDetails,
   getActiveCountry,
   getMarketingEmployee,
+  getLeadsList,
 }) => {
   useEffect(() => {
     getActiveCountry();
@@ -23,6 +25,11 @@ const AddLead = ({
   useEffect(() => {
     getMarketingEmployee();
   }, [getMarketingEmployee]);
+  useEffect(() => {
+    getLeadsList();
+  }, [getLeadsList]);
+
+  // console.log("getLeadsList", leadsList);
 
   //formData
   const [formData, setFormData] = useState({
@@ -250,12 +257,22 @@ const AddLead = ({
     countrytypeIdErrorStyle: {},
     AssignedtypeIdChecker: false,
     AssignedtypeIdErrorStyle: {},
+
+    repwdValChecker: false,
+    repwdValResult: "",
+    repwdValStyle: {},
+    repwdInptErrStyle: {},
   });
   const {
     countrytypeIdChecker,
     countrytypeIdErrorStyle,
     AssignedtypeIdChecker,
     AssignedtypeIdErrorStyle,
+
+    repwdValChecker,
+    repwdValResult,
+    repwdValStyle,
+    repwdInptErrStyle,
   } = error;
 
   const checkErrors = () => {
@@ -327,6 +344,39 @@ const AddLead = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const onleadCheck = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    var arr = e.target.value.split(".");
+    const listWebsite = leadsList.filter(
+      (leadsList) => leadsList.website.split(".")[1] === arr[1]
+    );
+    if (e.target.value === "") {
+      setError({
+        ...error,
+        repwdValChecker: false,
+        repwdValResult: "",
+        repwdValStyle: {},
+        repwdInptErrStyle: {},
+      });
+    } else if (listWebsite.length > 0) {
+      setError({
+        ...error,
+        repwdValChecker: true,
+        repwdValResult: "Exist",
+        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
+        repwdInptErrStyle: { border: "1px solid #FF0000" },
+      });
+    } else {
+      setError({
+        ...error,
+        repwdValChecker: true,
+        repwdValResult: "Not Exist",
+        repwdValStyle: { color: "#43b90f", marginTop: "30px" },
+        repwdInptErrStyle: { border: "1px solid #43b90f" },
+      });
+    }
+  };
+
   const onInputChange1 = (e) => {
     setError1({
       ...error1,
@@ -371,10 +421,22 @@ const AddLead = ({
                       type="text"
                       name="website"
                       value={website}
+                      style={repwdInptErrStyle}
                       className="form-control"
-                      onChange={(e) => onInputChange(e)}
+                      // onChange={(e) => onInputChange(e)}
+                      onChange={(e) => onleadCheck(e)}
                       required
                     />
+                    {repwdValChecker && (
+                      <Fragment>
+                        <span
+                          className="form-input-info positioning"
+                          style={repwdValStyle}
+                        >
+                          {repwdValResult}
+                        </span>
+                      </Fragment>
+                    )}
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Email Id* :</label>
@@ -734,6 +796,7 @@ AddLead.propTypes = {
   settings: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
+  dct: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -742,10 +805,12 @@ const mapStateToProps = (state) => ({
   settings: state.settings,
   client: state.client,
   regions: state.regions,
+  dct: state.dct,
 });
 
 export default connect(mapStateToProps, {
   addDctLeadDetails,
   getActiveCountry,
   getMarketingEmployee,
+  getLeadsList,
 })(AddLead);

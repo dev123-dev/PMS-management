@@ -321,6 +321,8 @@ router.post("/deactivate-dct-client", async (req, res) => {
 });
 
 //*********************************\SELECT/*********************************\\
+//LEAD
+//FOLLOWUP,PROSPECTS
 router.post("/get-dct-Leads", auth, async (req, res) => {
   let { countryId, clientsId, dctLeadCategory, assignedTo } = req.body;
 
@@ -405,7 +407,7 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
-
+//ALL LEADS
 router.post("/get-all-dct-Leads", auth, async (req, res) => {
   let { countryId, clientsId, assignedTo } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
@@ -490,64 +492,8 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
-
-router.post("/get-all-dct-clients", auth, async (req, res) => {
-  let { countryId, clientsId, assignedTo } = req.body;
-  const userInfo = await EmployeeDetails.findById(req.user.id).select(
-    "-password"
-  );
-  let dctClientAssignedToId = "";
-  if (userInfo.empCtAccess !== "All")
-    dctClientAssignedToId = mongoose.Types.ObjectId(userInfo._id);
-  else {
-    if (assignedTo) {
-      dctClientAssignedToId = mongoose.Types.ObjectId(assignedTo);
-    } else {
-      dctClientAssignedToId = { $ne: null };
-    }
-  }
-
-  let query = {};
-  if (countryId) {
-    if (clientsId) {
-      query = {
-        dctClientStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
-        _id: mongoose.Types.ObjectId(clientsId),
-        dctClientAssignedToId,
-      };
-    } else {
-      query = {
-        dctClientStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
-        dctClientAssignedToId,
-      };
-    }
-  } else {
-    if (clientsId) {
-      query = {
-        dctClientStatus: "Active",
-        _id: mongoose.Types.ObjectId(clientsId),
-        dctClientAssignedToId,
-      };
-    } else {
-      query = {
-        dctClientStatus: "Active",
-        dctClientAssignedToId,
-      };
-    }
-  }
-  try {
-    const getAllDctClientsDetails = await DctClients.find(query).sort({
-      _id: -1,
-    });
-    res.json(getAllDctClientsDetails);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
+//CLIENT
+//TEST CLIENTS,REGULAR CLIENTS
 router.post("/get-dct-clients", auth, async (req, res) => {
   let { countryId, clientsId, dctClientCategory, assignedTo } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
@@ -621,6 +567,63 @@ router.post("/get-dct-clients", auth, async (req, res) => {
       },
     ]).sort({ _id: 1 });
     res.json({ result1: getDctClientDetails, result2: getDctClientEmp });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+//ALL CLIENTS
+router.post("/get-all-dct-clients", auth, async (req, res) => {
+  let { countryId, clientsId, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  let dctClientAssignedToId = "";
+  if (userInfo.empCtAccess !== "All")
+    dctClientAssignedToId = mongoose.Types.ObjectId(userInfo._id);
+  else {
+    if (assignedTo) {
+      dctClientAssignedToId = mongoose.Types.ObjectId(assignedTo);
+    } else {
+      dctClientAssignedToId = { $ne: null };
+    }
+  }
+
+  let query = {};
+  if (countryId) {
+    if (clientsId) {
+      query = {
+        dctClientStatus: "Active",
+        countryId: mongoose.Types.ObjectId(countryId),
+        _id: mongoose.Types.ObjectId(clientsId),
+        dctClientAssignedToId,
+      };
+    } else {
+      query = {
+        dctClientStatus: "Active",
+        countryId: mongoose.Types.ObjectId(countryId),
+        dctClientAssignedToId,
+      };
+    }
+  } else {
+    if (clientsId) {
+      query = {
+        dctClientStatus: "Active",
+        _id: mongoose.Types.ObjectId(clientsId),
+        dctClientAssignedToId,
+      };
+    } else {
+      query = {
+        dctClientStatus: "Active",
+        dctClientAssignedToId,
+      };
+    }
+  }
+  try {
+    const getAllDctClientsDetails = await DctClients.find(query).sort({
+      _id: -1,
+    });
+    res.json(getAllDctClientsDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -749,6 +752,23 @@ router.post("/get-all-dct-calls-emp", auth, async (req, res) => {
       },
     ]).sort({ _id: 1 });
     res.json(getAllDctCallsDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-leads-list", async (req, res) => {
+  try {
+    const getLeadsListData = await DctLeads.find(
+      {
+        dctLeadStatus: "Active",
+      },
+      {
+        website: 1,
+      }
+    );
+    res.json(getLeadsListData);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
