@@ -236,8 +236,9 @@ const AllProspects = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            {showUSSection && (
-              <div className=" col-lg-12 col-md-11 col-sm-10 col-10">
+            {/* {showUSSection && ( */}
+            <div className=" col-lg-12 col-md-11 col-sm-10 col-10">
+              {showUSSection && (
                 <h4>
                   PST :
                   <Clock
@@ -264,9 +265,36 @@ const AllProspects = ({
                     format={"HH:mm:ss"}
                   />
                 </h4>
-              </div>
-            )}
-            {showAUDSection && (
+              )}
+              {showAUDSection && (
+                <h4>
+                  Sydney :
+                  <Clock
+                    ticking={true}
+                    timezone={"Australia/Sydney"}
+                    format={"HH:mm:ss"}
+                  />
+                  &emsp; Perth :
+                  <Clock
+                    ticking={true}
+                    timezone={"Australia/Perth"}
+                    format={"HH:mm:ss"}
+                  />
+                </h4>
+              )}
+              {showUKSection && (
+                <h4>
+                  UK :
+                  <Clock
+                    ticking={true}
+                    timezone={"Europe/London"}
+                    format={"HH:mm:ss"}
+                  />
+                </h4>
+              )}
+            </div>
+            {/* )} */}
+            {/* {showAUDSection && (
               <div className="col-lg-12 col-md-11 col-sm-10 col-10 ">
                 <h4>
                   Sydney :
@@ -283,8 +311,8 @@ const AllProspects = ({
                   />
                 </h4>
               </div>
-            )}
-            {showUKSection && (
+            )} */}
+            {/* {showUKSection && (
               <div className="col-lg-12 col-md-11 col-sm-10 col-10 ">
                 <h4>
                   UK :
@@ -295,7 +323,7 @@ const AllProspects = ({
                   />
                 </h4>
               </div>
-            )}
+            )} */}
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Prospects</h5>
             </div>
@@ -310,7 +338,6 @@ const AllProspects = ({
                 required
               />
             </div>
-
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="companyName"
@@ -340,7 +367,6 @@ const AllProspects = ({
                 <></>
               )}
             </div>
-
             <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
