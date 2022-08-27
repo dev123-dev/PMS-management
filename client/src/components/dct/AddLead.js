@@ -64,8 +64,8 @@ const AddLead = ({
     staffPhoneNumber: "",
     staffEmailId: "",
     staffDesignation: "",
-    // staffRegion: "",
-    // staffcountrycode: "",
+    staffRegion: "",
+    staffcountrycode: "",
   });
 
   const {
@@ -73,7 +73,7 @@ const AddLead = ({
     staffPhoneNumber,
     staffEmailId,
     staffDesignation,
-    //  staffRegion,
+    staffRegion,
   } = addData;
 
   const [error1, setError1] = useState({
@@ -108,22 +108,21 @@ const AddLead = ({
           staffPhoneNumber: staffPhoneNumber,
           staffEmailId: staffEmailId,
           staffDesignation: staffDesignation,
-          // staffRegion: staffcountryname,
-          //  staffRegionId: staffcountryId,
-          //  staffCountryCode: staffcountrycode,
+          staffRegion: staffcountryname,
+          staffRegionId: staffcountryId,
+          staffCountryCode: staffcountrycode,
         };
         setFormDatas({
           ...addData,
-
           staffName: "",
           staffPhoneNumber: "",
           staffEmailId: "",
           staffDesignation: "",
-          //  staffRegion: "",
-          //  staffCountryCode: "",
+          staffRegion: "",
+          staffCountryCode: "",
         });
-        // setstaffcountrycode("");
-        // getstaffcountryData("");
+        setstaffcountrycode("");
+        getstaffcountryData("");
         let temp = [];
         temp.push(...AddedDetails, addData);
         AddDetails(temp);
@@ -344,45 +343,15 @@ const AddLead = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onleadCheck = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    var arr = e.target.value.split(".");
-    const listWebsite = leadsList.filter(
-      (leadsList) => leadsList.website.split(".")[1] === arr[1]
-    );
-    if (e.target.value === "") {
-      setError({
-        ...error,
-        repwdValChecker: false,
-        repwdValResult: "",
-        repwdValStyle: {},
-        repwdInptErrStyle: {},
-      });
-    } else if (listWebsite.length > 0) {
-      setError({
-        ...error,
-        repwdValChecker: true,
-        repwdValResult: "Exist",
-        repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-        repwdInptErrStyle: { border: "1px solid #FF0000" },
-      });
-    } else {
-      setError({
-        ...error,
-        repwdValChecker: true,
-        repwdValResult: "Not Exist",
-        repwdValStyle: { color: "#43b90f", marginTop: "30px" },
-        repwdInptErrStyle: { border: "1px solid #43b90f" },
-      });
-    }
-  };
-
   const onInputChange1 = (e) => {
     setError1({
       ...error1,
       nametypeIdChecker: true,
       nametypeIdErrorStyle: { color: "#000" },
     });
+    setFormDatas({ ...addData, [e.target.name]: e.target.value });
+  };
+  const onInputChange1 = (e) => {
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
 
@@ -603,7 +572,7 @@ const AddLead = ({
                       name="staffName"
                       value={staffName}
                       className="form-control"
-                      onChange={(e) => onInputChange1(e)}
+                      onChange={(e) => onInputChange2(e)}
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -616,7 +585,7 @@ const AddLead = ({
                       onChange={(e) => onInputChange1(e)}
                     />
                   </div>
-                  {/* <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Region* :</label>
                     <Select
                       name="countryName"
@@ -626,8 +595,8 @@ const AddLead = ({
                       placeholder="Select Region"
                       onChange={(e) => onstaffcountryChange(e)}
                     />
-                  </div> */}
-                  {/* <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                  </div>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Staff Phone:</label>
                     <input
                       type="number"
@@ -637,9 +606,9 @@ const AddLead = ({
                       style={{ width: "50px" }}
                       disabled
                     />
-                  </div> */}
+                  </div>
 
-                  {/* <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">
                       <br />
                     </label>
@@ -655,8 +624,8 @@ const AddLead = ({
                         e.preventDefault()
                       }
                     />
-                  </div> */}
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  </div>
+                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Staff Phone</label>
                     <input
                       type="number"
@@ -669,10 +638,10 @@ const AddLead = ({
                         e.preventDefault()
                       }
                     />
-                  </div>
+                  </div> */}
 
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    {/* <div className="col-lg-4 col-md-6 col-sm-6 col-12"> */}
+                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12"> */}
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Designation :</label>
                     <input
                       type="text"
@@ -713,7 +682,7 @@ const AddLead = ({
                     <thead>
                       <tr>
                         <th>Staff Name</th>
-                        {/* <th>Region</th> */}
+                        <th>Region</th>
                         <th>Phone Number</th>
                         <th>Email Id</th>
                         <th>Designation</th>
@@ -726,7 +695,7 @@ const AddLead = ({
                           return (
                             <tr key={idx}>
                               <td>{AddDetail.staffName}</td>
-                              {/* <td>{AddDetail.staffRegion}</td> */}
+                              <td>{AddDetail.staffRegion}</td>
                               <td>{AddDetail.staffPhoneNumber}</td>
                               <td>{AddDetail.staffEmailId}</td>
                               <td>{AddDetail.staffDesignation}</td>

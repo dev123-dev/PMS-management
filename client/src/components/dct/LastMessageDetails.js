@@ -62,7 +62,7 @@ const LastMessageDetails = ({
         show={showClientHistoryModal}
         backdrop="static"
         keyboard={false}
-        size="md"
+        size="xl"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
