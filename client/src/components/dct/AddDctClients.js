@@ -87,16 +87,58 @@ const AddDctClients = ({
 
     return true;
   };
+  const allstaffcountry = [];
+  activeCountry &&
+    activeCountry.map((staffcountry) =>
+      allstaffcountry.push({
+        staffcountryId: staffcountry._id,
+        staffCountryCode: staffcountry.countryCode,
+        label: staffcountry.countryName + " (" + staffcountry.countryCode + ")",
+        value: staffcountry.countryName,
+      })
+    );
+
+  const [staffcountry, getstaffcountryData] = useState();
+  const [staffcountryId, setstaffcountryID] = useState();
+  const [staffCountryCode, setstaffCountryCode] = useState();
+  const [staffcountryname, setstaffcountryname] = useState();
+  const onstaffcountryChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   sIdChecker: true,
+    //   sIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var staffcountryId = "";
+    var staffCountryCode = "";
+    var staffcountryname = "";
+    getstaffcountryData(e);
+    staffCountryCode = e.staffCountryCode;
+    staffcountryId = e.staffcountryId;
+    staffcountryname = e.value;
+    setstaffcountryname(staffcountryname);
+    setstaffcountryID(staffcountryId);
+    setstaffCountryCode(staffCountryCode);
+  };
+
   //add staff start
   const [addData, setFormDatas] = useState({
     staffName: "",
     staffPhoneNumber: "",
     staffEmailId: "",
     staffDesignation: "",
+    staffRegion: "",
+    staffCountryCode: "",
   });
 
-  const { staffName, staffPhoneNumber, staffEmailId, staffDesignation } =
-    addData;
+  const {
+    staffName,
+    staffPhoneNumber,
+    staffEmailId,
+    staffDesignation,
+    staffRegion,
+  } = addData;
 
   const [AddedDetails, AddDetails] = useState([]);
 
@@ -113,6 +155,9 @@ const AddDctClients = ({
           staffPhoneNumber: staffPhoneNumber,
           staffEmailId: staffEmailId,
           staffDesignation: staffDesignation,
+          staffRegion: staffcountryname,
+          staffRegionId: staffcountryId,
+          staffCountryCode: staffCountryCode,
         };
         setFormDatas({
           ...addData,
@@ -120,7 +165,11 @@ const AddDctClients = ({
           staffPhoneNumber: "",
           staffEmailId: "",
           staffDesignation: "",
+          staffRegion: "",
+          staffCountryCode: "",
         });
+        setstaffCountryCode("");
+        getstaffcountryData("");
         let temp = [];
         temp.push(...AddedDetails, addData);
         AddDetails(temp);
@@ -138,14 +187,15 @@ const AddDctClients = ({
   activeCountry.map((country) =>
     allcountry.push({
       countryId: country._id,
-      label: country.countryName,
+      countrycode: country.countryCode,
+      label: country.countryName + " (" + country.countryCode + ")",
       value: country.countryName,
     })
   );
 
   const [country, getcountryData] = useState();
   const [countryId, setcountryID] = useState();
-
+  const [countrycode, setcountrycode] = useState();
   const oncountryChange = (e) => {
     //Required Validation Starts
     setError({
@@ -155,9 +205,12 @@ const AddDctClients = ({
     });
     //Required Validation ends
     var countryId = "";
+    var countrycode = "";
     getcountryData(e);
+    countrycode = e.countrycode;
     countryId = e.countryId;
     setcountryID(countryId);
+    setcountrycode(countrycode);
   };
 
   const [ServicesDetails, SetServiceDetails] = useState([]);
@@ -318,6 +371,7 @@ const AddDctClients = ({
         importantPoints: importantPoints,
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
+        countryCode: countrycode,
         dctClientStatus: "Active",
         dctClientCategory: clientType.value === "Test" ? "TC" : "RC",
         dctCallDate: new Date().toISOString().split("T")[0],
@@ -673,20 +727,7 @@ const AddDctClients = ({
                       onChange={(e) => onInputChange1(e)}
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Phone Number :</label>
-                    <input
-                      type="number"
-                      name="staffPhoneNumber"
-                      value={staffPhoneNumber}
-                      className="form-control"
-                      onChange={(e) => onInputChange1(e)}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
-                    />
-                  </div>
+
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Email Id :</label>
                     <input
@@ -697,7 +738,49 @@ const AddDctClients = ({
                       onChange={(e) => onInputChange1(e)}
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Region* :</label>
+                    <Select
+                      name="countryName"
+                      options={allstaffcountry}
+                      isSearchable={true}
+                      value={staffcountry}
+                      placeholder="Select Region"
+                      onChange={(e) => onstaffcountryChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Staff Phone:</label>
+                    <input
+                      type="number"
+                      name="staffCountryCode"
+                      value={staffCountryCode}
+                      className="form-control"
+                      style={{ width: "50px" }}
+                      disabled
+                    />
+                  </div>
+
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">
+                      <br />
+                    </label>
+                    <input
+                      type="number"
+                      name="staffPhoneNumber"
+                      value={staffPhoneNumber}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                      style={{ marginLeft: "-6em", width: "22vh" }}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
+                    />
+                  </div>
+
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Designation :</label>
                     <input
                       type="text"
@@ -738,6 +821,7 @@ const AddDctClients = ({
                     <thead>
                       <tr>
                         <th>Staff Name</th>
+                        <th>Region</th>
                         <th>Phone Number</th>
                         <th>Email Id</th>
                         <th>Designation</th>
@@ -750,6 +834,7 @@ const AddDctClients = ({
                           return (
                             <tr key={idx}>
                               <td>{AddDetail.staffName}</td>
+                              <td>{AddDetail.staffRegion}</td>
                               <td>{AddDetail.staffPhoneNumber}</td>
                               <td>{AddDetail.staffEmailId}</td>
                               <td>{AddDetail.staffDesignation}</td>

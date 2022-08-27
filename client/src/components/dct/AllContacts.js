@@ -1,8 +1,9 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
+import Select from "react-select";
 import EditContact from "./EditContact";
 import {
   addNewDctStaffDetails,
@@ -10,19 +11,25 @@ import {
   deactivateDctStaffDetails,
   deactivateDctClientStaffDetails,
 } from "../../actions/dct";
+import { getActiveCountry } from "../../actions/regions";
 
 const AllContacts = ({
   auth: { isAuthenticated, user, users, loading },
+  regions: { activeCountry },
   leadDataVal,
   addNewDctStaffDetails,
   addNewDctClientStaffDetails,
   deactivateDctStaffDetails,
   deactivateDctClientStaffDetails,
   ondivcloseChange,
+  getActiveCountry,
   showdateselectionSection,
   from,
   filterData,
 }) => {
+  useEffect(() => {
+    getActiveCountry();
+  }, [getActiveCountry]);
   console.log(leadDataVal);
   const [formData, setFormData] = useState({
     staffName: "",
@@ -91,6 +98,41 @@ const AllContacts = ({
     }
   };
 
+  const allstaffcountry = [];
+  activeCountry &&
+    activeCountry.map((staffcountry) =>
+      allstaffcountry.push({
+        staffcountryId: staffcountry._id,
+        staffCountryCode: staffcountry.countryCode,
+        label: staffcountry.countryName + " (" + staffcountry.countryCode + ")",
+        value: staffcountry.countryName,
+      })
+    );
+
+  const [staffcountry, getstaffcountryData] = useState();
+  const [staffcountryId, setstaffcountryID] = useState();
+  const [staffCountryCode, setstaffCountryCode] = useState();
+  const [staffcountryname, setstaffcountryname] = useState();
+  const onstaffcountryChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   sIdChecker: true,
+    //   sIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var staffcountryId = "";
+    var staffCountryCode = "";
+    var staffcountryname = "";
+    getstaffcountryData(e);
+    staffCountryCode = e.staffCountryCode;
+    staffcountryId = e.staffcountryId;
+    staffcountryname = e.value;
+    setstaffcountryname(staffcountryname);
+    setstaffcountryID(staffcountryId);
+    setstaffCountryCode(staffCountryCode);
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
@@ -99,6 +141,9 @@ const AllContacts = ({
       staffPhoneNumber: staffPhoneNumber,
       staffEmailId: staffEmailId,
       staffDesignation: staffDesignation,
+      staffRegion: staffcountryname,
+      staffRegionId: staffcountryId,
+      staffCountryCode: staffCountryCode,
       filterData: filterData,
     };
     if (from === "client") {
@@ -112,12 +157,15 @@ const AllContacts = ({
       ...formData,
       recordId: "",
       staffName: "",
+      staffRegion: "",
+      staffCountryCode: "",
       staffPhoneNumber: "",
       staffEmailId: "",
       staffDesignation: "",
       isSubmitted: true,
     });
-
+    setstaffCountryCode("");
+    getstaffcountryData("");
     ondivcloseChange(true);
   };
 
@@ -311,16 +359,6 @@ const AllContacts = ({
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Phone Number :</label>
-                  <input
-                    type="text"
-                    name="staffPhoneNumber"
-                    value={staffPhoneNumber}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
-                  />
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <label className="label-control">EmailId:</label>
                   <input
                     type="text"
@@ -330,6 +368,57 @@ const AllContacts = ({
                     onChange={(e) => onInputChange(e)}
                   />
                 </div>
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Region* :</label>
+                  <Select
+                    name="countryName"
+                    options={allstaffcountry}
+                    isSearchable={true}
+                    value={staffcountry}
+                    placeholder="Select Region"
+                    onChange={(e) => onstaffcountryChange(e)}
+                  />
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Staff Phone:</label>
+                  <input
+                    type="number"
+                    name="staffCountryCode"
+                    value={staffCountryCode}
+                    className="form-control"
+                    style={{ width: "50px" }}
+                    disabled
+                  />
+                </div>
+
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">
+                    <br />
+                  </label>
+                  <input
+                    type="number"
+                    name="staffPhoneNumber"
+                    value={staffPhoneNumber}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                    style={{ marginLeft: "-6em", width: "22vh" }}
+                    onKeyDown={(e) =>
+                      (e.keyCode === 69 || e.keyCode === 190) &&
+                      e.preventDefault()
+                    }
+                  />
+                </div>
+                {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Phone Number :</label>
+                  <input
+                    type="text"
+                    name="staffPhoneNumber"
+                    value={staffPhoneNumber}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
+                </div> */}
+
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Designation :</label>
                   <input
@@ -447,15 +536,18 @@ const AllContacts = ({
 
 AllContacts.propTypes = {
   auth: PropTypes.object.isRequired,
+  regions: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  regions: state.regions,
 });
 
 export default connect(mapStateToProps, {
   addNewDctStaffDetails,
   addNewDctClientStaffDetails,
   deactivateDctStaffDetails,
+  getActiveCountry,
   deactivateDctClientStaffDetails,
 })(AllContacts);
