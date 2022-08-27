@@ -5,6 +5,7 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
+import Clock from "react-live-clock";
 import {
   getDctLeadDetails,
   getDctLeadDetailsDD,
@@ -199,6 +200,34 @@ const AllProspects = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
+            <div className=" col-lg-12 col-md-11 col-sm-10 col-10">
+              <h3>
+                PST :
+                <Clock
+                  ticking={true}
+                  timezone={"US/Pacific"}
+                  format={"HH:mm:ss"}
+                />
+                &emsp; MST :
+                <Clock
+                  ticking={true}
+                  timezone={"US/Mountain"}
+                  format={"HH:mm:ss"}
+                />{" "}
+                &emsp; EST :
+                <Clock
+                  ticking={true}
+                  timezone={"US/Eastern"}
+                  format={"HH:mm:ss"}
+                />{" "}
+                &emsp; CST :
+                <Clock
+                  ticking={true}
+                  timezone={"US/Central"}
+                  format={"HH:mm:ss"}
+                />
+              </h3>
+            </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Prospects</h5>
             </div>
