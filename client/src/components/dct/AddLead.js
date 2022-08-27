@@ -65,7 +65,7 @@ const AddLead = ({
     staffEmailId: "",
     staffDesignation: "",
     staffRegion: "",
-    staffcountrycode: "",
+    staffCountryCode: "",
   });
 
   const {
@@ -110,7 +110,7 @@ const AddLead = ({
           staffDesignation: staffDesignation,
           staffRegion: staffcountryname,
           staffRegionId: staffcountryId,
-          staffCountryCode: staffcountrycode,
+          staffCountryCode: staffCountryCode,
         };
         setFormDatas({
           ...addData,
@@ -121,7 +121,7 @@ const AddLead = ({
           staffRegion: "",
           staffCountryCode: "",
         });
-        setstaffcountrycode("");
+        setstaffCountryCode("");
         getstaffcountryData("");
         let temp = [];
         temp.push(...AddedDetails, addData);
@@ -203,7 +203,7 @@ const AddLead = ({
     activeCountry.map((staffcountry) =>
       allstaffcountry.push({
         staffcountryId: staffcountry._id,
-        staffcountrycode: staffcountry.countryCode,
+        staffCountryCode: staffcountry.countryCode,
         label: staffcountry.countryName + " (" + staffcountry.countryCode + ")",
         value: staffcountry.countryName,
       })
@@ -211,7 +211,7 @@ const AddLead = ({
 
   const [staffcountry, getstaffcountryData] = useState();
   const [staffcountryId, setstaffcountryID] = useState();
-  const [staffcountrycode, setstaffcountrycode] = useState();
+  const [staffCountryCode, setstaffCountryCode] = useState();
   const [staffcountryname, setstaffcountryname] = useState();
   const onstaffcountryChange = (e) => {
     // //Required Validation Starts
@@ -222,15 +222,15 @@ const AddLead = ({
     // });
     // //Required Validation ends
     var staffcountryId = "";
-    var staffcountrycode = "";
+    var staffCountryCode = "";
     var staffcountryname = "";
     getstaffcountryData(e);
-    staffcountrycode = e.staffcountrycode;
+    staffCountryCode = e.staffCountryCode;
     staffcountryId = e.staffcountryId;
     staffcountryname = e.value;
     setstaffcountryname(staffcountryname);
     setstaffcountryID(staffcountryId);
-    setstaffcountrycode(staffcountrycode);
+    setstaffCountryCode(staffCountryCode);
   };
 
   const [ServicesDetails, SetServiceDetails] = useState([]);
@@ -634,8 +634,8 @@ const AddLead = ({
                     <label className="label-control">Staff Phone:</label>
                     <input
                       type="number"
-                      name="staffcountrycode"
-                      value={staffcountrycode}
+                      name="staffCountryCode"
+                      value={staffCountryCode}
                       className="form-control"
                       style={{ width: "50px" }}
                       disabled

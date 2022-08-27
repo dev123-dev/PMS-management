@@ -61,7 +61,7 @@ const EditContact = ({
     activeCountry.map((staffcountry) =>
       allstaffcountry.push({
         staffcountryId: staffcountry._id,
-        staffcountrycode: staffcountry.countryCode,
+        staffCountryCode: staffcountry.countryCode,
         label: staffcountry.countryName + " (" + staffcountry.countryCode + ")",
         value: staffcountry.countryName,
       })
@@ -80,7 +80,7 @@ const EditContact = ({
   const [staffcountryId, setstaffcountryID] = useState(
     allStaffdata.staffRegionId
   );
-  const [staffcountrycode, setstaffcountrycode] = useState(
+  const [staffCountryCode, setstaffCountryCode] = useState(
     allStaffdata.staffCountryCode
   );
   const [staffcountryname, setstaffcountryname] = useState(
@@ -88,15 +88,15 @@ const EditContact = ({
   );
   const onstaffcountryChange = (e) => {
     var staffcountryId = "";
-    var staffcountrycode = "";
+    var staffCountryCode = "";
     var staffcountryname = "";
     getstaffcountryData(e);
-    staffcountrycode = e.staffcountrycode;
+    staffCountryCode = e.staffCountryCode;
     staffcountryId = e.staffcountryId;
     staffcountryname = e.value;
     setstaffcountryname(staffcountryname);
     setstaffcountryID(staffcountryId);
-    setstaffcountrycode(staffcountrycode);
+    setstaffCountryCode(staffCountryCode);
   };
 
   const onSubmit = (e) => {
@@ -109,7 +109,7 @@ const EditContact = ({
       staffDesignation: staffDesignation,
       staffRegion: staffcountryname,
       staffRegionId: staffcountryId,
-      staffcountrycode: staffcountrycode,
+      staffCountryCode: staffCountryCode,
       filterData: filterData,
     };
 
@@ -164,8 +164,8 @@ const EditContact = ({
               <label className="label-control">Staff Phone:</label>
               <input
                 type="number"
-                name="staffcountrycode"
-                value={staffcountrycode}
+                name="staffCountryCode"
+                value={staffCountryCode}
                 className="form-control"
                 style={{ width: "50px" }}
                 disabled
