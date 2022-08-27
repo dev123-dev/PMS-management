@@ -297,7 +297,7 @@ const EditLead = ({
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Region :</label>
+                    <label className="label-control">Region* :</label>
                     <Select
                       name="countryName"
                       options={allcountry}
