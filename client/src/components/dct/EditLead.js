@@ -203,7 +203,7 @@ const EditLead = ({
       emailId: emailId,
       phone1: phone1,
       phone2: phone2,
-      countrycode: countrycode,
+      countryCode: countrycode,
       dctLeadAddress: dctLeadAddress,
       importantPoints: importantPoints,
       countryId: countryId,
