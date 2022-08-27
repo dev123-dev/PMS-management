@@ -21,6 +21,7 @@ import {
   ALL_DCT_CLIENTS_EMP,
   DCT_CLIENTS_EMP,
   GET_LEADS_LIST,
+  GET_SELECTED_LEADS,
 } from "./types";
 
 const config = {
@@ -533,6 +534,24 @@ export const getLeadsList = (finalData) => async (dispatch) => {
     const res = await axios.post("/api/dct/get-leads-list", finalData, config);
     dispatch({
       type: GET_LEADS_LIST,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getSelectedLead = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/dct/get-selected-lead",
+      finalData,
+      config
+    );
+    dispatch({
+      type: GET_SELECTED_LEADS,
       payload: res.data,
     });
   } catch (err) {

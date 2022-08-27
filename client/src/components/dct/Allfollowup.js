@@ -277,13 +277,14 @@ const Allfollowup = ({
                               className={
                                 colorData === idx ? "seletedrowcolorchange" : ""
                               }
+                              onClick={() => onClickHandler(allLeads, idx)}
                             >
                               <td>{idx + 1}</td>
                               <td>
                                 <Link
                                   className="float-left ml-1"
                                   to="#"
-                                  onClick={() => onClickHandler(allLeads, idx)}
+                                  // onClick={() => onClickHandler(allLeads, idx)}
                                 >
                                   {allLeads.companyName}
                                 </Link>

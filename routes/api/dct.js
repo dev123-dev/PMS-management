@@ -786,4 +786,18 @@ router.post("/get-leads-list", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/get-selected-lead", async (req, res) => {
+  let { leadId } = req.body;
+  try {
+    const getSelectedLeadData = await DctLeads.findOne({
+      _id: leadId,
+    });
+    res.json(getSelectedLeadData);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;

@@ -5,7 +5,11 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
-import { addDctClientDetails } from "../../actions/dct";
+import {
+  addDctClientDetails,
+  getLeadsList,
+  getSelectedLead,
+} from "../../actions/dct";
 import { getMarketingEmployee } from "../../actions/user";
 import { getActiveCountry } from "../../actions/regions";
 import { getALLPaymentMode } from "../../actions/settings";
@@ -15,10 +19,13 @@ const AddDctClients = ({
   user: { marketingEmployees },
   settings: { paymentMode },
   regions: { activeCountry },
+  dct: { leadsList, selectedLeads },
   addDctClientDetails,
   getALLPaymentMode,
   getActiveCountry,
   getMarketingEmployee,
+  getLeadsList,
+  getSelectedLead,
 }) => {
   useEffect(() => {
     getALLPaymentMode();
@@ -29,7 +36,11 @@ const AddDctClients = ({
   useEffect(() => {
     getMarketingEmployee();
   }, [getMarketingEmployee]);
+  useEffect(() => {
+    getLeadsList();
+  }, [getLeadsList]);
 
+  console.log("selectedLeads", selectedLeads);
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
@@ -216,6 +227,15 @@ const AddDctClients = ({
   const [ServicesDetails, SetServiceDetails] = useState([]);
 
   const onServicesChange = (e) => {
+    let funcVal = e.target.value;
+    if (funcVal === "Imaging") {
+      setImagingChecked(ImagingChecked === true ? false : true);
+    } else if (funcVal === "CGI") {
+      setCGIChecked(CGIChecked === true ? false : true);
+    } else if (funcVal === "videoEditing") {
+      setVideoEditingChecked(videoEditingChecked === true ? false : true);
+    }
+
     let temp = [];
     const staffList = ServicesDetails.filter(
       (ServicesDetails) => ServicesDetails === e.target.value
@@ -250,6 +270,11 @@ const AddDctClients = ({
     clienttypeIdErrorStyle: {},
     countrytypeIdChecker: false,
     countrytypeIdErrorStyle: {},
+
+    websiteValChecker: false,
+    websiteValResult: "",
+    websiteValStyle: {},
+    websiteInptErrStyle: {},
   });
   const {
     paymentmodeIdChecker,
@@ -258,6 +283,11 @@ const AddDctClients = ({
     clienttypeIdErrorStyle,
     countrytypeIdChecker,
     countrytypeIdErrorStyle,
+
+    websiteValChecker,
+    websiteValResult,
+    websiteValStyle,
+    websiteInptErrStyle,
   } = error;
 
   const checkErrors = () => {
@@ -334,13 +364,6 @@ const AddDctClients = ({
   const [empId, setempID] = useState(user && user._id);
   const [empName, setNameID] = useState(user && user.empFullName);
   const onempChange = (e) => {
-    // //Required Validation Starts
-    // setError({
-    //   ...error,
-    //   sIdChecker: true,
-    //   sIdErrorStyle: { color: "#000" },
-    // });
-    // //Required Validation ends
     var empId = "";
     var empName = "";
     getempData(e);
@@ -391,13 +414,9 @@ const AddDctClients = ({
     }
   };
 
-  if (isSubmitted) {
-    return <Redirect to="/all-dct-client" />;
-  }
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const onInputChange1 = (e) => {
     setError1({
       ...error1,
@@ -407,6 +426,105 @@ const AddDctClients = ({
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
 
+  const [selectedLead, setSelectedLead] = useState(null);
+  const onleadCheck = (e) => {
+    setSelectedLead(null);
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    var arr = e.target.value.split(".");
+    const listWebsite = leadsList.filter(
+      (leadsList) => leadsList.website.split(".")[1] === arr[1]
+    );
+    if (e.target.value === "") {
+      setError({
+        ...error,
+        websiteValChecker: false,
+        websiteValResult: "",
+        websiteValStyle: {},
+        websiteInptErrStyle: {},
+      });
+    } else if (listWebsite.length > 0) {
+      setSelectedLead(listWebsite[0]._id);
+      setError({
+        ...error,
+        websiteValChecker: true,
+        websiteValResult: "Exist",
+        websiteValStyle: { color: "#FF0000", marginTop: "30px" },
+        websiteInptErrStyle: { border: "1px solid #FF0000" },
+      });
+    } else {
+      setError({
+        ...error,
+        websiteValChecker: true,
+        websiteValResult: "Not Exist",
+        websiteValStyle: { color: "#43b90f", marginTop: "30px" },
+        websiteInptErrStyle: { border: "1px solid #43b90f" },
+      });
+    }
+  };
+
+  const onleadFetch = (e) => {
+    getSelectedLead({ leadId: selectedLead });
+  };
+
+  const [ImagingChecked, setImagingChecked] = useState(false);
+  const [CGIChecked, setCGIChecked] = useState(false);
+  const [videoEditingChecked, setVideoEditingChecked] = useState(false);
+
+  if (selectedLeads && selectedLeads.companyName && !companyName) {
+    setFormData({
+      ...formData,
+      companyName: selectedLeads.companyName,
+      clientCompanyFounderName: selectedLeads.clientCompanyFounderName,
+      companyName: selectedLeads.companyName,
+      website: selectedLeads.website,
+      clientFolderName: selectedLeads.clientFolderName,
+      emailId: selectedLeads.emailId,
+      clientEmail: selectedLeads.clientEmail,
+      billingEmail: selectedLeads.billingEmail,
+      clientCurrency: selectedLeads.clientCurrency,
+      phone1: selectedLeads.phone1,
+      clientType: selectedLeads.clientType,
+      phone2: selectedLeads.phone2,
+      clientName: selectedLeads.clientName,
+      address: selectedLeads.dctLeadAddress,
+      importantPoints: selectedLeads.importantPoints,
+    });
+    getcountryData(
+      allcountry.filter(
+        (allcountry) => allcountry.countryId === selectedLeads.countryId
+      )[0]
+    );
+    setcountryID(selectedLeads.countryId);
+    setcountrycode(selectedLeads.countryCode);
+    setError({
+      ...error,
+      countrytypeIdChecker: true,
+      countrytypeIdErrorStyle: { color: "#000" },
+    });
+    getempData(
+      allemp.filter(
+        (allemp) => allemp.empId === selectedLeads.dctLeadAssignedToId
+      )[0]
+    );
+    setempID(selectedLeads.dctLeadAssignedToId);
+    setNameID(selectedLeads.dctLeadAssignedToName);
+    SetServiceDetails(selectedLeads.services);
+    AddDetails(selectedLeads.staffs);
+
+    if (selectedLeads.services.includes("Imaging")) {
+      setImagingChecked(true);
+    }
+    if (selectedLeads.services.includes("CGI")) {
+      setCGIChecked(true);
+    }
+    if (selectedLeads.services.includes("videoEditing")) {
+      setVideoEditingChecked(true);
+    }
+  }
+
+  if (isSubmitted) {
+    return <Redirect to="/all-dct-client" />;
+  }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -427,23 +545,43 @@ const AddDctClients = ({
                     <h5>Company Info</h5>
                   </div>
 
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12 input-container">
+                    <label className="label-control">Website* :</label>
+                    <input
+                      type="text"
+                      name="website"
+                      value={website}
+                      className="form-control input-field"
+                      // onChange={(e) => onInputChange(e)}
+                      onChange={(e) => onleadCheck(e)}
+                      required
+                    />
+                    <input
+                      // variant="success"
+                      type="button"
+                      value="Fetch"
+                      className="btn sub_form btn_continue Save float-right"
+                      // onChange={(e) => onleadFetch(e)}
+                      onClick={(e) => onleadFetch(e)}
+                    />
+
+                    {websiteValChecker && (
+                      <Fragment>
+                        <span
+                          className="form-input-info positioning"
+                          style={websiteValStyle}
+                        >
+                          {websiteValResult}
+                        </span>
+                      </Fragment>
+                    )}
+                  </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
                     <label className="label-control">Company Name* :</label>
                     <input
                       type="text"
                       name="companyName"
                       value={companyName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                      required
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Website* :</label>
-                    <input
-                      type="text"
-                      name="website"
-                      value={website}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                       required
@@ -654,6 +792,7 @@ const AddDctClients = ({
                     <input
                       type="checkbox"
                       id="Unconfirmed"
+                      checked={ImagingChecked}
                       value="Imaging"
                       onChange={(e) => onServicesChange(e)}
                     />
@@ -663,6 +802,7 @@ const AddDctClients = ({
                     <input
                       type="checkbox"
                       id="Unconfirmed"
+                      checked={CGIChecked}
                       value="CGI"
                       onChange={(e) => onServicesChange(e)}
                     />
@@ -672,6 +812,7 @@ const AddDctClients = ({
                     <input
                       type="checkbox"
                       id="Unconfirmed"
+                      checked={videoEditingChecked}
                       value="videoEditing"
                       onChange={(e) => onServicesChange(e)}
                     />
@@ -905,7 +1046,6 @@ AddDctClients.propTypes = {
   settings: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
-  getALLPaymentMode: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -914,6 +1054,7 @@ const mapStateToProps = (state) => ({
   settings: state.settings,
   client: state.client,
   regions: state.regions,
+  dct: state.dct,
 });
 
 export default connect(mapStateToProps, {
@@ -921,4 +1062,6 @@ export default connect(mapStateToProps, {
   getALLPaymentMode,
   getActiveCountry,
   getMarketingEmployee,
+  getLeadsList,
+  getSelectedLead,
 })(AddDctClients);

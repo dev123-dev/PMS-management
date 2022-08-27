@@ -281,15 +281,16 @@ const AllLeads = ({
                               className={
                                 colorData === idx ? "seletedrowcolorchange" : ""
                               }
+                              onClick={() => onClickHandler(getAllLeads, idx)}
                             >
                               <td>{idx + 1}</td>
                               <td>
                                 <Link
                                   className="float-left ml-1"
                                   to="#"
-                                  onClick={() =>
-                                    onClickHandler(getAllLeads, idx)
-                                  }
+                                  // onClick={() =>
+                                  //   onClickHandler(getAllLeads, idx)
+                                  // }
                                 >
                                   {getAllLeads.companyName}
                                 </Link>

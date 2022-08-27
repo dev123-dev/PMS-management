@@ -16,6 +16,7 @@ import {
   ALL_DCT_CLIENTS_EMP,
   DCT_CLIENTS_EMP,
   GET_LEADS_LIST,
+  GET_SELECTED_LEADS,
 } from "../actions/types";
 
 const initialState = {
@@ -36,6 +37,7 @@ const initialState = {
   allDctClientsEmp: [],
   dctClientsEmp: [],
   leadsList: [],
+  selectedLeads: [],
 };
 
 const dct = (state = initialState, action) => {
@@ -126,6 +128,12 @@ const dct = (state = initialState, action) => {
         ...state,
         leadsList: payload,
       };
+    case GET_SELECTED_LEADS:
+      return {
+        ...state,
+        selectedLeads: payload,
+      };
+
     default:
       return state;
   }

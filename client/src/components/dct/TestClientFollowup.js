@@ -250,6 +250,7 @@ const TestClientFollowup = ({
                               className={
                                 colorData === idx ? "seletedrowcolorchange" : ""
                               }
+                              onClick={() => onClickHandler(dctClients, idx)}
                             >
                               <td>{idx + 1}</td>
                               <td>
@@ -257,9 +258,9 @@ const TestClientFollowup = ({
                                 <Link
                                   className="float-left ml-3"
                                   to="#"
-                                  onClick={() =>
-                                    onClickHandler(dctClients, idx)
-                                  }
+                                  // onClick={() =>
+                                  //   onClickHandler(dctClients, idx)
+                                  // }
                                 >
                                   {dctClients.companyName}
                                 </Link>
