@@ -33,6 +33,9 @@ const DctLeadsSchema = new mongoose.Schema({
   countryName: {
     type: String,
   },
+  countryCode: {
+    type: String,
+  },
   stateId: {
     type: ObjectId,
   },
