@@ -56,6 +56,9 @@ const DctClientsSchema = new mongoose.Schema({
   countryName: {
     type: String,
   },
+  countryCode: {
+    type: String,
+  },
   stateId: {
     type: ObjectId,
   },
@@ -127,6 +130,15 @@ const DctClientsSchema = new mongoose.Schema({
       staffStatus: {
         type: String,
         default: "Active",
+      },
+      staffRegion: {
+        type: String,
+      },
+      staffRegionId: {
+        type: ObjectId,
+      },
+      staffCountryCode: {
+        type: String,
       },
       staffDeactiveReason: {
         type: String,
