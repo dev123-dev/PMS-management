@@ -348,16 +348,15 @@ const TestClientFollowup = ({
                             >
                               <td>{idx + 1}</td>
                               <td>
-                                {" "}
-                                <Link
+                                {/* <Link
                                   className="float-left ml-3"
                                   to="#"
                                   // onClick={() =>
                                   //   onClickHandler(dctClients, idx)
                                   // }
-                                >
-                                  {dctClients.companyName}
-                                </Link>
+                                > */}
+                                {dctClients.companyName}
+                                {/* </Link> */}
                               </td>
                               <td>{dctClients.website}</td>
                               <td>{dctClients.emailId}</td>

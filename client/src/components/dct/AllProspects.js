@@ -387,13 +387,13 @@ const AllProspects = ({
                             >
                               <td>{idx + 1}</td>
                               <td>
-                                <Link
+                                {/* <Link
                                   className="float-left ml-1"
                                   to="#"
                                   // onClick={() => onClickHandler(allLeads, idx)}
-                                >
-                                  {allLeads.companyName}
-                                </Link>
+                                > */}
+                                {allLeads.companyName}
+                                {/* </Link> */}
                               </td>
                               <td>{allLeads.website}</td>
                               <td>{allLeads.emailId}</td>

@@ -2079,10 +2079,15 @@ padding: 0.15rem !important;
 .sidePart2divHeight{  height: 40vh;}
 /* side partitions ends */
 
-.seletedrowcolorchange{
+.seletedrowcolorchange, a:active{
   background-color: #91908f;
   color: white;
 }
+
+/* .seletedrowcolorchange a:hover,a:focus{
+  background-color: transparent !important;
+  color: rgb(11, 1, 1) !important;
+} */
 .rs-dropdown-toggle, .rs-dropdown-toggle.rs-btn {
   color: white  !important;
   background-color: #456792 !important;
@@ -2091,10 +2096,7 @@ padding: 0.15rem !important;
   position: relative !important;
   padding: 12px 15px !important;
 }
-/* a:focus, a:hover {
- 
-  color: black !important;
-} */
+
 
 .rs-dropdown-toggle-caret {
  /* margin-left: 10px !important; */
@@ -2103,4 +2105,15 @@ padding: 0.15rem !important;
   height: 20px;
   font-size: 12px;
   top: 14px !important;
+}
+
+/*to Remove issue regarding after active color change*/
+.aTagActiveRemoveClrBlk{
+  --rs-text-link-hover: #000 !important;
+  text-decoration: none !important;
+}
+
+.aTagActiveRemoveClrWh{
+  --rs-text-link-hover: #fff !important;
+  text-decoration: none !important;
 }
