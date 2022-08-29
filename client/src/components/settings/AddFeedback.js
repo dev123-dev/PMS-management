@@ -20,16 +20,30 @@ const AddFeedback = ({
     { value: "Normal", label: "Normal" },
     { value: "Critical", label: "Critical" },
   ];
+
+  const feedbackBelongs = [
+    { value: "JT", label: "JT" },
+    { value: "DCT", label: "DCT" },
+    { value: "SCT", label: "SCT" },
+    { value: "Billing", label: "Billing" },
+  ];
   const [formData, setFormData] = useState({
     feedbackProblem: "",
     feedbackCategory: "",
     feedbackpriority: "",
+    feedbackBelongsTo: feedbackBelongs[0],
+
     feedbacknotes: "",
     isSubmitted: false,
   });
 
-  const { feedbackProblem, feedbackCategory, feedbackpriority, feedbacknotes } =
-    formData;
+  const {
+    feedbackProblem,
+    feedbackCategory,
+    feedbackpriority,
+    feedbackBelongsTo,
+    feedbacknotes,
+  } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -42,12 +56,16 @@ const AddFeedback = ({
     changestypeIdChecker: false,
 
     changestypeIdErrorStyle: {},
+    // feedbackBelongsToIdChecker: false,
+    // feedbackBelongsToIdErrorStyle: {},
   });
   const {
     priorityIdChecker,
     feedbackpriorityIdErrorStyle,
     changestypeIdChecker,
     changestypeIdErrorStyle,
+    // feedbackBelongsToIdChecker,
+    // feedbackBelongsToIdErrorStyle,
   } = error;
 
   const checkErrors = () => {
@@ -65,6 +83,14 @@ const AddFeedback = ({
       });
       return false;
     }
+
+    // if (!feedbackBelongsToIdChecker) {
+    //   setError({
+    //     ...error,
+    //     feedbackBelongsToIdErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
 
     return true;
   };
@@ -99,6 +125,22 @@ const AddFeedback = ({
     }
   };
 
+  const onfeedbackBelongsChange = (e) => {
+    //Required Validation starts
+    // setError({
+    //   ...error,
+    //   feedbackBelongsToIdChecker: true,
+    //   feedbackBelongsToIdErrorStyle: { color: "#000" },
+    // });
+    //Required Validation ends
+    if (e) {
+      setFormData({
+        ...formData,
+        feedbackBelongsTo: e,
+      });
+    }
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (checkErrors()) {
@@ -106,13 +148,14 @@ const AddFeedback = ({
         feedbackProblem: feedbackProblem,
         feedbackCategory: feedbackCategory.value,
         feedbackPriority: feedbackpriority.value,
+        feedbackBelongsTo: feedbackBelongsTo.value,
         feedbackNotes: feedbacknotes,
         feedbackStatus: "Pending",
         feedbackEnteredById: user._id,
         feedbackEnteredByName: user.empFullName,
         feedbackEnteredDate: new Date().toISOString().split("T")[0],
       };
-      // console.log(finalData);
+
       AddFeedbackData(finalData);
 
       onAddFeedbackModalChange(true);
@@ -174,6 +217,32 @@ const AddFeedback = ({
               value={feedbackpriority}
               placeholder="Select"
               onChange={(e) => onfeedbackpriorityChange(e)}
+              theme={(theme) => ({
+                ...theme,
+                height: 26,
+                minHeight: 26,
+                borderRadius: 1,
+                colors: {
+                  ...theme.colors,
+                  primary: "black",
+                },
+              })}
+            />
+          </div>
+          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+            <label
+              className="label-control"
+              // style={feedbackBelongsToIdErrorStyle}
+            >
+              Feedback Belongs To* :
+            </label>
+            <Select
+              name="feedbackBelongsTo"
+              options={feedbackBelongs}
+              isSearchable={true}
+              value={feedbackBelongsTo}
+              placeholder="Select"
+              onChange={(e) => onfeedbackBelongsChange(e)}
               theme={(theme) => ({
                 ...theme,
                 height: 26,

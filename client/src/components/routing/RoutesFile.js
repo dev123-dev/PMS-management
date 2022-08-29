@@ -68,6 +68,10 @@ import AllLeave from "../leave/AllLeave";
 
 //region
 import AllArea from "../region/AllArea";
+
+//sct
+import AllSctLeads from "../sct/AllSctLeads";
+import AddSctLeads from "../sct/AddSctLeads";
 const RoutesFile = () => {
   return (
     <section>
@@ -93,12 +97,15 @@ const RoutesFile = () => {
           component={EditDctClients}
         />
         <PrivateRoute exact path="/dct-calls" component={DctCallsHistory} />
-
         <PrivateRoute
           exact
           path="/regular-client-followup"
           component={RegularClientFollowup}
         />
+        {/* SCT */}
+        <PrivateRoute exact path="/all-sct-leads" component={AllSctLeads} />
+        <PrivateRoute exact path="/add-sct-lead" component={AddSctLeads} />
+
         <PrivateRoute exact path="/add-lead" component={AddLead} />
         <PrivateRoute exact path="/edit-lead" component={EditLead} />
         <PrivateRoute exact path="/deactive-lead" component={DeactiveLead} />

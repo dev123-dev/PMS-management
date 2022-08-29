@@ -32,6 +32,12 @@ const SctCallsSchema = new mongoose.Schema({
   sctCallNote: {
     type: String,
   },
+  sctCallComeFrom: {
+    type: String, //Leads or Clients
+  },
+  sctCallTakenDate: {
+    type: String, //Todays Date
+  },
   sctCallEnteredDate: {
     type: String,
   },

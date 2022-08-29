@@ -25,7 +25,7 @@ module.exports = {
   SERVER_ERROR: "Internal Server Error.",
   USER_LOGGEDIN: "User LoggedIn.",
 
-  INVALID_CREDENTIALS: "Invalid UserName or Password",
+  INVALID_CREDENTIALS: "Invalid Username or Password",
   EXPIRES_IN: "8h",
 
   //Messeges

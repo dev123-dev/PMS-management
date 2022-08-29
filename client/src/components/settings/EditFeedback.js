@@ -43,6 +43,14 @@ const EditFeedback = ({
           }
         : "",
 
+    feedbackBelongsTo:
+      feedbackData && feedbackData.feedbackBelongsTo
+        ? {
+            value: feedbackData.feedbackBelongsTo,
+            label: feedbackData.feedbackBelongsTo,
+          }
+        : "",
+
     isSubmitted: false,
   });
 
@@ -52,6 +60,7 @@ const EditFeedback = ({
     feedbackPriority,
     feedbackNotes,
     feedbackStatus,
+    feedbackBelongsTo,
   } = formData;
 
   const ChangesCategory = [
@@ -64,6 +73,12 @@ const EditFeedback = ({
     { value: "Critical", label: "Critical" },
   ];
 
+  const feedbackBelongs = [
+    { value: "JT", label: "JT" },
+    { value: "DCT", label: "DCT" },
+    { value: "SCT", label: "SCT" },
+    { value: "Billing", label: "Billing" },
+  ];
   const onStatuscatChange = (e) => {
     if (e) {
       setFormData({
@@ -81,6 +96,16 @@ const EditFeedback = ({
       });
     }
   };
+
+  const onfeedbackBelongsChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        feedbackBelongsTo: e,
+      });
+    }
+  };
+
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -93,6 +118,7 @@ const EditFeedback = ({
       feedbackProblem: feedbackProblem,
       feedbackCategory: feedbackCategory.value,
       feedbackPriority: feedbackPriority.value,
+      feedbackBelongsTo: feedbackBelongsTo.value,
       feedbackNotes: feedbackNotes,
       feedbackStatus: feedbackStatus.value,
       feedbackEditedById: user._id,
@@ -151,6 +177,27 @@ const EditFeedback = ({
               value={feedbackPriority}
               placeholder="Select"
               onChange={(e) => onfeedbackpriorityChange(e)}
+              theme={(theme) => ({
+                ...theme,
+                height: 26,
+                minHeight: 26,
+                borderRadius: 1,
+                colors: {
+                  ...theme.colors,
+                  primary: "black",
+                },
+              })}
+            />
+          </div>
+          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+            <label className="label-control">Feedback Belongs To* :</label>
+            <Select
+              name="feedbackBelongsTo"
+              options={feedbackBelongs}
+              isSearchable={true}
+              value={feedbackBelongsTo}
+              placeholder="Select"
+              onChange={(e) => onfeedbackBelongsChange(e)}
               theme={(theme) => ({
                 ...theme,
                 height: 26,

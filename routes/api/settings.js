@@ -191,6 +191,7 @@ router.post("/edit-feedback", async (req, res) => {
           feedbackProblem: data.feedbackProblem,
           feedbackCategory: data.feedbackCategory,
           feedbackPriority: data.feedbackPriority,
+          feedbackBelongsTo: data.feedbackBelongsTo,
           feedbackNotes: data.feedbackNotes,
           feedbackStatus: data.feedbackStatus,
           feedbackEditedById: data.feedbackEditedById,

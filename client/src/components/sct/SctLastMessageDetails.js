@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { Modal } from "react-bootstrap";
-import ClientCallHistory from "./ClientCallHistory";
+import SctClientCallHistory from "./SctClientCallHistory";
 import { getCallHistory } from "../../actions/dct";
 
-const LastMessageDetails = ({
+const SctLastMessageDetails = ({
   auth: { isAuthenticated, user, users, loading },
   dct: { lastMsg },
   getCallHistory,
@@ -99,7 +99,7 @@ const LastMessageDetails = ({
           </div>
         </Modal.Header>
         <Modal.Body>
-          <ClientCallHistory
+          <SctClientCallHistory
             onClientCallHistoryModalChange={onClientCallHistoryModalChange}
           />
         </Modal.Body>
@@ -108,7 +108,7 @@ const LastMessageDetails = ({
   );
 };
 
-LastMessageDetails.propTypes = {
+SctLastMessageDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   dct: PropTypes.object.isRequired,
 };
@@ -120,4 +120,4 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getCallHistory,
-})(LastMessageDetails);
+})(SctLastMessageDetails);

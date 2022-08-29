@@ -41,6 +41,7 @@ const SctLeadsSchema = new mongoose.Schema({
   },
   sctLeadStatus: {
     type: String, //Active, Deactive
+    default: "Active",
   },
   sctLeadCategory: {
     type: String, //NC,P,F,TC,RC

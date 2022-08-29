@@ -11,6 +11,9 @@ const FeedbackSchema = new mongoose.Schema({
   feedbackPriority: {
     type: String,
   },
+  feedbackBelongsTo: {
+    type: String,
+  },
   feedbackNotes: {
     type: String,
   },

@@ -24,16 +24,24 @@ const AllFeedback = ({
     { value: "Cancel", label: "Cancel" },
   ];
 
+  const feedbackBelongs = [
+    { value: "JT", label: "JT" },
+    { value: "DCT", label: "DCT" },
+    { value: "SCT", label: "SCT" },
+    { value: "Billing", label: "Billing" },
+  ];
+
   const [formData, setFormData] = useState({
     feedbackpriority: "",
     projectStatusCategory: "",
     projectStatusData: priorityCategory[0],
+    feedbackBelongsTo: feedbackBelongs[0],
     isSubmitted: false,
   });
   // const onInputChange = (e) => {
   //   setFormData({ ...formData, [e.target.name]: e.target.value });
   // };
-  const { projectStatusData } = formData;
+  const { projectStatusData, feedbackBelongsTo } = formData;
 
   const [showAddfeedbackModal, setShowAddFeedbackModal] = useState(false);
   const handleAddFeedbackModalClose = () => setShowAddFeedbackModal(false);
@@ -83,6 +91,15 @@ const AllFeedback = ({
     };
 
     getAllFeedback(finalData);
+  };
+
+  const onfeedbackBelongsChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        feedbackBelongsTo: e,
+      });
+    }
   };
 
   const [showStatusModal, setShowStatusModal] = useState(false);
@@ -140,7 +157,27 @@ const AllFeedback = ({
                 })}
               />
             </div>
-            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+              <Select
+                name="feedbackBelongsTo"
+                options={feedbackBelongs}
+                isSearchable={true}
+                value={feedbackBelongsTo}
+                placeholder="Select"
+                onChange={(e) => onfeedbackBelongsChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
+            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
               <Link
                 to="#"
                 className="btn btn_green_bg float-right"
@@ -164,6 +201,7 @@ const AllFeedback = ({
                         <th>Problem</th>
                         <th>Given By</th>
                         <th>Changes</th>
+                        <th>Belongs To</th>
                         <th>Priority</th>
 
                         <th>Notes</th>
@@ -197,6 +235,7 @@ const AllFeedback = ({
                               <td>{allFeedback.feedbackProblem}</td>
                               <td>{allFeedback.feedbackEnteredByName}</td>
                               <td>{allFeedback.feedbackCategory}</td>
+                              <td>{allFeedback.feedbackBelongsTo}</td>
                               <td>{allFeedback.feedbackPriority}</td>
 
                               <td>{allFeedback.feedbackNotes}</td>
