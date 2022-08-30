@@ -4,31 +4,32 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { deactivateDctLeadDetails } from "../../actions/dct";
+// import { deactivateDctLeadDetails } from "../../actions/dct";
 
 const DeactiveSctLead = ({
   auth: { isAuthenticated, user, users, loading },
   Leaddeavtivedata,
   onDeactiveModalChange,
-  deactivateDctLeadDetails,
-  filterData,
+  // deactivateDctLeadDetails,
+  // filterData,
 }) => {
   //formData
   const [formData, setFormData] = useState({
-    companyName:
-      Leaddeavtivedata && Leaddeavtivedata.companyName
-        ? Leaddeavtivedata.companyName
+    sctCompanyName:
+      Leaddeavtivedata && Leaddeavtivedata.sctCompanyName
+        ? Leaddeavtivedata.sctCompanyName
         : "",
 
-    website:
-      Leaddeavtivedata && Leaddeavtivedata.website
-        ? Leaddeavtivedata.website
+    sctWebsite:
+      Leaddeavtivedata && Leaddeavtivedata.sctWebsite
+        ? Leaddeavtivedata.sctWebsite
         : "",
     sctLeadDeactiveReason: "",
     isSubmitted: false,
   });
 
-  const { sctLeadDeactiveReason, website, companyName, isSubmitted } = formData;
+  const { sctLeadDeactiveReason, sctWebsite, sctCompanyName, isSubmitted } =
+    formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -42,9 +43,9 @@ const DeactiveSctLead = ({
       sctLeadDeactivateById: user._id,
       sctLeadStatus: "Deactive",
       sctLeadDeactiveReason: sctLeadDeactiveReason,
-      filterData: filterData,
+      // filterData: filterData,
     };
-    deactivateDctLeadDetails(finalData);
+    // deactivateDctLeadDetails(finalData);
     onDeactiveModalChange(true);
   };
 
@@ -56,11 +57,11 @@ const DeactiveSctLead = ({
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
           <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
             <label className="label-control">
-              Company Name : {companyName}
+              Company Name : {sctCompanyName}
             </label>
           </div>
           <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
-            <label className="label-control">Website : {website}</label>
+            <label className="label-control">Website : {sctWebsite}</label>
           </div>
           <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
             <label className="label-control">Deactive Reason :</label>
@@ -125,6 +126,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { deactivateDctLeadDetails })(
-  DeactiveSctLead
-);
+export default connect(mapStateToProps, {
+  //  deactivateDctLeadDetails
+})(DeactiveSctLead);

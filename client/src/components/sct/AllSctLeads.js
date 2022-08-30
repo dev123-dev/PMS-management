@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import {
   getAllSctLead,
   getAllSctLeadDD,
-  getSctLastmessage,
+  // getSctLastmessage,
 } from "../../actions/sct";
 import EditSctLead from "./EditSctLead";
 import DeactiveSctLead from "./DeactiveSctLead";
@@ -29,7 +29,7 @@ const AllSctLeads = ({
   getAllSctLead,
   getActiveCountry,
   getAllSctLeadDD,
-  getSctLastmessage,
+  // getSctLastmessage,
 }) => {
   useEffect(() => {
     getAllSctLead();
@@ -43,12 +43,7 @@ const AllSctLeads = ({
   console.log("getAllSctLeads", getAllSctLeads);
   console.log("getAllSctLeadsDD", getAllSctLeadsDD);
   console.log("getAllSctLeadsEmp", getAllSctLeadsEmp);
-  const [showHide1, setShowHide1] = useState({
-    showUSSection: false,
-    showAUDSection: false,
-    showUKSection: false,
-  });
-  const { showUSSection, showAUDSection, showUKSection } = showHide1;
+
   const [filterData, setFilterData] = useState();
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -72,9 +67,9 @@ const AllSctLeads = ({
   };
 
   const [userDatadeactive, setUserDatadeactive] = useState(null);
-  const onDeactive = (jobQueueProjects, idx) => {
+  const onDeactive = (getAllSctLeads, idx) => {
     setShowDeactiveModal(true);
-    setUserDatadeactive(jobQueueProjects);
+    setUserDatadeactive(getAllSctLeads);
   };
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
@@ -89,17 +84,17 @@ const AllSctLeads = ({
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
   const onClickHandler = (getAllSctLeads, idx) => {
-    setcolorData(idx);
-    setLeadData(getAllSctLeads);
-    const searchData = {
-      callToId: getAllSctLeads._id,
-    };
-    setsearchDataVal(searchData);
-    getSctLastmessage(searchData);
-    setShowHide({
-      ...showHide,
-      showdateselectionSection: true,
-    });
+    // setcolorData(idx);
+    // setLeadData(getAllSctLeads);
+    // const searchData = {
+    //   callToId: getAllSctLeads._id,
+    // };
+    // setsearchDataVal(searchData);
+    // getSctLastmessage(searchData);
+    // setShowHide({
+    //   ...showHide,
+    //   showdateselectionSection: true,
+    // });
   };
 
   const ondivcloseChange = (e) => {
@@ -124,35 +119,6 @@ const AllSctLeads = ({
   const [countryId, getcountryIdData] = useState(null);
 
   const oncountryChange = (e) => {
-    if (e.value === "US") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: true,
-        showAUDSection: false,
-        showUKSection: false,
-      });
-    } else if (e.value === "AUS") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: true,
-        showUKSection: false,
-      });
-    } else if (e.value === "UK") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: false,
-        showUKSection: true,
-      });
-    } else {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: false,
-        showUKSection: false,
-      });
-    }
     getcountryData(e);
     getclientsData("");
     getempData("");
@@ -166,8 +132,8 @@ const AllSctLeads = ({
   getAllSctLeadsDD.map((clients) =>
     allclient.push({
       clientsId: clients._id,
-      label: clients.companyName,
-      value: clients.companyName,
+      label: clients.sctCompanyName,
+      value: clients.sctCompanyName,
     })
   );
   const [clients, getclientsData] = useState();
@@ -234,62 +200,6 @@ const AllSctLeads = ({
       <div className="container container_align">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            {/* <div className="row col-lg-12 col-md-11 col-sm-10 col-10">
-              {showUSSection && (
-                <h6>
-                  PST :&nbsp;
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Pacific"}
-                    format={"DD/MM/YYYY, h:mm:ss a"}
-                  />
-                  &emsp;&emsp; MST :
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Mountain"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />{" "}
-                  &emsp;&emsp; EST :
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Eastern"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />{" "}
-                  &emsp;&emsp; CST :
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Central"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
-              {showAUDSection && (
-                <h6>
-                  Sydney :
-                  <Clock
-                    ticking={true}
-                    timezone={"Australia/Sydney"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                  &emsp; &emsp;Perth :
-                  <Clock
-                    ticking={true}
-                    timezone={"Australia/Perth"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
-              {showUKSection && (
-                <h6>
-                  UK :
-                  <Clock
-                    ticking={true}
-                    timezone={"Europe/London"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
-            </div> */}
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Leads</h5>
             </div>
@@ -368,10 +278,10 @@ const AllSctLeads = ({
                     <tbody>
                       {getAllSctLeads &&
                         getAllSctLeads.map((getAllSctLeads, idx) => {
-                          var callDates = "";
-                          if (getAllSctLeads.dctCallDate) {
-                            var ED = getAllSctLeads.dctCallDate.split(/\D/g);
-                            callDates = [ED[2], ED[1], ED[0]].join("-");
+                          var sctCallDate = "";
+                          if (getAllSctLeads.sctCallDate) {
+                            var ED = getAllSctLeads.sctCallDate.split(/\D/g);
+                            sctCallDate = [ED[2], ED[1], ED[0]].join("-");
                           }
                           return (
                             <tr
@@ -384,28 +294,18 @@ const AllSctLeads = ({
                               }
                             >
                               <td>{idx + 1}</td>
-                              <td>
-                                {/* <Link
-                                  className="float-left ml-1"
-                                  to="#"
-                                  // onClick={() =>
-                                  //   onClickHandler(getAllSctLeads, idx)
-                                  // }
-                                > */}
-                                {getAllSctLeads.companyName}
-                                {/* </Link> */}
-                              </td>
-                              <td>{getAllSctLeads.website}</td>
-                              <td>{getAllSctLeads.emailId}</td>
+                              <td>{getAllSctLeads.sctCompanyName}</td>
+                              <td>{getAllSctLeads.sctWebsite}</td>
+                              <td>{getAllSctLeads.sctEmailId}</td>
                               <td>{getAllSctLeads.countryName}</td>
                               <td>
-                                {getAllSctLeads.countryCode
-                                  ? "+" + getAllSctLeads.countryCode
+                                {getAllSctLeads.sctcountryCode
+                                  ? "+" + getAllSctLeads.sctcountryCode
                                   : ""}
                                 &nbsp;
-                                {getAllSctLeads.phone1}
+                                {getAllSctLeads.sctPhone1}
                               </td>
-                              <td>{callDates}</td>
+                              <td>{sctCallDate}</td>
                               <td>
                                 <img
                                   className="img_icon_size log"
@@ -443,13 +343,13 @@ const AllSctLeads = ({
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead">
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-                  <AllSctContacts
+                  {/* <AllSctContacts
                     leadDataVal={leadData}
                     ondivcloseChange={ondivcloseChange}
                     from="lead"
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
-                  />
+                  /> */}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
@@ -458,14 +358,14 @@ const AllSctLeads = ({
                   style={{ height: "30vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
-                  {showdateselectionSection && (
+                  {/* {showdateselectionSection && (
                     <AllSctStatusChange
                       leadDataVal={leadData}
                       ondivcloseChange={ondivcloseChange}
                       from={leadData.dctLeadCategory}
                       filterData={filterData}
                     />
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding">
@@ -476,12 +376,12 @@ const AllSctLeads = ({
                   <label className="sidePartHeading ">
                     Last Message Details
                   </label>
-                  {showdateselectionSection && (
+                  {/* {showdateselectionSection && (
                     <SctLastMessageDetails
                       searchDataVal={searchDataVal}
                       ondivcloseChange={ondivcloseChange}
                     />
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>
@@ -545,7 +445,7 @@ const AllSctLeads = ({
           <DeactiveSctLead
             onDeactiveModalChange={onDeactiveModalChange}
             Leaddeavtivedata={userDatadeactive}
-            filterData={filterData}
+            // filterData={filterData}
           />
         </Modal.Body>
       </Modal>
@@ -569,5 +469,5 @@ export default connect(mapStateToProps, {
   getAllSctLead,
   getAllSctLeadDD,
   getActiveCountry,
-  getSctLastmessage,
+  // getSctLastmessage,
 })(AllSctLeads);
