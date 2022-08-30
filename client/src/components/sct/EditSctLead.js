@@ -503,7 +503,7 @@ const EditSctLead = ({
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label
                     className="label-control"
-                    style={countrytypeIdErrorStyle}
+                    //  style={countrytypeIdErrorStyle}
                   >
                     Country*:
                   </label>
@@ -574,7 +574,7 @@ const EditSctLead = ({
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label
                       className="label-control"
-                      style={AssignedtypeIdErrorStyle}
+                      //style={AssignedtypeIdErrorStyle}
                     >
                       Assigned To :
                     </label>
