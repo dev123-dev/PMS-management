@@ -236,11 +236,11 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
 });
 
 router.post("/get-sct-last-message", async (req, res) => {
-  const { callToId } = req.body;
+  const { sctCallToId } = req.body;
   let query = {};
   query = {
-    sctcallToId: {
-      $eq: sctcallToId,
+    sctCallToId: {
+      $eq: sctCallToId,
     },
   };
   try {

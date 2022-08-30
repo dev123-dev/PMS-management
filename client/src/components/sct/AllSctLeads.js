@@ -87,7 +87,7 @@ const AllSctLeads = ({
     setcolorData(idx);
     setLeadData(getAllSctLeads);
     const searchData = {
-      sctcallToId: getAllSctLeads._id,
+      sctCallToId: getAllSctLeads._id,
     };
     setsearchDataVal(searchData);
     getSctLastmessage(searchData);
