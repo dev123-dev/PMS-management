@@ -44,6 +44,7 @@ const DctLeadsSchema = new mongoose.Schema({
   },
   dctLeadStatus: {
     type: String, //Active, Deactive
+    default: "Active",
   },
   dctLeadCategory: {
     type: String, //NL,P,F,TC,RC
