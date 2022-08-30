@@ -2126,3 +2126,8 @@ button:focus,button:active {
   
 }
 /*end*/
+  
+
+/* to remove underline in notes */
+.linkoflastmesge{text-decoration: none !important;}
+/*end*/
