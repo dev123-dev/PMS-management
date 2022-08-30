@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
 import { addDctLeadDetails, getLeadsList } from "../../actions/dct";
+import { addSctLeadDetails } from "../../actions/sct";
 import { getMarketingEmployee } from "../../actions/user";
 import {
   getActiveCountry,
@@ -20,7 +21,7 @@ const AddSctLeads = ({
   dct: { leadsList },
   getActiveState,
   getActiveDistricts,
-  addDctLeadDetails,
+  addSctLeadDetails,
   getActiveCountry,
   getMarketingEmployee,
   getLeadsList,
@@ -40,9 +41,6 @@ const AddSctLeads = ({
   useEffect(() => {
     getLeadsList();
   }, [getLeadsList]);
-
-  console.log("activeState", activeState);
-  console.log("activeDistricts", activeDistricts);
 
   //formData
   const [formData, setFormData] = useState({
@@ -464,7 +462,7 @@ const AddSctLeads = ({
         sctLeadAssignedToId: empId,
         sctLeadAssignedToName: empName,
       };
-      addDctLeadDetails(finalData);
+      addSctLeadDetails(finalData);
       setFormData({
         ...formData,
         sctCompanyName: "",
@@ -1034,7 +1032,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  addDctLeadDetails,
+  addSctLeadDetails,
   getActiveCountry,
   getMarketingEmployee,
   getLeadsList,
