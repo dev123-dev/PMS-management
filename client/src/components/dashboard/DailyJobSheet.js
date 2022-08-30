@@ -72,13 +72,11 @@ const DailyJobSheet = ({
     const minutes = Math.floor(hoursms / (60 * 1000));
     const minutesms = ms % (60 * 1000);
     const sec = Math.floor(minutesms / 1000);
+    let hr = hours < 10 ? "0" + hours : hours;
+    let mt = minutes < 10 ? "0" + minutes : minutes;
     return [
       days + " d : " + hours + " h : " + minutes + " m : " + sec + " s",
-      hours.length === 1
-        ? "0" + hours
-        : hours + "" + minutes.length === 1
-        ? "0" + minutes
-        : minutes,
+      hr + "" + mt,
     ];
   }
   // On change ProjectCycle
