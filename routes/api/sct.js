@@ -5,6 +5,7 @@ const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth");
 const mongoose = require("mongoose");
 const SctLeads = require("../../models/sct/sctLeads");
+const SctCalls = require("../../models/sct/sctCalls");
 const SctClients = require("../../models/sct/sctClients");
 const EmployeeDetails = require("../../models/EmpDetails");
 
