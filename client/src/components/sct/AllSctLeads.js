@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import {
   getAllSctLead,
   getAllSctLeadDD,
-  // getSctLastmessage,
+  getSctLastmessage,
 } from "../../actions/sct";
 import EditSctLead from "./EditSctLead";
 import DeactiveSctLead from "./DeactiveSctLead";
@@ -29,7 +29,7 @@ const AllSctLeads = ({
   getAllSctLead,
   getActiveCountry,
   getAllSctLeadDD,
-  // getSctLastmessage,
+  getSctLastmessage,
 }) => {
   useEffect(() => {
     getAllSctLead();
@@ -84,17 +84,17 @@ const AllSctLeads = ({
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
   const onClickHandler = (getAllSctLeads, idx) => {
-    // setcolorData(idx);
-    // setLeadData(getAllSctLeads);
-    // const searchData = {
-    //   callToId: getAllSctLeads._id,
-    // };
-    // setsearchDataVal(searchData);
-    // getSctLastmessage(searchData);
-    // setShowHide({
-    //   ...showHide,
-    //   showdateselectionSection: true,
-    // });
+    setcolorData(idx);
+    setLeadData(getAllSctLeads);
+    const searchData = {
+      sctcallToId: getAllSctLeads._id,
+    };
+    setsearchDataVal(searchData);
+    getSctLastmessage(searchData);
+    setShowHide({
+      ...showHide,
+      showdateselectionSection: true,
+    });
   };
 
   const ondivcloseChange = (e) => {
@@ -343,13 +343,13 @@ const AllSctLeads = ({
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead">
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-                  {/* <AllSctContacts
+                  <AllSctContacts
                     leadDataVal={leadData}
                     ondivcloseChange={ondivcloseChange}
                     from="lead"
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
-                  /> */}
+                  />
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
@@ -358,14 +358,14 @@ const AllSctLeads = ({
                   style={{ height: "30vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
-                  {/* {showdateselectionSection && (
+                  {showdateselectionSection && (
                     <AllSctStatusChange
                       leadDataVal={leadData}
                       ondivcloseChange={ondivcloseChange}
                       from={leadData.dctLeadCategory}
                       filterData={filterData}
                     />
-                  )} */}
+                  )}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding">
@@ -376,12 +376,12 @@ const AllSctLeads = ({
                   <label className="sidePartHeading ">
                     Last Message Details
                   </label>
-                  {/* {showdateselectionSection && (
+                  {showdateselectionSection && (
                     <SctLastMessageDetails
                       searchDataVal={searchDataVal}
                       ondivcloseChange={ondivcloseChange}
                     />
-                  )} */}
+                  )}
                 </div>
               </div>
             </div>
@@ -469,5 +469,5 @@ export default connect(mapStateToProps, {
   getAllSctLead,
   getAllSctLeadDD,
   getActiveCountry,
-  // getSctLastmessage,
+  getSctLastmessage,
 })(AllSctLeads);
