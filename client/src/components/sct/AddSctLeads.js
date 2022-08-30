@@ -374,7 +374,7 @@ const AddSctLeads = ({
         sctImportantPoints: sctImportantPoints,
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
-        countryCode: countrycode,
+        sctcountryCode: countrycode,
         // stateId:,
         // districtId:,
         sctLeadStatus: "Active",
