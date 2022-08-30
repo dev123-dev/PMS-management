@@ -30,11 +30,11 @@ const SctLastMessageDetails = ({
     getCallHistory(searchDataVal);
     setShowClientCallHistoryModal(true);
   };
-  var callDate = "";
-  console.log(lastMsg && lastMsg.callDate);
-  var ED = lastMsg && lastMsg.callDate && lastMsg.callDate.split(/\D/g);
+  var sctCallDate = "";
+  console.log(lastMsg && lastMsg.sctCallDate);
+  var ED = lastMsg && lastMsg.sctCallDate && lastMsg.sctCallDate.split(/\D/g);
   if (ED) {
-    callDate = [ED[2], ED[1], ED[0]].join("-");
+    sctCallDate = [ED[2], ED[1], ED[0]].join("-");
   }
 
   return !isAuthenticated || !user || !users ? (
@@ -43,13 +43,13 @@ const SctLastMessageDetails = ({
     <Fragment>
       <div className="row col-lg-12 col-md-11 col-sm-10 col-10 fixTableHeadhistory">
         <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
-          <label>Staff Name : {lastMsg && lastMsg.callToStaffName}</label>
+          <label>Staff Name : {lastMsg && lastMsg.sctCallToStaffName}</label>
         </div>
         <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
-          <label>Call Date : {callDate} </label>
+          <label>Call Date : {sctCallDate} </label>
         </div>
         <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
-          <label>Status : {lastMsg && lastMsg.callStatus}</label>
+          <label>Status : {lastMsg && lastMsg.sctCallStatus}</label>
         </div>
         <div className="col-lg-9 col-md-11 col-sm-10 col-10 ">
           <label className="label-control mt-1"> Last Meeting Details :</label>
@@ -58,7 +58,7 @@ const SctLastMessageDetails = ({
             rows="2"
             placeholder="Notes"
             style={{ width: "100%" }}
-            value={lastMsg && lastMsg.callNote}
+            value={lastMsg && lastMsg.sctCallDate}
             disabled
             // editable={false}
           ></textarea>
