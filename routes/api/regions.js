@@ -186,6 +186,34 @@ router.post("/get-all-countries", async (req, res) => {
   }
 });
 
+router.post("/get-active-country", async (req, res) => {
+  const { countryBelongsTo } = req.body;
+  let query = {};
+  if (countryBelongsTo) {
+    query = {
+      countryStatus: {
+        $eq: "Active",
+      },
+      countryBelongsTo: {
+        $eq: countryBelongsTo,
+      },
+    };
+  } else {
+    query = {
+      countryStatus: {
+        $eq: "Active",
+      },
+    };
+  }
+  try {
+    const getActiveCountry = await Country.find(query);
+    res.json(getActiveCountry);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 router.get("/get-all-states", async (req, res) => {
   try {
     const getAllStates = await State.find({
@@ -194,6 +222,21 @@ router.get("/get-all-states", async (req, res) => {
       },
     });
     res.json(getAllStates);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-active-state", async (req, res) => {
+  // const { institutionId } = req.body;
+  try {
+    const getActiveState = await State.find({
+      stateStatus: {
+        $eq: "Active",
+      },
+    });
+    res.json(getActiveState);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -226,50 +269,7 @@ router.get("/get-all-districts", async (req, res) => {
   }
 });
 
-router.post("/get-active-country", async (req, res) => {
-  const { countryBelongsTo } = req.body;
-  let query = {};
-  if (countryBelongsTo) {
-    query = {
-      countryStatus: {
-        $eq: "Active",
-      },
-      countryBelongsTo: {
-        $eq: countryBelongsTo,
-      },
-    };
-  } else {
-    query = {
-      countryStatus: {
-        $eq: "Active",
-      },
-    };
-  }
-  try {
-    const getActiveCountry = await Country.find(query);
-    res.json(getActiveCountry);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
-router.post("/get-active-state", async (req, res) => {
-  // const { institutionId } = req.body;
-  try {
-    const getActiveState = await State.find({
-      stateStatus: {
-        $eq: "Active",
-      },
-    });
-    res.json(getActiveState);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
-router.post("/get-active-districs", async (req, res) => {
+router.post("/get-active-districts", async (req, res) => {
   // const { institutionId } = req.body;
   try {
     const getActiveDistrics = await District.find({

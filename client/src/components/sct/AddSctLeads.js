@@ -9,25 +9,28 @@ import { addDctLeadDetails, getLeadsList } from "../../actions/dct";
 import { getMarketingEmployee } from "../../actions/user";
 import {
   getActiveCountry,
-  // getStates,
-  // getDistrict,
+  getActiveState,
+  getActiveDistricts,
 } from "../../actions/regions";
 
 const AddSctLeads = ({
   auth: { isAuthenticated, user, users, loading },
   user: { marketingEmployees },
-  regions: { activeCountry },
+  regions: { activeCountry, activeState, activeDistrics },
   dct: { leadsList },
-  // getStates,
-  // getDistrict,
+  getActiveState,
+  getActiveDistricts,
   addDctLeadDetails,
   getActiveCountry,
   getMarketingEmployee,
   getLeadsList,
 }) => {
-  // useEffect(() => {
-  //   getStates();
-  // }, [getStates]);
+  useEffect(() => {
+    getActiveState();
+  }, [getActiveState]);
+  useEffect(() => {
+    getActiveDistricts();
+  }, [getActiveDistricts]);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
@@ -38,7 +41,8 @@ const AddSctLeads = ({
     getLeadsList();
   }, [getLeadsList]);
 
-  // console.log("getLeadsList", leadsList);
+  console.log("activeState", activeState);
+  console.log("activeDistrics", activeDistrics);
 
   //formData
   const [formData, setFormData] = useState({
@@ -936,8 +940,6 @@ AddSctLeads.propTypes = {
   client: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
   dct: PropTypes.object.isRequired,
-  // getStates: PropTypes.func.isRequired,
-  // getDistrict: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -954,6 +956,6 @@ export default connect(mapStateToProps, {
   getActiveCountry,
   getMarketingEmployee,
   getLeadsList,
-  // getStates,
-  // getDistrict,
+  getActiveState,
+  getActiveDistricts,
 })(AddSctLeads);

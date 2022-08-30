@@ -201,34 +201,6 @@ export const getAllCountries = (reqData) => async (dispatch) => {
   }
 };
 
-export const getAllState = () => async (dispatch) => {
-  try {
-    const res = await axios.get("/api/regions/get-all-states");
-    dispatch({
-      type: ALL_STATES,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: ERROR,
-    });
-  }
-};
-
-export const getAllDistricts = () => async (dispatch) => {
-  try {
-    const res = await axios.get("/api/regions/get-all-districts");
-    dispatch({
-      type: ALL_DISTRICTS,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: ERROR,
-    });
-  }
-};
-
 export const getActiveCountry = (searchData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/regions/get-active-country", searchData);
@@ -243,11 +215,39 @@ export const getActiveCountry = (searchData) => async (dispatch) => {
   }
 };
 
+export const getAllState = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/regions/get-all-states");
+    dispatch({
+      type: ALL_STATES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 export const getActiveState = () => async (dispatch) => {
   try {
     const res = await axios.post("/api/regions/get-active-state");
     dispatch({
       type: ACTIVE_STATE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllDistricts = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/regions/get-all-districts");
+    dispatch({
+      type: ALL_DISTRICTS,
       payload: res.data,
     });
   } catch (err) {
