@@ -31,7 +31,7 @@ const SctLastMessageDetails = ({
     setShowClientCallHistoryModal(true);
   };
   var sctCallDate = "";
-  console.log(lastMsg && lastMsg.sctCallDate);
+  // console.log(lastMsg && lastMsg.sctCallDate);
   var ED = lastMsg && lastMsg.sctCallDate && lastMsg.sctCallDate.split(/\D/g);
   if (ED) {
     sctCallDate = [ED[2], ED[1], ED[0]].join("-");

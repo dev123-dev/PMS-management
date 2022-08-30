@@ -456,7 +456,7 @@ const AddSctLeads = ({
         sctLeadStatus: "Active",
         sctLeadCategoryStatus: "NL",
         sctCallDate: new Date().toISOString().split("T")[0],
-        staffs: AddedDetails,
+        sctStaffs: AddedDetails,
         sctLeadEnteredById: user._id,
         sctLeadEnteredByName: user.empFullName,
         sctLeadAssignedToId: empId,

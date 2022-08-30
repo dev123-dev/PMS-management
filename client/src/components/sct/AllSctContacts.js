@@ -30,7 +30,7 @@ const AllSctContacts = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
-  // console.log(leadDataVal);
+  console.log("leadDataVal", leadDataVal);
   const [formData, setFormData] = useState({
     sctStaffName: "",
     sctStaffPhoneNumber: "",
@@ -62,9 +62,9 @@ const AllSctContacts = ({
 
   const [userDatas, setUserDatas] = useState(null);
   const [userDatas1, setUserDatas1] = useState(leadDataVal && leadDataVal._id);
-  const onUpdate = (staff, idx) => {
+  const onUpdate = (sctStaffs, idx) => {
     setShowEditModal(true);
-    setUserDatas(staff);
+    setUserDatas(sctStaffs);
     setUserDatas1(leadDataVal);
   };
 
@@ -84,9 +84,9 @@ const AllSctContacts = ({
   };
 
   const [userDatadeactive, setUserDatadeactive] = useState(null);
-  const onDeactive = (staff, idx) => {
+  const onDeactive = (sctStaffs, idx) => {
     setShowDeactiveModal(true);
-    setUserDatadeactive(staff);
+    setUserDatadeactive(sctStaffs);
   };
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
@@ -146,7 +146,7 @@ const AllSctContacts = ({
       // staffCountryCode: staffCountryCode,
       filterData: filterData,
     };
-    console.log(finalData);
+    // console.log(finalData);
 
     if (from === "client") {
       addNewDctClientStaffDetails(finalData);
@@ -175,7 +175,7 @@ const AllSctContacts = ({
     e.preventDefault();
     const finalData = {
       recordId: leadDataVal ? leadDataVal._id : "",
-      staffId: userDatadeactive ? userDatadeactive._id : "",
+      sctstaffId: userDatadeactive ? userDatadeactive._id : "",
       sctLeadDeactivateById: user._id,
       sctLeadDeactivateByDateTime: new Date().toLocaleString("en-GB"),
       sctLeadStatus: "Deactive",
@@ -253,24 +253,24 @@ const AllSctContacts = ({
                     </thead>
                     <tbody>
                       {leadDataVal &&
-                        leadDataVal.staffs &&
-                        leadDataVal.staffs.map((staff, idx) => {
-                          if (staff.staffStatus === "Active")
+                        leadDataVal.sctStaffs &&
+                        leadDataVal.sctStaffs.map((sctStaffs, idx) => {
+                          if (sctStaffs.sctStaffStatus === "Active")
                             return (
                               <tr key={idx}>
-                                <td>{staff.sctStaffName}</td>
+                                <td>{sctStaffs.sctStaffName}</td>
                                 <td>
-                                  {staff.staffCountryCode
-                                    ? "+" + staff.staffCountryCode
+                                  {/* {sctStaffs.staffCountryCode
+                                    ? "+" + sctStaffs.staffCountryCode
                                     : ""}
-                                  &nbsp;
-                                  {staff.sctStaffPhoneNumber}
+                                  &nbsp; */}
+                                  {sctStaffs.sctStaffPhoneNumber}
                                 </td>
-                                <td>{staff.sctStaffDesignation}</td>
+                                <td>{sctStaffs.sctStaffDesignation}</td>
                                 <td>
                                   <img
                                     className="img_icon_size log"
-                                    onClick={() => onDeactive(staff, idx)}
+                                    onClick={() => onDeactive(sctStaffs, idx)}
                                     src={require("../../static/images/delete.png")}
                                     alt="Delete Staff"
                                     title="Delelte Staff"
@@ -278,7 +278,7 @@ const AllSctContacts = ({
                                   &nbsp;
                                   <img
                                     className="img_icon_size log"
-                                    onClick={() => onUpdate(staff, idx)}
+                                    onClick={() => onUpdate(sctStaffs, idx)}
                                     src={require("../../static/images/edit_icon.png")}
                                     alt="Edit"
                                     title="Edit"

@@ -110,6 +110,7 @@ const SctLeadsSchema = new mongoose.Schema({
         type: String,
         default: "Active",
       },
+
       sctstaffRegion: {
         type: String,
       },
