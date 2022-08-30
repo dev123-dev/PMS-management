@@ -89,6 +89,7 @@ const AllFeedback = ({
 
     const finalData = {
       feedbackStatus: e.value,
+      feedbackBelongsTo: feedbackBelongsTo.value,
     };
 
     getAllFeedback(finalData);
@@ -103,6 +104,7 @@ const AllFeedback = ({
     }
     const finalData = {
       feedbackBelongsTo: e.value,
+      feedbackStatus: projectStatusData.value,
     };
 
     getAllFeedback(finalData);

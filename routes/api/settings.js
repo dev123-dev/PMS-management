@@ -372,23 +372,27 @@ router.post("/get-all-feedback", async (req, res) => {
 
   let query = {};
   if (feedbackBelongsTo) {
-    query = {
-      feedbackBelongsTo: {
-        $eq: feedbackBelongsTo,
-      },
-    };
-  } else if (feedbackStatus) {
-    query = {
-      feedbackStatus: {
-        $eq: feedbackStatus,
-      },
-    };
+    if (feedbackStatus) {
+      query = {
+        feedbackStatus: feedbackStatus,
+        feedbackBelongsTo: feedbackBelongsTo,
+      };
+    } else {
+      query = {
+        feedbackStatus: "Pending",
+        feedbackBelongsTo: feedbackBelongsTo,
+      };
+    }
   } else {
-    query = {
-      feedbackStatus: {
-        $eq: "Pending",
-      },
-    };
+    if (feedbackStatus) {
+      query = {
+        feedbackStatus: feedbackStatus,
+      };
+    } else {
+      query = {
+        feedbackStatus: "Pending",
+      };
+    }
   }
 
   try {
