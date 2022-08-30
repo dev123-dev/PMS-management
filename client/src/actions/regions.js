@@ -189,7 +189,7 @@ export const deactiveDistrictsData = (finalData) => async (dispatch) => {
 
 export const getAllCountries = (reqData) => async (dispatch) => {
   try {
-    const res = await axios.get("/api/regions/get-all-countries", reqData);
+    const res = await axios.post("/api/regions/get-all-countries", reqData);
     dispatch({
       type: ALL_COUNTRIES,
       payload: res.data,

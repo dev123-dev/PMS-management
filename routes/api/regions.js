@@ -168,7 +168,7 @@ router.post("/deactive-districts-details", async (req, res) => {
 
 //SELECT
 
-router.get("/get-all-countries", async (req, res) => {
+router.post("/get-all-countries", async (req, res) => {
   const { countryBelongsTo } = req.body;
   try {
     const getAllCountries = await Country.find({
