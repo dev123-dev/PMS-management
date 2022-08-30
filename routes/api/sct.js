@@ -244,7 +244,7 @@ router.post("/get-sct-last-message", async (req, res) => {
     },
   };
   try {
-    const getLastMsgData = await SctCalls.findOne()
+    const getLastMsgData = await SctCalls.findOne(query)
       .sort({
         _id: -1,
       })
