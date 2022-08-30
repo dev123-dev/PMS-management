@@ -270,13 +270,20 @@ router.get("/get-all-districts", async (req, res) => {
 });
 
 router.post("/get-active-districts", async (req, res) => {
-  // const { institutionId } = req.body;
+  const { stateId } = req.body;
+  let query = {};
+  if (stateId) {
+    query = {
+      districtStatus: "Active",
+      stateId: stateId,
+    };
+  } else {
+    query = {
+      districtStatus: "Active",
+    };
+  }
   try {
-    const getActiveDistrics = await District.find({
-      districtStatus: {
-        $eq: "Active",
-      },
-    });
+    const getActiveDistrics = await District.find(query);
     res.json(getActiveDistrics);
   } catch (err) {
     console.error(err.message);

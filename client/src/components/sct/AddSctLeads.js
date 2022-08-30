@@ -278,8 +278,7 @@ const AddSctLeads = ({
     setStateID(stateId);
     setStateName(stateName);
     let stateVal = {
-      // userInfo: user,
-      stateInfo: stateId,
+      stateId: stateId,
     };
     getActiveDistricts(stateVal);
   };

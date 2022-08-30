@@ -77,7 +77,7 @@ const AddDistrictDetails = ({
         districtEnteredById: user._id,
         stateId: stateId,
         districtEnteredByName: user.userName,
-        districtBelongsTo: "DCT",
+        districtBelongsTo: "SCT",
       };
 
       addDistrictDetails(finalData);
