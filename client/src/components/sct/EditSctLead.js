@@ -561,7 +561,7 @@ const EditSctLead = ({
                   />
                 </div>
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Phone 1 :</label>
+                  <label className="label-control">Phone 1* :</label>
                   <input
                     type="number"
                     name="sctPhone1"
@@ -572,6 +572,7 @@ const EditSctLead = ({
                       (e.keyCode === 69 || e.keyCode === 190) &&
                       e.preventDefault()
                     }
+                    required
                   />
                 </div>
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
