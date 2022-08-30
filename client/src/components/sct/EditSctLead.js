@@ -9,14 +9,14 @@ import { addDctLeadDetails, getLeadsList } from "../../actions/dct";
 import { getMarketingEmployee } from "../../actions/user";
 import {
   getActiveCountry,
-  // getStates,
-  // getDistrict,
+  getActiveState,
+  getActiveDistricts,
 } from "../../actions/regions";
 
 const EditSctLead = ({
   auth: { isAuthenticated, user, users, loading },
   user: { marketingEmployees },
-  regions: { activeCountry },
+  regions: { activeCountry, activeState, activeDistricts },
   dct: { leadsList },
   alleditLeaddata,
   editDctLeadDetails,
@@ -24,10 +24,15 @@ const EditSctLead = ({
   getActiveCountry,
   getMarketingEmployee,
   getLeadsList,
+  getActiveState,
+  getActiveDistricts,
 }) => {
-  // useEffect(() => {
-  //   getStates();
-  // }, [getStates]);
+  useEffect(() => {
+    getActiveState();
+  }, [getActiveState]);
+  useEffect(() => {
+    getActiveDistricts();
+  }, [getActiveDistricts]);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
@@ -37,8 +42,6 @@ const EditSctLead = ({
   useEffect(() => {
     getLeadsList();
   }, [getLeadsList]);
-
-  // console.log("getLeadsList", leadsList);
 
   //formData
   const [formData, setFormData] = useState({
@@ -91,87 +94,7 @@ const EditSctLead = ({
     sctImportantPoints,
     isSubmitted,
   } = formData;
-  //
-  // //add staff start
-  // const [addData, setFormDatas] = useState({
-  //   // idVal: 1,
-  //   sctStaffName: "",
-  //   sctStaffPhoneNumber: "",
-  //   sctStaffEmailId: "",
-  //   sctStaffDesignation: "",
-  //   staffRegion: "",
-  //   staffCountryCode: "",
-  // });
 
-  // const {
-  //   sctStaffName,
-  //   sctStaffPhoneNumber,
-  //   sctStaffEmailId,
-  //   sctStaffDesignation,
-  //   staffRegion,
-  // } = addData;
-
-  // const [error1, setError1] = useState({
-  //   nametypeIdChecker: false,
-  //   nametypeIdErrorStyle: {},
-  // });
-  // const { nametypeIdChecker, nametypeIdErrorStyle } = error1;
-  // const checkErrorscontact = () => {
-  //   if (!nametypeIdChecker) {
-  //     setError1({
-  //       ...error1,
-  //       nametypeIdErrorStyle: { color: "#F00" },
-  //     });
-  //     return false;
-  //   }
-
-  //   return true;
-  // };
-  // const [AddedDetails, AddDetails] = useState([]);
-
-  // const onAdd = (e) => {
-  //   const staffList = AddedDetails.filter(
-  //     (AddDetails) => AddDetails.sctStaffName === sctStaffName
-  //   );
-
-  //   e.preventDefault();
-  //   if (staffList.length === 0) {
-  //     if (checkErrorscontact()) {
-  //       const addData = {
-  //         // id: idVal,
-  //         sctStaffName: sctStaffName,
-  //         sctStaffPhoneNumber: sctStaffPhoneNumber,
-  //         sctStaffEmailId: sctStaffEmailId,
-  //         sctStaffDesignation: sctStaffDesignation,
-  //         staffRegion: staffcountryname,
-  //         staffRegionId: staffcountryId,
-  //         staffCountryCode: staffCountryCode,
-  //       };
-  //       setFormDatas({
-  //         ...addData,
-  //         sctStaffName: "",
-  //         sctStaffPhoneNumber: "",
-  //         sctStaffEmailId: "",
-  //         sctStaffDesignation: "",
-  //         staffRegion: "",
-  //         staffCountryCode: "",
-  //       });
-  //       setstaffCountryCode("");
-  //       getstaffcountryData("");
-  //       let temp = [];
-  //       temp.push(...AddedDetails, addData);
-  //       AddDetails(temp);
-  //     }
-  //   }
-  // };
-  // const onRemoveChange = (sctStaffName) => {
-  //   const removeList = AddedDetails.filter(
-  //     (AddDetails) => AddDetails.sctStaffName !== sctStaffName
-  //   );
-  //   AddDetails(removeList);
-  // };
-
-  //add staff end
   const allcountry = [];
   activeCountry &&
     activeCountry.map((country) =>
@@ -183,7 +106,12 @@ const EditSctLead = ({
       })
     );
 
-  const [country, getcountryData] = useState();
+  const [country, getcountryData] = useState(
+    alleditLeaddata && alleditLeaddata
+      ? allcountry &&
+          allcountry.filter((x) => x.countryId === alleditLeaddata.countryId)[0]
+      : ""
+  );
   const [countryId, setcountryID] = useState();
   const [countrycode, setcountrycode] = useState();
   const oncountryChange = (e) => {
@@ -213,9 +141,20 @@ const EditSctLead = ({
       })
     );
 
-  const [emp, getempData] = useState();
-  const [empId, setempID] = useState(user && user._id);
-  const [empName, setNameID] = useState(user && user.empFullName);
+  const [emp, getempData] = useState(
+    alleditLeaddata && alleditLeaddata
+      ? allemp &&
+          allemp.filter(
+            (x) => x.empId === alleditLeaddata.sctLeadAssignedToId
+          )[0]
+      : ""
+  );
+  const [empId, setempID] = useState(
+    alleditLeaddata && alleditLeaddata.sctLeadAssignedToId
+  );
+  const [empName, setNameID] = useState(
+    alleditLeaddata && alleditLeaddata.sctLeadAssignedToName
+  );
   const onempChange = (e) => {
     // //Required Validation Starts
     setError({
@@ -233,111 +172,92 @@ const EditSctLead = ({
     setNameID(empName);
   };
 
-  const allstaffcountry = [];
-  activeCountry &&
-    activeCountry.map((staffcountry) =>
-      allstaffcountry.push({
-        staffcountryId: staffcountry._id,
-        staffCountryCode: staffcountry.countryCode,
-        label: staffcountry.countryName + " (" + staffcountry.countryCode + ")",
-        value: staffcountry.countryName,
-      })
-    );
+  const allstates = [];
+  activeState.map((state) =>
+    allstates.push({
+      sId: state._id,
+      label: state.stateName,
+      value: state.stateName,
+    })
+  );
 
-  const [staffcountry, getstaffcountryData] = useState();
-  const [staffcountryId, setstaffcountryID] = useState();
-  const [staffCountryCode, setstaffCountryCode] = useState();
-  const [staffcountryname, setstaffcountryname] = useState();
-  const onstaffcountryChange = (e) => {
-    // //Required Validation Starts
-    // setError({
-    //   ...error,
-    //   sIdChecker: true,
-    //   sIdErrorStyle: { color: "#000" },
-    // });
-    // //Required Validation ends
-    var staffcountryId = "";
-    var staffCountryCode = "";
-    var staffcountryname = "";
-    getstaffcountryData(e);
-    staffCountryCode = e.staffCountryCode;
-    staffcountryId = e.staffcountryId;
-    staffcountryname = e.value;
-    setstaffcountryname(staffcountryname);
-    setstaffcountryID(staffcountryId);
-    setstaffCountryCode(staffCountryCode);
+  const [state, getStateData] = useState(
+    alleditLeaddata && alleditLeaddata
+      ? allstates &&
+          allstates.filter((x) => x.stateId === alleditLeaddata.stateId)[0]
+      : ""
+  );
+
+  const [stateId, setStateID] = useState(
+    alleditLeaddata && alleditLeaddata.stateId
+  );
+  const [stateName, setStateName] = useState("");
+
+  const onStateChange = (e) => {
+    getdistrictData("");
+    //Required Validation starts
+    setError({
+      ...error,
+      StateIdChecker: true,
+      StateErrorStyle: { color: "#000" },
+    });
+    //Required Validation end
+
+    var stateId = "";
+    var stateName = "";
+    getStateData(e);
+
+    stateId = e.sId;
+    stateName = e.value;
+
+    setStateID(stateId);
+    setStateName(stateName);
+    let stateVal = {
+      stateId: stateId,
+    };
+    getActiveDistricts(stateVal);
   };
 
-  // const alldistrict = [];
+  const alldistrict = [];
 
-  // activeDistrict.map((district) =>
-  //   alldistrict.push({
-  //     districtId: district._id,
-  //     label: district.districtName,
-  //     value: district.districtName,
-  //   })
-  // );
+  activeDistricts.map((district) =>
+    alldistrict.push({
+      districtId: district._id,
+      label: district.districtName,
+      value: district.districtName,
+    })
+  );
 
-  // const [district, getdistrictData] = useState();
-  // const [districtId, setdistrictID] = useState();
-  // const [districtName, setdistrictName] = useState();
+  const [district, getdistrictData] = useState(
+    alleditLeaddata && alleditLeaddata
+      ? alldistrict &&
+          alldistrict.filter(
+            (x) => x.districtId === alleditLeaddata.districtId
+          )[0]
+      : ""
+  );
+  const [districtId, setdistrictID] = useState(
+    alleditLeaddata && alleditLeaddata.districtId
+  );
+  const [districtName, setdistrictName] = useState();
 
-  // const ondistrictChange = (e) => {
-  //   setError({
-  //     ...error,
-  //     DistrictIdChecker: true,
-  //     DistrictErrorStyle: { color: "#000" },
-  //   });
+  const ondistrictChange = (e) => {
+    setError({
+      ...error,
+      DistrictIdChecker: true,
+      DistrictErrorStyle: { color: "#000" },
+    });
 
-  //   var districtId = "";
-  //   var districtName = "";
-  //   getdistrictData(e);
+    var districtId = "";
+    var districtName = "";
+    getdistrictData(e);
 
-  //   districtId = e.districtId;
-  //   districtName = e.value;
+    districtId = e.districtId;
+    districtName = e.value;
 
-  //   setdistrictID(districtId);
-  //   setdistrictName(districtName);
-  // };
-
-  // const allstates = [];
-  // statesData.map((state) =>
-  //   allstates.push({
-  //     sId: state._id,
-  //     label: state.stateName,
-  //     value: state.stateName,
-  //   })
-  // );
-
-  // const [state, getStateData] = useState("");
-
-  // const [stateId, setStateID] = useState("");
-  // const [stateName, setStateName] = useState("");
-
-  // const onStateChange = (e) => {
-  //   //Required Validation starts
-  //   setError({
-  //     ...error,
-  //     StateIdChecker: true,
-  //     StateErrorStyle: { color: "#000" },
-  //   });
-  //   //Required Validation end
-
-  //   var stateId = "";
-  //   var stateName = "";
-  //   getStateData(e);
-
-  //   stateId = e.sId;
-  //   stateName = e.value;
-
-  //   setStateID(stateId);
-  //   setStateName(stateName);
-  //   let stateVal = {
-  //     // userInfo: user,
-  //     stateInfo: stateId,
-  //   };
-  //   getDistrict(stateVal);
-  // };
+    setdistrictID(districtId);
+    setdistrictName(districtName);
+  };
 
   const [error, setError] = useState({
     countrytypeIdChecker: false,
@@ -397,16 +317,16 @@ const EditSctLead = ({
         sctImportantPoints: sctImportantPoints,
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
-        countryCode: countrycode,
-
-        // services: ServicesDetails,
-        // staffs: AddedDetails,
-        sctLeadEditedById: user._id,
-        sctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
+        sctcountryCode: countrycode,
+        stateId: stateId,
+        districtId: districtId,
         sctLeadAssignedToId: empId,
         sctLeadAssignedToName: empName,
+        sctLeadEditedById: user._id,
+        sctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
       };
-      addDctLeadDetails(finalData);
+      console.log(finalData);
+      //  addDctLeadDetails(finalData);
       setFormData({
         ...formData,
         sctCompanyName: "",
@@ -462,18 +382,6 @@ const EditSctLead = ({
       });
     }
   };
-
-  // const onInputChange2 = (e) => {
-  //   setError1({
-  //     ...error1,
-  //     nametypeIdChecker: true,
-  //     nametypeIdErrorStyle: { color: "#000" },
-  //   });
-  //   setFormDatas({ ...addData, [e.target.name]: e.target.value });
-  // };
-  // const onInputChange1 = (e) => {
-  //   setFormDatas({ ...addData, [e.target.name]: e.target.value });
-  // };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -616,11 +524,11 @@ const EditSctLead = ({
                   </label>
                   <Select
                     name="stateName"
-                    // options={allstates}
+                    options={allstates}
                     isSearchable={true}
-                    // value={state}
+                    value={state}
                     placeholder="Select State"
-                    // onChange={(e) => onStateChange(e)}
+                    onChange={(e) => onStateChange(e)}
                     theme={(theme) => ({
                       ...theme,
                       height: 26,
@@ -642,11 +550,11 @@ const EditSctLead = ({
                   </label>
                   <Select
                     name="districtName"
-                    // options={alldistrict}
+                    options={alldistrict}
                     isSearchable={true}
-                    //  value={district}
+                    value={district}
                     placeholder="Select District"
-                    // onChange={(e) => ondistrictChange(e)}
+                    onChange={(e) => ondistrictChange(e)}
                     theme={(theme) => ({
                       ...theme,
                       height: 26,
@@ -707,202 +615,6 @@ const EditSctLead = ({
                 </div>
               </div>
             </div>
-
-            {/* <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new ">
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h5>Contact Info</h5>
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label
-                      // className="label-control"
-                      style={nametypeIdErrorStyle}
-                    >
-                      Staff Name*:
-                    </label>
-                    <input
-                      type="text"
-                      name="sctStaffName"
-                      value={sctStaffName}
-                      className="form-control"
-                      onChange={(e) => onInputChange2(e)}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label
-                    // className="label-control"
-                    >
-                      Email Id :
-                    </label>
-                    <input
-                      type="text"
-                      name="sctStaffEmailId"
-                      value={sctStaffEmailId}
-                      className="form-control"
-                      onChange={(e) => onInputChange1(e)}
-                    />
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Country :</label>
-                    <Select
-                      name="countryName"
-                      options={allstaffcountry}
-                      isSearchable={true}
-                      value={staffcountry}
-                      placeholder="Select Country"
-                      onChange={(e) => onstaffcountryChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label
-                      className="label-control"
-                      // style={StateErrorStyle}
-                    >
-                      State :
-                    </label>
-                    <Select
-                      name="stateName"
-                      //   options={allstates}
-                      isSearchable={true}
-                      // value={state}
-                      placeholder="Select State"
-                      //onChange={(e) => onStateChange(e)}
-                      theme={(theme) => ({
-                        ...theme,
-                        height: 26,
-                        minHeight: 26,
-                        borderRadius: 1,
-                        colors: {
-                          ...theme.colors,
-                          primary: "black",
-                        },
-                      })}
-                    />
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label
-                      className="label-control"
-                      // style={DistrictErrorStyle}
-                    >
-                      District :
-                    </label>
-                    <Select
-                      name="districtName"
-                      //options={alldistrict}
-                      isSearchable={true}
-                      // value={district}
-                      placeholder="Select District"
-                      // onChange={(e) => ondistrictChange(e)}
-                      theme={(theme) => ({
-                        ...theme,
-                        height: 26,
-                        minHeight: 26,
-                        borderRadius: 1,
-                        colors: {
-                          ...theme.colors,
-                          primary: "black",
-                        },
-                      })}
-                    />
-                  </div>
-                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Staff Phone:</label>
-                    <input
-                      type="number"
-                      name="staffCountryCode"
-                      value={staffCountryCode}
-                      className="form-control"
-                      style={{ width: "50px" }}
-                      disabled
-                    />
-                  </div>
-
-                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">
-                      <br />
-                    </label>
-                    <input
-                      type="number"
-                      name="sctStaffPhoneNumber"
-                      value={sctStaffPhoneNumber}
-                      className="form-control"
-                      onChange={(e) => onInputChange1(e)}
-                      style={{ marginLeft: "-6em", width: "22vh" }}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
-                    />
-                  </div>
-
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Designation :</label>
-                    <input
-                      type="text"
-                      name="sctStaffDesignation"
-                      value={sctStaffDesignation}
-                      className="form-control"
-                      onChange={(e) => onInputChange1(e)}
-                    />
-                  </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <button
-                      variant="success"
-                      className="btn sub_form btn_continue Save float-right"
-                      onClick={(e) => onAdd(e)}
-                    >
-                      Add
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                <div
-                  className="row card-new"
-                  style={{ height: "340px", overflowY: "scroll" }}
-                >
-                  <table
-                    className="tabllll table table-bordered table-striped table-hover"
-                    id="datatable2"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Staff Name</th>
-                        <th>Region</th>
-                        <th>Phone Number</th>
-                        <th>Email Id</th>
-                        <th>Designation</th>
-                        <th>Remove</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {AddedDetails &&
-                        AddedDetails.map((AddDetail, idx) => {
-                          return (
-                            <tr key={idx}>
-                              <td>{AddDetail.sctStaffName}</td>
-                              <td>{AddDetail.staffRegion}</td>
-                              <td>{AddDetail.sctStaffPhoneNumber}</td>
-                              <td>{AddDetail.sctStaffEmailId}</td>
-                              <td>{AddDetail.sctStaffDesignation}</td>
-                              <td>
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() =>
-                                    onRemoveChange(AddDetail.sctStaffName)
-                                  }
-                                  src={require("../../static/images/close-buttonRed.png")}
-                                  alt="Remove"
-                                  title="Remove"
-                                />
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
-                </div>
-              </div> */}
           </div>
 
           <div
@@ -970,6 +682,6 @@ export default connect(mapStateToProps, {
   getActiveCountry,
   getMarketingEmployee,
   getLeadsList,
-  // getStates,
-  // getDistrict,
+  getActiveState,
+  getActiveDistricts,
 })(EditSctLead);
