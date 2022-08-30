@@ -2117,3 +2117,12 @@ padding: 0.15rem !important;
   --rs-text-link-hover: #fff !important;
   text-decoration: none !important;
 }
+
+/*close*/
+
+/*to Remove border for sct and dct dropdownmenu*/
+button:focus,button:active {
+  outline: none !important;
+  
+}
+/*end*/
