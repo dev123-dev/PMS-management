@@ -30,7 +30,7 @@ const AllSctContacts = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
-  console.log("leadDataVal", leadDataVal);
+  // console.log("leadDataVal", leadDataVal);
   const [formData, setFormData] = useState({
     sctStaffName: "",
     sctStaffPhoneNumber: "",

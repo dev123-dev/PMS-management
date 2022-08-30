@@ -14,6 +14,7 @@ const AllSctStatusChange = ({
   from,
   filterData,
 }) => {
+  console.log("leadDataVal", leadDataVal);
   let StatusMethods = [
     { value: "VoiceMail", label: "Voice Mail" },
     { value: "CallBack", label: "Call Back" },
@@ -118,18 +119,18 @@ const AllSctStatusChange = ({
 
   const allStaff = [];
   leadDataVal &&
-    leadDataVal.staffs &&
-    leadDataVal.staffs.map(
-      (staffs) =>
-        staffs.staffStatus === "Active" &&
+    leadDataVal.sctStaffs &&
+    leadDataVal.sctStaffs.map(
+      (sctStaffs) =>
+        sctStaffs.sctStaffStatus === "Active" &&
         allStaff.push({
-          staffsId: staffs._id,
-          label: staffs.sctStaffName,
-          value: staffs.sctStaffName,
+          staffsId: sctStaffs._id,
+          label: sctStaffs.sctStaffName,
+          value: sctStaffs.sctStaffName,
         })
     );
 
-  const [staffs, getstaffsData] = useState("");
+  const [sctStaffs, getstaffsData] = useState("");
   const onStaffChange = (e) => {
     //  Required Validation starts
     setError({
@@ -259,8 +260,8 @@ const AllSctStatusChange = ({
       const finalData = {
         sctCallToId: leadDataVal._id,
         sctCallToName: leadDataVal.companyName,
-        sctCallToStaffId: staffs.staffsId,
-        sctCallToStaffName: staffs.value,
+        sctCallToStaffId: sctStaffs.staffsId,
+        sctCallToStaffName: sctStaffs.value,
         sctCallFromId: user._id,
         sctCallFromName: user.userName,
         sctCallCategory: callCategoryVal,
@@ -336,7 +337,7 @@ const AllSctStatusChange = ({
               name="sctStaffName"
               options={allStaff}
               isSearchable={true}
-              value={staffs}
+              value={sctStaffs}
               placeholder="Select Staff"
               onChange={(e) => onStaffChange(e)}
               required
