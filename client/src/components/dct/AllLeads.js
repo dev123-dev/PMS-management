@@ -97,10 +97,12 @@ const AllLeads = ({
   };
 
   const ondivcloseChange = (e) => {
+    console.log("HII");
     if (e) {
       handledivModalClose();
-      // setcolorData("");
+      console.log("leadData", leadData);
     }
+    console.log("leadDataAAAAA", leadData);
   };
 
   const handledivModalClose = () => setShowHide(false);

@@ -15,11 +15,7 @@ import DeactiveSctLead from "./DeactiveSctLead";
 import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
-// import AllContacts from "./AllContacts";
-// import AllStatuschange from "./AllStatuschange";
-// import LastMessageDetails from "./LastMessageDetails";
-// import EditLead from "./EditLead";
-// import DeactiveLead from "./DeactiveLead";
+
 import { getActiveCountry } from "../../actions/regions";
 
 const AllSctLeads = ({
@@ -40,9 +36,9 @@ const AllSctLeads = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);
-  console.log("getAllSctLeads", getAllSctLeads);
-  console.log("getAllSctLeadsDD", getAllSctLeadsDD);
-  console.log("getAllSctLeadsEmp", getAllSctLeadsEmp);
+  // console.log("getAllSctLeads", getAllSctLeads);
+  // console.log("getAllSctLeadsDD", getAllSctLeadsDD);
+  // console.log("getAllSctLeadsEmp", getAllSctLeadsEmp);
 
   const [filterData, setFilterData] = useState();
 
