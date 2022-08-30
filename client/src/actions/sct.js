@@ -11,6 +11,7 @@ import {
   GET_ALL_SCT_LEADS_DD,
   GET_ALL_SCT_LEADS_EMP,
   SCT_LAST_MSG,
+  CALLHISTORYSCT,
 } from "./types";
 
 const config = {
@@ -246,6 +247,20 @@ export const addSctCalls = (finalData) => async (dispatch) => {
     // dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getCallHistory = (searchData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/sct/get-call-history", searchData);
+    dispatch({
+      type: CALLHISTORYSCT,
+      payload: res.data,
     });
   } catch (err) {
     dispatch({

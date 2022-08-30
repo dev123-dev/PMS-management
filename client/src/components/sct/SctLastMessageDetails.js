@@ -4,18 +4,18 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { Modal } from "react-bootstrap";
 import SctClientCallHistory from "./SctClientCallHistory";
-import { getCallHistory } from "../../actions/dct";
+import { getCallHistory } from "../../actions/sct";
 
 const SctLastMessageDetails = ({
   auth: { isAuthenticated, user, users, loading },
-  dct: { lastMsg },
+  sct: { sctLastMsg },
   getCallHistory,
   searchDataVal,
 
   //   AddState,
 }) => {
   //formData
-
+  console.log("searchDataVal", searchDataVal);
   const [showClientHistoryModal, setShowClientCallHistoryModal] =
     useState(false);
   const handleClientCallHistoryModalClose = () =>
@@ -31,8 +31,9 @@ const SctLastMessageDetails = ({
     setShowClientCallHistoryModal(true);
   };
   var sctCallDate = "";
-  // console.log(lastMsg && lastMsg.sctCallDate);
-  var ED = lastMsg && lastMsg.sctCallDate && lastMsg.sctCallDate.split(/\D/g);
+
+  var ED =
+    sctLastMsg && sctLastMsg.sctCallDate && sctLastMsg.sctCallDate.split(/\D/g);
   if (ED) {
     sctCallDate = [ED[2], ED[1], ED[0]].join("-");
   }
@@ -43,13 +44,15 @@ const SctLastMessageDetails = ({
     <Fragment>
       <div className="row col-lg-12 col-md-11 col-sm-10 col-10 fixTableHeadhistory">
         <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
-          <label>Staff Name : {lastMsg && lastMsg.sctCallToStaffName}</label>
+          <label>
+            Staff Name : {sctLastMsg && sctLastMsg.sctCallToStaffName}
+          </label>
         </div>
         <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
           <label>Call Date : {sctCallDate} </label>
         </div>
         <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
-          <label>Status : {lastMsg && lastMsg.sctCallStatus}</label>
+          <label>Status : {sctLastMsg && sctLastMsg.sctCallStatus}</label>
         </div>
         <div className="col-lg-9 col-md-11 col-sm-10 col-10 ">
           <label className="label-control mt-1"> Last Meeting Details :</label>
@@ -58,7 +61,7 @@ const SctLastMessageDetails = ({
             rows="2"
             placeholder="Notes"
             style={{ width: "100%" }}
-            value={lastMsg && lastMsg.sctCallDate}
+            value={sctLastMsg && sctLastMsg.sctCallDate}
             disabled
             // editable={false}
           ></textarea>
@@ -110,12 +113,12 @@ const SctLastMessageDetails = ({
 
 SctLastMessageDetails.propTypes = {
   auth: PropTypes.object.isRequired,
-  dct: PropTypes.object.isRequired,
+  sct: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  dct: state.dct,
+  sct: state.sct,
 });
 
 export default connect(mapStateToProps, {

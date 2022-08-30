@@ -5,7 +5,7 @@ import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
 const SctClientCallHistory = ({
   auth: { isAuthenticated, user, users, loading },
-  dct: { callHistory },
+  sct: { sctcallHistory },
   onClientCallHistoryModalChange,
 }) => {
   return !isAuthenticated || !user || !users ? (
@@ -28,35 +28,35 @@ const SctClientCallHistory = ({
             </tr>
           </thead>
           <tbody>
-            {callHistory &&
-              callHistory.map((callHistory, idx) => {
+            {sctcallHistory &&
+              sctcallHistory.map((sctcallHistory, idx) => {
                 var sctCallDate = "";
-                if (callHistory.callDate) {
-                  var ED = callHistory.callDate.split(/\D/g);
+                if (sctcallHistory.callDate) {
+                  var ED = sctcallHistory.callDate.split(/\D/g);
                   sctCallDate = [ED[2], ED[1], ED[0]].join("-");
                 }
-                if (callHistory.callCategory === "F") {
+                if (sctcallHistory.callCategory === "F") {
                   var callCategory = "Followup";
-                } else if (callHistory.callCategory === "P") {
+                } else if (sctcallHistory.callCategory === "P") {
                   var callCategory = "Prospects";
-                } else if (callHistory.callCategory === "TC") {
+                } else if (sctcallHistory.callCategory === "TC") {
                   var callCategory = "TestClient";
                 } else {
                   var callCategory = "RegularClient";
                 }
                 return (
                   <tr key={idx}>
-                    <td>{callHistory.sctCallToStaffName}</td>
+                    <td>{sctcallHistory.sctCallToStaffName}</td>
                     <td>{sctCallDate}</td>
-                    <td>{callHistory.sctCallStatus}</td>
+                    <td>{sctcallHistory.sctCallStatus}</td>
                     <td>{callCategory}</td>
                     <td>
-                      <Link to="#" title={callHistory.sctCallNote}>
-                        {callHistory.sctCallNote}
+                      <Link to="#" title={sctcallHistory.sctCallNote}>
+                        {sctcallHistory.sctCallNote}
                       </Link>
                     </td>
 
-                    <td>{callHistory.sctCallFromName}</td>
+                    <td>{sctcallHistory.sctCallFromName}</td>
                   </tr>
                 );
               })}
@@ -69,12 +69,12 @@ const SctClientCallHistory = ({
 
 SctClientCallHistory.propTypes = {
   auth: PropTypes.object.isRequired,
-  dct: PropTypes.object.isRequired,
+  sct: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  dct: state.dct,
+  sct: state.dct,
 });
 
 export default connect(mapStateToProps, {})(SctClientCallHistory);

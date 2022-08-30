@@ -262,6 +262,7 @@ router.post("/get-sct-last-message", async (req, res) => {
 
 router.post("/add-sct-calls", async (req, res) => {
   let data = req.body;
+
   try {
     let AddSctCallsDetails = new SctCalls(data);
     output = await AddSctCallsDetails.save();
@@ -291,3 +292,23 @@ router.post("/update-sct-leads-status", async (req, res) => {
   }
 });
 module.exports = router;
+
+router.post("/get-call-history", async (req, res) => {
+  const { sctCallToId } = req.body;
+  let query = {};
+  query = {
+    sctCallToId: {
+      $eq: sctCallToId,
+    },
+  };
+  try {
+    const getLastMsgData = await SctCalls.find(query).sort({
+      _id: -1,
+    });
+
+    res.json(getLastMsgData);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
