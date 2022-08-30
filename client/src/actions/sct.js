@@ -139,7 +139,7 @@ export const deactivateSctStaffDetails = (finalData) => async (dispatch) => {
 //**********************************SELECT**********************************
 export const getSctLeadDetails = (finalData) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
+    const res = await axios.post("/api/sct/get-dct-Leads", finalData, config);
     dispatch({
       type: ALL_SCT_LEADS,
       payload: res.data.result1,
@@ -220,7 +220,7 @@ export const getSctLastmessage = (searchData) => async (dispatch) => {
       type: SCT_LAST_MSG,
       payload: "",
     });
-    const res = await axios.post("/api/dct/get-sct-last-message", searchData);
+    const res = await axios.post("/api/sct/get-sct-last-message", searchData);
     dispatch({
       type: SCT_LAST_MSG,
       payload: res.data,
