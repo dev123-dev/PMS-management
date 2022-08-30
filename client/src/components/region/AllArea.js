@@ -7,6 +7,7 @@ import Spinner from "../layout/Spinner";
 import AllStates from "./AllStates";
 import AllDistricts from "./AllDistricts";
 import AllCountry from "./AllCountry";
+import AllSctCountry from "./AllSctCountry";
 
 const AllArea = ({ auth: { isAuthenticated, user, users } }) => {
   return !isAuthenticated || !user || !users ? (
@@ -22,7 +23,8 @@ const AllArea = ({ auth: { isAuthenticated, user, users } }) => {
           <Tabs>
             <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
               <TabList>
-                <Tab>Country</Tab>
+                <Tab>Dct Country</Tab>
+                <Tab>Sct Country</Tab>
                 <Tab>State</Tab>
                 <Tab>District</Tab>
               </TabList>
@@ -31,6 +33,11 @@ const AllArea = ({ auth: { isAuthenticated, user, users } }) => {
             <TabPanel>
               <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
                 <AllCountry />
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
+                <AllSctCountry />
               </div>
             </TabPanel>
             <TabPanel>
