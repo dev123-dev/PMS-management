@@ -5,7 +5,8 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
-import { addDctLeadDetails, getLeadsList } from "../../actions/dct";
+import { editSctLeadDetails, getLeadsList } from "../../actions/sct";
+// import { getLeadsList } from "../../actions/dct";
 import { getMarketingEmployee } from "../../actions/user";
 import {
   getActiveCountry,
@@ -19,11 +20,11 @@ const EditSctLead = ({
   regions: { activeCountry, activeState, activeDistricts },
   dct: { leadsList },
   alleditLeaddata,
-  editDctLeadDetails,
+  editSctLeadDetails,
   onEditModalChange,
   getActiveCountry,
   getMarketingEmployee,
-  getLeadsList,
+  // getLeadsList,
   getActiveState,
   getActiveDistricts,
 }) => {
@@ -39,9 +40,9 @@ const EditSctLead = ({
   useEffect(() => {
     getMarketingEmployee();
   }, [getMarketingEmployee]);
-  useEffect(() => {
-    getLeadsList();
-  }, [getLeadsList]);
+  // useEffect(() => {
+  //   getLeadsList();
+  // }, [getLeadsList]);
 
   //formData
   const [formData, setFormData] = useState({
@@ -308,11 +309,11 @@ const EditSctLead = ({
     if (checkErrors()) {
       const finalData = {
         sctCompanyName: sctCompanyName,
-        sctWebsite: sctWebsite,
         sctClientName: sctClientName,
         sctEmailId: sctEmailId,
         sctPhone1: sctPhone1,
         sctPhone2: sctPhone2,
+        sctWebsite: sctWebsite,
         sctLeadAddress: sctLeadAddress,
         sctImportantPoints: sctImportantPoints,
         countryId: countryId,
@@ -326,7 +327,7 @@ const EditSctLead = ({
         sctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
       };
       console.log(finalData);
-      //  addDctLeadDetails(finalData);
+      editSctLeadDetails(finalData);
       setFormData({
         ...formData,
         sctCompanyName: "",
@@ -678,10 +679,12 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  addDctLeadDetails,
+  // addDctLeadDetails,
   getActiveCountry,
   getMarketingEmployee,
-  getLeadsList,
+  // getLeadsList,
   getActiveState,
   getActiveDistricts,
+
+  editSctLeadDetails,
 })(EditSctLead);
