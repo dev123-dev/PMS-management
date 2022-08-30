@@ -33,6 +33,9 @@ const SctLeadsSchema = new mongoose.Schema({
   countryName: {
     type: String,
   },
+  sctcountryCode: {
+    type: String,
+  },
   stateId: {
     type: ObjectId,
   },
