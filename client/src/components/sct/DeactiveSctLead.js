@@ -4,14 +4,14 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
-// import { deactivateDctLeadDetails } from "../../actions/dct";
+import { deactivateSctLeadDetails } from "../../actions/sct";
 
 const DeactiveSctLead = ({
   auth: { isAuthenticated, user, users, loading },
   Leaddeavtivedata,
   onDeactiveModalChange,
-  // deactivateDctLeadDetails,
-  // filterData,
+  deactivateSctLeadDetails,
+  filterData,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -43,9 +43,9 @@ const DeactiveSctLead = ({
       sctLeadDeactivateById: user._id,
       sctLeadStatus: "Deactive",
       sctLeadDeactiveReason: sctLeadDeactiveReason,
-      // filterData: filterData,
+      filterData: filterData,
     };
-    // deactivateDctLeadDetails(finalData);
+    deactivateSctLeadDetails(finalData);
     onDeactiveModalChange(true);
   };
 
@@ -127,5 +127,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  //  deactivateDctLeadDetails
+  deactivateSctLeadDetails,
 })(DeactiveSctLead);
