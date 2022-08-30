@@ -30,10 +30,10 @@ const SctClientCallHistory = ({
           <tbody>
             {callHistory &&
               callHistory.map((callHistory, idx) => {
-                var callDates = "";
+                var sctCallDate = "";
                 if (callHistory.callDate) {
                   var ED = callHistory.callDate.split(/\D/g);
-                  callDates = [ED[2], ED[1], ED[0]].join("-");
+                  sctCallDate = [ED[2], ED[1], ED[0]].join("-");
                 }
                 if (callHistory.callCategory === "F") {
                   var callCategory = "Followup";
@@ -46,17 +46,17 @@ const SctClientCallHistory = ({
                 }
                 return (
                   <tr key={idx}>
-                    <td>{callHistory.callToStaffName}</td>
-                    <td>{callDates}</td>
-                    <td>{callHistory.callStatus}</td>
+                    <td>{callHistory.sctCallToStaffName}</td>
+                    <td>{sctCallDate}</td>
+                    <td>{callHistory.sctCallStatus}</td>
                     <td>{callCategory}</td>
                     <td>
-                      <Link to="#" title={callHistory.callNote}>
-                        {callHistory.callNote}
+                      <Link to="#" title={callHistory.sctCallNote}>
+                        {callHistory.sctCallNote}
                       </Link>
                     </td>
 
-                    <td>{callHistory.callFromName}</td>
+                    <td>{callHistory.sctCallFromName}</td>
                   </tr>
                 );
               })}
