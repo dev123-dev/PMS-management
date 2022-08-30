@@ -14,7 +14,7 @@ const initialState = {
   allDistrics: [],
   activeCountry: [],
   activeState: [],
-  activeDistrics: [],
+  activeDistricts: [],
   statesData: [],
 };
 
@@ -49,7 +49,7 @@ const regions = (state = initialState, action) => {
     case ACTIVE_DISTRICTS:
       return {
         ...state,
-        activeDistrics: payload,
+        activeDistricts: payload,
       };
     case STATES:
       return {
