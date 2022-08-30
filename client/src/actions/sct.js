@@ -231,3 +231,25 @@ export const getSctLastmessage = (searchData) => async (dispatch) => {
     });
   }
 };
+
+export const addSctCalls = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    const res = await axios.post("/api/sct/add-sct-calls", finalData, config);
+    const res2 = await axios.post(
+      "/api/sct/update-sct-leads-status",
+      finalData,
+      config
+    );
+    // dispatch(refreshLead(finalData));
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
