@@ -1,16 +1,39 @@
-import { ALL_LEADS } from "../actions/types";
+import {
+  GET_ALL_SCT_LEADS,
+  GET_ALL_SCT_LEADS_DD,
+  GET_ALL_SCT_LEADS_EMP,
+  SCT_LAST_MSG,
+} from "../actions/types";
 
 const initialState = {
-  allLeads: [],
+  getAllSctLeads: [],
+  getAllSctLeadsDD: [],
+  getAllSctLeadsEmp: [],
+  sctLastMsg: [],
 };
 
 const sct = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case ALL_LEADS:
+    case GET_ALL_SCT_LEADS:
       return {
         ...state,
-        allLeads: payload,
+        getAllSctLeads: payload,
+      };
+    case GET_ALL_SCT_LEADS_DD:
+      return {
+        ...state,
+        getAllSctLeadsDD: payload,
+      };
+    case GET_ALL_SCT_LEADS_EMP:
+      return {
+        ...state,
+        getAllSctLeadsEmp: payload,
+      };
+    case SCT_LAST_MSG:
+      return {
+        ...state,
+        sctLastMsg: payload,
       };
 
     default:

@@ -8,6 +8,7 @@ import settings from "./settings";
 import regions from "./regions";
 import user from "./user";
 import dct from "./dct";
+import sct from "./sct";
 
 export default combineReducers({
   alert,
@@ -19,4 +20,5 @@ export default combineReducers({
   user,
   regions,
   dct,
+  sct,
 });

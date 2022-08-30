@@ -5,12 +5,11 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-import Clock from "react-live-clock";
 import {
-  getAllDctLead,
-  getAllDctLeadDD,
-  getLastmessage,
-} from "../../actions/dct";
+  getAllSctLead,
+  getAllSctLeadDD,
+  getSctLastmessage,
+} from "../../actions/sct";
 import EditSctLead from "./EditSctLead";
 import DeactiveSctLead from "./DeactiveSctLead";
 import SctLastMessageDetails from "./SctLastMessageDetails";
@@ -25,23 +24,25 @@ import { getActiveCountry } from "../../actions/regions";
 
 const AllSctLeads = ({
   auth: { isAuthenticated, user, users },
-  dct: { getAllLeads, getAllLeadsDD, getAllLeadsEmp },
+  sct: { getAllSctLeads, getAllSctLeadsDD, getAllSctLeadsEmp },
   regions: { activeCountry },
-  getAllDctLead,
+  getAllSctLead,
   getActiveCountry,
-  getAllDctLeadDD,
-  getLastmessage,
+  getAllSctLeadDD,
+  getSctLastmessage,
 }) => {
   useEffect(() => {
-    getAllDctLead();
+    getAllSctLead();
   }, []);
   useEffect(() => {
-    getAllDctLeadDD();
+    getAllSctLeadDD();
   }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);
-
+  console.log("getAllSctLeads", getAllSctLeads);
+  console.log("getAllSctLeadsDD", getAllSctLeadsDD);
+  console.log("getAllSctLeadsEmp", getAllSctLeadsEmp);
   const [showHide1, setShowHide1] = useState({
     showUSSection: false,
     showAUDSection: false,
@@ -65,9 +66,9 @@ const AllSctLeads = ({
   const { showdateselectionSection } = showHide;
 
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (getAllLeads, idx) => {
+  const onUpdate = (getAllSctLeads, idx) => {
     setShowEditModal(true);
-    setUserDatas(getAllLeads);
+    setUserDatas(getAllSctLeads);
   };
 
   const [userDatadeactive, setUserDatadeactive] = useState(null);
@@ -87,14 +88,14 @@ const AllSctLeads = ({
   const [colorData, setcolorData] = useState();
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
-  const onClickHandler = (getAllLeads, idx) => {
+  const onClickHandler = (getAllSctLeads, idx) => {
     setcolorData(idx);
-    setLeadData(getAllLeads);
+    setLeadData(getAllSctLeads);
     const searchData = {
-      callToId: getAllLeads._id,
+      callToId: getAllSctLeads._id,
     };
     setsearchDataVal(searchData);
-    getLastmessage(searchData);
+    getSctLastmessage(searchData);
     setShowHide({
       ...showHide,
       showdateselectionSection: true,
@@ -156,13 +157,13 @@ const AllSctLeads = ({
     getclientsData("");
     getempData("");
     getcountryIdData(e.countryId);
-    getAllDctLead({ countryId: e.countryId });
-    getAllDctLeadDD({ countryId: e.countryId });
+    getAllSctLead({ countryId: e.countryId });
+    getAllSctLeadDD({ countryId: e.countryId });
     setFilterData({ countryId: e.countryId });
   };
 
   const allclient = [];
-  getAllLeadsDD.map((clients) =>
+  getAllSctLeadsDD.map((clients) =>
     allclient.push({
       clientsId: clients._id,
       label: clients.companyName,
@@ -172,7 +173,7 @@ const AllSctLeads = ({
   const [clients, getclientsData] = useState();
   const onclientsChange = (e) => {
     getclientsData(e);
-    getAllDctLead({
+    getAllSctLead({
       countryId: countryId,
       clientsId: e.clientsId,
     });
@@ -183,11 +184,11 @@ const AllSctLeads = ({
   };
 
   const allemp = [{ empId: null, label: "All", value: null }];
-  getAllLeadsEmp.map((emp) =>
+  getAllSctLeadsEmp.map((emp) =>
     allemp.push({
       empId: emp._id,
-      label: emp.dctLeadAssignedToName,
-      value: emp.dctLeadAssignedToName,
+      label: emp.sctLeadAssignedToName,
+      value: emp.sctLeadAssignedToName,
     })
   );
 
@@ -196,12 +197,12 @@ const AllSctLeads = ({
   const onempChange = (e) => {
     getempData(e);
     setempID(e.empId);
-    getAllDctLead({
+    getAllSctLead({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
     });
-    getAllDctLeadDD({
+    getAllSctLeadDD({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
@@ -219,8 +220,8 @@ const AllSctLeads = ({
     getcountryIdData("");
     getclientsData("");
     getempData("");
-    getAllDctLead();
-    getAllDctLeadDD();
+    getAllSctLead();
+    getAllSctLeadDD();
     setFilterData();
     ondivcloseChange(true);
     setcolorData("");
@@ -365,11 +366,11 @@ const AllSctLeads = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {getAllLeads &&
-                        getAllLeads.map((getAllLeads, idx) => {
+                      {getAllSctLeads &&
+                        getAllSctLeads.map((getAllSctLeads, idx) => {
                           var callDates = "";
-                          if (getAllLeads.dctCallDate) {
-                            var ED = getAllLeads.dctCallDate.split(/\D/g);
+                          if (getAllSctLeads.dctCallDate) {
+                            var ED = getAllSctLeads.dctCallDate.split(/\D/g);
                             callDates = [ED[2], ED[1], ED[0]].join("-");
                           }
                           return (
@@ -378,7 +379,9 @@ const AllSctLeads = ({
                               className={
                                 colorData === idx ? "seletedrowcolorchange" : ""
                               }
-                              onClick={() => onClickHandler(getAllLeads, idx)}
+                              onClick={() =>
+                                onClickHandler(getAllSctLeads, idx)
+                              }
                             >
                               <td>{idx + 1}</td>
                               <td>
@@ -386,27 +389,29 @@ const AllSctLeads = ({
                                   className="float-left ml-1"
                                   to="#"
                                   // onClick={() =>
-                                  //   onClickHandler(getAllLeads, idx)
+                                  //   onClickHandler(getAllSctLeads, idx)
                                   // }
                                 > */}
-                                {getAllLeads.companyName}
+                                {getAllSctLeads.companyName}
                                 {/* </Link> */}
                               </td>
-                              <td>{getAllLeads.website}</td>
-                              <td>{getAllLeads.emailId}</td>
-                              <td>{getAllLeads.countryName}</td>
+                              <td>{getAllSctLeads.website}</td>
+                              <td>{getAllSctLeads.emailId}</td>
+                              <td>{getAllSctLeads.countryName}</td>
                               <td>
-                                {getAllLeads.countryCode
-                                  ? "+" + getAllLeads.countryCode
+                                {getAllSctLeads.countryCode
+                                  ? "+" + getAllSctLeads.countryCode
                                   : ""}
                                 &nbsp;
-                                {getAllLeads.phone1}
+                                {getAllSctLeads.phone1}
                               </td>
                               <td>{callDates}</td>
                               <td>
                                 <img
                                   className="img_icon_size log"
-                                  onClick={() => onDeactive(getAllLeads, idx)}
+                                  onClick={() =>
+                                    onDeactive(getAllSctLeads, idx)
+                                  }
                                   src={require("../../static/images/delete.png")}
                                   alt="Delete Project"
                                   title="Delete Project"
@@ -414,7 +419,7 @@ const AllSctLeads = ({
                                 &emsp;
                                 <img
                                   className="img_icon_size log"
-                                  onClick={() => onUpdate(getAllLeads, idx)}
+                                  onClick={() => onUpdate(getAllSctLeads, idx)}
                                   src={require("../../static/images/edit_icon.png")}
                                   alt="Edit"
                                   title="Edit"
@@ -429,7 +434,7 @@ const AllSctLeads = ({
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
                     <label>
-                      No of Leads : {getAllLeads && getAllLeads.length}
+                      No of Leads : {getAllSctLeads && getAllSctLeads.length}
                     </label>
                   </div>
                 </div>
@@ -550,19 +555,19 @@ const AllSctLeads = ({
 
 AllSctLeads.propTypes = {
   auth: PropTypes.object.isRequired,
-  dct: PropTypes.object.isRequired,
+  sct: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   user: state.user,
-  dct: state.dct,
+  sct: state.sct,
   regions: state.regions,
 });
 
 export default connect(mapStateToProps, {
-  getAllDctLead,
-  getAllDctLeadDD,
+  getAllSctLead,
+  getAllSctLeadDD,
   getActiveCountry,
-  getLastmessage,
+  getSctLastmessage,
 })(AllSctLeads);
