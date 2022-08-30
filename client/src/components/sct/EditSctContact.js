@@ -167,6 +167,58 @@ const EditSctContact = ({
                 onChange={(e) => onstaffcountryChange(e)}
               />
             </div>
+            <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+              <label
+                className="label-control"
+                // style={StateErrorStyle}
+              >
+                State* :
+              </label>
+              <Select
+                name="stateName"
+                // options={allstates}
+                isSearchable={true}
+                // value={state}
+                placeholder="Select State"
+                // onChange={(e) => onStateChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
+            <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+              <label
+                className="label-control"
+                // style={DistrictErrorStyle}
+              >
+                District* :
+              </label>
+              <Select
+                name="districtName"
+                // options={alldistrict}
+                isSearchable={true}
+                //  value={district}
+                placeholder="Select District"
+                // onChange={(e) => ondistrictChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
             <div className="col-lg-3 col-md-6 col-sm-6 col-12">
               <label className="label-control">Staff Phone:</label>
               <input

@@ -148,17 +148,22 @@ const Amendments = ({
                       {amendmentProjects &&
                         amendmentProjects.map((amendmentProjects, idx) => {
                           return (
-                            <tr key={idx}>
+                            <tr
+                              key={idx}
+                              onClick={() =>
+                                onClickHandler(amendmentProjects, idx)
+                              }
+                            >
                               <td>
-                                <Link
+                                {/* <Link
                                   className="float-left ml-3"
                                   to="#"
                                   onClick={() =>
                                     onClickHandler(amendmentProjects, idx)
                                   }
-                                >
-                                  {amendmentProjects.output[0].clientName}
-                                </Link>
+                                > */}
+                                {amendmentProjects.output[0].clientName}
+                                {/* </Link> */}
                               </td>
                               <td>
                                 <b>

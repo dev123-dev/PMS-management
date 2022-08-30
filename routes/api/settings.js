@@ -368,10 +368,16 @@ router.get("/get-all-rights", async (req, res) => {
 });
 
 router.post("/get-all-feedback", async (req, res) => {
-  let { feedbackStatus } = req.body;
+  let { feedbackStatus, feedbackBelongsTo } = req.body;
 
   let query = {};
-  if (feedbackStatus) {
+  if (feedbackBelongsTo) {
+    query = {
+      feedbackBelongsTo: {
+        $eq: feedbackBelongsTo,
+      },
+    };
+  } else if (feedbackStatus) {
     query = {
       feedbackStatus: {
         $eq: feedbackStatus,

@@ -35,7 +35,8 @@ const AllFeedback = ({
     feedbackpriority: "",
     projectStatusCategory: "",
     projectStatusData: priorityCategory[0],
-    feedbackBelongsTo: feedbackBelongs[0],
+    feedbackBelongsTo: "",
+    // feedbackBelongsTo: feedbackBelongs[0],
     isSubmitted: false,
   });
   // const onInputChange = (e) => {
@@ -100,6 +101,11 @@ const AllFeedback = ({
         feedbackBelongsTo: e,
       });
     }
+    const finalData = {
+      feedbackBelongsTo: e.value,
+    };
+
+    getAllFeedback(finalData);
   };
 
   const [showStatusModal, setShowStatusModal] = useState(false);
@@ -127,6 +133,14 @@ const AllFeedback = ({
     setUserDatas1(finalData);
   };
 
+  const onClickReset = () => {
+    getAllFeedback("");
+    setFormData({
+      ...formData,
+      feedbackBelongsTo: "",
+    });
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -136,26 +150,6 @@ const AllFeedback = ({
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className="col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All FeedBacks</h5>
-            </div>
-            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
-                name="projectStatusData"
-                options={priorityCategory}
-                isSearchable={true}
-                value={projectStatusData}
-                placeholder="Select Status Category"
-                onChange={(e) => onStatuscatChange1(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
-              />
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -177,7 +171,34 @@ const AllFeedback = ({
                 })}
               />
             </div>
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+              <Select
+                name="projectStatusData"
+                options={priorityCategory}
+                isSearchable={true}
+                value={projectStatusData}
+                placeholder="Select Status Category"
+                onChange={(e) => onStatuscatChange1(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
+
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickReset()}
+              >
+                Refresh
+              </button>
               <Link
                 to="#"
                 className="btn btn_green_bg float-right"
@@ -203,7 +224,6 @@ const AllFeedback = ({
                         <th>Changes</th>
                         <th>Belongs To</th>
                         <th>Priority</th>
-
                         <th>Notes</th>
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
