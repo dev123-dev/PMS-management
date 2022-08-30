@@ -5,7 +5,7 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
-import { addDctLeadDetails, getLeadsList } from "../../actions/dct";
+import { getLeadsList } from "../../actions/dct";
 import { addSctLeadDetails } from "../../actions/sct";
 import { getMarketingEmployee } from "../../actions/user";
 import {
@@ -1020,6 +1020,7 @@ AddSctLeads.propTypes = {
   client: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
   dct: PropTypes.object.isRequired,
+  sct: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -1029,6 +1030,7 @@ const mapStateToProps = (state) => ({
   client: state.client,
   regions: state.regions,
   dct: state.dct,
+  sct: state.sct,
 });
 
 export default connect(mapStateToProps, {

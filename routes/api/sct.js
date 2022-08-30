@@ -145,3 +145,5 @@ router.post("/deactivate-sct-staff", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
+
+module.exports = router;
