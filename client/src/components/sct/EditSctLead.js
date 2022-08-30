@@ -29,7 +29,7 @@ const EditSctLead = ({
   //   getStates();
   // }, [getStates]);
   useEffect(() => {
-    getActiveCountry();
+    getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
   useEffect(() => {
     getMarketingEmployee();

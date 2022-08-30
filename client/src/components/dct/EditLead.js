@@ -20,7 +20,7 @@ const EditLead = ({
   filterData,
 }) => {
   useEffect(() => {
-    getActiveCountry();
+    getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
   useEffect(() => {
     getMarketingEmployee();

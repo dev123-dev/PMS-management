@@ -24,7 +24,7 @@ const EditSctContact = ({
 }) => {
   //formData
   useEffect(() => {
-    getActiveCountry();
+    getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
   const [formData, setFormData] = useState({
     sctStaffName:

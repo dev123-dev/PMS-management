@@ -28,7 +28,7 @@ const AllSctContacts = ({
   filterData,
 }) => {
   useEffect(() => {
-    getActiveCountry();
+    getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
   console.log(leadDataVal);
   const [formData, setFormData] = useState({

@@ -20,7 +20,7 @@ const AddLead = ({
   getLeadsList,
 }) => {
   useEffect(() => {
-    getActiveCountry();
+    getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
   useEffect(() => {
     getMarketingEmployee();

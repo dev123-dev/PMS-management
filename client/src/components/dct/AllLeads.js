@@ -34,7 +34,7 @@ const AllLeads = ({
     getAllDctLeadDD();
   }, []);
   useEffect(() => {
-    getActiveCountry();
+    getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
 
   const [showHide1, setShowHide1] = useState({

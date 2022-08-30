@@ -28,9 +28,9 @@ const AllContacts = ({
   filterData,
 }) => {
   useEffect(() => {
-    getActiveCountry();
+    getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
-  console.log(leadDataVal);
+
   const [formData, setFormData] = useState({
     staffName: "",
     staffPhoneNumber: "",

@@ -39,7 +39,7 @@ const AllSctLeads = ({
     getAllDctLeadDD();
   }, []);
   useEffect(() => {
-    getActiveCountry();
+    getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);
 
   const [showHide1, setShowHide1] = useState({

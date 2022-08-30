@@ -34,7 +34,7 @@ const EditDctClients = ({
     getALLPaymentMode();
   }, [getALLPaymentMode]);
   useEffect(() => {
-    getActiveCountry();
+    getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
   useEffect(() => {
     getMarketingEmployee();
