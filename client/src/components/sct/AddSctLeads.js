@@ -121,6 +121,8 @@ const AddSctLeads = ({
           sctStaffEmailId: sctStaffEmailId,
           sctStaffDesignation: sctStaffDesignation,
           sctstaffRegion: staffcountryname,
+          staffstateName: staffstateName,
+          staffdistrictName: staffdistrictName,
           sctstaffRegionId: staffcountryId,
           sctstaffStateId: staffstateId,
           sctstaffDistrictId: staffdistrictId,
@@ -139,6 +141,8 @@ const AddSctLeads = ({
         });
         setstaffCountryCode("");
         getstaffcountryData("");
+        getstaffStateData("");
+        getstaffdistrictData("");
         let temp = [];
         temp.push(...AddedDetails, addData);
         AddDetails(temp);
@@ -943,7 +947,11 @@ const AddSctLeads = ({
                           return (
                             <tr key={idx}>
                               <td>{AddDetail.sctStaffName}</td>
-                              <td>{AddDetail.sctstaffRegion}</td>
+                              <td>
+                                {AddDetail.sctstaffRegion},
+                                {AddDetail.staffstateName},
+                                {AddDetail.staffdistrictName}
+                              </td>
                               <td>{AddDetail.sctStaffPhoneNumber}</td>
                               <td>{AddDetail.sctStaffEmailId}</td>
                               <td>{AddDetail.sctStaffDesignation}</td>
