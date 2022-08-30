@@ -16,7 +16,7 @@ import {
 const AddSctLeads = ({
   auth: { isAuthenticated, user, users, loading },
   user: { marketingEmployees },
-  regions: { activeCountry, activeState, activeDistrics },
+  regions: { activeCountry, activeState, activeDistricts },
   dct: { leadsList },
   getActiveState,
   getActiveDistricts,
@@ -42,7 +42,7 @@ const AddSctLeads = ({
   }, [getLeadsList]);
 
   console.log("activeState", activeState);
-  console.log("activeDistrics", activeDistrics);
+  console.log("activeDistricts", activeDistricts);
 
   //formData
   const [formData, setFormData] = useState({
@@ -245,76 +245,76 @@ const AddSctLeads = ({
     setstaffCountryCode(staffCountryCode);
   };
 
-  // const alldistrict = [];
+  const allstates = [];
+  activeState.map((state) =>
+    allstates.push({
+      sId: state._id,
+      label: state.stateName,
+      value: state.stateName,
+    })
+  );
 
-  // activeDistrict.map((district) =>
-  //   alldistrict.push({
-  //     districtId: district._id,
-  //     label: district.districtName,
-  //     value: district.districtName,
-  //   })
-  // );
+  const [state, getStateData] = useState("");
 
-  // const [district, getdistrictData] = useState();
-  // const [districtId, setdistrictID] = useState();
-  // const [districtName, setdistrictName] = useState();
+  const [stateId, setStateID] = useState("");
+  const [stateName, setStateName] = useState("");
 
-  // const ondistrictChange = (e) => {
-  //   setError({
-  //     ...error,
-  //     DistrictIdChecker: true,
-  //     DistrictErrorStyle: { color: "#000" },
-  //   });
+  const onStateChange = (e) => {
+    //Required Validation starts
+    setError({
+      ...error,
+      StateIdChecker: true,
+      StateErrorStyle: { color: "#000" },
+    });
+    //Required Validation end
 
-  //   var districtId = "";
-  //   var districtName = "";
-  //   getdistrictData(e);
+    var stateId = "";
+    var stateName = "";
+    getStateData(e);
 
-  //   districtId = e.districtId;
-  //   districtName = e.value;
+    stateId = e.sId;
+    stateName = e.value;
 
-  //   setdistrictID(districtId);
-  //   setdistrictName(districtName);
-  // };
+    setStateID(stateId);
+    setStateName(stateName);
+    let stateVal = {
+      // userInfo: user,
+      stateInfo: stateId,
+    };
+    getActiveDistricts(stateVal);
+  };
 
-  // const allstates = [];
-  // statesData.map((state) =>
-  //   allstates.push({
-  //     sId: state._id,
-  //     label: state.stateName,
-  //     value: state.stateName,
-  //   })
-  // );
+  const alldistrict = [];
 
-  // const [state, getStateData] = useState("");
+  activeDistricts.map((district) =>
+    alldistrict.push({
+      districtId: district._id,
+      label: district.districtName,
+      value: district.districtName,
+    })
+  );
 
-  // const [stateId, setStateID] = useState("");
-  // const [stateName, setStateName] = useState("");
+  const [district, getdistrictData] = useState();
+  const [districtId, setdistrictID] = useState();
+  const [districtName, setdistrictName] = useState();
 
-  // const onStateChange = (e) => {
-  //   //Required Validation starts
-  //   setError({
-  //     ...error,
-  //     StateIdChecker: true,
-  //     StateErrorStyle: { color: "#000" },
-  //   });
-  //   //Required Validation end
+  const ondistrictChange = (e) => {
+    setError({
+      ...error,
+      DistrictIdChecker: true,
+      DistrictErrorStyle: { color: "#000" },
+    });
 
-  //   var stateId = "";
-  //   var stateName = "";
-  //   getStateData(e);
+    var districtId = "";
+    var districtName = "";
+    getdistrictData(e);
 
-  //   stateId = e.sId;
-  //   stateName = e.value;
+    districtId = e.districtId;
+    districtName = e.value;
 
-  //   setStateID(stateId);
-  //   setStateName(stateName);
-  //   let stateVal = {
-  //     // userInfo: user,
-  //     stateInfo: stateId,
-  //   };
-  //   getDistrict(stateVal);
-  // };
+    setdistrictID(districtId);
+    setdistrictName(districtName);
+  };
 
   const [error, setError] = useState({
     countrytypeIdChecker: false,
@@ -604,11 +604,11 @@ const AddSctLeads = ({
                     </label>
                     <Select
                       name="stateName"
-                      // options={allstates}
+                      options={allstates}
                       isSearchable={true}
-                      // value={state}
+                      value={state}
                       placeholder="Select State"
-                      // onChange={(e) => onStateChange(e)}
+                      onChange={(e) => onStateChange(e)}
                       theme={(theme) => ({
                         ...theme,
                         height: 26,
@@ -630,11 +630,11 @@ const AddSctLeads = ({
                     </label>
                     <Select
                       name="districtName"
-                      // options={alldistrict}
+                      options={alldistrict}
                       isSearchable={true}
-                      //  value={district}
+                      value={district}
                       placeholder="Select District"
-                      // onChange={(e) => ondistrictChange(e)}
+                      onChange={(e) => ondistrictChange(e)}
                       theme={(theme) => ({
                         ...theme,
                         height: 26,
