@@ -51,7 +51,11 @@ const ClientCallHistory = ({
                     <td>{callHistory.callStatus}</td>
                     <td>{callCategory}</td>
                     <td>
-                      <Link to="#" title={callHistory.callNote}>
+                      <Link
+                        to="#"
+                        className="linkoflastmesge"
+                        title={callHistory.callNote}
+                      >
                         {callHistory.callNote}
                       </Link>
                     </td>
