@@ -4,6 +4,9 @@ import {
   ERROR,
   SET_LOADING_TRUE,
   SET_LOADING_FALSE,
+  ALL_SCT_LEADS,
+  ALL_SCT_LEADS_DD,
+  ALL_SCT_LEADS_EMP,
   GET_ALL_SCT_LEADS,
   GET_ALL_SCT_LEADS_DD,
   GET_ALL_SCT_LEADS_EMP,
@@ -122,7 +125,7 @@ export const deactivateSctStaffDetails = (finalData) => async (dispatch) => {
     dispatch({
       type: SET_LOADING_TRUE,
     });
-    await axios.post("/api/dct/deactivate-sct-staff", finalData, config);
+    await axios.post("/api/sct/deactivate-sct-staff", finalData, config);
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -133,7 +136,40 @@ export const deactivateSctStaffDetails = (finalData) => async (dispatch) => {
   }
 };
 
-//SELECT
+//**********************************SELECT**********************************
+export const getSctLeadDetails = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
+    dispatch({
+      type: ALL_SCT_LEADS,
+      payload: res.data.result1,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getSctLeadDetailsDD = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/sct/get-sct-Leads", finalData, config);
+    dispatch({
+      type: ALL_SCT_LEADS_DD,
+      payload: res.data.result1,
+    });
+    if (finalData === undefined || (finalData && finalData.emp !== true)) {
+      dispatch({
+        type: ALL_SCT_LEADS_EMP,
+        payload: res.data.result2,
+      });
+    }
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
 
 //ALL LEADS
 export const getAllSctLead = (finalData) => async (dispatch) => {
