@@ -30,7 +30,7 @@ const AllSctContacts = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
-  console.log(leadDataVal);
+  // console.log(leadDataVal);
   const [formData, setFormData] = useState({
     sctStaffName: "",
     sctStaffPhoneNumber: "",
@@ -146,6 +146,8 @@ const AllSctContacts = ({
       // staffCountryCode: staffCountryCode,
       filterData: filterData,
     };
+    console.log(finalData);
+
     if (from === "client") {
       addNewDctClientStaffDetails(finalData);
     } else {

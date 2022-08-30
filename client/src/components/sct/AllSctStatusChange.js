@@ -20,23 +20,25 @@ const AllSctStatusChange = ({
     { value: "DND", label: "DND" },
     { value: "NI", label: "NI" },
     { value: "FollowUp", label: "Follow Up" },
-    { value: "TestClient", label: "Test Client" },
+    { value: "Demo", label: "Demo" },
+    { value: "AdditionalDemo", label: "Additional Demo" },
+    { value: "EnagedClient", label: "Enaged Client" },
     { value: "RegularClient", label: "Regular Client" },
   ];
   if (from === "FollowUp" || from === "F") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) => StatusMethods.value !== "FollowUp"
     );
-  } else if (from === "TestClient") {
+  } else if (from === "EnagedClient") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
-        StatusMethods.value !== "TestClient" &&
+        StatusMethods.value !== "EnagedClient" &&
         StatusMethods.value !== "FollowUp"
     );
   } else if (from === "RegularClient") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
-        StatusMethods.value !== "TestClient" &&
+        StatusMethods.value !== "EnagedClient" &&
         StatusMethods.value !== "FollowUp" &&
         StatusMethods.value !== "RegularClient"
     );
@@ -235,19 +237,19 @@ const AllSctStatusChange = ({
   const onSubmit = (e) => {
     let callCategoryVal = null;
     let callComeFromVal = "Lead";
-    if (from === "TestClient" || from === "RegularClient")
+    if (from === "EnagedClient" || from === "RegularClient")
       callComeFromVal = "Client";
 
     if (sctCallStatus.value === "FollowUp") {
       callCategoryVal = "F";
-    } else if (sctCallStatus.value === "TestClient") {
+    } else if (sctCallStatus.value === "EnagedClient") {
       callCategoryVal = "TC";
     } else if (sctCallStatus.value === "RegularClient") {
       callCategoryVal = "RC";
     } else {
       if (leadDataVal.dctLeadCategory === "NL") callCategoryVal = "P";
       else {
-        if (from === "TestClient" || from === "RegularClient")
+        if (from === "EnagedClient" || from === "RegularClient")
           callCategoryVal = leadDataVal.dctClientCategory;
         else callCategoryVal = leadDataVal.dctLeadCategory;
       }
@@ -271,7 +273,7 @@ const AllSctStatusChange = ({
         filterData: filterData,
       };
       // console.log(finalData);
-      if (from === "TestClient" || from === "RegularClient") {
+      if (from === "EnagedClient" || from === "RegularClient") {
         addDctClientCalls(finalData);
       } else {
         addDctCalls(finalData);
