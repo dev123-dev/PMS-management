@@ -63,7 +63,7 @@ const DeactiveDctClient = ({
             </label>
           </div>
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-            <label className="label-control">Client Email : {emailId}</label>
+            <label className="label-control">Client Email Id: {emailId}</label>
           </div>
 
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">

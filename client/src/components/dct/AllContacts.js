@@ -365,7 +365,7 @@ const AllContacts = ({
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">EmailId:</label>
+                  <label className="label-control">Email Id:</label>
                   <input
                     type="text"
                     name="staffEmailId"
