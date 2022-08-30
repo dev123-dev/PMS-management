@@ -308,6 +308,7 @@ const EditSctLead = ({
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
+        recordId: alleditLeaddata ? alleditLeaddata._id : "",
         sctCompanyName: sctCompanyName,
         sctClientName: sctClientName,
         sctEmailId: sctEmailId,
