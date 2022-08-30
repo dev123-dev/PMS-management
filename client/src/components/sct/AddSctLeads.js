@@ -73,7 +73,7 @@ const AddSctLeads = ({
     sctStaffPhoneNumber: "",
     sctStaffEmailId: "",
     sctStaffDesignation: "",
-    staffRegion: "",
+    sctstaffRegion: "",
     staffCountryCode: "",
   });
 
@@ -82,7 +82,7 @@ const AddSctLeads = ({
     sctStaffPhoneNumber,
     sctStaffEmailId,
     sctStaffDesignation,
-    staffRegion,
+    sctstaffRegion,
   } = addData;
 
   const [error1, setError1] = useState({
@@ -112,13 +112,12 @@ const AddSctLeads = ({
     if (staffList.length === 0) {
       if (checkErrorscontact()) {
         const addData = {
-          // id: idVal,
           sctStaffName: sctStaffName,
           sctStaffPhoneNumber: sctStaffPhoneNumber,
           sctStaffEmailId: sctStaffEmailId,
           sctStaffDesignation: sctStaffDesignation,
-          staffRegion: staffcountryname,
-          staffRegionId: staffcountryId,
+          sctstaffRegion: staffcountryname,
+          sctstaffRegionId: staffcountryId,
           staffCountryCode: staffCountryCode,
         };
         setFormDatas({
@@ -127,7 +126,7 @@ const AddSctLeads = ({
           sctStaffPhoneNumber: "",
           sctStaffEmailId: "",
           sctStaffDesignation: "",
-          staffRegion: "",
+          sctstaffRegion: "",
           staffCountryCode: "",
         });
         setstaffCountryCode("");
@@ -372,15 +371,16 @@ const AddSctLeads = ({
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
         countryCode: countrycode,
-        dctLeadStatus: "Active",
-        dctLeadCategory: "NL",
-        dctCallDate: new Date().toISOString().split("T")[0],
-        // services: ServicesDetails,
+        // stateId:,
+        // districtId:,
+        sctLeadStatus: "Active",
+        sctLeadCategoryStatus: "NL",
+        sctCallDate: new Date().toISOString().split("T")[0],
         staffs: AddedDetails,
-        dctLeadEnteredById: user._id,
-        dctLeadEnteredByName: user.empFullName,
-        dctLeadAssignedToId: empId,
-        dctLeadAssignedToName: empName,
+        sctLeadEnteredById: user._id,
+        sctLeadEnteredByName: user.empFullName,
+        sctLeadAssignedToId: empId,
+        sctLeadAssignedToName: empName,
       };
       addDctLeadDetails(finalData);
       setFormData({
@@ -818,22 +818,6 @@ const AddSctLeads = ({
                       }
                     />
                   </div>
-                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Staff Phone</label>
-                    <input
-                      type="number"
-                      name="sctStaffPhoneNumber"
-                      value={sctStaffPhoneNumber}
-                      className="form-control"
-                      onChange={(e) => onInputChange1(e)}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
-                    />
-                  </div> */}
-
-                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12"> */}
                   <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Designation :</label>
                     <input
@@ -845,13 +829,6 @@ const AddSctLeads = ({
                     />
                   </div>
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    {/* <input
-                        type="submit"
-                        name="Submit"
-                        value="ADD"
-                        className="btn sub_form btn_continue blackbrd Save float-right"
-                      /> */}
-
                     <button
                       variant="success"
                       className="btn sub_form btn_continue Save float-right"
@@ -888,7 +865,7 @@ const AddSctLeads = ({
                           return (
                             <tr key={idx}>
                               <td>{AddDetail.sctStaffName}</td>
-                              <td>{AddDetail.staffRegion}</td>
+                              <td>{AddDetail.sctstaffRegion}</td>
                               <td>{AddDetail.sctStaffPhoneNumber}</td>
                               <td>{AddDetail.sctStaffEmailId}</td>
                               <td>{AddDetail.sctStaffDesignation}</td>
