@@ -119,6 +119,12 @@ const SctLeadsSchema = new mongoose.Schema({
       sctstaffCountryCode: {
         type: String,
       },
+      sctstaffStateId: {
+        type: ObjectId,
+      },
+      sctstaffDistrictId: {
+        type: ObjectId,
+      },
       sctStaffDeactivateById: {
         type: ObjectId,
       },

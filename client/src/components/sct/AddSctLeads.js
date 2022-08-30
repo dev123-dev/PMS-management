@@ -260,6 +260,7 @@ const AddSctLeads = ({
   const [stateName, setStateName] = useState("");
 
   const onStateChange = (e) => {
+    getdistrictData("");
     //Required Validation starts
     setError({
       ...error,
@@ -315,6 +316,76 @@ const AddSctLeads = ({
     setdistrictName(districtName);
   };
 
+  const allstaffstates = [];
+  activeState.map((staffstate) =>
+    allstaffstates.push({
+      sId: staffstate._id,
+      label: staffstate.stateName,
+      value: staffstate.stateName,
+    })
+  );
+
+  const [staffstate, getstaffStateData] = useState("");
+
+  const [staffstateId, setstaffStateID] = useState("");
+  const [staffstateName, setstaffStateName] = useState("");
+
+  const onstaffStateChange = (e) => {
+    getdistrictData("");
+    //Required Validation starts
+    setError({
+      ...error,
+      StateIdChecker: true,
+      StateErrorStyle: { color: "#000" },
+    });
+    //Required Validation end
+
+    var staffstateId = "";
+    var staffstateName = "";
+    getstaffStateData(e);
+
+    staffstateId = e.sId;
+    staffstateName = e.value;
+
+    setstaffStateID(staffstateId);
+    setstaffStateName(staffstateName);
+    let stateVal = {
+      staffstateId: staffstateId,
+    };
+    getActiveDistricts(stateVal);
+  };
+
+  const allstaffdistrict = [];
+
+  activeDistricts.map((staffdistrict) =>
+    allstaffdistrict.push({
+      districtId: staffdistrict._id,
+      label: staffdistrict.districtName,
+      value: staffdistrict.districtName,
+    })
+  );
+
+  const [staffdistrict, getstaffdistrictData] = useState();
+  const [staffdistrictId, setstaffdistrictID] = useState();
+  const [staffdistrictName, setstaffdistrictName] = useState();
+
+  const onstaffdistrictChange = (e) => {
+    setError({
+      ...error,
+      DistrictIdChecker: true,
+      DistrictErrorStyle: { color: "#000" },
+    });
+
+    var staffdistrictId = "";
+    var staffdistrictName = "";
+    getstaffdistrictData(e);
+
+    staffdistrictId = e.districtId;
+    staffdistrictName = e.value;
+
+    setstaffdistrictID(staffdistrictId);
+    setstaffdistrictName(staffdistrictName);
+  };
   const [error, setError] = useState({
     countrytypeIdChecker: false,
     countrytypeIdErrorStyle: {},
@@ -374,8 +445,8 @@ const AddSctLeads = ({
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
         sctcountryCode: countrycode,
-        // stateId:,
-        // districtId:,
+        stateId: stateId,
+        districtId: districtId,
         sctLeadStatus: "Active",
         sctLeadCategoryStatus: "NL",
         sctCallDate: new Date().toISOString().split("T")[0],
@@ -749,11 +820,11 @@ const AddSctLeads = ({
                     </label>
                     <Select
                       name="stateName"
-                      //   options={allstates}
+                      options={allstaffstates}
                       isSearchable={true}
-                      // value={state}
+                      value={staffstate}
                       placeholder="Select State"
-                      //onChange={(e) => onStateChange(e)}
+                      onChange={(e) => onstaffStateChange(e)}
                       theme={(theme) => ({
                         ...theme,
                         height: 26,
@@ -775,11 +846,11 @@ const AddSctLeads = ({
                     </label>
                     <Select
                       name="districtName"
-                      //options={alldistrict}
+                      options={allstaffdistrict}
                       isSearchable={true}
-                      // value={district}
+                      value={staffdistrict}
                       placeholder="Select District"
-                      // onChange={(e) => ondistrictChange(e)}
+                      onChange={(e) => onstaffdistrictChange(e)}
                       theme={(theme) => ({
                         ...theme,
                         height: 26,
