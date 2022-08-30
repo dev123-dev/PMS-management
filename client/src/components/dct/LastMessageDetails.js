@@ -5,6 +5,7 @@ import Spinner from "../layout/Spinner";
 import { Modal } from "react-bootstrap";
 import ClientCallHistory from "./ClientCallHistory";
 import { getCallHistory } from "../../actions/dct";
+import { Link } from "react-router-dom";
 
 const LastMessageDetails = ({
   auth: { isAuthenticated, user, users, loading },
@@ -53,15 +54,21 @@ const LastMessageDetails = ({
         </div>
         <div className="col-lg-9 col-md-11 col-sm-10 col-10 ">
           <label className="label-control mt-1"> Last Meeting Details :</label>
-          <textarea
-            className="textarea form-control"
-            rows="2"
-            placeholder="Notes"
-            style={{ width: "100%" }}
-            value={lastMsg && lastMsg.callNote}
-            disabled
-            // editable={false}
-          ></textarea>
+          <Link
+            className="linkoflastmesge"
+            to="#"
+            title={lastMsg && lastMsg.callNote}
+          >
+            <textarea
+              className="textarea form-control"
+              rows="2"
+              placeholder="Notes"
+              style={{ width: "100%" }}
+              value={lastMsg && lastMsg.callNote}
+              disabled
+              // editable={false}
+            ></textarea>
+          </Link>
         </div>
         <div className="col-lg-3 col-md-12 col-sm-12 col-12 mt-3">
           <input
