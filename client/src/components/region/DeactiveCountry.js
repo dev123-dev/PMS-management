@@ -40,6 +40,7 @@ const DeactiveCountry = ({
       countryDeactivateReason: countryDeactivateReason,
       countryDeactivateById: user._id,
       countryDeactivateDateTime: new Date().toLocaleString(),
+      countryBelongsTo: "DCT",
     };
 
     deactiveCountryData(finalData);

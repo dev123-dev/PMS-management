@@ -42,6 +42,7 @@ const EditSctCountry = ({
       countryCode: countryCode,
       countryEditedById: user._id,
       countryEditedDateTime: new Date().toLocaleString(),
+      countryBelongsTo: "SCT",
     };
 
     EditCountryData(finalData);

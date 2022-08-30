@@ -169,10 +169,14 @@ router.post("/deactive-districts-details", async (req, res) => {
 //SELECT
 
 router.get("/get-all-countries", async (req, res) => {
+  const { countryBelongsTo } = req.body;
   try {
     const getAllCountries = await Country.find({
       countryStatus: {
         $eq: "Active",
+      },
+      countryBelongsTo: {
+        $eq: countryBelongsTo,
       },
     });
     res.json(getAllCountries);

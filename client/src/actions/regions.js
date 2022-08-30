@@ -27,7 +27,7 @@ export const addCountryDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/regions/add-country-details", finalData, config);
-    dispatch(getAllCountries());
+    dispatch(getAllCountries(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -80,7 +80,7 @@ export const EditCountryData = (finalData) => async (dispatch) => {
       type: SET_LOADING_FALSE,
     });
     await axios.post("/api/regions/edit-country-details", finalData);
-    dispatch(getAllCountries());
+    dispatch(getAllCountries(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -137,7 +137,7 @@ export const deactiveCountryData = (finalData) => async (dispatch) => {
       finalData,
       config
     );
-    dispatch(getAllCountries());
+    dispatch(getAllCountries(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -187,9 +187,9 @@ export const deactiveDistrictsData = (finalData) => async (dispatch) => {
 };
 //SELECT
 
-export const getAllCountries = () => async (dispatch) => {
+export const getAllCountries = (reqData) => async (dispatch) => {
   try {
-    const res = await axios.get("/api/regions/get-all-countries");
+    const res = await axios.get("/api/regions/get-all-countries", reqData);
     dispatch({
       type: ALL_COUNTRIES,
       payload: res.data,

@@ -42,6 +42,7 @@ const EditCountryDetails = ({
       countryCode: countryCode,
       countryEditedById: user._id,
       countryEditedDateTime: new Date().toLocaleString(),
+      countryBelongsTo: "DCT",
     };
 
     EditCountryData(finalData);

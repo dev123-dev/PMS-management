@@ -13,7 +13,7 @@ const AllSctCountry = ({
   getAllCountries,
 }) => {
   useEffect(() => {
-    getAllCountries();
+    getAllCountries({ countryBelongsTo: "SCT" });
   }, [getAllCountries]);
 
   const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);

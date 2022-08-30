@@ -70,15 +70,6 @@ const AllFeedback = ({
     setUserDatas(paymentMode);
   };
 
-  // const onfeedbackpriorityChange = (e) => {
-  //   if (e) {
-  //     setFormData({
-  //       ...formData,
-  //       feedbackpriority: e,
-  //     });
-  //   }
-  // };
-
   const onStatuscatChange1 = (e) => {
     if (e) {
       setFormData({
@@ -86,12 +77,10 @@ const AllFeedback = ({
         projectStatusData: e,
       });
     }
-
     const finalData = {
       feedbackStatus: e.value,
       feedbackBelongsTo: feedbackBelongsTo.value,
     };
-
     getAllFeedback(finalData);
   };
 
@@ -106,7 +95,6 @@ const AllFeedback = ({
       feedbackBelongsTo: e.value,
       feedbackStatus: projectStatusData.value,
     };
-
     getAllFeedback(finalData);
   };
 
@@ -139,6 +127,7 @@ const AllFeedback = ({
     getAllFeedback("");
     setFormData({
       ...formData,
+      projectStatusData: priorityCategory[0],
       feedbackBelongsTo: "",
     });
   };
@@ -227,6 +216,7 @@ const AllFeedback = ({
                         <th>Belongs To</th>
                         <th>Priority</th>
                         <th>Notes</th>
+                        <th>Feedback Entered Date</th>
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ? (
@@ -252,6 +242,14 @@ const AllFeedback = ({
                     <tbody>
                       {allFeedback &&
                         allFeedback.map((allFeedback, idx) => {
+                          var feedbackEnteredDate = "";
+                          if (allFeedback.feedbackEnteredDate) {
+                            var ED =
+                              allFeedback.feedbackEnteredDate.split(/\D/g);
+                            feedbackEnteredDate = [ED[2], ED[1], ED[0]].join(
+                              "-"
+                            );
+                          }
                           return (
                             <tr key={idx}>
                               <td>{allFeedback.feedbackProblem}</td>
@@ -259,8 +257,8 @@ const AllFeedback = ({
                               <td>{allFeedback.feedbackCategory}</td>
                               <td>{allFeedback.feedbackBelongsTo}</td>
                               <td>{allFeedback.feedbackPriority}</td>
-
                               <td>{allFeedback.feedbackNotes}</td>
+                              <td>{feedbackEnteredDate}</td>
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
                               user.userGroupName === "Super Admin" ? (
