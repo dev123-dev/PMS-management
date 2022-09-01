@@ -95,6 +95,7 @@ export const ALL_DCT_CLIENTS_EMP = "ALL_DCT_CLIENTS_EMP";
 export const DCT_CLIENTS_EMP = "DCT_CLIENTS_EMP";
 export const GET_LEADS_LIST = "GET_LEADS_LIST";
 export const GET_SELECTED_LEADS = "GET_SELECTED_LEADS";
+export const GET_STAFF_DATA = "GET_STAFF_DATA";
 
 //SCT
 export const ALL_SCT_LEADS = "ALL_SCT_LEADS";

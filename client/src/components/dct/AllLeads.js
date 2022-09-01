@@ -97,12 +97,9 @@ const AllLeads = ({
   };
 
   const ondivcloseChange = (e) => {
-    console.log("HII");
     if (e) {
       handledivModalClose();
-      console.log("leadData", leadData);
     }
-    console.log("leadDataAAAAA", leadData);
   };
 
   const handledivModalClose = () => setShowHide(false);
@@ -438,6 +435,7 @@ const AllLeads = ({
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead">
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
+                  {/* {showdateselectionSection && ( */}
                   <AllContacts
                     leadDataVal={leadData}
                     ondivcloseChange={ondivcloseChange}
@@ -445,6 +443,7 @@ const AllLeads = ({
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
                   />
+                  {/* )} */}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">

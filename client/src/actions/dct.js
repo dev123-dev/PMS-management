@@ -22,6 +22,7 @@ import {
   DCT_CLIENTS_EMP,
   GET_LEADS_LIST,
   GET_SELECTED_LEADS,
+  GET_STAFF_DATA,
 } from "./types";
 
 const config = {
@@ -151,6 +152,7 @@ export const addNewDctStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/add-new-dct-staff", finalData, config);
+    dispatch(getStaffsData(finalData.staffFilter));
     dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
@@ -168,9 +170,10 @@ export const addNewDctClientStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/add-new-dct-client-staff", finalData, config);
+    dispatch(getStaffsData(finalData.staffFilter));
     if (finalData.filterData) {
       dispatch(getDctClientDetails(finalData.filterData));
-      dispatch(getDctClientDetails(finalData.filterData));
+      dispatch(getDctClientDetailsDD(finalData.filterData));
     }
     dispatch({
       type: SET_LOADING_FALSE,
@@ -188,6 +191,7 @@ export const editDctStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/edit-dct-staff", finalData, config);
+    dispatch(getStaffsData(finalData.staffFilter));
     dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
@@ -204,9 +208,10 @@ export const editDctClientStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/edit-dct-client-staff", finalData, config);
+    dispatch(getStaffsData(finalData.staffFilter));
     if (finalData.filterData) {
       dispatch(getDctClientDetails(finalData.filterData));
-      dispatch(getDctClientDetails(finalData.filterData));
+      dispatch(getDctClientDetailsDD(finalData.filterData));
     }
     dispatch({
       type: SET_LOADING_FALSE,
@@ -224,6 +229,7 @@ export const deactivateDctStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/deactivate-dct-staff", finalData, config);
+    dispatch(getStaffsData(finalData.staffFilter));
     dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
@@ -245,9 +251,10 @@ export const deactivateDctClientStaffDetails =
         finalData,
         config
       );
+      dispatch(getStaffsData(finalData.staffFilter));
       if (finalData.filterData) {
         dispatch(getDctClientDetails(finalData.filterData));
-        dispatch(getDctClientDetails(finalData.filterData));
+        dispatch(getDctClientDetailsDD(finalData.filterData));
       }
       dispatch({
         type: SET_LOADING_FALSE,
@@ -297,7 +304,7 @@ export const refreshLead = (finalData) => async (dispatch) => {
   try {
     if (finalData.filterData) {
       dispatch(getDctLeadDetails(finalData.filterData));
-      dispatch(getDctLeadDetails(finalData.filterData));
+      dispatch(getDctLeadDetailsDD(finalData.filterData));
     }
     dispatch(getAllDctLead());
     dispatch(getAllDctLeadDD());
@@ -552,6 +559,33 @@ export const getSelectedLead = (finalData) => async (dispatch) => {
     );
     dispatch({
       type: GET_SELECTED_LEADS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getStaffsData = (finalData) => async (dispatch) => {
+  try {
+    let res = [];
+    if (finalData.staffFrom == "lead") {
+      res = await axios.post(
+        "/api/dct/get-lead-staffs-data",
+        finalData,
+        config
+      );
+    } else if (finalData.staffFrom == "client") {
+      res = await axios.post(
+        "/api/dct/get-client-staffs-data",
+        finalData,
+        config
+      );
+    }
+    dispatch({
+      type: GET_STAFF_DATA,
       payload: res.data,
     });
   } catch (err) {

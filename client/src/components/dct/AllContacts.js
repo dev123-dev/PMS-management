@@ -10,12 +10,14 @@ import {
   addNewDctClientStaffDetails,
   deactivateDctStaffDetails,
   deactivateDctClientStaffDetails,
+  getStaffsData,
 } from "../../actions/dct";
 import { getActiveCountry } from "../../actions/regions";
 
 const AllContacts = ({
   auth: { isAuthenticated, user, users, loading },
   regions: { activeCountry },
+  dct: { staffData },
   leadDataVal,
   addNewDctStaffDetails,
   addNewDctClientStaffDetails,
@@ -26,10 +28,15 @@ const AllContacts = ({
   showdateselectionSection,
   from,
   filterData,
+  getStaffsData,
 }) => {
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
+  let staffFilter = { staffFrom: from, leadDataVal: leadDataVal };
+  useEffect(() => {
+    getStaffsData(staffFilter);
+  }, [leadDataVal]);
 
   const [formData, setFormData] = useState({
     staffName: "",
@@ -145,6 +152,7 @@ const AllContacts = ({
       staffRegionId: staffcountryId,
       staffCountryCode: staffCountryCode,
       filterData: filterData,
+      staffFilter: staffFilter,
     };
     if (from === "client") {
       addNewDctClientStaffDetails(finalData);
@@ -166,7 +174,7 @@ const AllContacts = ({
     });
     setstaffCountryCode("");
     getstaffcountryData("");
-    ondivcloseChange(true);
+    // ondivcloseChange(true);
   };
 
   const onSubmitDeactive = (e) => {
@@ -179,6 +187,7 @@ const AllContacts = ({
       staffStatus: "Deactive",
       staffDeactiveReason: staffDeactiveReason,
       filterData: filterData,
+      staffFilter: staffFilter,
     };
     if (from === "client") {
       deactivateDctClientStaffDetails(finalData);
@@ -196,7 +205,7 @@ const AllContacts = ({
       staffDeactiveReason: "",
       isSubmitted: true,
     });
-    ondivcloseChange(true);
+    // ondivcloseChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -250,9 +259,9 @@ const AllContacts = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {leadDataVal &&
-                        leadDataVal.staffs &&
-                        leadDataVal.staffs.map((staff, idx) => {
+                      {staffData &&
+                        staffData.staffs &&
+                        staffData.staffs.map((staff, idx) => {
                           if (staff.staffStatus === "Active")
                             return (
                               <tr key={idx}>
@@ -323,6 +332,7 @@ const AllContacts = ({
             ondivcloseChange={ondivcloseChange}
             from={from}
             filterData={filterData}
+            staffFilter={staffFilter}
           />
         </Modal.Body>
       </Modal>
@@ -543,11 +553,13 @@ const AllContacts = ({
 AllContacts.propTypes = {
   auth: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
+  dct: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   regions: state.regions,
+  dct: state.dct,
 });
 
 export default connect(mapStateToProps, {
@@ -556,4 +568,5 @@ export default connect(mapStateToProps, {
   deactivateDctStaffDetails,
   getActiveCountry,
   deactivateDctClientStaffDetails,
+  getStaffsData,
 })(AllContacts);

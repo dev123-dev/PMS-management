@@ -21,6 +21,7 @@ const EditContact = ({
   editDctClientStaffDetails,
   from,
   filterData,
+  staffFilter,
 }) => {
   //formData
   useEffect(() => {
@@ -111,6 +112,7 @@ const EditContact = ({
       staffRegionId: staffcountryId,
       staffCountryCode: staffCountryCode,
       filterData: filterData,
+      staffFilter: staffFilter,
     };
 
     if (from === "client") {
@@ -119,7 +121,7 @@ const EditContact = ({
       editDctStaffDetails(finalData);
     }
     onEditModalChange(true);
-    ondivcloseChange(true);
+    // ondivcloseChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
