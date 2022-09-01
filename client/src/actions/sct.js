@@ -11,6 +11,7 @@ import {
   GET_ALL_SCT_LEADS_DD,
   GET_ALL_SCT_LEADS_EMP,
   SCT_LAST_MSG,
+  CALLHISTORYSCT,
 } from "./types";
 
 const config = {
@@ -223,6 +224,42 @@ export const getSctLastmessage = (searchData) => async (dispatch) => {
     const res = await axios.post("/api/sct/get-sct-last-message", searchData);
     dispatch({
       type: SCT_LAST_MSG,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const addSctCalls = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    const res = await axios.post("/api/sct/add-sct-calls", finalData, config);
+    const res2 = await axios.post(
+      "/api/sct/update-sct-leads-status",
+      finalData,
+      config
+    );
+    // dispatch(refreshLead(finalData));
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getCallHistory = (searchData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/sct/get-call-history", searchData);
+    dispatch({
+      type: CALLHISTORYSCT,
       payload: res.data,
     });
   } catch (err) {

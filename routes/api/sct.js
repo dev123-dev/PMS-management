@@ -260,4 +260,55 @@ router.post("/get-sct-last-message", async (req, res) => {
   }
 });
 
+router.post("/add-sct-calls", async (req, res) => {
+  let data = req.body;
+
+  try {
+    let AddSctCallsDetails = new SctCalls(data);
+    output = await AddSctCallsDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/update-sct-leads-status", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateSctLeads = await SctLeads.updateOne(
+      { _id: data.sctCallToId },
+      {
+        $set: {
+          sctLeadCategory: data.sctCallCategory,
+          sctLeadCategoryStatus: data.sctCallStatus,
+          sctCallDate: data.sctCallDate,
+        },
+      }
+    );
+    res.json(updateSctLeads);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
 module.exports = router;
+
+router.post("/get-call-history", async (req, res) => {
+  const { sctCallToId } = req.body;
+  let query = {};
+  query = {
+    sctCallToId: {
+      $eq: sctCallToId,
+    },
+  };
+  try {
+    const getLastMsgData = await SctCalls.find(query).sort({
+      _id: -1,
+    });
+
+    res.json(getLastMsgData);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});

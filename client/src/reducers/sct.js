@@ -3,6 +3,7 @@ import {
   GET_ALL_SCT_LEADS_DD,
   GET_ALL_SCT_LEADS_EMP,
   SCT_LAST_MSG,
+  CALLHISTORYSCT,
 } from "../actions/types";
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
   getAllSctLeadsDD: [],
   getAllSctLeadsEmp: [],
   sctLastMsg: [],
+  sctcallHistory: [],
 };
 
 const sct = (state = initialState, action) => {
@@ -35,7 +37,11 @@ const sct = (state = initialState, action) => {
         ...state,
         sctLastMsg: payload,
       };
-
+    case CALLHISTORYSCT:
+      return {
+        ...state,
+        sctcallHistory: payload,
+      };
     default:
       return state;
   }

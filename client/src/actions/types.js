@@ -81,6 +81,7 @@ export const ALL_LEADS = "ALL_LEADS";
 export const ALL_LEADS_DD = "ALL_LEADS_DD";
 export const LAST_MSG = "LAST_MSG";
 export const CALLHISTORY = "CALLHISTORY";
+
 export const GET_ALL_LEADS = "GET_ALL_LEADS";
 export const GET_ALL_LEADS_DD = "GET_ALL_LEADS_DD";
 export const ALL_DCT_CLIENTS = "ALL_DCT_CLIENTS";
@@ -101,7 +102,7 @@ export const GET_STAFF_DATA = "GET_STAFF_DATA";
 export const ALL_SCT_LEADS = "ALL_SCT_LEADS";
 export const ALL_SCT_LEADS_DD = "ALL_SCT_LEADS_DD";
 export const ALL_SCT_LEADS_EMP = "ALL_SCT_LEADS_EMP";
-
+export const CALLHISTORYSCT = "CALLHISTORYSCT";
 export const GET_ALL_SCT_LEADS = "GET_ALL_SCT_LEADS";
 export const GET_ALL_SCT_LEADS_DD = "GET_ALL_SCT_LEADS_DD";
 export const GET_ALL_SCT_LEADS_EMP = "GET_ALL_SCT_LEADS_EMP";
