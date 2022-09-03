@@ -13,6 +13,7 @@ import {
   SCT_LAST_MSG,
   SCTCALLHISTORY,
   ALL_SCT_PROJECT,
+  SCT_PROJECT,
 } from "./types";
 
 const config = {
@@ -311,6 +312,20 @@ export const editSctProject = (finalData) => async (dispatch) => {
     dispatch(getALLSctProjects());
     dispatch({
       type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getProjectList = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/sct/get-sct-project");
+    dispatch({
+      type: SCT_PROJECT,
+      payload: res.data,
     });
   } catch (err) {
     dispatch({

@@ -5,7 +5,11 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
-import { editSctLeadDetails, getLeadsList } from "../../actions/sct";
+import {
+  editSctLeadDetails,
+  getLeadsList,
+  getProjectList,
+} from "../../actions/sct";
 // import { getLeadsList } from "../../actions/dct";
 import { getMarketingEmployee } from "../../actions/user";
 import {
@@ -19,12 +23,14 @@ const EditSctLead = ({
   user: { marketingEmployees },
   regions: { activeCountry, activeState, activeDistricts },
   dct: { leadsList },
+  sct: { projectList },
   alleditLeaddata,
   editSctLeadDetails,
   onEditModalChange,
   getActiveCountry,
   getMarketingEmployee,
   // getLeadsList,
+  getProjectList,
   getActiveState,
   getActiveDistricts,
 }) => {
@@ -40,6 +46,9 @@ const EditSctLead = ({
   useEffect(() => {
     getMarketingEmployee();
   }, [getMarketingEmployee]);
+  useEffect(() => {
+    getProjectList();
+  }, [getProjectList]);
   // useEffect(() => {
   //   getLeadsList();
   // }, [getLeadsList]);
@@ -131,7 +140,35 @@ const EditSctLead = ({
     setcountryID(countryId);
     setcountrycode(countrycode);
   };
+  const allprojects = [];
+  projectList &&
+    projectList.map((projects) =>
+      allprojects.push({
+        projectsId: projects._id,
 
+        label: projects.sctProjectName,
+        value: projects.sctProjectName,
+      })
+    );
+
+  const [projects, getprojectsData] = useState();
+  const [projectsId, setprojectsID] = useState();
+
+  const onprojectsChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   countrytypeIdChecker: true,
+    //   countrytypeIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var projectsId = "";
+
+    getprojectsData(e);
+
+    projectsId = e.projectsId;
+    setprojectsID(projectsId);
+  };
   const allemp = [];
   marketingEmployees &&
     marketingEmployees.map((emp) =>
@@ -569,7 +606,32 @@ const EditSctLead = ({
                     })}
                   />
                 </div>
-
+                <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <label
+                    className="label-control"
+                    // style={StateErrorStyle}
+                  >
+                    Lead of :
+                  </label>
+                  <Select
+                    name="sctProjectName"
+                    options={allprojects}
+                    isSearchable={true}
+                    value={projects}
+                    placeholder="Select Projects"
+                    onChange={(e) => onprojectsChange(e)}
+                    theme={(theme) => ({
+                      ...theme,
+                      height: 26,
+                      minHeight: 26,
+                      borderRadius: 1,
+                      colors: {
+                        ...theme.colors,
+                        primary: "black",
+                      },
+                    })}
+                  />
+                </div>
                 {user.empCtAccess && user.empCtAccess === "All" ? (
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label
@@ -666,6 +728,7 @@ EditSctLead.propTypes = {
   client: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
   dct: PropTypes.object.isRequired,
+  sct: PropTypes.object.isRequired,
   // getStates: PropTypes.func.isRequired,
   // getDistrict: PropTypes.func.isRequired,
 };
@@ -677,6 +740,7 @@ const mapStateToProps = (state) => ({
   client: state.client,
   regions: state.regions,
   dct: state.dct,
+  sct: state.sct,
 });
 
 export default connect(mapStateToProps, {
@@ -686,6 +750,6 @@ export default connect(mapStateToProps, {
   // getLeadsList,
   getActiveState,
   getActiveDistricts,
-
+  getProjectList,
   editSctLeadDetails,
 })(EditSctLead);

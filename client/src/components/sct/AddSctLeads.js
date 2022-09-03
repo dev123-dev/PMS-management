@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
 import { getLeadsList } from "../../actions/dct";
-import { addSctLeadDetails } from "../../actions/sct";
+import { addSctLeadDetails, getProjectList } from "../../actions/sct";
 import { getMarketingEmployee } from "../../actions/user";
 import {
   getActiveCountry,
@@ -19,10 +19,12 @@ const AddSctLeads = ({
   user: { marketingEmployees },
   regions: { activeCountry, activeState, activeDistricts },
   dct: { leadsList },
+  sct: { projectList },
   getActiveState,
   getActiveDistricts,
   addSctLeadDetails,
   getActiveCountry,
+  getProjectList,
   getMarketingEmployee,
   getLeadsList,
 }) => {
@@ -41,6 +43,9 @@ const AddSctLeads = ({
   useEffect(() => {
     getLeadsList();
   }, [getLeadsList]);
+  useEffect(() => {
+    getProjectList();
+  }, [getProjectList]);
 
   //formData
   const [formData, setFormData] = useState({
@@ -184,6 +189,36 @@ const AddSctLeads = ({
     countryId = e.countryId;
     setcountryID(countryId);
     setcountrycode(countrycode);
+  };
+
+  const allprojects = [];
+  projectList &&
+    projectList.map((projects) =>
+      allprojects.push({
+        projectsId: projects._id,
+
+        label: projects.sctProjectName,
+        value: projects.sctProjectName,
+      })
+    );
+
+  const [projects, getprojectsData] = useState();
+  const [projectsId, setprojectsID] = useState();
+
+  const onprojectsChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   countrytypeIdChecker: true,
+    //   countrytypeIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var projectsId = "";
+
+    getprojectsData(e);
+
+    projectsId = e.projectsId;
+    setprojectsID(projectsId);
   };
 
   const allemp = [];
@@ -624,6 +659,7 @@ const AddSctLeads = ({
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
+
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Phone 1* :</label>
                     <input
@@ -723,7 +759,32 @@ const AddSctLeads = ({
                       })}
                     />
                   </div>
-
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label
+                      className="label-control"
+                      // style={StateErrorStyle}
+                    >
+                      Lead of :
+                    </label>
+                    <Select
+                      name="sctProjectName"
+                      options={allprojects}
+                      isSearchable={true}
+                      value={projects}
+                      placeholder="Select Projects"
+                      onChange={(e) => onprojectsChange(e)}
+                      theme={(theme) => ({
+                        ...theme,
+                        height: 26,
+                        minHeight: 26,
+                        borderRadius: 1,
+                        colors: {
+                          ...theme.colors,
+                          primary: "black",
+                        },
+                      })}
+                    />
+                  </div>
                   {user.empCtAccess && user.empCtAccess === "All" ? (
                     <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                       <label
@@ -1036,6 +1097,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   addSctLeadDetails,
   getActiveCountry,
+  getProjectList,
   getMarketingEmployee,
   getLeadsList,
   getActiveState,

@@ -3,6 +3,7 @@ import {
   GET_ALL_SCT_LEADS_DD,
   GET_ALL_SCT_LEADS_EMP,
   ALL_SCT_PROJECT,
+  SCT_PROJECT,
   SCT_LAST_MSG,
   SCTCALLHISTORY,
 } from "../actions/types";
@@ -13,6 +14,7 @@ const initialState = {
   getAllSctLeadsEmp: [],
   sctLastMsg: [],
   allSctProject: [],
+  projectList: [],
   sctcallHistory: [],
 };
 
@@ -49,6 +51,12 @@ const sct = (state = initialState, action) => {
         ...state,
         allSctProject: payload,
       };
+    case SCT_PROJECT:
+      return {
+        ...state,
+        projectList: payload,
+      };
+
     default:
       return state;
   }

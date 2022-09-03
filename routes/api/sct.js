@@ -358,3 +358,14 @@ router.post("/edit-sct-project", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
+
+router.post("/get-sct-project", async (req, res) => {
+  // const { institutionId } = req.body;
+  try {
+    const getProjectList = await SctProjects.find();
+    res.json(getProjectList);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
