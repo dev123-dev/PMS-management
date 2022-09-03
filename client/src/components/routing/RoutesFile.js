@@ -72,6 +72,8 @@ import AllArea from "../region/AllArea";
 //sct
 import AllSctLeads from "../sct/AllSctLeads";
 import AddSctLeads from "../sct/AddSctLeads";
+import AllSctProspects from "../sct/AllSctProspects";
+import AllSctFollowup from "../sct/AllSctFollowup";
 const RoutesFile = () => {
   return (
     <section>
@@ -105,7 +107,16 @@ const RoutesFile = () => {
         {/* SCT */}
         <PrivateRoute exact path="/all-sct-leads" component={AllSctLeads} />
         <PrivateRoute exact path="/add-sct-lead" component={AddSctLeads} />
-
+        <PrivateRoute
+          exact
+          path="/all-sct-prospects"
+          component={AllSctProspects}
+        />
+        <PrivateRoute
+          exact
+          path="/all-sct-followup"
+          component={AllSctFollowup}
+        />
         <PrivateRoute exact path="/add-lead" component={AddLead} />
         <PrivateRoute exact path="/edit-lead" component={EditLead} />
         <PrivateRoute exact path="/deactive-lead" component={DeactiveLead} />

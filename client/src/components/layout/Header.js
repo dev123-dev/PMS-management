@@ -179,6 +179,19 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     >
                       <Dropdown.Item>All Leads</Dropdown.Item>
                     </NavLink>
+                    <NavLink
+                      to="/all-sct-prospects"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>All Prospectus</Dropdown.Item>
+                    </NavLink>
+                    <NavLink
+                      to="/all-sct-followup"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>All Followup</Dropdown.Item>
+                    </NavLink>
+
                     {/* <NavLink
                       to="/all-prospects"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
