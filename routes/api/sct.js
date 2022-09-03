@@ -9,6 +9,8 @@ const SctCalls = require("../../models/sct/sctCalls");
 const SctClients = require("../../models/sct/sctClients");
 const EmployeeDetails = require("../../models/EmpDetails");
 
+const SctProjects = require("../../models/sct/SctProjects");
+
 //ADD
 router.post("/add-sct-Leads", async (req, res) => {
   let data = req.body;
@@ -310,5 +312,49 @@ router.post("/get-call-history", async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/add-sct-project", async (req, res) => {
+  let data = req.body;
+
+  try {
+    let SctProjectsDetails = new SctProjects(data);
+    output = await SctProjectsDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.get("/get-all-sct-projects", async (req, res) => {
+  try {
+    const allSctProjects = await SctProjects.find();
+    res.json(allSctProjects);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/edit-sct-project", async (req, res) => {
+  try {
+    let data = req.body;
+    const UpdateSctProjects = await SctProjects.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          sctProjectName: data.sctProjectName,
+          sctProjectDesc: data.sctProjectDesc,
+          sctProjectDate: data.sctProjectDate,
+          sctProjectEditedById: data.sctProjectEditedById,
+          sctProjectEditedDateTime: new Date().toLocaleString("en-GB"),
+        },
+      }
+    );
+    res.json(UpdateSctProjects);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });

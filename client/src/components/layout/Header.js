@@ -191,6 +191,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     >
                       <Dropdown.Item>All Followup</Dropdown.Item>
                     </NavLink>
+                    <NavLink
+                      to="/all-sct-projects"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>All Projects</Dropdown.Item>
+                    </NavLink>
 
                     {/* <NavLink
                       to="/all-prospects"
