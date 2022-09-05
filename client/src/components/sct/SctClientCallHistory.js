@@ -74,7 +74,7 @@ SctClientCallHistory.propTypes = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  sct: state.dct,
+  sct: state.sct,
 });
 
 export default connect(mapStateToProps, {})(SctClientCallHistory);
