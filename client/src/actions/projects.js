@@ -176,6 +176,22 @@ export const VerifyProject = (finalData) => async (dispatch) => {
   }
 };
 
+export const updateMsgSent = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/projects/update-msg-sent", finalData);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
 //DEACTIVE
 
 export const deactiveProject = (finalData) => async (dispatch) => {

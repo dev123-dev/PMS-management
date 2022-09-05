@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
@@ -8,11 +8,14 @@ import ChangeProjectLifeCycle from "./ChangeProjectLifeCycle";
 import Spinner from "../layout/Spinner";
 import EditProject from "./EditProject";
 import JobHistory from "./JobHistory";
+import axios from "axios";
+import { allUsersRoute, host, sendMessageRoute } from "../../utils/APIRoutes";
 import {
   getDailyJobsheetProjectDeatils,
   getAllProjectStatus,
   AddProjectTrack,
   getUpdatedProjectStausForDailyJobSheet,
+  updateMsgSent,
 } from "../../actions/projects";
 
 import { getDailyjobSheetClients } from "../../actions/client";
@@ -22,9 +25,10 @@ import { w3cwebsocket } from "websocket";
 import { CSVLink } from "react-csv";
 // CSVDownload
 import DeactiveProject from "./DeactiveProject";
+import { io } from "socket.io-client";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.159:8000");
+const client = new w3cwebsocket("ws://192.168.6.140:8000");
 
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
@@ -35,7 +39,9 @@ const DailyJobSheet = ({
   getAllProjectStatus,
   getUpdatedProjectStausForDailyJobSheet,
   getDailyjobSheetClients,
+  updateMsgSent,
 }) => {
+  const socket = useRef();
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -54,6 +60,18 @@ const DailyJobSheet = ({
   useEffect(() => {
     getDailyjobSheetClients();
   }, [getDailyjobSheetClients]);
+
+  const [contacts, setContacts] = useState([]);
+  useEffect(async () => {
+    const data = await axios.get(`${allUsersRoute}/${user._id}`);
+    setContacts(data.data);
+  }, []);
+  useEffect(() => {
+    if (user) {
+      socket.current = io(host);
+      socket.current.emit("add-user", user._id);
+    }
+  }, []);
 
   const [selDateDataVal, setSelDateDataVal] = useState();
   getDailyJobsheetProjectDeatils(selDateDataVal);
@@ -79,6 +97,28 @@ const DailyJobSheet = ({
       hr + "" + mt,
     ];
   }
+
+  const timeOutMsg = async (dailyJobsheetProjects) => {
+    console.log("timeoutcall");
+    const data = await JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    );
+    let msg =
+      "5 mins remaining in" + dailyJobsheetProjects.projectName + " Project";
+    for (let i = 0; i < contacts.length; i++) {
+      socket.current.emit("send-msg", {
+        to: contacts[i]._id,
+        from: data._id,
+        msg,
+      });
+      // await axios.post(sendMessageRoute, {
+      //   from: data._id,
+      //   to: contacts[i]._id,
+      //   message: msg,
+      // });
+    }
+    updateMsgSent({ recordId: dailyJobsheetProjects._id, timeOutMsgSent: 1 });
+  };
   // On change ProjectCycle
   const [showProjectCycleModal, setShowProjectCycleModal] = useState(false);
   const handleProjectCycleModalClose = () => setShowProjectCycleModal(false);
@@ -157,7 +197,7 @@ const DailyJobSheet = ({
   //   setShowProjectCycleModal(true);
   // };
 
-  const onSliderChange = (dailyJobsheetProjects) => (e) => {
+  const onSliderChange = (dailyJobsheetProjects) => async (e) => {
     if (
       e.label === "Downloaded" ||
       e.label === "Uploaded" ||
@@ -179,6 +219,41 @@ const DailyJobSheet = ({
           msg: "/JobQueue",
         })
       );
+      const data = await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      );
+      let msg = "";
+      if (e.label === "Downloaded") {
+        msg =
+          dailyJobsheetProjects.clientFolderName +
+          " - " +
+          dailyJobsheetProjects.projectName +
+          " - " +
+          dailyJobsheetProjects.projectQuantity +
+          " images downloaded. Please have a look.";
+      } else if (e.label === "QC DONE") {
+        msg =
+          dailyJobsheetProjects.clientFolderName +
+          " - " +
+          dailyJobsheetProjects.projectName +
+          " - " +
+          dailyJobsheetProjects.projectQuantity +
+          " images QC DONE. Please upload.";
+      }
+      if (msg !== "") {
+        for (let i = 0; i < contacts.length; i++) {
+          socket.current.emit("send-msg", {
+            to: contacts[i]._id,
+            from: data._id,
+            msg,
+          });
+          await axios.post(sendMessageRoute, {
+            from: data._id,
+            to: contacts[i]._id,
+            message: msg,
+          });
+        }
+      }
       // setStatusChange(finalData);
       // setShowProjectCycleModal(false);
     } else {
@@ -186,6 +261,7 @@ const DailyJobSheet = ({
         statusId: e.value,
         value: e.label,
         projectId: dailyJobsheetProjects._id,
+        jobQueueProjects: dailyJobsheetProjects,
       };
       setStatusChange(newStatusData);
       setShowProjectCycleModal(true);
@@ -628,6 +704,16 @@ const DailyJobSheet = ({
                               ) {
                                 timeOut = true;
                               }
+                              if (
+                                Number(
+                                  estimatedTimeVal[0] + "" + estimatedTimeVal[1]
+                                ) -
+                                  Number(jobTime[1]) ===
+                                  5 &&
+                                dailyJobsheetProjects.timeOutMsgSent === 0
+                              ) {
+                                timeOutMsg(dailyJobsheetProjects);
+                              }
                             }
                             return (
                               <tr key={idx}>
@@ -886,6 +972,8 @@ const DailyJobSheet = ({
             <ChangeProjectLifeCycle
               onProjectCycleModalChange={onProjectCycleModalChange}
               ProjectCycledata={statusChangeValue}
+              contacts={contacts}
+              socket={socket}
             />
           </Modal.Body>
         </Modal>
@@ -1063,4 +1151,5 @@ export default connect(mapStateToProps, {
   getAllProjectStatus,
   getUpdatedProjectStausForDailyJobSheet,
   getDailyjobSheetClients,
+  updateMsgSent,
 })(DailyJobSheet);

@@ -156,6 +156,10 @@ const ProjectSchema = new mongoose.Schema({
   projectVerifiedDateTime: {
     type: Date,
   },
+  timeOutMsgSent: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = project = mongoose.model("project", ProjectSchema);
