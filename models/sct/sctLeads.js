@@ -89,6 +89,12 @@ const SctLeadsSchema = new mongoose.Schema({
   sctCallSchedule: {
     type: String, //Morning or afternoon
   },
+  projectsId: {
+    type: ObjectId,
+  },
+  projectsName: {
+    type: String,
+  },
   sctStaffs: [
     {
       sctStaffName: {
@@ -117,6 +123,7 @@ const SctLeadsSchema = new mongoose.Schema({
       sctstaffRegionId: {
         type: ObjectId,
       },
+
       sctstaffCountryCode: {
         type: String,
       },

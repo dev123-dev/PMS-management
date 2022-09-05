@@ -195,7 +195,6 @@ export const EditPaymentMode = (finalData) => async (dispatch) => {
 };
 
 export const EditFeedbackData = (finalData) => async (dispatch) => {
-  // console.log("action", finalData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,

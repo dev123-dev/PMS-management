@@ -204,6 +204,7 @@ const AddSctLeads = ({
 
   const [projects, getprojectsData] = useState();
   const [projectsId, setprojectsID] = useState();
+  const [projectsName, setprojectsName] = useState();
 
   const onprojectsChange = (e) => {
     // //Required Validation Starts
@@ -214,11 +215,14 @@ const AddSctLeads = ({
     // });
     // //Required Validation ends
     var projectsId = "";
+    var projectsName = "";
 
     getprojectsData(e);
 
     projectsId = e.projectsId;
+    projectsName = e.value;
     setprojectsID(projectsId);
+    setprojectsName(projectsName);
   };
 
   const allemp = [];
@@ -488,6 +492,8 @@ const AddSctLeads = ({
         sctcountryCode: countrycode,
         stateId: stateId,
         districtId: districtId,
+        projectsId: projectsId ? projectsId : null,
+        projectsName: projects.value ? projects.value : null,
         sctLeadStatus: "Active",
         sctLeadCategoryStatus: "NL",
         sctCallDate: new Date().toISOString().split("T")[0],

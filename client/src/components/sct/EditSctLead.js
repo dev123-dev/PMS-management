@@ -151,9 +151,20 @@ const EditSctLead = ({
       })
     );
 
-  const [projects, getprojectsData] = useState();
-  const [projectsId, setprojectsID] = useState();
-
+  const [projects, getprojectsData] = useState(
+    alleditLeaddata && alleditLeaddata
+      ? allprojects &&
+          allprojects.filter(
+            (x) => x.projectsId === alleditLeaddata.projectsId
+          )[0]
+      : ""
+  );
+  const [projectsId, setprojectsID] = useState(
+    alleditLeaddata && alleditLeaddata.projectsId
+  );
+  const [projectsName, setprojectsName] = useState(
+    alleditLeaddata && alleditLeaddata.projectsName
+  );
   const onprojectsChange = (e) => {
     // //Required Validation Starts
     // setError({
@@ -163,11 +174,14 @@ const EditSctLead = ({
     // });
     // //Required Validation ends
     var projectsId = "";
+    var projectsName = "";
 
     getprojectsData(e);
 
     projectsId = e.projectsId;
+    projectsName = e.value;
     setprojectsID(projectsId);
+    setprojectsName(projectsName);
   };
   const allemp = [];
   marketingEmployees &&
@@ -343,48 +357,51 @@ const EditSctLead = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (checkErrors()) {
-      const finalData = {
-        recordId: alleditLeaddata ? alleditLeaddata._id : "",
-        sctCompanyName: sctCompanyName,
-        sctClientName: sctClientName,
-        sctEmailId: sctEmailId,
-        sctPhone1: sctPhone1,
-        sctPhone2: sctPhone2,
-        sctWebsite: sctWebsite,
-        sctLeadAddress: sctLeadAddress,
-        sctImportantPoints: sctImportantPoints,
-        countryId: countryId,
-        countryName: country.value,
-        sctcountryCode: countrycode,
-        stateId: stateId,
-        districtId: districtId,
-        sctLeadAssignedToId: empId,
-        sctLeadAssignedToName: empName,
-        sctLeadEditedById: user._id,
-        sctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
-      };
-      console.log(finalData);
-      editSctLeadDetails(finalData);
-      setFormData({
-        ...formData,
-        sctCompanyName: "",
-        sctEmailId: "",
-        sctClientName: "",
-        sctWebsite: "",
-        address: "",
-        sctPhone1: "",
-        sctPhone2: "",
-        sctImportantPoints: "",
-        countryId: "",
-        isSubmitted: true,
-      });
-    }
+    // if (checkErrors()) {
+    const finalData = {
+      recordId: alleditLeaddata ? alleditLeaddata._id : "",
+      sctCompanyName: sctCompanyName,
+      sctClientName: sctClientName,
+      sctEmailId: sctEmailId,
+      sctPhone1: sctPhone1,
+      sctPhone2: sctPhone2,
+      sctWebsite: sctWebsite,
+      sctLeadAddress: sctLeadAddress,
+      sctImportantPoints: sctImportantPoints,
+      countryId: countryId,
+      countryName: country.value,
+      sctcountryCode: countrycode,
+      projectsId: projectsId,
+      projectsName: projects.value,
+      stateId: stateId,
+      districtId: districtId,
+      sctLeadAssignedToId: empId,
+      sctLeadAssignedToName: empName,
+      sctLeadEditedById: user._id,
+      sctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
+    };
+    console.log(finalData);
+    editSctLeadDetails(finalData);
+    onEditModalChange(true);
+    setFormData({
+      ...formData,
+      sctCompanyName: "",
+      sctEmailId: "",
+      sctClientName: "",
+      sctWebsite: "",
+      address: "",
+      sctPhone1: "",
+      sctPhone2: "",
+      sctImportantPoints: "",
+      countryId: "",
+      isSubmitted: true,
+    });
+    // }
   };
 
-  if (isSubmitted) {
-    return <Redirect to="/all-leads" />;
-  }
+  // if (isSubmitted) {
+  //   return <Redirect to="/all-leads" />;
+  // }
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };

@@ -8,7 +8,6 @@ const SctClientCallHistory = ({
   sct: { sctcallHistory },
   onClientCallHistoryModalChange,
 }) => {
-  console.log(sctcallHistory, "sctcallHistory");
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (

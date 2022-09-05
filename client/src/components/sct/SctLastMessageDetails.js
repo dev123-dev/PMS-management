@@ -15,7 +15,7 @@ const SctLastMessageDetails = ({
   //   AddState,
 }) => {
   //formData
-  console.log("searchDataVal", searchDataVal);
+
   const [showClientHistoryModal, setShowClientCallHistoryModal] =
     useState(false);
   const handleClientCallHistoryModalClose = () =>

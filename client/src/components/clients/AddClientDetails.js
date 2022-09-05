@@ -201,7 +201,7 @@ const AddClientDetails = ({
         standardInstruction: standardInstruction,
         clientEnteredById: user._id,
       };
-      //  console.log(finalData);
+
       AddClient(finalData);
       setFormData({
         ...formData,

@@ -32,7 +32,7 @@ const LastMessageDetails = ({
     setShowClientCallHistoryModal(true);
   };
   var callDate = "";
-  console.log(lastMsg && lastMsg.callDate);
+
   var ED = lastMsg && lastMsg.callDate && lastMsg.callDate.split(/\D/g);
   if (ED) {
     callDate = [ED[2], ED[1], ED[0]].join("-");

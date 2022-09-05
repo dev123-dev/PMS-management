@@ -80,7 +80,6 @@ export const addProjectStatus = (finalData) => async (dispatch) => {
 };
 
 export const AddProjectTrack = (finalData) => async (dispatch) => {
-  // console.log("action", finalData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,

@@ -40,7 +40,6 @@ const AddDctClients = ({
     getLeadsList();
   }, [getLeadsList]);
 
-  console.log("selectedLeads", selectedLeads);
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },

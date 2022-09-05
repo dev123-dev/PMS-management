@@ -29,8 +29,6 @@ const AddLead = ({
     getLeadsList();
   }, [getLeadsList]);
 
-  // console.log("getLeadsList", leadsList);
-
   //formData
   const [formData, setFormData] = useState({
     companyName: "",
