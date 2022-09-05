@@ -2,7 +2,8 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-
+import axios from "axios";
+import { sendMessageRoute } from "../../utils/APIRoutes";
 import {
   AddProjectTrack,
   AddAmendmentHistory,
@@ -17,6 +18,8 @@ const ChangeProjectLifeCycle = ({
   // AddAmendmentHistory,
   onProjectCycleModalChange,
   getLastAmendmentCounter,
+  contacts,
+  socket,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -71,9 +74,9 @@ const ChangeProjectLifeCycle = ({
   const { showTimerSection } = showHide;
   //client in websocket
   //SLAP IP
-  const client = new w3cwebsocket("ws://192.168.6.159:8000");
+  const client = new w3cwebsocket("ws://192.168.6.140:8000");
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     const amendmentProjectId = {
       pId: ProjectCycledata.projectId,
     };
@@ -99,7 +102,7 @@ const ChangeProjectLifeCycle = ({
     }
 
     // if (checkErrors()) {
-
+    let msgContent = "";
     if (ProjectCycledata.value === "Amendment") {
       const amendmentData = {
         projectId: ProjectCycledata.projectId,
@@ -114,6 +117,7 @@ const ChangeProjectLifeCycle = ({
         amendmentType: "UnResolved",
       };
       AddProjectTrack(amendmentData);
+      msgContent = " images for Amend.";
     } else if (
       ProjectCycledata.value === "Amend_Working" ||
       ProjectCycledata.value === "Amend_Pending" ||
@@ -134,6 +138,9 @@ const ChangeProjectLifeCycle = ({
         amendmentCounter: "1",
       };
       AddProjectTrack(finalData);
+      if (ProjectCycledata.value === "Amend_QC DONE")
+        msgContent =
+          " images for AmendQC Done. Please Upload. Please also mention the link.";
     } else {
       const finalData = {
         projectId: ProjectCycledata.projectId,
@@ -146,8 +153,41 @@ const ChangeProjectLifeCycle = ({
         projectStatusChangedById: user._id,
       };
       AddProjectTrack(finalData);
+      if (ProjectCycledata.value === "Reviewed")
+        msgContent = " images reviewed.";
+      if (ProjectCycledata.value === "Additional_Instruction")
+        msgContent = " images for Additional Work.";
+      if (ProjectCycledata.value === "AI_QC DONE")
+        msgContent =
+          " images AI QC DONE. Please upload. Please also mention the link.";
     }
+    let msgVal =
+      ProjectCycledata.jobQueueProjects.clientFolderName +
+      " - " +
+      ProjectCycledata.jobQueueProjects.projectName +
+      " - " +
+      ProjectCycledata.jobQueueProjects.projectQuantity +
+      "" +
+      msgContent;
 
+    const data = await JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    );
+    if (msgContent !== "") {
+      for (let i = 0; i < contacts.length; i++) {
+        socket.current.emit("send-msg", {
+          to: contacts[i]._id,
+          from: data._id,
+          msg: msgVal,
+        });
+
+        await axios.post(sendMessageRoute, {
+          from: data._id,
+          to: contacts[i]._id,
+          message: msgVal,
+        });
+      }
+    }
     onProjectCycleModalChange(true);
     client.send(
       JSON.stringify({

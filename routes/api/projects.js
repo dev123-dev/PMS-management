@@ -56,6 +56,7 @@ router.post("/add-project-track", async (req, res) => {
           projectStatusType: data.projectStatusType,
           ptEstimatedTime: data.ptEstimatedTime,
           ptEstimatedDateTime: data.ptEstimatedDateTime,
+          timeOutMsgSent: 0,
         },
       }
     );
@@ -154,6 +155,23 @@ router.post("/verify-project", async (req, res) => {
       }
     );
     res.json(verifyProjectData);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/update-msg-sent", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateMsgSent = await Project.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          timeOutMsgSent: data.timeOutMsgSent,
+        },
+      }
+    );
+    res.json(updateMsgSent);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }

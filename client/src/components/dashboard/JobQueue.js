@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
@@ -7,11 +7,14 @@ import Select from "react-select";
 import ChangeProjectLifeCycle from "./ChangeProjectLifeCycle";
 import Spinner from "../layout/Spinner";
 import EditProject from "./EditProject";
+import axios from "axios";
+import { allUsersRoute, host, sendMessageRoute } from "../../utils/APIRoutes";
 import {
   getJobQueueProjectDeatils,
   getAllProjectStatus,
   getAllFolder,
   getLatestChanges,
+  updateMsgSent,
 } from "../../actions/projects";
 import JobHistory from "./JobHistory";
 import JobNotes from "./JobNotes";
@@ -24,9 +27,11 @@ import {
 import AllLatestChange from "./AllLatestChange";
 import { w3cwebsocket } from "websocket";
 import DeactiveProject from "./DeactiveProject";
+import { io } from "socket.io-client";
+
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.159:8000");
+const client = new w3cwebsocket("ws://192.168.6.140:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -39,7 +44,9 @@ const JobQueue = ({
   getUpdatedProjectStaus,
   getLatestChanges,
   // getUpdatedProjectStausForDailyJobSheet,
+  updateMsgSent,
 }) => {
+  const socket = useRef();
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -58,6 +65,18 @@ const JobQueue = ({
   useEffect(() => {
     getAllFolder();
   }, [getAllFolder]);
+
+  const [contacts, setContacts] = useState([]);
+  useEffect(async () => {
+    const data = await axios.get(`${allUsersRoute}/${user._id}`);
+    setContacts(data.data);
+  }, []);
+  useEffect(() => {
+    if (user) {
+      socket.current = io(host);
+      socket.current.emit("add-user", user._id);
+    }
+  }, []);
 
   const [filterData, setFilterData] = useState("");
   getJobQueueProjectDeatils(filterData);
@@ -87,6 +106,26 @@ const JobQueue = ({
       hr + "" + mt,
     ];
   }
+  const timeOutMsg = async (jobQueueProjects) => {
+    console.log("timeoutcall");
+    const data = await JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    );
+    let msg = "5 mins remaining in" + jobQueueProjects.projectName + " Project";
+    for (let i = 0; i < contacts.length; i++) {
+      socket.current.emit("send-msg", {
+        to: contacts[i]._id,
+        from: data._id,
+        msg,
+      });
+      // await axios.post(sendMessageRoute, {
+      //   from: data._id,
+      //   to: contacts[i]._id,
+      //   message: msg,
+      // });
+    }
+    updateMsgSent({ recordId: jobQueueProjects._id, timeOutMsgSent: 1 });
+  };
 
   // On change ProjectCycle
   const [showProjectCycleModal, setShowProjectCycleModal] = useState(false);
@@ -131,7 +170,7 @@ const JobQueue = ({
 
   const [statusChangeValue, setStatusChange] = useState("");
   const [statusValue, setStatusValue] = useState("");
-  const onSliderChange = (jobQueueProjects) => (e) => {
+  const onSliderChange = (jobQueueProjects) => async (e) => {
     if (
       e.label === "Downloaded" ||
       e.label === "Uploaded" ||
@@ -153,6 +192,41 @@ const JobQueue = ({
           msg: "/JobQueue",
         })
       );
+      const data = await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      );
+      let msg = "";
+      if (e.label === "Downloaded") {
+        msg =
+          jobQueueProjects.clientFolderName +
+          " - " +
+          jobQueueProjects.projectName +
+          " - " +
+          jobQueueProjects.projectQuantity +
+          " images downloaded. Please have a look.";
+      } else if (e.label === "QC DONE") {
+        msg =
+          jobQueueProjects.clientFolderName +
+          " - " +
+          jobQueueProjects.projectName +
+          " - " +
+          jobQueueProjects.projectQuantity +
+          " images QC DONE. Please upload.";
+      }
+      if (msg !== "") {
+        for (let i = 0; i < contacts.length; i++) {
+          socket.current.emit("send-msg", {
+            to: contacts[i]._id,
+            from: data._id,
+            msg,
+          });
+          await axios.post(sendMessageRoute, {
+            from: data._id,
+            to: contacts[i]._id,
+            message: msg,
+          });
+        }
+      }
       // setStatusChange(finalData);
       // setShowProjectCycleModal(false);
     } else if (e.label === "Amend_Uploaded") {
@@ -179,6 +253,7 @@ const JobQueue = ({
         statusId: e.value,
         value: e.label,
         projectId: jobQueueProjects._id,
+        jobQueueProjects: jobQueueProjects,
       };
       setStatusChange(newStatusData);
       setShowProjectCycleModal(true);
@@ -476,6 +551,17 @@ const JobQueue = ({
                               )
                             ) {
                               timeOut = true;
+                            }
+
+                            if (
+                              Number(
+                                estimatedTimeVal[0] + "" + estimatedTimeVal[1]
+                              ) -
+                                Number(jobTime[1]) ===
+                                5 &&
+                              jobQueueProjects.timeOutMsgSent === 0
+                            ) {
+                              timeOutMsg(jobQueueProjects);
                             }
                           }
 
@@ -795,6 +881,8 @@ const JobQueue = ({
             <ChangeProjectLifeCycle
               onProjectCycleModalChange={onProjectCycleModalChange}
               ProjectCycledata={statusChangeValue}
+              contacts={contacts}
+              socket={socket}
             />
           </Modal.Body>
         </Modal>
@@ -974,4 +1062,5 @@ export default connect(mapStateToProps, {
   getUpdatedProjectStaus,
   getLatestChanges,
   // getUpdatedProjectStausForDailyJobSheet,
+  updateMsgSent,
 })(JobQueue);
