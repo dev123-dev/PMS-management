@@ -14,7 +14,6 @@ const AllSctStatusChange = ({
   from,
   filterData,
 }) => {
-  console.log("leadDataVal", leadDataVal);
   let StatusMethods = [
     { value: "VoiceMail", label: "Voice Mail" },
     { value: "CallBack", label: "Call Back" },

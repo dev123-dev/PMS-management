@@ -81,7 +81,7 @@ router.post("/edit-sct-Leads", async (req, res) => {
           stateId: data.stateId,
           districtId: data.districtId,
           projectsName: data.projectsName,
-          projectsName: data.projectsName,
+          projectsId: data.projectsId,
           sctLeadAssignedToId: data.sctLeadAssignedToId,
           sctLeadAssignedToName: data.sctLeadAssignedToName,
           sctLeadEditedById: data.sctLeadEditedById,

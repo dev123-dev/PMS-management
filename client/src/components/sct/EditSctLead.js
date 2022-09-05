@@ -380,7 +380,7 @@ const EditSctLead = ({
       sctLeadEditedById: user._id,
       sctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
     };
-    console.log(finalData);
+
     editSctLeadDetails(finalData);
     onEditModalChange(true);
     setFormData({
