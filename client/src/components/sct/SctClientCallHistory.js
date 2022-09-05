@@ -35,21 +35,21 @@ const SctClientCallHistory = ({
                   var ED = sctcallHistory.callDate.split(/\D/g);
                   sctCallDate = [ED[2], ED[1], ED[0]].join("-");
                 }
-                if (sctcallHistory.callCategory === "F") {
-                  var callCategory = "Followup";
-                } else if (sctcallHistory.callCategory === "P") {
-                  var callCategory = "Prospects";
-                } else if (sctcallHistory.callCategory === "TC") {
-                  var callCategory = "TestClient";
+                if (sctcallHistory.sctCallCategory === "F") {
+                  var sctCallCategory = "Followup";
+                } else if (sctcallHistory.sctCallCategory === "P") {
+                  var sctCallCategory = "Prospects";
+                } else if (sctcallHistory.sctCallCategory === "TC") {
+                  var sctCallCategory = "TestClient";
                 } else {
-                  var callCategory = "RegularClient";
+                  var sctCallCategory = "RegularClient";
                 }
                 return (
                   <tr key={idx}>
                     <td>{sctcallHistory.sctCallToStaffName}</td>
                     <td>{sctCallDate}</td>
                     <td>{sctcallHistory.sctCallStatus}</td>
-                    <td>{callCategory}</td>
+                    <td>{sctCallCategory}</td>
                     <td>
                       <Link to="#" title={sctcallHistory.sctCallNote}>
                         {sctcallHistory.sctCallNote}

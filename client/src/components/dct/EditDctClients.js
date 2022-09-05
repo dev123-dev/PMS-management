@@ -145,7 +145,6 @@ const EditDctClients = ({
   const [videoEditingChecked, setVideoEditingChecked] = useState(false);
   const [isCheck, setIsCheck] = useState(false);
   if (data && data.dctdata && data.dctdata.services && !isCheck) {
-    console.log(data.dctdata);
     let i = 0,
       servicesVal = "";
     for (i = 0; i < data.dctdata.services.length; i++) {

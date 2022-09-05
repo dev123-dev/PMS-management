@@ -5,7 +5,11 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
-import { editSctLeadDetails, getLeadsList } from "../../actions/sct";
+import {
+  editSctLeadDetails,
+  getLeadsList,
+  getProjectList,
+} from "../../actions/sct";
 // import { getLeadsList } from "../../actions/dct";
 import { getMarketingEmployee } from "../../actions/user";
 import {
@@ -19,12 +23,14 @@ const EditSctLead = ({
   user: { marketingEmployees },
   regions: { activeCountry, activeState, activeDistricts },
   dct: { leadsList },
+  sct: { projectList },
   alleditLeaddata,
   editSctLeadDetails,
   onEditModalChange,
   getActiveCountry,
   getMarketingEmployee,
   // getLeadsList,
+  getProjectList,
   getActiveState,
   getActiveDistricts,
 }) => {
@@ -40,6 +46,9 @@ const EditSctLead = ({
   useEffect(() => {
     getMarketingEmployee();
   }, [getMarketingEmployee]);
+  useEffect(() => {
+    getProjectList();
+  }, [getProjectList]);
   // useEffect(() => {
   //   getLeadsList();
   // }, [getLeadsList]);
@@ -131,7 +140,49 @@ const EditSctLead = ({
     setcountryID(countryId);
     setcountrycode(countrycode);
   };
+  const allprojects = [];
+  projectList &&
+    projectList.map((projects) =>
+      allprojects.push({
+        projectsId: projects._id,
 
+        label: projects.sctProjectName,
+        value: projects.sctProjectName,
+      })
+    );
+
+  const [projects, getprojectsData] = useState(
+    alleditLeaddata && alleditLeaddata
+      ? allprojects &&
+          allprojects.filter(
+            (x) => x.projectsId === alleditLeaddata.projectsId
+          )[0]
+      : ""
+  );
+  const [projectsId, setprojectsID] = useState(
+    alleditLeaddata && alleditLeaddata.projectsId
+  );
+  const [projectsName, setprojectsName] = useState(
+    alleditLeaddata && alleditLeaddata.projectsName
+  );
+  const onprojectsChange = (e) => {
+    // //Required Validation Starts
+    // setError({
+    //   ...error,
+    //   countrytypeIdChecker: true,
+    //   countrytypeIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
+    var projectsId = "";
+    var projectsName = "";
+
+    getprojectsData(e);
+
+    projectsId = e.projectsId;
+    projectsName = e.value;
+    setprojectsID(projectsId);
+    setprojectsName(projectsName);
+  };
   const allemp = [];
   marketingEmployees &&
     marketingEmployees.map((emp) =>
@@ -306,48 +357,51 @@ const EditSctLead = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (checkErrors()) {
-      const finalData = {
-        recordId: alleditLeaddata ? alleditLeaddata._id : "",
-        sctCompanyName: sctCompanyName,
-        sctClientName: sctClientName,
-        sctEmailId: sctEmailId,
-        sctPhone1: sctPhone1,
-        sctPhone2: sctPhone2,
-        sctWebsite: sctWebsite,
-        sctLeadAddress: sctLeadAddress,
-        sctImportantPoints: sctImportantPoints,
-        countryId: countryId,
-        countryName: country.value,
-        sctcountryCode: countrycode,
-        stateId: stateId,
-        districtId: districtId,
-        sctLeadAssignedToId: empId,
-        sctLeadAssignedToName: empName,
-        sctLeadEditedById: user._id,
-        sctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
-      };
-      console.log(finalData);
-      editSctLeadDetails(finalData);
-      setFormData({
-        ...formData,
-        sctCompanyName: "",
-        sctEmailId: "",
-        sctClientName: "",
-        sctWebsite: "",
-        address: "",
-        sctPhone1: "",
-        sctPhone2: "",
-        sctImportantPoints: "",
-        countryId: "",
-        isSubmitted: true,
-      });
-    }
+    // if (checkErrors()) {
+    const finalData = {
+      recordId: alleditLeaddata ? alleditLeaddata._id : "",
+      sctCompanyName: sctCompanyName,
+      sctClientName: sctClientName,
+      sctEmailId: sctEmailId,
+      sctPhone1: sctPhone1,
+      sctPhone2: sctPhone2,
+      sctWebsite: sctWebsite,
+      sctLeadAddress: sctLeadAddress,
+      sctImportantPoints: sctImportantPoints,
+      countryId: countryId,
+      countryName: country.value,
+      sctcountryCode: countrycode,
+      projectsId: projectsId,
+      projectsName: projects.value,
+      stateId: stateId,
+      districtId: districtId,
+      sctLeadAssignedToId: empId,
+      sctLeadAssignedToName: empName,
+      sctLeadEditedById: user._id,
+      sctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
+    };
+    console.log(finalData);
+    editSctLeadDetails(finalData);
+    onEditModalChange(true);
+    setFormData({
+      ...formData,
+      sctCompanyName: "",
+      sctEmailId: "",
+      sctClientName: "",
+      sctWebsite: "",
+      address: "",
+      sctPhone1: "",
+      sctPhone2: "",
+      sctImportantPoints: "",
+      countryId: "",
+      isSubmitted: true,
+    });
+    // }
   };
 
-  if (isSubmitted) {
-    return <Redirect to="/all-leads" />;
-  }
+  // if (isSubmitted) {
+  //   return <Redirect to="/all-leads" />;
+  // }
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -569,7 +623,32 @@ const EditSctLead = ({
                     })}
                   />
                 </div>
-
+                <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <label
+                    className="label-control"
+                    // style={StateErrorStyle}
+                  >
+                    Lead of :
+                  </label>
+                  <Select
+                    name="sctProjectName"
+                    options={allprojects}
+                    isSearchable={true}
+                    value={projects}
+                    placeholder="Select Projects"
+                    onChange={(e) => onprojectsChange(e)}
+                    theme={(theme) => ({
+                      ...theme,
+                      height: 26,
+                      minHeight: 26,
+                      borderRadius: 1,
+                      colors: {
+                        ...theme.colors,
+                        primary: "black",
+                      },
+                    })}
+                  />
+                </div>
                 {user.empCtAccess && user.empCtAccess === "All" ? (
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label
@@ -666,6 +745,7 @@ EditSctLead.propTypes = {
   client: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
   dct: PropTypes.object.isRequired,
+  sct: PropTypes.object.isRequired,
   // getStates: PropTypes.func.isRequired,
   // getDistrict: PropTypes.func.isRequired,
 };
@@ -677,6 +757,7 @@ const mapStateToProps = (state) => ({
   client: state.client,
   regions: state.regions,
   dct: state.dct,
+  sct: state.sct,
 });
 
 export default connect(mapStateToProps, {
@@ -686,6 +767,6 @@ export default connect(mapStateToProps, {
   // getLeadsList,
   getActiveState,
   getActiveDistricts,
-
+  getProjectList,
   editSctLeadDetails,
 })(EditSctLead);

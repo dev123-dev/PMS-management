@@ -29,8 +29,6 @@ const AddLead = ({
     getLeadsList();
   }, [getLeadsList]);
 
-  // console.log("getLeadsList", leadsList);
-
   //formData
   const [formData, setFormData] = useState({
     companyName: "",
@@ -415,7 +413,6 @@ const AddLead = ({
                       value={website}
                       style={websiteInptErrStyle}
                       className="form-control"
-                      // onChange={(e) => onInputChange(e)}
                       onChange={(e) => onleadCheck(e)}
                       required
                     />
@@ -589,7 +586,6 @@ const AddLead = ({
               </div>
 
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                {/* <form onSubmit={(e) =>Add(e)}> */}
                 <div className="row card-new  py-3">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Contact Info</h5>
@@ -660,22 +656,7 @@ const AddLead = ({
                       }
                     />
                   </div>
-                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Staff Phone</label>
-                    <input
-                      type="number"
-                      name="staffPhoneNumber"
-                      value={staffPhoneNumber}
-                      className="form-control"
-                      onChange={(e) => onInputChange1(e)}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
-                    />
-                  </div> */}
 
-                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12"> */}
                   <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Designation :</label>
                     <input
@@ -687,13 +668,6 @@ const AddLead = ({
                     />
                   </div>
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    {/* <input
-                        type="submit"
-                        name="Submit"
-                        value="ADD"
-                        className="btn sub_form btn_continue blackbrd Save float-right"
-                      /> */}
-
                     <button
                       variant="success"
                       className="btn sub_form btn_continue Save float-right"
@@ -703,7 +677,6 @@ const AddLead = ({
                     </button>
                   </div>
                 </div>
-                {/* </form> */}
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
                 <div

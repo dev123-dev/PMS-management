@@ -11,7 +11,9 @@ import {
   GET_ALL_SCT_LEADS_DD,
   GET_ALL_SCT_LEADS_EMP,
   SCT_LAST_MSG,
-  CALLHISTORYSCT,
+  SCTCALLHISTORY,
+  ALL_SCT_PROJECT,
+  SCT_PROJECT,
 } from "./types";
 
 const config = {
@@ -259,7 +261,70 @@ export const getCallHistory = (searchData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/sct/get-call-history", searchData);
     dispatch({
-      type: CALLHISTORYSCT,
+      type: SCTCALLHISTORY,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getALLSctProjects = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/sct/get-all-sct-projects");
+    localStorage.setItem("allSctProjectData", JSON.stringify(res.data));
+    dispatch({
+      type: ALL_SCT_PROJECT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const AddSctNewProject = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/sct/add-sct-project", finalData, config);
+    dispatch(getALLSctProjects());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const editSctProject = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/sct/edit-sct-project", finalData);
+    dispatch(getALLSctProjects());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getProjectList = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/sct/get-sct-project");
+    dispatch({
+      type: SCT_PROJECT,
       payload: res.data,
     });
   } catch (err) {

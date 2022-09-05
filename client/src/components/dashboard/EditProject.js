@@ -298,7 +298,6 @@ const EditProject = ({
   });
   const { clientnameIdErrorStyle } = error;
 
-  // console.log(clientData);
   const checkErrors = () => {
     if (!clientData) {
       setError({
@@ -346,7 +345,7 @@ const EditProject = ({
         // projectEntryTime
         // clientType: clientType.value,
       };
-      // console.log(finalData);
+
       EditProjectData(finalData);
       onEditModalChange(true);
       // setFormData({

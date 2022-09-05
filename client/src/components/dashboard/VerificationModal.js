@@ -14,7 +14,7 @@ const VerificationModal = ({
   searchData,
 }) => {
   //formData
-  // console.log("data", loggedStaff);
+
   const [formData, setFormData] = useState({
     projectName:
       allVerifydata && allVerifydata.projectName
@@ -41,7 +41,7 @@ const VerificationModal = ({
       projectVerifiedById: user._id,
       searchData: searchData,
     };
-    // console.log(finalData);
+
     VerifyProject(finalData);
     onEditModalChange(true);
   };
