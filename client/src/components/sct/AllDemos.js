@@ -1,0 +1,314 @@
+import React, { useState, Fragment, useEffect } from "react";
+import { Modal } from "react-bootstrap";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import Select from "react-select";
+
+import Spinner from "../layout/Spinner";
+// import AddDepartment from "./AddDepartment";
+// import EditDepartment from "./EditDepartment";
+import { getALLDemos, demoTaken } from "../../actions/sct";
+const AllDemos = ({
+  auth: { isAuthenticated, user, users },
+  sct: { allDemos },
+  getALLDemos,
+  demoTaken,
+}) => {
+  useEffect(() => {
+    getALLDemos();
+  }, [getALLDemos]);
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  const handleEditModalClose = () => setShowEditModal(false);
+  const onEditModalChange = (e) => {
+    if (e) {
+      handleEditModalClose();
+    }
+  };
+
+  const [userDatas, setUserDatas] = useState(null);
+  const onClickVerify = (allDemos, idx) => {
+    setUserDatas(allDemos);
+    setShowEditModal(true);
+  };
+
+  const [showDemonottakenModal, setShowDemonottakenModal] = useState(false);
+  const handleNotTakenModalClose = () => setShowDemonottakenModal(false);
+
+  const onDemonottakenModalChange = (e) => {
+    if (e) {
+      handleNotTakenModalClose();
+    }
+  };
+  const [userDatademonottaken, setUserDatademonottaken] = useState(null);
+  const onClickNotTaken = (allDemos, idx) => {
+    setShowDemonottakenModal(true);
+    setUserDatademonottaken(allDemos);
+  };
+
+  const onSubmitVeriy = (e, demosatval) => {
+    e.preventDefault();
+    const finalData = {
+      recordId: userDatas ? userDatas._id : "",
+      demoStatus: demosatval,
+    };
+
+    console.log(finalData);
+    demoTaken(finalData);
+    onEditModalChange(true);
+  };
+
+  return !isAuthenticated || !user || !users ? (
+    <Spinner />
+  ) : (
+    <Fragment>
+      <div className="container container_align ">
+        <section className="sub_reg">
+          <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
+              <h5 className="heading_color">All Demos</h5>
+            </div>
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+              <input
+                type="date"
+                placeholder="dd/mm/yyyy"
+                className="form-control cpp-input datevalidation"
+                name="fromdate"
+                // value={fromdate}
+                // onChange={(e) => onDateChange(e)}
+                style={{
+                  width: "80%",
+                }}
+                required
+              />
+            </div>
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-1">
+              <Select
+                name="stateName"
+                // options={allstaffstates}
+                isSearchable={true}
+                // value={staffstate}
+                placeholder="Select State"
+                //onChange={(e) => onstaffStateChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-1">
+              <Select
+                name="stateName"
+                // options={allstaffstates}
+                isSearchable={true}
+                // value={staffstate}
+                placeholder="Select State"
+                //onChange={(e) => onstaffStateChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-1">
+              <Select
+                name="stateName"
+                // options={allstaffstates}
+                isSearchable={true}
+                // value={staffstate}
+                placeholder="Select State"
+                //onChange={(e) => onstaffStateChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
+              <section className="body">
+                <div className=" body-inner no-padding table-responsive fixTableHead">
+                  <table
+                    className="table table-bordered table-striped table-hover"
+                    id="datatable2"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Company Name</th>
+
+                        <th>Demo Date</th>
+                        <th>Client </th>
+                        <th>Email Id </th>
+                        <th>Contact No </th>
+                        <th>Demo time </th>
+                        <th>Demo Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {allDemos &&
+                        allDemos.map((allDemos, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td className="headcolstatic">
+                                {allDemos.departmentName}
+                              </td>
+                              <td>{allDemos.demoDate}</td>
+                              <td>{allDemos.departmentDesc}</td>
+                              <td>{allDemos.departmentDesc}</td>
+                              <td>{allDemos.departmentDesc}</td>
+                              <td>
+                                {allDemos.fromTime} to{allDemos.toTime}
+                              </td>
+                              <td>
+                                <button
+                                  className="btn btn_green_bg"
+                                  onClick={() => onClickVerify(allDemos, idx)}
+                                >
+                                  Taken
+                                </button>
+
+                                <button
+                                  className="btn btn_green_bg"
+                                  onClick={() => onClickNotTaken(allDemos, idx)}
+                                >
+                                  Not Taken
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <Modal
+        show={showEditModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Verification Project</h3>
+          </div>
+          <div className="col-lg-1">
+            <button onClick={handleEditModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <form className="row" onSubmit={(e) => onSubmitVeriy(e, "Taken")}>
+            <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
+              <label className="label-control">
+                Are you sure you have Taken the Demo
+              </label>
+            </div>
+            <div
+              className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
+              size="lg"
+            >
+              <div className="col-lg-12 col-md-6 col-sm-12 col-12">
+                <input
+                  type="submit"
+                  name="Submit"
+                  value="Yes"
+                  className="btn sub_form btn_continue blackbrd Save float-right"
+                />
+              </div>
+            </div>
+          </form>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showDemonottakenModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Deactivate State</h3>
+          </div>
+          <div className="col-lg-1">
+            <button onClick={handleNotTakenModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <form className="row" onSubmit={(e) => onSubmitVeriy(e, "NotTaken")}>
+            <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
+              <label className="label-control">
+                Are you sure you have Not Taken the Demo
+              </label>
+            </div>
+            <div
+              className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
+              size="lg"
+            >
+              <div className="col-lg-12 col-md-6 col-sm-12 col-12">
+                <input
+                  type="submit"
+                  name="Submit"
+                  value="Yes"
+                  className="btn sub_form btn_continue blackbrd Save float-right"
+                />
+              </div>
+            </div>
+          </form>
+        </Modal.Body>
+      </Modal>
+    </Fragment>
+  );
+};
+
+AllDemos.propTypes = {
+  auth: PropTypes.object.isRequired,
+  getALLDemos: PropTypes.func.isRequired,
+  demoTaken: PropTypes.func.isRequired,
+};
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  sct: state.sct,
+});
+
+export default connect(mapStateToProps, { getALLDemos, demoTaken })(AllDemos);

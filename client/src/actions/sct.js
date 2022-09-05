@@ -13,6 +13,7 @@ import {
   SCT_LAST_MSG,
   SCTCALLHISTORY,
   ALL_SCT_PROJECT,
+  ALL_DEMOS,
   SCT_PROJECT,
 } from "./types";
 
@@ -303,6 +304,22 @@ export const AddSctNewProject = (finalData) => async (dispatch) => {
   }
 };
 
+export const addDemo = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/sct/add-demo", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 export const editSctProject = (finalData) => async (dispatch) => {
   try {
     dispatch({
@@ -326,6 +343,38 @@ export const getProjectList = () => async (dispatch) => {
     dispatch({
       type: SCT_PROJECT,
       payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getALLDemos = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/sct/get-all-demos");
+    localStorage.setItem("allDemoData", JSON.stringify(res.data));
+    dispatch({
+      type: ALL_DEMOS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const demoTaken = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+    await axios.post("/api/sct/demo-taken-verify", finalData);
+    dispatch(getALLDemos(finalData));
+    dispatch({
+      type: SET_LOADING_FALSE,
     });
   } catch (err) {
     dispatch({

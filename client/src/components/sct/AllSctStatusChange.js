@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { addSctCalls } from "../../actions/sct";
+import { addSctCalls, addDemo } from "../../actions/sct";
 
 const AllSctStatusChange = ({
   auth: { isAuthenticated, user, users, loading },
   leadDataVal,
   addSctCalls,
-
+  addDemo,
   ondivcloseChange,
   from,
   filterData,
@@ -49,9 +49,11 @@ const AllSctStatusChange = ({
     sctCallStatus: "",
     labeldata: "",
     sctCallNote: "",
+    toTime: "",
+    fromTime: "",
     isSubmitted: false,
   });
-  const { sctCallNote, sctCallStatus } = formData;
+  const { sctCallNote, sctCallStatus, toTime, fromTime } = formData;
   //For setting mindate as todays date
   var today = new Date();
   var dd = today.getDate();
@@ -148,9 +150,10 @@ const AllSctStatusChange = ({
 
   const [showHide, setShowHide] = useState({
     showdateselectionSection: true,
+    showdemoselectionSection: false,
   });
 
-  const { showdateselectionSection } = showHide;
+  const { showdateselectionSection, showdemoselectionSection } = showHide;
 
   const onStatusTypeChange = (e) => {
     //Required Validation starts
@@ -176,6 +179,7 @@ const AllSctStatusChange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showdemoselectionSection: false,
       });
     } else if (e.value === "NI") {
       setFormData({
@@ -186,6 +190,7 @@ const AllSctStatusChange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showdemoselectionSection: false,
       });
     } else if (e.value === "CallBack") {
       setFormData({
@@ -196,6 +201,7 @@ const AllSctStatusChange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showdemoselectionSection: false,
       });
     } else if (e.value === "VoiceMail") {
       setFormData({
@@ -206,6 +212,7 @@ const AllSctStatusChange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showdemoselectionSection: false,
       });
     } else if (e.value === "FollowUp") {
       setFormData({
@@ -216,6 +223,18 @@ const AllSctStatusChange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showdemoselectionSection: false,
+      });
+    } else if (e.value === "RegularClient" || e.value === "EnagedClient") {
+      setFormData({
+        ...formData,
+        sctCallStatus: e,
+      });
+      setStatusDate("");
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: false,
+        showdemoselectionSection: false,
       });
     } else {
       setFormData({
@@ -225,11 +244,15 @@ const AllSctStatusChange = ({
       setStatusDate("");
       setShowHide({
         ...showHide,
+        showdemoselectionSection: true,
         showdateselectionSection: false,
       });
     }
   };
-
+  const [demoDate, setdemoDate] = useState("");
+  const onDateChange1 = (e) => {
+    setdemoDate(e.target.value);
+  };
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -272,12 +295,17 @@ const AllSctStatusChange = ({
         sctCallEnteredDate: new Date().toLocaleString("en-GB"),
         filterData: filterData,
       };
-      // console.log(finalData);
-      // if (from === "EnagedClient" || from === "RegularClient") {
-      //   addDctClientCalls(finalData);
-      // } else {
+      const finalData1 = {
+        demoDate: demoDate,
+        fromTime: fromTime,
+        toTime: toTime,
+        callDate: todayDateymd,
+        demoEnteredById: user._id,
+        ClientId: leadDataVal._id,
+      };
+      addDemo(finalData1);
+
       addSctCalls(finalData);
-      // }
       setFormData({
         ...formData,
         sctCallStatus: "",
@@ -342,31 +370,79 @@ const AllSctStatusChange = ({
               required
             />
           </div>
-          <div className=" col-lg-4 col-md-12 col-sm-12 col-12 ">
-            {showdateselectionSection && (
-              <>
-                <label
-                // className="label-control"
-                >
-                  {sctCallStatus && sctCallStatus.label} Date
-                </label>
+          {showdateselectionSection && (
+            <div className=" col-lg-4 col-md-12 col-sm-12 col-12 ">
+              <label>{sctCallStatus && sctCallStatus.label} Date</label>
+              <input
+                type="date"
+                placeholder="dd/mm/yyyy"
+                className="form-control cpp-input datevalidation"
+                name="sctCallDate"
+                min={todaydate}
+                value={startStatusDate}
+                onChange={(e) => onDateChange(e)}
+                style={{
+                  width: "100%",
+                }}
+                required
+              />
+            </div>
+          )}
+          {showdemoselectionSection && (
+            <>
+              <div className=" col-lg-4 col-md-12 col-sm-12 col-12 ">
+                <>
+                  <label
+                  // className="label-control"
+                  >
+                    {sctCallStatus && sctCallStatus.label} Date
+                  </label>
+
+                  <input
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
+                    name="demoDate"
+                    min={todaydate}
+                    value={demoDate}
+                    onChange={(e) => onDateChange1(e)}
+                    style={{
+                      width: "100%",
+                    }}
+                    required
+                  />
+                </>
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label>From* :</label>
 
                 <input
-                  type="date"
-                  placeholder="dd/mm/yyyy"
-                  className="form-control cpp-input datevalidation"
-                  name="sctCallDate"
-                  min={todaydate}
-                  value={startStatusDate}
-                  onChange={(e) => onDateChange(e)}
-                  style={{
-                    width: "100%",
-                  }}
-                  required
+                  type="time"
+                  className="form-control"
+                  name="fromTime"
+                  value={fromTime}
+                  min="00:00"
+                  max="24:00"
+                  onChange={(e) => onInputChange(e)}
+                  // required
                 />
-              </>
-            )}
-          </div>
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label>To* :</label>
+
+                <input
+                  type="time"
+                  className="form-control"
+                  name="toTime"
+                  value={toTime}
+                  min="00:00"
+                  max="24:00"
+                  onChange={(e) => onInputChange(e)}
+                  // required
+                />
+              </div>
+            </>
+          )}
           <div className="col-lg-8 col-md-12 col-sm-12 col-12 ">
             <label className="label-control"> Notes :</label>
             <textarea
@@ -414,4 +490,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { addSctCalls })(AllSctStatusChange);
+export default connect(mapStateToProps, { addSctCalls, addDemo })(
+  AllSctStatusChange
+);
