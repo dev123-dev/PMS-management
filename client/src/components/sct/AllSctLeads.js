@@ -123,7 +123,6 @@ const AllSctLeads = ({
     getAllSctLeadDD({ countryId: e.countryId });
     setFilterData({ countryId: e.countryId });
   };
-
   const allclient = [];
   getAllSctLeadsDD.map((clients) =>
     allclient.push({
