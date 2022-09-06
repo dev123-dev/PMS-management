@@ -116,7 +116,11 @@ const AllDemos = ({
     };
     getALLDemos(filterData);
   };
-  const onClickReset = () => {};
+  const onClickReset = () => {
+    getStateData("");
+    setClientData("");
+    getALLDemos("");
+  };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
