@@ -399,9 +399,9 @@ export const demoTaken = (finalData) => async (dispatch) => {
   }
 };
 
-export const getDemoSchedules = () => async (dispatch) => {
+export const getDemoSchedules = (searchData) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/sct/get-demo-schedules");
+    const res = await axios.post("/api/sct/get-demo-schedules", searchData);
     dispatch({
       type: SCHEDULED_DEMOS,
       payload: res.data,

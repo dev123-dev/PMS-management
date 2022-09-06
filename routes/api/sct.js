@@ -522,9 +522,15 @@ router.post("/demo-taken-verify", async (req, res) => {
   }
 });
 
-router.post("/get-demo-schedules", async (req, res) => {
+router.post("/get-demo-schedules", auth, async (req, res) => {
+  const { selectedDate } = req.body;
+  let selDate = new Date().toISOString().split("T")[0];
+  if (selectedDate) selDate = selectedDate;
   try {
-    const schedulesDemos = await Demo.find({});
+    const schedulesDemos = await Demo.find({
+      demoDate: selDate,
+      demoEnteredById: req.user.id,
+    });
     res.json(schedulesDemos);
   } catch (err) {
     console.error(err.message);
