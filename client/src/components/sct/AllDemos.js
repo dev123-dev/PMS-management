@@ -75,24 +75,17 @@ const AllDemos = ({
   );
 
   const [state, getStateData] = useState("");
-
   const [stateId, setStateID] = useState("");
-  const [stateName, setStateName] = useState("");
 
   const onStateChange = (e) => {
-    var stateId = "";
-    var stateName = "";
     getStateData(e);
-
-    stateId = e.sId;
-    stateName = e.value;
-
-    setStateID(stateId);
-    setStateName(stateName);
-    let stateVal = {
+    setStateID(e.stateId);
+    let filterData = {
       stateId: stateId,
     };
+    getALLDemos(filterData);
   };
+
   const ClientsOpt = [];
   demoLeads.map((clientsData) =>
     ClientsOpt.push({
@@ -104,7 +97,6 @@ const AllDemos = ({
 
   const [clientData, setClientData] = useState("");
   const [clientId, setClientId] = useState("");
-  const [clientName, setClientName] = useState("");
 
   const onClientChange = (e) => {
     setClientData(e);
@@ -206,19 +198,29 @@ const AllDemos = ({
                                 {allDemos.fromTime} to{allDemos.toTime}
                               </td>
                               <td>
-                                <button
-                                  className="btn btn_green_bg"
-                                  onClick={() => onClickVerify(allDemos, idx)}
-                                >
-                                  Taken
-                                </button>
+                                {allDemos.demoStatus ? (
+                                  allDemos.demoStatus
+                                ) : (
+                                  <>
+                                    <button
+                                      className="btn btn_green_bg"
+                                      onClick={() =>
+                                        onClickVerify(allDemos, idx)
+                                      }
+                                    >
+                                      Taken
+                                    </button>
 
-                                <button
-                                  className="btn btn_green_bg"
-                                  onClick={() => onClickNotTaken(allDemos, idx)}
-                                >
-                                  Not Taken
-                                </button>
+                                    <button
+                                      className="btn btn_green_bg"
+                                      onClick={() =>
+                                        onClickNotTaken(allDemos, idx)
+                                      }
+                                    >
+                                      Not Taken
+                                    </button>
+                                  </>
+                                )}
                               </td>
                             </tr>
                           );

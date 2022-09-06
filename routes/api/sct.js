@@ -475,6 +475,11 @@ router.post("/add-demo", async (req, res) => {
 });
 
 router.get("/get-all-demos", async (req, res) => {
+  const { stateId } = req.body;
+  let query = {};
+  if (stateId) {
+    query = { "output.stateId": stateId };
+  }
   try {
     const allDemos = await Demo.aggregate([
       {
@@ -486,8 +491,8 @@ router.get("/get-all-demos", async (req, res) => {
         },
       },
       { $unwind: "$output" },
-      // { $match: query },
-      // { $sort: { "output._id": 1 } },
+      { $match: query },
+      { $sort: { demoStatus: -1 } },
     ]);
     res.json(allDemos);
   } catch (err) {

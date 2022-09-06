@@ -371,9 +371,9 @@ export const getProjectList = () => async (dispatch) => {
   }
 };
 
-export const getALLDemos = () => async (dispatch) => {
+export const getALLDemos = (filterData) => async (dispatch) => {
   try {
-    const res = await axios.get("/api/sct/get-all-demos");
+    const res = await axios.get("/api/sct/get-all-demos", filterData);
     const res2 = await axios.get("/api/sct/get-all-demos-state");
     const res3 = await axios.get("/api/sct/get-all-demos-leads");
     dispatch({
