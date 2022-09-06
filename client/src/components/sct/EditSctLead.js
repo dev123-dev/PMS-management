@@ -234,7 +234,7 @@ const EditSctLead = ({
       value: state.stateName,
     })
   );
-  console.log(alleditLeaddata);
+
   const [state, getStateData] = useState(
     alleditLeaddata && alleditLeaddata
       ? allstates &&
