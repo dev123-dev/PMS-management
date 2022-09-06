@@ -161,7 +161,7 @@ const AllDemos = ({
                         <th>Email Id </th>
                         <th>Contact No </th>
                         <th>Demo time </th>
-                        <th>Demo Status</th>
+                        <th style={{ width: "14%" }}>Demo Status</th>
                       </tr>
                     </thead>
                     <tbody>
