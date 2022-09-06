@@ -17,6 +17,18 @@ const DctCallsHistory = ({
     getAllDctCallEmp();
   }, [getAllDctCallEmp]);
 
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+  var todayDateymd = yyyy + "-" + mm + "-" + dd;
+
   const allemp = [{ empId: null, label: "All", value: null }];
   allDctCallsEmp &&
     allDctCallsEmp.map((emp) =>
@@ -33,7 +45,7 @@ const DctCallsHistory = ({
     getAllDctCall({ selectedDate: fromdate, assignedTo: e.empId });
   };
 
-  const [fromdate, setfromdate] = useState("");
+  const [fromdate, setfromdate] = useState(todayDateymd);
   const onDateChange = (e) => {
     setfromdate(e.target.value);
     getAllDctCall({ selectedDate: e.target.value });
