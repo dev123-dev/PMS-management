@@ -67,10 +67,15 @@ const DemoSchedulesModal = ({
             <tbody>
               {scheduledDemos &&
                 scheduledDemos.map((scheduledDemos, idx) => {
+                  var demoDate = "";
+                  if (scheduledDemos.demoDate) {
+                    var ED = scheduledDemos.demoDate.split(/\D/g);
+                    demoDate = [ED[2], ED[1], ED[0]].join("-");
+                  }
                   return (
                     <tr key={idx}>
                       <td>{scheduledDemos.clientName}</td>
-                      <td>{scheduledDemos.demoDate}</td>
+                      <td>{demoDate}</td>
                       <td>{scheduledDemos.fromTime}</td>
                       <td>{scheduledDemos.toTime}</td>
                     </tr>
