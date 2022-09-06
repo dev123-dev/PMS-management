@@ -501,6 +501,7 @@ const AddSctLeads = ({
         countryName: country.value ? country.value : null,
         sctcountryCode: countrycode,
         stateId: stateId ? stateId : null,
+        stateName: stateName,
         districtId: districtId ? districtId : null,
         projectsId: projectsId ? projectsId : null,
         projectsName: projects.value ? projects.value : null,

@@ -376,6 +376,7 @@ const EditSctLead = ({
       projectsId: projectsId,
       projectsName: projects ? projects.value : null,
       stateId: stateId,
+      stateName: stateName,
       districtId: districtId,
       sctLeadAssignedToId: empId,
       sctLeadAssignedToName: empName,

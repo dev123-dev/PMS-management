@@ -80,6 +80,7 @@ router.post("/edit-sct-Leads", async (req, res) => {
           countryName: data.countryName,
           sctcountryCode: data.sctcountryCode,
           stateId: data.stateId,
+          stateName: data.stateName,
           districtId: data.districtId,
           projectsName: data.projectsName,
           projectsId: data.projectsId,
@@ -495,10 +496,26 @@ router.get("/get-all-demos", async (req, res) => {
   }
 });
 
-router.get("/get-all-demos-new", async (req, res) => {
+router.get("/get-all-demos-state", async (req, res) => {
   try {
-    const allDemos = await Demo.find();
-    res.json(allDemos);
+    const allDemoStates = await Demo.aggregate([
+      {
+        $lookup: {
+          from: "sctleads",
+          localField: "clientId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $unwind: "$output" },
+      {
+        $group: {
+          _id: "$output.stateId",
+        },
+      },
+    ]);
+    res.json(allDemoStates);
+    console.log(allDemoStates);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

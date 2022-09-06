@@ -98,16 +98,6 @@ const AllDemos = ({
                 // value={staffstate}
                 placeholder="Select State"
                 //onChange={(e) => onstaffStateChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
               />
             </div>
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
@@ -118,36 +108,6 @@ const AllDemos = ({
                 // value={staffstate}
                 placeholder="Select State"
                 //onChange={(e) => onstaffStateChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
-              />
-            </div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
-              <Select
-                name="stateName"
-                // options={allstaffstates}
-                isSearchable={true}
-                // value={staffstate}
-                placeholder="Select State"
-                //onChange={(e) => onstaffStateChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
               />
             </div>
             <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-3">

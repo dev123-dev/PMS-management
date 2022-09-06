@@ -45,6 +45,9 @@ const SctLeadsSchema = new mongoose.Schema({
   stateId: {
     type: ObjectId,
   },
+  stateName: {
+    type: String,
+  },
   districtId: {
     type: ObjectId,
   },
