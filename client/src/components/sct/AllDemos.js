@@ -19,6 +19,13 @@ const AllDemos = ({
     getALLDemos();
   }, [getALLDemos]);
 
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const onDateChange = (e) => {
+    setSelectedDate(e.target.value);
+  };
+
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
   const onEditModalChange = (e) => {
@@ -57,6 +64,8 @@ const AllDemos = ({
     onEditModalChange(true);
   };
 
+  const onClickReset = () => {};
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -72,11 +81,11 @@ const AllDemos = ({
                 type="date"
                 placeholder="dd/mm/yyyy"
                 className="form-control cpp-input datevalidation"
-                name="fromdate"
-                // value={fromdate}
-                // onChange={(e) => onDateChange(e)}
+                name="selectedDate"
+                value={selectedDate}
+                onChange={(e) => onDateChange(e)}
                 style={{
-                  width: "80%",
+                  width: "100%",
                 }}
                 required
               />
@@ -140,6 +149,14 @@ const AllDemos = ({
                   },
                 })}
               />
+            </div>
+            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-3">
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickReset()}
+              >
+                Refresh
+              </button>
             </div>
           </div>
           <div className="row">
