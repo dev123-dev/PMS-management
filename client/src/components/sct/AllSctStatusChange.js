@@ -316,7 +316,8 @@ const AllSctStatusChange = ({
           toTime: toTime,
           callDate: todayDateymd,
           demoEnteredById: user._id,
-          ClientId: leadDataVal._id,
+          clientId: leadDataVal._id,
+          clientName: leadDataVal.sctClientName,
         };
         addDemo(finalData1);
       }

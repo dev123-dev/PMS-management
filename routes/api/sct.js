@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const SctLeads = require("../../models/sct/sctLeads");
 const SctCalls = require("../../models/sct/sctCalls");
 const SctClients = require("../../models/sct/sctClients");
-const demo = require("../../models/sct/demo");
+const Demo = require("../../models/sct/demo");
 const EmployeeDetails = require("../../models/EmpDetails");
 
 const SctProjects = require("../../models/sct/SctProjects");
@@ -464,7 +464,7 @@ router.post("/add-demo", async (req, res) => {
   let data = req.body;
 
   try {
-    let SctDemoDetails = new demo(data);
+    let SctDemoDetails = new Demo(data);
     output = await SctDemoDetails.save();
     res.send(output);
   } catch (err) {
@@ -475,11 +475,11 @@ router.post("/add-demo", async (req, res) => {
 
 router.get("/get-all-demos", async (req, res) => {
   try {
-    const allDemos = await demo.aggregate([
+    const allDemos = await Demo.aggregate([
       {
         $lookup: {
           from: "sctleads",
-          localField: "ClientId",
+          localField: "clientId",
           foreignField: "_id",
           as: "output",
         },
@@ -497,7 +497,7 @@ router.get("/get-all-demos", async (req, res) => {
 
 router.get("/get-all-demos-new", async (req, res) => {
   try {
-    const allDemos = await demo.find();
+    const allDemos = await Demo.find();
     res.json(allDemos);
   } catch (err) {
     console.error(err.message);
@@ -508,7 +508,7 @@ router.get("/get-all-demos-new", async (req, res) => {
 router.post("/demo-taken-verify", async (req, res) => {
   try {
     let data = req.body;
-    const updateDemoDetails = await demo.updateOne(
+    const updateDemoDetails = await Demo.updateOne(
       { _id: data.recordId },
       {
         $set: {
@@ -519,5 +519,15 @@ router.post("/demo-taken-verify", async (req, res) => {
     res.json(updateDemoDetails);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/get-demo-schedules", async (req, res) => {
+  try {
+    const schedulesDemos = await Demo.find({});
+    res.json(schedulesDemos);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
   }
 });

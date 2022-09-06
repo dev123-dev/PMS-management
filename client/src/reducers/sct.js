@@ -10,6 +10,7 @@ import {
   SCT_LAST_MSG,
   ALL_DEMOS,
   SCTCALLHISTORY,
+  SCHEDULED_DEMOS,
 } from "../actions/types";
 
 const initialState = {
@@ -26,6 +27,7 @@ const initialState = {
   projectList: [],
   sctcallHistory: [],
   allDemos: [],
+  scheduledDemos: [],
 };
 
 const sct = (state = initialState, action) => {
@@ -86,6 +88,12 @@ const sct = (state = initialState, action) => {
         ...state,
         allDemos: payload,
       };
+    case SCHEDULED_DEMOS:
+      return {
+        ...state,
+        scheduledDemos: payload,
+      };
+
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
@@ -8,9 +8,13 @@ import { getDemoSchedules } from "../../actions/sct";
 
 const DemoSchedulesModal = ({
   auth: { isAuthenticated, user, users, loading },
-  // sct: { sctcallHistory },
-  getDemos,
+  sct: { scheduledDemos },
+  getDemoSchedules,
 }) => {
+  useEffect(() => {
+    getDemoSchedules();
+  }, [getDemoSchedules]);
+  console.log(scheduledDemos);
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -111,4 +115,6 @@ const mapStateToProps = (state) => ({
   sct: state.sct,
 });
 
-export default connect(mapStateToProps, {})(DemoSchedulesModal);
+export default connect(mapStateToProps, { getDemoSchedules })(
+  DemoSchedulesModal
+);

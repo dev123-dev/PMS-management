@@ -15,6 +15,7 @@ import {
   ALL_SCT_PROJECT,
   ALL_DEMOS,
   SCT_PROJECT,
+  SCHEDULED_DEMOS,
 } from "./types";
 
 const config = {
@@ -400,9 +401,9 @@ export const demoTaken = (finalData) => async (dispatch) => {
 
 export const getDemoSchedules = () => async (dispatch) => {
   try {
-    const res = await axios.get("/api/sct/get-demo-schedules");
+    const res = await axios.post("/api/sct/get-demo-schedules");
     dispatch({
-      type: ALL_DEMOS,
+      type: SCHEDULED_DEMOS,
       payload: res.data,
     });
   } catch (err) {

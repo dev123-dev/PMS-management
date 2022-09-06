@@ -5,8 +5,11 @@ const DemoSchema = new mongoose.Schema({
   demoDate: {
     type: String,
   },
-  ClientId: {
+  clientId: {
     type: ObjectId,
+  },
+  clientName: {
+    type: String,
   },
   fromTime: {
     type: String,
