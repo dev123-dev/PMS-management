@@ -2131,3 +2131,11 @@ button:focus,button:active {
 /* to remove underline in notes */
 .linkoflastmesge{text-decoration: none !important;}
 /*end*/
+ 
+
+/*for date field same as dropdown*/
+.datevalidation{
+  height: 38px !important;
+  border-radius: 3px !important;
+}
+/*end*/
