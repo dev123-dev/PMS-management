@@ -16,6 +16,8 @@ import {
   ALL_DEMOS,
   SCT_PROJECT,
   SCHEDULED_DEMOS,
+  ALL_SCT_CALLS,
+  ALL_SCT_CALLS_EMP,
 } from "./types";
 
 const config = {
