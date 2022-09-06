@@ -45,15 +45,15 @@ const AllDemos = ({
   const [showDemonottakenModal, setShowDemonottakenModal] = useState(false);
   const handleNotTakenModalClose = () => setShowDemonottakenModal(false);
 
-  const onDemonottakenModalChange = (e) => {
-    if (e) {
-      handleNotTakenModalClose();
-    }
-  };
-  const [userDatademonottaken, setUserDatademonottaken] = useState(null);
+  // const onDemonottakenModalChange = (e) => {
+  //   if (e) {
+  //     handleNotTakenModalClose();
+  //   }
+  // };
+  // const [userDatademonottaken, setUserDatademonottaken] = useState(null);
   const onClickNotTaken = (allDemos, idx) => {
     setShowDemonottakenModal(true);
-    setUserDatademonottaken(allDemos);
+    setUserDatas(allDemos);
   };
 
   const onSubmitVeriy = (e, demosatval) => {
@@ -64,8 +64,54 @@ const AllDemos = ({
     };
     demoTaken(finalData);
     onEditModalChange(true);
+    setUserDatas("");
   };
 
+  const allstates = [];
+  demoStates.map((state) =>
+    allstates.push({
+      sId: state._id,
+      label: state.stateName,
+      value: state.stateName,
+    })
+  );
+
+  const [state, getStateData] = useState("");
+
+  const [stateId, setStateID] = useState("");
+  const [stateName, setStateName] = useState("");
+
+  const onStateChange = (e) => {
+    var stateId = "";
+    var stateName = "";
+    getStateData(e);
+
+    stateId = e.sId;
+    stateName = e.value;
+
+    setStateID(stateId);
+    setStateName(stateName);
+    let stateVal = {
+      stateId: stateId,
+    };
+  };
+  const ClientsOpt = [];
+  demoLeads.map((clientsData) =>
+    ClientsOpt.push({
+      clientId: clientsData._id,
+      label: clientsData.sctClientName,
+      value: clientsData.sctClientName,
+    })
+  );
+
+  const [clientData, setClientData] = useState("");
+  const [clientId, setClientId] = useState("");
+  const [clientName, setClientName] = useState("");
+
+  const onClientChange = (e) => {
+    setClientData(e);
+    setClientId(e.clientId);
+  };
   const onClickReset = () => {};
 
   return !isAuthenticated || !user || !users ? (
@@ -95,21 +141,21 @@ const AllDemos = ({
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="stateName"
-                // options={allstaffstates}
+                options={allstates}
                 isSearchable={true}
-                // value={staffstate}
+                value={state}
                 placeholder="Select State"
-                //onChange={(e) => onstaffStateChange(e)}
+                onChange={(e) => onStateChange(e)}
               />
             </div>
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
-                name="stateName"
-                // options={allstaffstates}
+                name="clientData"
                 isSearchable={true}
-                // value={staffstate}
-                placeholder="Select State"
-                //onChange={(e) => onstaffStateChange(e)}
+                value={clientData}
+                options={ClientsOpt}
+                placeholder="Select"
+                onChange={(e) => onClientChange(e)}
               />
             </div>
             <div className="col-lg-5 col-md-11 col-sm-12 col-11 py-3">
