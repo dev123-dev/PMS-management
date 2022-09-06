@@ -207,13 +207,13 @@ const AddSctLeads = ({
   const [projectsName, setprojectsName] = useState();
 
   const onprojectsChange = (e) => {
-    // //Required Validation Starts
-    // setError({
-    //   ...error,
-    //   countrytypeIdChecker: true,
-    //   countrytypeIdErrorStyle: { color: "#000" },
-    // });
-    // //Required Validation ends
+    //Required Validation Starts
+    setError({
+      ...error,
+      ProjectIdChecker: true,
+      ProjectErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
     var projectsId = "";
     var projectsName = "";
 
@@ -436,7 +436,8 @@ const AddSctLeads = ({
     countrytypeIdErrorStyle: {},
     AssignedtypeIdChecker: false,
     AssignedtypeIdErrorStyle: {},
-
+    ProjectErrorStyle: {},
+    ProjectIdChecker: false,
     websiteValChecker: false,
     websiteValResult: "",
     websiteValStyle: {},
@@ -447,7 +448,8 @@ const AddSctLeads = ({
     countrytypeIdErrorStyle,
     AssignedtypeIdChecker,
     AssignedtypeIdErrorStyle,
-
+    ProjectIdChecker,
+    ProjectErrorStyle,
     websiteValChecker,
     websiteValResult,
     websiteValStyle,
@@ -472,6 +474,14 @@ const AddSctLeads = ({
       }
     }
 
+    if (!ProjectIdChecker) {
+      setError({
+        ...error,
+        ProjectErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
     return true;
   };
 
@@ -490,8 +500,8 @@ const AddSctLeads = ({
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
         sctcountryCode: countrycode,
-        stateId: stateId,
-        districtId: districtId,
+        stateId: stateId ? stateId : null,
+        districtId: districtId ? districtId : null,
         projectsId: projectsId ? projectsId : null,
         projectsName: projects.value ? projects.value : null,
         sctLeadStatus: "Active",
@@ -521,7 +531,7 @@ const AddSctLeads = ({
   };
 
   if (isSubmitted) {
-    return <Redirect to="/all-leads" />;
+    return <Redirect to="/all-sct-leads" />;
   }
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -718,7 +728,7 @@ const AddSctLeads = ({
                       className="label-control"
                       // style={StateErrorStyle}
                     >
-                      State* :
+                      State :
                     </label>
                     <Select
                       name="stateName"
@@ -727,16 +737,6 @@ const AddSctLeads = ({
                       value={state}
                       placeholder="Select State"
                       onChange={(e) => onStateChange(e)}
-                      theme={(theme) => ({
-                        ...theme,
-                        height: 26,
-                        minHeight: 26,
-                        borderRadius: 1,
-                        colors: {
-                          ...theme.colors,
-                          primary: "black",
-                        },
-                      })}
                     />
                   </div>
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -744,7 +744,7 @@ const AddSctLeads = ({
                       className="label-control"
                       // style={DistrictErrorStyle}
                     >
-                      District* :
+                      District :
                     </label>
                     <Select
                       name="districtName"
@@ -766,10 +766,7 @@ const AddSctLeads = ({
                     />
                   </div>
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <label
-                      className="label-control"
-                      // style={StateErrorStyle}
-                    >
+                    <label className="label-control" style={ProjectErrorStyle}>
                       Lead of :
                     </label>
                     <Select
@@ -779,16 +776,6 @@ const AddSctLeads = ({
                       value={projects}
                       placeholder="Select Projects"
                       onChange={(e) => onprojectsChange(e)}
-                      theme={(theme) => ({
-                        ...theme,
-                        height: 26,
-                        minHeight: 26,
-                        borderRadius: 1,
-                        colors: {
-                          ...theme.colors,
-                          primary: "black",
-                        },
-                      })}
                     />
                   </div>
                   {user.empCtAccess && user.empCtAccess === "All" ? (
