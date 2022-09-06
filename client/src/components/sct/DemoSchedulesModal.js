@@ -21,6 +21,13 @@ const DemoSchedulesModal = ({
   const onDateChange = (e) => {
     setSelectedDate(e.target.value);
   };
+
+  const onCheckSchedule = (e) => {
+    let selDateData = {
+      selDate: selectedDate,
+    };
+    // SelDateDataVal(selDateData);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -46,7 +53,7 @@ const DemoSchedulesModal = ({
               type="submit"
               name="submit"
               value="Check"
-              //  onClick={() => onCheckSchedule()}
+              onClick={() => onCheckSchedule()}
               className="form-control btn sub_form blackbrd "
             />
           </div>
