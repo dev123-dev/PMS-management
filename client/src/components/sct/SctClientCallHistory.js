@@ -31,8 +31,8 @@ const SctClientCallHistory = ({
             {sctcallHistory &&
               sctcallHistory.map((sctcallHistory, idx) => {
                 var sctCallDate = "";
-                if (sctcallHistory.callDate) {
-                  var ED = sctcallHistory.callDate.split(/\D/g);
+                if (sctcallHistory.sctCallDate) {
+                  var ED = sctcallHistory.sctCallDate.split(/\D/g);
                   sctCallDate = [ED[2], ED[1], ED[0]].join("-");
                 }
                 if (sctcallHistory.sctCallCategory === "F") {
