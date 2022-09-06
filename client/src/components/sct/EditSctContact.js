@@ -7,13 +7,19 @@ import {
   editDctStaffDetails,
   editDctClientStaffDetails,
 } from "../../actions/dct";
-import { getActiveCountry } from "../../actions/regions";
+import {
+  getActiveCountry,
+  getActiveState,
+  getActiveDistricts,
+} from "../../actions/regions";
 
 const EditSctContact = ({
   auth: { isAuthenticated, user, users, loading },
   allStaffdata,
   getActiveCountry,
-  regions: { activeCountry },
+  getActiveState,
+  getActiveDistricts,
+  regions: { activeCountry, activeState, activeDistricts },
   allleaddata,
   ondivcloseChange,
   onEditModalChange,
@@ -26,6 +32,12 @@ const EditSctContact = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
+  useEffect(() => {
+    getActiveState();
+  }, [getActiveState]);
+  useEffect(() => {
+    getActiveDistricts();
+  }, [getActiveDistricts]);
   const [formData, setFormData] = useState({
     sctStaffName:
       allStaffdata && allStaffdata.sctStaffName
@@ -78,13 +90,13 @@ const EditSctContact = ({
       ? allstaffcountry.length !== 0
         ? allstaffcountry &&
           allstaffcountry.filter(
-            (x) => x.staffcountryId === allStaffdata.staffRegionId
+            (x) => x.staffcountryId === allStaffdata.sctstaffRegionId
           )[0]
         : ""
       : ""
   );
   const [staffcountryId, setstaffcountryID] = useState(
-    allStaffdata.staffRegionId
+    allStaffdata.sctstaffRegionId
   );
   const [staffCountryCode, setstaffCountryCode] = useState(
     allStaffdata.staffCountryCode
@@ -105,6 +117,95 @@ const EditSctContact = ({
     setstaffCountryCode(staffCountryCode);
   };
 
+  const allstaffstates = [];
+  activeState.map((staffstate) =>
+    allstaffstates.push({
+      sId: staffstate._id,
+      label: staffstate.stateName,
+      value: staffstate.stateName,
+    })
+  );
+
+  const [staffstate, getstaffStateData] = useState(
+    allStaffdata
+      ? allstaffstates.length !== 0
+        ? allstaffstates &&
+          allstaffstates.filter(
+            (x) => x.sId === allStaffdata.sctstaffStateId
+          )[0]
+        : ""
+      : ""
+  );
+
+  const [staffstateId, setstaffStateID] = useState("");
+  const [staffstateName, setstaffStateName] = useState("");
+
+  const onstaffStateChange = (e) => {
+    getstaffdistrictData("");
+    // //Required Validation starts
+    // setError({
+    //   ...error,
+    //   StateIdChecker: true,
+    //   StateErrorStyle: { color: "#000" },
+    // });
+    //Required Validation end
+
+    var staffstateId = "";
+    var staffstateName = "";
+    getstaffStateData(e);
+
+    staffstateId = e.sId;
+    staffstateName = e.value;
+
+    setstaffStateID(staffstateId);
+    setstaffStateName(staffstateName);
+    let stateVal = {
+      staffstateId: staffstateId,
+    };
+    getActiveDistricts(stateVal);
+  };
+
+  const allstaffdistrict = [];
+
+  activeDistricts.map((staffdistrict) =>
+    allstaffdistrict.push({
+      districtId: staffdistrict._id,
+      label: staffdistrict.districtName,
+      value: staffdistrict.districtName,
+    })
+  );
+
+  const [staffdistrict, getstaffdistrictData] = useState(
+    allStaffdata
+      ? allstaffdistrict.length !== 0
+        ? allstaffdistrict &&
+          allstaffdistrict.filter(
+            (x) => x.districtId === allStaffdata.sctstaffDistrictId
+          )[0]
+        : ""
+      : ""
+  );
+  const [staffdistrictId, setstaffdistrictID] = useState();
+  const [staffdistrictName, setstaffdistrictName] = useState();
+
+  const onstaffdistrictChange = (e) => {
+    // setError({
+    //   ...error,
+    //   DistrictIdChecker: true,
+    //   DistrictErrorStyle: { color: "#000" },
+    // });
+
+    var staffdistrictId = "";
+    var staffdistrictName = "";
+    getstaffdistrictData(e);
+
+    staffdistrictId = e.districtId;
+    staffdistrictName = e.value;
+
+    setstaffdistrictID(staffdistrictId);
+    setstaffdistrictName(staffdistrictName);
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
@@ -112,11 +213,12 @@ const EditSctContact = ({
       sctStaffName: sctStaffName,
       sctStaffPhoneNumber: sctStaffPhoneNumber,
       sctStaffEmailId: sctStaffEmailId,
-      sctStaffDesignation: sctStaffDesignation,
-      // staffRegion: staffcountryname,
-      // staffRegionId: staffcountryId,
-      // staffCountryCode: staffCountryCode,
-      filterData: filterData,
+      sctstaffRegion: staffcountryname,
+      sctstaffRegionId: staffcountryId,
+      sctstaffCountryCode: staffCountryCode,
+      sctstaffStateId: staffstateId,
+      sctstaffDistrictId: staffdistrictId,
+      // filterData: filterData,
     };
 
     if (from === "client") {
@@ -176,21 +278,11 @@ const EditSctContact = ({
               </label>
               <Select
                 name="stateName"
-                // options={allstates}
+                options={allstaffstates}
                 isSearchable={true}
-                // value={state}
+                value={staffstate}
                 placeholder="Select State"
-                // onChange={(e) => onStateChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
+                onChange={(e) => onstaffStateChange(e)}
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -202,21 +294,11 @@ const EditSctContact = ({
               </label>
               <Select
                 name="districtName"
-                // options={alldistrict}
+                options={allstaffdistrict}
                 isSearchable={true}
-                //  value={district}
+                value={staffdistrict}
                 placeholder="Select District"
-                // onChange={(e) => ondistrictChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
+                onChange={(e) => onstaffdistrictChange(e)}
               />
             </div>
             <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -307,4 +389,6 @@ export default connect(mapStateToProps, {
   editDctStaffDetails,
   getActiveCountry,
   editDctClientStaffDetails,
+  getActiveState,
+  getActiveDistricts,
 })(EditSctContact);
