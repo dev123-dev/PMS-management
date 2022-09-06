@@ -167,12 +167,17 @@ const AllDemos = ({
                     <tbody>
                       {allDemos &&
                         allDemos.map((allDemos, idx) => {
+                          var demoDate = "";
+                          if (allDemos.demoDate) {
+                            var ED = allDemos.demoDate.split(/\D/g);
+                            demoDate = [ED[2], ED[1], ED[0]].join("-");
+                          }
                           return (
                             <tr key={idx}>
                               <td className="headcolstatic">
                                 {allDemos.departmentName}
                               </td>
-                              <td>{allDemos.demoDate}</td>
+                              <td>{demoDate}</td>
                               <td>{allDemos.departmentDesc}</td>
                               <td>{allDemos.departmentDesc}</td>
                               <td>{allDemos.departmentDesc}</td>
