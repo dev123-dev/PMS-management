@@ -53,7 +53,7 @@ const EditSctLead = ({
   // useEffect(() => {
   //   getLeadsList();
   // }, [getLeadsList]);
-  console.log(filterData);
+
   //formData
   const [formData, setFormData] = useState({
     sctCompanyName:
@@ -234,11 +234,11 @@ const EditSctLead = ({
       value: state.stateName,
     })
   );
-
+  console.log(alleditLeaddata);
   const [state, getStateData] = useState(
     alleditLeaddata && alleditLeaddata
       ? allstates &&
-          allstates.filter((x) => x.stateId === alleditLeaddata.stateId)[0]
+          allstates.filter((x) => x.sId === alleditLeaddata.stateId)[0]
       : ""
   );
 
