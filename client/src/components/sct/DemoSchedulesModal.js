@@ -14,7 +14,7 @@ const DemoSchedulesModal = ({
   useEffect(() => {
     getDemoSchedules();
   }, [getDemoSchedules]);
-  console.log(scheduledDemos);
+
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -64,40 +64,19 @@ const DemoSchedulesModal = ({
                 <th style={{ width: "5%" }}>To Time</th>
               </tr>
             </thead>
-            {/* <tbody>
-            {sctcallHistory &&
-              sctcallHistory.map((sctcallHistory, idx) => {
-                var sctCallDate = "";
-                if (sctcallHistory.callDate) {
-                  var ED = sctcallHistory.callDate.split(/\D/g);
-                  sctCallDate = [ED[2], ED[1], ED[0]].join("-");
-                }
-                if (sctcallHistory.sctCallCategory === "F") {
-                  var sctCallCategory = "Followup";
-                } else if (sctcallHistory.sctCallCategory === "P") {
-                  var sctCallCategory = "Prospects";
-                } else if (sctcallHistory.sctCallCategory === "TC") {
-                  var sctCallCategory = "TestClient";
-                } else {
-                  var sctCallCategory = "RegularClient";
-                }
-                return (
-                  <tr key={idx}>
-                    <td>{sctcallHistory.sctCallToStaffName}</td>
-                    <td>{sctCallDate}</td>
-                    <td>{sctcallHistory.sctCallStatus}</td>
-                    <td>{sctCallCategory}</td>
-                    <td>
-                      <Link to="#" title={sctcallHistory.sctCallNote}>
-                        {sctcallHistory.sctCallNote}
-                      </Link>
-                    </td>
-
-                    <td>{sctcallHistory.sctCallFromName}</td>
-                  </tr>
-                );
-              })}
-          </tbody> */}
+            <tbody>
+              {scheduledDemos &&
+                scheduledDemos.map((scheduledDemos, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td>{scheduledDemos.clientName}</td>
+                      <td>{scheduledDemos.demoDate}</td>
+                      <td>{scheduledDemos.fromTime}</td>
+                      <td>{scheduledDemos.toTime}</td>
+                    </tr>
+                  );
+                })}
+            </tbody>
           </table>
         </div>
       </section>
