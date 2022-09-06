@@ -13,6 +13,8 @@ import {
   SCHEDULED_DEMOS,
   ALL_SCT_CALLS,
   ALL_SCT_CALLS_EMP,
+  DEMO_STATES,
+  DEMO_LEADS,
 } from "../actions/types";
 
 const initialState = {
@@ -32,6 +34,8 @@ const initialState = {
   scheduledDemos: [],
   allSctCalls: null,
   allSctCallsEmp: null,
+  demoStates: [],
+  demoLeads: [],
 };
 
 const sct = (state = initialState, action) => {
@@ -106,6 +110,16 @@ const sct = (state = initialState, action) => {
       return {
         ...state,
         allSctCallsEmp: payload,
+      };
+    case DEMO_STATES:
+      return {
+        ...state,
+        demoStates: payload,
+      };
+    case DEMO_LEADS:
+      return {
+        ...state,
+        demoLeads: payload,
       };
     default:
       return state;

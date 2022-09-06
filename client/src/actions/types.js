@@ -111,6 +111,8 @@ export const ALL_DEMOS = "ALL_DEMOS";
 export const SCHEDULED_DEMOS = "SCHEDULED_DEMOS";
 export const ALL_SCT_CALLS = "ALL_SCT_CALLS";
 export const ALL_SCT_CALLS_EMP = "ALL_SCT_CALLS_EMP";
+export const DEMO_STATES = "DEMO_STATES";
+export const DEMO_LEADS = "DEMO_LEADS";
 
 //SETTINGS
 export const ALL_COMPANY_DETAILS = "ALL_COMPANY_DETAILS";

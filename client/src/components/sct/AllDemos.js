@@ -11,13 +11,15 @@ import Spinner from "../layout/Spinner";
 import { getALLDemos, demoTaken } from "../../actions/sct";
 const AllDemos = ({
   auth: { isAuthenticated, user, users },
-  sct: { allDemos },
+  sct: { allDemos, demoStates, demoLeads },
   getALLDemos,
   demoTaken,
 }) => {
   useEffect(() => {
     getALLDemos();
   }, [getALLDemos]);
+  console.log(demoStates);
+  console.log(demoLeads);
 
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]

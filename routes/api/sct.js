@@ -511,11 +511,38 @@ router.get("/get-all-demos-state", async (req, res) => {
       {
         $group: {
           _id: "$output.stateId",
+          stateName: { $first: "$output.stateName" },
         },
       },
     ]);
     res.json(allDemoStates);
     console.log(allDemoStates);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.get("/get-all-demos-leads", async (req, res) => {
+  try {
+    const allDemoLeads = await Demo.aggregate([
+      {
+        $lookup: {
+          from: "sctleads",
+          localField: "clientId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $unwind: "$output" },
+      {
+        $group: {
+          _id: "$output._id",
+          sctClientName: { $first: "$output.sctClientName" },
+        },
+      },
+    ]);
+    res.json(allDemoLeads);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

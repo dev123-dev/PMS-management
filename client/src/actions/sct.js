@@ -18,6 +18,8 @@ import {
   SCHEDULED_DEMOS,
   ALL_SCT_CALLS,
   ALL_SCT_CALLS_EMP,
+  DEMO_STATES,
+  DEMO_LEADS,
 } from "./types";
 
 const config = {
@@ -372,10 +374,19 @@ export const getProjectList = () => async (dispatch) => {
 export const getALLDemos = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/sct/get-all-demos");
-    // const res2 = await axios.get("/api/sct/get-all-demos-new");
+    const res2 = await axios.get("/api/sct/get-all-demos-state");
+    const res3 = await axios.get("/api/sct/get-all-demos-leads");
     dispatch({
       type: ALL_DEMOS,
       payload: res.data,
+    });
+    dispatch({
+      type: DEMO_STATES,
+      payload: res2.data,
+    });
+    dispatch({
+      type: DEMO_LEADS,
+      payload: res3.data,
     });
   } catch (err) {
     dispatch({
