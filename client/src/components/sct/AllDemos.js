@@ -18,7 +18,7 @@ const AllDemos = ({
   useEffect(() => {
     getALLDemos();
   }, [getALLDemos]);
-
+  console.log(allDemos);
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
   const onEditModalChange = (e) => {
@@ -161,7 +161,7 @@ const AllDemos = ({
                         <th>Email Id </th>
                         <th>Contact No </th>
                         <th>Demo time </th>
-                        <th style={{ width: "14%" }}>Demo Status</th>
+                        <th>Demo Status</th>
                       </tr>
                     </thead>
                     <tbody>

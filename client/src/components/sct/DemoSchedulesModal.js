@@ -4,26 +4,18 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
 import Select from "react-select";
+import { getDemoSchedules } from "../../actions/sct";
+
 const DemoSchedulesModal = ({
   auth: { isAuthenticated, user, users, loading },
   // sct: { sctcallHistory },
-  // onClientCallHistoryModalChange,
+  getDemos,
 }) => {
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth() + 1;
-  var yyyy = today.getFullYear();
-  if (dd < 10) {
-    dd = "0" + dd;
-  }
-  if (mm < 10) {
-    mm = "0" + mm;
-  }
-  var todayDateymd = yyyy + "-" + mm + "-" + dd;
-
-  const [fromdate, setfromdate] = useState(todayDateymd);
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const onDateChange = (e) => {
-    setfromdate(e.target.value);
+    setSelectedDate(e.target.value);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -36,8 +28,8 @@ const DemoSchedulesModal = ({
               type="date"
               placeholder="dd/mm/yyyy"
               className="form-control cpp-input datevalidation"
-              name="fromdate"
-              value={fromdate}
+              name="selectedDate"
+              value={selectedDate}
               onChange={(e) => onDateChange(e)}
               style={{
                 width: "100%",

@@ -221,7 +221,7 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
       };
     }
   }
-  console.log(query);
+  // console.log(query);
   try {
     const getSctLeadsDetails = await SctLeads.find(query).sort({
       sctCallDate: -1,
@@ -270,7 +270,7 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
         countryId: mongoose.Types.ObjectId(countryId),
         _id: mongoose.Types.ObjectId(clientsId),
         $and: [
-          { sctLeadCategory: { $ne: "TC" } },
+          { sctLeadCategory: { $ne: "EC" } },
           { sctLeadCategory: { $ne: "RC" } },
         ],
         sctLeadAssignedToId,
@@ -280,7 +280,7 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
         sctLeadStatus: "Active",
         countryId: mongoose.Types.ObjectId(countryId),
         $and: [
-          { sctLeadCategory: { $ne: "TC" } },
+          { sctLeadCategory: { $ne: "EC" } },
           { sctLeadCategory: { $ne: "RC" } },
         ],
         sctLeadAssignedToId,
@@ -292,7 +292,7 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
         sctLeadStatus: "Active",
         _id: mongoose.Types.ObjectId(clientsId),
         $and: [
-          { sctLeadCategory: { $ne: "TC" } },
+          { sctLeadCategory: { $ne: "EC" } },
           { sctLeadCategory: { $ne: "RC" } },
         ],
         sctLeadAssignedToId,
@@ -301,7 +301,7 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
       query = {
         sctLeadStatus: "Active",
         $and: [
-          { sctLeadCategory: { $ne: "TC" } },
+          { sctLeadCategory: { $ne: "EC" } },
           { sctLeadCategory: { $ne: "RC" } },
         ],
         sctLeadAssignedToId,
@@ -474,6 +474,28 @@ router.post("/add-demo", async (req, res) => {
 });
 
 router.get("/get-all-demos", async (req, res) => {
+  try {
+    const allDemos = await demo.aggregate([
+      {
+        $lookup: {
+          from: "sctleads",
+          localField: "ClientId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $unwind: "$output" },
+      // { $match: query },
+      // { $sort: { "output._id": 1 } },
+    ]);
+    res.json(allDemos);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.get("/get-all-demos-new", async (req, res) => {
   try {
     const allDemos = await demo.find();
     res.json(allDemos);

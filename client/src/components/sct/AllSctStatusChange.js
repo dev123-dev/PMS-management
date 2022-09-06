@@ -300,10 +300,8 @@ const AllSctStatusChange = ({
         sctCallFromId: user._id,
         sctCallFromName: user.userName,
         sctCallCategory: callCategoryVal,
-        sctCallStatus:
-          sctCallStatus.value !== "Demo"
-            ? sctCallStatus.value
-            : leadDataVal.sctCallStatus,
+        sctCallStatus: sctCallStatus.value,
+        // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
         sctCallDate: startStatusDate || todayDateymd,
         sctCallNote: sctCallNote,
         sctCallComeFrom: callComeFromVal,

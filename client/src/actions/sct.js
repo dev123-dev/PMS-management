@@ -369,7 +369,7 @@ export const getProjectList = () => async (dispatch) => {
 export const getALLDemos = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/sct/get-all-demos");
-    localStorage.setItem("allDemoData", JSON.stringify(res.data));
+    // const res2 = await axios.get("/api/sct/get-all-demos-new");
     dispatch({
       type: ALL_DEMOS,
       payload: res.data,
@@ -390,6 +390,20 @@ export const demoTaken = (finalData) => async (dispatch) => {
     dispatch(getALLDemos(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getDemoSchedules = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/sct/get-demo-schedules");
+    dispatch({
+      type: ALL_DEMOS,
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
