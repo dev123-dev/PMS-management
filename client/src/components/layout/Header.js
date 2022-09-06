@@ -382,6 +382,18 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                         ) : (
                           <></>
                         )}
+
+                        {(user &&
+                          user.userGroupName &&
+                          user.userGroupName === "Administrator") ||
+                        user.userGroupName === "Super Admin" ||
+                        user.userGroupName === "Clarical Admins" ? (
+                          <li>
+                            <Link to="/all-staff">All Staff</Link>
+                          </li>
+                        ) : (
+                          <></>
+                        )}
                         {/* SLAP UserGroupRights */}
                         {(user &&
                           user.userGroupName &&
@@ -389,9 +401,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                         user.userGroupName === "Super Admin" ? (
                           <Fragment>
                             {" "}
-                            <li>
-                              <Link to="/all-staff">All Staff</Link>
-                            </li>
                             <li>
                               <Link to="/all-department">All Departments</Link>
                             </li>
