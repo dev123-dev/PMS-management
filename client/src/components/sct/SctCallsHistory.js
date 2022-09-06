@@ -2,20 +2,21 @@ import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-// import { getAllSctCall, getAllSctCallEmp } from "../../actions/sct";
+import { getAllSctCall, getAllSctCallEmp } from "../../actions/sct";
 import Select from "react-select";
 const SctCallsHistory = ({
   auth: { isAuthenticated, user, users },
   sct: { allSctCalls, allSctCallsEmp },
-  // getAllSctCall,
-  // getAllSctCallEmp,
+  getAllSctCall,
+  getAllSctCallEmp,
 }) => {
-  // useEffect(() => {
-  //   getAllSctCall();
-  // }, [getAllSctCall]);
-  // useEffect(() => {
-  //   getAllSctCallEmp();
-  // }, [getAllSctCallEmp]);
+  useEffect(() => {
+    getAllSctCall();
+  }, [getAllSctCall]);
+
+  useEffect(() => {
+    getAllSctCallEmp();
+  }, [getAllSctCallEmp]);
 
   var today = new Date();
   var dd = today.getDate();
@@ -130,24 +131,26 @@ const SctCallsHistory = ({
                     <tbody>
                       {allSctCalls &&
                         allSctCalls.map((allSctCalls, idx) => {
-                          var callDates = "";
-                          if (allSctCalls.callDate) {
-                            var ED = allSctCalls.callDate.split(/\D/g);
-                            callDates = [ED[2], ED[1], ED[0]].join("-");
+                          var sctCallDate = "";
+                          if (allSctCalls.sctCallDate) {
+                            var ED = allSctCalls.sctCallDate.split(/\D/g);
+                            sctCallDate = [ED[2], ED[1], ED[0]].join("-");
                           }
-                          var calltakenDate = "";
-                          if (allSctCalls.callTakenDate) {
-                            var ED1 = allSctCalls.callTakenDate.split(/\D/g);
-                            calltakenDate = [ED1[2], ED1[1], ED1[0]].join("-");
+                          var sctCallTakenDate = "";
+                          if (allSctCalls.sctCallTakenDate) {
+                            var ED1 = allSctCalls.sctCallTakenDate.split(/\D/g);
+                            sctCallTakenDate = [ED1[2], ED1[1], ED1[0]].join(
+                              "-"
+                            );
                           }
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-                              <td>{calltakenDate}</td>
-                              <td>{allSctCalls.callToName}</td>
-                              <td>{allSctCalls.callToStaffName}</td>
-                              <td>{allSctCalls.callNote}</td>
-                              <td>{callDates}</td>
+                              <td>{sctCallTakenDate}</td>
+                              <td>{allSctCalls.sctCallToName}</td>
+                              <td>{allSctCalls.sctCallToStaffName}</td>
+                              <td>{allSctCalls.sctCallNote}</td>
+                              <td>{sctCallDate}</td>
                             </tr>
                           );
                         })}
@@ -186,5 +189,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  //  getAllSctCall, getAllSctCallEmp
+  getAllSctCall,
+  getAllSctCallEmp,
 })(SctCallsHistory);

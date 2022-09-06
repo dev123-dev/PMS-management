@@ -537,3 +537,90 @@ router.post("/get-demo-schedules", auth, async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/get-all-sct-calls", auth, async (req, res) => {
+  let { selectedDate, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  var dateVal = new Date().toISOString().split("T")[0];
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = assignedTo;
+    else sctCallFromId = { $ne: null };
+  }
+  if (selectedDate) {
+    dateVal = selectedDate;
+  }
+
+  if (selectedDate) {
+    query = {
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  } else {
+    query = {
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  }
+  try {
+    const getAllSctCallsDetails = await SctCalls.find(query).sort({
+      _id: -1,
+    });
+    res.json(getAllSctCallsDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-all-sct-calls-emp", auth, async (req, res) => {
+  let { selectedDate } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  var dateVal = new Date().toISOString().split("T")[0];
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    sctCallFromId = { $ne: null };
+  }
+  if (selectedDate) {
+    dateVal = selectedDate;
+  }
+
+  if (selectedDate) {
+    query = {
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  } else {
+    query = {
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  }
+  try {
+    const getAllSctCallsDetails = await SctCalls.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$sctCallFromId",
+          sctCallFromName: { $first: "$sctCallFromName" },
+        },
+      },
+    ]).sort({ _id: 1 });
+    res.json(getAllSctCallsDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
