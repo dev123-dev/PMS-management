@@ -55,7 +55,7 @@ const DctCallsHistory = ({
 
   const onClickReset = () => {
     getempData("");
-    setfromdate("");
+    setfromdate(todayDateymd);
     getAllDctCall();
     getAllDctCallEmp();
   };
