@@ -373,9 +373,9 @@ export const getProjectList = () => async (dispatch) => {
 
 export const getALLDemos = (filterData) => async (dispatch) => {
   try {
-    const res = await axios.get("/api/sct/get-all-demos", filterData);
-    const res2 = await axios.get("/api/sct/get-all-demos-state");
-    const res3 = await axios.get("/api/sct/get-all-demos-leads");
+    const res = await axios.post("/api/sct/get-all-demos", filterData);
+    const res2 = await axios.post("/api/sct/get-all-demos-state", filterData);
+    const res3 = await axios.post("/api/sct/get-all-demos-leads", filterData);
     dispatch({
       type: ALL_DEMOS,
       payload: res.data,

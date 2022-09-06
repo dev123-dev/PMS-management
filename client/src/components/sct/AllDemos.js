@@ -24,6 +24,12 @@ const AllDemos = ({
   );
   const onDateChange = (e) => {
     setSelectedDate(e.target.value);
+    let filterData = {
+      demoDate: e.target.value,
+      clientId: clientId,
+      stateId: stateId,
+    };
+    getALLDemos(filterData);
   };
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -79,9 +85,10 @@ const AllDemos = ({
 
   const onStateChange = (e) => {
     getStateData(e);
-    setStateID(e.stateId);
+    setStateID(e.sId);
     let filterData = {
-      stateId: stateId,
+      demoDate: selectedDate,
+      stateId: e.sId,
     };
     getALLDemos(filterData);
   };
@@ -101,6 +108,12 @@ const AllDemos = ({
   const onClientChange = (e) => {
     setClientData(e);
     setClientId(e.clientId);
+    let filterData = {
+      demoDate: selectedDate,
+      clientId: e.clientId,
+      stateId: stateId,
+    };
+    getALLDemos(filterData);
   };
   const onClickReset = () => {};
 

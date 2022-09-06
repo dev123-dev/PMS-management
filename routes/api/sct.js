@@ -222,7 +222,6 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
       };
     }
   }
-  // console.log(query);
   try {
     const getSctLeadsDetails = await SctLeads.find(query).sort({
       sctCallDate: -1,
@@ -309,7 +308,6 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
       };
     }
   }
-  // console.log(query);
   try {
     const getSctLeadsDetails = await SctLeads.find(query).sort({
       _id: -1,
@@ -474,12 +472,28 @@ router.post("/add-demo", async (req, res) => {
   }
 });
 
-router.get("/get-all-demos", async (req, res) => {
-  const { stateId } = req.body;
-  let query = {};
+router.post("/get-all-demos", async (req, res) => {
+  const { stateId, clientId, demoDate } = req.body;
+  let query = { demoDate: new Date().toISOString().split("T")[0] };
   if (stateId) {
-    query = { "output.stateId": stateId };
+    if (clientId)
+      query = {
+        "output.stateId": mongoose.Types.ObjectId(stateId),
+        "output._id": mongoose.Types.ObjectId(clientId),
+        demoDate: demoDate,
+      };
+    else
+      query = {
+        "output.stateId": mongoose.Types.ObjectId(stateId),
+        demoDate: demoDate,
+      };
+  } else if (clientId) {
+    query = {
+      "output._id": mongoose.Types.ObjectId(clientId),
+      demoDate: demoDate,
+    };
   }
+  console.log(query);
   try {
     const allDemos = await Demo.aggregate([
       {
@@ -501,7 +515,12 @@ router.get("/get-all-demos", async (req, res) => {
   }
 });
 
-router.get("/get-all-demos-state", async (req, res) => {
+router.post("/get-all-demos-state", async (req, res) => {
+  const { demoDate } = req.body;
+  let query = { demoDate: new Date().toISOString().split("T")[0] };
+  if (demoDate) {
+    let query = { demoDate: demoDate };
+  }
   try {
     const allDemoStates = await Demo.aggregate([
       {
@@ -513,22 +532,32 @@ router.get("/get-all-demos-state", async (req, res) => {
         },
       },
       { $unwind: "$output" },
+      { $match: query },
       {
         $group: {
           _id: "$output.stateId",
           stateName: { $first: "$output.stateName" },
         },
       },
+      { $sort: { _id: 1 } },
     ]);
     res.json(allDemoStates);
-    console.log(allDemoStates);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
   }
 });
 
-router.get("/get-all-demos-leads", async (req, res) => {
+router.post("/get-all-demos-leads", async (req, res) => {
+  const { stateId, demoDate } = req.body;
+  let query = { demoDate: new Date().toISOString().split("T")[0] };
+
+  if (stateId) {
+    query = {
+      "output.stateId": mongoose.Types.ObjectId(stateId),
+      demoDate: demoDate,
+    };
+  }
   try {
     const allDemoLeads = await Demo.aggregate([
       {
@@ -540,6 +569,7 @@ router.get("/get-all-demos-leads", async (req, res) => {
         },
       },
       { $unwind: "$output" },
+      { $match: query },
       {
         $group: {
           _id: "$output._id",
