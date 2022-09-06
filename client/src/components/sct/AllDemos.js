@@ -18,8 +18,6 @@ const AllDemos = ({
   useEffect(() => {
     getALLDemos();
   }, [getALLDemos]);
-  console.log(demoStates);
-  console.log(demoLeads);
 
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
