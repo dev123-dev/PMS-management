@@ -12,7 +12,7 @@ const DemoSchedulesModal = ({
   getDemoSchedules,
 }) => {
   useEffect(() => {
-    getDemoSchedules();
+    getDemoSchedules({ selectedDate: new Date().toISOString().split("T")[0] });
   }, [getDemoSchedules]);
 
   const [selectedDate, setSelectedDate] = useState(
