@@ -175,12 +175,12 @@ const AllDemos = ({
                           return (
                             <tr key={idx}>
                               <td className="headcolstatic">
-                                {allDemos.departmentName}
+                                {allDemos.output.sctCompanyName}
                               </td>
                               <td>{demoDate}</td>
-                              <td>{allDemos.departmentDesc}</td>
-                              <td>{allDemos.departmentDesc}</td>
-                              <td>{allDemos.departmentDesc}</td>
+                              <td>{allDemos.output.sctClientName}</td>
+                              <td>{allDemos.output.sctEmailId}</td>
+                              <td>{allDemos.output.sctPhone1}</td>
                               <td>
                                 {allDemos.fromTime} to{allDemos.toTime}
                               </td>
