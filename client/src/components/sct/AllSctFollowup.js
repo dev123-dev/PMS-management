@@ -256,7 +256,7 @@ const AllSctFollowup = ({
           <div className="row">
             <div className="col-lg-8 col-md-12 col-sm-12 col-12 text-center ">
               <section className="body">
-                <div className=" body-inner no-padding table-responsive fixTableHeadCT">
+                <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
                     className="table table-bordered table-striped hoverrow smll_row"
                     id="datatable2"
@@ -334,7 +334,7 @@ const AllSctFollowup = ({
                 </div>
               </section>
             </div>
-            <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead">
+            <div className="row col-lg-4 col-md-12 col-sm-12 col-12 ">
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <AllSctContacts
@@ -349,7 +349,7 @@ const AllSctFollowup = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "30vh" }}
+                  style={{ height: "33vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
