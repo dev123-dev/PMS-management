@@ -802,13 +802,17 @@ const AddSctLeads = ({
                   )}
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Important Points :</label>
-                    <input
-                      type="text"
+
+                    <textarea
                       name="sctImportantPoints"
+                      id="sctImportantPoints"
+                      className="textarea form-control"
+                      rows="3"
+                      placeholder="Important Points"
+                      style={{ width: "100%" }}
                       value={sctImportantPoints}
-                      className="form-control"
                       onChange={(e) => onInputChange(e)}
-                    />
+                    ></textarea>
                   </div>
                   <div className="col-lg-3  col-md-6 col-sm-6 col-12 ">
                     <label className="label-control">Address :</label>
