@@ -2137,5 +2137,6 @@ button:focus,button:active {
 .datevalidation{
   height: 38px !important;
   border-radius: 3px !important;
+  /* width: 150px !important; */
 }
 /*end*/
