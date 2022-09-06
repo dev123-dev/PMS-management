@@ -12,7 +12,7 @@ const DemoSchedulesModal = ({
   getDemoSchedules,
 }) => {
   useEffect(() => {
-    getDemoSchedules({ selectedDate: new Date().toISOString().split("T")[0] });
+    getDemoSchedules(new Date().toISOString().split("T")[0]);
   }, [getDemoSchedules]);
 
   const [selectedDate, setSelectedDate] = useState(
@@ -20,6 +20,7 @@ const DemoSchedulesModal = ({
   );
   const onDateChange = (e) => {
     setSelectedDate(e.target.value);
+    getDemoSchedules(e.target.value);
   };
 
   const onCheckSchedule = (e) => {
