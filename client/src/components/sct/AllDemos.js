@@ -164,7 +164,7 @@ const AllDemos = ({
                         <th>Demo Status</th>
                       </tr>
                     </thead>
-                    {/* <tbody>
+                    <tbody>
                       {allDemos &&
                         allDemos.map((allDemos, idx) => {
                           return (
@@ -197,7 +197,7 @@ const AllDemos = ({
                             </tr>
                           );
                         })}
-                    </tbody> */}
+                    </tbody>
                   </table>
                 </div>
               </section>
