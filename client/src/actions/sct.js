@@ -414,3 +414,39 @@ export const getDemoSchedules = (searchData) => async (dispatch) => {
     });
   }
 };
+
+export const getAllSctCall = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-all-sct-calls",
+      finalData,
+      config
+    );
+    dispatch({
+      type: ALL_SCT_CALLS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllSctCallEmp = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-all-sct-calls-emp",
+      finalData,
+      config
+    );
+    dispatch({
+      type: ALL_SCT_CALLS_EMP,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
