@@ -12,7 +12,7 @@ const DemoSchedulesModal = ({
   getDemoSchedules,
 }) => {
   useEffect(() => {
-    getDemoSchedules(new Date().toISOString().split("T")[0]);
+    getDemoSchedules({ selectedDate: new Date().toISOString().split("T")[0] });
   }, [getDemoSchedules]);
 
   const [selectedDate, setSelectedDate] = useState(
@@ -20,14 +20,10 @@ const DemoSchedulesModal = ({
   );
   const onDateChange = (e) => {
     setSelectedDate(e.target.value);
-    getDemoSchedules(e.target.value);
   };
 
   const onCheckSchedule = (e) => {
-    let selDateData = {
-      selDate: selectedDate,
-    };
-    // SelDateDataVal(selDateData);
+    getDemoSchedules({ selectedDate: selectedDate });
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
