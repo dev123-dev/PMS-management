@@ -33,6 +33,7 @@ const EditSctLead = ({
   getProjectList,
   getActiveState,
   getActiveDistricts,
+  filterData,
 }) => {
   useEffect(() => {
     getActiveState();
@@ -52,7 +53,7 @@ const EditSctLead = ({
   // useEffect(() => {
   //   getLeadsList();
   // }, [getLeadsList]);
-
+  console.log(filterData);
   //formData
   const [formData, setFormData] = useState({
     sctCompanyName:
@@ -370,16 +371,17 @@ const EditSctLead = ({
       sctLeadAddress: sctLeadAddress,
       sctImportantPoints: sctImportantPoints,
       countryId: countryId,
-      countryName: country.value,
+      countryName: country ? country.value : null,
       sctcountryCode: countrycode,
       projectsId: projectsId,
-      projectsName: projects.value,
+      projectsName: projects ? projects.value : null,
       stateId: stateId,
       districtId: districtId,
       sctLeadAssignedToId: empId,
       sctLeadAssignedToName: empName,
       sctLeadEditedById: user._id,
       sctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
+      filterData: filterData,
     };
 
     editSctLeadDetails(finalData);

@@ -80,6 +80,7 @@ export const editSctLeadDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/sct/edit-sct-Leads", finalData, config);
+    dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -140,10 +141,24 @@ export const deactivateSctStaffDetails = (finalData) => async (dispatch) => {
   }
 };
 
+export const refreshLead = (finalData) => async (dispatch) => {
+  try {
+    if (finalData.filterData) {
+      dispatch(getSctLeadDetails(finalData.filterData));
+      dispatch(getSctLeadDetailsDD(finalData.filterData));
+    }
+    dispatch(getAllSctLead());
+    dispatch(getAllSctLeadDD());
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
 //**********************************SELECT**********************************
 export const getSctLeadDetails = (finalData) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/sct/get-dct-Leads", finalData, config);
+    const res = await axios.post("/api/sct/get-sct-Leads", finalData, config);
     dispatch({
       type: ALL_SCT_LEADS,
       payload: res.data.result1,

@@ -270,7 +270,7 @@ const AllSctStatusChange = ({
     } else if (sctCallStatus.value === "RegularClient") {
       callCategoryVal = "RC";
     } else {
-      if (leadDataVal.dctLeadCategory === "NL") callCategoryVal = "P";
+      if (leadDataVal.sctLeadCategory === "NL") callCategoryVal = "P";
       else {
         if (from === "EnagedClient" || from === "RegularClient")
           callCategoryVal = leadDataVal.dctClientCategory;
