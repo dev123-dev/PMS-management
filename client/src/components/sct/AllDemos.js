@@ -83,7 +83,7 @@ const AllDemos = ({
                 required
               />
             </div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-1">
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="stateName"
                 // options={allstaffstates}
@@ -103,7 +103,7 @@ const AllDemos = ({
                 })}
               />
             </div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-1">
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="stateName"
                 // options={allstaffstates}
@@ -123,7 +123,7 @@ const AllDemos = ({
                 })}
               />
             </div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-1">
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="stateName"
                 // options={allstaffstates}
@@ -203,6 +203,11 @@ const AllDemos = ({
               </section>
             </div>
           </div>
+          <div className="row">
+            <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
+              <label>No of Demos : {allDemos && allDemos.length}</label>
+            </div>
+          </div>
         </section>
       </div>
 
@@ -216,7 +221,7 @@ const AllDemos = ({
       >
         <Modal.Header>
           <div className="col-lg-10">
-            <h3 className="modal-title text-center">Verification Project</h3>
+            <h3 className="modal-title text-center">Verify Demo Taken</h3>
           </div>
           <div className="col-lg-1">
             <button onClick={handleEditModalClose} className="close">
@@ -231,8 +236,8 @@ const AllDemos = ({
         <Modal.Body>
           <form className="row" onSubmit={(e) => onSubmitVeriy(e, "Taken")}>
             <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
-              <label className="label-control">
-                Are you sure you have Taken the Demo
+              <label className="label-control colorRed">
+                Are you sure you have Taken the Demo ?
               </label>
             </div>
             <div
@@ -262,7 +267,7 @@ const AllDemos = ({
       >
         <Modal.Header>
           <div className="col-lg-10">
-            <h3 className="modal-title text-center">Deactivate State</h3>
+            <h3 className="modal-title text-center">Verify Demo Not Taken </h3>
           </div>
           <div className="col-lg-1">
             <button onClick={handleNotTakenModalClose} className="close">
@@ -277,8 +282,8 @@ const AllDemos = ({
         <Modal.Body>
           <form className="row" onSubmit={(e) => onSubmitVeriy(e, "NotTaken")}>
             <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
-              <label className="label-control">
-                Are you sure you have Not Taken the Demo
+              <label className="label-control colorRed">
+                Are you sure you have Not Taken the Demo ?
               </label>
             </div>
             <div

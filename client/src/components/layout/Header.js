@@ -143,7 +143,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       to="/all-prospects"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      <Dropdown.Item>All Prospectus</Dropdown.Item>
+                      <Dropdown.Item>All Prospects</Dropdown.Item>
                     </NavLink>
                     <NavLink
                       to="/all-followup"
@@ -183,7 +183,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       to="/all-sct-prospects"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      <Dropdown.Item>All Prospectus</Dropdown.Item>
+                      <Dropdown.Item>All Prospects</Dropdown.Item>
                     </NavLink>
                     <NavLink
                       to="/all-sct-followup"
