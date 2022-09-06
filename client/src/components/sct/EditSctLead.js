@@ -729,7 +729,8 @@ const EditSctLead = ({
               )}
               <Link
                 className="btn sub_form btn_continue blackbrd float-right"
-                to="/all-leads"
+                // to="/all-leads"
+                onClick={() => onEditModalChange(true)}
               >
                 Cancel
               </Link>
