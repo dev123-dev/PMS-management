@@ -157,7 +157,94 @@ router.post("/deactivate-sct-staff", async (req, res) => {
   }
 });
 
-//SELECT
+//*********************************\SELECT/*********************************\\
+//LEAD
+//FOLLOWUP,PROSPECTS
+router.post("/get-sct-Leads", auth, async (req, res) => {
+  let { countryId, clientsId, sctLeadCategory, assignedTo } = req.body;
+
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  let sctLeadAssignedToId = "";
+  if (userInfo.empCtAccess !== "All")
+    sctLeadAssignedToId = mongoose.Types.ObjectId(userInfo._id);
+  else {
+    if (assignedTo) {
+      sctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
+    } else {
+      sctLeadAssignedToId = { $ne: null };
+    }
+  }
+  var todayDate = new Date().toISOString().split("T")[0];
+  let catCondition = [];
+  if (sctLeadCategory == "P" || sctLeadCategory == "NL") {
+    catCondition = [{ sctLeadCategory: "P" }, { sctLeadCategory: "NL" }];
+  } else if (sctLeadCategory == "F") {
+    catCondition = [{ sctLeadCategory: "F" }, { sctLeadCategory: "F" }];
+  }
+  let query = {};
+  if (countryId) {
+    if (clientsId) {
+      query = {
+        sctLeadStatus: "Active",
+        countryId: mongoose.Types.ObjectId(countryId),
+        _id: mongoose.Types.ObjectId(clientsId),
+        $or: catCondition,
+        sctCallDate: { $lte: todayDate },
+        sctLeadAssignedToId,
+      };
+    } else {
+      query = {
+        sctLeadStatus: "Active",
+        countryId: mongoose.Types.ObjectId(countryId),
+        $or: catCondition,
+        sctCallDate: { $lte: todayDate },
+        sctLeadAssignedToId,
+      };
+    }
+  } else {
+    if (clientsId) {
+      query = {
+        sctLeadStatus: "Active",
+        _id: mongoose.Types.ObjectId(clientsId),
+        $or: catCondition,
+        sctCallDate: { $lte: todayDate },
+        sctLeadAssignedToId,
+      };
+    } else {
+      query = {
+        sctLeadStatus: "Active",
+        $or: catCondition,
+        sctCallDate: { $lte: todayDate },
+        sctLeadAssignedToId,
+      };
+    }
+  }
+  console.log(query);
+  try {
+    const getSctLeadsDetails = await SctLeads.find(query).sort({
+      sctCallDate: -1,
+      sctLeadCategory: -1,
+    });
+    const getSctLeadsEmp = await SctLeads.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$sctLeadAssignedToId",
+          sctLeadAssignedToName: { $first: "$sctLeadAssignedToName" },
+        },
+      },
+    ]).sort({ _id: 1 });
+    res.json({ result1: getSctLeadsDetails, result2: getSctLeadsEmp });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 //ALL LEADS
 router.post("/get-all-sct-Leads", auth, async (req, res) => {
   let { countryId, clientsId, assignedTo } = req.body;
