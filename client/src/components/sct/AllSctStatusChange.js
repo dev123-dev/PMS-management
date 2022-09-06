@@ -266,7 +266,7 @@ const AllSctStatusChange = ({
     if (sctCallStatus.value === "FollowUp") {
       callCategoryVal = "F";
     } else if (sctCallStatus.value === "EnagedClient") {
-      callCategoryVal = "TC";
+      callCategoryVal = "EC";
     } else if (sctCallStatus.value === "RegularClient") {
       callCategoryVal = "RC";
     } else {
@@ -281,13 +281,16 @@ const AllSctStatusChange = ({
     if (checkErrors()) {
       const finalData = {
         sctCallToId: leadDataVal._id,
-        sctCallToName: leadDataVal.companyName,
+        sctCallToName: leadDataVal.sctCompanyName,
         sctCallToStaffId: sctStaffs.staffsId,
         sctCallToStaffName: sctStaffs.value,
         sctCallFromId: user._id,
         sctCallFromName: user.userName,
         sctCallCategory: callCategoryVal,
-        sctCallStatus: sctCallStatus.value,
+        sctCallStatus:
+          sctCallStatus.value !== "Demo"
+            ? sctCallStatus.value
+            : leadDataVal.sctCallStatus,
         sctCallDate: startStatusDate || todayDateymd,
         sctCallNote: sctCallNote,
         sctCallComeFrom: callComeFromVal,
@@ -295,17 +298,19 @@ const AllSctStatusChange = ({
         sctCallEnteredDate: new Date().toLocaleString("en-GB"),
         filterData: filterData,
       };
-      const finalData1 = {
-        demoDate: demoDate,
-        fromTime: fromTime,
-        toTime: toTime,
-        callDate: todayDateymd,
-        demoEnteredById: user._id,
-        ClientId: leadDataVal._id,
-      };
-      addDemo(finalData1);
-
+      if (sctCallStatus.value === "Demo") {
+        const finalData1 = {
+          demoDate: demoDate,
+          fromTime: fromTime,
+          toTime: toTime,
+          callDate: todayDateymd,
+          demoEnteredById: user._id,
+          ClientId: leadDataVal._id,
+        };
+        addDemo(finalData1);
+      }
       addSctCalls(finalData);
+
       setFormData({
         ...formData,
         sctCallStatus: "",
