@@ -11,11 +11,15 @@ import {
   deactivateDctStaffDetails,
   deactivateDctClientStaffDetails,
 } from "../../actions/dct";
-import { getActiveCountry } from "../../actions/regions";
+import {
+  getActiveCountry,
+  getActiveState,
+  getActiveDistricts,
+} from "../../actions/regions";
 
 const AllSctContacts = ({
   auth: { isAuthenticated, user, users, loading },
-  regions: { activeCountry },
+  regions: { activeCountry, activeState, activeDistricts },
   leadDataVal,
   addNewDctStaffDetails,
   addNewDctClientStaffDetails,
@@ -23,10 +27,18 @@ const AllSctContacts = ({
   deactivateDctClientStaffDetails,
   ondivcloseChange,
   getActiveCountry,
+  getActiveState,
+  getActiveDistricts,
   showdateselectionSection,
   from,
   filterData,
 }) => {
+  useEffect(() => {
+    getActiveState();
+  }, [getActiveState]);
+  useEffect(() => {
+    getActiveDistricts();
+  }, [getActiveDistricts]);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
@@ -132,6 +144,76 @@ const AllSctContacts = ({
     setstaffcountryID(staffcountryId);
     setstaffCountryCode(staffCountryCode);
   };
+  const allstaffstates = [];
+  activeState.map((staffstate) =>
+    allstaffstates.push({
+      sId: staffstate._id,
+      label: staffstate.stateName,
+      value: staffstate.stateName,
+    })
+  );
+
+  const [staffstate, getstaffStateData] = useState("");
+
+  const [staffstateId, setstaffStateID] = useState("");
+  const [staffstateName, setstaffStateName] = useState("");
+
+  const onstaffStateChange = (e) => {
+    getstaffdistrictData("");
+    // //Required Validation starts
+    // setError({
+    //   ...error,
+    //   StateIdChecker: true,
+    //   StateErrorStyle: { color: "#000" },
+    // });
+    //Required Validation end
+
+    var staffstateId = "";
+    var staffstateName = "";
+    getstaffStateData(e);
+
+    staffstateId = e.sId;
+    staffstateName = e.value;
+
+    setstaffStateID(staffstateId);
+    setstaffStateName(staffstateName);
+    let stateVal = {
+      staffstateId: staffstateId,
+    };
+    getActiveDistricts(stateVal);
+  };
+
+  const allstaffdistrict = [];
+
+  activeDistricts.map((staffdistrict) =>
+    allstaffdistrict.push({
+      districtId: staffdistrict._id,
+      label: staffdistrict.districtName,
+      value: staffdistrict.districtName,
+    })
+  );
+
+  const [staffdistrict, getstaffdistrictData] = useState();
+  const [staffdistrictId, setstaffdistrictID] = useState();
+  const [staffdistrictName, setstaffdistrictName] = useState();
+
+  const onstaffdistrictChange = (e) => {
+    // setError({
+    //   ...error,
+    //   DistrictIdChecker: true,
+    //   DistrictErrorStyle: { color: "#000" },
+    // });
+
+    var staffdistrictId = "";
+    var staffdistrictName = "";
+    getstaffdistrictData(e);
+
+    staffdistrictId = e.districtId;
+    staffdistrictName = e.value;
+
+    setstaffdistrictID(staffdistrictId);
+    setstaffdistrictName(staffdistrictName);
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -141,10 +223,13 @@ const AllSctContacts = ({
       sctStaffPhoneNumber: sctStaffPhoneNumber,
       sctStaffEmailId: sctStaffEmailId,
       sctStaffDesignation: sctStaffDesignation,
-      // staffRegion: staffcountryname,
-      // staffRegionId: staffcountryId,
-      // staffCountryCode: staffCountryCode,
-      filterData: filterData,
+      sctstaffRegion: staffcountryname,
+      sctstaffRegionId: staffcountryId,
+      sctstaffCountryCode: staffCountryCode,
+      sctstaffStateId: staffstateId,
+      sctstaffDistrictId: staffdistrictId,
+
+      // filterData: filterData,
     };
     // console.log(finalData);
 
@@ -396,21 +481,11 @@ const AllSctContacts = ({
                   </label>
                   <Select
                     name="stateName"
-                    // options={allstates}
+                    options={allstaffstates}
                     isSearchable={true}
-                    // value={state}
+                    value={staffstate}
                     placeholder="Select State"
-                    // onChange={(e) => onStateChange(e)}
-                    theme={(theme) => ({
-                      ...theme,
-                      height: 26,
-                      minHeight: 26,
-                      borderRadius: 1,
-                      colors: {
-                        ...theme.colors,
-                        primary: "black",
-                      },
-                    })}
+                    onChange={(e) => onstaffStateChange(e)}
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -422,21 +497,11 @@ const AllSctContacts = ({
                   </label>
                   <Select
                     name="districtName"
-                    // options={alldistrict}
+                    options={allstaffdistrict}
                     isSearchable={true}
-                    //  value={district}
+                    value={staffdistrict}
                     placeholder="Select District"
-                    // onChange={(e) => ondistrictChange(e)}
-                    theme={(theme) => ({
-                      ...theme,
-                      height: 26,
-                      minHeight: 26,
-                      borderRadius: 1,
-                      colors: {
-                        ...theme.colors,
-                        primary: "black",
-                      },
-                    })}
+                    onChange={(e) => onstaffdistrictChange(e)}
                   />
                 </div>
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -600,4 +665,6 @@ export default connect(mapStateToProps, {
   deactivateDctStaffDetails,
   getActiveCountry,
   deactivateDctClientStaffDetails,
+  getActiveState,
+  getActiveDistricts,
 })(AllSctContacts);

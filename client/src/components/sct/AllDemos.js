@@ -49,11 +49,11 @@ const AllDemos = ({
   const [showDemonottakenModal, setShowDemonottakenModal] = useState(false);
   const handleNotTakenModalClose = () => setShowDemonottakenModal(false);
 
-  // const onDemonottakenModalChange = (e) => {
-  //   if (e) {
-  //     handleNotTakenModalClose();
-  //   }
-  // };
+  const onDemonottakenModalChange = (e) => {
+    if (e) {
+      handleNotTakenModalClose();
+    }
+  };
   // const [userDatademonottaken, setUserDatademonottaken] = useState(null);
   const onClickNotTaken = (allDemos, idx) => {
     setShowDemonottakenModal(true);
@@ -68,6 +68,7 @@ const AllDemos = ({
     };
     demoTaken(finalData);
     onEditModalChange(true);
+    onDemonottakenModalChange(true);
     setUserDatas("");
   };
 
@@ -181,12 +182,11 @@ const AllDemos = ({
                     <thead>
                       <tr>
                         <th>Company Name</th>
-
-                        <th>Demo Date</th>
                         <th>Client </th>
-                        <th>Email Id </th>
-                        <th>Contact No </th>
-                        <th>Demo time </th>
+                        <th style={{ width: "7%" }}>Demo Date</th>
+                        <th style={{ width: "15%" }}>Email Id </th>
+                        <th style={{ width: "8%" }}>Contact No </th>
+                        <th style={{ width: "8%" }}>Demo time </th>
                         <th style={{ width: "14%" }}>Demo Status</th>
                       </tr>
                     </thead>
@@ -200,11 +200,10 @@ const AllDemos = ({
                           }
                           return (
                             <tr key={idx}>
-                              <td className="headcolstatic">
-                                {allDemos.output.sctCompanyName}
-                              </td>
-                              <td>{demoDate}</td>
+                              <td>{allDemos.output.sctCompanyName}</td>
                               <td>{allDemos.output.sctClientName}</td>
+                              <td>{demoDate}</td>
+
                               <td>{allDemos.output.sctEmailId}</td>
                               <td>{allDemos.output.sctPhone1}</td>
                               <td>
@@ -321,7 +320,7 @@ const AllDemos = ({
           </div>
         </Modal.Header>
         <Modal.Body>
-          <form className="row" onSubmit={(e) => onSubmitVeriy(e, "NotTaken")}>
+          <form className="row" onSubmit={(e) => onSubmitVeriy(e, "Not Taken")}>
             <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
               <label className="label-control colorRed">
                 Are you sure you have Not Taken the Demo ?
