@@ -169,12 +169,11 @@ const AllDemos = ({
                     <thead>
                       <tr>
                         <th>Company Name</th>
-
-                        <th>Demo Date</th>
                         <th>Client </th>
-                        <th>Email Id </th>
-                        <th>Contact No </th>
-                        <th>Demo time </th>
+                        <th style={{ width: "7%" }}>Demo Date</th>
+                        <th style={{ width: "15%" }}>Email Id </th>
+                        <th style={{ width: "8%" }}>Contact No </th>
+                        <th style={{ width: "8%" }}>Demo time </th>
                         <th style={{ width: "14%" }}>Demo Status</th>
                       </tr>
                     </thead>
@@ -188,11 +187,10 @@ const AllDemos = ({
                           }
                           return (
                             <tr key={idx}>
-                              <td className="headcolstatic">
-                                {allDemos.output.sctCompanyName}
-                              </td>
-                              <td>{demoDate}</td>
+                              <td>{allDemos.output.sctCompanyName}</td>
                               <td>{allDemos.output.sctClientName}</td>
+                              <td>{demoDate}</td>
+
                               <td>{allDemos.output.sctEmailId}</td>
                               <td>{allDemos.output.sctPhone1}</td>
                               <td>
