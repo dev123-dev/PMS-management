@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { addSctCalls, addDemo } from "../../actions/sct";
-
+import DemoSchedulesModal from "./DemoSchedulesModal";
+import { Modal } from "react-bootstrap";
 const AllSctStatusChange = ({
   auth: { isAuthenticated, user, users, loading },
   leadDataVal,
@@ -116,6 +117,18 @@ const AllSctStatusChange = ({
       return false;
     }
     return true;
+  };
+  const [showDemoScheduleModal, setShowDemoScheduleModal] = useState(false);
+  const handleDemoScheduleModalClose = () => setShowDemoScheduleModal(false);
+
+  const onDemoScheduleModalChange = (e) => {
+    if (e) {
+      handleDemoScheduleModalClose();
+    }
+  };
+
+  const onCheckSchedule = () => {
+    setShowDemoScheduleModal(true);
   };
 
   const allStaff = [];
@@ -395,11 +408,18 @@ const AllSctStatusChange = ({
           )}
           {showdemoselectionSection && (
             <>
+              <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
+                <input
+                  type="submit"
+                  name="submit"
+                  value="Schedules"
+                  onClick={() => onCheckSchedule()}
+                  className="btn sub_form btn_continue blackbrd "
+                />
+              </div>
               <div className=" col-lg-4 col-md-12 col-sm-12 col-12 ">
                 <>
-                  <label
-                  // className="label-control"
-                  >
+                  <label className="label-control">
                     {sctCallStatus && sctCallStatus.label} Date
                   </label>
 
@@ -418,8 +438,8 @@ const AllSctStatusChange = ({
                   />
                 </>
               </div>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label>From* :</label>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">From* :</label>
 
                 <input
                   type="time"
@@ -432,8 +452,8 @@ const AllSctStatusChange = ({
                   // required
                 />
               </div>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label>To* :</label>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">To* :</label>
 
                 <input
                   type="time"
@@ -483,6 +503,34 @@ const AllSctStatusChange = ({
           </div>
         </div>
       </form>
+      <Modal
+        show={showDemoScheduleModal}
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Demo Schedules</h3>
+          </div>
+          <div className="col-lg-1">
+            <button onClick={handleDemoScheduleModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <DemoSchedulesModal
+            onDemoScheduleModalChange={onDemoScheduleModalChange}
+          />
+        </Modal.Body>
+      </Modal>
     </Fragment>
   );
 };
