@@ -56,7 +56,7 @@ const SctCallsHistory = ({
 
   const onClickReset = () => {
     getempData("");
-    setfromdate("");
+    setfromdate(todayDateymd);
     getAllSctCall();
     getAllSctCallEmp();
   };
