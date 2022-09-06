@@ -18,7 +18,7 @@ const AllDemos = ({
   useEffect(() => {
     getALLDemos();
   }, [getALLDemos]);
-  console.log(allDemos);
+
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
   const onEditModalChange = (e) => {
@@ -53,8 +53,6 @@ const AllDemos = ({
       recordId: userDatas ? userDatas._id : "",
       demoStatus: demosatval,
     };
-
-    console.log(finalData);
     demoTaken(finalData);
     onEditModalChange(true);
   };

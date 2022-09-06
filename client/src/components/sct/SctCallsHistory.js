@@ -35,30 +35,30 @@ const SctCallsHistory = ({
     allSctCallsEmp.map((emp) =>
       allemp.push({
         empId: emp._id,
-        label: emp.callFromName,
-        value: emp.callFromName,
+        label: emp.sctCallFromName,
+        value: emp.sctCallFromName,
       })
     );
 
   const [emp, getempData] = useState();
-  // const onempChange = (e) => {
-  //   getempData(e);
-  //   getAllSctCall({ selectedDate: fromdate, assignedTo: e.empId });
-  // };
+  const onempChange = (e) => {
+    getempData(e);
+    getAllSctCall({ selectedDate: fromdate, assignedTo: e.empId });
+  };
 
   const [fromdate, setfromdate] = useState(todayDateymd);
   const onDateChange = (e) => {
     setfromdate(e.target.value);
-    // getAllSctCall({ selectedDate: e.target.value });
-    // getAllSctCallEmp({ selectedDate: e.target.value });
+    getAllSctCall({ selectedDate: e.target.value });
+    getAllSctCallEmp({ selectedDate: e.target.value });
     getempData("");
   };
 
   const onClickReset = () => {
     getempData("");
     setfromdate("");
-    // getAllSctCall();
-    // getAllSctCallEmp();
+    getAllSctCall();
+    getAllSctCallEmp();
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -93,7 +93,7 @@ const SctCallsHistory = ({
                   isSearchable={true}
                   value={emp}
                   placeholder="Select Emp"
-                  //  onChange={(e) => onempChange(e)}
+                  onChange={(e) => onempChange(e)}
                 />
               ) : (
                 // </div>
@@ -165,13 +165,6 @@ const SctCallsHistory = ({
                   </div>
                 </div>
               </section>
-            </div>
-          </div>
-
-          <div className="row col-md-12 col-lg-12 col-sm-12 col-12  ">
-            <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
-              {/* <strong> No of Clients:{allClient.length}</strong> */}
             </div>
           </div>
         </section>
