@@ -33,7 +33,6 @@ const GenerateSctQuotation = ({
     getALLCompanyDetails();
   }, [getALLCompanyDetails]);
 
-  console.log(allCompanyDetails);
   //formData
   const [formData, setFormData] = useState({
     sctClientName:
@@ -50,120 +49,61 @@ const GenerateSctQuotation = ({
       data && data.sctdata && data.sctdata.sctCompanyName
         ? data.sctdata.sctCompanyName
         : "",
+    sctLeadAssignedToName:
+      data && data.sctdata && data.sctdata.sctLeadAssignedToName
+        ? data.sctdata.sctLeadAssignedToName
+        : "",
 
-    clientEmail: "",
-    clientBillingEmail: "",
-    clientContactNo1: "",
-    clientContactNo2: "",
-    clientAddress: "",
-    clientCountry: "",
-    clientBelongsTo: "",
-    clientFolderName: "",
-    clientCurrency: "",
-    clientType: "",
-    clientCompanyName: "",
-    clientCompanyFounderName: "",
-    clientWebsite: "",
-    standardInstruction: "",
     isSubmitted: false,
   });
 
   const {
     sctClientName,
     sctCompanyName,
+    sctLeadAssignedToName,
     sctLeadAddress,
-    clientName,
-    clientEmail,
-    clientBillingEmail,
-    clientContactNo1,
-    clientContactNo2,
-    clientAddress,
-    clientCountry,
-    clientBelongsTo,
-    clientFolderName,
-    clientCurrency,
-    clientType,
-    clientCompanyName,
-    clientCompanyFounderName,
-    PaymentMode,
-    clientWebsite,
-    standardInstruction,
+
     isSubmitted,
   } = formData;
-
-  const onClientTypeChange = (e) => {
-    //  Required Validation starts
-    setError({
-      ...error,
-      clienttypeIdChecker: true,
-      clienttypeIdErrorStyle: { color: "#000" },
-    });
-    // Required Validation ends
-
-    if (e) {
-      setFormData({
-        ...formData,
-        clientType: e,
-      });
-    }
-  };
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const allpaymentmodes = [];
-  paymentMode.map((payment) =>
-    allpaymentmodes.push({
-      paymentId: payment._id,
-      label: payment.paymentModeName,
-      value: payment.paymentModeName,
+  const allcompanydata = [];
+  allCompanyDetails.map((company) =>
+    allcompanydata.push({
+      companyaddress: company.companyAddress,
+      companyid: company._id,
+      label: company.companyName,
+      value: company.companyName,
     })
   );
+  const [companyaddress, setcompanyaddressData] = useState("");
 
-  const [payment, getStateData] = useState("");
-  const [paymentId, setpaymentId] = useState("");
-  const [paymentname, setpaymentname] = useState("");
+  const [company, getcompanyData] = useState("");
+  const [companyid, setcompanyId] = useState("");
+  const [companyname, setcompanyname] = useState("");
 
-  const onPayModeChange = (e) => {
-    //Required Validation starts
-    setError({
-      ...error,
-      paymentmodeIdChecker: true,
-      paymentmodeIdErrorStyle: { color: "#000" },
-    });
-    //Required Validation ends
+  const onCompanyChange = (e) => {
+    // //Required Validation starts
+    // setError({
+    //   ...error,
+    //   paymentmodeIdChecker: true,
+    //   paymentmodeIdErrorStyle: { color: "#000" },
+    // });
+    // //Required Validation ends
 
-    var paymentId = "";
-    var paymentname = "";
-    getStateData(e);
-    paymentId = e.paymentId;
-    paymentname = e.value;
-    setpaymentId(paymentId);
-    setpaymentname(paymentname);
-  };
-
-  const [clients, getclientsData] = useState("");
-  const [clientsId, setclientsId] = useState("");
-  const [clientsName, setclientsName] = useState("");
-
-  const allclientBelongsTo = [];
-  activeClient.map((clients) =>
-    allclientBelongsTo.push({
-      clientsId: clients._id,
-      label: clients.clientName,
-      value: clients.clientName,
-    })
-  );
-
-  const onBelongstoChange = (e) => {
-    var clientsId = "";
-    var clientsName = "";
-    getclientsData(e);
-    clientsId = e.clientsId;
-    clientsName = e.value;
-    setclientsId(clientsId);
-    setclientsName(clientsName);
+    var companyid = "";
+    var companyname = "";
+    var companyaddress = "";
+    getcompanyData(e);
+    companyid = e.companyid;
+    companyname = e.value;
+    companyaddress = e.companyaddress;
+    setcompanyId(companyid);
+    setcompanyname(companyname);
+    setcompanyaddressData(companyaddress);
   };
 
   //Required Validation Starts
@@ -204,24 +144,6 @@ const GenerateSctQuotation = ({
     if (checkErrors()) {
       // if (checkErrors()) {
       const finalData = {
-        clientName: clientName,
-        clientBelongsToId: clientsId ? clientsId : null,
-        clientBelongsToName: clientsName,
-        clientEmail: clientEmail,
-        clientBillingEmail: clientBillingEmail,
-        clientContactNo1: clientContactNo1,
-        clientContactNo2: clientContactNo2,
-        clientAddress: clientAddress,
-        clientCountry: clientCountry,
-        clientCurrency: clientCurrency,
-        clientFolderName: clientFolderName,
-        clientType: clientType.value,
-        clientCompanyName: clientCompanyName,
-        paymentId: paymentId,
-        paymentModeName: paymentname,
-        clientCompanyFounderName: clientCompanyFounderName,
-        clientWebsite: clientWebsite,
-        standardInstruction: standardInstruction,
         clientEnteredById: user._id,
       };
 
@@ -268,8 +190,8 @@ const GenerateSctQuotation = ({
                 <label className="label-control">Quotation No:</label>
                 <input
                   type="text"
-                  name="clientCompanyFounderName"
-                  value={clientCompanyFounderName}
+                  // name="sctLeadAssignedToName"
+                  // value={sctLeadAssignedToName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -291,13 +213,12 @@ const GenerateSctQuotation = ({
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
                 <label className="label-control">Client From :</label>
-                <Select
-                  name="clientName"
-                  options={allclientBelongsTo}
-                  isSearchable={true}
-                  value={clients}
-                  placeholder="Select Mode"
-                  onChange={(e) => onBelongstoChange(e)}
+                <input
+                  type="text"
+                  name="sctLeadAssignedToName"
+                  value={sctLeadAssignedToName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
                 />
               </div>
               <br />
@@ -305,12 +226,22 @@ const GenerateSctQuotation = ({
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <label className="label-control">From* :</label>
                   <Select
-                    name="clientName"
-                    options={allclientBelongsTo}
+                    name="companyName"
+                    options={allcompanydata}
                     isSearchable={true}
-                    value={clients}
+                    value={company}
                     placeholder="Select Mode"
-                    onChange={(e) => onBelongstoChange(e)}
+                    onChange={(e) => onCompanyChange(e)}
+                    theme={(theme) => ({
+                      ...theme,
+                      height: 26,
+                      minHeight: 26,
+                      borderRadius: 1,
+                      colors: {
+                        ...theme.colors,
+                        primary: "black",
+                      },
+                    })}
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -326,13 +257,13 @@ const GenerateSctQuotation = ({
 
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12  py-2">
                   <textarea
-                    name="clientAddress"
-                    id="clientAddress"
+                    name="companyaddress"
+                    id="companyaddress"
                     className="textarea form-control"
                     rows="4"
                     placeholder="From Address"
                     style={{ width: "100%" }}
-                    value={clientAddress}
+                    value={companyaddress}
                     onChange={(e) => onInputChange(e)}
                   ></textarea>
                 </div>
@@ -362,7 +293,7 @@ const GenerateSctQuotation = ({
                 <input
                   type="text"
                   name="clientCompanyFounderName"
-                  value={clientCompanyFounderName}
+                  // value={clientCompanyFounderName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -372,7 +303,7 @@ const GenerateSctQuotation = ({
                 <input
                   type="text"
                   name="clientCompanyFounderName"
-                  value={clientCompanyFounderName}
+                  //  value={clientCompanyFounderName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -382,7 +313,7 @@ const GenerateSctQuotation = ({
                 <input
                   type="text"
                   name="clientCompanyFounderName"
-                  value={clientCompanyFounderName}
+                  //value={clientCompanyFounderName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -392,7 +323,7 @@ const GenerateSctQuotation = ({
                 <input
                   type="text"
                   name="clientCompanyFounderName"
-                  value={clientCompanyFounderName}
+                  //value={clientCompanyFounderName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -402,7 +333,7 @@ const GenerateSctQuotation = ({
                 <input
                   type="text"
                   name="clientCompanyFounderName"
-                  value={clientCompanyFounderName}
+                  //  value={clientCompanyFounderName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -412,7 +343,7 @@ const GenerateSctQuotation = ({
                 <input
                   type="text"
                   name="clientCompanyFounderName"
-                  value={clientCompanyFounderName}
+                  //value={clientCompanyFounderName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -423,7 +354,7 @@ const GenerateSctQuotation = ({
                 <input
                   type="text"
                   name="clientCompanyFounderName"
-                  value={clientCompanyFounderName}
+                  //value={clientCompanyFounderName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -434,7 +365,7 @@ const GenerateSctQuotation = ({
                 <input
                   type="text"
                   name="clientCompanyFounderName"
-                  value={clientCompanyFounderName}
+                  // value={clientCompanyFounderName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
