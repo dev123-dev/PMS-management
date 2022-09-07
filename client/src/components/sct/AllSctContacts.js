@@ -6,11 +6,11 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import EditSctContact from "./EditSctContact";
 import {
-  addNewDctStaffDetails,
-  addNewDctClientStaffDetails,
-  deactivateDctStaffDetails,
-  deactivateDctClientStaffDetails,
-} from "../../actions/dct";
+  addNewSctStaffDetails,
+  // addNewSctClientStaffDetails,
+  deactivateSctStaffDetails,
+  // deactivateSctClientStaffDetails,
+} from "../../actions/sct";
 import {
   getActiveCountry,
   getActiveState,
@@ -21,10 +21,10 @@ const AllSctContacts = ({
   auth: { isAuthenticated, user, users, loading },
   regions: { activeCountry, activeState, activeDistricts },
   leadDataVal,
-  addNewDctStaffDetails,
-  addNewDctClientStaffDetails,
-  deactivateDctStaffDetails,
-  deactivateDctClientStaffDetails,
+  addNewSctStaffDetails,
+  // addNewSctClientStaffDetails,
+  deactivateSctStaffDetails,
+  // deactivateSctClientStaffDetails,
   ondivcloseChange,
   getActiveCountry,
   getActiveState,
@@ -234,9 +234,9 @@ const AllSctContacts = ({
     // console.log(finalData);
 
     if (from === "client") {
-      addNewDctClientStaffDetails(finalData);
+      // addNewSctClientStaffDetails(finalData);
     } else {
-      addNewDctStaffDetails(finalData);
+      addNewSctStaffDetails(finalData);
     }
 
     onAddModalChange(true);
@@ -261,16 +261,16 @@ const AllSctContacts = ({
     const finalData = {
       recordId: leadDataVal ? leadDataVal._id : "",
       sctstaffId: userDatadeactive ? userDatadeactive._id : "",
-      sctLeadDeactivateById: user._id,
-      sctLeadDeactivateByDateTime: new Date().toLocaleString("en-GB"),
-      sctLeadStatus: "Deactive",
+      sctStaffDeactivateById: user._id,
+      sctStaffDeactiveByDateTime: new Date().toLocaleString("en-GB"),
+      sctStaffStatus: "Deactive",
       sctStaffDeactiveReason: sctStaffDeactiveReason,
       filterData: filterData,
     };
     if (from === "client") {
-      deactivateDctClientStaffDetails(finalData);
+      // deactivateSctClientStaffDetails(finalData);
     } else {
-      deactivateDctStaffDetails(finalData);
+      deactivateSctStaffDetails(finalData);
     }
     onDeactiveModalChange(true);
     setFormData({
@@ -660,11 +660,11 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  addNewDctStaffDetails,
-  addNewDctClientStaffDetails,
-  deactivateDctStaffDetails,
+  addNewSctStaffDetails,
+  // addNewSctClientStaffDetails,
+  deactivateSctStaffDetails,
   getActiveCountry,
-  deactivateDctClientStaffDetails,
+  // deactivateSctClientStaffDetails,
   getActiveState,
   getActiveDistricts,
 })(AllSctContacts);

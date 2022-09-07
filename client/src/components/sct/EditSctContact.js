@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import {
-  editDctStaffDetails,
-  editDctClientStaffDetails,
-} from "../../actions/dct";
+  editSctStaffDetails,
+  // editSctClientStaffDetails,
+} from "../../actions/sct";
 import {
   getActiveCountry,
   getActiveState,
@@ -23,8 +23,8 @@ const EditSctContact = ({
   allleaddata,
   ondivcloseChange,
   onEditModalChange,
-  editDctStaffDetails,
-  editDctClientStaffDetails,
+  editSctStaffDetails,
+  // editSctClientStaffDetails,
   from,
   filterData,
 }) => {
@@ -209,7 +209,7 @@ const EditSctContact = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      staffId: allStaffdata ? allStaffdata._id : "",
+      sctStaffId: allStaffdata ? allStaffdata._id : "",
       sctStaffName: sctStaffName,
       sctStaffPhoneNumber: sctStaffPhoneNumber,
       sctStaffEmailId: sctStaffEmailId,
@@ -222,9 +222,9 @@ const EditSctContact = ({
     };
 
     if (from === "client") {
-      editDctClientStaffDetails(finalData);
+      // editSctClientStaffDetails(finalData);
     } else {
-      editDctStaffDetails(finalData);
+      editSctStaffDetails(finalData);
     }
     onEditModalChange(true);
     ondivcloseChange(true);
@@ -386,9 +386,9 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  editDctStaffDetails,
+  editSctStaffDetails,
   getActiveCountry,
-  editDctClientStaffDetails,
+  // editSctClientStaffDetails,
   getActiveState,
   getActiveDistricts,
 })(EditSctContact);

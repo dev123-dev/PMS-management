@@ -50,6 +50,11 @@ router.post("/add-new-sct-staff", async (req, res) => {
             sctStaffPhoneNumber: data.sctStaffPhoneNumber,
             sctStaffEmailId: data.sctStaffEmailId,
             sctStaffDesignation: data.sctStaffDesignation,
+            sctstaffRegion: data.sctstaffRegion,
+            sctstaffRegionId: data.sctstaffRegionId,
+            sctstaffCountryCode: data.sctstaffCountryCode,
+            sctstaffStateId: data.sctstaffStateId,
+            sctstaffDistrictId: data.sctstaffDistrictId,
           },
         },
       }
@@ -108,6 +113,11 @@ router.post("/edit-sct-staff", async (req, res) => {
           "sctStaffs.$.sctStaffPhoneNumber": data.sctStaffPhoneNumber,
           "sctStaffs.$.sctStaffEmailId": data.sctStaffEmailId,
           "sctStaffs.$.sctStaffDesignation": data.sctStaffDesignation,
+          "sctStaffs.$.sctstaffRegion": data.sctstaffRegion,
+          "sctStaffs.$.sctstaffRegionId": data.sctstaffRegionId,
+          "sctStaffs.$.sctstaffCountryCode": data.sctstaffCountryCode,
+          "sctStaffs.$.sctstaffStateId": data.sctstaffStateId,
+          "sctStaffs.$.sctstaffDistrictId": data.sctstaffDistrictId,
         },
       }
     );
@@ -142,7 +152,7 @@ router.post("/deactivate-sct-staff", async (req, res) => {
   try {
     let data = req.body;
     const deactivateSctStaffs = await SctLeads.updateOne(
-      { "sctStaffs._id": data.staffId },
+      { "sctStaffs._id": data.sctstaffId },
       {
         $set: {
           "sctStaffs.$.sctStaffStatus": data.sctStaffStatus,
@@ -493,7 +503,7 @@ router.post("/get-all-demos", async (req, res) => {
       demoDate: demoDate,
     };
   }
-  console.log(query);
+  // console.log(query);
   try {
     const allDemos = await Demo.aggregate([
       {

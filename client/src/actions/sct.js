@@ -101,7 +101,7 @@ export const editSctStaffDetails = (finalData) => async (dispatch) => {
     dispatch({
       type: SET_LOADING_TRUE,
     });
-    await axios.post("/api/dct/edit-sct-staff", finalData, config);
+    await axios.post("/api/sct/edit-sct-staff", finalData, config);
     dispatch({
       type: SET_LOADING_FALSE,
     });
