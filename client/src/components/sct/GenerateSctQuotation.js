@@ -4,31 +4,19 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import { Link, useHistory } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import {
-  getALLPaymentMode,
-  getALLCompanyDetails,
-} from "../../actions/settings";
-import { getActiveClients, AddClient } from "../../actions/client";
+import { getALLCompanyDetails } from "../../actions/settings";
+import { saveQuatation } from "../../actions/sct";
 import { Redirect } from "react-router-dom";
 
 const GenerateSctQuotation = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { paymentMode, allCompanyDetails },
-  client: { activeClient },
-  getALLPaymentMode,
-  getActiveClients,
+  sct: { activeClient },
   onAddDistrictModalChange,
-  AddClient,
+  saveQuatation,
   getALLCompanyDetails,
 }) => {
   const data = useHistory().location.data;
-
-  useEffect(() => {
-    getALLPaymentMode();
-  }, [getALLPaymentMode]);
-  useEffect(() => {
-    getActiveClients();
-  }, [getActiveClients]);
   useEffect(() => {
     getALLCompanyDetails();
   }, [getALLCompanyDetails]);
@@ -40,22 +28,22 @@ const GenerateSctQuotation = ({
         ? data.sctdata.sctClientName
         : "",
 
-    sctLeadAddress:
-      data && data.sctdata && data.sctdata.sctLeadAddress
-        ? data.sctdata.sctLeadAddress
+    sctClientAddress:
+      data && data.sctdata && data.sctdata.sctClientAddress
+        ? data.sctdata.sctClientAddress
         : "",
 
     sctCompanyName:
       data && data.sctdata && data.sctdata.sctCompanyName
         ? data.sctdata.sctCompanyName
         : "",
-    sctLeadAssignedToName:
-      data && data.sctdata && data.sctdata.sctLeadAssignedToName
-        ? data.sctdata.sctLeadAssignedToName
+    sctClientAssignedToName:
+      data && data.sctdata && data.sctdata.sctClientAssignedToName
+        ? data.sctdata.sctClientAssignedToName
         : "",
-    sctLeadAssignedToId:
-      data && data.sctdata && data.sctdata.sctLeadAssignedToId
-        ? data.sctdata.sctLeadAssignedToId
+    sctClientAssignedToId:
+      data && data.sctdata && data.sctdata.sctClientAssignedToId
+        ? data.sctdata.sctClientAssignedToId
         : "",
 
     quotationNo: "",
@@ -67,10 +55,10 @@ const GenerateSctQuotation = ({
     quotationNo,
 
     sctClientName,
-    sctLeadAssignedToId,
+    sctClientAssignedToId,
     sctCompanyName,
-    sctLeadAssignedToName,
-    sctLeadAddress,
+    sctClientAssignedToName,
+    sctClientAddress,
 
     isSubmitted,
   } = formData;
@@ -225,24 +213,24 @@ const GenerateSctQuotation = ({
       clientName: sctCompanyName,
       quotationNo: quotationNo,
       quotationDate: startquotationDate,
-      clientFromId: sctLeadAssignedToId,
-      clientFrom: sctLeadAssignedToName,
+      clientFromId: sctClientAssignedToId,
+      clientFrom: sctClientAssignedToName,
       companyId: companyid,
       companyName: companyname,
       companyAddress: companyaddress,
       forId: "",
       forName: sctCompanyName,
-      forAddress: sctLeadAddress,
+      forAddress: sctClientAddress,
       clientEnteredById: user._id,
       item: AddedDetails,
     };
-
+    saveQuatation(finalData);
     console.log(finalData);
     setFormData({
       ...formData,
-      sctLeadAssignedToName: "",
+      sctClientAssignedToName: "",
       sctCompanyName: "",
-      sctLeadAddress: "",
+      sctClientAddress: "",
       quotationNo: "",
       companyName: "",
       companyaddress: "",
@@ -312,8 +300,8 @@ const GenerateSctQuotation = ({
                 <label className="label-control">Client From :</label>
                 <input
                   type="text"
-                  name="sctLeadAssignedToName"
-                  value={sctLeadAssignedToName}
+                  name="sctClientAssignedToName"
+                  value={sctClientAssignedToName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -366,13 +354,13 @@ const GenerateSctQuotation = ({
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12  py-2">
                   <textarea
-                    name="sctLeadAddress"
-                    id="sctLeadAddress"
+                    name="sctClientAddress"
+                    id="sctClientAddress"
                     className="textarea form-control"
                     rows="4"
                     placeholder="To Address"
                     style={{ width: "100%" }}
-                    value={sctLeadAddress}
+                    value={sctClientAddress}
                     onChange={(e) => onInputChange(e)}
                   ></textarea>
                 </div>
@@ -574,21 +562,15 @@ const GenerateSctQuotation = ({
 GenerateSctQuotation.propTypes = {
   auth: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  client: PropTypes.object.isRequired,
-  AddClient: PropTypes.func.isRequired,
-  getALLPaymentMode: PropTypes.func.isRequired,
-  getActiveClients: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   settings: state.settings,
-  client: state.client,
+  sct: state.sct,
 });
 
 export default connect(mapStateToProps, {
-  getALLPaymentMode,
-  getActiveClients,
-  AddClient,
+  saveQuatation,
   getALLCompanyDetails,
 })(GenerateSctQuotation);
