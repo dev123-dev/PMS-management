@@ -340,6 +340,89 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
   }
 });
 
+//CLIENT
+//ENGAGED CLIENTS,REGULAR CLIENTS
+router.post("/get-sct-clients", auth, async (req, res) => {
+  let { countryId, clientsId, sctClientCategory, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  let sctClientAssignedToId = "";
+  if (userInfo.empCtAccess !== "All")
+    sctClientAssignedToId = mongoose.Types.ObjectId(userInfo._id);
+  else {
+    if (assignedTo) {
+      sctClientAssignedToId = mongoose.Types.ObjectId(assignedTo);
+    } else {
+      sctClientAssignedToId = { $ne: null };
+    }
+  }
+  var todayDate = new Date().toISOString().split("T")[0];
+  let query = {};
+  if (countryId) {
+    if (clientsId) {
+      query = {
+        sctClientStatus: "Active",
+        countryId: mongoose.Types.ObjectId(countryId),
+        _id: mongoose.Types.ObjectId(clientsId),
+        sctClientCategory: sctClientCategory,
+        sctCallDate: { $lte: todayDate },
+        sctClientAssignedToId,
+      };
+    } else {
+      query = {
+        sctClientStatus: "Active",
+        countryId: mongoose.Types.ObjectId(countryId),
+        sctClientCategory: sctClientCategory,
+        sctCallDate: { $lte: todayDate },
+        sctClientAssignedToId,
+      };
+    }
+  } else {
+    if (clientsId) {
+      query = {
+        sctClientStatus: "Active",
+        _id: mongoose.Types.ObjectId(clientsId),
+        sctClientCategory: sctClientCategory,
+        sctCallDate: { $lte: todayDate },
+        sctClientAssignedToId,
+      };
+    } else {
+      query = {
+        sctClientStatus: "Active",
+        sctClientCategory: sctClientCategory,
+        sctCallDate: { $lte: todayDate },
+        sctClientAssignedToId,
+      };
+    }
+  }
+  // console.log(query);
+  try {
+    const getSctClientDetails = await SctClients.find(query).sort({
+      sctCallDate: -1,
+      sctClientCategory: -1,
+    });
+
+    const getSctClientEmp = await SctClients.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$sctClientAssignedToId",
+          sctClientAssignedToName: { $first: "$sctClientAssignedToName" },
+        },
+      },
+    ]).sort({ _id: 1 });
+    res.json({ result1: getSctClientDetails, result2: getSctClientEmp });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+//*****************************************************/
+
 router.post("/get-sct-last-message", async (req, res) => {
   const { sctCallToId } = req.body;
   let query = {};
@@ -392,7 +475,6 @@ router.post("/update-sct-leads-status", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
-module.exports = router;
 
 router.post("/get-call-history", async (req, res) => {
   const { sctCallToId } = req.body;
@@ -724,3 +806,5 @@ router.post("/check-demo", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+module.exports = router;

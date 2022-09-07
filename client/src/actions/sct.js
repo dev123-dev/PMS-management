@@ -246,7 +246,7 @@ export const getAllSctLeadDD = (finalData) => async (dispatch) => {
 //CLIENT
 export const getSctClientDetails = (finalData) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/dct/get-sct-clients", finalData, config);
+    const res = await axios.post("/api/sct/get-sct-clients", finalData, config);
     dispatch({
       type: SCT_CLIENTS,
       payload: res.data.result1,
@@ -260,7 +260,7 @@ export const getSctClientDetails = (finalData) => async (dispatch) => {
 
 export const getSctClientDetailsDD = (finalData) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/dct/get-sct-clients", finalData, config);
+    const res = await axios.post("/api/sct/get-sct-clients", finalData, config);
     dispatch({
       type: SCT_CLIENTS_DD,
       payload: res.data.result1,

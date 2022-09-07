@@ -6,8 +6,8 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import {
-  getSctLeadDetails,
-  getSctLeadDetailsDD,
+  getSctClientDetails,
+  getSctClientDetailsDD,
   getSctLastmessage,
 } from "../../actions/sct";
 import EditSctLead from "./EditSctLead";
@@ -15,23 +15,22 @@ import DeactiveSctLead from "./DeactiveSctLead";
 import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
-
 import { getActiveCountry } from "../../actions/regions";
 
 const AllEngagedClient = ({
   auth: { isAuthenticated, user, users },
-  sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp },
+  sct: { sctClients, sctClientsDD, sctClientsEmp },
   regions: { activeCountry },
-  getSctLeadDetails,
+  getSctClientDetails,
   getActiveCountry,
-  getSctLeadDetailsDD,
+  getSctClientDetailsDD,
   getSctLastmessage,
 }) => {
   useEffect(() => {
-    getSctLeadDetails({ sctLeadCategory: "P" });
+    getSctClientDetails({ sctClientCategory: "EC" });
   }, []);
   useEffect(() => {
-    getSctLeadDetailsDD({ sctLeadCategory: "P" });
+    getSctClientDetailsDD({ sctClientCategory: "EC" });
   }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
@@ -49,7 +48,7 @@ const AllEngagedClient = ({
     isSubmitted: false,
   });
 
-  const onSliderChange = (allSctLeads, idx) => (e) => {
+  const onSliderChange = (sctClients, idx) => (e) => {
     if (e) {
       setFormData({
         ...formData,
@@ -77,15 +76,15 @@ const AllEngagedClient = ({
   const { showdateselectionSection } = showHide;
 
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allSctLeads, idx) => {
+  const onUpdate = (sctClients, idx) => {
     setShowEditModal(true);
-    setUserDatas(allSctLeads);
+    setUserDatas(sctClients);
   };
 
   const [userDatadeactive, setUserDatadeactive] = useState(null);
-  const onDeactive = (allSctLeads, idx) => {
+  const onDeactive = (sctClients, idx) => {
     setShowDeactiveModal(true);
-    setUserDatadeactive(allSctLeads);
+    setUserDatadeactive(sctClients);
   };
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
@@ -99,11 +98,11 @@ const AllEngagedClient = ({
   const [colorData, setcolorData] = useState();
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
-  const onClickHandler = (allSctLeads, idx) => {
+  const onClickHandler = (sctClients, idx) => {
     setcolorData(idx);
-    setLeadData(allSctLeads);
+    setLeadData(sctClients);
     const searchData = {
-      sctCallToId: allSctLeads._id,
+      sctCallToId: sctClients._id,
     };
     setsearchDataVal(searchData);
     getSctLastmessage(searchData);
@@ -139,13 +138,13 @@ const AllEngagedClient = ({
     getclientsData("");
     getempData("");
     getcountryIdData(e.countryId);
-    getSctLeadDetails({ countryId: e.countryId, sctLeadCategory: "P" });
-    getSctLeadDetailsDD({ countryId: e.countryId, sctLeadCategory: "P" });
-    setFilterData({ countryId: e.countryId, sctLeadCategory: "P" });
+    getSctClientDetails({ countryId: e.countryId, sctClientCategory: "EC" });
+    getSctClientDetailsDD({ countryId: e.countryId, sctClientCategory: "EC" });
+    setFilterData({ countryId: e.countryId, sctClientCategory: "EC" });
   };
 
   const allclient = [];
-  allSctLeadsDD.map((clients) =>
+  sctClientsDD.map((clients) =>
     allclient.push({
       clientsId: clients._id,
       label: clients.sctCompanyName,
@@ -155,24 +154,24 @@ const AllEngagedClient = ({
   const [clients, getclientsData] = useState();
   const onclientsChange = (e) => {
     getclientsData(e);
-    getSctLeadDetails({
+    getSctClientDetails({
       countryId: countryId,
       clientsId: e.clientsId,
-      sctLeadCategory: "P",
+      sctClientCategory: "EC",
     });
     setFilterData({
       countryId: countryId,
       clientsId: e.clientsId,
-      sctLeadCategory: "P",
+      sctClientCategory: "EC",
     });
   };
 
   const allemp = [{ empId: null, label: "All", value: null }];
-  allSctLeadsEmp.map((emp) =>
+  sctClientsEmp.map((emp) =>
     allemp.push({
       empId: emp._id,
-      label: emp.sctLeadAssignedToName,
-      value: emp.sctLeadAssignedToName,
+      label: emp.sctClientAssignedToName,
+      value: emp.sctClientAssignedToName,
     })
   );
 
@@ -181,24 +180,24 @@ const AllEngagedClient = ({
   const onempChange = (e) => {
     getempData(e);
     setempID(e.empId);
-    getSctLeadDetails({
+    getSctClientDetails({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
-      sctLeadCategory: "P",
+      sctClientCategory: "EC",
     });
-    getSctLeadDetailsDD({
+    getSctClientDetailsDD({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
-      sctLeadCategory: "P",
+      sctClientCategory: "EC",
       emp: true,
     });
     setFilterData({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
-      sctLeadCategory: "P",
+      sctClientCategory: "EC",
     });
   };
 
@@ -207,9 +206,9 @@ const AllEngagedClient = ({
     getcountryIdData("");
     getclientsData("");
     getempData("");
-    getSctLeadDetails({ sctLeadCategory: "P" });
-    getSctLeadDetailsDD({ sctLeadCategory: "P" });
-    setFilterData({ sctLeadCategory: "P" });
+    getSctClientDetails({ sctClientCategory: "EC" });
+    getSctClientDetailsDD({ sctClientCategory: "EC" });
+    setFilterData({ sctClientCategory: "EC" });
     ondivcloseChange(true);
     setcolorData("");
   };
@@ -241,7 +240,7 @@ const AllEngagedClient = ({
                 options={allclient}
                 isSearchable={true}
                 value={clients}
-                placeholder="Select Lead"
+                placeholder="Select Client"
                 onChange={(e) => onclientsChange(e)}
               />
             </div>
@@ -295,11 +294,11 @@ const AllEngagedClient = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {allSctLeads &&
-                        allSctLeads.map((allSctLeads, idx) => {
+                      {sctClients &&
+                        sctClients.map((sctClients, idx) => {
                           var sctCallDate = "";
-                          if (allSctLeads.sctCallDate) {
-                            var ED = allSctLeads.sctCallDate.split(/\D/g);
+                          if (sctClients.sctCallDate) {
+                            var ED = sctClients.sctCallDate.split(/\D/g);
                             sctCallDate = [ED[2], ED[1], ED[0]].join("-");
                           }
                           return (
@@ -308,19 +307,19 @@ const AllEngagedClient = ({
                               className={
                                 colorData === idx ? "seletedrowcolorchange" : ""
                               }
-                              onClick={() => onClickHandler(allSctLeads, idx)}
+                              onClick={() => onClickHandler(sctClients, idx)}
                             >
                               {/* <td>{idx + 1}</td> */}
-                              <td>{allSctLeads.sctCompanyName}</td>
-                              <td>{allSctLeads.sctWebsite}</td>
-                              <td>{allSctLeads.sctEmailId}</td>
-                              <td>{allSctLeads.countryName}</td>
+                              <td>{sctClients.sctCompanyName}</td>
+                              <td>{sctClients.sctWebsite}</td>
+                              <td>{sctClients.sctEmailId}</td>
+                              <td>{sctClients.countryName}</td>
                               <td>
-                                {allSctLeads.sctcountryCode
-                                  ? "+" + allSctLeads.sctcountryCode
+                                {sctClients.sctcountryCode
+                                  ? "+" + sctClients.sctcountryCode
                                   : ""}
                                 &nbsp;
-                                {allSctLeads.sctPhone1}
+                                {sctClients.sctPhone1}
                               </td>
                               <td>{sctCallDate}</td>
                               <td>
@@ -343,14 +342,14 @@ const AllEngagedClient = ({
                                   options={priorityCategory}
                                   isSearchable={true}
                                   placeholder="Select"
-                                  onChange={onSliderChange(allSctLeads, idx)}
+                                  onChange={onSliderChange(sctClients, idx)}
                                 />
                               </td>
                               <td>
                                 {/* <button
                                   className="btn btn_green_bg"
                                   onClick={() =>
-                                    onClickVerify(allSctLeads, idx)
+                                    onClickVerify(sctClients, idx)
                                   }
                                 >
                                   Generate Quotation
@@ -361,7 +360,7 @@ const AllEngagedClient = ({
                                   to={{
                                     pathname: "/generate-quotation",
                                     data: {
-                                      sctdata: allSctLeads,
+                                      sctdata: sctClients,
                                     },
                                   }}
                                 >
@@ -377,7 +376,7 @@ const AllEngagedClient = ({
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
                     <label>
-                      No of Leads : {allSctLeads && allSctLeads.length}
+                      No of Clients : {sctClients && sctClients.length}
                     </label>
                   </div>
                 </div>
@@ -389,7 +388,7 @@ const AllEngagedClient = ({
                   <AllSctContacts
                     leadDataVal={leadData}
                     ondivcloseChange={ondivcloseChange}
-                    from="lead"
+                    from="client"
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
                   />
@@ -405,7 +404,7 @@ const AllEngagedClient = ({
                     <AllSctStatusChange
                       leadDataVal={leadData}
                       ondivcloseChange={ondivcloseChange}
-                      from={leadData.sctLeadCategory}
+                      from={leadData.sctClientCategory}
                       filterData={filterData}
                     />
                   )}
@@ -441,7 +440,7 @@ const AllEngagedClient = ({
       >
         <Modal.Header>
           <div className="col-lg-10 col-md-10 col-sm-10 col-10">
-            <h3 className="modal-title text-center">Edit Lead Details</h3>
+            <h3 className="modal-title text-center">Edit Client Details</h3>
           </div>
           <div className="col-lg-2 col-md-2 col-sm-2 col-2">
             <button onClick={handleEditModalClose} className="close">
@@ -472,7 +471,7 @@ const AllEngagedClient = ({
       >
         <Modal.Header>
           <div className="col-lg-10">
-            <h3 className="modal-title text-center">Deactivate Lead</h3>
+            <h3 className="modal-title text-center">Deactivate Client</h3>
           </div>
           <div className="col-lg-1">
             <button onClick={handleDeactiveModalClose} className="close">
@@ -509,8 +508,8 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getSctLeadDetails,
-  getSctLeadDetailsDD,
+  getSctClientDetails,
+  getSctClientDetailsDD,
   getActiveCountry,
   getSctLastmessage,
 })(AllEngagedClient);

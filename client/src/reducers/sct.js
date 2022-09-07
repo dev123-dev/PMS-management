@@ -16,6 +16,9 @@ import {
   DEMO_STATES,
   DEMO_LEADS,
   DEMO_CHECK,
+  SCT_CLIENTS,
+  SCT_CLIENTS_DD,
+  SCT_CLIENTS_EMP,
 } from "../actions/types";
 
 const initialState = {
@@ -38,6 +41,9 @@ const initialState = {
   demoStates: [],
   demoLeads: [],
   demoCheck: null,
+  sctClients: [],
+  sctClientsDD: [],
+  sctClientsEmp: [],
 };
 
 const sct = (state = initialState, action) => {
@@ -128,7 +134,21 @@ const sct = (state = initialState, action) => {
         ...state,
         demoCheck: payload,
       };
-
+    case SCT_CLIENTS:
+      return {
+        ...state,
+        sctClients: payload,
+      };
+    case SCT_CLIENTS_DD:
+      return {
+        ...state,
+        sctClientsDD: payload,
+      };
+    case SCT_CLIENTS_EMP:
+      return {
+        ...state,
+        sctClientsEmp: payload,
+      };
     default:
       return state;
   }
