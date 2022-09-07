@@ -713,3 +713,14 @@ router.post("/get-all-sct-calls-emp", auth, async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/check-demo", async (req, res) => {
+  const { demoUserId } = req.body;
+  try {
+    const checkForDemo = await Demo.find({ clientId: demoUserId }).count();
+    res.json(checkForDemo);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});

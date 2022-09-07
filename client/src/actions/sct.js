@@ -20,6 +20,7 @@ import {
   ALL_SCT_CALLS_EMP,
   DEMO_STATES,
   DEMO_LEADS,
+  DEMO_CHECK,
 } from "./types";
 
 const config = {
@@ -46,12 +47,12 @@ export const addSctLeadDetails = (finalData) => async (dispatch) => {
   }
 };
 
-export const addSctClientDetails = (finalData) => async (dispatch) => {
+export const addSctClientDetails = (transferData) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING_TRUE,
     });
-    await axios.post("/api/sct/add-sct-client", finalData, config);
+    await axios.post("/api/sct/add-sct-client", transferData, config);
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -324,12 +325,12 @@ export const AddSctNewProject = (finalData) => async (dispatch) => {
   }
 };
 
-export const addDemo = (finalData) => async (dispatch) => {
+export const addDemo = (demoData) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING_TRUE,
     });
-    await axios.post("/api/sct/add-demo", finalData, config);
+    await axios.post("/api/sct/add-demo", demoData, config);
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -453,6 +454,24 @@ export const getAllSctCallEmp = (finalData) => async (dispatch) => {
     );
     dispatch({
       type: ALL_SCT_CALLS_EMP,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const checkDemo = (client) => async (dispatch) => {
+  try {
+    dispatch({
+      type: DEMO_CHECK,
+      payload: null,
+    });
+    const res = await axios.post("/api/sct/check-demo", client);
+    dispatch({
+      type: DEMO_CHECK,
       payload: res.data,
     });
   } catch (err) {

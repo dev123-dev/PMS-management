@@ -15,6 +15,7 @@ import {
   ALL_SCT_CALLS_EMP,
   DEMO_STATES,
   DEMO_LEADS,
+  DEMO_CHECK,
 } from "../actions/types";
 
 const initialState = {
@@ -36,6 +37,7 @@ const initialState = {
   allSctCallsEmp: null,
   demoStates: [],
   demoLeads: [],
+  demoCheck: null,
 };
 
 const sct = (state = initialState, action) => {
@@ -121,6 +123,12 @@ const sct = (state = initialState, action) => {
         ...state,
         demoLeads: payload,
       };
+    case DEMO_CHECK:
+      return {
+        ...state,
+        demoCheck: payload,
+      };
+
     default:
       return state;
   }

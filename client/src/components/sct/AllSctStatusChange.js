@@ -1,49 +1,72 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { addSctCalls, addDemo } from "../../actions/sct";
+import {
+  addSctCalls,
+  addDemo,
+  checkDemo,
+  addSctClientDetails,
+} from "../../actions/sct";
 import DemoSchedulesModal from "./DemoSchedulesModal";
 import { Modal } from "react-bootstrap";
+let StatusMethods = [
+  { value: "VoiceMail", label: "Voice Mail" },
+  { value: "CallBack", label: "Call Back" },
+  { value: "DND", label: "DND" },
+  { value: "NI", label: "NI" },
+  { value: "FollowUp", label: "Follow Up" },
+  { value: "Demo", label: "Demo" },
+  { value: "AdditionalDemo", label: "Additional Demo" },
+  { value: "EngagedClient", label: "Engaged Client" },
+  { value: "RegularClient", label: "Regular Client" },
+];
 const AllSctStatusChange = ({
   auth: { isAuthenticated, user, users, loading },
+  sct: { demoCheck },
   leadDataVal,
   addSctCalls,
   addDemo,
   ondivcloseChange,
   from,
   filterData,
+  checkDemo,
+  addSctClientDetails,
 }) => {
-  let StatusMethods = [
-    { value: "VoiceMail", label: "Voice Mail" },
-    { value: "CallBack", label: "Call Back" },
-    { value: "DND", label: "DND" },
-    { value: "NI", label: "NI" },
-    { value: "FollowUp", label: "Follow Up" },
-    { value: "Demo", label: "Demo" },
-    { value: "AdditionalDemo", label: "Additional Demo" },
-    { value: "EnagedClient", label: "Enaged Client" },
-    { value: "RegularClient", label: "Regular Client" },
-  ];
+  useEffect(() => {
+    checkDemo({ demoUserId: leadDataVal._id });
+  }, [leadDataVal, checkDemo]);
+
+  //STATUS START
   if (from === "FollowUp" || from === "F") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) => StatusMethods.value !== "FollowUp"
     );
-  } else if (from === "EnagedClient") {
+  } else if (from === "EngagedClient") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
-        StatusMethods.value !== "EnagedClient" &&
+        StatusMethods.value !== "EngagedClient" &&
         StatusMethods.value !== "FollowUp"
     );
   } else if (from === "RegularClient") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
-        StatusMethods.value !== "EnagedClient" &&
+        StatusMethods.value !== "EngagedClient" &&
         StatusMethods.value !== "FollowUp" &&
         StatusMethods.value !== "RegularClient"
     );
   }
+  if (demoCheck > 0) {
+    StatusMethods = StatusMethods.filter(
+      (StatusMethods) => StatusMethods.value !== "Demo"
+    );
+  } else if (demoCheck === 0) {
+    StatusMethods = StatusMethods.filter(
+      (StatusMethods) => StatusMethods.value !== "AdditionalDemo"
+    );
+  }
+  //STATUS END
 
   //formData
   const [formData, setFormData] = useState({
@@ -55,18 +78,9 @@ const AllSctStatusChange = ({
     isSubmitted: false,
   });
   const { sctCallNote, sctCallStatus, toTime, fromTime } = formData;
-  //For setting mindate as todays date
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth() + 1;
-  var yyyy = today.getFullYear();
-  if (dd < 10) {
-    dd = "0" + dd;
-  }
-  if (mm < 10) {
-    mm = "0" + mm;
-  }
-  var todayDateymd = yyyy + "-" + mm + "-" + dd;
+
+  //DATE START
+  var todayDateymd = new Date().toISOString().split("T")[0];
   //for next month
   var d = new Date(todayDateymd);
   d.setMonth(d.getMonth() + 1);
@@ -79,19 +93,17 @@ const AllSctStatusChange = ({
   var d2 = new Date(todayDateymd);
   d2.setDate(d2.getDate() + 1);
   var nextday = d2.toISOString().split("T")[0];
-
   //less than today
   var d3 = new Date(todayDateymd);
   d3.setDate(d3.getDate());
   var todaydate = d3.toISOString().split("T")[0];
-  //ends
+  //DATE ENDS
 
   //Required Validation Starts
   const [error, setError] = useState({
     statusmodeIdChecker: false,
     statusmodeIdErrorStyle: {},
     stafftypeIdChecker: false,
-
     stafftypeIdErrorStyle: {},
   });
   const {
@@ -118,6 +130,7 @@ const AllSctStatusChange = ({
     }
     return true;
   };
+
   const [showDemoScheduleModal, setShowDemoScheduleModal] = useState(false);
   const handleDemoScheduleModalClose = () => setShowDemoScheduleModal(false);
 
@@ -126,7 +139,6 @@ const AllSctStatusChange = ({
       handleDemoScheduleModalClose();
     }
   };
-
   const onCheckSchedule = () => {
     setShowDemoScheduleModal(true);
   };
@@ -146,16 +158,14 @@ const AllSctStatusChange = ({
 
   const [sctStaffs, getstaffsData] = useState("");
   const onStaffChange = (e) => {
-    //  Required Validation starts
     setError({
       ...error,
       stafftypeIdChecker: true,
       stafftypeIdErrorStyle: { color: "#000" },
     });
-    // Required Validation ends
-
     getstaffsData(e);
   };
+
   const [startStatusDate, setStatusDate] = useState("");
   const onDateChange = (e) => {
     setStatusDate(e.target.value);
@@ -169,14 +179,11 @@ const AllSctStatusChange = ({
   const { showdateselectionSection, showdemoselectionSection } = showHide;
 
   const onStatusTypeChange = (e) => {
-    //Required Validation starts
     setError({
       ...error,
       statusmodeIdChecker: true,
       statusmodeIdErrorStyle: { color: "#000" },
     });
-    //Required Validation ends
-
     if (e) {
       setFormData({
         ...formData,
@@ -238,7 +245,7 @@ const AllSctStatusChange = ({
         showdateselectionSection: true,
         showdemoselectionSection: false,
       });
-    } else if (e.value === "RegularClient" || e.value === "EnagedClient") {
+    } else if (e.value === "RegularClient" || e.value === "EngagedClient") {
       setFormData({
         ...formData,
         sctCallStatus: e,
@@ -271,21 +278,25 @@ const AllSctStatusChange = ({
   };
 
   const onSubmit = (e) => {
-    let callCategoryVal = null;
-    let callComeFromVal = "Lead";
-    if (from === "EnagedClient" || from === "RegularClient")
+    let callCategoryVal = null,
+      clientTypeVal = "",
+      callComeFromVal = "Lead";
+
+    if (from === "EngagedClient" || from === "RegularClient")
       callComeFromVal = "Client";
 
     if (sctCallStatus.value === "FollowUp") {
       callCategoryVal = "F";
-    } else if (sctCallStatus.value === "EnagedClient") {
+    } else if (sctCallStatus.value === "EngagedClient") {
       callCategoryVal = "EC";
+      clientTypeVal = "Engaged";
     } else if (sctCallStatus.value === "RegularClient") {
       callCategoryVal = "RC";
+      clientTypeVal = "Regular";
     } else {
       if (leadDataVal.sctLeadCategory === "NL") callCategoryVal = "P";
       else {
-        if (from === "EnagedClient" || from === "RegularClient")
+        if (from === "EngagedClient" || from === "RegularClient")
           callCategoryVal = leadDataVal.dctClientCategory;
         else callCategoryVal = leadDataVal.dctLeadCategory;
       }
@@ -309,8 +320,9 @@ const AllSctStatusChange = ({
         sctCallEnteredDate: new Date().toLocaleString("en-GB"),
         filterData: filterData,
       };
+      addSctCalls(finalData);
       if (sctCallStatus.value === "Demo") {
-        const finalData1 = {
+        const demoData = {
           demoDate: demoDate,
           fromTime: fromTime,
           toTime: toTime,
@@ -319,10 +331,45 @@ const AllSctStatusChange = ({
           clientId: leadDataVal._id,
           clientName: leadDataVal.sctClientName,
         };
-        addDemo(finalData1);
+        addDemo(demoData);
       }
-      addSctCalls(finalData);
-
+      if (
+        sctCallStatus.value === "EngagedClient" ||
+        sctCallStatus.value === "RegularClient"
+      ) {
+        const transferData = {
+          sctCompanyName: leadDataVal.sctCompanyName,
+          sctClientName: leadDataVal.sctClientName,
+          sctLeadId: leadDataVal._id,
+          sctEmailId: leadDataVal.sctEmailId,
+          sctPhone1: leadDataVal.sctPhone1,
+          sctPhone2: leadDataVal.sctPhone2,
+          sctWebsite: leadDataVal.sctWebsite,
+          sctClientAddress: leadDataVal.sctLeadAddress,
+          sctClientImportantPoints: leadDataVal.sctImportantPoints,
+          projectsId: leadDataVal.projectsId ? leadDataVal.projectsId : null,
+          projectsName: leadDataVal.projectsName
+            ? leadDataVal.projectsName
+            : null,
+          countryId: leadDataVal.countryId ? leadDataVal.countryId : null,
+          countryName: leadDataVal.countryName ? leadDataVal.countryName : null,
+          sctcountryCode: leadDataVal.sctcountryCode,
+          stateId: leadDataVal.stateId ? leadDataVal.stateId : null,
+          stateName: leadDataVal.stateName,
+          districtId: leadDataVal.districtId ? leadDataVal.districtId : null,
+          sctClientStatus: "Active",
+          sctClientCategory: callCategoryVal,
+          sctCallDate: new Date().toISOString().split("T")[0],
+          sctClientEnteredById: user._id,
+          sctClientEnteredByName: user.empFullName,
+          sctClientEnteredDateTime: new Date().toLocaleString("en-GB"),
+          sctClientAssignedToId: leadDataVal.sctLeadAssignedToId,
+          sctClientAssignedToName: leadDataVal.sctLeadAssignedToName,
+          clientType: clientTypeVal,
+          sctStaffs: leadDataVal.sctStaffs,
+        };
+        addSctClientDetails(transferData);
+      }
       setFormData({
         ...formData,
         sctCallStatus: "",
@@ -343,12 +390,7 @@ const AllSctStatusChange = ({
       <form className="row" onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadstatus">
           <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
-            <label
-              // className="label-control"
-              style={statusmodeIdErrorStyle}
-            >
-              Status :
-            </label>
+            <label style={statusmodeIdErrorStyle}>Status :</label>
             <Select
               name="sctCallStatus"
               options={StatusMethods}
@@ -370,12 +412,7 @@ const AllSctStatusChange = ({
           </div>
 
           <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
-            <label
-              //  className="label-control"
-              style={stafftypeIdErrorStyle}
-            >
-              Staff :
-            </label>
+            <label style={stafftypeIdErrorStyle}>Staff :</label>
 
             <Select
               name="sctStaffName"
@@ -405,6 +442,7 @@ const AllSctStatusChange = ({
               />
             </div>
           )}
+
           {showdemoselectionSection && (
             <>
               <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
@@ -540,8 +578,12 @@ AllSctStatusChange.propTypes = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  sct: state.sct,
 });
 
-export default connect(mapStateToProps, { addSctCalls, addDemo })(
-  AllSctStatusChange
-);
+export default connect(mapStateToProps, {
+  addSctCalls,
+  addDemo,
+  checkDemo,
+  addSctClientDetails,
+})(AllSctStatusChange);

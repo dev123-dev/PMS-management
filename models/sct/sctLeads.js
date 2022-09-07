@@ -27,16 +27,16 @@ const SctLeadsSchema = new mongoose.Schema({
   sctImportantPoints: {
     type: String,
   },
-  countryId: {
-    type: ObjectId,
-  },
-  countryName: {
-    type: String,
-  },
   projectsId: {
     type: ObjectId,
   },
   projectsName: {
+    type: String,
+  },
+  countryId: {
+    type: ObjectId,
+  },
+  countryName: {
     type: String,
   },
   sctcountryCode: {
@@ -113,9 +113,6 @@ const SctLeadsSchema = new mongoose.Schema({
       sctStaffDesignation: {
         type: String,
       },
-      sctStaffDeactiveReason: {
-        type: String,
-      },
       sctStaffStatus: {
         type: String,
         default: "Active",
@@ -134,6 +131,9 @@ const SctLeadsSchema = new mongoose.Schema({
       },
       sctstaffDistrictId: {
         type: ObjectId,
+      },
+      sctStaffDeactiveReason: {
+        type: String,
       },
       sctStaffDeactivateById: {
         type: ObjectId,

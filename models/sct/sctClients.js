@@ -9,6 +9,9 @@ const SctClientsSchema = new mongoose.Schema({
   sctClientName: {
     type: String,
   },
+  sctLeadId: {
+    type: ObjectId,
+  },
   sctEmailId: {
     type: String,
   },
@@ -30,14 +33,26 @@ const SctClientsSchema = new mongoose.Schema({
   sctClientImportantPoints: {
     type: String,
   },
+  projectsId: {
+    type: ObjectId,
+  },
+  projectsName: {
+    type: String,
+  },
   countryId: {
     type: ObjectId,
   },
   countryName: {
     type: String,
   },
+  sctcountryCode: {
+    type: String,
+  },
   stateId: {
     type: ObjectId,
+  },
+  stateName: {
+    type: String,
   },
   districtId: {
     type: ObjectId,
@@ -46,7 +61,7 @@ const SctClientsSchema = new mongoose.Schema({
     type: String, //Active, Deactive
   },
   sctClientCategory: {
-    type: String, //NC,P,F,TC,RC
+    type: String, //EC,RC
   },
   sctClientCategoryStatus: {
     type: String, //(FL,VM,CB,DND,NI)
@@ -73,10 +88,10 @@ const SctClientsSchema = new mongoose.Schema({
   sctClientDeactivateById: {
     type: ObjectId,
   },
-  sctClientDeactivateReason: {
+  sctClientDeactivateDateTime: {
     type: String,
   },
-  sctClientDeactivateDateTime: {
+  sctClientDeactivateReason: {
     type: String,
   },
   sctClientAssignedToId: {
@@ -85,8 +100,8 @@ const SctClientsSchema = new mongoose.Schema({
   sctClientAssignedToName: {
     type: String,
   },
-  clientFolderName: {
-    type: String,
+  sctCallSchedule: {
+    type: String, //Morning or afternoon
   },
   clientCurrency: {
     type: String,
@@ -98,12 +113,9 @@ const SctClientsSchema = new mongoose.Schema({
     type: String,
   },
   clientType: {
-    type: String, //Test,Regular
+    type: String, //Engaged,Regular
   },
-  clientFolderName: {
-    type: String,
-  },
-  staffs: [
+  sctStaffs: [
     {
       sctStaffName: {
         type: String,
@@ -120,6 +132,21 @@ const SctClientsSchema = new mongoose.Schema({
       sctStaffStatus: {
         type: String,
         default: "Active",
+      },
+      sctstaffRegion: {
+        type: String,
+      },
+      sctstaffRegionId: {
+        type: ObjectId,
+      },
+      sctstaffCountryCode: {
+        type: String,
+      },
+      sctstaffStateId: {
+        type: ObjectId,
+      },
+      sctstaffDistrictId: {
+        type: ObjectId,
       },
       sctStaffDeactiveReason: {
         type: String,

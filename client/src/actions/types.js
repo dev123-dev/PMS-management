@@ -113,6 +113,7 @@ export const ALL_SCT_CALLS = "ALL_SCT_CALLS";
 export const ALL_SCT_CALLS_EMP = "ALL_SCT_CALLS_EMP";
 export const DEMO_STATES = "DEMO_STATES";
 export const DEMO_LEADS = "DEMO_LEADS";
+export const DEMO_CHECK = "DEMO_CHECK";
 
 //SETTINGS
 export const ALL_COMPANY_DETAILS = "ALL_COMPANY_DETAILS";
