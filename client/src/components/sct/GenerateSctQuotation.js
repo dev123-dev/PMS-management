@@ -10,9 +10,9 @@ import { Redirect } from "react-router-dom";
 
 const GenerateSctQuotation = ({
   auth: { isAuthenticated, user, users, loading },
-  settings: { paymentMode, allCompanyDetails },
+  settings: { allCompanyDetails },
   sct: { activeClient },
-  onAddDistrictModalChange,
+
   saveQuatation,
   getALLCompanyDetails,
 }) => {
