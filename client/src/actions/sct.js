@@ -165,6 +165,7 @@ export const refreshLead = (finalData) => async (dispatch) => {
   }
 };
 //**********************************SELECT**********************************
+//LEAD
 export const getSctLeadDetails = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/sct/get-sct-Leads", finalData, config);
