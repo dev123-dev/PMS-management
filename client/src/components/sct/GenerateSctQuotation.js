@@ -218,7 +218,6 @@ const GenerateSctQuotation = ({
       companyId: companyid,
       companyName: companyname,
       companyAddress: companyaddress,
-      forId: "",
       forName: sctCompanyName,
       forAddress: sctClientAddress,
       clientEnteredById: user._id,

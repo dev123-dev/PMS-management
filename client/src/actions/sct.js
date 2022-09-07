@@ -82,6 +82,21 @@ export const addNewSctStaffDetails = (finalData) => async (dispatch) => {
   }
 };
 
+export const saveQuatation = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/sct/add-quatation", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
 //EDIT
 export const editSctLeadDetails = (finalData) => async (dispatch) => {
   try {

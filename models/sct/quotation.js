@@ -29,9 +29,6 @@ const QuotationsSchema = new mongoose.Schema({
   companyAddress: {
     type: String,
   },
-  forId: {
-    type: ObjectId,
-  },
   forName: {
     type: String,
   },

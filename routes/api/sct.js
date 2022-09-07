@@ -9,8 +9,8 @@ const SctCalls = require("../../models/sct/sctCalls");
 const SctClients = require("../../models/sct/sctClients");
 const Demo = require("../../models/sct/demo");
 const EmployeeDetails = require("../../models/EmpDetails");
-
 const SctProjects = require("../../models/sct/SctProjects");
+const Quatation = require("../../models/sct/quotation");
 
 //ADD
 router.post("/add-sct-Leads", async (req, res) => {
@@ -65,6 +65,17 @@ router.post("/add-new-sct-staff", async (req, res) => {
   }
 });
 
+router.post("/add-quatation", async (req, res) => {
+  let data = req.body;
+  try {
+    let AddQuatation = new Quatation(data);
+    output = await AddQuatation.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 //EDIT
 router.post("/edit-sct-Leads", async (req, res) => {
   try {
