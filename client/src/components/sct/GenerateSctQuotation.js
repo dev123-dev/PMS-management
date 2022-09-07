@@ -7,10 +7,6 @@ import Spinner from "../layout/Spinner";
 import { getALLPaymentMode } from "../../actions/settings";
 import { getActiveClients, AddClient } from "../../actions/client";
 import { Redirect } from "react-router-dom";
-const clientTypeVal = [
-  { value: "Regular", label: "Regular Client" },
-  { value: "Test", label: "Test Client" },
-];
 
 const GenerateSctQuotation = ({
   auth: { isAuthenticated, user, users, loading },
@@ -237,50 +233,35 @@ const GenerateSctQuotation = ({
             </div>
           </div>
           <hr />
-          {/* <section className="sub_reg"> */}
-          <div className="row card-new col-lg-6 col-md-11 col-sm-12 col-12 ">
-            {/* <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3"> */}
-            {/* <div className="row card-new  pb-3"> */}
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-              <label className="label-control">Quotation No:</label>
-              <input
-                type="text"
-                name="clientCompanyFounderName"
-                value={clientCompanyFounderName}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-              />
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-              <label className="label-control">Quotation Date :</label>
-              <input
-                type="date"
-                placeholder="dd/mm/yyyy"
-                className="form-control cpp-input datevalidation"
-                name="projectDate"
-                // value={startprojectDate}
-                //onChange={(e) => onDateChange(e)}
-                style={{
-                  width: "100%",
-                }}
-                required
-              />
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-              <label className="label-control">Client From :</label>
-              <Select
-                name="clientName"
-                options={allclientBelongsTo}
-                isSearchable={true}
-                value={clients}
-                placeholder="Select Mode"
-                onChange={(e) => onBelongstoChange(e)}
-              />
-            </div>
-            <br />
-            <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 ">
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">From* :</label>
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+            <div className="row card-new ">
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">Quotation No:</label>
+                <input
+                  type="text"
+                  name="clientCompanyFounderName"
+                  value={clientCompanyFounderName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">Quotation Date :</label>
+                <input
+                  type="date"
+                  placeholder="dd/mm/yyyy"
+                  className="form-control cpp-input datevalidation"
+                  name="projectDate"
+                  // value={startprojectDate}
+                  //onChange={(e) => onDateChange(e)}
+                  style={{
+                    width: "100%",
+                  }}
+                  required
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">Client From :</label>
                 <Select
                   name="clientName"
                   options={allclientBelongsTo}
@@ -290,123 +271,181 @@ const GenerateSctQuotation = ({
                   onChange={(e) => onBelongstoChange(e)}
                 />
               </div>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <label className="label-control">For :</label>
+              <br />
+              <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 ">
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">From* :</label>
+                  <Select
+                    name="clientName"
+                    options={allclientBelongsTo}
+                    isSearchable={true}
+                    value={clients}
+                    placeholder="Select Mode"
+                    onChange={(e) => onBelongstoChange(e)}
+                  />
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">For :</label>
+                  <input
+                    type="text"
+                    name="clientEmail"
+                    value={clientEmail}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
+                </div>
+
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12  py-2">
+                  <textarea
+                    name="clientAddress"
+                    id="clientAddress"
+                    className="textarea form-control"
+                    rows="4"
+                    placeholder="From Address"
+                    style={{ width: "100%" }}
+                    value={clientAddress}
+                    onChange={(e) => onInputChange(e)}
+                  ></textarea>
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12  py-2">
+                  <textarea
+                    name="clientAddress"
+                    id="clientAddress"
+                    className="textarea form-control"
+                    rows="4"
+                    placeholder="To Address"
+                    style={{ width: "100%" }}
+                    value={clientAddress}
+                    onChange={(e) => onInputChange(e)}
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
+            {/* <form onSubmit={(e) =>Add(e)}> */}
+            <div className="row card-new ">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                <h5>Item Info</h5>
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label>Item :</label>
                 <input
                   type="text"
-                  name="clientEmail"
-                  value={clientEmail}
+                  name="clientCompanyFounderName"
+                  value={clientCompanyFounderName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label>GST :</label>
+                <input
+                  type="text"
+                  name="clientCompanyFounderName"
+                  value={clientCompanyFounderName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label>Rate :</label>
+                <input
+                  type="text"
+                  name="clientCompanyFounderName"
+                  value={clientCompanyFounderName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Qty :</label>
+                <input
+                  type="text"
+                  name="clientCompanyFounderName"
+                  value={clientCompanyFounderName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Amt :</label>
+                <input
+                  type="text"
+                  name="clientCompanyFounderName"
+                  value={clientCompanyFounderName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">CGST :</label>
+                <input
+                  type="text"
+                  name="clientCompanyFounderName"
+                  value={clientCompanyFounderName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <textarea
-                  name="clientAddress"
-                  id="clientAddress"
-                  className="textarea form-control"
-                  rows="4"
-                  placeholder="From Address"
-                  style={{ width: "100%" }}
-                  value={clientAddress}
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">SGST :</label>
+                <input
+                  type="text"
+                  name="clientCompanyFounderName"
+                  value={clientCompanyFounderName}
+                  className="form-control"
                   onChange={(e) => onInputChange(e)}
-                ></textarea>
+                />
               </div>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                <textarea
-                  name="clientAddress"
-                  id="clientAddress"
-                  className="textarea form-control"
-                  rows="4"
-                  placeholder="To Address"
-                  style={{ width: "100%" }}
-                  value={clientAddress}
-                  onChange={(e) => onInputChange(e)}
-                ></textarea>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-4">
+                <label className="label-control"></label>
+                <button
+                  variant="success"
+                  className="btn sub_form btn_continue Save "
+                  //   onClick={(e) => onAdd(e)}
+                >
+                  Add
+                </button>
               </div>
             </div>
           </div>
-          <div className="row card-new col-lg-6 col-md-11 col-sm-12 col-12 ">
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-              <label className="label-control">Item :</label>
-              <input
-                type="text"
-                name="clientCompanyFounderName"
-                value={clientCompanyFounderName}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-              />
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-              <label className="label-control">GST :</label>
-              <input
-                type="text"
-                name="clientCompanyFounderName"
-                value={clientCompanyFounderName}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-              />
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-              <label className="label-control">Rate :</label>
-              <input
-                type="text"
-                name="clientCompanyFounderName"
-                value={clientCompanyFounderName}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-              />
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-              <label className="label-control">Qty :</label>
-              <input
-                type="text"
-                name="clientCompanyFounderName"
-                value={clientCompanyFounderName}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-              />
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-              <label className="label-control">Amt :</label>
-              <input
-                type="text"
-                name="clientCompanyFounderName"
-                value={clientCompanyFounderName}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-              />
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-              <label className="label-control">CGST :</label>
-              <input
-                type="text"
-                name="clientCompanyFounderName"
-                value={clientCompanyFounderName}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-              />
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-              <label className="label-control">SGST :</label>
-              <input
-                type="text"
-                name="clientCompanyFounderName"
-                value={clientCompanyFounderName}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-              />
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-              <label className="label-control">Total :</label>
-              <input
-                type="text"
-                name="clientCompanyFounderName"
-                value={clientCompanyFounderName}
-                className="form-control"
-                onChange={(e) => onInputChange(e)}
-              />
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-2">
+            <div
+              className="row card-new"
+              style={{ height: "340px", overflowY: "scroll" }}
+            >
+              <table
+                className="tabllll table table-bordered table-striped table-hover"
+                id="datatable2"
+              >
+                <thead>
+                  <tr>
+                    <th>Staff Name</th>
+                    <th>Region</th>
+                    <th>Phone Number</th>
+                    <th>Email Id</th>
+                    <th>Designation</th>
+                    <th>Remove</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* {AddedDetails &&
+                    AddedDetails.map((AddDetail, idx) => {
+                      return ( */}
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  {/* );
+                    })} */}
+                </tbody>
+              </table>
             </div>
           </div>
 
