@@ -154,9 +154,10 @@ const GenerateSctQuotation = ({
     CGST: "",
     SGST: "",
     discount: "",
+    desc: "",
   });
 
-  const { itemName, GST, rate, qty, amt, CGST, SGST, discount } = addData;
+  const { itemName, GST, rate, qty, amt, CGST, SGST, discount, desc } = addData;
 
   const [AddedDetails, AddDetails] = useState([]);
 
@@ -177,6 +178,7 @@ const GenerateSctQuotation = ({
         SGST: SGST,
         CGST: CGST,
         discount: discount,
+        desc: desc,
       };
       setFormDatas({
         ...addData,
@@ -188,6 +190,7 @@ const GenerateSctQuotation = ({
         CGST: "",
         SGST: "",
         discount: "",
+        desc: "",
       });
       // setstaffCountryCode("");
       // getstaffcountryData("");
@@ -344,7 +347,7 @@ const GenerateSctQuotation = ({
                     name="companyaddress"
                     id="companyaddress"
                     className="textarea form-control"
-                    rows="4"
+                    rows="5"
                     placeholder="From Address"
                     style={{ width: "100%" }}
                     value={companyaddress}
@@ -356,7 +359,7 @@ const GenerateSctQuotation = ({
                     name="sctClientAddress"
                     id="sctClientAddress"
                     className="textarea form-control"
-                    rows="4"
+                    rows="5"
                     placeholder="To Address"
                     style={{ width: "100%" }}
                     value={sctClientAddress}
@@ -381,12 +384,13 @@ const GenerateSctQuotation = ({
                   onChange={(e) => onInputChange1(e)}
                 />
               </div>
+
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                <label>GST :</label>
+                <label>Qty :</label>
                 <input
                   type="text"
-                  name="GST"
-                  value={GST}
+                  name="qty"
+                  value={qty}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
                 />
@@ -402,27 +406,29 @@ const GenerateSctQuotation = ({
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Qty :</label>
-                <input
-                  type="text"
-                  name="qty"
-                  value={qty}
-                  className="form-control"
-                  onChange={(e) => onInputChange1(e)}
-                />
-              </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Amt :</label>
+                <label>Amount :</label>
                 <input
                   type="text"
                   name="amt"
                   value={amt}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
+                  disabled
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                <label className="label-control">CGST :</label>
+                <label>GST :</label>
+                <input
+                  type="text"
+                  name="GST"
+                  value={GST}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label>CGST :</label>
                 <input
                   type="text"
                   name="CGST"
@@ -433,7 +439,7 @@ const GenerateSctQuotation = ({
               </div>
 
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
-                <label className="label-control">SGST :</label>
+                <label>SGST :</label>
                 <input
                   type="text"
                   name="SGST"
@@ -442,9 +448,19 @@ const GenerateSctQuotation = ({
                   onChange={(e) => onInputChange1(e)}
                 />
               </div>
-
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
-                <label className="label-control">Discount :</label>
+                <label>Total Amount :</label>
+                <input
+                  type="text"
+                  name="SGST"
+                  value={SGST}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                  disabled
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+                <label>Discount :</label>
                 <input
                   type="text"
                   name="discount"
@@ -453,7 +469,21 @@ const GenerateSctQuotation = ({
                   onChange={(e) => onInputChange1(e)}
                 />
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-4">
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12 ">
+                <label>Discription :</label>
+
+                <textarea
+                  name="desc"
+                  id="desc"
+                  className="textarea form-control"
+                  rows="3"
+                  placeholder="Discription"
+                  style={{ width: "100%" }}
+                  value={desc}
+                  onChange={(e) => onInputChange1(e)}
+                ></textarea>
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12 mt-5">
                 <label className="label-control"></label>
                 <button
                   variant="success"
@@ -484,6 +514,7 @@ const GenerateSctQuotation = ({
                     <th>CGST</th>
                     <th>SGST</th>
                     <th>Discount</th>
+                    <th>Discription</th>
                     <th>Remove</th>
                   </tr>
                 </thead>
@@ -500,6 +531,7 @@ const GenerateSctQuotation = ({
                           <td>{AddDetail.CGST}</td>
                           <td>{AddDetail.SGST}</td>
                           <td>{AddDetail.discount}</td>
+                          <td>{AddDetail.desc}</td>
 
                           <td>
                             <img
