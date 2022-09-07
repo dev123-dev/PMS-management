@@ -238,14 +238,18 @@ const GenerateSctQuotation = ({
     };
 
     console.log(finalData);
+    setFormData({
+      ...formData,
+      sctLeadAssignedToName: "",
+      sctCompanyName: "",
+      sctLeadAddress: "",
+      quotationNo: "",
+      companyName: "",
+      companyaddress: "",
+      startquotationDate: "",
 
-    // AddClient(finalData);
-    // setFormData({
-    //   ...formData,
-
-    //   isSubmitted: true,
-    // });
-    // }
+      isSubmitted: true,
+    });
   };
 
   if (isSubmitted) {
