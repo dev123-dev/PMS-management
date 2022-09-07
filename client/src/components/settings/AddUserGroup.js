@@ -7,7 +7,7 @@ import { addUserGroup } from "../../actions/user";
 const AddUserGroup = ({
   auth: { isAuthenticated, user, users, loading },
   addUserGroup,
-  onAddDistrictModalChange,
+  onAddModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -30,7 +30,7 @@ const AddUserGroup = ({
     };
     // console.log(finalData);
     addUserGroup(finalData);
-    onAddDistrictModalChange(true);
+    onAddModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",
