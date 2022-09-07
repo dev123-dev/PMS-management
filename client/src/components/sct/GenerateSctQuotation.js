@@ -152,6 +152,71 @@ const GenerateSctQuotation = ({
   const onDateChange = (e) => {
     setquotationDate(e.target.value);
   };
+
+  const onInputChange1 = (e) => {
+    setFormDatas({ ...addData, [e.target.name]: e.target.value });
+  };
+  //add staff start
+  const [addData, setFormDatas] = useState({
+    itemName: "",
+    GST: "",
+    rate: "",
+    qty: "",
+    amt: "",
+    CGST: "",
+    SGST: "",
+    discount: "",
+  });
+
+  const { itemName, GST, rate, qty, amt, CGST, SGST, discount } = addData;
+
+  const [AddedDetails, AddDetails] = useState([]);
+
+  const onAdd = (e) => {
+    const staffList = AddedDetails.filter(
+      (AddDetails) => AddDetails.itemName === itemName
+    );
+
+    e.preventDefault();
+    if (staffList.length === 0) {
+      // if (checkErrorscontact()) {
+      const addData = {
+        itemName: itemName,
+        GST: GST,
+        rate: rate,
+        qty: qty,
+        amt: amt,
+        SGST: SGST,
+        CGST: CGST,
+        discount: discount,
+      };
+      setFormDatas({
+        ...addData,
+        itemName: "",
+        GST: "",
+        rate: "",
+        qty: "",
+        amt: "",
+        CGST: "",
+        SGST: "",
+        discount: "",
+      });
+      // setstaffCountryCode("");
+      // getstaffcountryData("");
+      let temp = [];
+      temp.push(...AddedDetails, addData);
+      AddDetails(temp);
+      // }
+    }
+  };
+  const onRemoveChange = (itemName) => {
+    const removeList = AddedDetails.filter(
+      (AddDetails) => AddDetails.itemName !== itemName
+    );
+    AddDetails(removeList);
+  };
+  //add staff end
+
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
@@ -169,6 +234,7 @@ const GenerateSctQuotation = ({
       forName: sctCompanyName,
       forAddress: sctLeadAddress,
       clientEnteredById: user._id,
+      item: AddedDetails,
     };
 
     console.log(finalData);
@@ -181,6 +247,7 @@ const GenerateSctQuotation = ({
     // });
     // }
   };
+
   if (isSubmitted) {
     return <Redirect to="/all-clients" />;
   }
@@ -317,60 +384,60 @@ const GenerateSctQuotation = ({
                 <label>Item :</label>
                 <input
                   type="text"
-                  name="clientCompanyFounderName"
-                  // value={clientCompanyFounderName}
+                  name="itemName"
+                  value={itemName}
                   className="form-control"
-                  onChange={(e) => onInputChange(e)}
+                  onChange={(e) => onInputChange1(e)}
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label>GST :</label>
                 <input
                   type="text"
-                  name="clientCompanyFounderName"
-                  //  value={clientCompanyFounderName}
+                  name="GST"
+                  value={GST}
                   className="form-control"
-                  onChange={(e) => onInputChange(e)}
+                  onChange={(e) => onInputChange1(e)}
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label>Rate :</label>
                 <input
                   type="text"
-                  name="clientCompanyFounderName"
-                  //value={clientCompanyFounderName}
+                  name="rate"
+                  value={rate}
                   className="form-control"
-                  onChange={(e) => onInputChange(e)}
+                  onChange={(e) => onInputChange1(e)}
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Qty :</label>
                 <input
                   type="text"
-                  name="clientCompanyFounderName"
-                  //value={clientCompanyFounderName}
+                  name="qty"
+                  value={qty}
                   className="form-control"
-                  onChange={(e) => onInputChange(e)}
+                  onChange={(e) => onInputChange1(e)}
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Amt :</label>
                 <input
                   type="text"
-                  name="clientCompanyFounderName"
-                  //  value={clientCompanyFounderName}
+                  name="amt"
+                  value={amt}
                   className="form-control"
-                  onChange={(e) => onInputChange(e)}
+                  onChange={(e) => onInputChange1(e)}
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label className="label-control">CGST :</label>
                 <input
                   type="text"
-                  name="clientCompanyFounderName"
-                  //value={clientCompanyFounderName}
+                  name="CGST"
+                  value={CGST}
                   className="form-control"
-                  onChange={(e) => onInputChange(e)}
+                  onChange={(e) => onInputChange1(e)}
                 />
               </div>
 
@@ -378,10 +445,10 @@ const GenerateSctQuotation = ({
                 <label className="label-control">SGST :</label>
                 <input
                   type="text"
-                  name="clientCompanyFounderName"
-                  //value={clientCompanyFounderName}
+                  name="SGST"
+                  value={SGST}
                   className="form-control"
-                  onChange={(e) => onInputChange(e)}
+                  onChange={(e) => onInputChange1(e)}
                 />
               </div>
 
@@ -389,18 +456,18 @@ const GenerateSctQuotation = ({
                 <label className="label-control">Discount :</label>
                 <input
                   type="text"
-                  name="clientCompanyFounderName"
-                  // value={clientCompanyFounderName}
+                  name="discount"
+                  value={discount}
                   className="form-control"
-                  onChange={(e) => onInputChange(e)}
+                  onChange={(e) => onInputChange1(e)}
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-4">
                 <label className="label-control"></label>
                 <button
                   variant="success"
-                  className="btn sub_form btn_continue Save "
-                  //   onClick={(e) => onAdd(e)}
+                  className="btn sub_form btn_continue Save float-right"
+                  onClick={(e) => onAdd(e)}
                 >
                   Add
                 </button>
@@ -418,28 +485,43 @@ const GenerateSctQuotation = ({
               >
                 <thead>
                   <tr>
-                    <th>Staff Name</th>
-                    <th>Region</th>
-                    <th>Phone Number</th>
-                    <th>Email Id</th>
-                    <th>Designation</th>
+                    <th>Item Name</th>
+                    <th>GST</th>
+                    <th>Rate</th>
+                    <th>Qty</th>
+                    <th>Amount</th>
+                    <th>CGST</th>
+                    <th>SGST</th>
+                    <th>Discount</th>
                     <th>Remove</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {AddedDetails &&
+                  {AddedDetails &&
                     AddedDetails.map((AddDetail, idx) => {
-                      return ( */}
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  {/* );
-                    })} */}
+                      return (
+                        <tr key={idx}>
+                          <td>{AddDetail.itemName}</td>
+                          <td>{AddDetail.GST}</td>
+                          <td>{AddDetail.rate}</td>
+                          <td>{AddDetail.qty}</td>
+                          <td>{AddDetail.amt}</td>
+                          <td>{AddDetail.CGST}</td>
+                          <td>{AddDetail.SGST}</td>
+                          <td>{AddDetail.discount}</td>
+
+                          <td>
+                            <img
+                              className="img_icon_size log"
+                              onClick={() => onRemoveChange(AddDetail.itemName)}
+                              src={require("../../static/images/close-buttonRed.png")}
+                              alt="Remove"
+                              title="Remove"
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
