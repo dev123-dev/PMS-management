@@ -385,7 +385,7 @@ const GenerateSctQuotation = ({
           <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-2">
             <div
               className="row card-new"
-              style={{ height: "340px", overflowY: "scroll" }}
+              // style={{ height: "340px", overflowY: "scroll" }}
             >
               <table
                 className="tabllll table table-bordered table-striped table-hover"
