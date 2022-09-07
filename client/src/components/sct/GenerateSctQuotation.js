@@ -22,7 +22,7 @@ const GenerateSctQuotation = ({
   getALLCompanyDetails,
 }) => {
   const data = useHistory().location.data;
-  console.log("useHistory", data);
+
   useEffect(() => {
     getALLPaymentMode();
   }, [getALLPaymentMode]);
@@ -53,12 +53,21 @@ const GenerateSctQuotation = ({
       data && data.sctdata && data.sctdata.sctLeadAssignedToName
         ? data.sctdata.sctLeadAssignedToName
         : "",
+    sctLeadAssignedToId:
+      data && data.sctdata && data.sctdata.sctLeadAssignedToId
+        ? data.sctdata.sctLeadAssignedToId
+        : "",
 
+    quotationNo: "",
+    quotationDate: "",
     isSubmitted: false,
   });
 
   const {
+    quotationNo,
+
     sctClientName,
+    sctLeadAssignedToId,
     sctCompanyName,
     sctLeadAssignedToName,
     sctLeadAddress,
@@ -139,21 +148,38 @@ const GenerateSctQuotation = ({
 
     return true;
   };
+  const [startquotationDate, setquotationDate] = useState("");
+  const onDateChange = (e) => {
+    setquotationDate(e.target.value);
+  };
   const onSubmit = (e) => {
     e.preventDefault();
-    if (checkErrors()) {
-      // if (checkErrors()) {
-      const finalData = {
-        clientEnteredById: user._id,
-      };
+    // if (checkErrors()) {
+    const finalData = {
+      clientId: data && data.sctdata ? data && data.sctdata._id : "",
+      clientName: sctCompanyName,
+      quotationNo: quotationNo,
+      quotationDate: startquotationDate,
+      clientFromId: sctLeadAssignedToId,
+      clientFrom: sctLeadAssignedToName,
+      companyId: companyid,
+      companyName: companyname,
+      companyAddress: companyaddress,
+      forId: "",
+      forName: sctCompanyName,
+      forAddress: sctLeadAddress,
+      clientEnteredById: user._id,
+    };
 
-      AddClient(finalData);
-      setFormData({
-        ...formData,
+    console.log(finalData);
 
-        isSubmitted: true,
-      });
-    }
+    // AddClient(finalData);
+    // setFormData({
+    //   ...formData,
+
+    //   isSubmitted: true,
+    // });
+    // }
   };
   if (isSubmitted) {
     return <Redirect to="/all-clients" />;
@@ -190,8 +216,8 @@ const GenerateSctQuotation = ({
                 <label className="label-control">Quotation No:</label>
                 <input
                   type="text"
-                  // name="sctLeadAssignedToName"
-                  // value={sctLeadAssignedToName}
+                  name="quotationNo"
+                  value={quotationNo}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -202,9 +228,9 @@ const GenerateSctQuotation = ({
                   type="date"
                   placeholder="dd/mm/yyyy"
                   className="form-control cpp-input datevalidation"
-                  name="projectDate"
-                  // value={startprojectDate}
-                  //onChange={(e) => onDateChange(e)}
+                  name="quotationDate"
+                  value={startquotationDate}
+                  onChange={(e) => onDateChange(e)}
                   style={{
                     width: "100%",
                   }}
@@ -283,7 +309,6 @@ const GenerateSctQuotation = ({
             </div>
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
-            {/* <form onSubmit={(e) =>Add(e)}> */}
             <div className="row card-new ">
               <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                 <h5>Item Info</h5>
@@ -454,7 +479,6 @@ const GenerateSctQuotation = ({
               </Link>
             </div>
           </div>
-          {/* </section> */}
         </form>
       </div>
     </Fragment>
