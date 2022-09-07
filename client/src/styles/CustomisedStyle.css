@@ -2140,3 +2140,10 @@ button:focus,button:active {
   /* width: 150px !important; */
 }
 /*end*/
+
+.dropdownofengagedclient:hover,
+.dropdownofengagedclient:focus{
+  color: #000 !important;
+  /* font-weight: bold; */
+  background-color: #456792 !important;
+}

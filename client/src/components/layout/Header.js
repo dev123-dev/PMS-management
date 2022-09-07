@@ -191,12 +191,44 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     >
                       <Dropdown.Item>All Followup</Dropdown.Item>
                     </NavLink>
+                    {/* <NavLink
+                      to="/all-engaged-clients"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>All Engaged Clients</Dropdown.Item>
+                    </NavLink> */}
+
+                    <Dropdown.Menu title="All Engaged Clients">
+                      <NavLink
+                        to="/all-engaged-clients"
+                        activeStyle={{
+                          color: "#ffd037",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <Dropdown.Item>Quotation & PO</Dropdown.Item>
+                      </NavLink>
+
+                      <NavLink
+                        to="/all-engaged-clients"
+                        activeStyle={{
+                          color: "#ffd037",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <Dropdown.Item>Invoice</Dropdown.Item>
+                      </NavLink>
+                      {/* <Dropdown.Item eventKey="e-1">Item E-1</Dropdown.Item>
+                      <Dropdown.Item eventKey="e-2">Active Item</Dropdown.Item> */}
+                    </Dropdown.Menu>
+
                     <NavLink
                       to="/all-sct-projects"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       <Dropdown.Item>All Projects</Dropdown.Item>
                     </NavLink>
+
                     <NavLink
                       to="/all-demo"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}

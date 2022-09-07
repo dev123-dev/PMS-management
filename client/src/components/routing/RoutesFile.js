@@ -77,6 +77,8 @@ import AllSctFollowup from "../sct/AllSctFollowup";
 import AllSctProjects from "../sct/AllSctProjects";
 import AllDemos from "../sct/AllDemos";
 import SctCallsHistory from "../sct/SctCallsHistory";
+import AllEngagedClient from "../sct/AllEngagedClient";
+import GenerateSctQuotation from "../sct/GenerateSctQuotation";
 const RoutesFile = () => {
   return (
     <section>
@@ -126,6 +128,16 @@ const RoutesFile = () => {
           component={AllSctProjects}
         />
         <PrivateRoute exact path="/sct-calls" component={SctCallsHistory} />
+        <PrivateRoute
+          exact
+          path="/all-engaged-clients"
+          component={AllEngagedClient}
+        />
+        <PrivateRoute
+          exact
+          path="/generate-quotation"
+          component={GenerateSctQuotation}
+        />
         <PrivateRoute exact path="/all-demo" component={AllDemos} />
 
         <PrivateRoute exact path="/add-lead" component={AddLead} />
