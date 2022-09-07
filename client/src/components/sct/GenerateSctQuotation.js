@@ -153,11 +153,25 @@ const GenerateSctQuotation = ({
     amt: "",
     CGST: "",
     SGST: "",
+    IGST: "",
+    totalAmt: "",
     discount: "",
     desc: "",
   });
 
-  const { itemName, GST, rate, qty, amt, CGST, SGST, discount, desc } = addData;
+  const {
+    itemName,
+    GST,
+    rate,
+    qty,
+    amt,
+    CGST,
+    SGST,
+    IGST,
+    totalAmt,
+    discount,
+    desc,
+  } = addData;
 
   const [AddedDetails, AddDetails] = useState([]);
 
@@ -177,6 +191,8 @@ const GenerateSctQuotation = ({
         amt: amt,
         SGST: SGST,
         CGST: CGST,
+        IGST: IGST,
+        totalAmt: totalAmt,
         discount: discount,
         desc: desc,
       };
@@ -189,6 +205,8 @@ const GenerateSctQuotation = ({
         amt: "",
         CGST: "",
         SGST: "",
+        IGST: "",
+        totalAmt: "",
         discount: "",
         desc: "",
       });
@@ -449,11 +467,21 @@ const GenerateSctQuotation = ({
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+                <label>IGST :</label>
+                <input
+                  type="text"
+                  name="IGST"
+                  value={IGST}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
                 <label>Total Amount :</label>
                 <input
                   type="text"
-                  name="SGST"
-                  value={SGST}
+                  name="totalAmt"
+                  value={totalAmt}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
                   disabled
@@ -513,6 +541,8 @@ const GenerateSctQuotation = ({
                     <th>Amount</th>
                     <th>CGST</th>
                     <th>SGST</th>
+                    <th>IGST</th>
+                    <th>Total Amt</th>
                     <th>Discount</th>
                     <th>Discription</th>
                     <th>Remove</th>
@@ -530,6 +560,8 @@ const GenerateSctQuotation = ({
                           <td>{AddDetail.amt}</td>
                           <td>{AddDetail.CGST}</td>
                           <td>{AddDetail.SGST}</td>
+                          <td>{AddDetail.IGST}</td>
+                          <td>{AddDetail.totalAmt}</td>
                           <td>{AddDetail.discount}</td>
                           <td>{AddDetail.desc}</td>
 
