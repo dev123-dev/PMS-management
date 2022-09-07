@@ -4,18 +4,22 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import { Link, useHistory } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { getALLPaymentMode } from "../../actions/settings";
+import {
+  getALLPaymentMode,
+  getALLCompanyDetails,
+} from "../../actions/settings";
 import { getActiveClients, AddClient } from "../../actions/client";
 import { Redirect } from "react-router-dom";
 
 const GenerateSctQuotation = ({
   auth: { isAuthenticated, user, users, loading },
-  settings: { paymentMode },
+  settings: { paymentMode, allCompanyDetails },
   client: { activeClient },
   getALLPaymentMode,
   getActiveClients,
   onAddDistrictModalChange,
   AddClient,
+  getALLCompanyDetails,
 }) => {
   const data = useHistory().location.data;
   console.log("useHistory", data);
@@ -25,7 +29,11 @@ const GenerateSctQuotation = ({
   useEffect(() => {
     getActiveClients();
   }, [getActiveClients]);
+  useEffect(() => {
+    getALLCompanyDetails();
+  }, [getALLCompanyDetails]);
 
+  console.log(allCompanyDetails);
   //formData
   const [formData, setFormData] = useState({
     sctClientName:
@@ -541,4 +549,5 @@ export default connect(mapStateToProps, {
   getALLPaymentMode,
   getActiveClients,
   AddClient,
+  getALLCompanyDetails,
 })(GenerateSctQuotation);

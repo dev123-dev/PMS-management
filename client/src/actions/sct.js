@@ -21,6 +21,9 @@ import {
   DEMO_STATES,
   DEMO_LEADS,
   DEMO_CHECK,
+  SCT_CLIENTS,
+  SCT_CLIENTS_DD,
+  SCT_CLIENTS_EMP,
 } from "./types";
 
 const config = {
@@ -239,6 +242,41 @@ export const getAllSctLeadDD = (finalData) => async (dispatch) => {
   }
 };
 
+//CLIENT
+export const getSctClientDetails = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/dct/get-sct-clients", finalData, config);
+    dispatch({
+      type: SCT_CLIENTS,
+      payload: res.data.result1,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getSctClientDetailsDD = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/dct/get-sct-clients", finalData, config);
+    dispatch({
+      type: SCT_CLIENTS_DD,
+      payload: res.data.result1,
+    });
+    if (finalData === undefined || (finalData && finalData.emp !== true)) {
+      dispatch({
+        type: SCT_CLIENTS_EMP,
+        payload: res.data.result2,
+      });
+    }
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+//**************
 export const getSctLastmessage = (searchData) => async (dispatch) => {
   try {
     dispatch({
