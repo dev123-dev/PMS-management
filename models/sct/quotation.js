@@ -61,6 +61,9 @@ const QuotationsSchema = new mongoose.Schema({
       discount: {
         type: Number,
       },
+      desc: {
+        type: String,
+      },
       itemEnteredById: {
         type: ObjectId,
       },
