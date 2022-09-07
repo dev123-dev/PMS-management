@@ -10,8 +10,7 @@ import {
   getSctLeadDetailsDD,
   getSctLastmessage,
 } from "../../actions/sct";
-import EditSctLead from "./EditSctLead";
-import DeactiveSctLead from "./DeactiveSctLead";
+import FileBase64 from "react-file-base64";
 import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
@@ -55,6 +54,12 @@ const AllEngagedClient = ({
         ...formData,
         projectStatusData: e,
       });
+    }
+
+    if (e.value === "POReceived") {
+      setShowEditModal(true);
+    } else {
+      setShowEditModal(false);
     }
   };
 
@@ -435,15 +440,15 @@ const AllEngagedClient = ({
         show={showEditModal}
         backdrop="static"
         keyboard={false}
-        size="xl"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header>
-          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
-            <h3 className="modal-title text-center">Edit Lead Details</h3>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Upload Received PO</h3>
           </div>
-          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+          <div className="col-lg-1">
             <button onClick={handleEditModalClose} className="close">
               <img
                 src={require("../../static/images/close.png")}
@@ -454,42 +459,37 @@ const AllEngagedClient = ({
           </div>
         </Modal.Header>
         <Modal.Body>
-          <EditSctLead
-            onEditModalChange={onEditModalChange}
-            alleditLeaddata={userDatas}
-            filterData={filterData}
-          />
-        </Modal.Body>
-      </Modal>
+          {/* <form className="row" onSubmit={(e) => onSubmitVeriy(e, "Taken")}> */}
+          <div className="row col-lg-12 col-md-12 col-sm-12 col-12 py-3">
+            <label className="label-control">Upload here:</label>
 
-      <Modal
-        show={showDeactiveModal}
-        backdrop="static"
-        keyboard={false}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header>
-          <div className="col-lg-10">
-            <h3 className="modal-title text-center">Deactivate Lead</h3>
-          </div>
-          <div className="col-lg-1">
-            <button onClick={handleDeactiveModalClose} className="close">
-              <img
-                src={require("../../static/images/close.png")}
-                alt="X"
-                style={{ height: "20px", width: "20px" }}
+            <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
+              <FileBase64
+                type="file"
+                multiple={false}
+                onDone={({ base64 }) =>
+                  setFormData({
+                    ...formData,
+                    institutionLogo: base64,
+                  })
+                }
               />
-            </button>
+            </div>
           </div>
-        </Modal.Header>
-        <Modal.Body>
-          <DeactiveSctLead
-            onDeactiveModalChange={onDeactiveModalChange}
-            Leaddeavtivedata={userDatadeactive}
-            // filterData={filterData}
-          />
+          <div
+            className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
+            size="lg"
+          >
+            <div className="col-lg-12 col-md-6 col-sm-12 col-12">
+              <input
+                type="submit"
+                name="Submit"
+                value="Upload"
+                className="btn sub_form btn_continue blackbrd Save float-right"
+              />
+            </div>
+          </div>
+          {/* </form> */}
         </Modal.Body>
       </Modal>
     </Fragment>
