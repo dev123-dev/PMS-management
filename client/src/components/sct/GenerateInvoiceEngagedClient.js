@@ -364,7 +364,7 @@ const GenerateInvoiceEngagedClient = ({
                                     },
                                   }}
                                 >
-                                  Generate Quotation
+                                  Generate Invoice
                                 </Link>
                               </td>
                             </tr>
