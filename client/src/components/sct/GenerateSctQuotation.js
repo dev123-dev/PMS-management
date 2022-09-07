@@ -389,7 +389,7 @@ const GenerateSctQuotation = ({
                 />
               </div>
 
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
                 <label className="label-control">SGST :</label>
                 <input
                   type="text"
@@ -399,7 +399,18 @@ const GenerateSctQuotation = ({
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-4">
+
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+                <label className="label-control">Discount :</label>
+                <input
+                  type="text"
+                  name="clientCompanyFounderName"
+                  value={clientCompanyFounderName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label className="label-control"></label>
                 <button
                   variant="success"
