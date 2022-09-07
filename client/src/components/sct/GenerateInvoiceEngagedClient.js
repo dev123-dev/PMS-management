@@ -18,7 +18,7 @@ import AllSctStatusChange from "./AllSctStatusChange";
 
 import { getActiveCountry } from "../../actions/regions";
 
-const AllEngagedClient = ({
+const GenerateInvoiceEngagedClient = ({
   auth: { isAuthenticated, user, users },
   sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp },
   regions: { activeCountry },
@@ -38,10 +38,9 @@ const AllEngagedClient = ({
   }, []);
 
   const priorityCategory = [
-    { value: "Quotation", label: "Quotation" },
-    { value: "RevisedQuotation", label: "Revised Quotation" },
-    { value: "SendPO", label: "Send PO" },
-    { value: "POReceived", label: "PO Received" },
+    { value: "GenerateInvoice", label: "Generate Invoice" },
+    { value: "RevisedInvoice", label: "Revised Invoice" },
+    { value: "PaymentReceived", label: "PaymentReceived" },
   ];
   const [formData, setFormData] = useState({
     projectStatusData: priorityCategory[0],
@@ -222,7 +221,7 @@ const AllEngagedClient = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-3 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Engaged Clients Quotation & PO</h5>
+              <h5 className="heading_color">Engaged Clients Invoices</h5>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -496,7 +495,7 @@ const AllEngagedClient = ({
   );
 };
 
-AllEngagedClient.propTypes = {
+GenerateInvoiceEngagedClient.propTypes = {
   auth: PropTypes.object.isRequired,
   sct: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
@@ -513,4 +512,4 @@ export default connect(mapStateToProps, {
   getSctLeadDetailsDD,
   getActiveCountry,
   getSctLastmessage,
-})(AllEngagedClient);
+})(GenerateInvoiceEngagedClient);
