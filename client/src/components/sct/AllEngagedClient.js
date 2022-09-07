@@ -42,7 +42,6 @@ const AllEngagedClient = ({
     { value: "RevisedQuotation", label: "Revised Quotation" },
     { value: "SendPO", label: "Send PO" },
     { value: "POReceived", label: "PO Received" },
-    { value: "GenerateInvoice", label: "Generate Invoice" },
   ];
   const [formData, setFormData] = useState({
     projectStatusData: priorityCategory[0],
