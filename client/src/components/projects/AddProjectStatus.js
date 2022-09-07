@@ -14,7 +14,7 @@ const StatusCategory = [
 const AddProjectStatus = ({
   auth: { isAuthenticated, user, users, loading },
   addProjectStatus,
-  onAddDistrictModalChange,
+  onAddModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -57,7 +57,7 @@ const AddProjectStatus = ({
         projectStutusEnteredById: user._id,
       };
       addProjectStatus(finalData);
-      onAddDistrictModalChange(true);
+      onAddModalChange(true);
       // setFormData({
       //   ...formData,
       //   districtName: "",

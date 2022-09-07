@@ -17,14 +17,14 @@ const AllClientDetails = ({
     getAllClients();
   }, [getAllClients]);
 
-  const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
-  const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const handleAddModalClose = () => setShowAddModal(false);
   const onClickHandler = () => {
-    setShowAddDistrictModal(true);
+    setShowAddModal(true);
   };
-  const onAddDistrictModalChange = (e) => {
+  const onAddModalChange = (e) => {
     if (e) {
-      handleAddDistrictModalClose();
+      handleAddModalClose();
     }
   };
 
@@ -152,7 +152,7 @@ const AllClientDetails = ({
           </div>
         </section>
         <Modal
-          show={showAllDistrictModal}
+          show={showAddModal}
           backdrop="static"
           keyboard={false}
           size="xl"
@@ -166,7 +166,7 @@ const AllClientDetails = ({
               </h3>
             </div>
             <div className="col-lg-1">
-              <button onClick={handleAddDistrictModalClose} className="close">
+              <button onClick={handleAddModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
                   alt="X"
@@ -177,7 +177,7 @@ const AllClientDetails = ({
           </Modal.Header>
           <Modal.Body>
             {/* <AddDepartment
-              onAddDistrictModalChange={onAddDistrictModalChange}
+              onAddModalChange={onAddModalChange}
             /> */}
           </Modal.Body>
         </Modal>

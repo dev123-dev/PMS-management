@@ -16,15 +16,15 @@ const AllSctCountry = ({
     getAllCountries({ countryBelongsTo: "SCT" });
   }, [getAllCountries]);
 
-  const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
-  const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const handleAddModalClose = () => setShowAddModal(false);
   const onClickHandler = () => {
-    setShowAddDistrictModal(true);
+    setShowAddModal(true);
   };
 
-  const onAddDistrictModalChange = (e) => {
+  const onAddModalChange = (e) => {
     if (e) {
-      handleAddDistrictModalClose();
+      handleAddModalClose();
     }
   };
 
@@ -129,7 +129,7 @@ const AllSctCountry = ({
         {/* </section> */}
       </div>
       <Modal
-        show={showAllDistrictModal}
+        show={showAddModal}
         backdrop="static"
         keyboard={false}
         size="lg"
@@ -141,7 +141,7 @@ const AllSctCountry = ({
             <h3 className="modal-title text-center">Add Country Details</h3>
           </div>
           <div className="col-lg-2">
-            <button onClick={handleAddDistrictModalClose} className="close">
+            <button onClick={handleAddModalClose} className="close">
               <img
                 src={require("../../static/images/close.png")}
                 alt="X"
@@ -151,7 +151,7 @@ const AllSctCountry = ({
           </div>
         </Modal.Header>
         <Modal.Body>
-          <AddSctCountry onAddDistrictModalChange={onAddDistrictModalChange} />
+          <AddSctCountry onAddModalChange={onAddModalChange} />
         </Modal.Body>
       </Modal>
 

@@ -17,14 +17,14 @@ const AllDesignation = ({
     getALLDesignation();
   }, [getALLDesignation]);
 
-  const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
-  const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const handleAddModalClose = () => setShowAddModal(false);
   const onClickHandler = () => {
-    setShowAddDistrictModal(true);
+    setShowAddModal(true);
   };
-  const onAddDistrictModalChange = (e) => {
+  const onAddModalChange = (e) => {
     if (e) {
-      handleAddDistrictModalClose();
+      handleAddModalClose();
     }
   };
 
@@ -145,7 +145,7 @@ const AllDesignation = ({
           </div>
         </section>
         <Modal
-          show={showAllDistrictModal}
+          show={showAddModal}
           backdrop="static"
           keyboard={false}
           size="md"
@@ -159,7 +159,7 @@ const AllDesignation = ({
               </h3>
             </div>
             <div className="col-lg-1">
-              <button onClick={handleAddDistrictModalClose} className="close">
+              <button onClick={handleAddModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
                   alt="X"
@@ -169,9 +169,7 @@ const AllDesignation = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <AddDesignation
-              onAddDistrictModalChange={onAddDistrictModalChange}
-            />
+            <AddDesignation onAddModalChange={onAddModalChange} />
           </Modal.Body>
         </Modal>
 

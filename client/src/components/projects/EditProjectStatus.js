@@ -8,7 +8,7 @@ import { editProjectStatus } from "../../actions/projects";
 const EditProjectStatus = ({
   auth: { isAuthenticated, user, users, loading },
   allProjectStatusdata,
-  onAddDistrictModalChange,
+  onAddModalChange,
   onEditModalChange,
   editProjectStatus,
 }) => {

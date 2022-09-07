@@ -6,7 +6,7 @@ import Spinner from "../layout/Spinner";
 
 const AddCompany = ({
   auth: { isAuthenticated, user, users, loading },
-  onAddDistrictModalChange,
+  onAddModalChange,
   AddCompanyDetails,
 }) => {
   //formData
@@ -63,7 +63,7 @@ const AddCompany = ({
     };
 
     AddCompanyDetails(finalData);
-    onAddDistrictModalChange(true);
+    onAddModalChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (

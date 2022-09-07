@@ -8,7 +8,7 @@ import Spinner from "../layout/Spinner";
 
 const AddDesignation = ({
   auth: { isAuthenticated, user, users, loading },
-  onAddDistrictModalChange,
+  onAddModalChange,
   AddNewDesignation,
 }) => {
   //formData
@@ -33,7 +33,7 @@ const AddDesignation = ({
       designationEnteredById: user._id,
     };
     AddNewDesignation(finalData);
-    onAddDistrictModalChange(true);
+    onAddModalChange(true);
 
     // setFormData({
     //   ...formData,

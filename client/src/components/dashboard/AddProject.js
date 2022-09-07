@@ -25,7 +25,7 @@ const AddProject = ({
   project: { allProjectStatus },
   getActiveClientsFilter,
   getAllProjectStatus,
-  onAddDistrictModalChange,
+  onAddModalChange,
   addProject,
 }) => {
   useEffect(() => {

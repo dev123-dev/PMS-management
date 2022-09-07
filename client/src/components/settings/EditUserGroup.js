@@ -9,7 +9,7 @@ const EditUserGroup = ({
   userGroupsdata,
   editUserGroup,
   onEditModalChange,
-  onAddDistrictModalChange,
+  onAddModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -36,7 +36,7 @@ const EditUserGroup = ({
     };
     editUserGroup(finalData);
     onEditModalChange(true);
-    // onAddDistrictModalChange(true);
+    // onAddModalChange(true);
     // setFormData({
     //   ...formData,
     //   districtName: "",

@@ -7,7 +7,7 @@ import Spinner from "../layout/Spinner";
 const AddCountryDetails = ({
   auth: { isAuthenticated, user, users, loading },
   addCountryDetails,
-  onAddDistrictModalChange,
+  onAddModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -32,7 +32,7 @@ const AddCountryDetails = ({
     };
 
     addCountryDetails(finalData);
-    onAddDistrictModalChange(true);
+    onAddModalChange(true);
     setFormData({
       ...formData,
       countryName: "",

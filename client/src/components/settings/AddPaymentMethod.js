@@ -6,7 +6,7 @@ import { AddPaymentMode } from "../../actions/settings";
 const AddPaymentMethod = ({
   auth: { isAuthenticated, user, users, loading },
   AddPaymentMode,
-  onAddDistrictModalChange,
+  onAddModalChange,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -34,7 +34,7 @@ const AddPaymentMethod = ({
     //   paymentMode: "",
     //   isSubmitted: true,
     // });
-    onAddDistrictModalChange(true);
+    onAddModalChange(true);
     // }
   };
 

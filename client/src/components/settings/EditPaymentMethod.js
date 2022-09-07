@@ -8,7 +8,7 @@ const EditPaymentMethod = ({
   auth: { isAuthenticated, user, users, loading },
   paymentModeData,
   onEditModalChange,
-  onAddDistrictModalChange,
+  onAddModalChange,
   EditPaymentMode,
 }) => {
   //formData

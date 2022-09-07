@@ -6,7 +6,7 @@ import Spinner from "../layout/Spinner";
 
 const AddDepartment = ({
   auth: { isAuthenticated, user, users, loading },
-  onAddDistrictModalChange,
+  onAddModalChange,
   AddNewDepartment,
 }) => {
   //formData
@@ -31,7 +31,7 @@ const AddDepartment = ({
       departmentEnteredById: user._id,
     };
     AddNewDepartment(finalData);
-    onAddDistrictModalChange(true);
+    onAddModalChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (

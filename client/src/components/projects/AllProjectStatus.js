@@ -17,14 +17,14 @@ const AllProjectStatus = ({
     getAllProjectStatus();
   }, [getAllProjectStatus]);
 
-  const [showAllDistrictModal, setShowAddDistrictModal] = useState(false);
-  const handleAddDistrictModalClose = () => setShowAddDistrictModal(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const handleAddModalClose = () => setShowAddModal(false);
   const onClickHandler = () => {
-    setShowAddDistrictModal(true);
+    setShowAddModal(true);
   };
-  const onAddDistrictModalChange = (e) => {
+  const onAddModalChange = (e) => {
     if (e) {
-      handleAddDistrictModalClose();
+      handleAddModalClose();
     }
   };
 
@@ -148,7 +148,7 @@ const AllProjectStatus = ({
           </div>
         </section>
         <Modal
-          show={showAllDistrictModal}
+          show={showAddModal}
           backdrop="static"
           keyboard={false}
           size="md"
@@ -160,7 +160,7 @@ const AllProjectStatus = ({
               <h3 className="modal-title text-center">Add Project Status</h3>
             </div>
             <div className="col-lg-1">
-              <button onClick={handleAddDistrictModalClose} className="close">
+              <button onClick={handleAddModalClose} className="close">
                 <img
                   src={require("../../static/images/close.png")}
                   alt="X"
@@ -170,9 +170,7 @@ const AllProjectStatus = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <AddProjectStatus
-              onAddDistrictModalChange={onAddDistrictModalChange}
-            />
+            <AddProjectStatus onAddModalChange={onAddModalChange} />
           </Modal.Body>
         </Modal>
 

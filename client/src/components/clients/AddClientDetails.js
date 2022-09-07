@@ -18,7 +18,7 @@ const AddClientDetails = ({
   client: { activeClient },
   getALLPaymentMode,
   getActiveClients,
-  onAddDistrictModalChange,
+  onAddModalChange,
   AddClient,
 }) => {
   useEffect(() => {
