@@ -28,7 +28,21 @@ const GenerateSctQuotation = ({
 
   //formData
   const [formData, setFormData] = useState({
-    clientName: "",
+    sctClientName:
+      data && data.sctdata && data.sctdata.sctClientName
+        ? data.sctdata.sctClientName
+        : "",
+
+    sctLeadAddress:
+      data && data.sctdata && data.sctdata.sctLeadAddress
+        ? data.sctdata.sctLeadAddress
+        : "",
+
+    sctCompanyName:
+      data && data.sctdata && data.sctdata.sctCompanyName
+        ? data.sctdata.sctCompanyName
+        : "",
+
     clientEmail: "",
     clientBillingEmail: "",
     clientContactNo1: "",
@@ -47,6 +61,9 @@ const GenerateSctQuotation = ({
   });
 
   const {
+    sctClientName,
+    sctCompanyName,
+    sctLeadAddress,
     clientName,
     clientEmail,
     clientBillingEmail,
@@ -211,6 +228,10 @@ const GenerateSctQuotation = ({
   if (isSubmitted) {
     return <Redirect to="/all-clients" />;
   }
+
+  if (!data) {
+    return <Redirect to="/all-engaged-clients" />;
+  }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -288,8 +309,8 @@ const GenerateSctQuotation = ({
                   <label className="label-control">For :</label>
                   <input
                     type="text"
-                    name="clientEmail"
-                    value={clientEmail}
+                    name="sctCompanyName"
+                    value={sctCompanyName}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
                   />
@@ -309,13 +330,13 @@ const GenerateSctQuotation = ({
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12  py-2">
                   <textarea
-                    name="clientAddress"
-                    id="clientAddress"
+                    name="sctLeadAddress"
+                    id="sctLeadAddress"
                     className="textarea form-control"
                     rows="4"
                     placeholder="To Address"
                     style={{ width: "100%" }}
-                    value={clientAddress}
+                    value={sctLeadAddress}
                     onChange={(e) => onInputChange(e)}
                   ></textarea>
                 </div>
@@ -410,7 +431,7 @@ const GenerateSctQuotation = ({
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-4">
                 <label className="label-control"></label>
                 <button
                   variant="success"
