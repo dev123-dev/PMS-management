@@ -238,6 +238,7 @@ const GenerateSctQuotation = ({
     AddDetails(removeList);
   };
   //add staff end
+  const [finalDataVal, setFinalDataVal] = useState([]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -258,7 +259,7 @@ const GenerateSctQuotation = ({
       item: AddedDetails,
     };
     saveQuatation(finalData);
-    console.log(finalData);
+    setFinalDataVal(finalData);
     setFormData({
       ...formData,
       sctClientAssignedToName: "",
@@ -268,14 +269,13 @@ const GenerateSctQuotation = ({
       companyName: "",
       companyaddress: "",
       startquotationDate: "",
-
       isSubmitted: true,
     });
   };
 
-  if (isSubmitted) {
-    return <Redirect to="/all-clients" />;
-  }
+  // if (isSubmitted) {
+  //   return <Redirect to="/all-clients" />;
+  // }
 
   if (!data) {
     return <Redirect to="/all-engaged-clients" />;
@@ -349,7 +349,7 @@ const GenerateSctQuotation = ({
                     options={allcompanydata}
                     isSearchable={true}
                     value={company}
-                    placeholder="Select Mode"
+                    placeholder="Select Company"
                     onChange={(e) => onCompanyChange(e)}
                     theme={(theme) => ({
                       ...theme,
@@ -616,24 +616,28 @@ const GenerateSctQuotation = ({
                 </button>
               ) : (
                 <>
-                  <input
-                    type="submit"
-                    name="Submit"
-                    value="Submit"
-                    className="btn sub_form btn_continue blackbrd Save float-right"
-                  />
-
-                  <Link
-                    className="btn btn_green_bg float-right"
-                    to={{
-                      pathname: "/print-pdf",
-                      data: {
-                        data,
-                      },
-                    }}
-                  >
-                    Edit
-                  </Link>
+                  {isSubmitted ? (
+                    <Link
+                      className="btn sub_form btn_continue blackbrd  Save float-right"
+                      style={{ backgroundColor: "#456792", color: "white" }}
+                      to={{
+                        pathname: "/print-pdf",
+                        data: {
+                          data,
+                          finalDataVal,
+                        },
+                      }}
+                    >
+                      Print
+                    </Link>
+                  ) : (
+                    <input
+                      type="submit"
+                      name="Submit"
+                      value="Submit"
+                      className="btn sub_form btn_continue blackbrd Save float-right"
+                    />
+                  )}
                 </>
               )}
               <Link
