@@ -17,6 +17,7 @@ const SctQuotationpdfprint = ({
 }) => {
   const data = useHistory().location.data;
   console.log(data);
+  console.log(data.finalDataVal);
   //formData
 
   const [formData, setFormData] = useState({
@@ -30,10 +31,27 @@ const SctQuotationpdfprint = ({
         ? data.data.sctdata.sctClientAddress
         : "",
 
-    sctCompanyName:
-      data && data.sctdata && data.sctdata.sctCompanyName
-        ? data.sctdata.sctCompanyName
+    companyAddress:
+      data.finalDataVal && data.finalDataVal && data.finalDataVal.companyAddress
+        ? data.finalDataVal.companyAddress
         : "",
+    companyName:
+      data.finalDataVal && data.finalDataVal && data.finalDataVal.companyName
+        ? data.finalDataVal.companyName
+        : "",
+    forName:
+      data.finalDataVal && data.finalDataVal && data.finalDataVal.forName
+        ? data.finalDataVal.forName
+        : "",
+    forAddress:
+      data.finalDataVal && data.finalDataVal && data.finalDataVal.forAddress
+        ? data.finalDataVal.forAddress
+        : "",
+    quotationNo:
+      data.finalDataVal && data.finalDataVal && data.finalDataVal.quotationNo
+        ? data.finalDataVal.quotationNo
+        : "",
+
     sctClientAssignedToName:
       data && data.sctdata && data.sctdata.sctClientAssignedToName
         ? data.sctdata.sctClientAssignedToName
@@ -43,20 +61,22 @@ const SctQuotationpdfprint = ({
         ? data.sctdata.sctClientAssignedToId
         : "",
 
-    quotationNo: "",
     quotationDate: "",
     isSubmitted: false,
   });
 
   const {
     quotationNo,
-
+    companyName,
+    quotationDate,
+    forName,
+    forAddress,
     sctClientName,
     sctClientAssignedToId,
-    sctCompanyName,
+    clientName,
     sctClientAssignedToName,
     sctClientAddress,
-
+    companyAddress,
     isSubmitted,
   } = formData;
   const [startquotationDate, setquotationDate] = useState(
@@ -88,6 +108,7 @@ const SctQuotationpdfprint = ({
     table: {
       width: "100%",
     },
+
     row: {
       // display: "flex",
       flexDirection: "row",
@@ -141,7 +162,7 @@ const SctQuotationpdfprint = ({
             <Text>Quotation</Text>
           </View>
           <View>
-            <Text>Quotation No #:</Text>
+            <Text>Quotation No #:{quotationNo}</Text>
             <Text>Quotation Date:{startquotationDate}</Text>
           </View>
 
@@ -150,14 +171,16 @@ const SctQuotationpdfprint = ({
               <Text
                 style={{
                   border: "1 px solid black",
+                  width: "600px",
                 }}
               >
-                From:{sctCompanyName} &nbsp;
-                {sctClientAddress}
+                From: &nbsp;
+                {companyName}
+                {companyAddress}
               </Text>
-              <Text style={{ border: "1 px solid black" }}>
-                To:{sctCompanyName} &nbsp;
-                {sctClientAddress}
+              <Text style={{ border: "1 px solid black", width: "600px" }}>
+                To:{forName} &nbsp;
+                {forAddress}
               </Text>
             </View>
           </View>
@@ -174,10 +197,9 @@ const SctQuotationpdfprint = ({
               <Text style={styles.row8}>Total</Text>
             </View>
           </View>
-
+          <View style={styles.space}></View>
           <View>
             <Text>Terms and Condition: </Text>
-
             <Text> 1. Applicable taxes will be extra.</Text>
             <Text> 2. Work will resume after full payment.</Text>
           </View>
