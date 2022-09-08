@@ -239,7 +239,7 @@ const SctQuotationpdfprint = ({
             ))}
           </View>
 
-          <View>
+          <View style={styles.section}>
             <Text>Terms and Condition: </Text>
             <Text> 1. Applicable taxes will be extra.</Text>
             <Text> 2. Work will resume after full payment.</Text>
