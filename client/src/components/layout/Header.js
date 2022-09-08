@@ -222,12 +222,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       <Dropdown.Item eventKey="e-2">Active Item</Dropdown.Item> */}
                     </Dropdown.Menu>
 
-                    <NavLink
+                    {/* <NavLink
                       to="/all-regular-clients"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       <Dropdown.Item>All Regular Clients</Dropdown.Item>
-                    </NavLink>
+                    </NavLink> */}
 
                     <NavLink
                       to="/all-sct-projects"
