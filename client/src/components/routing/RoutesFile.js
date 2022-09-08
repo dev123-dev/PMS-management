@@ -81,6 +81,7 @@ import AllEngagedClient from "../sct/AllEngagedClient";
 import GenerateSctQuotation from "../sct/GenerateSctQuotation";
 import GenerateInvoiceEngagedClient from "../sct/GenerateInvoiceEngagedClient";
 import SctQuotationpdfprint from "../sct/SctQuotationpdfprint";
+import AllSctRegularClients from "../sct/AllSctRegularClients";
 const RoutesFile = () => {
   return (
     <section>
@@ -135,6 +136,12 @@ const RoutesFile = () => {
           path="/all-engaged-clients"
           component={AllEngagedClient}
         />
+        <PrivateRoute
+          exact
+          path="/all-regular-clients"
+          component={AllSctRegularClients}
+        />
+
         <PrivateRoute
           exact
           path="/all-invoice-engaged-client"

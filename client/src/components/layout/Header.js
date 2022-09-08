@@ -223,6 +223,13 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     </Dropdown.Menu>
 
                     <NavLink
+                      to="/all-regular-clients"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>All Regular Clients</Dropdown.Item>
+                    </NavLink>
+
+                    <NavLink
                       to="/all-sct-projects"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
