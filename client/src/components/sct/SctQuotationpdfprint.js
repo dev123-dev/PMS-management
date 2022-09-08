@@ -84,7 +84,7 @@ const SctQuotationpdfprint = ({
   );
   const styles = StyleSheet.create({
     section: {
-      margin: 10,
+      // margin: 10,
       padding: 10,
     },
     viewer: {
@@ -95,10 +95,7 @@ const SctQuotationpdfprint = ({
       backgroundColor: "transparent",
       color: "black",
     },
-    section: {
-      margin: 10,
-      padding: 10,
-    },
+
     viewer: {
       width: window.innerWidth, //the pdf viewer will take up all of the width and height
       height: window.innerHeight,
@@ -161,31 +158,61 @@ const SctQuotationpdfprint = ({
           <View style={styles.section}>
             <Text>Quotation</Text>
           </View>
-          <View>
+          <View style={styles.section}>
             <Text>Quotation No #:{quotationNo}</Text>
             <Text>Quotation Date:{startquotationDate}</Text>
           </View>
 
-          <View style={styles.table}>
-            <View style={[styles.row, styles.bold, styles.header]}>
+          <View style={(styles.table, styles.section)}>
+            <View style={[styles.row]}>
               <Text
                 style={{
-                  border: "1 px solid black",
+                  // border: "1 px solid black",
                   width: "600px",
+                  height: "100%",
                 }}
               >
-                From: &nbsp;
+                From: {"\n"}
                 {companyName}
+                {"\n"}
                 {companyAddress}
               </Text>
-              <Text style={{ border: "1 px solid black", width: "600px" }}>
-                To:{forName} &nbsp;
+              <Text
+                style={{
+                  // border: "1 px solid black",
+                  width: "600px",
+                  height: "100%",
+                }}
+              >
+                To:{"\n"}
+                {forName} {"\n"}
                 {forAddress}
               </Text>
             </View>
           </View>
 
-          <View style={styles.table}>
+          <View style={(styles.table, styles.section)}>
+            <View style={[styles.row]}>
+              <Text
+                style={{
+                  // border: "1 px solid black",
+                  width: "600px",
+                }}
+              >
+                Country of Supply:
+              </Text>
+              <Text
+                style={{
+                  // border: "1 px solid black",
+                  width: "600px",
+                }}
+              >
+                Place of Supply:
+              </Text>
+            </View>
+          </View>
+
+          <View style={(styles.table, styles.section)}>
             <View style={[styles.row, styles.bold, styles.header]}>
               <Text style={styles.row1}>Item</Text>
               <Text style={styles.row2}>GST </Text>
@@ -197,14 +224,14 @@ const SctQuotationpdfprint = ({
               <Text style={styles.row8}>Total</Text>
             </View>
           </View>
-          <View style={styles.space}></View>
+
           <View>
             <Text>Terms and Condition: </Text>
             <Text> 1. Applicable taxes will be extra.</Text>
             <Text> 2. Work will resume after full payment.</Text>
           </View>
 
-          <View>
+          <View style={{ paddingTop: "20px" }}>
             <Text>
               For any enquiry, reach out via email at joel@pinnaclemedia.in,
               call on +91 99162 13542{" "}
