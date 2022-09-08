@@ -5,6 +5,7 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import {
   addSctCalls,
+  addSctClientCalls,
   addDemo,
   checkDemo,
   addSctClientDetails,
@@ -27,6 +28,7 @@ const AllSctStatusChange = ({
   sct: { demoCheck },
   leadDataVal,
   addSctCalls,
+  addSctClientCalls,
   addDemo,
   ondivcloseChange,
   from,
@@ -297,8 +299,8 @@ const AllSctStatusChange = ({
       if (leadDataVal.sctLeadCategory === "NL") callCategoryVal = "P";
       else {
         if (from === "EngagedClient" || from === "RegularClient")
-          callCategoryVal = leadDataVal.dctClientCategory;
-        else callCategoryVal = leadDataVal.dctLeadCategory;
+          callCategoryVal = leadDataVal.sctClientCategory;
+        else callCategoryVal = leadDataVal.sctLeadCategory;
       }
     }
     e.preventDefault();
@@ -320,13 +322,20 @@ const AllSctStatusChange = ({
         sctCallEnteredDate: new Date().toLocaleString("en-GB"),
         filterData: filterData,
       };
-      addSctCalls(finalData);
+
+      if (from === "EngagedClient" || from === "RegularClient") {
+        addSctClientCalls(finalData);
+      } else {
+        addSctCalls(finalData);
+      }
+
       if (sctCallStatus.value === "Demo") {
         const demoData = {
           demoDate: demoDate,
           fromTime: fromTime,
           toTime: toTime,
           callDate: todayDateymd,
+          demoCategory: sctCallStatus.value,
           demoEnteredById: user._id,
           clientId: leadDataVal._id,
           clientName: leadDataVal.sctClientName,
@@ -586,4 +595,5 @@ export default connect(mapStateToProps, {
   addDemo,
   checkDemo,
   addSctClientDetails,
+  addSctClientCalls,
 })(AllSctStatusChange);

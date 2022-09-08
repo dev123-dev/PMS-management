@@ -50,16 +50,44 @@ router.post("/add-new-sct-staff", async (req, res) => {
             sctStaffPhoneNumber: data.sctStaffPhoneNumber,
             sctStaffEmailId: data.sctStaffEmailId,
             sctStaffDesignation: data.sctStaffDesignation,
-            sctstaffRegion: data.sctstaffRegion,
-            sctstaffRegionId: data.sctstaffRegionId,
-            sctstaffCountryCode: data.sctstaffCountryCode,
-            sctstaffStateId: data.sctstaffStateId,
-            sctstaffDistrictId: data.sctstaffDistrictId,
+            sctStaffRegion: data.sctStaffRegion,
+            sctStaffRegionId: data.sctStaffRegionId,
+            sctStaffCountryCode: data.sctStaffCountryCode,
+            sctStaffStateId: data.sctStaffStateId,
+            sctStaffDistrictId: data.sctStaffDistrictId,
           },
         },
       }
     );
     res.json(addNewSctLeads);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/add-new-sct-client-staff", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateSctClientStaff = await SctClients.updateOne(
+      { _id: data.recordId },
+      {
+        $push: {
+          sctStaffs: {
+            _id: new mongoose.Types.ObjectId(),
+            sctStaffName: data.sctStaffName,
+            sctStaffPhoneNumber: data.sctStaffPhoneNumber,
+            sctStaffEmailId: data.sctStaffEmailId,
+            sctStaffDesignation: data.sctStaffDesignation,
+            sctStaffRegion: data.sctStaffRegion,
+            sctStaffRegionId: data.sctStaffRegionId,
+            sctStaffCountryCode: data.sctStaffCountryCode,
+            sctStaffStateId: data.sctStaffStateId,
+            sctStaffDistrictId: data.sctStaffDistrictId,
+          },
+        },
+      }
+    );
+    res.json(updateSctClientStaff);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
@@ -124,15 +152,41 @@ router.post("/edit-sct-staff", async (req, res) => {
           "sctStaffs.$.sctStaffPhoneNumber": data.sctStaffPhoneNumber,
           "sctStaffs.$.sctStaffEmailId": data.sctStaffEmailId,
           "sctStaffs.$.sctStaffDesignation": data.sctStaffDesignation,
-          "sctStaffs.$.sctstaffRegion": data.sctstaffRegion,
-          "sctStaffs.$.sctstaffRegionId": data.sctstaffRegionId,
-          "sctStaffs.$.sctstaffCountryCode": data.sctstaffCountryCode,
-          "sctStaffs.$.sctstaffStateId": data.sctstaffStateId,
-          "sctStaffs.$.sctstaffDistrictId": data.sctstaffDistrictId,
+          "sctStaffs.$.sctStaffRegion": data.sctStaffRegion,
+          "sctStaffs.$.sctStaffRegionId": data.sctStaffRegionId,
+          "sctStaffs.$.sctStaffCountryCode": data.sctStaffCountryCode,
+          "sctStaffs.$.sctStaffStateId": data.sctStaffStateId,
+          "sctStaffs.$.sctStaffDistrictId": data.sctStaffDistrictId,
         },
       }
     );
     res.json(updateSctStaff);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/edit-sct-client-staff", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateSctClientStaff = await SctClients.updateOne(
+      { "sctStaffs._id": data.sctStaffId },
+      {
+        $set: {
+          "sctStaffs.$.sctStaffName": data.sctStaffName,
+          "sctStaffs.$.sctStaffPhoneNumber": data.sctStaffPhoneNumber,
+          "sctStaffs.$.sctStaffEmailId": data.sctStaffEmailId,
+          "sctStaffs.$.sctStaffDesignation": data.sctStaffDesignation,
+          "sctStaffs.$.sctStaffRegion": data.sctStaffRegion,
+          "sctStaffs.$.sctStaffRegionId": data.sctStaffRegionId,
+          "sctStaffs.$.sctStaffCountryCode": data.sctStaffCountryCode,
+          "sctStaffs.$.sctStaffStateId": data.sctStaffStateId,
+          "sctStaffs.$.sctStaffDistrictId": data.sctStaffDistrictId,
+        },
+      }
+    );
+    console.log(updateSctClientStaff);
+    res.json(updateSctClientStaff);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
@@ -163,7 +217,7 @@ router.post("/deactivate-sct-staff", async (req, res) => {
   try {
     let data = req.body;
     const deactivateSctStaffs = await SctLeads.updateOne(
-      { "sctStaffs._id": data.sctstaffId },
+      { "sctStaffs._id": data.sctStaffId },
       {
         $set: {
           "sctStaffs.$.sctStaffStatus": data.sctStaffStatus,
@@ -174,6 +228,65 @@ router.post("/deactivate-sct-staff", async (req, res) => {
       }
     );
     res.json(deactivateSctStaffs);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/deactivate-sct-client-staff", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactivateSctStaffs = await SctClients.updateOne(
+      { "sctStaffs._id": data.sctStaffId },
+      {
+        $set: {
+          "sctStaffs.$.sctStaffStatus": data.sctStaffStatus,
+          "sctStaffs.$.sctStaffDeactivateById": data.sctStaffDeactivateById,
+          "sctStaffs.$.sctStaffDeactiveByDateTime":
+            data.sctStaffDeactiveByDateTime,
+        },
+      }
+    );
+    res.json(deactivateSctStaffs);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/update-sct-leads-status", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateSctLeads = await SctLeads.updateOne(
+      { _id: data.sctCallToId },
+      {
+        $set: {
+          sctLeadCategory: data.sctCallCategory,
+          sctLeadCategoryStatus: data.sctCallStatus,
+          sctCallDate: data.sctCallDate,
+        },
+      }
+    );
+    res.json(updateSctLeads);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/update-sct-clients-status", async (req, res) => {
+  try {
+    let data = req.body;
+    console.log(data);
+    const updateSctClientsStatus = await SctClients.updateOne(
+      { _id: data.sctCallToId },
+      {
+        $set: {
+          sctClientCategory: data.sctCallCategory,
+          sctClientCategoryStatus: data.sctCallStatus,
+          sctCallDate: data.sctCallDate,
+        },
+      }
+    );
+    res.json(updateSctClientsStatus);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
@@ -457,7 +570,6 @@ router.post("/get-sct-last-message", async (req, res) => {
 
 router.post("/add-sct-calls", async (req, res) => {
   let data = req.body;
-
   try {
     let AddSctCallsDetails = new SctCalls(data);
     output = await AddSctCallsDetails.save();
@@ -465,25 +577,6 @@ router.post("/add-sct-calls", async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
-  }
-});
-
-router.post("/update-sct-leads-status", async (req, res) => {
-  try {
-    let data = req.body;
-    const updateSctLeads = await SctLeads.updateOne(
-      { _id: data.sctCallToId },
-      {
-        $set: {
-          sctLeadCategory: data.sctCallCategory,
-          sctLeadCategoryStatus: data.sctCallStatus,
-          sctCallDate: data.sctCallDate,
-        },
-      }
-    );
-    res.json(updateSctLeads);
-  } catch (error) {
-    res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
 

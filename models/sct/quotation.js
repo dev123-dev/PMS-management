@@ -58,11 +58,17 @@ const QuotationsSchema = new mongoose.Schema({
       SGST: {
         type: String,
       },
+      IGST: {
+        type: String,
+      },
       discount: {
         type: Number,
       },
       desc: {
         type: String,
+      },
+      totalAmt: {
+        type: Number,
       },
       itemEnteredById: {
         type: ObjectId,

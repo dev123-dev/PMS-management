@@ -80,7 +80,7 @@ const AddSctLeads = ({
     sctStaffPhoneNumber: "",
     sctStaffEmailId: "",
     sctStaffDesignation: "",
-    sctstaffRegion: "",
+    sctStaffRegion: "",
     staffCountryCode: "",
   });
 
@@ -89,7 +89,7 @@ const AddSctLeads = ({
     sctStaffPhoneNumber,
     sctStaffEmailId,
     sctStaffDesignation,
-    sctstaffRegion,
+    sctStaffRegion,
   } = addData;
 
   const [error1, setError1] = useState({
@@ -123,12 +123,12 @@ const AddSctLeads = ({
           sctStaffPhoneNumber: sctStaffPhoneNumber,
           sctStaffEmailId: sctStaffEmailId,
           sctStaffDesignation: sctStaffDesignation,
-          sctstaffRegion: staffcountryname,
+          sctStaffRegion: staffcountryname,
           staffstateName: staffstateName,
           staffdistrictName: staffdistrictName,
-          sctstaffRegionId: staffcountryId,
-          sctstaffStateId: staffstateId,
-          sctstaffDistrictId: staffdistrictId,
+          sctStaffRegionId: staffcountryId,
+          sctStaffStateId: staffstateId,
+          sctStaffDistrictId: staffdistrictId,
           staffCountryCode: staffCountryCode,
         };
         setFormDatas({
@@ -137,9 +137,9 @@ const AddSctLeads = ({
           sctStaffPhoneNumber: "",
           sctStaffEmailId: "",
           sctStaffDesignation: "",
-          sctstaffRegion: "",
-          sctstaffStateId: "",
-          sctstaffDistrictId: "",
+          sctStaffRegion: "",
+          sctStaffStateId: "",
+          sctStaffDistrictId: "",
           staffCountryCode: "",
         });
         setstaffCountryCode("");
@@ -1005,7 +1005,7 @@ const AddSctLeads = ({
                             <tr key={idx}>
                               <td>{AddDetail.sctStaffName}</td>
                               <td>
-                                {AddDetail.sctstaffRegion},
+                                {AddDetail.sctStaffRegion},
                                 {AddDetail.staffstateName},
                                 {AddDetail.staffdistrictName}
                               </td>

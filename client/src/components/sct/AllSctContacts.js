@@ -7,9 +7,9 @@ import Select from "react-select";
 import EditSctContact from "./EditSctContact";
 import {
   addNewSctStaffDetails,
-  // addNewSctClientStaffDetails,
+  addNewSctClientStaffDetails,
   deactivateSctStaffDetails,
-  // deactivateSctClientStaffDetails,
+  deactivateSctClientStaffDetails,
 } from "../../actions/sct";
 import {
   getActiveCountry,
@@ -22,9 +22,9 @@ const AllSctContacts = ({
   regions: { activeCountry, activeState, activeDistricts },
   leadDataVal,
   addNewSctStaffDetails,
-  // addNewSctClientStaffDetails,
+  addNewSctClientStaffDetails,
   deactivateSctStaffDetails,
-  // deactivateSctClientStaffDetails,
+  deactivateSctClientStaffDetails,
   ondivcloseChange,
   getActiveCountry,
   getActiveState,
@@ -223,18 +223,17 @@ const AllSctContacts = ({
       sctStaffPhoneNumber: sctStaffPhoneNumber,
       sctStaffEmailId: sctStaffEmailId,
       sctStaffDesignation: sctStaffDesignation,
-      sctstaffRegion: staffcountryname,
-      sctstaffRegionId: staffcountryId,
-      sctstaffCountryCode: staffCountryCode,
-      sctstaffStateId: staffstateId,
-      sctstaffDistrictId: staffdistrictId,
-
+      sctStaffRegion: staffcountryname,
+      sctStaffRegionId: staffcountryId,
+      sctStaffCountryCode: staffCountryCode,
+      sctStaffStateId: staffstateId,
+      sctStaffDistrictId: staffdistrictId,
       // filterData: filterData,
     };
     // console.log(finalData);
 
     if (from === "client") {
-      // addNewSctClientStaffDetails(finalData);
+      addNewSctClientStaffDetails(finalData);
     } else {
       addNewSctStaffDetails(finalData);
     }
@@ -260,7 +259,7 @@ const AllSctContacts = ({
     e.preventDefault();
     const finalData = {
       recordId: leadDataVal ? leadDataVal._id : "",
-      sctstaffId: userDatadeactive ? userDatadeactive._id : "",
+      sctStaffId: userDatadeactive ? userDatadeactive._id : "",
       sctStaffDeactivateById: user._id,
       sctStaffDeactiveByDateTime: new Date().toLocaleString("en-GB"),
       sctStaffStatus: "Deactive",
@@ -268,7 +267,7 @@ const AllSctContacts = ({
       filterData: filterData,
     };
     if (from === "client") {
-      // deactivateSctClientStaffDetails(finalData);
+      deactivateSctClientStaffDetails(finalData);
     } else {
       deactivateSctStaffDetails(finalData);
     }
@@ -661,10 +660,10 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   addNewSctStaffDetails,
-  // addNewSctClientStaffDetails,
+  addNewSctClientStaffDetails,
   deactivateSctStaffDetails,
   getActiveCountry,
-  // deactivateSctClientStaffDetails,
+  deactivateSctClientStaffDetails,
   getActiveState,
   getActiveDistricts,
 })(AllSctContacts);

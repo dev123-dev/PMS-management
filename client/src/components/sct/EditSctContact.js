@@ -5,7 +5,7 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import {
   editSctStaffDetails,
-  // editSctClientStaffDetails,
+  editSctClientStaffDetails,
 } from "../../actions/sct";
 import {
   getActiveCountry,
@@ -24,7 +24,7 @@ const EditSctContact = ({
   ondivcloseChange,
   onEditModalChange,
   editSctStaffDetails,
-  // editSctClientStaffDetails,
+  editSctClientStaffDetails,
   from,
   filterData,
 }) => {
@@ -90,19 +90,19 @@ const EditSctContact = ({
       ? allstaffcountry.length !== 0
         ? allstaffcountry &&
           allstaffcountry.filter(
-            (x) => x.staffcountryId === allStaffdata.sctstaffRegionId
+            (x) => x.staffcountryId === allStaffdata.sctStaffRegionId
           )[0]
         : ""
       : ""
   );
   const [staffcountryId, setstaffcountryID] = useState(
-    allStaffdata.sctstaffRegionId
+    allStaffdata.sctStaffRegionId
   );
   const [staffCountryCode, setstaffCountryCode] = useState(
-    allStaffdata.staffCountryCode
+    allStaffdata.sctStaffCountryCode
   );
   const [staffcountryname, setstaffcountryname] = useState(
-    allStaffdata.staffRegion
+    allStaffdata.sctStaffRegion
   );
   const onstaffcountryChange = (e) => {
     var staffcountryId = "";
@@ -131,24 +131,19 @@ const EditSctContact = ({
       ? allstaffstates.length !== 0
         ? allstaffstates &&
           allstaffstates.filter(
-            (x) => x.sId === allStaffdata.sctstaffStateId
+            (x) => x.sId === allStaffdata.sctStaffStateId
           )[0]
         : ""
       : ""
   );
 
-  const [staffstateId, setstaffStateID] = useState("");
+  const [staffstateId, setstaffStateID] = useState(
+    allStaffdata && allStaffdata.sctStaffStateId
+  );
   const [staffstateName, setstaffStateName] = useState("");
 
   const onstaffStateChange = (e) => {
     getstaffdistrictData("");
-    // //Required Validation starts
-    // setError({
-    //   ...error,
-    //   StateIdChecker: true,
-    //   StateErrorStyle: { color: "#000" },
-    // });
-    //Required Validation end
 
     var staffstateId = "";
     var staffstateName = "";
@@ -180,7 +175,7 @@ const EditSctContact = ({
       ? allstaffdistrict.length !== 0
         ? allstaffdistrict &&
           allstaffdistrict.filter(
-            (x) => x.districtId === allStaffdata.sctstaffDistrictId
+            (x) => x.districtId === allStaffdata.sctStaffDistrictId
           )[0]
         : ""
       : ""
@@ -213,16 +208,17 @@ const EditSctContact = ({
       sctStaffName: sctStaffName,
       sctStaffPhoneNumber: sctStaffPhoneNumber,
       sctStaffEmailId: sctStaffEmailId,
-      sctstaffRegion: staffcountryname,
-      sctstaffRegionId: staffcountryId,
-      sctstaffCountryCode: staffCountryCode,
-      sctstaffStateId: staffstateId,
-      sctstaffDistrictId: staffdistrictId,
+      sctStaffDesignation: sctStaffDesignation,
+      sctStaffRegion: staffcountryname,
+      sctStaffRegionId: staffcountryId,
+      sctStaffCountryCode: staffCountryCode,
+      sctStaffStateId: staffstateId,
+      sctStaffDistrictId: staffdistrictId,
       // filterData: filterData,
     };
 
     if (from === "client") {
-      // editSctClientStaffDetails(finalData);
+      editSctClientStaffDetails(finalData);
     } else {
       editSctStaffDetails(finalData);
     }
@@ -364,7 +360,7 @@ const EditSctContact = ({
               <input
                 type="submit"
                 name="Submit"
-                value="Add"
+                value="Edit"
                 className="btn sub_form btn_continue blackbrd Save float-right"
               />
             )}
@@ -388,7 +384,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   editSctStaffDetails,
   getActiveCountry,
-  // editSctClientStaffDetails,
+  editSctClientStaffDetails,
   getActiveState,
   getActiveDistricts,
 })(EditSctContact);

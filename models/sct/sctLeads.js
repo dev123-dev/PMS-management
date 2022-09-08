@@ -117,19 +117,19 @@ const SctLeadsSchema = new mongoose.Schema({
         type: String,
         default: "Active",
       },
-      sctstaffRegion: {
+      sctStaffRegion: {
         type: String,
       },
-      sctstaffRegionId: {
+      sctStaffRegionId: {
         type: ObjectId,
       },
-      sctstaffCountryCode: {
+      sctStaffCountryCode: {
         type: String,
       },
-      sctstaffStateId: {
+      sctStaffStateId: {
         type: ObjectId,
       },
-      sctstaffDistrictId: {
+      sctStaffDistrictId: {
         type: ObjectId,
       },
       sctStaffDeactiveReason: {
