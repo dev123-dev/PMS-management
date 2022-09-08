@@ -177,8 +177,10 @@ const SctQuotationpdfprint = ({
                 {"\n"}
                 {companyAddress}
               </Text>
+
               <Text
                 style={{
+                  paddingLeft: "10px",
                   // border: "1 px solid black",
                   width: "600px",
                   height: "100%",
