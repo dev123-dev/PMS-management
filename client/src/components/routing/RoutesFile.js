@@ -80,6 +80,7 @@ import SctCallsHistory from "../sct/SctCallsHistory";
 import AllEngagedClient from "../sct/AllEngagedClient";
 import GenerateSctQuotation from "../sct/GenerateSctQuotation";
 import GenerateInvoiceEngagedClient from "../sct/GenerateInvoiceEngagedClient";
+import SctQuotationpdfprint from "../sct/SctQuotationpdfprint";
 const RoutesFile = () => {
   return (
     <section>
@@ -138,6 +139,11 @@ const RoutesFile = () => {
           exact
           path="/all-invoice-engaged-client"
           component={GenerateInvoiceEngagedClient}
+        />
+        <PrivateRoute
+          exact
+          path="/print-pdf"
+          component={SctQuotationpdfprint}
         />
         <PrivateRoute
           exact

@@ -7,6 +7,17 @@ import Spinner from "../layout/Spinner";
 import { getALLCompanyDetails } from "../../actions/settings";
 import { saveQuatation } from "../../actions/sct";
 import { Redirect } from "react-router-dom";
+import SctQuotationpdfprint from "./SctQuotationpdfprint";
+import AllDesignation from "../department/AllDesignation";
+// import {
+//   Document,
+//   Page,
+//   Text,
+//   Image,
+//   View,
+//   StyleSheet,
+//   PDFViewer,
+// } from "@react-pdf/renderer";
 
 const GenerateSctQuotation = ({
   auth: { isAuthenticated, user, users, loading },
@@ -291,6 +302,7 @@ const GenerateSctQuotation = ({
             </div>
           </div>
           <hr />
+
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <div className="row card-new ">
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
@@ -603,12 +615,26 @@ const GenerateSctQuotation = ({
                   Loading...
                 </button>
               ) : (
-                <input
-                  type="submit"
-                  name="Submit"
-                  value="Submit"
-                  className="btn sub_form btn_continue blackbrd Save float-right"
-                />
+                <>
+                  <input
+                    type="submit"
+                    name="Submit"
+                    value="Submit"
+                    className="btn sub_form btn_continue blackbrd Save float-right"
+                  />
+
+                  <Link
+                    className="btn btn_green_bg float-right"
+                    to={{
+                      pathname: "/print-pdf",
+                      data: {
+                        data,
+                      },
+                    }}
+                  >
+                    Edit
+                  </Link>
+                </>
               )}
               <Link
                 className="btn sub_form btn_continue blackbrd float-right"
