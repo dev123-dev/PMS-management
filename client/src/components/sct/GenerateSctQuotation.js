@@ -154,21 +154,18 @@ const GenerateSctQuotation = ({
     setquotationDate(e.target.value);
   };
 
-  const onInputChange1 = (e) => {
-    setFormDatas({ ...addData, [e.target.name]: e.target.value });
-  };
   //add staff start
   const [addData, setFormDatas] = useState({
     itemName: "",
-    GST: "",
-    rate: "",
-    qty: "",
-    amt: "",
-    CGST: "",
-    SGST: "",
-    IGST: "",
-    totalAmt: "",
-    discount: "",
+    GST: 0,
+    rate: 0,
+    qty: 0,
+    amt: 0,
+    CGST: 0,
+    SGST: 0,
+    IGST: 0,
+    totalAmt: 0,
+    discount: 0,
     desc: "",
   });
 
@@ -187,6 +184,7 @@ const GenerateSctQuotation = ({
   } = addData;
 
   const [AddedDetails, AddDetails] = useState([]);
+  const [amount, setAmount] = useState();
 
   const onAdd = (e) => {
     const staffList = AddedDetails.filter(
@@ -198,14 +196,19 @@ const GenerateSctQuotation = ({
       // if (checkErrorscontact()) {
       const addData = {
         itemName: itemName,
-        GST: GST,
+        GST: Number((qty * rate) / GST),
         rate: rate,
         qty: qty,
-        amt: amt,
-        SGST: SGST,
-        CGST: CGST,
-        IGST: IGST,
-        totalAmt: totalAmt,
+        amt: qty * rate,
+        SGST: Number((qty * rate) / SGST),
+        CGST: Number((qty * rate) / CGST),
+        IGST: Number((qty * rate) / IGST),
+        totalAmt:
+          qty * rate +
+          Number((qty * rate) / GST) +
+          Number((qty * rate) / SGST) +
+          Number((qty * rate) / CGST) +
+          Number((qty * rate) / IGST),
         discount: discount,
         desc: desc,
       };
@@ -271,6 +274,10 @@ const GenerateSctQuotation = ({
       startquotationDate: "",
       isSubmitted: true,
     });
+  };
+
+  const onInputChange1 = (e) => {
+    setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
 
   // if (isSubmitted) {
@@ -442,7 +449,7 @@ const GenerateSctQuotation = ({
                 <input
                   type="text"
                   name="amt"
-                  value={amt}
+                  value={qty * rate}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
                   disabled
@@ -495,7 +502,13 @@ const GenerateSctQuotation = ({
                 <input
                   type="text"
                   name="totalAmt"
-                  value={totalAmt}
+                  value={
+                    Number(qty * rate) +
+                    Number(qty * rate) / Number(GST) +
+                    Number(qty * rate) / Number(SGST) +
+                    Number(qty * rate) / Number(CGST) +
+                    Number(qty * rate) / Number(IGST)
+                  }
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
                   disabled
