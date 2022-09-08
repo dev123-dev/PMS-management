@@ -121,7 +121,7 @@ const SctQuotationpdfprint = ({
     },
     // So Declarative and unDRY 👌
     row1: {
-      width: "27%",
+      width: "17%",
     },
     row2: {
       width: "15%",
@@ -177,8 +177,10 @@ const SctQuotationpdfprint = ({
                 {"\n"}
                 {companyAddress}
               </Text>
+
               <Text
                 style={{
+                  paddingLeft: "10px",
                   // border: "1 px solid black",
                   width: "600px",
                   height: "100%",
@@ -223,9 +225,21 @@ const SctQuotationpdfprint = ({
               <Text style={styles.row7}>SGST</Text>
               <Text style={styles.row8}>Total</Text>
             </View>
+            {data.finalDataVal.item.map((row, i) => (
+              <View key={i} style={styles.row} wrap={false}>
+                <Text style={styles.row1}>{row.itemName}</Text>
+                <Text style={styles.row2}>{row.GST}</Text>
+                <Text style={styles.row3}>{row.qty}</Text>
+                <Text style={styles.row4}>{row.rate}</Text>
+                <Text style={styles.row5}>{row.Amount}</Text>
+                <Text style={styles.row6}>{row.CGST}</Text>
+                <Text style={styles.row6}>{row.SGST}</Text>
+                <Text style={styles.row6}>{row.Total}</Text>
+              </View>
+            ))}
           </View>
 
-          <View>
+          <View style={styles.section}>
             <Text>Terms and Condition: </Text>
             <Text> 1. Applicable taxes will be extra.</Text>
             <Text> 2. Work will resume after full payment.</Text>
