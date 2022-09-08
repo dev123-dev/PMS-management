@@ -2081,7 +2081,8 @@ padding: 0.15rem !important;
 
 .seletedrowcolorchange, a:active{
   background-color: #91908f;
-  color: white;
+  /* color: white; */
+  color: #000;
 }
 
 /* .seletedrowcolorchange a:hover,a:focus{
