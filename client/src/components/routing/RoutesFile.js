@@ -82,6 +82,8 @@ import GenerateSctQuotation from "../sct/GenerateSctQuotation";
 import GenerateInvoiceEngagedClient from "../sct/GenerateInvoiceEngagedClient";
 import SctQuotationpdfprint from "../sct/SctQuotationpdfprint";
 import AllSctRegularClients from "../sct/AllSctRegularClients";
+import GeneratePo from "../sct/GeneratePo";
+import SctPopdfPrint from "../sct/SctPopdfPrint";
 const RoutesFile = () => {
   return (
     <section>
@@ -152,11 +154,14 @@ const RoutesFile = () => {
           path="/print-pdf"
           component={SctQuotationpdfprint}
         />
+        <PrivateRoute exact path="/print-PO-pdf" component={SctPopdfPrint} />
         <PrivateRoute
           exact
           path="/generate-quotation"
           component={GenerateSctQuotation}
         />
+
+        <PrivateRoute exact path="/generate-PO" component={GeneratePo} />
 
         <PrivateRoute exact path="/all-demo" component={AllDemos} />
 
