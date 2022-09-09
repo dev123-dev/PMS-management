@@ -164,73 +164,79 @@ const SctPopdfPrint = ({ auth: { isAuthenticated, user, users, loading } }) => {
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
-    <PDFViewer style={styles.viewer}>
-      {/* Start of the document*/}
+    <>
+      <div className="" style={{ marginTop: "54px" }}></div>
+      <PDFViewer style={styles.viewer}>
+        {/* Start of the document*/}
 
-      <Document>
-        {/*render a single page*/}
-        <Page size="A4" style={styles.page}>
-          <View style={styles.section}>
-            <Text>Purchase Order</Text>
-          </View>
-          <View style={styles.section}>
-            <Text>Purchase Order No #:{quotationNo}</Text>
-            <Text>Purchase Order Date:{purchaseOrderDate}</Text>
-          </View>
+        <Document>
+          {/*render a single page*/}
+          <Page size="A4" style={styles.page}>
+            <View style={styles.section}>
+              <Text>Purchase Order</Text>
+            </View>
+            <View style={styles.section}>
+              <Text>Purchase Order No #:{quotationNo}</Text>
+              <Text>Purchase Order Date:{purchaseOrderDate}</Text>
+            </View>
 
-          <View style={(styles.table, styles.section)}>
-            <View style={[styles.row]}>
-              <Text
-                style={{
-                  // border: "1 px solid black",
-                  width: "600px",
-                  height: "100%",
-                }}
-              >
-                From: {"\n"}
-                {companyName}
+            <View style={(styles.table, styles.section)}>
+              <View style={[styles.row]}>
+                <Text
+                  style={{
+                    // border: "1 px solid black",
+                    width: "600px",
+                    height: "100%",
+                  }}
+                >
+                  From: {"\n"}
+                  {companyName}
+                  {"\n"}
+                  {companyAddress}
+                </Text>
+
+                <Text
+                  style={{
+                    paddingLeft: "10px",
+                    // border: "1 px solid black",
+                    width: "600px",
+                    height: "100%",
+                  }}
+                >
+                  To:{"\n"}
+                  {sctCompanyName} {"\n"}
+                  {sctClientAddress}
+                </Text>
+              </View>
+            </View>
+
+            <View style={{ margin: "10px" }}>
+              <Text>Dear Sir/Mam : </Text>
+            </View>
+            <hr></hr>
+            <View style={{ margin: "10px" }}>
+              <Text>
                 {"\n"}
-                {companyAddress}
-              </Text>
-
-              <Text
-                style={{
-                  paddingLeft: "10px",
-                  // border: "1 px solid black",
-                  width: "600px",
-                  height: "100%",
-                }}
-              >
-                To:{"\n"}
-                {sctCompanyName} {"\n"}
-                {sctClientAddress}
+                {"\n"}On behalf of , We would like to place an order for the
+                following from your company. Please refer to the attachment for
+                the order list.
               </Text>
             </View>
-          </View>
 
-          <View>
-            <Text>Dear Sir/Mam : </Text>
-            <Text>
-              {"\n"}
-              {"\n"} 1. Applicable taxes will be extra.
-            </Text>
-            <Text> 2. Work will resume after full payment.</Text>
-          </View>
-          <hr></hr>
-          <View style={(styles.table, styles.section)}>
-            <View style={[styles.row, styles.bold, styles.header]}>
-              <Text style={{ width: "80%" }}>Description of Work</Text>
-              <Text style={styles.row2}>Amount </Text>
+            <View style={(styles.table, styles.section)}>
+              <View style={[styles.row, styles.bold, styles.header]}>
+                <Text style={{ width: "80%" }}>Description of Work</Text>
+                <Text style={styles.row2}>Amount </Text>
+              </View>
+              {getRegenerate &&
+                getRegenerate.item.map((row, i) => (
+                  <View key={i} style={styles.row} wrap={false}>
+                    <Text>{row.itemName}</Text>
+                    <Text style={styles.row2}>{row.GST}</Text>
+                  </View>
+                ))}
             </View>
-            {getRegenerate &&
-              getRegenerate.item.map((row, i) => (
-                <View key={i} style={styles.row} wrap={false}>
-                  <Text>{row.itemName}</Text>
-                  <Text style={styles.row2}>{row.GST}</Text>
-                </View>
-              ))}
-          </View>
-          {/* <View style={(styles.table, styles.section)}>
+            {/* <View style={(styles.table, styles.section)}>
             <View style={[styles.row]}>
               <Text
                 style={{
@@ -253,21 +259,22 @@ const SctPopdfPrint = ({ auth: { isAuthenticated, user, users, loading } }) => {
 
           */}
 
-          {/* <View style={(styles.section, styles.space)}>
+            {/* <View style={(styles.section, styles.space)}>
             <Text>Terms and Condition: </Text>
             <Text> 1. Applicable taxes will be extra.</Text>
             <Text> 2. Work will resume after full payment.</Text>
           </View> */}
 
-          <View style={{ paddingTop: "20px" }}>
-            <Text>
-              For any enquiry, reach out via email at joel@pinnaclemedia.in,
-              call on +91 99162 13542{" "}
-            </Text>
-          </View>
-        </Page>
-      </Document>
-    </PDFViewer>
+            <View style={{ paddingTop: "20px", margin: "10px" }}>
+              <Text>
+                For any enquiry, reach out via email at joel@pinnaclemedia.in,
+                call on +91 99162 13542{" "}
+              </Text>
+            </View>
+          </Page>
+        </Document>
+      </PDFViewer>
+    </>
   );
 };
 
