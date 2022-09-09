@@ -99,6 +99,15 @@ router.post("/add-quatation", async (req, res) => {
     let AddQuatation = new Quatation(data);
     output = await AddQuatation.save();
     res.send(output);
+    const updateQuatationStatus = await SctClients.updateOne(
+      { _id: data.clientId },
+      {
+        $set: {
+          quarationGenerated: 1,
+        },
+      }
+    );
+    res.json(updateQuatationStatus);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -905,6 +914,20 @@ router.post("/check-demo", async (req, res) => {
   try {
     const checkForDemo = await Demo.find({ clientId: demoUserId }).count();
     res.json(checkForDemo);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/check-regenerate", async (req, res) => {
+  const { clientId } = req.body;
+  consol.log(clientId);
+  try {
+    const checkQuatation = await Quatation.findOne({ clientId: clientId })
+      .sort({ _id: -1 })
+      .limit(1);
+    res.json(checkQuatation);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

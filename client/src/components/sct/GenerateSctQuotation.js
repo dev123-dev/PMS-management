@@ -159,13 +159,14 @@ const GenerateSctQuotation = ({
     itemName: "",
     GST: 0,
     rate: 0,
-    qty: 0,
+    qty: 1,
     amt: 0,
     CGST: 0,
     SGST: 0,
     IGST: 0,
     totalAmt: 0,
     discount: 0,
+    grandTotal: 0,
     desc: "",
   });
 
@@ -180,6 +181,7 @@ const GenerateSctQuotation = ({
     IGST,
     totalAmt,
     discount,
+    grandTotal,
     desc,
   } = addData;
 
@@ -200,16 +202,23 @@ const GenerateSctQuotation = ({
         rate: rate,
         qty: qty,
         amt: qty * rate,
-        SGST: Number((qty * rate) / SGST),
-        CGST: Number((qty * rate) / CGST),
-        IGST: Number((qty * rate) / IGST),
+        SGST: SGST,
+        CGST: CGST,
+        IGST: IGST,
         totalAmt:
-          qty * rate +
-          Number((qty * rate) / GST) +
-          Number((qty * rate) / SGST) +
-          Number((qty * rate) / CGST) +
-          Number((qty * rate) / IGST),
+          Number(qty * rate) +
+          (Number(qty * rate) * Number(GST)) / 100 +
+          (Number(qty * rate) * Number(SGST)) / 100 +
+          (Number(qty * rate) * Number(CGST)) / 100 +
+          (Number(qty * rate) * Number(IGST)) / 100,
         discount: discount,
+        grandTotal:
+          Number(qty * rate) +
+          (Number(qty * rate) * Number(GST)) / 100 +
+          (Number(qty * rate) * Number(SGST)) / 100 +
+          (Number(qty * rate) * Number(CGST)) / 100 +
+          (Number(qty * rate) * Number(IGST)) / 100 -
+          Number(discount),
         desc: desc,
       };
       setFormDatas({
@@ -224,6 +233,7 @@ const GenerateSctQuotation = ({
         IGST: "",
         totalAmt: "",
         discount: "",
+        grandTotal: "",
         desc: "",
       });
       // setstaffCountryCode("");
@@ -504,10 +514,10 @@ const GenerateSctQuotation = ({
                   name="totalAmt"
                   value={
                     Number(qty * rate) +
-                    Number(qty * rate) / Number(GST) +
-                    Number(qty * rate) / Number(SGST) +
-                    Number(qty * rate) / Number(CGST) +
-                    Number(qty * rate) / Number(IGST)
+                    (Number(qty * rate) * Number(GST)) / 100 +
+                    (Number(qty * rate) * Number(SGST)) / 100 +
+                    (Number(qty * rate) * Number(CGST)) / 100 +
+                    (Number(qty * rate) * Number(IGST)) / 100
                   }
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
@@ -520,6 +530,23 @@ const GenerateSctQuotation = ({
                   type="text"
                   name="discount"
                   value={discount}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
+                <label>Grand Total :</label>
+                <input
+                  type="text"
+                  name="grandTotal"
+                  value={
+                    Number(qty * rate) +
+                    (Number(qty * rate) * Number(GST)) / 100 +
+                    (Number(qty * rate) * Number(SGST)) / 100 +
+                    (Number(qty * rate) * Number(CGST)) / 100 +
+                    (Number(qty * rate) * Number(IGST)) / 100 -
+                    Number(discount)
+                  }
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
                 />
@@ -571,6 +598,7 @@ const GenerateSctQuotation = ({
                     <th>IGST</th>
                     <th>Total Amt</th>
                     <th>Discount</th>
+                    <th>Grand Total</th>
                     <th>Discription</th>
                     <th>Remove</th>
                   </tr>
@@ -590,6 +618,7 @@ const GenerateSctQuotation = ({
                           <td>{AddDetail.IGST}</td>
                           <td>{AddDetail.totalAmt}</td>
                           <td>{AddDetail.discount}</td>
+                          <td>{AddDetail.grandTotal}</td>
                           <td>{AddDetail.desc}</td>
 
                           <td>
@@ -632,12 +661,11 @@ const GenerateSctQuotation = ({
                   {isSubmitted ? (
                     <Link
                       className="btn sub_form btn_continue blackbrd  Save float-right"
-                      style={{ backgroundColor: "#456792", color: "white" }}
+                      style={{ backgroundColor: "##007bff", color: "white" }}
                       to={{
                         pathname: "/print-pdf",
                         data: {
                           data,
-                          finalDataVal,
                         },
                       }}
                     >

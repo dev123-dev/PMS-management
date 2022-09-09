@@ -16,8 +16,9 @@ const SctQuotationpdfprint = ({
   auth: { isAuthenticated, user, users, loading },
 }) => {
   const data = useHistory().location.data;
-  console.log(data);
-  console.log(data.finalDataVal);
+  console.log(data, "data");
+  let getRegenerate = JSON.parse(localStorage.getItem("getRegenerate"));
+  console.log(getRegenerate, "get");
   //formData
 
   const [formData, setFormData] = useState({
@@ -32,24 +33,20 @@ const SctQuotationpdfprint = ({
         : "",
 
     companyAddress:
-      data.finalDataVal && data.finalDataVal && data.finalDataVal.companyAddress
-        ? data.finalDataVal.companyAddress
+      getRegenerate && getRegenerate.companyAddress
+        ? getRegenerate.companyAddress
         : "",
     companyName:
-      data.finalDataVal && data.finalDataVal && data.finalDataVal.companyName
-        ? data.finalDataVal.companyName
+      getRegenerate && getRegenerate.companyName
+        ? getRegenerate.companyName
         : "",
     forName:
-      data.finalDataVal && data.finalDataVal && data.finalDataVal.forName
-        ? data.finalDataVal.forName
-        : "",
+      getRegenerate && getRegenerate.forName ? getRegenerate.forName : "",
     forAddress:
-      data.finalDataVal && data.finalDataVal && data.finalDataVal.forAddress
-        ? data.finalDataVal.forAddress
-        : "",
+      getRegenerate && getRegenerate.forAddress ? getRegenerate.forAddress : "",
     quotationNo:
-      data.finalDataVal && data.finalDataVal && data.finalDataVal.quotationNo
-        ? data.finalDataVal.quotationNo
+      getRegenerate && getRegenerate.quotationNo
+        ? getRegenerate.quotationNo
         : "",
 
     sctClientAssignedToName:
@@ -94,6 +91,7 @@ const SctQuotationpdfprint = ({
     page: {
       backgroundColor: "transparent",
       color: "black",
+      fontSize: "10px",
     },
 
     viewer: {
@@ -144,6 +142,9 @@ const SctQuotationpdfprint = ({
     row8: {
       width: "17%",
     },
+    // space: {
+    //   height: "2px",
+    // },
   });
 
   return !isAuthenticated || !user || !users ? (
@@ -225,21 +226,22 @@ const SctQuotationpdfprint = ({
               <Text style={styles.row7}>SGST</Text>
               <Text style={styles.row8}>Total</Text>
             </View>
-            {data.finalDataVal.item.map((row, i) => (
-              <View key={i} style={styles.row} wrap={false}>
-                <Text style={styles.row1}>{row.itemName}</Text>
-                <Text style={styles.row2}>{row.GST}</Text>
-                <Text style={styles.row3}>{row.qty}</Text>
-                <Text style={styles.row4}>{row.rate}</Text>
-                <Text style={styles.row5}>{row.Amount}</Text>
-                <Text style={styles.row6}>{row.CGST}</Text>
-                <Text style={styles.row6}>{row.SGST}</Text>
-                <Text style={styles.row6}>{row.Total}</Text>
-              </View>
-            ))}
+            {getRegenerate &&
+              getRegenerate.item.map((row, i) => (
+                <View key={i} style={styles.row} wrap={false}>
+                  <Text style={styles.row1}>{row.itemName}</Text>
+                  <Text style={styles.row2}>{row.GST}</Text>
+                  <Text style={styles.row3}>{row.qty}</Text>
+                  <Text style={styles.row4}>{row.rate}</Text>
+                  <Text style={styles.row5}>{row.Amount}</Text>
+                  <Text style={styles.row6}>{row.CGST}</Text>
+                  <Text style={styles.row6}>{row.SGST}</Text>
+                  <Text style={styles.row6}>{row.Total}</Text>
+                </View>
+              ))}
           </View>
 
-          <View style={styles.section}>
+          <View style={(styles.section, styles.space)}>
             <Text>Terms and Condition: </Text>
             <Text> 1. Applicable taxes will be extra.</Text>
             <Text> 2. Work will resume after full payment.</Text>

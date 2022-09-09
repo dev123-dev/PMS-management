@@ -70,6 +70,9 @@ const QuotationsSchema = new mongoose.Schema({
       totalAmt: {
         type: Number,
       },
+      grandTotal: {
+        type: Number,
+      },
       itemEnteredById: {
         type: ObjectId,
       },

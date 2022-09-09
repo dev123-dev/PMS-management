@@ -159,5 +159,9 @@ const SctClientsSchema = new mongoose.Schema({
       },
     },
   ],
+  quarationGenerated: {
+    type: Number, //0,1
+    default: 0,
+  },
 });
 module.exports = sctClients = mongoose.model("sctClients", SctClientsSchema);

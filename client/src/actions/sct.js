@@ -109,6 +109,7 @@ export const saveQuatation = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/sct/add-quatation", finalData, config);
+    dispatch(getRegenerateData({ clientId: finalData.clientId }));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -621,6 +622,18 @@ export const checkDemo = (client) => async (dispatch) => {
       type: DEMO_CHECK,
       payload: res.data,
     });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getRegenerateData = (client) => async (dispatch) => {
+  try {
+    // localStorage.setItem("getRegenerate", "");
+    const res = await axios.post("/api/sct/check-regenerate", client);
+    localStorage.setItem("getRegenerate", JSON.stringify(res.data));
   } catch (err) {
     dispatch({
       type: ERROR,

@@ -9,6 +9,7 @@ import {
   getSctClientDetails,
   getSctClientDetailsDD,
   getSctLastmessage,
+  getRegenerateData,
 } from "../../actions/sct";
 import FileBase64 from "react-file-base64";
 import SctLastMessageDetails from "./SctLastMessageDetails";
@@ -24,6 +25,7 @@ const AllEngagedClient = ({
   getActiveCountry,
   getSctClientDetailsDD,
   getSctLastmessage,
+  getRegenerateData,
 }) => {
   useEffect(() => {
     getSctClientDetails({ sctClientCategory: "EC" });
@@ -218,6 +220,9 @@ const AllEngagedClient = ({
     setcolorData("");
   };
 
+  const onClickRegenerate = (sctClients, idx) => {
+    getRegenerateData({ clientId: sctClients._id });
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -351,26 +356,47 @@ const AllEngagedClient = ({
                                 />
                               </td>
                               <td>
-                                {/* <button
-                                  className="btn btn_green_bg"
-                                  onClick={() =>
-                                    onClickVerify(sctClients, idx)
-                                  }
-                                >
-                                  Generate Quotation
-                                </button> */}
-
-                                <Link
-                                  className="btn btn_green_bg float-right"
-                                  to={{
-                                    pathname: "/generate-quotation",
-                                    data: {
-                                      sctdata: sctClients,
-                                    },
-                                  }}
-                                >
-                                  Generate Quotation
-                                </Link>
+                                {sctClients.quarationGenerated ? (
+                                  <>
+                                    <Link
+                                      className="btn btn_green_bg float-right"
+                                      to={{
+                                        pathname: "/generate-quotation",
+                                        data: {
+                                          sctdata: sctClients,
+                                        },
+                                      }}
+                                    >
+                                      Revised
+                                    </Link>
+                                    <Link
+                                      className="btn btn_green_bg float-right"
+                                      onClick={() =>
+                                        onClickRegenerate(sctClients, idx)
+                                      }
+                                      to={{
+                                        pathname: "/print-pdf",
+                                        data: {
+                                          data: sctClients,
+                                        },
+                                      }}
+                                    >
+                                      Print
+                                    </Link>
+                                  </>
+                                ) : (
+                                  <Link
+                                    className="btn btn_green_bg float-right"
+                                    to={{
+                                      pathname: "/generate-quotation",
+                                      data: {
+                                        sctdata: sctClients,
+                                      },
+                                    }}
+                                  >
+                                    Generate Quotation
+                                  </Link>
+                                )}
                               </td>
                             </tr>
                           );
@@ -512,4 +538,5 @@ export default connect(mapStateToProps, {
   getSctClientDetailsDD,
   getActiveCountry,
   getSctLastmessage,
+  getRegenerateData,
 })(AllEngagedClient);
