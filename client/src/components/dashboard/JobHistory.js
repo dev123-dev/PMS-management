@@ -100,7 +100,7 @@ const JobHistory = ({
             value={projectTrackLatestChange}
             className="textarea form-control"
             rows="3"
-            style={{ width: "100%" }}
+            style={{ width: "100%", resize: "vertical", overflow: "auto" }}
             readOnly
           >
             {projectTrackLatestChange}

@@ -30,7 +30,7 @@ const JobNotes = ({
     isSubmitted: false,
   });
   const [showHide, setShowHide] = useState({
-    showStandardinstructionSection: false,
+    showStandardinstructionSection: true,
   });
   const [showHide1, setShowHide1] = useState({
     showProjectInstructionSection: false,
@@ -92,7 +92,7 @@ const JobNotes = ({
               className="textarea form-control"
               rows="4"
               placeholder="Standard Instruction"
-              style={{ width: "100%" }}
+              style={{ width: "100%", resize: "vertical", overflow: "auto" }}
               readOnly
             >
               {selectedClientData.standardInstruction}
@@ -100,7 +100,6 @@ const JobNotes = ({
           </>
         )}
       </div>
-
       <br />
       {showProjectInstructionSection && (
         <div className=" col-lg-12 col-md-12 col-sm-12 col-12">
@@ -109,7 +108,7 @@ const JobNotes = ({
             className="textarea form-control"
             rows="10"
             placeholder="Project Instruction"
-            style={{ width: "100%" }}
+            style={{ width: "100%", resize: "vertical", overflow: "auto" }}
             readOnly
           >
             {allnotesdata.projectNotes}
