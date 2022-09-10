@@ -17,7 +17,8 @@ const SctQuotationpdfprint = ({
 }) => {
   const data = useHistory().location.data;
   console.log(data, "data");
-  let getRegenerate = JSON.parse(localStorage.getItem("getRegenerate"));
+  // let getRegenerate = JSON.parse(localStorage.getItem("getRegenerate"));
+  let getRegenerate = data.quatationData;
   console.log(getRegenerate, "get");
   //formData
 
@@ -32,22 +33,11 @@ const SctQuotationpdfprint = ({
         ? data.data.sctdata.sctClientAddress
         : "",
 
-    companyAddress:
-      getRegenerate && getRegenerate.companyAddress
-        ? getRegenerate.companyAddress
-        : "",
-    companyName:
-      getRegenerate && getRegenerate.companyName
-        ? getRegenerate.companyName
-        : "",
-    forName:
-      getRegenerate && getRegenerate.forName ? getRegenerate.forName : "",
-    forAddress:
-      getRegenerate && getRegenerate.forAddress ? getRegenerate.forAddress : "",
-    quotationNo:
-      getRegenerate && getRegenerate.quotationNo
-        ? getRegenerate.quotationNo
-        : "",
+    companyAddress: "",
+    companyName: "",
+    forName: "",
+    forAddress: "",
+    quotationNo: "",
 
     sctClientAssignedToName:
       data && data.sctdata && data.sctdata.sctClientAssignedToName
@@ -76,6 +66,20 @@ const SctQuotationpdfprint = ({
     companyAddress,
     isSubmitted,
   } = formData;
+
+  if (getRegenerate && getRegenerate.companyAddress && !companyAddress) {
+    setFormData({
+      ...formData,
+      companyAddress: getRegenerate.companyAddress
+        ? getRegenerate.companyAddress
+        : "",
+      companyName: getRegenerate.companyName ? getRegenerate.companyName : "",
+      forName: getRegenerate.forName ? getRegenerate.forName : "",
+      forAddress: getRegenerate.forAddress ? getRegenerate.forAddress : "",
+      quotationNo: getRegenerate.quotationNo ? getRegenerate.quotationNo : "",
+    });
+  }
+
   const [startquotationDate, setquotationDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -225,6 +229,8 @@ const SctQuotationpdfprint = ({
               <Text style={styles.row6}>CGST</Text>
               <Text style={styles.row7}>SGST</Text>
               <Text style={styles.row8}>Total</Text>
+              <Text style={styles.row8}>Discount</Text>
+              <Text style={styles.row8}>Grand Total</Text>
             </View>
             {getRegenerate &&
               getRegenerate.item.map((row, i) => (
@@ -236,7 +242,9 @@ const SctQuotationpdfprint = ({
                   <Text style={styles.row5}>{row.Amount}</Text>
                   <Text style={styles.row6}>{row.CGST}</Text>
                   <Text style={styles.row6}>{row.SGST}</Text>
-                  <Text style={styles.row6}>{row.Total}</Text>
+                  <Text style={styles.row6}>{row.totalAmt}</Text>
+                  <Text style={styles.row6}>{row.discount}</Text>
+                  <Text style={styles.row6}>{row.grandTotal}</Text>
                 </View>
               ))}
           </View>

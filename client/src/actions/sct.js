@@ -631,7 +631,7 @@ export const checkDemo = (client) => async (dispatch) => {
 
 export const getRegenerateData = (client) => async (dispatch) => {
   try {
-    // localStorage.setItem("getRegenerate", "");
+    localStorage.removeItem("getRegenerate");
     const res = await axios.post("/api/sct/check-regenerate", client);
     localStorage.setItem("getRegenerate", JSON.stringify(res.data));
   } catch (err) {
