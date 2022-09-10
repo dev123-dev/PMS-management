@@ -96,18 +96,56 @@ router.post("/add-new-sct-client-staff", async (req, res) => {
 router.post("/add-quatation", async (req, res) => {
   let data = req.body;
   try {
-    let AddQuatation = new Quatation(data);
-    output = await AddQuatation.save();
-    res.send(output);
-    const updateQuatationStatus = await SctClients.updateOne(
-      { _id: data.clientId },
-      {
-        $set: {
-          quarationGenerated: 1,
-        },
-      }
-    );
-    res.json(updateQuatationStatus);
+    if (data.quatationGenerated === 0) {
+      const updateQuatationStatus = await SctClients.updateOne(
+        { _id: data.clientId },
+        {
+          $set: {
+            quatationGenerated: 1,
+          },
+          $push: {
+            quatation: {
+              _id: new mongoose.Types.ObjectId(),
+              clientId: data.clientId,
+              clientName: data.clientName,
+              quotationNo: data.quotationNo,
+              quotationDate: data.quotationDate,
+              clientFromId: data.clientFromId,
+              clientFrom: data.clientFrom,
+              companyId: data.companyId,
+              companyName: data.companyName,
+              companyAddress: data.companyAddress,
+              forName: data.forName,
+              forAddress: data.forAddress,
+              item: data.item,
+            },
+          },
+        }
+      );
+      res.json(updateQuatationStatus);
+    } else {
+      let AddQuatation = new Quatation(data.quatation);
+      output = await AddQuatation.save();
+      res.send(output);
+      const updateQuatationStatus = await SctClients.updateOne(
+        { "quatation._id": data.quatationId },
+        {
+          $set: {
+            "quatation.$.quotationNo": data.quotationNo,
+            "quatation.$.quotationDate": data.quotationDate,
+            "quatation.$.clientFromId": data.clientFromId,
+            "quatation.$.clientFrom": data.clientFrom,
+            "quatation.$.companyId": data.companyId,
+            "quatation.$.companyName": data.companyName,
+            "quatation.$.companyAddress": data.companyAddress,
+            "quatation.$.forName": data.forName,
+            "quatation.$.forAddress": data.forAddress,
+            "quatation.$.item": data.item,
+          },
+        }
+      );
+      res.json(updateQuatationStatus);
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
