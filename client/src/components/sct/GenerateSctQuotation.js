@@ -9,25 +9,17 @@ import { saveQuatation } from "../../actions/sct";
 import { Redirect } from "react-router-dom";
 import SctQuotationpdfprint from "./SctQuotationpdfprint";
 import AllDesignation from "../department/AllDesignation";
-// import {
-//   Document,
-//   Page,
-//   Text,
-//   Image,
-//   View,
-//   StyleSheet,
-//   PDFViewer,
-// } from "@react-pdf/renderer";
 
 const GenerateSctQuotation = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allCompanyDetails },
   sct: { activeClient },
-
   saveQuatation,
   getALLCompanyDetails,
 }) => {
   const data = useHistory().location.data;
+  let sctDataVal = data.sctdata;
+
   useEffect(() => {
     getALLCompanyDetails();
   }, [getALLCompanyDetails]);
@@ -35,26 +27,22 @@ const GenerateSctQuotation = ({
   //formData
   const [formData, setFormData] = useState({
     sctClientName:
-      data && data.sctdata && data.sctdata.sctClientName
-        ? data.sctdata.sctClientName
-        : "",
+      sctDataVal && sctDataVal.sctClientName ? sctDataVal.sctClientName : "",
 
     sctClientAddress:
-      data && data.sctdata && data.sctdata.sctClientAddress
-        ? data.sctdata.sctClientAddress
+      sctDataVal && sctDataVal.sctClientAddress
+        ? sctDataVal.sctClientAddress
         : "",
 
     sctCompanyName:
-      data && data.sctdata && data.sctdata.sctCompanyName
-        ? data.sctdata.sctCompanyName
-        : "",
+      sctDataVal && sctDataVal.sctCompanyName ? sctDataVal.sctCompanyName : "",
     sctClientAssignedToName:
-      data && data.sctdata && data.sctdata.sctClientAssignedToName
-        ? data.sctdata.sctClientAssignedToName
+      sctDataVal && sctDataVal.sctClientAssignedToName
+        ? sctDataVal.sctClientAssignedToName
         : "",
     sctClientAssignedToId:
-      data && data.sctdata && data.sctdata.sctClientAssignedToId
-        ? data.sctdata.sctClientAssignedToId
+      sctDataVal && sctDataVal.sctClientAssignedToId
+        ? sctDataVal.sctClientAssignedToId
         : "",
 
     quotationNo: "",
@@ -257,7 +245,13 @@ const GenerateSctQuotation = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
-      clientId: data && data.sctdata ? data && data.sctdata._id : "",
+      clientId: sctDataVal ? sctDataVal._id : "",
+      quatationId:
+        sctDataVal && sctDataVal.quatation && sctDataVal.quatation[0]
+          ? sctDataVal.quatation[0]._id
+          : null,
+      quatationGenerated: sctDataVal ? sctDataVal.quatationGenerated : "",
+      quatation: sctDataVal ? sctDataVal.quatation : null,
       clientName: sctCompanyName,
       quotationNo: quotationNo,
       quotationDate: startquotationDate,
@@ -271,6 +265,7 @@ const GenerateSctQuotation = ({
       clientEnteredById: user._id,
       item: AddedDetails,
     };
+    console.log(finalData);
     saveQuatation(finalData);
     setFinalDataVal(finalData);
     setFormData({
@@ -661,11 +656,12 @@ const GenerateSctQuotation = ({
                   {isSubmitted ? (
                     <Link
                       className="btn sub_form btn_continue blackbrd  Save float-right"
-                      style={{ backgroundColor: "##007bff", color: "white" }}
+                      style={{ backgroundColor: "#007bff", color: "white" }}
                       to={{
                         pathname: "/print-pdf",
                         data: {
                           data,
+                          quatationData: finalDataVal,
                         },
                       }}
                     >
