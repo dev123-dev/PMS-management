@@ -657,3 +657,19 @@ export const editSctClientDetails = (finalData) => async (dispatch) => {
     });
   }
 };
+
+export const deactivateSctClientDetails = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/sct/deactivate-sct-Clients", finalData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};

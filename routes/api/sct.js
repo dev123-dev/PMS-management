@@ -971,4 +971,24 @@ router.post("/edit-sct-Clients", async (req, res) => {
   }
 });
 
+router.post("/deactivate-sct-Clients", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactiveSctClients = await SctClients.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          sctClientStatus: data.sctClientStatus,
+          sctClientDeactivateDateTime: data.sctClientDeactivateDateTime,
+          sctClientDeactivateById: data.sctClientDeactivateById,
+          sctClientDeactivateReason: data.sctClientDeactivateReason,
+        },
+      }
+    );
+    res.json(deactiveSctClients);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 module.exports = router;

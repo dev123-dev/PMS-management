@@ -17,6 +17,7 @@ import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
 import { getActiveCountry } from "../../actions/regions";
 import EditSctClients from "./EditSctClients";
+import DeactiveSctClient from "./DeactiveSctClient";
 
 const AllEngagedClient = ({
   auth: { isAuthenticated, user, users },
@@ -590,6 +591,37 @@ const AllEngagedClient = ({
             onEditModalChange={onEditModalChange}
             alleditClientdata={userDatas}
             filterData={filterData}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showDeactiveModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Deactivate Client</h3>
+          </div>
+          <div className="col-lg-1">
+            <button onClick={handleDeactiveModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <DeactiveSctClient
+            onDeactiveModalChange={onDeactiveModalChange}
+            Clientdeactivedata={userDatadeactive}
+            // filterData={filterData}
           />
         </Modal.Body>
       </Modal>
