@@ -2,7 +2,6 @@ import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { deactivateSctClientDetails } from "../../actions/sct";
 

@@ -2,7 +2,6 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import Select from "react-select";
 
 import Spinner from "../layout/Spinner";
