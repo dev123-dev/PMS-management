@@ -16,6 +16,7 @@ import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
 import { getActiveCountry } from "../../actions/regions";
+import EditSctClients from "./EditSctClients";
 
 const AllEngagedClient = ({
   auth: { isAuthenticated, user, users },
@@ -58,15 +59,29 @@ const AllEngagedClient = ({
     }
 
     if (e.value === "POReceived") {
-      setShowEditModal(true);
+      setShowUploadModal(true);
     } else {
-      setShowEditModal(false);
+      setShowUploadModal(false);
     }
   };
 
   const { projectStatusData } = formData;
 
   const [filterData, setFilterData] = useState();
+
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const handleUploadModalClose = () => setShowUploadModal(false);
+
+  const onEditUploadChange = (e) => {
+    if (e) {
+      handleUploadModalClose();
+    }
+  };
+  const [showHide, setShowHide] = useState({
+    showdateselectionSection: false,
+  });
+
+  const { showdateselectionSection } = showHide;
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -76,17 +91,16 @@ const AllEngagedClient = ({
       handleEditModalClose();
     }
   };
-  const [showHide, setShowHide] = useState({
-    showdateselectionSection: false,
-  });
-
-  const { showdateselectionSection } = showHide;
-
   const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (sctClients, idx) => {
+  const onUpdate = (getAllSctLeads, idx) => {
     setShowEditModal(true);
-    setUserDatas(sctClients);
+    setUserDatas(getAllSctLeads);
   };
+  // const [userDatas, setUserDatas] = useState(null);
+  // const onUpdate = (sctClients, idx) => {
+  //   setShowUploadModal(true);
+  //   setUserDatas(sctClients);
+  // };
 
   const [userDatadeactive, setUserDatadeactive] = useState(null);
   const onDeactive = (sctClients, idx) => {
@@ -299,7 +313,8 @@ const AllEngagedClient = ({
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
                         <th style={{ width: "8%" }}>Call Date</th>
-                        <th style={{ width: "18%" }}>Op</th>
+                        <th style={{ width: "18%" }}>Status</th>
+                        <th style={{}}>Op</th>
                         <th style={{}}>Op</th>
                       </tr>
                     </thead>
@@ -411,6 +426,23 @@ const AllEngagedClient = ({
                                   </>
                                 )}
                               </td>
+                              <td>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onDeactive(sctClients, idx)}
+                                  src={require("../../static/images/delete.png")}
+                                  alt="Delete Project"
+                                  title="Delete Project"
+                                />{" "}
+                                &emsp;
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onUpdate(sctClients, idx)}
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
+                                />
+                              </td>
                             </tr>
                           );
                         })}
@@ -475,7 +507,7 @@ const AllEngagedClient = ({
         </section>
       </div>
       <Modal
-        show={showEditModal}
+        show={showUploadModal}
         backdrop="static"
         keyboard={false}
         size="md"
@@ -487,7 +519,7 @@ const AllEngagedClient = ({
             <h3 className="modal-title text-center">Upload Received PO</h3>
           </div>
           <div className="col-lg-1">
-            <button onClick={handleEditModalClose} className="close">
+            <button onClick={handleUploadModalClose} className="close">
               <img
                 src={require("../../static/images/close.png")}
                 alt="X"
@@ -528,6 +560,37 @@ const AllEngagedClient = ({
             </div>
           </div>
           {/* </form> */}
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showEditModal}
+        backdrop="static"
+        keyboard={false}
+        size="xl"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Edit Client Details</h3>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handleEditModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <EditSctClients
+            onEditModalChange={onEditModalChange}
+            alleditClientdata={userDatas}
+            filterData={filterData}
+          />
         </Modal.Body>
       </Modal>
     </Fragment>
