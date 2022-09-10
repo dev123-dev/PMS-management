@@ -316,7 +316,7 @@ const AllEngagedClient = ({
                         <th style={{ width: "8%" }}>Call Date</th>
                         <th style={{ width: "18%" }}>Status</th>
                         <th style={{}}>Op</th>
-                        <th style={{}}>Op</th>
+                        <th style={{ width: "7%" }}>Op</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -372,7 +372,7 @@ const AllEngagedClient = ({
                                 />
                               </td>
                               <td>
-                                {sctClients.quarationGenerated ? (
+                                {sctClients.quatationGenerated ? (
                                   <>
                                     <Link
                                       className="btn btn_green_bg float-right"
@@ -387,13 +387,15 @@ const AllEngagedClient = ({
                                     </Link>
                                     <Link
                                       className="btn btn_green_bg float-right"
-                                      onClick={() =>
-                                        onClickRegenerate(sctClients, idx)
-                                      }
+                                      // onClick={() =>
+                                      //   onClickRegenerate(sctClients, idx)
+                                      // }
                                       to={{
                                         pathname: "/print-pdf",
                                         data: {
                                           data: sctClients,
+                                          quatationData:
+                                            sctClients.quatation[0],
                                         },
                                       }}
                                     >
