@@ -10,6 +10,7 @@ const SctClientsSchema = new mongoose.Schema({
     type: String,
   },
   sctLeadId: {
+    //
     type: ObjectId,
   },
   sctEmailId: {
@@ -61,9 +62,11 @@ const SctClientsSchema = new mongoose.Schema({
     type: String, //Active, Deactive
   },
   sctClientCategory: {
+    //
     type: String, //EC,RC
   },
   sctClientCategoryStatus: {
+    //
     type: String, //(FL,VM,CB,DND,NI)
   },
   sctCallDate: {
@@ -101,15 +104,19 @@ const SctClientsSchema = new mongoose.Schema({
     type: String,
   },
   sctCallSchedule: {
+    //
     type: String, //Morning or afternoon
   },
   clientCurrency: {
+    //
     type: String,
   },
   paymentId: {
+    //
     type: ObjectId,
   },
   paymentModeName: {
+    //
     type: String,
   },
   clientType: {

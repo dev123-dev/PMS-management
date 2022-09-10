@@ -972,4 +972,61 @@ router.post("/check-regenerate", async (req, res) => {
   }
 });
 
+router.post("/edit-sct-Clients", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateSctClients = await SctClients.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          sctCompanyName: data.sctCompanyName,
+          sctClientName: data.sctClientName,
+          sctEmailId: data.sctEmailId,
+          sctBillingEmail: data.sctBillingEmail,
+          sctPhone1: data.sctPhone1,
+          sctPhone2: data.sctPhone2,
+          sctWebsite: data.sctWebsite,
+          sctClientAddress: data.sctClientAddress,
+          sctClientImportantPoints: data.sctClientImportantPoints,
+          countryId: data.countryId,
+          countryName: data.countryName,
+          sctcountryCode: data.sctcountryCode,
+          stateId: data.stateId,
+          stateName: data.stateName,
+          districtId: data.districtId,
+          projectsName: data.projectsName,
+          projectsId: data.projectsId,
+          sctClientAssignedToId: data.sctClientAssignedToId,
+          sctClientAssignedToName: data.sctClientAssignedToName,
+          sctClientEditedById: data.sctClientEditedById,
+          sctClientEditedDateTime: data.sctClientEditedDateTime,
+        },
+      }
+    );
+    res.json(updateSctClients);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/deactivate-sct-Clients", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactiveSctClients = await SctClients.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          sctClientStatus: data.sctClientStatus,
+          sctClientDeactivateDateTime: data.sctClientDeactivateDateTime,
+          sctClientDeactivateById: data.sctClientDeactivateById,
+          sctClientDeactivateReason: data.sctClientDeactivateReason,
+        },
+      }
+    );
+    res.json(deactiveSctClients);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 module.exports = router;
