@@ -223,19 +223,6 @@ const SctInvoicePdfPrint = ({
               </View>
             </View>
 
-            <View style={{ margin: "10px" }}>
-              <Text>Dear Sir/Mam : </Text>
-            </View>
-            <hr></hr>
-            <View style={{ margin: "10px" }}>
-              <Text>
-                {"\n"}
-                {"\n"}On behalf of , We would like to place an order for the
-                following from your company. Please refer to the attachment for
-                the order list.
-              </Text>
-            </View>
-
             <View style={(styles.table, styles.section)}>
               <View style={[styles.row, styles.bold, styles.header]}>
                 <Text style={{ width: "80%" }}>
