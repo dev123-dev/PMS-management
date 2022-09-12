@@ -5,14 +5,14 @@ import Select from "react-select";
 import { Link, useHistory } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getALLCompanyDetails } from "../../actions/settings";
-import { saveQuatation } from "../../actions/sct";
+import { saveQuotation } from "../../actions/sct";
 import { Redirect } from "react-router-dom";
 
 const GenerateInvoice = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allCompanyDetails },
   sct: { activeClient },
-  saveQuatation,
+  saveQuotation,
   getALLCompanyDetails,
 }) => {
   const data = useHistory().location.data;
@@ -244,12 +244,12 @@ const GenerateInvoice = ({
     // if (checkErrors()) {
     const finalData = {
       clientId: sctDataVal ? sctDataVal._id : "",
-      quatationId:
-        sctDataVal && sctDataVal.quatation && sctDataVal.quatation[0]
-          ? sctDataVal.quatation[0]._id
+      quotationId:
+        sctDataVal && sctDataVal.quotation && sctDataVal.quotation[0]
+          ? sctDataVal.quotation[0]._id
           : null,
-      quatationGenerated: sctDataVal ? sctDataVal.quatationGenerated : "",
-      quatation: sctDataVal ? sctDataVal.quatation : null,
+      quotationGenerated: sctDataVal ? sctDataVal.quotationGenerated : "",
+      quotation: sctDataVal ? sctDataVal.quotation : null,
       clientName: sctCompanyName,
       quotationNo: quotationNo,
       quotationDate: startquotationDate,
@@ -263,7 +263,7 @@ const GenerateInvoice = ({
       clientEnteredById: user._id,
       item: AddedDetails,
     };
-    saveQuatation(finalData);
+    saveQuotation(finalData);
     setFinalDataVal(finalData);
     setFormData({
       ...formData,
@@ -658,7 +658,7 @@ const GenerateInvoice = ({
                         pathname: "/print-pdf",
                         data: {
                           data,
-                          quatationData: finalDataVal,
+                          quotationData: finalDataVal,
                         },
                       }}
                     >
@@ -674,7 +674,7 @@ const GenerateInvoice = ({
                           pathname: "/generate-Invoice-Pdf-Print",
                           data: {
                             data,
-                            quatationData: finalDataVal,
+                            quotationData: finalDataVal,
                           },
                         }}
                       >
@@ -716,6 +716,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  saveQuatation,
+  saveQuotation,
   getALLCompanyDetails,
 })(GenerateInvoice);
