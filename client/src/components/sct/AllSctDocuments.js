@@ -15,6 +15,9 @@ const AllSctDocuments = ({
     { value: "RevisedQuotation", label: "Revised Quotation" },
     { value: "SendPO", label: "Send PO" },
     { value: "POReceived", label: "PO Received" },
+    { value: "GenerateInvoice", label: "Generate Invoice" },
+    { value: "RevisedInvoice", label: "Revised Invoice" },
+    { value: "PaymentReceived", label: "Payment Received" },
   ];
   const [formData, setFormData] = useState({
     projectStatusData: priorityCategory[0],
