@@ -140,7 +140,9 @@ const AllEngagedClient = ({
       // setcolorData("");
     }
   };
-
+  const onClickHandler2 = (sctClients, idx) => {
+    localStorage.setItem("sctClientData", JSON.stringify(sctClients));
+  };
   const handledivModalClose = () => setShowHide(false);
 
   const allcountry = [];
@@ -342,6 +344,9 @@ const AllEngagedClient = ({
                               <td>
                                 {" "}
                                 <Link
+                                  onClick={() =>
+                                    onClickHandler2(sctClients, idx)
+                                  }
                                   to={{
                                     pathname: "/all-sct-documents",
                                     data: {

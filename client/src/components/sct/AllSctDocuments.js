@@ -25,6 +25,9 @@ const AllSctDocuments = ({
     isSubmitted: false,
   });
 
+  let sctClientData = JSON.parse(localStorage.getItem("sctClientData"));
+  console.log("sctClientData", sctClientData);
+
   const { projectStatusData } = formData;
   const onSliderChange = (sctClients, idx) => (e) => {
     if (e) {
@@ -87,7 +90,7 @@ const AllSctDocuments = ({
                     to={{
                       pathname: "/generate-quotation",
                       data: {
-                        sctdata: sctClients,
+                        sctdata: sctClientData,
                       },
                     }}
                   >
@@ -110,7 +113,7 @@ const AllSctDocuments = ({
                     to={{
                       pathname: "/generate-PO",
                       data: {
-                        sctdata: sctClients,
+                        sctdata: sctClientData,
                       },
                     }}
                   >
@@ -132,7 +135,7 @@ const AllSctDocuments = ({
                     to={{
                       pathname: "/generate-Invoice",
                       data: {
-                        sctdata: sctClients,
+                        sctdata: sctClientData,
                       },
                     }}
                   >
