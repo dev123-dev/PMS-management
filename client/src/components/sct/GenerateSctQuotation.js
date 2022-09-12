@@ -5,7 +5,7 @@ import Select from "react-select";
 import { Link, useHistory } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getALLCompanyDetails } from "../../actions/settings";
-import { saveQuatation } from "../../actions/sct";
+import { saveQuotation } from "../../actions/sct";
 import { Redirect } from "react-router-dom";
 import SctQuotationpdfprint from "./SctQuotationpdfprint";
 import AllDesignation from "../department/AllDesignation";
@@ -14,7 +14,7 @@ const GenerateSctQuotation = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allCompanyDetails },
   sct: { activeClient },
-  saveQuatation,
+  saveQuotation,
   getALLCompanyDetails,
 }) => {
   const data = useHistory().location.data;
@@ -246,12 +246,12 @@ const GenerateSctQuotation = ({
     // if (checkErrors()) {
     const finalData = {
       clientId: sctDataVal ? sctDataVal._id : "",
-      quatationId:
-        sctDataVal && sctDataVal.quatation && sctDataVal.quatation[0]
-          ? sctDataVal.quatation[0]._id
+      quotationId:
+        sctDataVal && sctDataVal.quotation && sctDataVal.quotation[0]
+          ? sctDataVal.quotation[0]._id
           : null,
-      quatationGenerated: sctDataVal ? sctDataVal.quatationGenerated : "",
-      quatation: sctDataVal ? sctDataVal.quatation : null,
+      quotationGenerated: sctDataVal ? sctDataVal.quotationGenerated : "",
+      quotation: sctDataVal ? sctDataVal.quotation : null,
       clientName: sctCompanyName,
       quotationNo: quotationNo,
       quotationDate: startquotationDate,
@@ -265,7 +265,7 @@ const GenerateSctQuotation = ({
       clientEnteredById: user._id,
       item: AddedDetails,
     };
-    saveQuatation(finalData);
+    saveQuotation(finalData);
     setFinalDataVal(finalData);
     setFormData({
       ...formData,
@@ -660,7 +660,7 @@ const GenerateSctQuotation = ({
                         pathname: "/print-pdf",
                         data: {
                           data,
-                          quatationData: finalDataVal,
+                          quotationData: finalDataVal,
                         },
                       }}
                     >
@@ -702,6 +702,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  saveQuatation,
+  saveQuotation,
   getALLCompanyDetails,
 })(GenerateSctQuotation);

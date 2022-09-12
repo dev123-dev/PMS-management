@@ -10,7 +10,7 @@ const SctClients = require("../../models/sct/sctClients");
 const Demo = require("../../models/sct/demo");
 const EmployeeDetails = require("../../models/EmpDetails");
 const SctProjects = require("../../models/sct/SctProjects");
-const Quatation = require("../../models/sct/quotation");
+const Quotation = require("../../models/sct/quotation");
 const PurchaseOrder = require("../../models/sct/purchaseOrder");
 
 //ADD
@@ -94,18 +94,20 @@ router.post("/add-new-sct-client-staff", async (req, res) => {
   }
 });
 
-router.post("/add-quatation", async (req, res) => {
+router.post("/add-quotation", async (req, res) => {
   let data = req.body;
   try {
-    if (data.quatationGenerated === 0) {
-      const updateQuatationStatus = await SctClients.updateOne(
+    if (data.quotationGenerated === 0) {
+      const updateQuotationStatus = await SctClients.updateOne(
         { _id: data.clientId },
         {
           $set: {
-            quatationGenerated: 1,
+            quotationGenerated: 1,
+            billingStatus: "Quotation",
+            billingStatusCategory: "Quotation",
           },
           $push: {
-            quatation: {
+            quotation: {
               _id: new mongoose.Types.ObjectId(),
               clientId: data.clientId,
               clientName: data.clientName,
@@ -123,30 +125,39 @@ router.post("/add-quatation", async (req, res) => {
           },
         }
       );
-      res.json(updateQuatationStatus);
+      res.json(updateQuotationStatus);
     } else {
-      let clientQuatation = data.quatation[0];
-      delete clientQuatation._id;
-      let AddQuatation = new Quatation(clientQuatation);
-      output = await AddQuatation.save();
-      const updateQuatationStatus = await SctClients.updateOne(
-        { "quatation._id": data.quatationId },
+      let clientQuotation = data.quotation[0];
+      delete clientQuotation._id;
+      let AddQuotation = new Quotation(clientQuotation);
+      output = await AddQuotation.save();
+      const updateQuotationStatus = await SctClients.updateOne(
+        { "quotation._id": data.quotationId },
         {
           $set: {
-            "quatation.$.quotationNo": data.quotationNo,
-            "quatation.$.quotationDate": data.quotationDate,
-            "quatation.$.clientFromId": data.clientFromId,
-            "quatation.$.clientFrom": data.clientFrom,
-            "quatation.$.companyId": data.companyId,
-            "quatation.$.companyName": data.companyName,
-            "quatation.$.companyAddress": data.companyAddress,
-            "quatation.$.forName": data.forName,
-            "quatation.$.forAddress": data.forAddress,
-            "quatation.$.item": data.item,
+            "quotation.$.quotationNo": data.quotationNo,
+            "quotation.$.quotationDate": data.quotationDate,
+            "quotation.$.clientFromId": data.clientFromId,
+            "quotation.$.clientFrom": data.clientFrom,
+            "quotation.$.companyId": data.companyId,
+            "quotation.$.companyName": data.companyName,
+            "quotation.$.companyAddress": data.companyAddress,
+            "quotation.$.forName": data.forName,
+            "quotation.$.forAddress": data.forAddress,
+            "quotation.$.item": data.item,
           },
         }
       );
-      res.json(updateQuatationStatus);
+      const updateBillingStatus = await SctClients.updateOne(
+        { _id: data.clientId },
+        {
+          $set: {
+            billingStatus: "RevisedQuotation",
+            billingStatusCategory: "Quotation",
+          },
+        }
+      );
+      res.json(updateQuotationStatus);
     }
   } catch (err) {
     console.error(err.message);
@@ -992,10 +1003,10 @@ router.post("/check-demo", async (req, res) => {
 router.post("/check-regenerate", async (req, res) => {
   const { clientId } = req.body;
   try {
-    const checkQuatation = await Quatation.findOne({ clientId: clientId })
+    const checkQuotation = await Quotation.findOne({ clientId: clientId })
       .sort({ _id: -1 })
       .limit(1);
-    res.json(checkQuatation);
+    res.json(checkQuotation);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

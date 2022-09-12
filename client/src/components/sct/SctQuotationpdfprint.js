@@ -17,7 +17,7 @@ const SctQuotationpdfprint = ({
 }) => {
   const data = useHistory().location.data;
   // let getRegenerate = JSON.parse(localStorage.getItem("getRegenerate"));
-  let getRegenerate = data && data.quatationData ? data.quatationData : null;
+  let getRegenerate = data && data.quotationData ? data.quotationData : null;
   //formData
 
   const [formData, setFormData] = useState({

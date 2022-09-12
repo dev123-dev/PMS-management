@@ -316,8 +316,8 @@ const AllEngagedClient = ({
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
                         <th style={{ width: "8%" }}>Call Date</th>
-                        <th style={{ width: "18%" }}>Status</th>
-                        <th style={{}}>Op</th>
+                        {/* <th style={{ width: "18%" }}>Status</th> */}
+                        <th style={{ width: "8%" }}>Print</th>
                         <th style={{ width: "7%" }}>Op</th>
                       </tr>
                     </thead>
@@ -367,7 +367,7 @@ const AllEngagedClient = ({
                                 {sctClients.sctPhone1}
                               </td>
                               <td>{sctCallDate}</td>
-                              <td>
+                              {/* <td>
                                 <Select
                                   className="dropdownofengagedclient"
                                   name="projectStatusData"
@@ -381,64 +381,27 @@ const AllEngagedClient = ({
                                   placeholder="Select"
                                   onChange={onSliderChange(sctClients, idx)}
                                 />
-                              </td>
+                              </td> */}
                               <td>
-                                {sctClients.quatationGenerated ? (
+                                {sctClients.quotationGenerated ? (
                                   <>
                                     <Link
                                       className="btn btn_green_bg float-right"
-                                      to={{
-                                        pathname: "/generate-quotation",
-                                        data: {
-                                          sctdata: sctClients,
-                                        },
-                                      }}
-                                    >
-                                      Revised
-                                    </Link>
-                                    <Link
-                                      className="btn btn_green_bg float-right"
-                                      // onClick={() =>
-                                      //   onClickRegenerate(sctClients, idx)
-                                      // }
                                       to={{
                                         pathname: "/print-pdf",
                                         data: {
                                           data: sctClients,
-                                          quatationData:
-                                            sctClients.quatation[0],
+                                          quotationData:
+                                            sctClients.quotation[0],
                                         },
                                       }}
                                     >
-                                      Print
+                                      Q
                                     </Link>
                                   </>
                                 ) : (
-                                  <>
-                                    <Link
-                                      className="btn btn_green_bg float-right"
-                                      to={{
-                                        pathname: "/generate-quotation",
-                                        data: {
-                                          sctdata: sctClients,
-                                        },
-                                      }}
-                                    >
-                                      Generate Quotation
-                                    </Link>
-                                  </>
+                                  <></>
                                 )}
-                                <Link
-                                  className="btn btn_green_bg float-right"
-                                  to={{
-                                    pathname: "/generate-PO",
-                                    data: {
-                                      sctdata: sctClients,
-                                    },
-                                  }}
-                                >
-                                  Generate PO
-                                </Link>
                               </td>
                               <td>
                                 <img

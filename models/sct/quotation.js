@@ -82,10 +82,10 @@ const QuotationsSchema = new mongoose.Schema({
       },
     },
   ],
-  quatationEnteredById: {
+  quotationEnteredById: {
     type: ObjectId,
   },
-  quatationEnteredByDateTime: {
+  quotationEnteredByDateTime: {
     type: String,
     default: new Date().toLocaleString("en-GB"),
   },

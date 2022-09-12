@@ -166,7 +166,7 @@ const SctClientsSchema = new mongoose.Schema({
       },
     },
   ],
-  quatationGenerated: {
+  quotationGenerated: {
     type: Number, //0,1
     default: 0,
   },
@@ -180,7 +180,10 @@ const SctClientsSchema = new mongoose.Schema({
   billingStatus: {
     type: String,
   },
-  quatation: [
+  billingStatusCategory: {
+    type: String,
+  },
+  quotation: [
     {
       clientId: {
         type: ObjectId,
@@ -262,10 +265,10 @@ const SctClientsSchema = new mongoose.Schema({
           },
         },
       ],
-      quatationEnteredById: {
+      quotationEnteredById: {
         type: ObjectId,
       },
-      quatationEnteredByDateTime: {
+      quotationEnteredByDateTime: {
         type: String,
         default: new Date().toLocaleString("en-GB"),
       },

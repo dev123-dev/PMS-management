@@ -104,12 +104,12 @@ export const addNewSctClientStaffDetails = (finalData) => async (dispatch) => {
   }
 };
 
-export const saveQuatation = (finalData) => async (dispatch) => {
+export const saveQuotation = (finalData) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING_TRUE,
     });
-    await axios.post("/api/sct/add-quatation", finalData, config);
+    await axios.post("/api/sct/add-quotation", finalData, config);
     // dispatch(getRegenerateData({ clientId: finalData.clientId }));
     dispatch({
       type: SET_LOADING_FALSE,

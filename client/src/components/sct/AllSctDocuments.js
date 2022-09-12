@@ -10,23 +10,31 @@ const AllSctDocuments = ({
   auth: { isAuthenticated, user, users },
   sctClients,
 }) => {
-  const priorityCategory = [
-    { value: "Quotation", label: "Quotation" },
-    { value: "RevisedQuotation", label: "Revised Quotation" },
-    { value: "SendPO", label: "Send PO" },
-    { value: "POReceived", label: "PO Received" },
-    { value: "GenerateInvoice", label: "Generate Invoice" },
-    { value: "RevisedInvoice", label: "Revised Invoice" },
-    { value: "PaymentReceived", label: "Payment Received" },
-  ];
-  const [formData, setFormData] = useState({
-    projectStatusData: priorityCategory[0],
-
-    isSubmitted: false,
-  });
-
   let sctClientData = JSON.parse(localStorage.getItem("sctClientData"));
   console.log("sctClientData", sctClientData);
+
+  let documentCategory = [
+    { value: "Quotation", label: "Quotation", cat: "Quotation" },
+    { value: "RevisedQuotation", label: "Revised Quotation", cat: "Quotation" },
+    { value: "SendPO", label: "Send PO", cat: "PO" },
+    { value: "POReceived", label: "PO Received", cat: "PO" },
+    { value: "GenerateInvoice", label: "Generate Invoice", cat: "Invoice" },
+    { value: "RevisedInvoice", label: "Revised Invoice", cat: "Invoice" },
+    { value: "PaymentReceived", label: "Payment Received", cat: "Invoice" },
+  ];
+
+  console.log(sctClientData.billingStatusCategory, "Quotation");
+  if (sctClientData && sctClientData.billingStatusCategory === "Quotation") {
+    console.log("hii");
+    documentCategory = documentCategory.filter(
+      (documentCategory) => documentCategory.cat === "Quotation"
+    );
+  }
+
+  const [formData, setFormData] = useState({
+    projectStatusData: documentCategory[0],
+    isSubmitted: false,
+  });
 
   const { projectStatusData } = formData;
   const onSliderChange = (sctClients, idx) => (e) => {
@@ -63,7 +71,7 @@ const AllSctDocuments = ({
     <Fragment>
       <div className="container container_align ">
         <div className="col-lg-11 col-md-11 col-sm-12 col-12">
-          <h2 className="heading_color">All Reports </h2>
+          <h2 className="heading_color">All Documents </h2>
           <hr />
         </div>
         <div className="col-lg-2 col-md-11 col-sm-12 col-12">
@@ -75,7 +83,7 @@ const AllSctDocuments = ({
             //   value: allFeedback.feedbackStatus,
             // }}
             value={projectStatusData}
-            options={priorityCategory}
+            options={documentCategory}
             isSearchable={true}
             placeholder="Select"
             onChange={onSliderChange(sctClients)}
@@ -100,7 +108,11 @@ const AllSctDocuments = ({
                       alt="Generate Quotation"
                       title="Generate Quotation"
                     />
-                    <h4>Generate Quotation </h4>
+                    {sctClientData && sctClientData.quotationGenerated === 1 ? (
+                      <h4>Revised Quotation</h4>
+                    ) : (
+                      <h4>Generate Quotation </h4>
+                    )}
                   </Link>
                 </center>
               </div>
@@ -142,6 +154,7 @@ const AllSctDocuments = ({
                     <img
                       className=" log"
                       ///  src={require("../../static/images/invoice.png")}
+                      src={require("../../static/images/Po.png")}
                       alt="Send Invoice"
                       title="Send Invoice"
                     />
@@ -159,6 +172,7 @@ const AllSctDocuments = ({
                     <img
                       className=" log"
                       // src={require("../../static/images/profitloss.jfif")}
+                      src={require("../../static/images/Po.png")}
                       alt="Send T&C Agreement"
                       title="Send T&C Agreement"
                     />
@@ -189,6 +203,7 @@ const AllSctDocuments = ({
                     <img
                       className=" log"
                       // src={require("../../static/images/profitloss.jfif")}
+                      src={require("../../static/images/Po.png")}
                       alt="Upload Agreement"
                       title="Upload Agreement"
                     />
