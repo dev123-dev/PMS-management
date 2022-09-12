@@ -98,6 +98,7 @@ const GeneratePo = ({
     var companyname = "";
     var companyaddress = "";
     getcompanyData(e);
+
     companyid = e.companyid;
     companyname = e.value;
     companyaddress = e.companyaddress;
@@ -351,27 +352,27 @@ const GeneratePo = ({
                 </button>
               ) : (
                 <>
-                  {/* {isSubmitted ? ( */}
-                  <Link
-                    className="btn sub_form btn_continue blackbrd Save float-right"
-                    // style={{ backgroundColor: "##007bff", color: "black" }}
-                    to={{
-                      pathname: "/print-PO-pdf",
-                      data: {
-                        data,
-                      },
-                    }}
-                  >
-                    Print
-                  </Link>
-                  {/* ) : ( */}
-                  <input
-                    type="submit"
-                    name="Submit"
-                    value="Submit"
-                    className="btn sub_form btn_continue blackbrd Save float-right"
-                  />
-                  {/* )} */}
+                  {isSubmitted ? (
+                    <Link
+                      className="btn sub_form btn_continue blackbrd  Save float-right"
+                      style={{ backgroundColor: "#007bff", color: "white" }}
+                      to={{
+                        pathname: "/print-PO-pdf",
+                        data: {
+                          data,
+                        },
+                      }}
+                    >
+                      Print
+                    </Link>
+                  ) : (
+                    <input
+                      type="submit"
+                      name="Submit"
+                      value="Submit"
+                      className="btn sub_form btn_continue blackbrd Save float-right"
+                    />
+                  )}
                 </>
               )}
               <Link

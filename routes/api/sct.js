@@ -157,6 +157,14 @@ router.post("/add-quatation", async (req, res) => {
 router.post("/add-purchase-order", async (req, res) => {
   let data = req.body;
   try {
+    const expireOldPO = await PurchaseOrder.updateMany(
+      { clientId: data.clientId, status: "Active" },
+      {
+        $set: {
+          status: "Expired",
+        },
+      }
+    );
     let AddPurchaseOrder = new PurchaseOrder(data);
     output = await AddPurchaseOrder.save();
     const updatePurchaseOrderStatus = await SctClients.updateOne(
