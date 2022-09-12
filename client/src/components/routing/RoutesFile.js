@@ -84,6 +84,7 @@ import SctQuotationpdfprint from "../sct/SctQuotationpdfprint";
 import AllSctRegularClients from "../sct/AllSctRegularClients";
 import GeneratePo from "../sct/GeneratePo";
 import SctPopdfPrint from "../sct/SctPopdfPrint";
+import AllSctDocuments from "../sct/AllSctDocuments";
 const RoutesFile = () => {
   return (
     <section>
@@ -155,6 +156,11 @@ const RoutesFile = () => {
           component={SctQuotationpdfprint}
         />
         <PrivateRoute exact path="/print-PO-pdf" component={SctPopdfPrint} />
+        <PrivateRoute
+          exact
+          path="/all-sct-documents"
+          component={AllSctDocuments}
+        />
         <PrivateRoute
           exact
           path="/generate-quotation"

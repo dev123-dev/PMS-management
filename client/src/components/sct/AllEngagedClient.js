@@ -73,7 +73,7 @@ const AllEngagedClient = ({
   const [showUploadModal, setShowUploadModal] = useState(false);
   const handleUploadModalClose = () => setShowUploadModal(false);
 
-  const onEditUploadChange = (e) => {
+  const onUploadChange = (e) => {
     if (e) {
       handleUploadModalClose();
     }
@@ -333,11 +333,25 @@ const AllEngagedClient = ({
                               className={
                                 colorData === idx ? "seletedrowcolorchange" : ""
                               }
-                              onClick={() => onClickHandler(sctClients, idx)}
                             >
-                              {/* <td>{idx + 1}</td> */}
-                              <td>{sctClients.sctCompanyName}</td>
-                              <td>{sctClients.sctWebsite}</td>
+                              <td
+                                onClick={() => onClickHandler(sctClients, idx)}
+                              >
+                                {sctClients.sctCompanyName}
+                              </td>
+                              <td>
+                                {" "}
+                                <Link
+                                  to={{
+                                    pathname: "/all-sct-documents",
+                                    data: {
+                                      sctdata: sctClients,
+                                    },
+                                  }}
+                                >
+                                  {sctClients.sctWebsite}
+                                </Link>
+                              </td>
                               <td>{sctClients.sctEmailId}</td>
                               <td>{sctClients.countryName}</td>
                               <td>
@@ -350,14 +364,6 @@ const AllEngagedClient = ({
                               <td>{sctCallDate}</td>
                               <td>
                                 <Select
-                                  // styles={{
-                                  //   control: (base) => ({
-                                  //     ...base,
-                                  //     background: "#456792",
-                                  //     color: "white !important",
-                                  //     fontWeight: "bold",
-                                  //   }),
-                                  // }}
                                   className="dropdownofengagedclient"
                                   name="projectStatusData"
                                   // value={{
