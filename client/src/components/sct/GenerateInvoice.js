@@ -14,7 +14,6 @@ const GenerateInvoice = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allCompanyDetails },
   sct: { activeClient },
-
   savePurchaseOrder,
   getALLCompanyDetails,
 }) => {
@@ -214,7 +213,7 @@ const GenerateInvoice = ({
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">
             <div className="row card-new ">
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
-                <label className="label-control">Purchase Order No:</label>
+                <label className="label-control">Invoice No:</label>
                 <input
                   type="text"
                   name="PONo"
@@ -224,7 +223,7 @@ const GenerateInvoice = ({
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
-                <label className="label-control">Purchase Order Date :</label>
+                <label className="label-control">Invoice Date :</label>
                 <input
                   type="date"
                   placeholder="dd/mm/yyyy"
@@ -366,12 +365,26 @@ const GenerateInvoice = ({
                       Print
                     </Link>
                   ) : (
-                    <input
-                      type="submit"
-                      name="Submit"
-                      value="Submit"
-                      className="btn sub_form btn_continue blackbrd Save float-right"
-                    />
+                    <>
+                      <input
+                        type="submit"
+                        name="Submit"
+                        value="Submit"
+                        className="btn sub_form btn_continue blackbrd Save float-right"
+                      />
+                      <Link
+                        className="btn sub_form btn_continue blackbrd  Save float-right"
+                        style={{ backgroundColor: "#007bff", color: "white" }}
+                        to={{
+                          pathname: "/generate-Invoice-Pdf-Print",
+                          data: {
+                            data,
+                          },
+                        }}
+                      >
+                        Print
+                      </Link>
+                    </>
                   )}
                 </>
               )}
