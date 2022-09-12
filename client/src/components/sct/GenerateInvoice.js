@@ -5,19 +5,19 @@ import Select from "react-select";
 import { Link, useHistory } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getALLCompanyDetails } from "../../actions/settings";
-import { savePurchaseOrder } from "../../actions/sct";
+import { saveQuatation } from "../../actions/sct";
 import { Redirect } from "react-router-dom";
-import SctQuotationpdfprint from "./SctQuotationpdfprint";
-import AllDesignation from "../department/AllDesignation";
 
 const GenerateInvoice = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allCompanyDetails },
   sct: { activeClient },
-  savePurchaseOrder,
+  saveQuatation,
   getALLCompanyDetails,
 }) => {
   const data = useHistory().location.data;
+  let sctDataVal = data && data.sctdata;
+
   useEffect(() => {
     getALLCompanyDetails();
   }, [getALLCompanyDetails]);
@@ -25,43 +25,38 @@ const GenerateInvoice = ({
   //formData
   const [formData, setFormData] = useState({
     sctClientName:
-      data && data.sctdata && data.sctdata.sctClientName
-        ? data.sctdata.sctClientName
-        : "",
+      sctDataVal && sctDataVal.sctClientName ? sctDataVal.sctClientName : "",
 
     sctClientAddress:
-      data && data.sctdata && data.sctdata.sctClientAddress
-        ? data.sctdata.sctClientAddress
+      sctDataVal && sctDataVal.sctClientAddress
+        ? sctDataVal.sctClientAddress
         : "",
 
     sctCompanyName:
-      data && data.sctdata && data.sctdata.sctCompanyName
-        ? data.sctdata.sctCompanyName
-        : "",
+      sctDataVal && sctDataVal.sctCompanyName ? sctDataVal.sctCompanyName : "",
     sctClientAssignedToName:
-      data && data.sctdata && data.sctdata.sctClientAssignedToName
-        ? data.sctdata.sctClientAssignedToName
+      sctDataVal && sctDataVal.sctClientAssignedToName
+        ? sctDataVal.sctClientAssignedToName
         : "",
     sctClientAssignedToId:
-      data && data.sctdata && data.sctdata.sctClientAssignedToId
-        ? data.sctdata.sctClientAssignedToId
+      sctDataVal && sctDataVal.sctClientAssignedToId
+        ? sctDataVal.sctClientAssignedToId
         : "",
-    amount: "",
-    PONo: "",
+
+    quotationNo: "",
     quotationDate: "",
-    workDesc: "",
     isSubmitted: false,
   });
 
   const {
-    PONo,
+    quotationNo,
+
     sctClientName,
     sctClientAssignedToId,
     sctCompanyName,
     sctClientAssignedToName,
     sctClientAddress,
-    amount,
-    workDesc,
+
     isSubmitted,
   } = formData;
 
@@ -97,7 +92,6 @@ const GenerateInvoice = ({
     var companyname = "";
     var companyaddress = "";
     getcompanyData(e);
-
     companyid = e.companyid;
     companyname = e.value;
     companyaddress = e.companyaddress;
@@ -139,11 +133,109 @@ const GenerateInvoice = ({
 
     return true;
   };
-  const [PODate, setPODate] = useState(new Date().toISOString().split("T")[0]);
+  const [startquotationDate, setquotationDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const onDateChange = (e) => {
-    setPODate(e.target.value);
+    setquotationDate(e.target.value);
   };
 
+  //add staff start
+  const [addData, setFormDatas] = useState({
+    itemName: "",
+    GST: "",
+    rate: "",
+    qty: 1,
+    amt: "",
+    CGST: "",
+    SGST: "",
+    IGST: "",
+    totalAmt: "",
+    discount: "",
+    grandTotal: "",
+    desc: "",
+  });
+
+  const {
+    itemName,
+    GST,
+    rate,
+    qty,
+    amt,
+    CGST,
+    SGST,
+    IGST,
+    totalAmt,
+    discount,
+    grandTotal,
+    desc,
+  } = addData;
+
+  const [AddedDetails, AddDetails] = useState([]);
+  const [amount, setAmount] = useState();
+
+  const onAdd = (e) => {
+    const staffList = AddedDetails.filter(
+      (AddDetails) => AddDetails.itemName === itemName
+    );
+
+    e.preventDefault();
+    if (staffList.length === 0) {
+      // if (checkErrorscontact()) {
+      const addData = {
+        itemName: itemName,
+        GST: GST,
+        rate: rate,
+        qty: qty,
+        amt: qty * rate,
+        SGST: SGST,
+        CGST: CGST,
+        IGST: IGST,
+        totalAmt:
+          Number(qty * rate) +
+          (Number(qty * rate) * Number(GST)) / 100 +
+          (Number(qty * rate) * Number(SGST)) / 100 +
+          (Number(qty * rate) * Number(CGST)) / 100 +
+          (Number(qty * rate) * Number(IGST)) / 100,
+        discount: discount,
+        grandTotal:
+          Number(qty * rate) +
+          (Number(qty * rate) * Number(GST)) / 100 +
+          (Number(qty * rate) * Number(SGST)) / 100 +
+          (Number(qty * rate) * Number(CGST)) / 100 +
+          (Number(qty * rate) * Number(IGST)) / 100 -
+          Number(discount),
+        desc: desc,
+      };
+      setFormDatas({
+        ...addData,
+        itemName: "",
+        GST: "",
+        rate: "",
+        qty: "",
+        amt: "",
+        CGST: "",
+        SGST: "",
+        IGST: "",
+        totalAmt: "",
+        discount: "",
+        grandTotal: "",
+        desc: "",
+      });
+      // setstaffCountryCode("");
+      // getstaffcountryData("");
+      let temp = [];
+      temp.push(...AddedDetails, addData);
+      AddDetails(temp);
+      // }
+    }
+  };
+  const onRemoveChange = (itemName) => {
+    const removeList = AddedDetails.filter(
+      (AddDetails) => AddDetails.itemName !== itemName
+    );
+    AddDetails(removeList);
+  };
   //add staff end
   const [finalDataVal, setFinalDataVal] = useState([]);
 
@@ -151,10 +243,16 @@ const GenerateInvoice = ({
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
-      clientId: data && data.sctdata ? data && data.sctdata._id : "",
+      clientId: sctDataVal ? sctDataVal._id : "",
+      quatationId:
+        sctDataVal && sctDataVal.quatation && sctDataVal.quatation[0]
+          ? sctDataVal.quatation[0]._id
+          : null,
+      quatationGenerated: sctDataVal ? sctDataVal.quatationGenerated : "",
+      quatation: sctDataVal ? sctDataVal.quatation : null,
       clientName: sctCompanyName,
-      PONo: PONo,
-      PODate: PODate,
+      quotationNo: quotationNo,
+      quotationDate: startquotationDate,
       clientFromId: sctClientAssignedToId,
       clientFrom: sctClientAssignedToName,
       companyId: companyid,
@@ -162,27 +260,31 @@ const GenerateInvoice = ({
       companyAddress: companyaddress,
       forName: sctCompanyName,
       forAddress: sctClientAddress,
-      workDesc: workDesc,
-      amount: amount,
-      POEnteredById: user._id,
-      POEnteredByDateTime: new Date().toLocaleString("en-GB"),
+      clientEnteredById: user._id,
+      item: AddedDetails,
     };
-    savePurchaseOrder(finalData);
+    saveQuatation(finalData);
     setFinalDataVal(finalData);
     setFormData({
       ...formData,
       sctClientAssignedToName: "",
       sctCompanyName: "",
       sctClientAddress: "",
-      PONo: "",
+      quotationNo: "",
       companyName: "",
       companyaddress: "",
-      PODate: "",
-      amount: "",
-      workDesc: "",
+      startquotationDate: "",
       isSubmitted: true,
     });
   };
+
+  const onInputChange1 = (e) => {
+    setFormDatas({ ...addData, [e.target.name]: e.target.value });
+  };
+
+  // if (isSubmitted) {
+  //   return <Redirect to="/all-clients" />;
+  // }
 
   if (!data) {
     return <Redirect to="/all-engaged-clients" />;
@@ -196,7 +298,7 @@ const GenerateInvoice = ({
         <form className="row" onSubmit={(e) => onSubmit(e)}>
           <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
             <div className=" col-lg-4 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color"> Generate Invoice </h5>
+              <h5 className="heading_color"> Invoice </h5>
             </div>
 
             <div className="col-lg-8 col-md-11 col-sm-12 col-12 py-2">
@@ -210,14 +312,14 @@ const GenerateInvoice = ({
           </div>
           <hr />
 
-          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <div className="row card-new ">
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
                 <label className="label-control">Invoice No:</label>
                 <input
                   type="text"
-                  name="PONo"
-                  value={PONo}
+                  name="quotationNo"
+                  value={quotationNo}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -229,7 +331,7 @@ const GenerateInvoice = ({
                   placeholder="dd/mm/yyyy"
                   className="form-control cpp-input datevalidation"
                   name="quotationDate"
-                  value={PODate}
+                  value={startquotationDate}
                   onChange={(e) => onDateChange(e)}
                   style={{
                     width: "100%",
@@ -243,28 +345,6 @@ const GenerateInvoice = ({
                   type="text"
                   name="sctClientAssignedToName"
                   value={sctClientAssignedToName}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-              <div className="col-lg-8 col-md-6 col-sm-6 col-12 py-2">
-                <label className="label-control">Work Discription :</label>
-                <textarea
-                  name="workDesc"
-                  id="workDesc"
-                  className="textarea form-control"
-                  rows="5"
-                  style={{ width: "100%" }}
-                  value={workDesc}
-                  onChange={(e) => onInputChange(e)}
-                ></textarea>
-              </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
-                <label className="label-control">Amount:</label>
-                <input
-                  type="text"
-                  name="amount"
-                  value={amount}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -330,6 +410,225 @@ const GenerateInvoice = ({
               </div>
             </div>
           </div>
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
+            <div className="row card-new ">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                <h5>Item Info</h5>
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label>Item :</label>
+                <input
+                  type="text"
+                  name="itemName"
+                  value={itemName}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label>Qty :</label>
+                <input
+                  type="text"
+                  name="qty"
+                  value={qty}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label>Rate :</label>
+                <input
+                  type="text"
+                  name="rate"
+                  value={rate}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label>Amount :</label>
+                <input
+                  type="text"
+                  name="amt"
+                  value={qty * rate}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                  disabled
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label>GST :</label>
+                <input
+                  type="text"
+                  name="GST"
+                  value={GST}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label>CGST :</label>
+                <input
+                  type="text"
+                  name="CGST"
+                  value={CGST}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+                <label>SGST :</label>
+                <input
+                  type="text"
+                  name="SGST"
+                  value={SGST}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+                <label>IGST :</label>
+                <input
+                  type="text"
+                  name="IGST"
+                  value={IGST}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+                <label>Total Amount :</label>
+                <input
+                  type="text"
+                  name="totalAmt"
+                  value={
+                    Number(qty * rate) +
+                    (Number(qty * rate) * Number(GST)) / 100 +
+                    (Number(qty * rate) * Number(SGST)) / 100 +
+                    (Number(qty * rate) * Number(CGST)) / 100 +
+                    (Number(qty * rate) * Number(IGST)) / 100
+                  }
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                  disabled
+                />
+              </div>
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
+                <label>Discount :</label>
+                <input
+                  type="text"
+                  name="discount"
+                  value={discount}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
+                <label>Grand Total :</label>
+                <input
+                  type="text"
+                  name="grandTotal"
+                  value={
+                    Number(qty * rate) +
+                    (Number(qty * rate) * Number(GST)) / 100 +
+                    (Number(qty * rate) * Number(SGST)) / 100 +
+                    (Number(qty * rate) * Number(CGST)) / 100 +
+                    (Number(qty * rate) * Number(IGST)) / 100 -
+                    Number(discount)
+                  }
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12 ">
+                <label>Discription :</label>
+
+                <textarea
+                  name="desc"
+                  id="desc"
+                  className="textarea form-control"
+                  rows="3"
+                  placeholder="Discription"
+                  style={{ width: "100%" }}
+                  value={desc}
+                  onChange={(e) => onInputChange1(e)}
+                ></textarea>
+              </div>
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12 mt-3">
+                <label className="label-control"></label>
+                <button
+                  variant="success"
+                  className="btn sub_form btn_continue Save float-right"
+                  onClick={(e) => onAdd(e)}
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-2">
+            <div
+              className="row card-new"
+              // style={{ height: "340px", overflowY: "scroll" }}
+            >
+              <table
+                className="tabllll table table-bordered table-striped table-hover"
+                id="datatable2"
+              >
+                <thead>
+                  <tr>
+                    <th>Item Name</th>
+                    <th>GST</th>
+                    <th>Rate</th>
+                    <th>Qty</th>
+                    <th>Amount</th>
+                    <th>CGST</th>
+                    <th>SGST</th>
+                    <th>IGST</th>
+                    <th>Total Amt</th>
+                    <th>Discount</th>
+                    <th>Grand Total</th>
+                    <th>Discription</th>
+                    <th>Remove</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {AddedDetails &&
+                    AddedDetails.map((AddDetail, idx) => {
+                      return (
+                        <tr key={idx}>
+                          <td>{AddDetail.itemName}</td>
+                          <td>{AddDetail.GST}</td>
+                          <td>{AddDetail.rate}</td>
+                          <td>{AddDetail.qty}</td>
+                          <td>{AddDetail.amt}</td>
+                          <td>{AddDetail.CGST}</td>
+                          <td>{AddDetail.SGST}</td>
+                          <td>{AddDetail.IGST}</td>
+                          <td>{AddDetail.totalAmt}</td>
+                          <td>{AddDetail.discount}</td>
+                          <td>{AddDetail.grandTotal}</td>
+                          <td>{AddDetail.desc}</td>
+
+                          <td>
+                            <img
+                              className="img_icon_size log"
+                              onClick={() => onRemoveChange(AddDetail.itemName)}
+                              src={require("../../static/images/close-buttonRed.png")}
+                              alt="Remove"
+                              title="Remove"
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+          </div>
 
           <div
             className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
@@ -356,9 +655,10 @@ const GenerateInvoice = ({
                       className="btn sub_form btn_continue blackbrd  Save float-right"
                       style={{ backgroundColor: "#007bff", color: "white" }}
                       to={{
-                        pathname: "/print-PO-pdf",
+                        pathname: "/print-pdf",
                         data: {
                           data,
+                          quatationData: finalDataVal,
                         },
                       }}
                     >
@@ -366,12 +666,7 @@ const GenerateInvoice = ({
                     </Link>
                   ) : (
                     <>
-                      <input
-                        type="submit"
-                        name="Submit"
-                        value="Submit"
-                        className="btn sub_form btn_continue blackbrd Save float-right"
-                      />
+                      {" "}
                       <Link
                         className="btn sub_form btn_continue blackbrd  Save float-right"
                         style={{ backgroundColor: "#007bff", color: "white" }}
@@ -379,11 +674,18 @@ const GenerateInvoice = ({
                           pathname: "/generate-Invoice-Pdf-Print",
                           data: {
                             data,
+                            quatationData: finalDataVal,
                           },
                         }}
                       >
                         Print
                       </Link>
+                      <input
+                        type="submit"
+                        name="Submit"
+                        value="Submit"
+                        className="btn sub_form btn_continue blackbrd Save float-right"
+                      />
                     </>
                   )}
                 </>
@@ -414,6 +716,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  savePurchaseOrder,
+  saveQuatation,
   getALLCompanyDetails,
 })(GenerateInvoice);
