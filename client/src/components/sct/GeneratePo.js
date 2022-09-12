@@ -5,26 +5,17 @@ import Select from "react-select";
 import { Link, useHistory } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getALLCompanyDetails } from "../../actions/settings";
-import { saveQuatation } from "../../actions/sct";
+import { savePurchaseOrder } from "../../actions/sct";
 import { Redirect } from "react-router-dom";
 import SctQuotationpdfprint from "./SctQuotationpdfprint";
 import AllDesignation from "../department/AllDesignation";
-// import {
-//   Document,
-//   Page,
-//   Text,
-//   Image,
-//   View,
-//   StyleSheet,
-//   PDFViewer,
-// } from "@react-pdf/renderer";
 
 const GeneratePo = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allCompanyDetails },
   sct: { activeClient },
 
-  saveQuatation,
+  savePurchaseOrder,
   getALLCompanyDetails,
 }) => {
   const data = useHistory().location.data;
@@ -56,21 +47,22 @@ const GeneratePo = ({
       data && data.sctdata && data.sctdata.sctClientAssignedToId
         ? data.sctdata.sctClientAssignedToId
         : "",
-
-    quotationNo: "",
+    amount: "",
+    PONo: "",
     quotationDate: "",
+    workDesc: "",
     isSubmitted: false,
   });
 
   const {
-    quotationNo,
-
+    PONo,
     sctClientName,
     sctClientAssignedToId,
     sctCompanyName,
     sctClientAssignedToName,
     sctClientAddress,
-
+    amount,
+    workDesc,
     isSubmitted,
   } = formData;
 
@@ -147,11 +139,9 @@ const GeneratePo = ({
 
     return true;
   };
-  const [startquotationDate, setquotationDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+  const [PODate, setPODate] = useState(new Date().toISOString().split("T")[0]);
   const onDateChange = (e) => {
-    setquotationDate(e.target.value);
+    setPODate(e.target.value);
   };
 
   //add staff end
@@ -163,8 +153,8 @@ const GeneratePo = ({
     const finalData = {
       clientId: data && data.sctdata ? data && data.sctdata._id : "",
       clientName: sctCompanyName,
-      quotationNo: quotationNo,
-      quotationDate: startquotationDate,
+      PONo: PONo,
+      PODate: PODate,
       clientFromId: sctClientAssignedToId,
       clientFrom: sctClientAssignedToName,
       companyId: companyid,
@@ -172,19 +162,24 @@ const GeneratePo = ({
       companyAddress: companyaddress,
       forName: sctCompanyName,
       forAddress: sctClientAddress,
-      clientEnteredById: user._id,
+      workDesc: workDesc,
+      amount: amount,
+      POEnteredById: user._id,
+      POEnteredByDateTime: new Date().toLocaleString("en-GB"),
     };
-    saveQuatation(finalData);
+    savePurchaseOrder(finalData);
     setFinalDataVal(finalData);
     setFormData({
       ...formData,
       sctClientAssignedToName: "",
       sctCompanyName: "",
       sctClientAddress: "",
-      quotationNo: "",
+      PONo: "",
       companyName: "",
       companyaddress: "",
-      startquotationDate: "",
+      PODate: "",
+      amount: "",
+      workDesc: "",
       isSubmitted: true,
     });
   };
@@ -221,8 +216,8 @@ const GeneratePo = ({
                 <label className="label-control">Purchase Order No:</label>
                 <input
                   type="text"
-                  name="quotationNo"
-                  value={quotationNo}
+                  name="PONo"
+                  value={PONo}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -234,7 +229,7 @@ const GeneratePo = ({
                   placeholder="dd/mm/yyyy"
                   className="form-control cpp-input datevalidation"
                   name="quotationDate"
-                  value={startquotationDate}
+                  value={PODate}
                   onChange={(e) => onDateChange(e)}
                   style={{
                     width: "100%",
@@ -255,13 +250,12 @@ const GeneratePo = ({
               <div className="col-lg-8 col-md-6 col-sm-6 col-12 py-2">
                 <label className="label-control">Work Discription :</label>
                 <textarea
-                  name="sctClientAddress"
-                  id="sctClientAddress"
+                  name="workDesc"
+                  id="workDesc"
                   className="textarea form-control"
                   rows="5"
-                  placeholder="To Address"
                   style={{ width: "100%" }}
-                  value={sctClientAddress}
+                  value={workDesc}
                   onChange={(e) => onInputChange(e)}
                 ></textarea>
               </div>
@@ -269,8 +263,8 @@ const GeneratePo = ({
                 <label className="label-control">Amount:</label>
                 <input
                   type="text"
-                  name="sctClientAssignedToName"
-                  value={sctClientAssignedToName}
+                  name="amount"
+                  value={amount}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -406,6 +400,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  saveQuatation,
+  savePurchaseOrder,
   getALLCompanyDetails,
 })(GeneratePo);

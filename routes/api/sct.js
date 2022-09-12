@@ -11,6 +11,7 @@ const Demo = require("../../models/sct/demo");
 const EmployeeDetails = require("../../models/EmpDetails");
 const SctProjects = require("../../models/sct/SctProjects");
 const Quatation = require("../../models/sct/quotation");
+const PurchaseOrder = require("../../models/sct/purchaseOrder");
 
 //ADD
 router.post("/add-sct-Leads", async (req, res) => {
@@ -124,9 +125,10 @@ router.post("/add-quatation", async (req, res) => {
       );
       res.json(updateQuatationStatus);
     } else {
-      let AddQuatation = new Quatation(data.quatation);
+      let clientQuatation = data.quatation[0];
+      delete clientQuatation._id;
+      let AddQuatation = new Quatation(clientQuatation);
       output = await AddQuatation.save();
-      res.send(output);
       const updateQuatationStatus = await SctClients.updateOne(
         { "quatation._id": data.quatationId },
         {
@@ -151,6 +153,28 @@ router.post("/add-quatation", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/add-purchase-order", async (req, res) => {
+  let data = req.body;
+  try {
+    let AddPurchaseOrder = new PurchaseOrder(data);
+    output = await AddPurchaseOrder.save();
+    const updatePurchaseOrderStatus = await SctClients.updateOne(
+      { _id: data.clientId },
+      {
+        $set: {
+          POGenerated: 1,
+          POId: output._id,
+        },
+      }
+    );
+    res.json(updatePurchaseOrderStatus);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 //EDIT
 router.post("/edit-sct-Leads", async (req, res) => {
   try {
@@ -322,7 +346,6 @@ router.post("/update-sct-leads-status", async (req, res) => {
 router.post("/update-sct-clients-status", async (req, res) => {
   try {
     let data = req.body;
-    console.log(data);
     const updateSctClientsStatus = await SctClients.updateOne(
       { _id: data.sctCallToId },
       {
@@ -960,7 +983,6 @@ router.post("/check-demo", async (req, res) => {
 
 router.post("/check-regenerate", async (req, res) => {
   const { clientId } = req.body;
-  consol.log(clientId);
   try {
     const checkQuatation = await Quatation.findOne({ clientId: clientId })
       .sort({ _id: -1 })

@@ -170,6 +170,16 @@ const SctClientsSchema = new mongoose.Schema({
     type: Number, //0,1
     default: 0,
   },
+  POGenerated: {
+    type: Number, //0,1
+    default: 0,
+  },
+  POId: {
+    type: ObjectId,
+  },
+  billingStatus: {
+    type: String,
+  },
   quatation: [
     {
       clientId: {

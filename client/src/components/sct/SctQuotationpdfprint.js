@@ -2,7 +2,7 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import {
   Document,
   Page,
@@ -16,10 +16,8 @@ const SctQuotationpdfprint = ({
   auth: { isAuthenticated, user, users, loading },
 }) => {
   const data = useHistory().location.data;
-  console.log(data, "data");
   // let getRegenerate = JSON.parse(localStorage.getItem("getRegenerate"));
-  let getRegenerate = data.quatationData;
-  console.log(getRegenerate, "get");
+  let getRegenerate = data && data.quatationData ? data.quatationData : null;
   //formData
 
   const [formData, setFormData] = useState({
@@ -151,6 +149,9 @@ const SctQuotationpdfprint = ({
     // },
   });
 
+  if (!data || data === undefined) {
+    return <Redirect to="/all-engaged-clients" />;
+  }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (

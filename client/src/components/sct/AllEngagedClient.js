@@ -407,17 +407,6 @@ const AllEngagedClient = ({
                                     <Link
                                       className="btn btn_green_bg float-right"
                                       to={{
-                                        pathname: "/generate-PO",
-                                        data: {
-                                          sctdata: sctClients,
-                                        },
-                                      }}
-                                    >
-                                      Generate PO
-                                    </Link>
-                                    <Link
-                                      className="btn btn_green_bg float-right"
-                                      to={{
                                         pathname: "/generate-quotation",
                                         data: {
                                           sctdata: sctClients,
@@ -428,6 +417,17 @@ const AllEngagedClient = ({
                                     </Link>
                                   </>
                                 )}
+                                <Link
+                                  className="btn btn_green_bg float-right"
+                                  to={{
+                                    pathname: "/generate-PO",
+                                    data: {
+                                      sctdata: sctClients,
+                                    },
+                                  }}
+                                >
+                                  Generate PO
+                                </Link>
                               </td>
                               <td>
                                 <img

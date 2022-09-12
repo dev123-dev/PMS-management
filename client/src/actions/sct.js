@@ -109,7 +109,24 @@ export const saveQuatation = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/sct/add-quatation", finalData, config);
-    dispatch(getRegenerateData({ clientId: finalData.clientId }));
+    // dispatch(getRegenerateData({ clientId: finalData.clientId }));
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const savePurchaseOrder = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/sct/add-purchase-order", finalData, config);
+    // dispatch(getRegenerateData({ clientId: finalData.clientId }));
     dispatch({
       type: SET_LOADING_FALSE,
     });

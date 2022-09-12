@@ -18,7 +18,7 @@ const GenerateSctQuotation = ({
   getALLCompanyDetails,
 }) => {
   const data = useHistory().location.data;
-  let sctDataVal = data.sctdata;
+  let sctDataVal = data && data.sctdata;
 
   useEffect(() => {
     getALLCompanyDetails();
@@ -145,16 +145,16 @@ const GenerateSctQuotation = ({
   //add staff start
   const [addData, setFormDatas] = useState({
     itemName: "",
-    GST: 0,
-    rate: 0,
+    GST: "",
+    rate: "",
     qty: 1,
-    amt: 0,
-    CGST: 0,
-    SGST: 0,
-    IGST: 0,
-    totalAmt: 0,
-    discount: 0,
-    grandTotal: 0,
+    amt: "",
+    CGST: "",
+    SGST: "",
+    IGST: "",
+    totalAmt: "",
+    discount: "",
+    grandTotal: "",
     desc: "",
   });
 
@@ -186,7 +186,7 @@ const GenerateSctQuotation = ({
       // if (checkErrorscontact()) {
       const addData = {
         itemName: itemName,
-        GST: Number((qty * rate) / GST),
+        GST: GST,
         rate: rate,
         qty: qty,
         amt: qty * rate,
@@ -265,7 +265,6 @@ const GenerateSctQuotation = ({
       clientEnteredById: user._id,
       item: AddedDetails,
     };
-    console.log(finalData);
     saveQuatation(finalData);
     setFinalDataVal(finalData);
     setFormData({
