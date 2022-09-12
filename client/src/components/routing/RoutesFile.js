@@ -85,6 +85,7 @@ import AllSctRegularClients from "../sct/AllSctRegularClients";
 import GeneratePo from "../sct/GeneratePo";
 import SctPopdfPrint from "../sct/SctPopdfPrint";
 import AllSctDocuments from "../sct/AllSctDocuments";
+import GenerateInvoice from "../sct/GenerateInvoice";
 const RoutesFile = () => {
   return (
     <section>
@@ -168,6 +169,11 @@ const RoutesFile = () => {
         />
 
         <PrivateRoute exact path="/generate-PO" component={GeneratePo} />
+        <PrivateRoute
+          exact
+          path="/generate-Invoice"
+          component={GenerateInvoice}
+        />
 
         <PrivateRoute exact path="/all-demo" component={AllDemos} />
 

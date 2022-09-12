@@ -128,7 +128,14 @@ const AllSctDocuments = ({
             <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
               <div className="card card-content ">
                 <center>
-                  <Link to="/monthly-income-expense-report">
+                  <Link
+                    to={{
+                      pathname: "/generate-Invoice",
+                      data: {
+                        sctdata: sctClients,
+                      },
+                    }}
+                  >
                     <img
                       className=" log"
                       ///  src={require("../../static/images/invoice.png")}
