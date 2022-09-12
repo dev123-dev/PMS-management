@@ -538,12 +538,8 @@ const EditSctClients = ({
                     required
                   />
                 </div>
-                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                  <label
-                  // className="label-control"
-                  >
-                    Client Name:
-                  </label>
+                <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Client Name:</label>
                   <input
                     type="text"
                     name="sctClientName"
@@ -711,7 +707,7 @@ const EditSctClients = ({
                     onChange={(e) => onInputChange(e)}
                   ></textarea>
                 </div>
-                <div className="col-lg-6  col-md-6 col-sm-6 col-12 ">
+                <div className="col-lg-5  col-md-6 col-sm-6 col-12 ">
                   <label className="label-control">Address :</label>
                   <textarea
                     name="sctClientAddress"
