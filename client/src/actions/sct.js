@@ -24,6 +24,7 @@ import {
   SCT_CLIENTS,
   SCT_CLIENTS_DD,
   SCT_CLIENTS_EMP,
+  PO_PRINT,
 } from "./types";
 
 const config = {
@@ -126,7 +127,7 @@ export const savePurchaseOrder = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/sct/add-purchase-order", finalData, config);
-    // dispatch(getRegenerateData({ clientId: finalData.clientId }));
+    dispatch(getPurchaseOrderPrint({ clientId: finalData.clientId }));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -683,6 +684,24 @@ export const deactivateSctClientDetails = (finalData) => async (dispatch) => {
     await axios.post("/api/sct/deactivate-sct-Clients", finalData, config);
     dispatch({
       type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getPurchaseOrderPrint = (client) => async (dispatch) => {
+  try {
+    dispatch({
+      type: PO_PRINT,
+      payload: null,
+    });
+    const res = await axios.post("/api/sct/po-print", client);
+    dispatch({
+      type: PO_PRINT,
+      payload: res.data,
     });
   } catch (err) {
     dispatch({

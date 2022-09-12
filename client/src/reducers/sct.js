@@ -19,6 +19,7 @@ import {
   SCT_CLIENTS,
   SCT_CLIENTS_DD,
   SCT_CLIENTS_EMP,
+  PO_PRINT,
 } from "../actions/types";
 
 const initialState = {
@@ -44,6 +45,7 @@ const initialState = {
   sctClients: [],
   sctClientsDD: [],
   sctClientsEmp: [],
+  poPrint: [],
 };
 
 const sct = (state = initialState, action) => {
@@ -149,6 +151,12 @@ const sct = (state = initialState, action) => {
         ...state,
         sctClientsEmp: payload,
       };
+    case PO_PRINT:
+      return {
+        ...state,
+        poPrint: payload,
+      };
+
     default:
       return state;
   }

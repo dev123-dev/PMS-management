@@ -1051,4 +1051,20 @@ router.post("/deactivate-sct-Clients", async (req, res) => {
   }
 });
 
+router.post("/po-print", async (req, res) => {
+  const { clientId } = req.body;
+  try {
+    const printPO = await PurchaseOrder.findOne({
+      clientId: clientId,
+      status: "Active",
+    })
+      .sort({ _id: -1 })
+      .limit(1);
+    res.json(printPO);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;

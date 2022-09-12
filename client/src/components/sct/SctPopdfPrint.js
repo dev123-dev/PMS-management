@@ -1,8 +1,8 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import {
   Document,
   Page,
@@ -12,11 +12,17 @@ import {
   PDFViewer,
 } from "@react-pdf/renderer";
 import AllDesignation from "../department/AllDesignation";
-const SctPopdfPrint = ({ auth: { isAuthenticated, user, users, loading } }) => {
+
+const SctPopdfPrint = ({
+  auth: { isAuthenticated, user, users, loading },
+  sct: { poPrint },
+}) => {
   const data = useHistory().location.data;
+
   console.log(data, "data");
   let getRegenerate = JSON.parse(localStorage.getItem("getRegenerate"));
-  console.log(getRegenerate, "get");
+  console.log(poPrint, "poPrint");
+
   //formData
 
   const [formData, setFormData] = useState({
@@ -38,24 +44,13 @@ const SctPopdfPrint = ({ auth: { isAuthenticated, user, users, loading } }) => {
       data && data.data.sctdata && data.data.sctdata.sctClientAddress
         ? data.data.sctdata.sctClientAddress
         : "",
-
-    companyAddress:
-      getRegenerate && getRegenerate.companyAddress
-        ? getRegenerate.companyAddress
-        : "",
-    companyName:
-      getRegenerate && getRegenerate.companyName
-        ? getRegenerate.companyName
-        : "",
-    forName:
-      getRegenerate && getRegenerate.forName ? getRegenerate.forName : "",
-    forAddress:
-      getRegenerate && getRegenerate.forAddress ? getRegenerate.forAddress : "",
-    quotationNo:
-      getRegenerate && getRegenerate.quotationNo
-        ? getRegenerate.quotationNo
-        : "",
-
+    companyAddress: "",
+    companyName: "",
+    forName: "",
+    forAddress: "",
+    PONo: "",
+    workDesc: "",
+    amount: "",
     sctClientAssignedToName:
       data && data.sctdata && data.sctdata.sctClientAssignedToName
         ? data.sctdata.sctClientAssignedToName
@@ -72,11 +67,13 @@ const SctPopdfPrint = ({ auth: { isAuthenticated, user, users, loading } }) => {
   const {
     sctCompanyName,
     sctClientAddress,
-    quotationNo,
+    PONo,
     companyName,
     quotationDate,
     forName,
     forAddress,
+    workDesc,
+    amount,
     sctClientName,
     sctClientAssignedToId,
     clientName,
@@ -85,7 +82,21 @@ const SctPopdfPrint = ({ auth: { isAuthenticated, user, users, loading } }) => {
     companyAddress,
     isSubmitted,
   } = formData;
-  const [startpurchaseOrderDate, setqpurchaseorderDate] = useState(
+
+  if (poPrint && poPrint.PONo && !PONo) {
+    setFormData({
+      ...formData,
+      companyAddress: poPrint.companyAddress ? poPrint.companyAddress : "",
+      companyName: poPrint.companyName ? poPrint.companyName : "",
+      forName: poPrint.forName ? poPrint.forName : "",
+      forAddress: poPrint.forAddress ? poPrint.forAddress : "",
+      PONo: poPrint.PONo ? poPrint.PONo : "",
+      workDesc: poPrint.workDesc ? poPrint.workDesc : "",
+      amount: poPrint.amount ? poPrint.amount : "",
+    });
+  }
+
+  const [startpurchaseOrderDate, setpurchaseorderDate] = useState(
     new Date().toISOString().split("T")[0]
   );
 
@@ -161,6 +172,9 @@ const SctPopdfPrint = ({ auth: { isAuthenticated, user, users, loading } }) => {
     // },
   });
 
+  if (!data || data === undefined) {
+    return <Redirect to="/all-engaged-clients" />;
+  }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -176,7 +190,7 @@ const SctPopdfPrint = ({ auth: { isAuthenticated, user, users, loading } }) => {
               <Text>Purchase Order</Text>
             </View>
             <View style={styles.section}>
-              <Text>Purchase Order No #:{quotationNo}</Text>
+              <Text>Purchase Order No #:{PONo}</Text>
               <Text>Purchase Order Date:{purchaseOrderDate}</Text>
             </View>
 
@@ -204,8 +218,8 @@ const SctPopdfPrint = ({ auth: { isAuthenticated, user, users, loading } }) => {
                   }}
                 >
                   To:{"\n"}
-                  {sctCompanyName} {"\n"}
-                  {sctClientAddress}
+                  {forName} {"\n"}
+                  {forAddress}
                 </Text>
               </View>
             </View>
@@ -225,16 +239,11 @@ const SctPopdfPrint = ({ auth: { isAuthenticated, user, users, loading } }) => {
 
             <View style={(styles.table, styles.section)}>
               <View style={[styles.row, styles.bold, styles.header]}>
-                <Text style={{ width: "80%" }}>Description of Work</Text>
-                <Text style={styles.row2}>Amount </Text>
+                <Text style={{ width: "80%" }}>
+                  Description of Work : {workDesc}
+                </Text>
+                <Text style={styles.row2}>Amount : {amount} </Text>
               </View>
-              {getRegenerate &&
-                getRegenerate.item.map((row, i) => (
-                  <View key={i} style={styles.row} wrap={false}>
-                    <Text>{row.itemName}</Text>
-                    <Text style={styles.row2}>{row.GST}</Text>
-                  </View>
-                ))}
             </View>
             {/* <View style={(styles.table, styles.section)}>
             <View style={[styles.row]}>
@@ -284,6 +293,7 @@ SctPopdfPrint.propTypes = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  sct: state.sct,
 });
 
 export default connect(mapStateToProps, {})(SctPopdfPrint);

@@ -117,6 +117,7 @@ export const DEMO_CHECK = "DEMO_CHECK";
 export const SCT_CLIENTS = "SCT_CLIENTS";
 export const SCT_CLIENTS_DD = "SCT_CLIENTS_DD";
 export const SCT_CLIENTS_EMP = "SCT_CLIENTS_EMP";
+export const PO_PRINT = "PO_PRINT";
 
 //SETTINGS
 export const ALL_COMPANY_DETAILS = "ALL_COMPANY_DETAILS";
