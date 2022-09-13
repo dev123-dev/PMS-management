@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Modal } from "react-bootstrap";
-import FileBase64 from "react-file-base64";
+import axios from "axios";
 const AllSctDocuments = ({
   auth: { isAuthenticated, user, users },
   sctClients,
@@ -15,17 +15,30 @@ const AllSctDocuments = ({
 
   let documentCategory = [
     { value: "Quotation", label: "Quotation", cat: "Quotation" },
-    { value: "RevisedQuotation", label: "Revised Quotation", cat: "Quotation" },
-    { value: "SendPO", label: "Send PO", cat: "PO" },
-    { value: "POReceived", label: "PO Received", cat: "PO" },
-    { value: "GenerateInvoice", label: "Generate Invoice", cat: "Invoice" },
-    { value: "RevisedInvoice", label: "Revised Invoice", cat: "Invoice" },
-    { value: "PaymentReceived", label: "Payment Received", cat: "Invoice" },
+    { value: "PO", label: "PO", cat: "PO" },
+    { value: "Invoice", label: "Invoice", cat: "Invoice" },
+
+    // { value: "RevisedQuotation", label: "Revised Quotation", cat: "Quotation" },
+    // { value: "SendPO", label: "Send PO", cat: "PO" },
+    // { value: "POReceived", label: "PO Received", cat: "PO" },
+    // { value: "GenerateInvoice", label: "Generate Invoice", cat: "Invoice" },
+    // { value: "RevisedInvoice", label: "Revised Invoice", cat: "Invoice" },
+    // { value: "PaymentReceived", label: "Payment Received", cat: "Invoice" },
   ];
 
-  console.log(sctClientData.billingStatusCategory, "Quotation");
   if (sctClientData && sctClientData.billingStatusCategory === "Quotation") {
-    console.log("hii");
+    documentCategory = documentCategory.filter(
+      (documentCategory) =>
+        documentCategory.cat === "Quotation" || documentCategory.cat === "PO"
+    );
+  } else if (sctClientData && sctClientData.billingStatusCategory === "PO") {
+    documentCategory = documentCategory.filter(
+      (documentCategory) =>
+        documentCategory.cat === "Quotation" ||
+        documentCategory.cat === "PO" ||
+        documentCategory.cat === "Invoice"
+    );
+  } else {
     documentCategory = documentCategory.filter(
       (documentCategory) => documentCategory.cat === "Quotation"
     );
@@ -33,15 +46,17 @@ const AllSctDocuments = ({
 
   const [formData, setFormData] = useState({
     projectStatusData: documentCategory[0],
+    docCat: documentCategory[0],
     isSubmitted: false,
   });
 
-  const { projectStatusData } = formData;
+  const { projectStatusData, docCat } = formData;
   const onSliderChange = (sctClients, idx) => (e) => {
     if (e) {
       setFormData({
         ...formData,
         projectStatusData: e,
+        docCat: e.cat,
       });
     }
 
@@ -63,6 +78,29 @@ const AllSctDocuments = ({
 
   const onUpdate = () => {
     setShowUploadModal(true);
+  };
+
+  const onClickQuotation = (sctClients) => {
+    localStorage.setItem(
+      "quotationDataLS",
+      JSON.stringify(sctClients.quotation[0])
+    );
+  };
+
+  const [selectedFile, setFile] = useState();
+
+  const onFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+  const onFileUpload = () => {
+    const formData = new FormData();
+    formData.append("myFile", selectedFile);
+    formData.append("clientId", sctClientData._id);
+    axios.post("http://localhost:2001/api/sct/uploadfile", formData, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -115,104 +153,136 @@ const AllSctDocuments = ({
                     )}
                   </Link>
                 </center>
+                <Link
+                  // onClick={() => onClickQuotation(sctClientsData)}
+                  to={{
+                    pathname: "/print-pdf",
+                    data: {
+                      data: sctClientData,
+                      quotationData: sctClientData.quotation[0],
+                    },
+                  }}
+                >
+                  <img
+                    className="img_icon_size log float-right"
+                    src={require("../../static/images/print.png")}
+                    alt="Send Po"
+                    title="Send Po"
+                    style={{ margin: "5px" }}
+                  />
+                </Link>
               </div>
             </div>
+            {sctClientData.billingStatusCategory === "PO" ||
+              (docCat === "PO" && (
+                <>
+                  <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
+                    <div className="card card-content ">
+                      <center>
+                        <Link
+                          to={{
+                            pathname: "/generate-PO",
+                            data: {
+                              sctdata: sctClientData,
+                            },
+                          }}
+                        >
+                          <img
+                            className="log"
+                            src={require("../../static/images/Po.png")}
+                            alt="Send Po"
+                            title="Send Po"
+                          />
+                          {sctClientData && sctClientData.POGenerated === 1 ? (
+                            <h4>Revised Purchase Order</h4>
+                          ) : (
+                            <h4>Send Purchase Order</h4>
+                          )}
+                        </Link>
+                      </center>
+                    </div>
+                  </div>
+                  {sctClientData.POGenerated === 1 && (
+                    <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
+                      <div className="card card-content ">
+                        <center>
+                          <Link to="#" onClick={() => onUpdate()}>
+                            <img
+                              className=" log"
+                              src={require("../../static/images/Po.png")}
+                              alt="Upload PO"
+                              title="Upload PO"
+                            />
+                            <h4>Upload PO</h4>
+                          </Link>
+                        </center>
+                      </div>
+                    </div>
+                  )}
+                </>
+              ))}
+          </div>
+          {sctClientData.billingStatusCategory === "Invoice" ||
+            (docCat === "Invoice" && (
+              <div className="row col-lg-11 col-md-11 col-sm-12 col-12 py-5">
+                <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
+                  <div className="card card-content ">
+                    <center>
+                      <Link
+                        to={{
+                          pathname: "/generate-Invoice",
+                          data: {
+                            sctdata: sctClientData,
+                          },
+                        }}
+                      >
+                        <img
+                          className=" log"
+                          ///  src={require("../../static/images/invoice.png")}
+                          src={require("../../static/images/Po.png")}
+                          alt="Send Invoice"
+                          title="Send Invoice"
+                        />
+                        <h4>Send Invoice</h4>
+                      </Link>
+                    </center>
+                  </div>
+                </div>
+                <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
+                  <div className="card card-content ">
+                    <center>
+                      <Link to="/profit-loss-report">
+                        <img
+                          className=" log"
+                          // src={require("../../static/images/profitloss.jfif")}
+                          src={require("../../static/images/Po.png")}
+                          alt="Send T&C Agreement"
+                          title="Send T&C Agreement"
+                        />
+                        <h4>Send T&C Agreement</h4>
+                      </Link>
+                    </center>
+                  </div>
+                </div>
 
-            <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
-              <div className="card card-content ">
-                <center>
-                  <Link
-                    to={{
-                      pathname: "/generate-PO",
-                      data: {
-                        sctdata: sctClientData,
-                      },
-                    }}
-                  >
-                    <img
-                      className="log"
-                      src={require("../../static/images/Po.png")}
-                      alt="Send Po"
-                      title="Send Po"
-                    />
-                    <h4>Send Purchase Order</h4>
-                  </Link>
-                </center>
+                <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
+                  <div className="card card-content ">
+                    <center>
+                      <Link to="/profit-loss-report">
+                        <img
+                          className=" log"
+                          // src={require("../../static/images/profitloss.jfif")}
+                          src={require("../../static/images/Po.png")}
+                          alt="Upload Agreement"
+                          title="Upload Agreement"
+                        />
+                        <h4>Upload Agreement</h4>
+                      </Link>
+                    </center>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
-              <div className="card card-content ">
-                <center>
-                  <Link
-                    to={{
-                      pathname: "/generate-Invoice",
-                      data: {
-                        sctdata: sctClientData,
-                      },
-                    }}
-                  >
-                    <img
-                      className=" log"
-                      ///  src={require("../../static/images/invoice.png")}
-                      src={require("../../static/images/Po.png")}
-                      alt="Send Invoice"
-                      title="Send Invoice"
-                    />
-                    <h4>Send Invoice</h4>
-                  </Link>
-                </center>
-              </div>
-            </div>
-          </div>
-          <div className="row col-lg-11 col-md-11 col-sm-12 col-12 py-5">
-            <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
-              <div className="card card-content ">
-                <center>
-                  <Link to="/profit-loss-report">
-                    <img
-                      className=" log"
-                      // src={require("../../static/images/profitloss.jfif")}
-                      src={require("../../static/images/Po.png")}
-                      alt="Send T&C Agreement"
-                      title="Send T&C Agreement"
-                    />
-                    <h4>Send T&C Agreement</h4>
-                  </Link>
-                </center>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
-              <div className="card card-content ">
-                <center>
-                  <Link to="#" onClick={() => onUpdate()}>
-                    <img
-                      className=" log"
-                      src={require("../../static/images/Po.png")}
-                      alt="Upload PO"
-                      title="Upload PO"
-                    />
-                    <h4>Upload PO</h4>
-                  </Link>
-                </center>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
-              <div className="card card-content ">
-                <center>
-                  <Link to="/profit-loss-report">
-                    <img
-                      className=" log"
-                      // src={require("../../static/images/profitloss.jfif")}
-                      src={require("../../static/images/Po.png")}
-                      alt="Upload Agreement"
-                      title="Upload Agreement"
-                    />
-                    <h4>Upload Agreement</h4>
-                  </Link>
-                </center>
-              </div>
-            </div>
-          </div>
+            ))}
         </section>
       </div>
       <Modal
@@ -238,37 +308,8 @@ const AllSctDocuments = ({
           </div>
         </Modal.Header>
         <Modal.Body>
-          {/* <form className="row" onSubmit={(e) => onSubmitVeriy(e, "Taken")}> */}
-          <div className="row col-lg-12 col-md-12 col-sm-12 col-12 py-3">
-            <label className="label-control">Upload here:</label>
-
-            <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-              <FileBase64
-                type="file"
-                multiple={false}
-                onDone={({ base64 }) =>
-                  setFormData({
-                    ...formData,
-                    institutionLogo: base64,
-                  })
-                }
-              />
-            </div>
-          </div>
-          <div
-            className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
-            size="lg"
-          >
-            <div className="col-lg-12 col-md-6 col-sm-12 col-12">
-              <input
-                type="submit"
-                name="Submit"
-                value="Upload"
-                className="btn sub_form btn_continue blackbrd Save float-right"
-              />
-            </div>
-          </div>
-          {/* </form> */}
+          <input type="file" onChange={onFileChange} />
+          <button onClick={onFileUpload}>Upload!</button>
         </Modal.Body>
       </Modal>
     </Fragment>

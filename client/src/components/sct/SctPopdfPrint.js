@@ -18,32 +18,14 @@ const SctPopdfPrint = ({
   sct: { poPrint },
 }) => {
   const data = useHistory().location.data;
-
   console.log(data, "data");
-  let getRegenerate = JSON.parse(localStorage.getItem("getRegenerate"));
+  let poPrintLS = JSON.parse(localStorage.getItem("poPrintLS"));
   console.log(poPrint, "poPrint");
+  console.log(poPrintLS, "poPrintLS");
 
   //formData
 
   const [formData, setFormData] = useState({
-    sctClientName:
-      data && data.sctdata && data.sctdata.sctClientName
-        ? data.sctdata.sctClientName
-        : "",
-
-    sctClientAddress:
-      data && data.data.sctdata && data.data.sctdata.sctClientAddress
-        ? data.data.sctdata.sctClientAddress
-        : "",
-
-    sctCompanyName:
-      data && data.data.sctdata && data.data.sctdata.sctCompanyName
-        ? data.data.sctdata.sctCompanyName
-        : "",
-    sctClientAddress:
-      data && data.data.sctdata && data.data.sctdata.sctClientAddress
-        ? data.data.sctdata.sctClientAddress
-        : "",
     companyAddress: "",
     companyName: "",
     forName: "",
@@ -51,57 +33,38 @@ const SctPopdfPrint = ({
     PONo: "",
     workDesc: "",
     amount: "",
-    sctClientAssignedToName:
-      data && data.sctdata && data.sctdata.sctClientAssignedToName
-        ? data.sctdata.sctClientAssignedToName
-        : "",
-    sctClientAssignedToId:
-      data && data.sctdata && data.sctdata.sctClientAssignedToId
-        ? data.sctdata.sctClientAssignedToId
-        : "",
-
-    quotationDate: "",
+    PODate: "",
     isSubmitted: false,
   });
 
   const {
-    sctCompanyName,
-    sctClientAddress,
     PONo,
     companyName,
-    quotationDate,
     forName,
     forAddress,
     workDesc,
     amount,
-    sctClientName,
-    sctClientAssignedToId,
-    clientName,
-    sctClientAssignedToName,
-
     companyAddress,
+    PODate,
     isSubmitted,
   } = formData;
 
-  if (poPrint && poPrint.PONo && !PONo) {
+  if (poPrintLS && poPrintLS.PONo && !PONo) {
     setFormData({
       ...formData,
-      companyAddress: poPrint.companyAddress ? poPrint.companyAddress : "",
-      companyName: poPrint.companyName ? poPrint.companyName : "",
-      forName: poPrint.forName ? poPrint.forName : "",
-      forAddress: poPrint.forAddress ? poPrint.forAddress : "",
-      PONo: poPrint.PONo ? poPrint.PONo : "",
-      workDesc: poPrint.workDesc ? poPrint.workDesc : "",
-      amount: poPrint.amount ? poPrint.amount : "",
+      companyAddress: poPrintLS.companyAddress ? poPrintLS.companyAddress : "",
+      companyName: poPrintLS.companyName ? poPrintLS.companyName : "",
+      forName: poPrintLS.forName ? poPrintLS.forName : "",
+      forAddress: poPrintLS.forAddress ? poPrintLS.forAddress : "",
+      PONo: poPrintLS.PONo ? poPrintLS.PONo : "",
+      workDesc: poPrintLS.workDesc ? poPrintLS.workDesc : "",
+      amount: poPrintLS.amount ? poPrintLS.amount : "",
+      PODate: poPrintLS.PODate ? poPrintLS.PODate : "",
     });
   }
 
-  const [startpurchaseOrderDate, setpurchaseorderDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
-
   var purchaseOrderDate = "";
-  var ED = startpurchaseOrderDate.split(/\D/g);
+  var ED = PODate.split(/\D/g);
   purchaseOrderDate = [ED[2], ED[1], ED[0]].join("-");
 
   const styles = StyleSheet.create({

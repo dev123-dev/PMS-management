@@ -19,7 +19,7 @@ const SctInvoicePdfPrint = ({
 }) => {
   const data = useHistory().location.data;
 
-  let getRegenerate = JSON.parse(localStorage.getItem("getRegenerate"));
+  // let getRegenerate = JSON.parse(localStorage.getItem("getRegenerate"));
   console.log(poPrint, "poPrint");
 
   //formData

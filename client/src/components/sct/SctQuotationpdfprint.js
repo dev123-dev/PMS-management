@@ -11,41 +11,20 @@ import {
   StyleSheet,
   PDFViewer,
 } from "@react-pdf/renderer";
-import AllDesignation from "../department/AllDesignation";
 const SctQuotationpdfprint = ({
   auth: { isAuthenticated, user, users, loading },
 }) => {
   const data = useHistory().location.data;
-  // let getRegenerate = JSON.parse(localStorage.getItem("getRegenerate"));
-  let getRegenerate = data && data.quotationData ? data.quotationData : null;
+  let quotationDataLS = JSON.parse(localStorage.getItem("quotationDataLS"));
+  // let getRegenerate = data && data.quotationData ? data.quotationData : null;
   //formData
 
   const [formData, setFormData] = useState({
-    sctClientName:
-      data && data.sctdata && data.sctdata.sctClientName
-        ? data.sctdata.sctClientName
-        : "",
-
-    sctClientAddress:
-      data && data.data.sctdata && data.data.sctdata.sctClientAddress
-        ? data.data.sctdata.sctClientAddress
-        : "",
-
     companyAddress: "",
     companyName: "",
     forName: "",
     forAddress: "",
     quotationNo: "",
-
-    sctClientAssignedToName:
-      data && data.sctdata && data.sctdata.sctClientAssignedToName
-        ? data.sctdata.sctClientAssignedToName
-        : "",
-    sctClientAssignedToId:
-      data && data.sctdata && data.sctdata.sctClientAssignedToId
-        ? data.sctdata.sctClientAssignedToId
-        : "",
-
     quotationDate: "",
     isSubmitted: false,
   });
@@ -56,31 +35,31 @@ const SctQuotationpdfprint = ({
     quotationDate,
     forName,
     forAddress,
-    sctClientName,
-    sctClientAssignedToId,
-    clientName,
-    sctClientAssignedToName,
-    sctClientAddress,
     companyAddress,
     isSubmitted,
   } = formData;
 
-  if (getRegenerate && getRegenerate.companyAddress && !companyAddress) {
+  if (quotationDataLS && quotationDataLS.companyAddress && !companyAddress) {
     setFormData({
       ...formData,
-      companyAddress: getRegenerate.companyAddress
-        ? getRegenerate.companyAddress
+      companyAddress: quotationDataLS.companyAddress
+        ? quotationDataLS.companyAddress
         : "",
-      companyName: getRegenerate.companyName ? getRegenerate.companyName : "",
-      forName: getRegenerate.forName ? getRegenerate.forName : "",
-      forAddress: getRegenerate.forAddress ? getRegenerate.forAddress : "",
-      quotationNo: getRegenerate.quotationNo ? getRegenerate.quotationNo : "",
+      companyName: quotationDataLS.companyName
+        ? quotationDataLS.companyName
+        : "",
+      forName: quotationDataLS.forName ? quotationDataLS.forName : "",
+      forAddress: quotationDataLS.forAddress ? quotationDataLS.forAddress : "",
+      quotationNo: quotationDataLS.quotationNo
+        ? quotationDataLS.quotationNo
+        : "",
+      quotationDate: quotationDataLS.quotationDate
+        ? quotationDataLS.quotationDate
+        : "",
     });
   }
 
-  const [startquotationDate, setquotationDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+  const [startquotationDate, setquotationDate] = useState(quotationDate);
   const styles = StyleSheet.create({
     section: {
       // margin: 10,
@@ -233,8 +212,8 @@ const SctQuotationpdfprint = ({
               <Text style={styles.row8}>Discount</Text>
               <Text style={styles.row8}>Grand Total</Text>
             </View>
-            {getRegenerate &&
-              getRegenerate.item.map((row, i) => (
+            {quotationDataLS &&
+              quotationDataLS.item.map((row, i) => (
                 <View key={i} style={styles.row} wrap={false}>
                   <Text style={styles.row1}>{row.itemName}</Text>
                   <Text style={styles.row2}>{row.GST}</Text>

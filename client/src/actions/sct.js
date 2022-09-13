@@ -647,17 +647,17 @@ export const checkDemo = (client) => async (dispatch) => {
   }
 };
 
-export const getRegenerateData = (client) => async (dispatch) => {
-  try {
-    localStorage.removeItem("getRegenerate");
-    const res = await axios.post("/api/sct/check-regenerate", client);
-    localStorage.setItem("getRegenerate", JSON.stringify(res.data));
-  } catch (err) {
-    dispatch({
-      type: ERROR,
-    });
-  }
-};
+// export const getRegenerateData = (client) => async (dispatch) => {
+//   try {
+//     localStorage.removeItem("getRegenerate");
+//     const res = await axios.post("/api/sct/check-regenerate", client);
+//     localStorage.setItem("getRegenerate", JSON.stringify(res.data));
+//   } catch (err) {
+//     dispatch({
+//       type: ERROR,
+//     });
+//   }
+// };
 
 export const editSctClientDetails = (finalData) => async (dispatch) => {
   try {
@@ -699,6 +699,7 @@ export const getPurchaseOrderPrint = (client) => async (dispatch) => {
       payload: null,
     });
     const res = await axios.post("/api/sct/po-print", client);
+    localStorage.setItem("poPrintLS", JSON.stringify(res.data));
     dispatch({
       type: PO_PRINT,
       payload: res.data,

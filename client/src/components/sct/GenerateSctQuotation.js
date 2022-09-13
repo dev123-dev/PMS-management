@@ -266,6 +266,7 @@ const GenerateSctQuotation = ({
       item: AddedDetails,
     };
     saveQuotation(finalData);
+    localStorage.setItem("quotationDataLS", JSON.stringify(finalData));
     setFinalDataVal(finalData);
     setFormData({
       ...formData,

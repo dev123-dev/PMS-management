@@ -9,7 +9,8 @@ import {
   getSctClientDetails,
   getSctClientDetailsDD,
   getSctLastmessage,
-  getRegenerateData,
+  // getRegenerateData,
+  getPurchaseOrderPrint,
 } from "../../actions/sct";
 import FileBase64 from "react-file-base64";
 import SctLastMessageDetails from "./SctLastMessageDetails";
@@ -27,7 +28,8 @@ const AllEngagedClient = ({
   getActiveCountry,
   getSctClientDetailsDD,
   getSctLastmessage,
-  getRegenerateData,
+  // getRegenerateData,
+  getPurchaseOrderPrint,
 }) => {
   useEffect(() => {
     getSctClientDetails({ sctClientCategory: "EC" });
@@ -237,9 +239,16 @@ const AllEngagedClient = ({
     setcolorData("");
   };
 
-  const onClickRegenerate = (sctClients, idx) => {
-    getRegenerateData({ clientId: sctClients._id });
+  const onClickPO = (sctClients) => {
+    getPurchaseOrderPrint({ clientId: sctClients._id });
   };
+  const onClickQuotation = (sctClients) => {
+    localStorage.setItem(
+      "quotationDataLS",
+      JSON.stringify(sctClients.quotation[0])
+    );
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -317,7 +326,7 @@ const AllEngagedClient = ({
                         <th style={{ width: "13%" }}>Contact</th>
                         <th style={{ width: "8%" }}>Call Date</th>
                         {/* <th style={{ width: "18%" }}>Status</th> */}
-                        <th style={{ width: "8%" }}>Print</th>
+                        <th style={{ width: "13%" }}>Print</th>
                         <th style={{ width: "7%" }}>Op</th>
                       </tr>
                     </thead>
@@ -328,6 +337,11 @@ const AllEngagedClient = ({
                           if (sctClients.sctCallDate) {
                             var ED = sctClients.sctCallDate.split(/\D/g);
                             sctCallDate = [ED[2], ED[1], ED[0]].join("-");
+                          }
+                          let fileVal = "";
+                          if (sctClients.POFile && sctClients.POFile.filename) {
+                            fileVal = require("../../static/files/" +
+                              sctClients.POFile.filename);
                           }
                           return (
                             <tr
@@ -357,7 +371,25 @@ const AllEngagedClient = ({
                                   {sctClients.sctWebsite}
                                 </Link>
                               </td>
-                              <td>{sctClients.sctEmailId}</td>
+                              <td>
+                                {fileVal !== "" ? (
+                                  <>
+                                    <Link
+                                      onClick={() =>
+                                        onClickHandler2(sctClients, idx)
+                                      }
+                                      to={{
+                                        pathname: fileVal,
+                                      }}
+                                      target="_blank"
+                                    >
+                                      {sctClients.sctEmailId}
+                                    </Link>
+                                  </>
+                                ) : (
+                                  <>{sctClients.sctEmailId}</>
+                                )}
+                              </td>
                               <td>{sctClients.countryName}</td>
                               <td>
                                 {sctClients.sctcountryCode
@@ -383,10 +415,13 @@ const AllEngagedClient = ({
                                 />
                               </td> */}
                               <td>
-                                {sctClients.quotationGenerated ? (
+                                {sctClients.quotationGenerated === 1 && (
                                   <>
                                     <Link
                                       className="btn btn_green_bg float-right"
+                                      onClick={() =>
+                                        onClickQuotation(sctClients)
+                                      }
                                       to={{
                                         pathname: "/print-pdf",
                                         data: {
@@ -399,8 +434,22 @@ const AllEngagedClient = ({
                                       Q
                                     </Link>
                                   </>
-                                ) : (
-                                  <></>
+                                )}
+                                {sctClients.POGenerated === 1 && (
+                                  <>
+                                    <Link
+                                      className="btn btn_green_bg float-right"
+                                      onClick={() => onClickPO(sctClients)}
+                                      to={{
+                                        pathname: "/print-PO-pdf",
+                                        data: {
+                                          data: sctClients,
+                                        },
+                                      }}
+                                    >
+                                      PO
+                                    </Link>
+                                  </>
                                 )}
                               </td>
                               <td>
@@ -622,5 +671,6 @@ export default connect(mapStateToProps, {
   getSctClientDetailsDD,
   getActiveCountry,
   getSctLastmessage,
-  getRegenerateData,
+  // getRegenerateData,
+  getPurchaseOrderPrint,
 })(AllEngagedClient);
