@@ -172,9 +172,9 @@ const SctPopdfPrint = ({
     // },
   });
 
-  if (!data || data === undefined) {
-    return <Redirect to="/all-engaged-clients" />;
-  }
+  // if (!data || data === undefined) {
+  //   return <Redirect to="/all-engaged-clients" />;
+  // }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
