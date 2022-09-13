@@ -47,7 +47,9 @@ const GeneratePo = ({
       data && data.sctdata && data.sctdata.sctClientAssignedToId
         ? data.sctdata.sctClientAssignedToId
         : "",
-    amount: "",
+    other: "",
+    tax: "",
+    shipping: "",
     PONo: "",
     quotationDate: "",
     workDesc: "",
@@ -61,7 +63,10 @@ const GeneratePo = ({
     sctCompanyName,
     sctClientAssignedToName,
     sctClientAddress,
-    amount,
+    other,
+    tax,
+    shipping,
+    // amount,
     workDesc,
     isSubmitted,
   } = formData;
@@ -145,6 +150,103 @@ const GeneratePo = ({
     setPODate(e.target.value);
   };
 
+  const onInputChange1 = (e) => {
+    setFormDatas({ ...addData, [e.target.name]: e.target.value });
+  };
+
+  const [addData, setFormDatas] = useState({
+    itemName: "",
+    GST: "",
+    itemPrice: "",
+    itemOty: 1,
+    itemTotal: "",
+    CGST: "",
+    SGST: "",
+    IGST: "",
+    totalAmt: "",
+    discount: "",
+    grandTotal: "",
+    itemDesc: "",
+  });
+
+  const {
+    itemName,
+    GST,
+    itemPrice,
+    itemOty,
+    itemTotal,
+    CGST,
+    SGST,
+    IGST,
+    totalAmt,
+    discount,
+    grandTotal,
+    itemDesc,
+  } = addData;
+
+  const [AddedDetails, AddDetails] = useState([]);
+  const [amount, setAmount] = useState();
+
+  const onAdd = (e) => {
+    const staffList = AddedDetails.filter(
+      (AddDetails) => AddDetails.itemName === itemName
+    );
+
+    e.preventDefault();
+    if (staffList.length === 0) {
+      // if (checkErrorscontact()) {
+      const addData = {
+        itemName: itemName,
+
+        itemPrice: itemPrice,
+        itemOty: itemOty,
+        itemTotal: itemOty * itemPrice,
+
+        totalAmt:
+          Number(itemOty * itemPrice) +
+          (Number(itemOty * itemPrice) * Number(GST)) / 100 +
+          (Number(itemOty * itemPrice) * Number(SGST)) / 100 +
+          (Number(itemOty * itemPrice) * Number(CGST)) / 100 +
+          (Number(itemOty * itemPrice) * Number(IGST)) / 100,
+
+        grandTotal:
+          Number(itemOty * itemPrice) +
+          (Number(itemOty * itemPrice) * Number(GST)) / 100 +
+          (Number(itemOty * itemPrice) * Number(SGST)) / 100 +
+          (Number(itemOty * itemPrice) * Number(CGST)) / 100 +
+          (Number(itemOty * itemPrice) * Number(IGST)) / 100 -
+          Number(discount),
+        itemDesc: itemDesc,
+      };
+      setFormDatas({
+        ...addData,
+        itemName: "",
+        GST: "",
+        itemPrice: "",
+        itemOty: "",
+        itemTotal: "",
+        CGST: "",
+        SGST: "",
+        IGST: "",
+        totalAmt: "",
+        discount: "",
+        grandTotal: "",
+        itemDesc: "",
+      });
+      // setstaffCountryCode("");
+      // getstaffcountryData("");
+      let temp = [];
+      temp.push(...AddedDetails, addData);
+      AddDetails(temp);
+      // }
+    }
+  };
+  const onRemoveChange = (itemName) => {
+    const removeList = AddedDetails.filter(
+      (AddDetails) => AddDetails.itemName !== itemName
+    );
+    AddDetails(removeList);
+  };
   //add staff end
   const [finalDataVal, setFinalDataVal] = useState([]);
 
@@ -164,7 +266,9 @@ const GeneratePo = ({
       forName: sctCompanyName,
       forAddress: sctClientAddress,
       workDesc: workDesc,
-      amount: amount,
+      other: other,
+      tax: tax,
+      shipping: shipping,
       POEnteredById: user._id,
       POEnteredByDateTime: new Date().toLocaleString("en-GB"),
     };
@@ -179,7 +283,9 @@ const GeneratePo = ({
       companyName: "",
       companyaddress: "",
       PODate: "",
-      amount: "",
+      other: "",
+      tax: "",
+      shipping: "",
       workDesc: "",
       isSubmitted: true,
     });
@@ -211,9 +317,9 @@ const GeneratePo = ({
           </div>
           <hr />
 
-          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <div className="row card-new ">
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
                 <label className="label-control">Purchase Order No:</label>
                 <input
                   type="text"
@@ -223,7 +329,7 @@ const GeneratePo = ({
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
                 <label className="label-control">Purchase Order Date :</label>
                 <input
                   type="date"
@@ -238,7 +344,7 @@ const GeneratePo = ({
                   required
                 />
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
                 <label className="label-control">Client From :</label>
                 <input
                   type="text"
@@ -248,27 +354,50 @@ const GeneratePo = ({
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-              <div className="col-lg-8 col-md-6 col-sm-6 col-12 py-2">
-                <label className="label-control">Work Discription :</label>
+
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Tax :</label>
+                <input
+                  type="text"
+                  name="GST"
+                  // value={GST}
+                  className="form-control"
+                  // onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Shipping:</label>
+                <input
+                  type="text"
+                  name="CGST"
+                  //value={CGST}
+                  className="form-control"
+                  //onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+                <label className="label-control">Other :</label>
+                <input
+                  type="text"
+                  name="other"
+                  value={other}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-12 col-md-6 col-sm-6 col-12 py-2">
+                <label>Work Discription :</label>
                 <textarea
                   name="workDesc"
                   id="workDesc"
                   className="textarea form-control"
-                  rows="5"
+                  rows="2"
                   style={{ width: "100%" }}
                   value={workDesc}
                   onChange={(e) => onInputChange(e)}
                 ></textarea>
-              </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
-                <label className="label-control">Amount:</label>
-                <input
-                  type="text"
-                  name="amount"
-                  value={amount}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                />
               </div>
               <br />
               <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 ">
@@ -331,7 +460,144 @@ const GeneratePo = ({
               </div>
             </div>
           </div>
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
+            <div className="row card-new ">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                <h5>Item Info</h5>
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Item :</label>
+                <input
+                  type="text"
+                  name="itemName"
+                  value={itemName}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
 
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Qty :</label>
+                <input
+                  type="text"
+                  name="itemOty"
+                  value={itemOty}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Rate :</label>
+                <input
+                  type="text"
+                  name="itemPrice"
+                  value={itemPrice}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Amount :</label>
+                <input
+                  type="text"
+                  name="itemTotal"
+                  value={itemOty * itemPrice}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                  disabled
+                />
+              </div>
+
+              {/* <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+                <label className="label-control">Total Amount :</label>
+                <input
+                  type="text"
+                  name="totalAmt"
+                  className="form-control"
+                    onChange={(e) => onInputChange1(e)}
+                  disabled
+                />
+              </div> */}
+
+              <div className="col-lg-8 col-md-6 col-sm-6 col-12 ">
+                <label className="label-control">Discription :</label>
+
+                <textarea
+                  name="itemDesc"
+                  id="itemDesc"
+                  className="textarea form-control"
+                  rows="3"
+                  placeholder="Discription"
+                  style={{ width: "100%" }}
+                  value={itemDesc}
+                  onChange={(e) => onInputChange1(e)}
+                ></textarea>
+              </div>
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
+                <label className="label-control"></label>
+                <button
+                  variant="success"
+                  className="btn sub_form btn_continue Save "
+                  onClick={(e) => onAdd(e)}
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-2">
+            <div
+              className="row card-new"
+              // style={{ height: "340px", overflowY: "scroll" }}
+            >
+              <table
+                className="tabllll table table-bordered table-striped table-hover"
+                id="datatable2"
+              >
+                <thead>
+                  <tr>
+                    <th>Item Name</th>
+                    <th>Rate</th>
+                    <th>Qty</th>
+                    {/* <th>Amount</th> */}
+                    <th>Total Amt</th>
+
+                    <th>Discription</th>
+                    <th>Remove</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {AddedDetails &&
+                    AddedDetails.map((AddDetail, idx) => {
+                      return (
+                        <tr key={idx}>
+                          <td>{AddDetail.itemName}</td>
+
+                          <td>{AddDetail.itemPrice}</td>
+                          <td>{AddDetail.itemOty}</td>
+                          {/* <td>{AddDetail.itemTotal}</td> */}
+
+                          <td>{AddDetail.totalAmt}</td>
+
+                          {/* <td>{AddDetail.grandTotal}</td> */}
+                          <td>{AddDetail.itemDesc}</td>
+
+                          <td>
+                            <img
+                              className="img_icon_size log"
+                              onClick={() => onRemoveChange(AddDetail.itemName)}
+                              src={require("../../static/images/close-buttonRed.png")}
+                              alt="Remove"
+                              title="Remove"
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+          </div>
           <div
             className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
             size="lg"
