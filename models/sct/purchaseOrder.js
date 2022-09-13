@@ -39,12 +39,40 @@ const POSchema = new mongoose.Schema({
     type: String,
   },
   amount: {
-    type: String,
+    type: Number,
+  },
+  tax: {
+    type: Number,
+  },
+  shipping: {
+    type: Number,
+  },
+  other: {
+    type: Number,
   },
   status: {
     type: String,
     default: "Active",
   },
+  item: [
+    {
+      itemName: {
+        type: String,
+      },
+      itemDesc: {
+        type: String,
+      },
+      itemOty: {
+        type: Number,
+      },
+      itemPrice: {
+        type: Number,
+      },
+      itemTotal: {
+        type: Number,
+      },
+    },
+  ],
   POEnteredById: {
     type: ObjectId,
   },
