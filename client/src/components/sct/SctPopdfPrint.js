@@ -138,6 +138,10 @@ const SctPopdfPrint = ({
   // if (!data || data === undefined) {
   //   return <Redirect to="/all-engaged-clients" />;
   // }
+  let totSubTot = 0;
+  poPrintLS &&
+    poPrintLS.item.map((row, i) => (totSubTot = Number(row.itemTotal)));
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -206,6 +210,43 @@ const SctPopdfPrint = ({
                   Description of Work : {workDesc}
                 </Text>
                 <Text style={styles.row2}>Amount : {amount} </Text>
+              </View>
+            </View>
+            <View style={(styles.table, styles.section)}>
+              <View style={[styles.row, styles.bold, styles.header]}>
+                <Text style={styles.row1}>Item Name</Text>
+                <Text style={styles.row2}>Description</Text>
+                <Text style={styles.row3}>Rate</Text>
+                <Text style={styles.row4}>Qty</Text>
+                <Text style={styles.row5}>Total</Text>
+              </View>
+              {poPrintLS &&
+                poPrintLS.item.map((row, i) => (
+                  <View key={i} style={styles.row} wrap={false}>
+                    <Text style={styles.row1}>{row.itemName}</Text>
+                    <Text style={styles.row2}>{row.itemDesc}</Text>
+                    <Text style={styles.row3}>{row.itemPrice}</Text>
+                    <Text style={styles.row4}>{row.itemOty}</Text>
+                    <Text style={styles.row5}>{row.itemTotal}</Text>
+                  </View>
+                ))}
+              <View style={styles.row} wrap={false}>
+                <Text colSpan={3}>Sub Total</Text>
+                <Text style={styles.row5}>{totSubTot}</Text>
+              </View>
+              <View style={styles.row} wrap={false}>
+                <Text colSpan={3}>Tax</Text>
+                <Text style={styles.row5}>{poPrintLS.tax}</Text>
+              </View>
+              <View style={styles.row} wrap={false}>
+                <Text colSpan={3}>Shipping</Text>
+                <Text style={styles.row5}>{poPrintLS.shipping}</Text>
+              </View>
+              <View style={styles.row} wrap={false}>
+                <Text colSpan={3}>Total</Text>
+                <Text style={styles.row5}>
+                  {totSubTot + poPrintLS.tax + poPrintLS.shipping}
+                </Text>
               </View>
             </View>
             {/* <View style={(styles.table, styles.section)}>

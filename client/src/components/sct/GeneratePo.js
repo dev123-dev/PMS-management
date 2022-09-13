@@ -156,33 +156,13 @@ const GeneratePo = ({
 
   const [addData, setFormDatas] = useState({
     itemName: "",
-    GST: "",
     itemPrice: "",
     itemOty: 1,
     itemTotal: "",
-    CGST: "",
-    SGST: "",
-    IGST: "",
-    totalAmt: "",
-    discount: "",
-    grandTotal: "",
     itemDesc: "",
   });
 
-  const {
-    itemName,
-    GST,
-    itemPrice,
-    itemOty,
-    itemTotal,
-    CGST,
-    SGST,
-    IGST,
-    totalAmt,
-    discount,
-    grandTotal,
-    itemDesc,
-  } = addData;
+  const { itemName, itemPrice, itemOty, itemDesc } = addData;
 
   const [AddedDetails, AddDetails] = useState([]);
   const [amount, setAmount] = useState();
@@ -197,40 +177,17 @@ const GeneratePo = ({
       // if (checkErrorscontact()) {
       const addData = {
         itemName: itemName,
-
         itemPrice: itemPrice,
         itemOty: itemOty,
         itemTotal: itemOty * itemPrice,
-
-        totalAmt:
-          Number(itemOty * itemPrice) +
-          (Number(itemOty * itemPrice) * Number(GST)) / 100 +
-          (Number(itemOty * itemPrice) * Number(SGST)) / 100 +
-          (Number(itemOty * itemPrice) * Number(CGST)) / 100 +
-          (Number(itemOty * itemPrice) * Number(IGST)) / 100,
-
-        grandTotal:
-          Number(itemOty * itemPrice) +
-          (Number(itemOty * itemPrice) * Number(GST)) / 100 +
-          (Number(itemOty * itemPrice) * Number(SGST)) / 100 +
-          (Number(itemOty * itemPrice) * Number(CGST)) / 100 +
-          (Number(itemOty * itemPrice) * Number(IGST)) / 100 -
-          Number(discount),
         itemDesc: itemDesc,
       };
       setFormDatas({
         ...addData,
         itemName: "",
-        GST: "",
         itemPrice: "",
         itemOty: "",
         itemTotal: "",
-        CGST: "",
-        SGST: "",
-        IGST: "",
-        totalAmt: "",
-        discount: "",
-        grandTotal: "",
         itemDesc: "",
       });
       // setstaffCountryCode("");
@@ -269,6 +226,7 @@ const GeneratePo = ({
       other: other,
       tax: tax,
       shipping: shipping,
+      item: AddedDetails,
       POEnteredById: user._id,
       POEnteredByDateTime: new Date().toLocaleString("en-GB"),
     };
@@ -290,7 +248,7 @@ const GeneratePo = ({
       isSubmitted: true,
     });
   };
-
+  let totSubTot = 0;
   if (!data) {
     return <Redirect to="/all-engaged-clients" />;
   }
@@ -359,10 +317,10 @@ const GeneratePo = ({
                 <label className="label-control">Tax :</label>
                 <input
                   type="text"
-                  name="GST"
-                  // value={GST}
+                  name="tax"
+                  value={tax}
                   className="form-control"
-                  // onChange={(e) => onInputChange1(e)}
+                  onChange={(e) => onInputChange(e)}
                 />
               </div>
 
@@ -370,10 +328,10 @@ const GeneratePo = ({
                 <label className="label-control">Shipping:</label>
                 <input
                   type="text"
-                  name="CGST"
-                  //value={CGST}
+                  name="shipping"
+                  value={shipping}
                   className="form-control"
-                  //onChange={(e) => onInputChange1(e)}
+                  onChange={(e) => onInputChange(e)}
                 />
               </div>
 
@@ -557,31 +515,24 @@ const GeneratePo = ({
                 <thead>
                   <tr>
                     <th>Item Name</th>
+                    <th>Description</th>
                     <th>Rate</th>
                     <th>Qty</th>
-                    {/* <th>Amount</th> */}
-                    <th>Total Amt</th>
-
-                    <th>Discription</th>
+                    <th>Total Amount</th>
                     <th>Remove</th>
                   </tr>
                 </thead>
                 <tbody>
                   {AddedDetails &&
                     AddedDetails.map((AddDetail, idx) => {
+                      totSubTot += Number(AddDetail.itemTotal);
                       return (
                         <tr key={idx}>
                           <td>{AddDetail.itemName}</td>
-
+                          <td>{AddDetail.itemDesc}</td>
                           <td>{AddDetail.itemPrice}</td>
                           <td>{AddDetail.itemOty}</td>
-                          {/* <td>{AddDetail.itemTotal}</td> */}
-
-                          <td>{AddDetail.totalAmt}</td>
-
-                          {/* <td>{AddDetail.grandTotal}</td> */}
-                          <td>{AddDetail.itemDesc}</td>
-
+                          <td>{AddDetail.itemTotal}</td>
                           <td>
                             <img
                               className="img_icon_size log"
@@ -594,6 +545,17 @@ const GeneratePo = ({
                         </tr>
                       );
                     })}
+                  <tr>
+                    <td colSpan={4}>
+                      <b>
+                        <span className="float-right">Sub Total</span>
+                      </b>
+                    </td>
+                    <td>
+                      <b>{totSubTot}</b>
+                    </td>
+                    <td></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
