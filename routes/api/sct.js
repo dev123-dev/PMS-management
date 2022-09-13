@@ -12,6 +12,15 @@ const EmployeeDetails = require("../../models/EmpDetails");
 const SctProjects = require("../../models/sct/SctProjects");
 const Quotation = require("../../models/sct/quotation");
 const PurchaseOrder = require("../../models/sct/purchaseOrder");
+const multer = require("multer");
+
+var storage = multer.diskStorage({
+  destination: "./client/src/static/files",
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
 
 //ADD
 router.post("/add-sct-Leads", async (req, res) => {
@@ -38,6 +47,30 @@ router.post("/add-sct-client", async (req, res) => {
   }
 });
 
+// router.post("/uploadfile", async (req, res) => {
+//   let data = req.body;
+//   console.log(data);
+// });
+
+router.post("/uploadfile", upload.single("myFile"), async (req, res, next) => {
+  console.log(req.file.originalname + " file successfully uploaded !!");
+  console.log(req.file);
+  const data = req.body;
+  const uploadPo = await SctClients.updateOne(
+    { _id: data.clientId },
+    {
+      $set: {
+        poFileName: req.file.name,
+        POFile: req.file,
+      },
+    }
+  );
+  res.sendStatus(200);
+});
+// app.post("/uploadfile", upload.single("myFile"), (req, res, next) => {
+//   console.log(req.file.originalname + " file successfully uploaded !!");
+//   res.sendStatus(200);
+// });
 router.post("/add-new-sct-staff", async (req, res) => {
   try {
     let data = req.body;

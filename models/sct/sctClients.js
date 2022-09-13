@@ -183,6 +183,9 @@ const SctClientsSchema = new mongoose.Schema({
   billingStatusCategory: {
     type: String,
   },
+
+  POFile: {},
+
   quotation: [
     {
       clientId: {
