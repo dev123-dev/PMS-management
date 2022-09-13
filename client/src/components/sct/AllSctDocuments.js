@@ -6,9 +6,11 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
+import { getPurchaseOrderPrint } from "../../actions/sct";
 const AllSctDocuments = ({
   auth: { isAuthenticated, user, users },
   sctClients,
+  getPurchaseOrderPrint,
 }) => {
   let sctClientData = JSON.parse(localStorage.getItem("sctClientData"));
   console.log("sctClientData", sctClientData);
@@ -87,6 +89,10 @@ const AllSctDocuments = ({
     );
   };
 
+  const onClickPO = (sctClients) => {
+    getPurchaseOrderPrint({ clientId: sctClients._id });
+  };
+
   const [selectedFile, setFile] = useState();
 
   const onFileChange = (event) => {
@@ -153,24 +159,26 @@ const AllSctDocuments = ({
                     )}
                   </Link>
                 </center>
-                <Link
-                  // onClick={() => onClickQuotation(sctClientsData)}
-                  to={{
-                    pathname: "/print-pdf",
-                    data: {
-                      data: sctClientData,
-                      quotationData: sctClientData.quotation[0],
-                    },
-                  }}
-                >
-                  <img
-                    className="img_icon_size log float-right"
-                    src={require("../../static/images/print.png")}
-                    alt="Send Po"
-                    title="Send Po"
-                    style={{ margin: "5px" }}
-                  />
-                </Link>
+                <div>
+                  {sctClientData && sctClientData.quotationGenerated === 1 ? (
+                    <Link
+                      onClick={() => onClickQuotation(sctClientData)}
+                      to={{
+                        pathname: "/print-pdf",
+                      }}
+                      target="_blank"
+                    >
+                      <img
+                        className="img_icon_size log float-right"
+                        src={require("../../static/images/print.png")}
+                        alt="Print Quatation"
+                        style={{ margin: "5px" }}
+                      />
+                    </Link>
+                  ) : (
+                    <Link to="#"></Link>
+                  )}
+                </div>
               </div>
             </div>
             {sctClientData.billingStatusCategory === "PO" ||
@@ -191,7 +199,6 @@ const AllSctDocuments = ({
                             className="log"
                             src={require("../../static/images/Po.png")}
                             alt="Send Po"
-                            title="Send Po"
                           />
                           {sctClientData && sctClientData.POGenerated === 1 ? (
                             <h4>Revised Purchase Order</h4>
@@ -200,6 +207,29 @@ const AllSctDocuments = ({
                           )}
                         </Link>
                       </center>
+                      <div>
+                        {sctClientData.POGenerated === 1 && (
+                          <>
+                            <Link
+                              onClick={() => onClickPO(sctClientData)}
+                              to={{
+                                pathname: "/print-PO-pdf",
+                                data: {
+                                  data: sctClientData,
+                                },
+                              }}
+                              target="_blank"
+                            >
+                              <img
+                                className="img_icon_size log float-right"
+                                src={require("../../static/images/print.png")}
+                                alt="Print Po"
+                                style={{ margin: "5px" }}
+                              />
+                            </Link>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
                   {sctClientData.POGenerated === 1 && (
@@ -323,4 +353,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(AllSctDocuments);
+export default connect(mapStateToProps, { getPurchaseOrderPrint })(
+  AllSctDocuments
+);

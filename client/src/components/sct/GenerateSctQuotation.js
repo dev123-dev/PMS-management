@@ -664,6 +664,7 @@ const GenerateSctQuotation = ({
                           quotationData: finalDataVal,
                         },
                       }}
+                      target="_blank"
                     >
                       Print
                     </Link>

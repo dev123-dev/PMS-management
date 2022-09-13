@@ -430,6 +430,7 @@ const AllEngagedClient = ({
                                             sctClients.quotation[0],
                                         },
                                       }}
+                                      target="_blank"
                                     >
                                       Q
                                     </Link>
@@ -446,6 +447,7 @@ const AllEngagedClient = ({
                                           data: sctClients,
                                         },
                                       }}
+                                      target="_blank"
                                     >
                                       PO
                                     </Link>
