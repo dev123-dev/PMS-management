@@ -31,7 +31,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.140:8000");
+const client = new w3cwebsocket("ws://192.168.6.159:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -107,7 +107,6 @@ const JobQueue = ({
     ];
   }
   const timeOutMsg = async (jobQueueProjects) => {
-    console.log("timeoutcall");
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
@@ -173,8 +172,10 @@ const JobQueue = ({
   const onSliderChange = (jobQueueProjects) => async (e) => {
     if (
       e.label === "Downloaded" ||
+      e.label === "Uploading" ||
       e.label === "Uploaded" ||
-      e.label === "QC DONE"
+      e.label === "QC DONE" ||
+      e.label === "Amend_Uploaded"
     ) {
       setStatusValue(e);
       let finalData = {
@@ -182,6 +183,7 @@ const JobQueue = ({
         projectStatusType: e.label,
         projectId: jobQueueProjects._id,
         projectStatusChangedbyName: user.empFullName,
+        projectTrackDateTime: new Date().toLocaleString("en-GB"),
         projectStatusChangedById: user._id,
       };
 
@@ -553,16 +555,16 @@ const JobQueue = ({
                               timeOut = true;
                             }
 
-                            if (
-                              Number(
-                                estimatedTimeVal[0] + "" + estimatedTimeVal[1]
-                              ) -
-                                Number(jobTime[1]) ===
-                                5 &&
-                              jobQueueProjects.timeOutMsgSent === 0
-                            ) {
-                              timeOutMsg(jobQueueProjects);
-                            }
+                            // if (
+                            //   Number(
+                            //     estimatedTimeVal[0] + "" + estimatedTimeVal[1]
+                            //   ) -
+                            //     Number(jobTime[1]) ===
+                            //     5 &&
+                            //   jobQueueProjects.timeOutMsgSent === 0
+                            // ) {
+                            //   timeOutMsg(jobQueueProjects);
+                            // }
                           }
 
                           return (
@@ -631,9 +633,9 @@ const JobQueue = ({
                               <td>
                                 {
                                   dhm(
-                                    jobQueueProjects.projectDate +
+                                    jobQueueProjects.clientDate +
                                       ", " +
-                                      jobQueueProjects.projectTime
+                                      jobQueueProjects.clientTime
                                   )[0]
                                 }
                               </td>
