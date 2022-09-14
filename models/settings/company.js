@@ -78,6 +78,10 @@ const companyDetailsSchema = new mongoose.Schema({
       bankBranch: {
         type: String,
       },
+      defaultBank: {
+        type: Number,
+        default: 0,
+      },
     },
   ],
 });
