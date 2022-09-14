@@ -49,6 +49,7 @@ import AllFeedback from "../settings/AllFeedback";
 import Trash from "../settings/Trash";
 import AllCompany from "../settings/AllCompany";
 import AddCompany from "../settings/AddCompany";
+import EditCompanyDetails from "../settings/EditCompanyDetails";
 //dct
 import EditDctClients from "../dct/EditDctClients";
 import AllDctClients from "../dct/AllDctClients";
@@ -261,6 +262,11 @@ const RoutesFile = () => {
         <PrivateRoute exact path="/all-feedback" component={AllFeedback} />
         <PrivateRoute exact path="/all-company" component={AllCompany} />
         <PrivateRoute exact path="/add-company" component={AddCompany} />
+        <PrivateRoute
+          exact
+          path="/edit-company"
+          component={EditCompanyDetails}
+        />
         <PrivateRoute exact path="/all-trash" component={Trash} />
         {/* Project Status */}
         <PrivateRoute

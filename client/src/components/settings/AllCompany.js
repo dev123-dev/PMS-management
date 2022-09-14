@@ -17,21 +17,6 @@ const AllCompany = ({
     getALLCompanyDetails();
   }, [getALLCompanyDetails]);
 
-  const [showEditModal, setShowEditModal] = useState(false);
-  const handleEditModalClose = () => setShowEditModal(false);
-
-  const onEditModalChange = (e) => {
-    if (e) {
-      handleEditModalClose();
-    }
-  };
-
-  const [userDatas, setUserDatas] = useState(null);
-  const onUpdate = (allCompanyDetails, idx) => {
-    setShowEditModal(true);
-    setUserDatas(allCompanyDetails);
-  };
-
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
   const handleDeactiveModalClose = () => setShowDeactiveModal(false);
 
@@ -109,15 +94,17 @@ const AllCompany = ({
                                   title="Deactivate"
                                 />
                                 &nbsp;
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() =>
-                                    onUpdate(allCompanyDetails, idx)
-                                  }
-                                  src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
-                                />
+                                <Link
+                                  className="btn btn_green_bg float-right"
+                                  to={{
+                                    pathname: "/edit-company",
+                                    data: {
+                                      editcompanydatas: allCompanyDetails,
+                                    },
+                                  }}
+                                >
+                                  Edit
+                                </Link>
                               </td>
                             </tr>
                           );
@@ -129,36 +116,6 @@ const AllCompany = ({
             </div>
           </div>
         </section>
-
-        <Modal
-          show={showEditModal}
-          backdrop="static"
-          keyboard={false}
-          size="xl"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header>
-            <div className="col-lg-10">
-              <h3 className="modal-title text-center">Edit Company Details</h3>
-            </div>
-            <div className="col-lg-1">
-              <button onClick={handleEditModalClose} className="close">
-                <img
-                  src={require("../../static/images/close.png")}
-                  alt="X"
-                  style={{ height: "20px", width: "20px" }}
-                />
-              </button>
-            </div>
-          </Modal.Header>
-          <Modal.Body>
-            <EditCompanyDetails
-              onEditModalChange={onEditModalChange}
-              editcompanydatas={userDatas}
-            />
-          </Modal.Body>
-        </Modal>
 
         <Modal
           show={showDeactiveModal}
