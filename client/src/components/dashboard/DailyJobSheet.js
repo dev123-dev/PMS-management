@@ -28,7 +28,7 @@ import DeactiveProject from "./DeactiveProject";
 import { io } from "socket.io-client";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.140:8000");
+const client = new w3cwebsocket("ws://192.168.6.159:8000");
 
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
@@ -201,6 +201,7 @@ const DailyJobSheet = ({
     if (
       e.label === "Downloaded" ||
       e.label === "Uploaded" ||
+      e.label === "Uploading" ||
       e.label === "Amend_Uploaded" ||
       e.label === "QC DONE"
     ) {
@@ -208,6 +209,7 @@ const DailyJobSheet = ({
         projectTrackStatusId: e.value,
         projectStatusType: e.label,
         projectId: dailyJobsheetProjects._id,
+        projectTrackDateTime: new Date().toLocaleString("en-GB"),
         projectStatusChangedbyName: user.empFullName,
         projectStatusChangedById: user._id,
       };
@@ -497,6 +499,8 @@ const DailyJobSheet = ({
       handleDeactiveModalClose();
     }
   };
+  // clients = dailyJobsheetProjects.clientName.length;
+  // console.log("clients", clients);
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -675,6 +679,8 @@ const DailyJobSheet = ({
                         dailyJobsheetProjects.map(
                           (dailyJobsheetProjects, idx) => {
                             projectQty += dailyJobsheetProjects.projectQuantity;
+                            // clients += dailyJobsheetProjects.clientName.length;
+                            // console.log("clients", clients);
                             let statusType =
                               dailyJobsheetProjects.projectStatusType;
                             if (statusType === "Downloading")
@@ -769,9 +775,9 @@ const DailyJobSheet = ({
                                 <td>
                                   {
                                     dhm(
-                                      dailyJobsheetProjects.projectDate +
+                                      dailyJobsheetProjects.clientDate +
                                         ", " +
-                                        dailyJobsheetProjects.projectTime
+                                        dailyJobsheetProjects.clientTime
                                     )[0]
                                   }
                                 </td>
@@ -942,6 +948,7 @@ const DailyJobSheet = ({
             <label>Uploading: {UploadingQty}&emsp;</label> */}
           </div>
           <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
+            {/* Clients:{clients}&nbsp; */}
             Quantity:{projectQty}
           </div>
         </div>
