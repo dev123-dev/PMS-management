@@ -44,16 +44,20 @@ const AddCompany = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  const [isChecked, setIsChecked] = useState(false);
+  const handleOnChange = () => {
+    setIsChecked(!isChecked);
+  };
   //add staff start
   const [addData, setFormDatas] = useState({
     accountNo: "",
     IFSCCode: "",
     bankName: "",
     bankBranch: "",
+    defaultBank: "",
   });
 
-  const { accountNo, IFSCCode, bankName, bankBranch } = addData;
+  const { accountNo, IFSCCode, bankName, bankBranch, defaultBank } = addData;
 
   const [AddedDetails, AddDetails] = useState([]);
   const [amount, setAmount] = useState();
@@ -71,6 +75,7 @@ const AddCompany = ({
         IFSCCode: IFSCCode,
         bankName: bankName,
         bankBranch: bankBranch,
+        defaultBank: isChecked,
       };
       setFormDatas({
         ...addData,
@@ -79,6 +84,7 @@ const AddCompany = ({
         bankName: "",
         bankBranch: "",
       });
+      setIsChecked(false);
       // setstaffCountryCode("");
       // getstaffcountryData("");
       let temp = [];
@@ -317,7 +323,15 @@ const AddCompany = ({
                   onChange={(e) => onInputChange1(e)}
                 />
               </div>
-
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Default :</label>
+                <input
+                  type="checkbox"
+                  id="default"
+                  checked={isChecked}
+                  onChange={handleOnChange}
+                />
+              </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
                 <label className="label-control"></label>
                 <button

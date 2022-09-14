@@ -255,6 +255,29 @@ router.post("/edit-company-details", async (req, res) => {
   }
 });
 
+router.post("/add-new-bank", async (req, res) => {
+  try {
+    let data = req.body;
+    const addNewBank = await Company.updateOne(
+      { _id: data.recordId },
+      {
+        $push: {
+          bank: {
+            _id: new mongoose.Types.ObjectId(),
+            accountNo: data.accountNo,
+            IFSCCode: data.IFSCCode,
+            bankName: data.bankName,
+            bankBranch: data.bankBranch,
+            defaultBank: data.defaultBank,
+          },
+        },
+      }
+    );
+    res.json(addNewBank);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
 //DEACTIVATE
 
 router.post("/deactive-designation-data", async (req, res) => {
