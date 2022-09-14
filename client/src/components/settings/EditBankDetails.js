@@ -19,7 +19,6 @@ const EditBankDetails = ({
     bankBranch:
       editBankdata && editBankdata.bankBranch ? editBankdata.bankBranch : "",
 
-    defaultBank: "",
     isSubmitted: false,
   });
 
@@ -28,10 +27,14 @@ const EditBankDetails = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const [isChecked, setIsChecked] = useState(false);
+
+  const [isChecked, setIsChecked] = useState(
+    editBankdata && editBankdata.defaultBank ? editBankdata.defaultBank : false
+  );
   const handleOnChange = () => {
     setIsChecked(!isChecked);
   };
+
   const onSubmit = (e) => {
     e.preventDefault();
 
