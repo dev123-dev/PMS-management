@@ -710,3 +710,34 @@ export const getPurchaseOrderPrint = (client) => async (dispatch) => {
     });
   }
 };
+
+export const uploadPOFile = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    localStorage.removeItem("sctClientData");
+    await axios.post("/api/sct/upload-po-file", finalData, config);
+    // dispatch(refreshSelectedClient(finalData));
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const refreshSelectedClient = (finalData) => async (dispatch) => {
+  console.log("finaldata", finalData);
+  try {
+    const res = await axios.post("/api/sct/selected-client", finalData);
+    console.log("reeeeessssssssss", res.data);
+    localStorage.setItem("sctClientData", JSON.stringify(res.data));
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};

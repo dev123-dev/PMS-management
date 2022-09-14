@@ -6,11 +6,12 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
-import { getPurchaseOrderPrint } from "../../actions/sct";
+import { getPurchaseOrderPrint, uploadPOFile } from "../../actions/sct";
 const AllSctDocuments = ({
   auth: { isAuthenticated, user, users },
   sctClients,
   getPurchaseOrderPrint,
+  uploadPOFile,
 }) => {
   let sctClientData = JSON.parse(localStorage.getItem("sctClientData"));
   console.log("sctClientData", sctClientData);
@@ -19,7 +20,6 @@ const AllSctDocuments = ({
     { value: "Quotation", label: "Quotation", cat: "Quotation" },
     { value: "PO", label: "PO", cat: "PO" },
     { value: "Invoice", label: "Invoice", cat: "Invoice" },
-
     // { value: "RevisedQuotation", label: "Revised Quotation", cat: "Quotation" },
     // { value: "SendPO", label: "Send PO", cat: "PO" },
     // { value: "POReceived", label: "PO Received", cat: "PO" },
@@ -28,12 +28,20 @@ const AllSctDocuments = ({
     // { value: "PaymentReceived", label: "Payment Received", cat: "Invoice" },
   ];
 
-  if (sctClientData && sctClientData.billingStatusCategory === "Quotation") {
+  if (
+    sctClientData &&
+    sctClientData.billingStatusCategory &&
+    sctClientData.billingStatusCategory === "Quotation"
+  ) {
     documentCategory = documentCategory.filter(
       (documentCategory) =>
         documentCategory.cat === "Quotation" || documentCategory.cat === "PO"
     );
-  } else if (sctClientData && sctClientData.billingStatusCategory === "PO") {
+  } else if (
+    sctClientData &&
+    sctClientData.billingStatusCategory &&
+    sctClientData.billingStatusCategory === "PO"
+  ) {
     documentCategory = documentCategory.filter(
       (documentCategory) =>
         documentCategory.cat === "Quotation" ||
@@ -102,11 +110,12 @@ const AllSctDocuments = ({
     const formData = new FormData();
     formData.append("myFile", selectedFile);
     formData.append("clientId", sctClientData._id);
-    axios.post("http://localhost:2001/api/sct/uploadfile", formData, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    });
+    // axios.post("http://localhost:2001/api/sct/upload-po-file", formData, {
+    //   headers: {
+    //     "content-type": "multipart/form-data",
+    //   },
+    // });
+    uploadPOFile(formData);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -158,8 +167,6 @@ const AllSctDocuments = ({
                       <h4>Generate Quotation </h4>
                     )}
                   </Link>
-                </center>
-                <div>
                   {sctClientData && sctClientData.quotationGenerated === 1 ? (
                     <Link
                       onClick={() => onClickQuotation(sctClientData)}
@@ -178,10 +185,10 @@ const AllSctDocuments = ({
                   ) : (
                     <Link to="#"></Link>
                   )}
-                </div>
+                </center>
               </div>
             </div>
-            {sctClientData.billingStatusCategory === "PO" ||
+            {(sctClientData && sctClientData.billingStatusCategory === "PO") ||
               (docCat === "PO" && (
                 <>
                   <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
@@ -239,20 +246,40 @@ const AllSctDocuments = ({
                           <Link to="#" onClick={() => onUpdate()}>
                             <img
                               className=" log"
-                              src={require("../../static/images/Po.png")}
+                              src={require("../../static/images/uploadPO.png")}
                               alt="Upload PO"
                               title="Upload PO"
                             />
                             <h4>Upload PO</h4>
                           </Link>
                         </center>
+                        <div>
+                          {sctClientData.POFile &&
+                            sctClientData.POFile.filename && (
+                              <Link
+                                to={{
+                                  pathname: require("../../static/files/" +
+                                    sctClientData.POFile.filename),
+                                }}
+                                target="_blank"
+                              >
+                                <img
+                                  className="img_icon_size log float-right"
+                                  src={require("../../static/images/print.png")}
+                                  alt="Print Po"
+                                  style={{ margin: "5px" }}
+                                />
+                              </Link>
+                            )}
+                        </div>
                       </div>
                     </div>
                   )}
                 </>
               ))}
           </div>
-          {sctClientData.billingStatusCategory === "Invoice" ||
+          {(sctClientData &&
+            sctClientData.billingStatusCategory === "Invoice") ||
             (docCat === "Invoice" && (
               <div className="row col-lg-11 col-md-11 col-sm-12 col-12 py-5">
                 <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
@@ -353,6 +380,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getPurchaseOrderPrint })(
-  AllSctDocuments
-);
+export default connect(mapStateToProps, {
+  getPurchaseOrderPrint,
+  uploadPOFile,
+})(AllSctDocuments);

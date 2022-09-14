@@ -64,6 +64,22 @@ const companyDetailsSchema = new mongoose.Schema({
   companyDeactivateReason: {
     type: String,
   },
+  bank: [
+    {
+      accountNo: {
+        type: String,
+      },
+      IFSCCode: {
+        type: String,
+      },
+      bankName: {
+        type: String,
+      },
+      bankBranch: {
+        type: String,
+      },
+    },
+  ],
 });
 module.exports = companyDetails = mongoose.model(
   "companyDetails",

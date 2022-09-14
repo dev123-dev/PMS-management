@@ -47,30 +47,25 @@ router.post("/add-sct-client", async (req, res) => {
   }
 });
 
-// router.post("/uploadfile", async (req, res) => {
-//   let data = req.body;
-//   console.log(data);
-// });
+router.post(
+  "/upload-po-file",
+  upload.single("myFile"),
+  async (req, res, next) => {
+    console.log(req.file.originalname + " file successfully uploaded !!");
+    const data = req.body;
+    const uploadPo = await SctClients.updateOne(
+      { _id: data.clientId },
+      {
+        $set: {
+          poFileName: req.file.name,
+          POFile: req.file,
+        },
+      }
+    );
+    res.sendStatus(200);
+  }
+);
 
-router.post("/uploadfile", upload.single("myFile"), async (req, res, next) => {
-  console.log(req.file.originalname + " file successfully uploaded !!");
-  console.log(req.file);
-  const data = req.body;
-  const uploadPo = await SctClients.updateOne(
-    { _id: data.clientId },
-    {
-      $set: {
-        poFileName: req.file.name,
-        POFile: req.file,
-      },
-    }
-  );
-  res.sendStatus(200);
-});
-// app.post("/uploadfile", upload.single("myFile"), (req, res, next) => {
-//   console.log(req.file.originalname + " file successfully uploaded !!");
-//   res.sendStatus(200);
-// });
 router.post("/add-new-sct-staff", async (req, res) => {
   try {
     let data = req.body;
@@ -308,7 +303,6 @@ router.post("/edit-sct-client-staff", async (req, res) => {
         },
       }
     );
-    console.log(updateSctClientStaff);
     res.json(updateSctClientStaff);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
@@ -642,7 +636,6 @@ router.post("/get-sct-clients", auth, async (req, res) => {
       };
     }
   }
-  // console.log(query);
   try {
     const getSctClientDetails = await SctClients.find(query).sort({
       sctCallDate: -1,
@@ -811,7 +804,6 @@ router.post("/get-all-demos", async (req, res) => {
       demoDate: demoDate,
     };
   }
-  // console.log(query);
   try {
     const allDemos = await Demo.aggregate([
       {
@@ -1119,4 +1111,35 @@ router.post("/po-print", async (req, res) => {
   }
 });
 
+router.post(
+  "/upload-po-file",
+  upload.single("myFile"),
+  async (req, res, next) => {
+    console.log(req.file.originalname + " file successfully uploaded !!");
+    const data = req.body;
+    const uploadPo = await SctClients.updateOne(
+      { _id: data.clientId },
+      {
+        $set: {
+          poFileName: req.file.name,
+          POFile: req.file,
+        },
+      }
+    );
+    res.sendStatus(200);
+  }
+);
+
+router.post("/selected-client", async (req, res) => {
+  const data = req.body;
+  console.log("data.clientId", data.clientId);
+  try {
+    const selectedSctClients = await SctClients.findOne({ _id: data.clientId });
+    res.json(selectedSctClients);
+    console.log(selectedSctClients);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 module.exports = router;
