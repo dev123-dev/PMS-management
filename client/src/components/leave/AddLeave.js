@@ -24,7 +24,7 @@ const AddLeave = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allStaffName },
   getAllEmployee,
-  onAddDistrictModalChange,
+  onAddLeaveModalChange,
   user: { allEmployee, leaveCatMode },
   getAllStaff,
   addLeaves,
@@ -41,6 +41,8 @@ const AddLeave = ({
     getALLLeaveCatMode();
   }, [getALLLeaveCatMode]);
   //formData
+
+  console.log(allStaffName);
 
   const [formData, setFormData] = useState({
     empId: "",
@@ -74,11 +76,11 @@ const AddLeave = ({
   //========================
 
   const [showHide, setShowHide] = useState({
-    showChequenoSection: false,
-    showChequenoSection1: true,
+    showMultidateSection: false,
+    showSingledateSection: true,
     showCategorySection: false,
   });
-  const { showChequenoSection, showChequenoSection1, showCategorySection } =
+  const { showMultidateSection, showSingledateSection, showCategorySection } =
     showHide;
 
   const onDateModeChange = (e) => {
@@ -91,14 +93,14 @@ const AddLeave = ({
     if (e.value === "Multi Date") {
       setShowHide({
         ...showHide,
-        showChequenoSection: true,
-        showChequenoSection1: false,
+        showMultidateSection: true,
+        showSingledateSection: false,
       });
     } else {
       setShowHide({
         ...showHide,
-        showChequenoSection: false,
-        showChequenoSection1: true,
+        showMultidateSection: false,
+        showSingledateSection: true,
       });
     }
   };
@@ -222,7 +224,7 @@ const AddLeave = ({
 
     if (checkErrors()) {
       let leaveDateVals = [];
-      if (showChequenoSection) {
+      if (showMultidateSection) {
         const d1 = new Date(leaveStartDate);
         const d2 = new Date(leaveEndDate);
         leaveDateVals = getDatesInRange(d1, d2);
@@ -242,7 +244,7 @@ const AddLeave = ({
       };
 
       addLeaves(finalData);
-      onAddDistrictModalChange(true);
+      onAddLeaveModalChange(true);
     }
   };
 
@@ -285,136 +287,142 @@ const AddLeave = ({
         className="row col-lg-12 col-md-12 col-sm-12 col-12"
       >
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-            <label className="label-control" style={clienttypeIdErrorStyle}>
-              Staff Name * :
-            </label>
-            <Select
-              name="staffData"
-              isSearchable={true}
-              value={staffData}
-              options={activeStaffsOpt}
-              placeholder="Select Staff"
-              onChange={(e) => onStaffChange(e)}
-              required
-            />
-          </div>
-          <div className="col-lg-2 col-md-12 col-sm-12 col-12">
-            <label className="label-control">Leave Type</label>
-            <Select
-              name="leaveTypedaymode"
-              options={LeaveTypeday}
-              isSearchable={true}
-              defaultValue={LeaveTypeday[0]}
-              value={leaveTypedaymode}
-              onChange={(e) => onLeaveTypeModeChange(e)}
-            />
-          </div>
-          <div className="col-lg-2 col-md-12 col-sm-12 col-12">
-            <label className="label-control">&nbsp;</label>
-            <Select
-              name="Dateselectmode"
-              options={DateMethods}
-              isSearchable={true}
-              defaultValue={DateMethods[0]}
-              value={Dateselectmode}
-              placeholder="Select"
-              onChange={(e) => onDateModeChange(e)}
-            />
-          </div>
-          {showChequenoSection && (
-            <>
-              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                <label className="label-control">From Date* :</label>
-                <br />
-                <input
-                  type="date"
-                  placeholder="dd/mm/yyyy"
-                  className="form-control cpp-input datevalidation"
-                  name="leaveStartDate"
-                  value={leaveStartDate}
-                  onChange={(e) => onInputChange(e)}
-                  style={{
-                    width: "75%",
-                  }}
-                  required
-                />
-              </div>
-              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                <label className="label-control">To Date* :</label>
-                <br />
-                <input
-                  type="date"
-                  placeholder="dd/mm/yyyy"
-                  className="form-control cpp-input datevalidation"
-                  name="leaveEndDate"
-                  value={leaveEndDate}
-                  onChange={(e) => onInputChange(e)}
-                  style={{
-                    width: "75%",
-                  }}
-                  required
-                />
-              </div>
-            </>
-          )}
-          {showChequenoSection1 && (
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-              <label className="label-control">Leave Date* :</label>
-              <br />
-              <input
-                type="date"
-                placeholder="dd/mm/yyyy"
-                className="form-control cpp-input datevalidation"
-                name="leaveDate"
-                value={leaveDate}
-                onChange={(e) => onInputChange(e)}
-                style={{
-                  width: "75%",
-                }}
+          <div className="row col-lg-8 col-md-12 col-sm-12 col-12">
+            <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+              <label className="label-control" style={clienttypeIdErrorStyle}>
+                Staff Name * :
+              </label>
+              <Select
+                name="staffData"
+                isSearchable={true}
+                value={staffData}
+                options={activeStaffsOpt}
+                placeholder="Select Staff"
+                onChange={(e) => onStaffChange(e)}
                 required
               />
             </div>
-          )}
+            <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+              <label className="label-control">Leave Type</label>
+              <Select
+                name="leaveTypedaymode"
+                options={LeaveTypeday}
+                isSearchable={true}
+                defaultValue={LeaveTypeday[0]}
+                value={leaveTypedaymode}
+                onChange={(e) => onLeaveTypeModeChange(e)}
+              />
+            </div>
+            <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+              <label className="label-control">&nbsp;</label>
+              <Select
+                name="Dateselectmode"
+                options={DateMethods}
+                isSearchable={true}
+                defaultValue={DateMethods[0]}
+                value={Dateselectmode}
+                placeholder="Select"
+                onChange={(e) => onDateModeChange(e)}
+              />
+            </div>
+            {showMultidateSection && (
+              <>
+                <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">From Date* :</label>
+                  <br />
+                  <input
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
+                    name="leaveStartDate"
+                    value={leaveStartDate}
+                    onChange={(e) => onInputChange(e)}
+                    style={{
+                      width: "75%",
+                    }}
+                    required
+                  />
+                </div>
+                <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">To Date* :</label>
+                  <br />
+                  <input
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
+                    name="leaveEndDate"
+                    value={leaveEndDate}
+                    onChange={(e) => onInputChange(e)}
+                    style={{
+                      width: "75%",
+                    }}
+                    required
+                  />
+                </div>
+              </>
+            )}
+            {showSingledateSection && (
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Leave Date* :</label>
+                <br />
+                <input
+                  type="date"
+                  placeholder="dd/mm/yyyy"
+                  className="form-control cpp-input datevalidation"
+                  name="leaveDate"
+                  value={leaveDate}
+                  onChange={(e) => onInputChange(e)}
+                  style={{
+                    width: "75%",
+                  }}
+                  required
+                />
+              </div>
+            )}
 
-          <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-            <label className="label-control" style={leavetypeIdErrorStyle}>
-              {" "}
-              Leave Category * :
-            </label>
-
-            <Select
-              name="leaveCatMode"
-              options={allleavecatmodes}
-              isSearchable={true}
-              value={leavecat}
-              placeholder="Select Mode"
-              onChange={(e) => onLeaveCatModeChange(e)}
-            />
-            <br />
-            <Link
-              className="btn btn_green_bg"
-              to="#"
-              onClick={() => onOpenCategory()}
-            >
-              Add Category
-            </Link>
+            <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
+              <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+                <label className="label-control" style={leavetypeIdErrorStyle}>
+                  Leave Category * :
+                </label>
+                <Select
+                  name="leaveCatMode"
+                  options={allleavecatmodes}
+                  isSearchable={true}
+                  value={leavecat}
+                  placeholder="Select Mode"
+                  onChange={(e) => onLeaveCatModeChange(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-12 col-sm-12 col-12 mt-2 pt-4">
+                <input
+                  type="button"
+                  className="btn btn_green_bg"
+                  style={{ marginTop: "20px" }}
+                  value="Add Category"
+                  onClick={() => onOpenCategory()}
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-            <label className="label-control"> Reason :</label>
-            <textarea
-              name="leaveReason"
-              id="leaveReason"
-              className="textarea form-control"
-              rows="3"
-              placeholder="Leave Reason"
-              style={{ width: "100%" }}
-              value={leaveReason}
-              onChange={(e) => onInputChange(e)}
-              required
-            ></textarea>
+          <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+              <label className="label-control"> Reason :</label>
+              <textarea
+                name="leaveReason"
+                id="leaveReason"
+                className="textarea form-control"
+                rows="5"
+                placeholder="Leave Reason"
+                style={{ width: "100%" }}
+                value={leaveReason}
+                onChange={(e) => onInputChange(e)}
+                required
+              ></textarea>
+            </div>
           </div>
+
           <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
             {loading ? (
               <button
@@ -436,7 +444,7 @@ const AddLeave = ({
       </form>
       <form
         onSubmit={(e) => onAddCategory(e)}
-        className="row col-lg-12 col-md-12 col-sm-12 col-12"
+        className="row col-lg-12 col-md-12 col-sm-12 col-12 mx-4"
       >
         {showCategorySection && (
           <div className="row col-lg-8 col-md-6 col-sm-6 col-12 card-new">

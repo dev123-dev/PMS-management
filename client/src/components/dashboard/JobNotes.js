@@ -41,11 +41,11 @@ const JobNotes = ({
   const onstandardinstruction = () => {
     setShowHide({
       ...showHide,
-      showStandardinstructionSection: true,
+      showStandardinstructionSection: false,
     });
     setShowHide1({
       ...showHide1,
-      showProjectInstructionSection: false,
+      showProjectInstructionSection: true,
     });
   };
 
@@ -69,38 +69,35 @@ const JobNotes = ({
           <Link
             to="#"
             className="btnLink"
-            onClick={() => onstandardinstruction()}
+            onClick={() => onprojectinstruction()}
           >
-            Standard Instruction
+            Project Instruction
           </Link>
         </div>
         <div className="col-lg-6 col-md-12 col-sm-12 col-12">
           <Link
             to="#"
             className="btnLink"
-            onClick={() => onprojectinstruction()}
+            onClick={() => onstandardinstruction()}
           >
-            Project Instruction
+            Standard Instruction
           </Link>
         </div>
       </div>
-      <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-        {showStandardinstructionSection && (
-          <>
-            <label className="label-control">Standard Instruction :</label>
-            <textarea
-              className="textarea form-control"
-              rows="4"
-              placeholder="Standard Instruction"
-              style={{ width: "100%", resize: "vertical", overflow: "auto" }}
-              readOnly
-            >
-              {selectedClientData.standardInstruction}
-            </textarea>
-          </>
-        )}
-      </div>
-      <br />
+      {showStandardinstructionSection && (
+        <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+          <label className="label-control">Standard Instruction :</label>
+          <textarea
+            className="textarea form-control"
+            rows="4"
+            placeholder="Standard Instruction"
+            style={{ width: "100%", resize: "vertical", overflow: "auto" }}
+            readOnly
+          >
+            {selectedClientData.standardInstruction}
+          </textarea>
+        </div>
+      )}
       {showProjectInstructionSection && (
         <div className=" col-lg-12 col-md-12 col-sm-12 col-12">
           <label className="label-control">Project Instruction :</label>
