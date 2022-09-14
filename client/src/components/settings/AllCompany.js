@@ -17,17 +17,6 @@ const AllCompany = ({
     getALLCompanyDetails();
   }, [getALLCompanyDetails]);
 
-  const [showAddModal, setShowAddModal] = useState(false);
-  const handleAddModalClose = () => setShowAddModal(false);
-  const onClickHandler = () => {
-    setShowAddModal(true);
-  };
-  const onAddModalChange = (e) => {
-    if (e) {
-      handleAddModalClose();
-    }
-  };
-
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
 
@@ -68,11 +57,7 @@ const AllCompany = ({
               <h5 className="heading_color">All Company Details </h5>
             </div>
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
-              <Link
-                to="#"
-                className="btn btn_green_bg float-right"
-                onClick={() => onClickHandler()}
-              >
+              <Link to="/add-company" className="btn btn_green_bg float-right">
                 Add Company
               </Link>
             </div>
@@ -144,32 +129,6 @@ const AllCompany = ({
             </div>
           </div>
         </section>
-        <Modal
-          show={showAddModal}
-          backdrop="static"
-          keyboard={false}
-          size="xl"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header>
-            <div className="col-lg-10">
-              <h3 className="modal-title text-center">Add Company Details</h3>
-            </div>
-            <div className="col-lg-1">
-              <button onClick={handleAddModalClose} className="close">
-                <img
-                  src={require("../../static/images/close.png")}
-                  alt="X"
-                  style={{ height: "20px", width: "20px" }}
-                />
-              </button>
-            </div>
-          </Modal.Header>
-          <Modal.Body>
-            <AddCompany onAddModalChange={onAddModalChange} />
-          </Modal.Body>
-        </Modal>
 
         <Modal
           show={showEditModal}
