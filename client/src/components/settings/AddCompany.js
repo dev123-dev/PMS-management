@@ -83,6 +83,7 @@ const AddCompany = ({
         IFSCCode: "",
         bankName: "",
         bankBranch: "",
+        defaultBank: "",
       });
       setIsChecked(false);
       // setstaffCountryCode("");

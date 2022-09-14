@@ -82,15 +82,20 @@ const EditCompanyDetails = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const [isChecked, setIsChecked] = useState(false);
+  const handleOnChange = () => {
+    setIsChecked(!isChecked);
+  };
   //add staff start
   const [addData, setFormDatas] = useState({
     accountNo: "",
     IFSCCode: "",
     bankName: "",
     bankBranch: "",
+    defaultBank: "",
   });
 
-  const { accountNo, IFSCCode, bankName, bankBranch } = addData;
+  const { accountNo, IFSCCode, bankName, bankBranch, defaultBank } = addData;
 
   const [AddedDetails, AddDetails] = useState([]);
   const [amount, setAmount] = useState();
@@ -108,6 +113,7 @@ const EditCompanyDetails = ({
         IFSCCode: IFSCCode,
         bankName: bankName,
         bankBranch: bankBranch,
+        defaultBank: isChecked,
       };
       setFormDatas({
         ...addData,
@@ -115,7 +121,9 @@ const EditCompanyDetails = ({
         IFSCCode: "",
         bankName: "",
         bankBranch: "",
+        defaultBank: "",
       });
+      setIsChecked(false);
       // setstaffCountryCode("");
       // getstaffcountryData("");
       let temp = [];
@@ -355,7 +363,15 @@ const EditCompanyDetails = ({
                   onChange={(e) => onInputChange1(e)}
                 />
               </div>
-
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Default :</label>
+                <input
+                  type="checkbox"
+                  id="default"
+                  checked={isChecked}
+                  onChange={handleOnChange}
+                />
+              </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
                 <label className="label-control"></label>
                 <button
@@ -380,10 +396,46 @@ const EditCompanyDetails = ({
                     <th>IFSC Code</th>
                     <th>Bank Name</th>
                     <th>Branch</th>
-                    <th>Remove</th>
+                    <th>OP</th>
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                  {editcompanydatas &&
+                    editcompanydatas.bank &&
+                    editcompanydatas.bank.map((bank, idx) => {
+                      return (
+                        <tr key={idx}>
+                          <td>{bank.accountNo}</td>
+                          <td>{bank.IFSCCode}</td>
+                          <td>{bank.bankName}</td>
+                          <td>{bank.bankBranch}</td>
+                          <td></td>
+                        </tr>
+                      );
+                    })}
+                  {AddedDetails &&
+                    AddedDetails.map((AddDetail, idx) => {
+                      return (
+                        <tr key={idx}>
+                          <td>{AddDetail.accountNo}</td>
+                          <td>{AddDetail.IFSCCode}</td>
+                          <td>{AddDetail.bankName}</td>
+                          <td>{AddDetail.bankBranch}</td>
+                          <td>
+                            <img
+                              className="img_icon_size log"
+                              onClick={() =>
+                                onRemoveChange(AddDetail.accountNo)
+                              }
+                              src={require("../../static/images/close-buttonRed.png")}
+                              alt="Remove"
+                              title="Remove"
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
               </table>
             </div>
           </div>
