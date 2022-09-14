@@ -2,9 +2,11 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { EditCompanyData } from "../../actions/settings";
+import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import { useHistory } from "react-router-dom";
 import { Redirect, Link } from "react-router-dom";
+import EditBankDetails from "./EditBankDetails";
 const EditCompanyDetails = ({
   auth: { isAuthenticated, user, users, loading },
   EditCompanyData,
@@ -144,6 +146,20 @@ const EditCompanyDetails = ({
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
 
+  const [showEditModal, setShowEditModal] = useState(false);
+  const handleEditModalClose = () => setShowEditModal(false);
+
+  const onEditModalChange = (e) => {
+    if (e) {
+      handleEditModalClose();
+    }
+  };
+
+  const [userDatas, setUserDatas] = useState(null);
+  const onUpdate = (userGroups, idx) => {
+    setShowEditModal(true);
+    setUserDatas(userGroups);
+  };
   //Required Validation ends
   const onSubmit = (e) => {
     e.preventDefault();
@@ -409,7 +425,16 @@ const EditCompanyDetails = ({
                           <td>{bank.IFSCCode}</td>
                           <td>{bank.bankName}</td>
                           <td>{bank.bankBranch}</td>
-                          <td></td>
+                          <td>
+                            {" "}
+                            <img
+                              className="img_icon_size log"
+                              onClick={() => onUpdate(bank, idx)}
+                              src={require("../../static/images/edit_icon.png")}
+                              alt="Edit"
+                              title="Edit"
+                            />
+                          </td>
                         </tr>
                       );
                     })}
@@ -467,6 +492,36 @@ const EditCompanyDetails = ({
           </div>
         </form>
       </div>
+
+      <Modal
+        show={showEditModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Edit Bank Details</h3>
+          </div>
+          <div className="col-lg-1">
+            <button onClick={handleEditModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <EditBankDetails
+            onEditModalChange={onEditModalChange}
+            editBankdata={userDatas}
+          />
+        </Modal.Body>
+      </Modal>
     </Fragment>
   );
 };
