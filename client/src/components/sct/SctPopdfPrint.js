@@ -130,6 +130,9 @@ const SctPopdfPrint = ({
     row8: {
       width: "17%",
     },
+    total: {
+      marginLeft: "55%",
+    },
     // space: {
     //   height: "2px",
     // },
@@ -230,24 +233,21 @@ const SctPopdfPrint = ({
                     <Text style={styles.row5}>{row.itemTotal}</Text>
                   </View>
                 ))}
-              <View style={styles.row} wrap={false}>
-                <Text colSpan={3}>Sub Total</Text>
-                <Text style={styles.row5}>{totSubTot}</Text>
-              </View>
-              <View style={styles.row} wrap={false}>
-                <Text colSpan={3}>Tax</Text>
-                <Text style={styles.row5}>{poPrintLS.tax}</Text>
-              </View>
-              <View style={styles.row} wrap={false}>
-                <Text colSpan={3}>Shipping</Text>
-                <Text style={styles.row5}>{poPrintLS.shipping}</Text>
-              </View>
-              <View style={styles.row} wrap={false}>
-                <Text colSpan={3}>Total</Text>
-                <Text style={styles.row5}>
-                  {totSubTot + poPrintLS.tax + poPrintLS.shipping}
-                </Text>
-              </View>
+            </View>
+            <View wrap={false}>
+              <Text style={styles.total}>Sub Total: {totSubTot}</Text>
+            </View>
+            <View style={styles.row} wrap={false}>
+              <Text style={styles.total}>Tax : {poPrintLS.tax}</Text>
+              {/* <Text style={styles.row5}></Text> */}
+            </View>
+            <View style={styles.row} wrap={false}>
+              <Text style={styles.total}>Shipping : {poPrintLS.shipping}</Text>
+            </View>
+            <View style={styles.row} wrap={false}>
+              <Text style={styles.total}>
+                Total : {totSubTot + poPrintLS.tax + poPrintLS.shipping}
+              </Text>
             </View>
             {/* <View style={(styles.table, styles.section)}>
             <View style={[styles.row]}>
