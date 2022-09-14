@@ -113,7 +113,7 @@ const AllLeave = ({
   const onClickHandler = () => {
     setShowAddDistrictModal(true);
   };
-  const onAddDistrictModalChange = (e) => {
+  const onAddLeaveModalChange = (e) => {
     if (e) {
       handleAddDistrictModalClose();
     }
@@ -479,7 +479,7 @@ const AllLeave = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <AddLeave onAddDistrictModalChange={onAddDistrictModalChange} />
+            <AddLeave onAddLeaveModalChange={onAddLeaveModalChange} />
           </Modal.Body>
         </Modal>
         <Modal

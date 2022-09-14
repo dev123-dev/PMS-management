@@ -261,7 +261,11 @@ router.post("/get-last-entered-emp-code", async (req, res) => {
 });
 router.get("/get-all-staff-name", async (req, res) => {
   try {
-    const allProjectStatus = await EmployeeDetails.find({});
+    const allProjectStatus = await EmployeeDetails.find({
+      departmentName: {
+        $ne: "Super Administrator",
+      },
+    });
     res.json(allProjectStatus);
   } catch (err) {
     console.error(err.message);
