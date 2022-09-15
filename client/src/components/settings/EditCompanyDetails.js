@@ -104,12 +104,12 @@ const EditCompanyDetails = ({
   const [amount, setAmount] = useState();
 
   const onAdd = (e) => {
-    const staffList = AddedDetails.filter(
+    const bankList = AddedDetails.filter(
       (AddDetails) => AddDetails.accountNo === accountNo
     );
 
     e.preventDefault();
-    if (staffList.length === 0) {
+    if (bankList.length === 0) {
       // if (checkErrorscontact()) {
       const addData = {
         recordId: editcompanydatas ? editcompanydatas._id : "",

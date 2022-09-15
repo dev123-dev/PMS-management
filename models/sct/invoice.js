@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 ObjectId = mongoose.Schema.ObjectId;
 
-const QuotationsSchema = new mongoose.Schema({
+const InvoicesSchema = new mongoose.Schema({
   clientId: {
     type: ObjectId,
   },
   clientName: {
     type: String,
   },
-  quotationNo: {
+  invoiceNo: {
     type: String,
   },
-  quotationDate: {
+  invoiceDate: {
     type: String,
   },
   clientFromId: {
@@ -40,9 +40,6 @@ const QuotationsSchema = new mongoose.Schema({
       itemName: {
         type: String,
       },
-      GST: {
-        type: String,
-      },
       rate: {
         type: Number,
       },
@@ -51,6 +48,9 @@ const QuotationsSchema = new mongoose.Schema({
       },
       amt: {
         type: Number,
+      },
+      GST: {
+        type: String,
       },
       CGST: {
         type: String,
@@ -75,12 +75,12 @@ const QuotationsSchema = new mongoose.Schema({
       },
     },
   ],
-  quotationEnteredById: {
+  invoiceEnteredById: {
     type: ObjectId,
   },
-  quotationEnteredByDateTime: {
+  invoiceEnteredByDateTime: {
     type: String,
     default: new Date().toLocaleString("en-GB"),
   },
 });
-module.exports = quotations = mongoose.model("quotations", QuotationsSchema);
+module.exports = invoices = mongoose.model("invoices", InvoicesSchema);

@@ -50,8 +50,6 @@ const GenerateInvoice = ({
 
   const {
     quotationNo,
-
-    sctClientName,
     sctClientAssignedToId,
     sctCompanyName,
     sctClientAssignedToName,
@@ -76,23 +74,17 @@ const GenerateInvoice = ({
       companyid: company._id,
       label: company.companyName,
       value: company.companyName,
+      bank: company.bank,
     })
   );
   const [companyaddress, setcompanyaddressData] = useState("");
-
   const [company, getcompanyData] = useState("");
   const [companyid, setcompanyId] = useState("");
   const [companyname, setcompanyname] = useState("");
+  const [bankList, setBankList] = useState();
 
+  let allcompanyBank = [];
   const onCompanyChange = (e) => {
-    // //Required Validation starts
-    // setError({
-    //   ...error,
-    //   paymentmodeIdChecker: true,
-    //   paymentmodeIdErrorStyle: { color: "#000" },
-    // });
-    // //Required Validation ends
-
     if (e.value === "pinnacle media") {
       setShowHide1({
         ...showHide1,
@@ -104,25 +96,42 @@ const GenerateInvoice = ({
         showGSTSection: true,
       });
     }
-
-    var companyid = "";
-    var companyname = "";
-    var companyaddress = "";
     getcompanyData(e);
-    companyid = e.companyid;
-    companyname = e.value;
-    companyaddress = e.companyaddress;
-    setcompanyId(companyid);
-    setcompanyname(companyname);
-    setcompanyaddressData(companyaddress);
+    setcompanyId(e.companyid);
+    setcompanyname(e.value);
+    setcompanyaddressData(e.companyaddress);
+    setBankList(e.bank);
+    getSelectedBank("");
   };
 
+  const [selectedBank, getSelectedBank] = useState();
+
+  bankList &&
+    bankList.map((bank) =>
+      allcompanyBank.push({
+        bankId: bank._id,
+        label: bank.bankName,
+        value: bank.bankName,
+        default: bank.defaultBank,
+      })
+    );
+
+  if (bankList && !selectedBank && allcompanyBank) {
+    getSelectedBank(
+      allcompanyBank &&
+        allcompanyBank.filter(
+          (allcompanyBank) => allcompanyBank.default === true
+        )
+    );
+  }
+  const onBankChange = (e) => {
+    getSelectedBank(e);
+  };
   //Required Validation Starts
   const [error, setError] = useState({
     paymentmodeIdChecker: false,
     paymentmodeIdErrorStyle: {},
     clienttypeIdChecker: false,
-
     clienttypeIdErrorStyle: {},
   });
   const {
@@ -423,6 +432,19 @@ const GenerateInvoice = ({
                     value={sctClientAddress}
                     onChange={(e) => onInputChange(e)}
                   ></textarea>
+                </div>
+              </div>
+              <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 ">
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12  py-2">
+                  From* :
+                  <Select
+                    name="selBank"
+                    options={allcompanyBank}
+                    isSearchable={true}
+                    value={selectedBank}
+                    placeholder="Select Bank"
+                    onChange={(e) => onBankChange(e)}
+                  />
                 </div>
               </div>
             </div>

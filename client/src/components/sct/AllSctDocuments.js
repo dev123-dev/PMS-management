@@ -295,8 +295,7 @@ const AllSctDocuments = ({
                   >
                     <img
                       className=" log"
-                      ///  src={require("../../static/images/invoice.png")}
-                      src={require("../../static/images/Po.png")}
+                      src={require("../../static/images/invoice.png")}
                       alt="Send Invoice"
                       title="Send Invoice"
                     />
