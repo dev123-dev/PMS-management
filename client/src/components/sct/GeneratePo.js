@@ -313,38 +313,6 @@ const GeneratePo = ({
                 />
               </div>
 
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Tax :</label>
-                <input
-                  type="text"
-                  name="tax"
-                  value={tax}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Shipping:</label>
-                <input
-                  type="text"
-                  name="shipping"
-                  value={shipping}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
-                <label className="label-control">Other :</label>
-                <input
-                  type="text"
-                  name="other"
-                  value={other}
-                  className="form-control"
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
               <div className="col-lg-12 col-md-6 col-sm-6 col-12 py-2">
                 <label>Work Discription :</label>
                 <textarea
@@ -419,12 +387,12 @@ const GeneratePo = ({
             </div>
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
-            <div className="row card-new ">
+            <div className="row  card-new col-lg-12 col-md-12 col-sm-12 col-12">
               <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                 <h5>Item Info</h5>
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Item :</label>
+                <label>Item :</label>
                 <input
                   type="text"
                   name="itemName"
@@ -435,7 +403,7 @@ const GeneratePo = ({
               </div>
 
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Qty :</label>
+                <label>Qty :</label>
                 <input
                   type="text"
                   name="itemOty"
@@ -445,7 +413,7 @@ const GeneratePo = ({
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Rate :</label>
+                <label>Rate :</label>
                 <input
                   type="text"
                   name="itemPrice"
@@ -466,17 +434,6 @@ const GeneratePo = ({
                 />
               </div>
 
-              {/* <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
-                <label className="label-control">Total Amount :</label>
-                <input
-                  type="text"
-                  name="totalAmt"
-                  className="form-control"
-                    onChange={(e) => onInputChange1(e)}
-                  disabled
-                />
-              </div> */}
-
               <div className="col-lg-8 col-md-6 col-sm-6 col-12 ">
                 <label className="label-control">Discription :</label>
 
@@ -491,23 +448,57 @@ const GeneratePo = ({
                   onChange={(e) => onInputChange1(e)}
                 ></textarea>
               </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
-                <label className="label-control"></label>
+              <div className="col-lg-12 col-md-6 col-sm-6 col-12">
                 <button
                   variant="success"
-                  className="btn sub_form btn_continue Save "
+                  className="btn sub_form btn_continue Save float-right"
                   onClick={(e) => onAdd(e)}
                 >
                   Add
                 </button>
               </div>
             </div>
+            <div className="row  card-new  col-lg-12 col-md-12 col-sm-12 col-12 py-2">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                <h5>Others</h5>
+              </div>
+
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label>Tax :</label>
+                <input
+                  type="text"
+                  name="tax"
+                  value={tax}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label>Shipping:</label>
+                <input
+                  type="text"
+                  name="shipping"
+                  value={shipping}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+                <label>Other :</label>
+                <input
+                  type="text"
+                  name="other"
+                  value={other}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
           </div>
           <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-2">
-            <div
-              className="row card-new"
-              // style={{ height: "340px", overflowY: "scroll" }}
-            >
+            <div className="row card-new">
               <table
                 className="tabllll table table-bordered table-striped table-hover"
                 id="datatable2"

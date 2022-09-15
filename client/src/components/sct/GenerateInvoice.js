@@ -64,6 +64,11 @@ const GenerateInvoice = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const [showHide1, setShowHide1] = useState({
+    showGSTSection: true,
+  });
+  const { showGSTSection } = showHide1;
+
   const allcompanydata = [];
   allCompanyDetails.map((company) =>
     allcompanydata.push({
@@ -87,6 +92,18 @@ const GenerateInvoice = ({
     //   paymentmodeIdErrorStyle: { color: "#000" },
     // });
     // //Required Validation ends
+
+    if (e.value === "pinnacle media") {
+      setShowHide1({
+        ...showHide1,
+        showGSTSection: false,
+      });
+    } else {
+      setShowHide1({
+        ...showHide1,
+        showGSTSection: true,
+      });
+    }
 
     var companyid = "";
     var companyname = "";
@@ -426,7 +443,7 @@ const GenerateInvoice = ({
                 />
               </div>
 
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                 <label>Qty :</label>
                 <input
                   type="text"
@@ -436,7 +453,7 @@ const GenerateInvoice = ({
                   onChange={(e) => onInputChange1(e)}
                 />
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                 <label>Rate :</label>
                 <input
                   type="text"
@@ -446,7 +463,7 @@ const GenerateInvoice = ({
                   onChange={(e) => onInputChange1(e)}
                 />
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                 <label>Amount :</label>
                 <input
                   type="text"
@@ -457,67 +474,71 @@ const GenerateInvoice = ({
                   disabled
                 />
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                <label>GST :</label>
-                <input
-                  type="text"
-                  name="GST"
-                  value={GST}
-                  className="form-control"
-                  onChange={(e) => onInputChange1(e)}
-                />
-              </div>
+              {showGSTSection && (
+                <>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">GST :</label>
+                    <input
+                      type="text"
+                      name="GST"
+                      value={GST}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                    />
+                  </div>
 
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                <label>CGST :</label>
-                <input
-                  type="text"
-                  name="CGST"
-                  value={CGST}
-                  className="form-control"
-                  onChange={(e) => onInputChange1(e)}
-                />
-              </div>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">CGST :</label>
+                    <input
+                      type="text"
+                      name="CGST"
+                      value={CGST}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                    />
+                  </div>
 
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
-                <label>SGST :</label>
-                <input
-                  type="text"
-                  name="SGST"
-                  value={SGST}
-                  className="form-control"
-                  onChange={(e) => onInputChange1(e)}
-                />
-              </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
-                <label>IGST :</label>
-                <input
-                  type="text"
-                  name="IGST"
-                  value={IGST}
-                  className="form-control"
-                  onChange={(e) => onInputChange1(e)}
-                />
-              </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
-                <label>Total Amount :</label>
-                <input
-                  type="text"
-                  name="totalAmt"
-                  value={
-                    Number(qty * rate) +
-                    (Number(qty * rate) * Number(GST)) / 100 +
-                    (Number(qty * rate) * Number(SGST)) / 100 +
-                    (Number(qty * rate) * Number(CGST)) / 100 +
-                    (Number(qty * rate) * Number(IGST)) / 100
-                  }
-                  className="form-control"
-                  onChange={(e) => onInputChange1(e)}
-                  disabled
-                />
-              </div>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12 ">
+                    <label className="label-control">SGST :</label>
+                    <input
+                      type="text"
+                      name="SGST"
+                      value={SGST}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                    />
+                  </div>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12 ">
+                    <label className="label-control">IGST :</label>
+                    <input
+                      type="text"
+                      name="IGST"
+                      value={IGST}
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                    />
+                  </div>
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+                    <label className="label-control">Total Amount :</label>
+                    <input
+                      type="text"
+                      name="totalAmt"
+                      value={
+                        Number(qty * rate) +
+                        (Number(qty * rate) * Number(GST)) / 100 +
+                        (Number(qty * rate) * Number(SGST)) / 100 +
+                        (Number(qty * rate) * Number(CGST)) / 100 +
+                        (Number(qty * rate) * Number(IGST)) / 100
+                      }
+                      className="form-control"
+                      onChange={(e) => onInputChange1(e)}
+                      disabled
+                    />
+                  </div>
+                </>
+              )}
               <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
-                <label>Discount :</label>
+                <label className="label-control">Discount :</label>
                 <input
                   type="text"
                   name="discount"
@@ -527,7 +548,7 @@ const GenerateInvoice = ({
                 />
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
-                <label>Grand Total :</label>
+                <label className="label-control">Grand Total :</label>
                 <input
                   type="text"
                   name="grandTotal"
@@ -544,7 +565,7 @@ const GenerateInvoice = ({
                 />
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6 col-12 ">
-                <label>Discription :</label>
+                <label className="label-control">Discription :</label>
 
                 <textarea
                   name="desc"
@@ -557,8 +578,7 @@ const GenerateInvoice = ({
                   onChange={(e) => onInputChange1(e)}
                 ></textarea>
               </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12 mt-3">
-                <label className="label-control"></label>
+              <div className="col-lg-12 col-md-6 col-sm-6 col-12">
                 <button
                   variant="success"
                   className="btn sub_form btn_continue Save float-right"
