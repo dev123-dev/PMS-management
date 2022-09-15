@@ -568,14 +568,14 @@ const GenerateSctQuotation = ({
                 />
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6 col-12 ">
-                <label className="label-control">Discription :</label>
+                <label className="label-control">Description :</label>
 
                 <textarea
                   name="desc"
                   id="desc"
                   className="textarea form-control"
                   rows="3"
-                  placeholder="Discription"
+                  placeholder="Description"
                   style={{ width: "100%" }}
                   value={desc}
                   onChange={(e) => onInputChange1(e)}
@@ -614,7 +614,7 @@ const GenerateSctQuotation = ({
                     <th>Total Amt</th>
                     <th>Discount</th>
                     <th>Grand Total</th>
-                    <th>Discription</th>
+                    <th>Description</th>
                     <th>Remove</th>
                   </tr>
                 </thead>

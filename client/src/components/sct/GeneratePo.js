@@ -314,7 +314,7 @@ const GeneratePo = ({
               </div>
 
               <div className="col-lg-12 col-md-6 col-sm-6 col-12 py-2">
-                <label>Work Discription :</label>
+                <label>Work Description :</label>
                 <textarea
                   name="workDesc"
                   id="workDesc"
@@ -435,14 +435,14 @@ const GeneratePo = ({
               </div>
 
               <div className="col-lg-8 col-md-6 col-sm-6 col-12 ">
-                <label className="label-control">Discription :</label>
+                <label className="label-control">Description :</label>
 
                 <textarea
                   name="itemDesc"
                   id="itemDesc"
                   className="textarea form-control"
                   rows="3"
-                  placeholder="Discription"
+                  placeholder="Description"
                   style={{ width: "100%" }}
                   value={itemDesc}
                   onChange={(e) => onInputChange1(e)}
