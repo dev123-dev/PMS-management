@@ -278,68 +278,68 @@ const AllSctDocuments = ({
                 </>
               ))}
           </div>
-          {(sctClientData &&
+          {/* {(sctClientData &&
             sctClientData.billingStatusCategory === "Invoice") ||
-            (docCat === "Invoice" && (
-              <div className="row col-lg-11 col-md-11 col-sm-12 col-12 py-5">
-                <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
-                  <div className="card card-content ">
-                    <center>
-                      <Link
-                        to={{
-                          pathname: "/generate-Invoice",
-                          data: {
-                            sctdata: sctClientData,
-                          },
-                        }}
-                      >
-                        <img
-                          className=" log"
-                          ///  src={require("../../static/images/invoice.png")}
-                          src={require("../../static/images/Po.png")}
-                          alt="Send Invoice"
-                          title="Send Invoice"
-                        />
-                        <h4>Send Invoice</h4>
-                      </Link>
-                    </center>
-                  </div>
-                </div>
-                <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
-                  <div className="card card-content ">
-                    <center>
-                      <Link to="/profit-loss-report">
-                        <img
-                          className=" log"
-                          // src={require("../../static/images/profitloss.jfif")}
-                          src={require("../../static/images/Po.png")}
-                          alt="Send T&C Agreement"
-                          title="Send T&C Agreement"
-                        />
-                        <h4>Send T&C Agreement</h4>
-                      </Link>
-                    </center>
-                  </div>
-                </div>
-
-                <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
-                  <div className="card card-content ">
-                    <center>
-                      <Link to="/profit-loss-report">
-                        <img
-                          className=" log"
-                          // src={require("../../static/images/profitloss.jfif")}
-                          src={require("../../static/images/Po.png")}
-                          alt="Upload Agreement"
-                          title="Upload Agreement"
-                        />
-                        <h4>Upload Agreement</h4>
-                      </Link>
-                    </center>
-                  </div>
-                </div>
+            (docCat === "Invoice" && ( */}
+          <div className="row col-lg-11 col-md-11 col-sm-12 col-12 py-5">
+            <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
+              <div className="card card-content ">
+                <center>
+                  <Link
+                    to={{
+                      pathname: "/generate-Invoice",
+                      data: {
+                        sctdata: sctClientData,
+                      },
+                    }}
+                  >
+                    <img
+                      className=" log"
+                      ///  src={require("../../static/images/invoice.png")}
+                      src={require("../../static/images/Po.png")}
+                      alt="Send Invoice"
+                      title="Send Invoice"
+                    />
+                    <h4>Send Invoice</h4>
+                  </Link>
+                </center>
               </div>
-            ))}
+            </div>
+            <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
+              <div className="card card-content ">
+                <center>
+                  <Link to="/profit-loss-report">
+                    <img
+                      className=" log"
+                      // src={require("../../static/images/profitloss.jfif")}
+                      src={require("../../static/images/Po.png")}
+                      alt="Send T&C Agreement"
+                      title="Send T&C Agreement"
+                    />
+                    <h4>Send T&C Agreement</h4>
+                  </Link>
+                </center>
+              </div>
+            </div>
+
+            <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
+              <div className="card card-content ">
+                <center>
+                  <Link to="/profit-loss-report">
+                    <img
+                      className=" log"
+                      // src={require("../../static/images/profitloss.jfif")}
+                      src={require("../../static/images/Po.png")}
+                      alt="Upload Agreement"
+                      title="Upload Agreement"
+                    />
+                    <h4>Upload Agreement</h4>
+                  </Link>
+                </center>
+              </div>
+            </div>
+          </div>
+          {/* ))} */}
         </section>
       </div>
       <Modal
