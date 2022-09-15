@@ -423,9 +423,14 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ||
                         user.userGroupName === "Marketing" ? (
-                          <li>
-                            <Link to="/all-dct-client">All Dct Clients</Link>
-                          </li>
+                          <>
+                            <li>
+                              <Link to="/all-dct-client">All Dct Clients</Link>
+                            </li>
+                            <li>
+                              <Link to="/all-Region">All Region</Link>
+                            </li>
+                          </>
                         ) : (
                           <></>
                         )}
@@ -469,9 +474,6 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                             </li>
                             <li>
                               <Link to="/change-password">Change Password</Link>
-                            </li>
-                            <li>
-                              <Link to="/all-Region">All Region</Link>
                             </li>
                             <li>
                               <Link to="/all-trash">Trash</Link>
