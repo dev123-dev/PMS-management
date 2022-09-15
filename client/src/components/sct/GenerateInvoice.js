@@ -598,14 +598,18 @@ const GenerateInvoice = ({
                 <thead>
                   <tr>
                     <th>Item Name</th>
-                    <th>GST</th>
                     <th>Rate</th>
                     <th>Qty</th>
                     <th>Amount</th>
-                    <th>CGST</th>
-                    <th>SGST</th>
-                    <th>IGST</th>
-                    <th>Total Amt</th>
+                    {showGSTSection && (
+                      <>
+                        <th>GST</th>
+                        <th>CGST</th>
+                        <th>SGST</th>
+                        <th>IGST</th>
+                        <th>Total Amt</th>
+                      </>
+                    )}
                     <th>Discount</th>
                     <th>Grand Total</th>
                     <th>Description</th>
@@ -618,14 +622,18 @@ const GenerateInvoice = ({
                       return (
                         <tr key={idx}>
                           <td>{AddDetail.itemName}</td>
-                          <td>{AddDetail.GST}</td>
                           <td>{AddDetail.rate}</td>
                           <td>{AddDetail.qty}</td>
                           <td>{AddDetail.amt}</td>
-                          <td>{AddDetail.CGST}</td>
-                          <td>{AddDetail.SGST}</td>
-                          <td>{AddDetail.IGST}</td>
-                          <td>{AddDetail.totalAmt}</td>
+                          {showGSTSection && (
+                            <>
+                              <td>{AddDetail.GST}</td>
+                              <td>{AddDetail.CGST}</td>
+                              <td>{AddDetail.SGST}</td>
+                              <td>{AddDetail.IGST}</td>
+                              <td>{AddDetail.totalAmt}</td>
+                            </>
+                          )}
                           <td>{AddDetail.discount}</td>
                           <td>{AddDetail.grandTotal}</td>
                           <td>{AddDetail.desc}</td>
