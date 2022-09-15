@@ -22,6 +22,11 @@ const GenerateInvoice = ({
     getALLCompanyDetails();
   }, [getALLCompanyDetails]);
 
+  const paymentTypeVal = [
+    { value: "Cash", label: "Cash" },
+    { value: "NEFT", label: "NEFT" },
+  ];
+
   //formData
   const [formData, setFormData] = useState({
     sctClientName:
@@ -42,7 +47,7 @@ const GenerateInvoice = ({
       sctDataVal && sctDataVal.sctClientAssignedToId
         ? sctDataVal.sctClientAssignedToId
         : "",
-
+    paymentType: "",
     quotationNo: "",
     quotationDate: "",
     isSubmitted: false,
@@ -54,7 +59,7 @@ const GenerateInvoice = ({
     sctCompanyName,
     sctClientAssignedToName,
     sctClientAddress,
-
+    paymentType,
     isSubmitted,
   } = formData;
 
@@ -164,6 +169,15 @@ const GenerateInvoice = ({
   );
   const onDateChange = (e) => {
     setquotationDate(e.target.value);
+  };
+
+  const onClientTypeChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        paymentType: e,
+      });
+    }
   };
 
   //add staff start
@@ -434,9 +448,10 @@ const GenerateInvoice = ({
                   ></textarea>
                 </div>
               </div>
-              <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 ">
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12  py-2">
-                  From* :
+              <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 py-2">
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12 ">
+                  <label>Bank :</label>
+
                   <Select
                     name="selBank"
                     options={allcompanyBank}
@@ -444,6 +459,17 @@ const GenerateInvoice = ({
                     value={selectedBank}
                     placeholder="Select Bank"
                     onChange={(e) => onBankChange(e)}
+                  />
+                </div>
+                <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
+                  <label>Payment Mode:</label>
+                  <Select
+                    name="paymentType"
+                    isSearchable={true}
+                    options={paymentTypeVal}
+                    value={paymentType}
+                    placeholder="Select"
+                    onChange={(e) => onClientTypeChange(e)}
                   />
                 </div>
               </div>
