@@ -590,10 +590,7 @@ const GenerateInvoice = ({
             </div>
           </div>
           <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-2">
-            <div
-              className="row card-new"
-              // style={{ height: "340px", overflowY: "scroll" }}
-            >
+            <div className="row card-new">
               <table
                 className="tabllll table table-bordered table-striped table-hover"
                 id="datatable2"
