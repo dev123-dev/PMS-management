@@ -429,9 +429,18 @@ const AddDctClients = ({
   const onleadCheck = (e) => {
     setSelectedLead(null);
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    var arr = e.target.value.split(".");
+    let data = e.target.value;
+    var ret = data.replace("https://", "");
+    ret = ret.replace("http://", "");
+    ret = ret.replace("www.", "");
+    var arr = ret.split(".");
     const listWebsite = leadsList.filter(
-      (leadsList) => leadsList.website.split(".")[1] === arr[1]
+      (leadsList) =>
+        leadsList.website
+          .replace("https://", "")
+          .replace("http://", "")
+          .replace("www.", "")
+          .split(".")[0] === arr[0]
     );
     if (e.target.value === "") {
       setError({
