@@ -86,7 +86,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   ((user.userGroupName &&
                     user.userGroupName === "Administrator") ||
                     user.userGroupName === "Super Admin" ||
-                    user.userGroupName === "Clarical Admins") ? (
+                    user.userGroupName === "Clarical Admins" ||
+                    user.designationName ===
+                      "Head of Marketing & Operation") ? (
                     <NavLink
                       to="/daily-job-sheet"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -97,7 +99,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-                <NavItem>
+                {/* <NavItem>
                   {!loading &&
                   isAuthenticated &&
                   user &&
@@ -113,7 +115,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   ) : (
                     <NavItem></NavItem>
                   )}
-                </NavItem>
+                </NavItem> */}
                 <NavItem>
                   {!loading &&
                   isAuthenticated &&
