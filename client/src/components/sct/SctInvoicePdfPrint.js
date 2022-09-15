@@ -11,7 +11,6 @@ import {
   StyleSheet,
   PDFViewer,
 } from "@react-pdf/renderer";
-import AllDesignation from "../department/AllDesignation";
 
 const SctInvoicePdfPrint = ({
   auth: { isAuthenticated, user, users, loading },
@@ -166,6 +165,7 @@ const SctInvoicePdfPrint = ({
     row8: {
       width: "17%",
     },
+
     // space: {
     //   height: "2px",
     // },
@@ -225,10 +225,22 @@ const SctInvoicePdfPrint = ({
 
             <View style={(styles.table, styles.section)}>
               <View style={[styles.row, styles.bold, styles.header]}>
-                <Text style={{ width: "80%" }}>
-                  Description of Work : {workDesc}
-                </Text>
-                <Text style={styles.row2}>Amount : {amount} </Text>
+                <Text style={styles.row1}>Item Name</Text>
+                <Text style={styles.row2}>Description</Text>
+                <Text style={styles.row3}>Rate</Text>
+                <Text style={styles.row4}>Qty</Text>
+                <Text style={styles.row5}>Total</Text>
+              </View>
+            </View>
+
+            <View style={(styles.table, styles.section)}>
+              <View>
+                <Text>Beneficary Name : {workDesc}</Text>
+
+                <Text>Ac No : {amount} </Text>
+                <Text>Bank Name : {amount} </Text>
+                <Text>IFSC Code: {amount} </Text>
+                <Text>Properitorship's PAN : {amount} </Text>
               </View>
             </View>
             {/* <View style={(styles.table, styles.section)}>
@@ -259,11 +271,34 @@ const SctInvoicePdfPrint = ({
             <Text> 1. Applicable taxes will be extra.</Text>
             <Text> 2. Work will resume after full payment.</Text>
           </View> */}
-
-            <View style={{ paddingTop: "20px", margin: "10px" }}>
+            <Text
+              style={{
+                position: "absolute",
+                bottom: "60",
+                left: "80%",
+                padding: "10",
+              }}
+            >
+              ------------------------------{"\n"}
+              Authorised Signatory
+            </Text>
+            <View
+              style={{
+                position: "absolute",
+                bottom: "0",
+                left: "0",
+                padding: "10",
+              }}
+            >
               <Text>
-                For any enquiry, reach out via email at joel@pinnaclemedia.in,
-                call on +91 99162 13542{" "}
+                Declaration
+                {"\n"}
+                We declare that this invoice shows the actual price of the
+                Services/goods described and that all particulars are true and
+                correct.
+              </Text>
+              <Text style={{ textAlign: "center " }}>
+                {"\n"}This is a Computer Generated Invoice
               </Text>
             </View>
           </Page>
