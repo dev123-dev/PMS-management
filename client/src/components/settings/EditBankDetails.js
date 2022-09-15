@@ -2,9 +2,11 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import { editCompanyBank } from "../../actions/settings";
 
 const EditBankDetails = ({
   auth: { isAuthenticated, user, users, loading },
+  editCompanyBank,
   editBankdata,
 }) => {
   //formData
@@ -46,7 +48,7 @@ const EditBankDetails = ({
       bankBranch: bankBranch,
       defaultBank: isChecked,
     };
-
+    editCompanyBank(finalData);
     console.log(finalData);
     setFormData({
       ...formData,
@@ -154,4 +156,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(EditBankDetails);
+export default connect(mapStateToProps, { editCompanyBank })(EditBankDetails);

@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { EditCompanyData } from "../../actions/settings";
+import { EditCompanyData, addNewBank } from "../../actions/settings";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import { useHistory } from "react-router-dom";
@@ -10,6 +10,7 @@ import EditBankDetails from "./EditBankDetails";
 const EditCompanyDetails = ({
   auth: { isAuthenticated, user, users, loading },
   EditCompanyData,
+  addNewBank,
 }) => {
   //formData
 
@@ -111,6 +112,7 @@ const EditCompanyDetails = ({
     if (staffList.length === 0) {
       // if (checkErrorscontact()) {
       const addData = {
+        recordId: editcompanydatas ? editcompanydatas._id : "",
         accountNo: accountNo,
         IFSCCode: IFSCCode,
         bankName: bankName,
@@ -179,9 +181,10 @@ const EditCompanyDetails = ({
       companyEditedById: user._id,
       companyEditedDateTime: new Date().toLocaleString(),
     };
-    // console.log(finalData);
     EditCompanyData(finalData);
-
+    for (let i = 0; i < AddedDetails.length; i++) {
+      addNewBank(AddedDetails[i]);
+    }
     setFormData({
       ...formData,
 
@@ -537,6 +540,6 @@ const mapStateToProps = (state) => ({
   settings: state.settings,
 });
 
-export default connect(mapStateToProps, { EditCompanyData })(
+export default connect(mapStateToProps, { EditCompanyData, addNewBank })(
   EditCompanyDetails
 );

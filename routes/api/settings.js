@@ -255,29 +255,6 @@ router.post("/edit-company-details", async (req, res) => {
   }
 });
 
-router.post("/add-new-bank", async (req, res) => {
-  try {
-    let data = req.body;
-    const addNewBank = await Company.updateOne(
-      { _id: data.recordId },
-      {
-        $push: {
-          bank: {
-            _id: new mongoose.Types.ObjectId(),
-            accountNo: data.accountNo,
-            IFSCCode: data.IFSCCode,
-            bankName: data.bankName,
-            bankBranch: data.bankBranch,
-            defaultBank: data.defaultBank,
-          },
-        },
-      }
-    );
-    res.json(addNewBank);
-  } catch (error) {
-    res.status(500).json({ errors: [{ msg: "Server Error" }] });
-  }
-});
 //DEACTIVATE
 
 router.post("/deactive-designation-data", async (req, res) => {
@@ -518,4 +495,50 @@ router.post("/deactive-company-data", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
+
+router.post("/add-new-bank", async (req, res) => {
+  try {
+    let data = req.body;
+    const addNewBank = await Company.updateOne(
+      { _id: data.recordId },
+      {
+        $push: {
+          bank: {
+            _id: new mongoose.Types.ObjectId(),
+            accountNo: data.accountNo,
+            IFSCCode: data.IFSCCode,
+            bankName: data.bankName,
+            bankBranch: data.bankBranch,
+            defaultBank: data.defaultBank,
+          },
+        },
+      }
+    );
+    res.json(addNewBank);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/edit-bank", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateBank = await Company.updateOne(
+      { "bank._id": data.recordId },
+      {
+        $set: {
+          "bank.$.accountNo": data.accountNo,
+          "bank.$.IFSCCode": data.IFSCCode,
+          "bank.$.bankName": data.bankName,
+          "bank.$.bankBranch": data.bankBranch,
+          "bank.$.defaultBank": data.defaultBank,
+        },
+      }
+    );
+    res.json(updateBank);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 module.exports = router;
