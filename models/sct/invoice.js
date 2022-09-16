@@ -35,6 +35,9 @@ const InvoicesSchema = new mongoose.Schema({
   forAddress: {
     type: String,
   },
+  modeOfPayment: {
+    type: String,
+  },
   item: [
     {
       itemName: {
