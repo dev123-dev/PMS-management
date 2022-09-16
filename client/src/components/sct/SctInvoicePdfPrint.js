@@ -19,7 +19,6 @@ const SctInvoicePdfPrint = ({
   const data = useHistory().location.data;
 
   let getRegenerate = JSON.parse(localStorage.getItem("getRegenerate"));
-  console.log(poPrint, "poPrint");
 
   //formData
 
@@ -117,10 +116,6 @@ const SctInvoicePdfPrint = ({
       fontSize: "10px",
     },
 
-    viewer: {
-      width: window.innerWidth, //the pdf viewer will take up all of the width and height
-      height: window.innerHeight,
-    },
     right: {},
     rowcard: {},
     table: {
@@ -140,7 +135,6 @@ const SctInvoicePdfPrint = ({
     bold: {
       fontWeight: "bold",
     },
-    // So Declarative and unDRY 👌
     row1: {
       width: "17%",
     },
@@ -165,10 +159,6 @@ const SctInvoicePdfPrint = ({
     row8: {
       width: "17%",
     },
-
-    // space: {
-    //   height: "2px",
-    // },
   });
 
   if (!data || data === undefined) {
@@ -227,8 +217,10 @@ const SctInvoicePdfPrint = ({
               <View style={[styles.row, styles.bold, styles.header]}>
                 <Text style={styles.row1}>Item Name</Text>
                 <Text style={styles.row2}>Description</Text>
-                <Text style={styles.row3}>Rate</Text>
                 <Text style={styles.row4}>Qty</Text>
+                <Text style={styles.row3}>Rate</Text>
+                <Text style={styles.row3}>per</Text>
+                <Text style={styles.row3}>Dis</Text>
                 <Text style={styles.row5}>Total</Text>
               </View>
             </View>
@@ -243,34 +235,7 @@ const SctInvoicePdfPrint = ({
                 <Text>Properitorship's PAN : {amount} </Text>
               </View>
             </View>
-            {/* <View style={(styles.table, styles.section)}>
-            <View style={[styles.row]}>
-              <Text
-                style={{
-                  // border: "1 px solid black",
-                  width: "600px",
-                }}
-              >
-                Country of Supply:
-              </Text>
-              <Text
-                style={{
-                  // border: "1 px solid black",
-                  width: "600px",
-                }}
-              >
-                Place of Supply:
-              </Text>
-            </View>
-          </View>
 
-          */}
-
-            {/* <View style={(styles.section, styles.space)}>
-            <Text>Terms and Condition: </Text>
-            <Text> 1. Applicable taxes will be extra.</Text>
-            <Text> 2. Work will resume after full payment.</Text>
-          </View> */}
             <Text
               style={{
                 position: "absolute",
