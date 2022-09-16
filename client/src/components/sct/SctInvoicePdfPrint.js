@@ -17,9 +17,9 @@ const SctInvoicePdfPrint = ({
   sct: { poPrint },
 }) => {
   const data = useHistory().location.data;
-
+  let invoicePrintLS = JSON.parse(localStorage.getItem("invoicePrintLS"));
   let getRegenerate = JSON.parse(localStorage.getItem("getRegenerate"));
-
+  console.log(invoicePrintLS, "invoicePrintLS");
   //formData
 
   const [formData, setFormData] = useState({
