@@ -47,25 +47,6 @@ router.post("/add-sct-client", async (req, res) => {
   }
 });
 
-router.post(
-  "/upload-po-file",
-  upload.single("myFile"),
-  async (req, res, next) => {
-    console.log(req.file.originalname + " file successfully uploaded !!");
-    const data = req.body;
-    const uploadPo = await SctClients.updateOne(
-      { _id: data.clientId },
-      {
-        $set: {
-          poFileName: req.file.name,
-          POFile: req.file,
-        },
-      }
-    );
-    res.sendStatus(200);
-  }
-);
-
 router.post("/add-new-sct-staff", async (req, res) => {
   try {
     let data = req.body;
@@ -1111,6 +1092,25 @@ router.post("/po-print", async (req, res) => {
   }
 });
 
+// router.post(
+//   "/upload-po-file",
+//   upload.single("myFile"),
+//   async (req, res, next) => {
+//     console.log(req.file.originalname + " file successfully uploaded !!");
+//     const data = req.body;
+//     const uploadPo = await SctClients.updateOne(
+//       { _id: data.clientId },
+//       {
+//         $set: {
+//           poFileName: req.file.name,
+//           POFile: req.file,
+//         },
+//       }
+//     );
+//     res.sendStatus(200);
+//   }
+// );
+
 router.post(
   "/upload-po-file",
   upload.single("myFile"),
@@ -1142,4 +1142,24 @@ router.post("/selected-client", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post(
+  "/upload-agreement-file",
+  upload.single("myFile"),
+  async (req, res, next) => {
+    console.log(req.file.originalname + " file successfully uploaded !!");
+    const data = req.body;
+    const uploadPo = await SctClients.updateOne(
+      { _id: data.clientId },
+      {
+        $set: {
+          poFileName: req.file.name,
+          POFile: req.file,
+        },
+      }
+    );
+    res.sendStatus(200);
+  }
+);
+
 module.exports = router;
