@@ -262,10 +262,10 @@ const SctInvoicePdfPrint = ({
                   </View>
                 ))}
             </View>
-            <View>
-              <Text style={styles.row3}>{totSubTot}</Text>
-              <Text style={styles.row3}>Amount Chargreable (in words)</Text>
-              <Text style={styles.row3}>
+            <View style={styles.section}>
+              <Text>{totSubTot}</Text>
+              <Text>
+                Amount Chargreable (in words) &nbsp;: &nbsp;
                 {toWords.convert(totSubTot, { currency: true })}
               </Text>
             </View>
