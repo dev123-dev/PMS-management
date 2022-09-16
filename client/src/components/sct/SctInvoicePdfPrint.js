@@ -194,6 +194,7 @@ const SctInvoicePdfPrint = ({
     row8: {
       width: "17%",
     },
+    linespace: { lineHeight: "1.6" },
   });
 
   if (!data || data === undefined) {
@@ -276,7 +277,7 @@ const SctInvoicePdfPrint = ({
             </View>
 
             <View style={(styles.table, styles.section)}>
-              <View>
+              <View style={styles.linespace}>
                 <Text>Beneficary Name : {companyName}</Text>
                 <Text>Ac No : {accountNo} </Text>
                 <Text>Bank Name : {bankName} </Text>
