@@ -177,6 +177,13 @@ const SctClientsSchema = new mongoose.Schema({
   POId: {
     type: ObjectId,
   },
+  invoiceGenerated: {
+    type: Number, //0,1
+    default: 0,
+  },
+  invoiceId: {
+    type: ObjectId,
+  },
   billingStatus: {
     type: String,
   },
@@ -185,7 +192,7 @@ const SctClientsSchema = new mongoose.Schema({
   },
 
   POFile: {},
-
+  invoiceFile: {},
   quotation: [
     {
       clientId: {

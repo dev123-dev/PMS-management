@@ -137,6 +137,22 @@ export const savePurchaseOrder = (finalData) => async (dispatch) => {
     });
   }
 };
+export const saveInvoice = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/sct/add-invoice", finalData, config);
+    dispatch(getInvoicePrint({ clientId: finalData.clientId }));
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
 //EDIT
 export const editSctLeadDetails = (finalData) => async (dispatch) => {
   try {
@@ -704,6 +720,17 @@ export const getPurchaseOrderPrint = (client) => async (dispatch) => {
       type: PO_PRINT,
       payload: res.data,
     });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getInvoicePrint = (client) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/sct/invoice-print", client);
+    localStorage.setItem("invoicePrintLS", JSON.stringify(res.data));
   } catch (err) {
     dispatch({
       type: ERROR,

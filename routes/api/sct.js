@@ -12,6 +12,7 @@ const EmployeeDetails = require("../../models/EmpDetails");
 const SctProjects = require("../../models/sct/SctProjects");
 const Quotation = require("../../models/sct/quotation");
 const PurchaseOrder = require("../../models/sct/purchaseOrder");
+const Invoice = require("../../models/sct/invoice");
 const multer = require("multer");
 
 var storage = multer.diskStorage({
@@ -203,6 +204,34 @@ router.post("/add-purchase-order", async (req, res) => {
   }
 });
 
+router.post("/add-invoice", async (req, res) => {
+  let data = req.body;
+  try {
+    const expireOldInvoice = await Invoice.updateMany(
+      { clientId: data.clientId, status: "Active" },
+      {
+        $set: {
+          status: "Expired",
+        },
+      }
+    );
+    let AddInvoice = new Invoice(data);
+    output = await AddInvoice.save();
+    const updateClientInvoiceStatus = await SctClients.updateOne(
+      { _id: data.clientId },
+      {
+        $set: {
+          invoiceGenerated: 1,
+          invoiceId: output._id,
+        },
+      }
+    );
+    res.json(updateClientInvoiceStatus);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 //EDIT
 router.post("/edit-sct-Leads", async (req, res) => {
   try {
@@ -1086,6 +1115,22 @@ router.post("/po-print", async (req, res) => {
       .sort({ _id: -1 })
       .limit(1);
     res.json(printPO);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/invoice-print", async (req, res) => {
+  const { clientId } = req.body;
+  try {
+    const printInvoice = await Invoice.findOne({
+      clientId: clientId,
+      status: "Active",
+    })
+      .sort({ _id: -1 })
+      .limit(1);
+    res.json(printInvoice);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

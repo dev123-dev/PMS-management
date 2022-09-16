@@ -38,6 +38,10 @@ const InvoicesSchema = new mongoose.Schema({
   modeOfPayment: {
     type: String,
   },
+  status: {
+    type: String,
+    default: "Active",
+  },
   item: [
     {
       itemName: {
@@ -78,6 +82,7 @@ const InvoicesSchema = new mongoose.Schema({
       },
     },
   ],
+  bank: {},
   invoiceEnteredById: {
     type: ObjectId,
   },

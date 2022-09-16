@@ -5,14 +5,13 @@ import Select from "react-select";
 import { Link, useHistory } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getALLCompanyDetails } from "../../actions/settings";
-import { saveQuotation } from "../../actions/sct";
+import { saveInvoice } from "../../actions/sct";
 import { Redirect } from "react-router-dom";
 
 const GenerateInvoice = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allCompanyDetails },
-  sct: { activeClient },
-  saveQuotation,
+  saveInvoice,
   getALLCompanyDetails,
 }) => {
   const data = useHistory().location.data;
@@ -48,13 +47,13 @@ const GenerateInvoice = ({
         ? sctDataVal.sctClientAssignedToId
         : "",
     paymentType: "",
-    quotationNo: "",
-    quotationDate: "",
+    invoiceNo: "",
+    invoiceDate: "",
     isSubmitted: false,
   });
 
   const {
-    quotationNo,
+    invoiceNo,
     sctClientAssignedToId,
     sctCompanyName,
     sctClientAssignedToName,
@@ -110,7 +109,6 @@ const GenerateInvoice = ({
   };
 
   const [selectedBank, getSelectedBank] = useState();
-
   bankList &&
     bankList.map((bank) =>
       allcompanyBank.push({
@@ -118,6 +116,7 @@ const GenerateInvoice = ({
         label: bank.bankName,
         value: bank.bankName,
         default: bank.defaultBank,
+        bankData: bank,
       })
     );
 
@@ -161,14 +160,14 @@ const GenerateInvoice = ({
       });
       return false;
     }
-
     return true;
   };
-  const [startquotationDate, setquotationDate] = useState(
+
+  const [startinvoiceDate, setinvoiceDate] = useState(
     new Date().toISOString().split("T")[0]
   );
   const onDateChange = (e) => {
-    setquotationDate(e.target.value);
+    setinvoiceDate(e.target.value);
   };
 
   const onClientTypeChange = (e) => {
@@ -262,8 +261,6 @@ const GenerateInvoice = ({
         grandTotal: "",
         desc: "",
       });
-      // setstaffCountryCode("");
-      // getstaffcountryData("");
       let temp = [];
       temp.push(...AddedDetails, addData);
       AddDetails(temp);
@@ -277,22 +274,15 @@ const GenerateInvoice = ({
     AddDetails(removeList);
   };
   //add staff end
-  const [finalDataVal, setFinalDataVal] = useState([]);
 
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
     const finalData = {
       clientId: sctDataVal ? sctDataVal._id : "",
-      quotationId:
-        sctDataVal && sctDataVal.quotation && sctDataVal.quotation[0]
-          ? sctDataVal.quotation[0]._id
-          : null,
-      quotationGenerated: sctDataVal ? sctDataVal.quotationGenerated : "",
-      quotation: sctDataVal ? sctDataVal.quotation : null,
       clientName: sctCompanyName,
-      quotationNo: quotationNo,
-      quotationDate: startquotationDate,
+      invoiceNo: invoiceNo,
+      invoiceDate: startinvoiceDate,
       clientFromId: sctClientAssignedToId,
       clientFrom: sctClientAssignedToName,
       companyId: companyid,
@@ -302,18 +292,21 @@ const GenerateInvoice = ({
       forAddress: sctClientAddress,
       clientEnteredById: user._id,
       item: AddedDetails,
+      bank:
+        selectedBank && selectedBank.bankData ? selectedBank.bankData : null,
+      invoiceEnteredById: user._id,
+      invoiceEnteredByDateTime: new Date().toLocaleString("en-GB"),
     };
-    saveQuotation(finalData);
-    setFinalDataVal(finalData);
+    saveInvoice(finalData);
     setFormData({
       ...formData,
       sctClientAssignedToName: "",
       sctCompanyName: "",
       sctClientAddress: "",
-      quotationNo: "",
+      invoiceNo: "",
       companyName: "",
       companyaddress: "",
-      startquotationDate: "",
+      startinvoiceDate: "",
       isSubmitted: true,
     });
   };
@@ -358,8 +351,8 @@ const GenerateInvoice = ({
                 <label className="label-control">Invoice No:</label>
                 <input
                   type="text"
-                  name="quotationNo"
-                  value={quotationNo}
+                  name="invoiceNo"
+                  value={invoiceNo}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
@@ -370,8 +363,8 @@ const GenerateInvoice = ({
                   type="date"
                   placeholder="dd/mm/yyyy"
                   className="form-control cpp-input datevalidation"
-                  name="quotationDate"
-                  value={startquotationDate}
+                  name="invoiceDate"
+                  value={startinvoiceDate}
                   onChange={(e) => onDateChange(e)}
                   style={{
                     width: "100%",
@@ -728,10 +721,9 @@ const GenerateInvoice = ({
                       className="btn sub_form btn_continue blackbrd  Save float-right"
                       style={{ backgroundColor: "#007bff", color: "white" }}
                       to={{
-                        pathname: "/print-pdf",
+                        pathname: "/generate-Invoice-Pdf-Print",
                         data: {
                           data,
-                          quotationData: finalDataVal,
                         },
                       }}
                     >
@@ -739,20 +731,6 @@ const GenerateInvoice = ({
                     </Link>
                   ) : (
                     <>
-                      {" "}
-                      <Link
-                        className="btn sub_form btn_continue blackbrd  Save float-right"
-                        style={{ backgroundColor: "#007bff", color: "white" }}
-                        to={{
-                          pathname: "/generate-Invoice-Pdf-Print",
-                          data: {
-                            data,
-                            quotationData: finalDataVal,
-                          },
-                        }}
-                      >
-                        Print
-                      </Link>
                       <input
                         type="submit"
                         name="Submit"
@@ -789,6 +767,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  saveQuotation,
+  saveInvoice,
   getALLCompanyDetails,
 })(GenerateInvoice);
