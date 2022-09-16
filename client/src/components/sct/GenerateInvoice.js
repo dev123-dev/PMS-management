@@ -46,7 +46,7 @@ const GenerateInvoice = ({
       sctDataVal && sctDataVal.sctClientAssignedToId
         ? sctDataVal.sctClientAssignedToId
         : "",
-    paymentType: "",
+    modeOfPayment: "",
     invoiceNo: "",
     invoiceDate: "",
     isSubmitted: false,
@@ -58,7 +58,7 @@ const GenerateInvoice = ({
     sctCompanyName,
     sctClientAssignedToName,
     sctClientAddress,
-    paymentType,
+    modeOfPayment,
     isSubmitted,
   } = formData;
 
@@ -174,7 +174,7 @@ const GenerateInvoice = ({
     if (e) {
       setFormData({
         ...formData,
-        paymentType: e,
+        modeOfPayment: e,
       });
     }
   };
@@ -291,6 +291,7 @@ const GenerateInvoice = ({
       forName: sctCompanyName,
       forAddress: sctClientAddress,
       clientEnteredById: user._id,
+      modeOfPayment: modeOfPayment.value ? modeOfPayment.value : null,
       item: AddedDetails,
       bank:
         selectedBank && selectedBank.bankData ? selectedBank.bankData : null,
@@ -457,10 +458,10 @@ const GenerateInvoice = ({
                 <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
                   <label>Payment Mode:</label>
                   <Select
-                    name="paymentType"
+                    name="modeOfPayment"
                     isSearchable={true}
                     options={paymentTypeVal}
-                    value={paymentType}
+                    value={modeOfPayment}
                     placeholder="Select"
                     onChange={(e) => onClientTypeChange(e)}
                   />

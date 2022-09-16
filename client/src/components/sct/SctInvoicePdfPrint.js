@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { Link, useHistory, Redirect } from "react-router-dom";
+import { ToWords } from "to-words";
 import {
   Document,
   Page,
@@ -11,22 +12,18 @@ import {
   StyleSheet,
   PDFViewer,
 } from "@react-pdf/renderer";
+const toWords = new ToWords();
 
 const SctInvoicePdfPrint = ({
   auth: { isAuthenticated, user, users, loading },
-  sct: { poPrint },
 }) => {
   const data = useHistory().location.data;
   let invoicePrintLS = JSON.parse(localStorage.getItem("invoicePrintLS"));
-  let getRegenerate = JSON.parse(localStorage.getItem("getRegenerate"));
   console.log(invoicePrintLS, "invoicePrintLS");
   //formData
 
   const [formData, setFormData] = useState({
-    invoiceNo:
-      invoicePrintLS && invoicePrintLS && invoicePrintLS.invoiceNo
-        ? invoicePrintLS.invoiceNo
-        : "",
+    invoiceNo: "",
     sctClientName:
       data && data.sctdata && data.sctdata.sctClientName
         ? data.sctdata.sctClientName
@@ -46,37 +43,13 @@ const SctInvoicePdfPrint = ({
         ? data.data.sctdata.sctClientAddress
         : "",
 
-    companyName:
-      invoicePrintLS && invoicePrintLS && invoicePrintLS.companyAddress
-        ? invoicePrintLS.companyAddress
-        : "",
-    companyName:
-      invoicePrintLS && invoicePrintLS && invoicePrintLS.companyName
-        ? invoicePrintLS.companyName
-        : "",
-    forName:
-      invoicePrintLS && invoicePrintLS && invoicePrintLS.forName
-        ? invoicePrintLS.forName
-        : "",
-    accountNo:
-      invoicePrintLS && invoicePrintLS.bank.accountNo
-        ? invoicePrintLS.bank.accountNo
-        : "",
-
-    bankName:
-      invoicePrintLS && invoicePrintLS.bank.bankName
-        ? invoicePrintLS.bank.bankName
-        : "",
-
-    IFSCCode:
-      invoicePrintLS && invoicePrintLS.bank.IFSCCode
-        ? invoicePrintLS.bank.IFSCCode
-        : "",
-
-    forAddress:
-      invoicePrintLS && invoicePrintLS && invoicePrintLS.forAddress
-        ? invoicePrintLS.forAddress
-        : "",
+    companyName: "",
+    companyName: "",
+    forName: "",
+    accountNo: "",
+    bankName: "",
+    IFSCCode: "",
+    forAddress: "",
     PONo: "",
     workDesc: "",
     amount: "",
@@ -107,24 +80,34 @@ const SctInvoicePdfPrint = ({
     workDesc,
     amount,
     sctClientName,
-    sctClientAssignedToId,
     clientName,
-    sctClientAssignedToName,
     accountNo,
     companyAddress,
     isSubmitted,
   } = formData;
 
-  if (poPrint && poPrint.PONo && !PONo) {
+  if (invoicePrintLS && invoicePrintLS.invoiceNo && !invoiceNo) {
     setFormData({
       ...formData,
-      companyAddress: poPrint.companyAddress ? poPrint.companyAddress : "",
-      companyName: poPrint.companyName ? poPrint.companyName : "",
-      forName: poPrint.forName ? poPrint.forName : "",
-      forAddress: poPrint.forAddress ? poPrint.forAddress : "",
-      PONo: poPrint.PONo ? poPrint.PONo : "",
-      workDesc: poPrint.workDesc ? poPrint.workDesc : "",
-      amount: poPrint.amount ? poPrint.amount : "",
+      companyAddress: invoicePrintLS.companyAddress
+        ? invoicePrintLS.companyAddress
+        : "",
+      companyName: invoicePrintLS.companyAddress
+        ? invoicePrintLS.companyName
+        : "",
+      forName: invoicePrintLS.forName ? invoicePrintLS.forName : "",
+      forAddress: invoicePrintLS.forAddress ? invoicePrintLS.forAddress : "",
+      invoiceNo: invoicePrintLS.invoiceNo ? invoicePrintLS.invoiceNo : "",
+
+      accountNo: invoicePrintLS.bank.accountNo
+        ? invoicePrintLS.bank.accountNo
+        : "",
+      bankName: invoicePrintLS.bank.bankName
+        ? invoicePrintLS.bank.bankName
+        : "",
+      IFSCCode: invoicePrintLS.bank.IFSCCode
+        ? invoicePrintLS.bank.IFSCCode
+        : "",
     });
   }
 
@@ -196,6 +179,10 @@ const SctInvoicePdfPrint = ({
     },
     linespace: { lineHeight: "1.6" },
   });
+
+  let totSubTot = 0;
+  invoicePrintLS &&
+    invoicePrintLS.item.map((row, i) => (totSubTot = Number(row.totalAmt)));
 
   if (!data || data === undefined) {
     return <Redirect to="/all-engaged-clients" />;
@@ -275,7 +262,13 @@ const SctInvoicePdfPrint = ({
                   </View>
                 ))}
             </View>
-
+            <View>
+              <Text style={styles.row3}>{totSubTot}</Text>
+              <Text style={styles.row3}>Amount Chargreable (in words)</Text>
+              <Text style={styles.row3}>
+                {toWords.convert(totSubTot, { currency: true })}
+              </Text>
+            </View>
             <View style={(styles.table, styles.section)}>
               <View style={styles.linespace}>
                 <Text>Beneficary Name : {companyName}</Text>

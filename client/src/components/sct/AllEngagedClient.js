@@ -453,6 +453,23 @@ const AllEngagedClient = ({
                                     </Link>
                                   </>
                                 )}
+                                {sctClients.invoiceGenerated === 1 && (
+                                  <>
+                                    <Link
+                                      className="btn btn_green_bg float-right"
+                                      onClick={() => onClickPO(sctClients)}
+                                      to={{
+                                        pathname: "/print-PO-pdf",
+                                        data: {
+                                          data: sctClients,
+                                        },
+                                      }}
+                                      target="_blank"
+                                    >
+                                      PO
+                                    </Link>
+                                  </>
+                                )}
                               </td>
                               <td>
                                 <img

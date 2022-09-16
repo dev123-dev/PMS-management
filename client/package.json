@@ -39,6 +39,7 @@
     "rsuite": "^5.16.6",
     "socket.io-client": "^4.4.1",
     "styled-components": "^5.3.3",
+    "to-words": "^3.3.0",
     "uuid": "^8.3.2",
     "web-vitals": "^2.1.4",
     "websocket": "^1.0.34"
