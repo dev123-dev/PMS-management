@@ -6,12 +6,17 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
-import { getPurchaseOrderPrint, uploadPOFile } from "../../actions/sct";
+import {
+  getPurchaseOrderPrint,
+  uploadPOFile,
+  uploadAgreement,
+} from "../../actions/sct";
 const AllSctDocuments = ({
   auth: { isAuthenticated, user, users },
   sctClients,
   getPurchaseOrderPrint,
   uploadPOFile,
+  uploadAgreement,
 }) => {
   let sctClientData = JSON.parse(localStorage.getItem("sctClientData"));
   console.log("sctClientData", sctClientData);
@@ -86,8 +91,22 @@ const AllSctDocuments = ({
     }
   };
 
-  const onUpdate = () => {
+  const onUpload = () => {
     setShowUploadModal(true);
+  };
+
+  const [showUploadAgreementModal, setShowUploadAgreementModal] =
+    useState(false);
+  const handleUploadAgreementModalClose = () =>
+    setShowUploadAgreementModal(false);
+
+  const onUploadAgreementChange = (e) => {
+    if (e) {
+      handleUploadAgreementModalClose();
+    }
+  };
+  const onUploadAgreement = () => {
+    setShowUploadAgreementModal(true);
   };
 
   const onClickQuotation = (sctClients) => {
@@ -116,8 +135,20 @@ const AllSctDocuments = ({
     //   },
     // });
     uploadPOFile(formData);
+    onUploadChange(true);
   };
 
+  const [agreementselectedFile, setagreementFile] = useState();
+  const onAgreementFileChange = (event) => {
+    setagreementFile(event.target.files[0]);
+  };
+  const onAgreementFileUpload = () => {
+    const formData = new FormData();
+    formData.append("myFile", agreementselectedFile);
+    formData.append("clientId", sctClientData._id);
+    uploadAgreement(formData);
+    onUploadAgreementChange(true);
+  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -243,7 +274,7 @@ const AllSctDocuments = ({
                     <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
                       <div className="card card-content ">
                         <center>
-                          <Link to="#" onClick={() => onUpdate()}>
+                          <Link to="#" onClick={() => onUpload()}>
                             <img
                               className=" log"
                               src={require("../../static/images/uploadPO.png")}
@@ -324,10 +355,9 @@ const AllSctDocuments = ({
             <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
               <div className="card card-content ">
                 <center>
-                  <Link to="/profit-loss-report">
+                  <Link to="#" onClick={() => onUploadAgreement()}>
                     <img
                       className=" log"
-                      // src={require("../../static/images/profitloss.jfif")}
                       src={require("../../static/images/Po.png")}
                       alt="Upload Agreement"
                       title="Upload Agreement"
@@ -368,6 +398,34 @@ const AllSctDocuments = ({
           <button onClick={onFileUpload}>Upload!</button>
         </Modal.Body>
       </Modal>
+
+      <Modal
+        show={showUploadAgreementModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Upload Agreement</h3>
+          </div>
+          <div className="col-lg-1">
+            <button onClick={handleUploadAgreementModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <input type="file" onChange={onAgreementFileChange} />
+          <button onClick={onAgreementFileUpload}>Upload!</button>
+        </Modal.Body>
+      </Modal>
     </Fragment>
   );
 };
@@ -382,4 +440,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getPurchaseOrderPrint,
   uploadPOFile,
+  uploadAgreement,
 })(AllSctDocuments);
