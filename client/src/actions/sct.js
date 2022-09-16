@@ -741,3 +741,21 @@ export const refreshSelectedClient = (finalData) => async (dispatch) => {
     });
   }
 };
+
+export const uploadAgreement = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    localStorage.removeItem("sctClientData");
+    await axios.post("/api/sct/upload-agreement-file", finalData, config);
+    // dispatch(refreshSelectedClient(finalData));
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
