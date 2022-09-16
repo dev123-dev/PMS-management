@@ -23,6 +23,10 @@ const SctInvoicePdfPrint = ({
   //formData
 
   const [formData, setFormData] = useState({
+    invoiceNo:
+      invoicePrintLS && invoicePrintLS && invoicePrintLS.invoiceNo
+        ? invoicePrintLS.invoiceNo
+        : "",
     sctClientName:
       data && data.sctdata && data.sctdata.sctClientName
         ? data.sctdata.sctClientName
@@ -41,10 +45,38 @@ const SctInvoicePdfPrint = ({
       data && data.data.sctdata && data.data.sctdata.sctClientAddress
         ? data.data.sctdata.sctClientAddress
         : "",
-    companyAddress: "",
-    companyName: "",
-    forName: "",
-    forAddress: "",
+
+    companyName:
+      invoicePrintLS && invoicePrintLS && invoicePrintLS.companyAddress
+        ? invoicePrintLS.companyAddress
+        : "",
+    companyName:
+      invoicePrintLS && invoicePrintLS && invoicePrintLS.companyName
+        ? invoicePrintLS.companyName
+        : "",
+    forName:
+      invoicePrintLS && invoicePrintLS && invoicePrintLS.forName
+        ? invoicePrintLS.forName
+        : "",
+    accountNo:
+      invoicePrintLS && invoicePrintLS.bank.accountNo
+        ? invoicePrintLS.bank.accountNo
+        : "",
+
+    bankName:
+      invoicePrintLS && invoicePrintLS.bank.bankName
+        ? invoicePrintLS.bank.bankName
+        : "",
+
+    IFSCCode:
+      invoicePrintLS && invoicePrintLS.bank.IFSCCode
+        ? invoicePrintLS.bank.IFSCCode
+        : "",
+
+    forAddress:
+      invoicePrintLS && invoicePrintLS && invoicePrintLS.forAddress
+        ? invoicePrintLS.forAddress
+        : "",
     PONo: "",
     workDesc: "",
     amount: "",
@@ -62,6 +94,7 @@ const SctInvoicePdfPrint = ({
   });
 
   const {
+    invoiceNo,
     sctCompanyName,
     sctClientAddress,
     PONo,
@@ -69,13 +102,15 @@ const SctInvoicePdfPrint = ({
     quotationDate,
     forName,
     forAddress,
+    bankName,
+    IFSCCode,
     workDesc,
     amount,
     sctClientName,
     sctClientAssignedToId,
     clientName,
     sctClientAssignedToName,
-
+    accountNo,
     companyAddress,
     isSubmitted,
   } = formData;
@@ -179,7 +214,7 @@ const SctInvoicePdfPrint = ({
               <Text>Invoice</Text>
             </View>
             <View style={styles.section}>
-              <Text>Invoice No #:{PONo}</Text>
+              <Text>Invoice No #:{invoiceNo}</Text>
               <Text>Invoice Date:{purchaseOrderDate}</Text>
             </View>
 
@@ -218,20 +253,34 @@ const SctInvoicePdfPrint = ({
                 <Text style={styles.row1}>Item Name</Text>
                 <Text style={styles.row2}>Description</Text>
                 <Text style={styles.row4}>Qty</Text>
-                <Text style={styles.row3}>Rate</Text>
-                <Text style={styles.row3}>per</Text>
+                <Text style={styles.row4}>Rate</Text>
+
                 <Text style={styles.row3}>Dis</Text>
                 <Text style={styles.row5}>Total</Text>
               </View>
+              {invoicePrintLS &&
+                invoicePrintLS.item.map((row, i) => (
+                  <View key={i} style={styles.row} wrap={false}>
+                    <Text style={styles.row1}>{row.itemName}</Text>
+                    <Text style={styles.row2}>{row.desc}</Text>
+                    <Text style={styles.row4}>{row.qty}</Text>
+                    <Text style={styles.row4}>{row.rate}</Text>
+                    {/* <Text style={styles.row5}>{row.Amount}</Text>
+                    <Text style={styles.row6}>{row.CGST}</Text>
+                    <Text style={styles.row6}>{row.SGST}</Text>*/}
+
+                    <Text style={styles.row3}>{row.discount}</Text>
+                    <Text style={styles.row5}>{row.totalAmt}</Text>
+                  </View>
+                ))}
             </View>
 
             <View style={(styles.table, styles.section)}>
               <View>
-                <Text>Beneficary Name : {workDesc}</Text>
-
-                <Text>Ac No : {amount} </Text>
-                <Text>Bank Name : {amount} </Text>
-                <Text>IFSC Code: {amount} </Text>
+                <Text>Beneficary Name : {companyName}</Text>
+                <Text>Ac No : {accountNo} </Text>
+                <Text>Bank Name : {bankName} </Text>
+                <Text>IFSC Code: {IFSCCode} </Text>
                 <Text>Properitorship's PAN : {amount} </Text>
               </View>
             </View>
