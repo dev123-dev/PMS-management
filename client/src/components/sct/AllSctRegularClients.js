@@ -382,7 +382,7 @@ const AllSctRegularClients = ({
                     <AllSctStatusChange
                       leadDataVal={leadData}
                       ondivcloseChange={ondivcloseChange}
-                      from="EngagedClient"
+                      from="RegularClient"
                       filterData={filterData}
                     />
                   )}
