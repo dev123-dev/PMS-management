@@ -15,7 +15,8 @@ import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
 import { getActiveCountry } from "../../actions/regions";
-
+import EditSctClients from "./EditSctClients";
+import DeactiveSctClient from "./DeactiveSctClient";
 const AllSctRegularClients = ({
   auth: { isAuthenticated, user, users },
   sct: { sctClients, sctClientsDD, sctClientsEmp },
@@ -294,7 +295,7 @@ const AllSctRegularClients = ({
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
                         <th style={{ width: "8%" }}>Call Date</th>
-                        <th style={{ width: "18%" }}>Op</th>
+                        <th style={{ width: "8%" }}>Op</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -411,15 +412,15 @@ const AllSctRegularClients = ({
         show={showEditModal}
         backdrop="static"
         keyboard={false}
-        size="md"
+        size="xl"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header>
-          <div className="col-lg-10">
-            <h3 className="modal-title text-center">Upload Received PO</h3>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Edit Client Details</h3>
           </div>
-          <div className="col-lg-1">
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
             <button onClick={handleEditModalClose} className="close">
               <img
                 src={require("../../static/images/close.png")}
@@ -430,37 +431,42 @@ const AllSctRegularClients = ({
           </div>
         </Modal.Header>
         <Modal.Body>
-          {/* <form className="row" onSubmit={(e) => onSubmitVeriy(e, "Taken")}> */}
-          <div className="row col-lg-12 col-md-12 col-sm-12 col-12 py-3">
-            <label className="label-control">Upload here:</label>
+          <EditSctClients
+            onEditModalChange={onEditModalChange}
+            alleditClientdata={userDatas}
+            filterData={filterData}
+          />
+        </Modal.Body>
+      </Modal>
 
-            <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-              <FileBase64
-                type="file"
-                multiple={false}
-                onDone={({ base64 }) =>
-                  setFormData({
-                    ...formData,
-                    institutionLogo: base64,
-                  })
-                }
-              />
-            </div>
+      <Modal
+        show={showDeactiveModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Deactivate Client</h3>
           </div>
-          <div
-            className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
-            size="lg"
-          >
-            <div className="col-lg-12 col-md-6 col-sm-12 col-12">
-              <input
-                type="submit"
-                name="Submit"
-                value="Upload"
-                className="btn sub_form btn_continue blackbrd Save float-right"
+          <div className="col-lg-1">
+            <button onClick={handleDeactiveModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
               />
-            </div>
+            </button>
           </div>
-          {/* </form> */}
+        </Modal.Header>
+        <Modal.Body>
+          <DeactiveSctClient
+            onDeactiveModalChange={onDeactiveModalChange}
+            Clientdeactivedata={userDatadeactive}
+            // filterData={filterData}
+          />
         </Modal.Body>
       </Modal>
     </Fragment>
