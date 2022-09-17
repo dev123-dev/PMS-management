@@ -24,25 +24,6 @@ const SctInvoicePdfPrint = ({
 
   const [formData, setFormData] = useState({
     invoiceNo: "",
-    sctClientName:
-      data && data.sctdata && data.sctdata.sctClientName
-        ? data.sctdata.sctClientName
-        : "",
-
-    sctClientAddress:
-      data && data.data.sctdata && data.data.sctdata.sctClientAddress
-        ? data.data.sctdata.sctClientAddress
-        : "",
-
-    sctCompanyName:
-      data && data.data.sctdata && data.data.sctdata.sctCompanyName
-        ? data.data.sctdata.sctCompanyName
-        : "",
-    sctClientAddress:
-      data && data.data.sctdata && data.data.sctdata.sctClientAddress
-        ? data.data.sctdata.sctClientAddress
-        : "",
-
     companyName: "",
     companyName: "",
     forName: "",
@@ -53,24 +34,12 @@ const SctInvoicePdfPrint = ({
     PONo: "",
     workDesc: "",
     amount: "",
-    sctClientAssignedToName:
-      data && data.sctdata && data.sctdata.sctClientAssignedToName
-        ? data.sctdata.sctClientAssignedToName
-        : "",
-    sctClientAssignedToId:
-      data && data.sctdata && data.sctdata.sctClientAssignedToId
-        ? data.sctdata.sctClientAssignedToId
-        : "",
-
     quotationDate: "",
     isSubmitted: false,
   });
 
   const {
     invoiceNo,
-    sctCompanyName,
-    sctClientAddress,
-    PONo,
     companyName,
     quotationDate,
     forName,
@@ -79,7 +48,6 @@ const SctInvoicePdfPrint = ({
     IFSCCode,
     workDesc,
     amount,
-    sctClientName,
     clientName,
     accountNo,
     companyAddress,
@@ -184,9 +152,9 @@ const SctInvoicePdfPrint = ({
   invoicePrintLS &&
     invoicePrintLS.item.map((row, i) => (totSubTot = Number(row.totalAmt)));
 
-  if (!data || data === undefined) {
-    return <Redirect to="/all-engaged-clients" />;
-  }
+  // if (!data || data === undefined) {
+  //   return <Redirect to="/all-engaged-clients" />;
+  // }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (

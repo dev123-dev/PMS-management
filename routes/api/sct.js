@@ -1141,25 +1141,6 @@ router.post("/invoice-print", async (req, res) => {
   }
 });
 
-// router.post(
-//   "/upload-po-file",
-//   upload.single("myFile"),
-//   async (req, res, next) => {
-//     console.log(req.file.originalname + " file successfully uploaded !!");
-//     const data = req.body;
-//     const uploadPo = await SctClients.updateOne(
-//       { _id: data.clientId },
-//       {
-//         $set: {
-//           poFileName: req.file.name,
-//           POFile: req.file,
-//         },
-//       }
-//     );
-//     res.sendStatus(200);
-//   }
-// );
-
 router.post(
   "/upload-po-file",
   upload.single("myFile"),
@@ -1170,7 +1151,6 @@ router.post(
       { _id: data.clientId },
       {
         $set: {
-          poFileName: req.file.name,
           POFile: req.file,
           billingStatus: "POReceived",
           billingStatusCategory: "PO",
@@ -1204,8 +1184,7 @@ router.post(
       { _id: data.clientId },
       {
         $set: {
-          poFileName: req.file.name,
-          POFile: req.file,
+          invoiceFile: req.file,
         },
       }
     );
