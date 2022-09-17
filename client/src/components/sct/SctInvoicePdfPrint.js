@@ -242,7 +242,9 @@ const SctInvoicePdfPrint = ({
                 <Text style={styles.row2}>Description</Text>
                 <Text style={styles.row4}>Qty</Text>
                 <Text style={styles.row4}>Rate</Text>
-
+                <Text style={styles.row4}>Rate</Text>
+                <Text style={styles.row4}>Rate</Text>
+                <Text style={styles.row4}>Rate</Text>
                 <Text style={styles.row3}>Dis</Text>
                 <Text style={styles.row5}>Total</Text>
               </View>
@@ -253,9 +255,9 @@ const SctInvoicePdfPrint = ({
                     <Text style={styles.row2}>{row.desc}</Text>
                     <Text style={styles.row4}>{row.qty}</Text>
                     <Text style={styles.row4}>{row.rate}</Text>
-                    {/* <Text style={styles.row5}>{row.Amount}</Text>
-                    <Text style={styles.row6}>{row.CGST}</Text>
-                    <Text style={styles.row6}>{row.SGST}</Text>*/}
+                    <Text style={styles.row4}></Text>
+                    <Text style={styles.row4}></Text>
+                    <Text style={styles.row4}></Text>
 
                     <Text style={styles.row3}>{row.discount}</Text>
                     <Text style={styles.row5}>{row.totalAmt}</Text>
@@ -263,8 +265,8 @@ const SctInvoicePdfPrint = ({
                 ))}
             </View>
             <View style={styles.section}>
-              <Text>{totSubTot}</Text>
-              <Text>
+              <Text style={{ textAlign: "right" }}>Sub Total: {totSubTot}</Text>
+              <Text style={{ textAlign: "right" }}>
                 Amount Chargreable (in words) &nbsp;: &nbsp;
                 {toWords.convert(totSubTot, { currency: true })}
               </Text>
