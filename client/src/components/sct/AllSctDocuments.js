@@ -133,11 +133,6 @@ const AllSctDocuments = ({
     const formData = new FormData();
     formData.append("myFile", selectedFile);
     formData.append("clientId", sctClientData._id);
-    // axios.post("http://localhost:2001/api/sct/upload-po-file", formData, {
-    //   headers: {
-    //     "content-type": "multipart/form-data",
-    //   },
-    // });
     uploadPOFile(formData);
     onUploadChange(true);
   };

@@ -27,10 +27,10 @@ const AllSctRegularClients = ({
   getSctLastmessage,
 }) => {
   useEffect(() => {
-    getSctClientDetails({ sctClientCategory: "EC" });
+    getSctClientDetails({ sctClientCategory: "RC" });
   }, []);
   useEffect(() => {
-    getSctClientDetailsDD({ sctClientCategory: "EC" });
+    getSctClientDetailsDD({ sctClientCategory: "RC" });
   }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
@@ -144,9 +144,9 @@ const AllSctRegularClients = ({
     getclientsData("");
     getempData("");
     getcountryIdData(e.countryId);
-    getSctClientDetails({ countryId: e.countryId, sctClientCategory: "EC" });
-    getSctClientDetailsDD({ countryId: e.countryId, sctClientCategory: "EC" });
-    setFilterData({ countryId: e.countryId, sctClientCategory: "EC" });
+    getSctClientDetails({ countryId: e.countryId, sctClientCategory: "RC" });
+    getSctClientDetailsDD({ countryId: e.countryId, sctClientCategory: "RC" });
+    setFilterData({ countryId: e.countryId, sctClientCategory: "RC" });
   };
 
   const allclient = [];
@@ -163,12 +163,12 @@ const AllSctRegularClients = ({
     getSctClientDetails({
       countryId: countryId,
       clientsId: e.clientsId,
-      sctClientCategory: "EC",
+      sctClientCategory: "RC",
     });
     setFilterData({
       countryId: countryId,
       clientsId: e.clientsId,
-      sctClientCategory: "EC",
+      sctClientCategory: "RC",
     });
   };
 
@@ -190,20 +190,20 @@ const AllSctRegularClients = ({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
-      sctClientCategory: "EC",
+      sctClientCategory: "RC",
     });
     getSctClientDetailsDD({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
-      sctClientCategory: "EC",
+      sctClientCategory: "RC",
       emp: true,
     });
     setFilterData({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
-      sctClientCategory: "EC",
+      sctClientCategory: "RC",
     });
   };
 
@@ -212,9 +212,9 @@ const AllSctRegularClients = ({
     getcountryIdData("");
     getclientsData("");
     getempData("");
-    getSctClientDetails({ sctClientCategory: "EC" });
-    getSctClientDetailsDD({ sctClientCategory: "EC" });
-    setFilterData({ sctClientCategory: "EC" });
+    getSctClientDetails({ sctClientCategory: "RC" });
+    getSctClientDetailsDD({ sctClientCategory: "RC" });
+    setFilterData({ sctClientCategory: "RC" });
     ondivcloseChange(true);
     setcolorData("");
   };
