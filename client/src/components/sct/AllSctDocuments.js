@@ -334,7 +334,11 @@ const AllSctDocuments = ({
                       alt="Send Invoice"
                       title="Send Invoice"
                     />
-                    <h4>Send Invoice</h4>
+                    {sctClientData && sctClientData.invoiceGenerated === 1 ? (
+                      <h4>Revised Invoice</h4>
+                    ) : (
+                      <h4>Send Invoice</h4>
+                    )}
                   </Link>
                 </center>
                 <div>

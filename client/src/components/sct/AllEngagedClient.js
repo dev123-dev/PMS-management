@@ -43,45 +43,14 @@ const AllEngagedClient = ({
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);
 
-  const priorityCategory = [
-    { value: "Quotation", label: "Quotation" },
-    { value: "RevisedQuotation", label: "Revised Quotation" },
-    { value: "SendPO", label: "Send PO" },
-    { value: "POReceived", label: "PO Received" },
-  ];
   const [formData, setFormData] = useState({
-    projectStatusData: priorityCategory[0],
-
     isSubmitted: false,
   });
-
-  const onSliderChange = (sctClients, idx) => (e) => {
-    if (e) {
-      setFormData({
-        ...formData,
-        projectStatusData: e,
-      });
-    }
-
-    if (e.value === "POReceived") {
-      setShowUploadModal(true);
-    } else {
-      setShowUploadModal(false);
-    }
-  };
 
   const { projectStatusData } = formData;
 
   const [filterData, setFilterData] = useState();
 
-  const [showUploadModal, setShowUploadModal] = useState(false);
-  const handleUploadModalClose = () => setShowUploadModal(false);
-
-  const onUploadChange = (e) => {
-    if (e) {
-      handleUploadModalClose();
-    }
-  };
   const [showHide, setShowHide] = useState({
     showdateselectionSection: false,
   });
@@ -101,11 +70,6 @@ const AllEngagedClient = ({
     setShowEditModal(true);
     setUserDatas(getAllSctLeads);
   };
-  // const [userDatas, setUserDatas] = useState(null);
-  // const onUpdate = (sctClients, idx) => {
-  //   setShowUploadModal(true);
-  //   setUserDatas(sctClients);
-  // };
 
   const [userDatadeactive, setUserDatadeactive] = useState(null);
   const onDeactive = (sctClients, idx) => {
@@ -571,62 +535,6 @@ const AllEngagedClient = ({
           </div>
         </section>
       </div>
-      <Modal
-        show={showUploadModal}
-        backdrop="static"
-        keyboard={false}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header>
-          <div className="col-lg-10">
-            <h3 className="modal-title text-center">Upload Received PO</h3>
-          </div>
-          <div className="col-lg-1">
-            <button onClick={handleUploadModalClose} className="close">
-              <img
-                src={require("../../static/images/close.png")}
-                alt="X"
-                style={{ height: "20px", width: "20px" }}
-              />
-            </button>
-          </div>
-        </Modal.Header>
-        <Modal.Body>
-          {/* <form className="row" onSubmit={(e) => onSubmitVeriy(e, "Taken")}> */}
-          <div className="row col-lg-12 col-md-12 col-sm-12 col-12 py-3">
-            <label className="label-control">Upload here:</label>
-
-            <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-              <FileBase64
-                type="file"
-                multiple={false}
-                onDone={({ base64 }) =>
-                  setFormData({
-                    ...formData,
-                    institutionLogo: base64,
-                  })
-                }
-              />
-            </div>
-          </div>
-          <div
-            className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
-            size="lg"
-          >
-            <div className="col-lg-12 col-md-6 col-sm-12 col-12">
-              <input
-                type="submit"
-                name="Submit"
-                value="Upload"
-                className="btn sub_form btn_continue blackbrd Save float-right"
-              />
-            </div>
-          </div>
-          {/* </form> */}
-        </Modal.Body>
-      </Modal>
 
       <Modal
         show={showEditModal}
