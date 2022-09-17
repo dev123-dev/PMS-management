@@ -51,6 +51,7 @@ const SctInvoicePdfPrint = ({
     clientName,
     accountNo,
     companyAddress,
+    modeOfPayment,
     isSubmitted,
   } = formData;
 
@@ -60,9 +61,7 @@ const SctInvoicePdfPrint = ({
       companyAddress: invoicePrintLS.companyAddress
         ? invoicePrintLS.companyAddress
         : "",
-      companyName: invoicePrintLS.companyAddress
-        ? invoicePrintLS.companyName
-        : "",
+      companyName: invoicePrintLS.companyName ? invoicePrintLS.companyName : "",
       forName: invoicePrintLS.forName ? invoicePrintLS.forName : "",
       forAddress: invoicePrintLS.forAddress ? invoicePrintLS.forAddress : "",
       invoiceNo: invoicePrintLS.invoiceNo ? invoicePrintLS.invoiceNo : "",
@@ -75,6 +74,9 @@ const SctInvoicePdfPrint = ({
         : "",
       IFSCCode: invoicePrintLS.bank.IFSCCode
         ? invoicePrintLS.bank.IFSCCode
+        : "",
+      modeOfPayment: invoicePrintLS.modeOfPayment
+        ? invoicePrintLS.modeOfPayment
         : "",
     });
   }
@@ -237,6 +239,9 @@ const SctInvoicePdfPrint = ({
               <Text style={{ textAlign: "right" }}>
                 Amount Chargreable (in words) &nbsp;: &nbsp;
                 {toWords.convert(totSubTot, { currency: true })}
+              </Text>
+              <Text style={{ textAlign: "right" }}>
+                Mode of Payment: {modeOfPayment}
               </Text>
             </View>
             <View style={(styles.table, styles.section)}>
