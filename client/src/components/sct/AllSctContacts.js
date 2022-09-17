@@ -344,10 +344,10 @@ const AllSctContacts = ({
                               <tr key={idx}>
                                 <td>{sctStaffs.sctStaffName}</td>
                                 <td>
-                                  {/* {sctStaffs.staffCountryCode
-                                    ? "+" + sctStaffs.staffCountryCode
+                                  {sctStaffs.sctStaffCountryCode
+                                    ? "+" + sctStaffs.sctStaffCountryCode
                                     : ""}
-                                  &nbsp; */}
+                                  &nbsp;
                                   {sctStaffs.sctStaffPhoneNumber}
                                 </td>
                                 <td>{sctStaffs.sctStaffDesignation}</td>
