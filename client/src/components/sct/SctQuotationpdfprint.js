@@ -16,7 +16,6 @@ const SctQuotationpdfprint = ({
 }) => {
   const data = useHistory().location.data;
   let quotationDataLS = JSON.parse(localStorage.getItem("quotationDataLS"));
-  // let getRegenerate = data && data.quotationData ? data.quotationData : null;
   //formData
 
   const [formData, setFormData] = useState({
@@ -128,9 +127,9 @@ const SctQuotationpdfprint = ({
     // },
   });
 
-  if (!data || data === undefined) {
-    return <Redirect to="/all-engaged-clients" />;
-  }
+  // if (!data || data === undefined) {
+  //   return <Redirect to="/all-engaged-clients" />;
+  // }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (

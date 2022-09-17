@@ -11,6 +11,7 @@ import {
   getSctLastmessage,
   // getRegenerateData,
   getPurchaseOrderPrint,
+  getInvoicePrint,
 } from "../../actions/sct";
 import FileBase64 from "react-file-base64";
 import SctLastMessageDetails from "./SctLastMessageDetails";
@@ -30,6 +31,7 @@ const AllEngagedClient = ({
   getSctLastmessage,
   // getRegenerateData,
   getPurchaseOrderPrint,
+  getInvoicePrint,
 }) => {
   useEffect(() => {
     getSctClientDetails({ sctClientCategory: "EC" });
@@ -239,14 +241,17 @@ const AllEngagedClient = ({
     setcolorData("");
   };
 
-  const onClickPO = (sctClients) => {
-    getPurchaseOrderPrint({ clientId: sctClients._id });
-  };
   const onClickQuotation = (sctClients) => {
     localStorage.setItem(
       "quotationDataLS",
       JSON.stringify(sctClients.quotation[0])
     );
+  };
+  const onClickPO = (sctClients) => {
+    getPurchaseOrderPrint({ clientId: sctClients._id });
+  };
+  const onClickInvoice = (sctClients) => {
+    getInvoicePrint({ clientId: sctClients._id });
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -445,9 +450,9 @@ const AllEngagedClient = ({
                                   <>
                                     <Link
                                       className="float-right p05"
-                                      onClick={() => onClickPO(sctClients)}
+                                      onClick={() => onClickInvoice(sctClients)}
                                       to={{
-                                        pathname: "/print-PO-pdf",
+                                        pathname: "/generate-Invoice-Pdf-Print",
                                         data: {
                                           data: sctClients,
                                         },
@@ -469,7 +474,7 @@ const AllEngagedClient = ({
                                       className="float-right p05"
                                       onClick={() => onClickPO(sctClients)}
                                       to={{
-                                        pathname: "/print-PO-pdf",
+                                        pathname: "/generate-Invoice-Pdf-Print",
                                         data: {
                                           data: sctClients,
                                         },
@@ -707,4 +712,5 @@ export default connect(mapStateToProps, {
   getSctLastmessage,
   // getRegenerateData,
   getPurchaseOrderPrint,
+  getInvoicePrint,
 })(AllEngagedClient);

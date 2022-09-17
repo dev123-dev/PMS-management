@@ -10,6 +10,7 @@ import {
   getPurchaseOrderPrint,
   uploadPOFile,
   uploadAgreement,
+  getInvoicePrint,
 } from "../../actions/sct";
 const AllSctDocuments = ({
   auth: { isAuthenticated, user, users },
@@ -17,6 +18,7 @@ const AllSctDocuments = ({
   getPurchaseOrderPrint,
   uploadPOFile,
   uploadAgreement,
+  getInvoicePrint,
 }) => {
   let sctClientData = JSON.parse(localStorage.getItem("sctClientData"));
   console.log("sctClientData", sctClientData);
@@ -115,9 +117,11 @@ const AllSctDocuments = ({
       JSON.stringify(sctClients.quotation[0])
     );
   };
-
   const onClickPO = (sctClients) => {
     getPurchaseOrderPrint({ clientId: sctClients._id });
+  };
+  const onClickInvoice = (sctClients) => {
+    getInvoicePrint({ clientId: sctClients._id });
   };
 
   const [selectedFile, setFile] = useState();
@@ -333,6 +337,29 @@ const AllSctDocuments = ({
                     <h4>Send Invoice</h4>
                   </Link>
                 </center>
+                <div>
+                  {sctClientData.invoiceGenerated === 1 && (
+                    <>
+                      <Link
+                        onClick={() => onClickInvoice(sctClientData)}
+                        to={{
+                          pathname: "/generate-Invoice-Pdf-Print",
+                          data: {
+                            data: sctClientData,
+                          },
+                        }}
+                        target="_blank"
+                      >
+                        <img
+                          className="img_icon_size log float-right"
+                          src={require("../../static/images/print.png")}
+                          alt="Print Po"
+                          style={{ margin: "5px" }}
+                        />
+                      </Link>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
             <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
@@ -441,4 +468,5 @@ export default connect(mapStateToProps, {
   getPurchaseOrderPrint,
   uploadPOFile,
   uploadAgreement,
+  getInvoicePrint,
 })(AllSctDocuments);

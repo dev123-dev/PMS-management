@@ -18,7 +18,6 @@ const SctPopdfPrint = ({
   sct: { poPrint },
 }) => {
   const data = useHistory().location.data;
-  console.log(data, "data");
   let poPrintLS = JSON.parse(localStorage.getItem("poPrintLS"));
   console.log(poPrint, "poPrint");
   console.log(poPrintLS, "poPrintLS");
