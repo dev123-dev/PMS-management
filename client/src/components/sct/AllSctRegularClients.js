@@ -295,7 +295,7 @@ const AllSctRegularClients = ({
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
                         <th style={{ width: "8%" }}>Call Date</th>
-                        <th style={{ width: "8%" }}>Op</th>
+                        <th style={{ width: "5%" }}>Op</th>
                       </tr>
                     </thead>
                     <tbody>
