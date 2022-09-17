@@ -10,7 +10,6 @@ import {
   getSctClientDetailsDD,
   getSctLastmessage,
 } from "../../actions/sct";
-import FileBase64 from "react-file-base64";
 import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
@@ -36,32 +35,9 @@ const AllSctRegularClients = ({
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);
 
-  const priorityCategory = [
-    { value: "Quotation", label: "Quotation" },
-    { value: "RevisedQuotation", label: "Revised Quotation" },
-    { value: "SendPO", label: "Send PO" },
-    { value: "POReceived", label: "PO Received" },
-  ];
   const [formData, setFormData] = useState({
-    projectStatusData: priorityCategory[0],
-
     isSubmitted: false,
   });
-
-  const onSliderChange = (sctClients, idx) => (e) => {
-    if (e) {
-      setFormData({
-        ...formData,
-        projectStatusData: e,
-      });
-    }
-
-    if (e.value === "POReceived") {
-      setShowEditModal(true);
-    } else {
-      setShowEditModal(false);
-    }
-  };
 
   const { projectStatusData } = formData;
 
@@ -382,7 +358,7 @@ const AllSctRegularClients = ({
                     <AllSctStatusChange
                       leadDataVal={leadData}
                       ondivcloseChange={ondivcloseChange}
-                      from="EngagedClient"
+                      from="RegularClient"
                       filterData={filterData}
                     />
                   )}
