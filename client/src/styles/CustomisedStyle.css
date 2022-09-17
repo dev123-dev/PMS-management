@@ -2148,3 +2148,7 @@ button:focus,button:active {
   /* font-weight: bold; */
   background-color: #456792 !important;
 }
+
+.p05{
+  padding-left:3px;
+}

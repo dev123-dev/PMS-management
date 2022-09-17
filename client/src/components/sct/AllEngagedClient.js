@@ -326,7 +326,7 @@ const AllEngagedClient = ({
                         <th style={{ width: "13%" }}>Contact</th>
                         <th style={{ width: "8%" }}>Call Date</th>
                         {/* <th style={{ width: "18%" }}>Status</th> */}
-                        <th style={{ width: "13%" }}>Print</th>
+                        <th style={{ width: "7%" }}>Print</th>
                         <th style={{ width: "7%" }}>Op</th>
                       </tr>
                     </thead>
@@ -418,7 +418,7 @@ const AllEngagedClient = ({
                                 {sctClients.quotationGenerated === 1 && (
                                   <>
                                     <Link
-                                      className="btn btn_green_bg float-right"
+                                      className="float-right p05"
                                       onClick={() =>
                                         onClickQuotation(sctClients)
                                       }
@@ -432,14 +432,19 @@ const AllEngagedClient = ({
                                       }}
                                       target="_blank"
                                     >
-                                      Q
+                                      <img
+                                        className="img_icon_size log"
+                                        src={require("../../static/images/Q.png")}
+                                        alt="Quatation Print"
+                                      />
                                     </Link>
+                                    &nbsp;
                                   </>
                                 )}
                                 {sctClients.POGenerated === 1 && (
                                   <>
                                     <Link
-                                      className="btn btn_green_bg float-right"
+                                      className="float-right p05"
                                       onClick={() => onClickPO(sctClients)}
                                       to={{
                                         pathname: "/print-PO-pdf",
@@ -449,14 +454,19 @@ const AllEngagedClient = ({
                                       }}
                                       target="_blank"
                                     >
-                                      PO
+                                      <img
+                                        className="img_icon_size log"
+                                        src={require("../../static/images/P.png")}
+                                        alt="Purchase Order Print"
+                                      />
                                     </Link>
+                                    &nbsp;
                                   </>
                                 )}
                                 {sctClients.invoiceGenerated === 1 && (
                                   <>
                                     <Link
-                                      className="btn btn_green_bg float-right"
+                                      className="float-right p05"
                                       onClick={() => onClickPO(sctClients)}
                                       to={{
                                         pathname: "/print-PO-pdf",
@@ -466,8 +476,13 @@ const AllEngagedClient = ({
                                       }}
                                       target="_blank"
                                     >
-                                      PO
+                                      <img
+                                        className="img_icon_size log"
+                                        src={require("../../static/images/I.png")}
+                                        alt="Invoice Print"
+                                      />
                                     </Link>
+                                    &nbsp;
                                   </>
                                 )}
                               </td>

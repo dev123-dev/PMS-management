@@ -194,6 +194,8 @@ router.post("/add-purchase-order", async (req, res) => {
         $set: {
           POGenerated: 1,
           POId: output._id,
+          billingStatus: "SendPO",
+          billingStatusCategory: "PO",
         },
       }
     );
@@ -223,6 +225,8 @@ router.post("/add-invoice", async (req, res) => {
         $set: {
           invoiceGenerated: 1,
           invoiceId: output._id,
+          billingStatus: "GenerateInvoice",
+          billingStatusCategory: "Invoice",
         },
       }
     );
@@ -1168,6 +1172,8 @@ router.post(
         $set: {
           poFileName: req.file.name,
           POFile: req.file,
+          billingStatus: "POReceived",
+          billingStatusCategory: "PO",
         },
       }
     );
