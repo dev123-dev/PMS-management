@@ -750,7 +750,7 @@ export const uploadPOFile = (finalData) => async (dispatch) => {
     dispatch({
       type: SET_LOADING_TRUE,
     });
-    localStorage.removeItem("sctClientData");
+    // localStorage.removeItem("sctClientData");
     await axios.post("/api/sct/upload-po-file", finalData, config);
     // dispatch(refreshSelectedClient(finalData));
     dispatch({
@@ -780,7 +780,7 @@ export const uploadAgreement = (finalData) => async (dispatch) => {
     dispatch({
       type: SET_LOADING_TRUE,
     });
-    localStorage.removeItem("sctClientData");
+    // localStorage.removeItem("sctClientData");
     await axios.post("/api/sct/upload-agreement-file", finalData, config);
     // dispatch(refreshSelectedClient(finalData));
     dispatch({

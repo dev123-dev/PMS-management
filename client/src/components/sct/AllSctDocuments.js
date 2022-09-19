@@ -337,7 +337,7 @@ const AllSctDocuments = ({
                   </Link>
                 </center>
                 <div>
-                  {sctClientData.invoiceGenerated === 1 && (
+                  {sctClientData && sctClientData.invoiceGenerated === 1 && (
                     <>
                       <Link
                         onClick={() => onClickInvoice(sctClientData)}
