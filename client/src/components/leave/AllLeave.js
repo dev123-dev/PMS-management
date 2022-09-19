@@ -15,9 +15,7 @@ import {
 import AddLeave from "./AddLeave";
 import EditLeave from "./EditLeave";
 import DeactiveLeave from "./DeactiveLeave";
-// import EditEmployeeDetails from "./EditEmployeeDetails";
-// import DeactiveEmployee from "./DeactiveEmployee";
-// import EditPassword from "./EditPassword";
+
 const AllLeave = ({
   auth: { allUser, isAuthenticated, user, users },
   settings: { allStaffName },

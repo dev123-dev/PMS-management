@@ -1,8 +1,8 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { Link, useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   Document,
   Page,
@@ -11,7 +11,6 @@ import {
   StyleSheet,
   PDFViewer,
 } from "@react-pdf/renderer";
-import AllDesignation from "../department/AllDesignation";
 
 const SctPopdfPrint = ({
   auth: { isAuthenticated, user, users, loading },
@@ -31,7 +30,6 @@ const SctPopdfPrint = ({
     workDesc: "",
     amount: "",
     PODate: "",
-    isSubmitted: false,
   });
 
   const {
@@ -43,7 +41,6 @@ const SctPopdfPrint = ({
     amount,
     companyAddress,
     PODate,
-    isSubmitted,
   } = formData;
 
   if (poPrintLS && poPrintLS.PONo && !PONo) {
@@ -78,17 +75,9 @@ const SctPopdfPrint = ({
       color: "black",
       fontSize: "10px",
     },
-
-    viewer: {
-      width: window.innerWidth, //the pdf viewer will take up all of the width and height
-      height: window.innerHeight,
-    },
-    right: {},
-    rowcard: {},
     table: {
       width: "100%",
     },
-
     row: {
       // display: "flex",
       flexDirection: "row",
@@ -102,7 +91,6 @@ const SctPopdfPrint = ({
     bold: {
       fontWeight: "bold",
     },
-    // So Declarative and unDRY 👌
     row1: {
       width: "17%",
     },

@@ -1,8 +1,8 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { Link, useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { ToWords } from "to-words";
 import {
   Document,
@@ -25,7 +25,6 @@ const SctInvoicePdfPrint = ({
   const [formData, setFormData] = useState({
     invoiceNo: "",
     companyName: "",
-    companyName: "",
     forName: "",
     accountNo: "",
     bankName: "",
@@ -35,24 +34,19 @@ const SctInvoicePdfPrint = ({
     workDesc: "",
     amount: "",
     quotationDate: "",
-    isSubmitted: false,
   });
 
   const {
     invoiceNo,
     companyName,
-    quotationDate,
     forName,
     forAddress,
     bankName,
     IFSCCode,
-    workDesc,
     amount,
-    clientName,
     accountNo,
     companyAddress,
     modeOfPayment,
-    isSubmitted,
   } = formData;
 
   if (invoicePrintLS && invoicePrintLS.invoiceNo && !invoiceNo) {
