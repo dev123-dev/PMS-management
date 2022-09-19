@@ -758,6 +758,7 @@ const GenerateInvoice = ({
                           data,
                         },
                       }}
+                      target="_blank"
                     >
                       Print
                     </Link>
