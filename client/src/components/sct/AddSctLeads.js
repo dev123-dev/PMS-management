@@ -376,7 +376,7 @@ const AddSctLeads = ({
   const [staffstateName, setstaffStateName] = useState("");
 
   const onstaffStateChange = (e) => {
-    getdistrictData("");
+    getstaffdistrictData("");
     //Required Validation starts
     setError({
       ...error,
