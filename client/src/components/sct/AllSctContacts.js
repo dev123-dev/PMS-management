@@ -10,6 +10,7 @@ import {
   addNewSctClientStaffDetails,
   deactivateSctStaffDetails,
   deactivateSctClientStaffDetails,
+  getSctStaffsData,
 } from "../../actions/sct";
 import {
   getActiveCountry,
@@ -20,6 +21,7 @@ import {
 const AllSctContacts = ({
   auth: { isAuthenticated, user, users, loading },
   regions: { activeCountry, activeState, activeDistricts },
+  sct: { sctStaffData },
   leadDataVal,
   addNewSctStaffDetails,
   addNewSctClientStaffDetails,
@@ -32,6 +34,7 @@ const AllSctContacts = ({
   showdateselectionSection,
   from,
   filterData,
+  getSctStaffsData,
 }) => {
   useEffect(() => {
     getActiveState();
@@ -42,6 +45,10 @@ const AllSctContacts = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
+  let staffFilter = { staffFrom: from, leadDataVal: leadDataVal };
+  useEffect(() => {
+    getSctStaffsData(staffFilter);
+  }, [leadDataVal]);
 
   const [formData, setFormData] = useState({
     sctStaffName: "",
@@ -335,9 +342,9 @@ const AllSctContacts = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {leadDataVal &&
-                        leadDataVal.sctStaffs &&
-                        leadDataVal.sctStaffs.map((sctStaffs, idx) => {
+                      {sctStaffData &&
+                        sctStaffData.sctStaffs &&
+                        sctStaffData.sctStaffs.map((sctStaffs, idx) => {
                           if (sctStaffs.sctStaffStatus === "Active")
                             return (
                               <tr key={idx}>
@@ -655,6 +662,7 @@ AllSctContacts.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   regions: state.regions,
+  sct: state.sct,
 });
 
 export default connect(mapStateToProps, {
@@ -665,4 +673,5 @@ export default connect(mapStateToProps, {
   deactivateSctClientStaffDetails,
   getActiveState,
   getActiveDistricts,
+  getSctStaffsData,
 })(AllSctContacts);
