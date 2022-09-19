@@ -22,6 +22,7 @@ let StatusMethods = [
   { value: "AdditionalDemo", label: "Additional Demo" },
   { value: "EngagedClient", label: "Engaged Client" },
   { value: "RegularClient", label: "Regular Client" },
+  { value: "TrainingDemo", label: "Training Demo" },
 ];
 const AllSctStatusChange = ({
   auth: { isAuthenticated, user, users, loading },
@@ -43,20 +44,25 @@ const AllSctStatusChange = ({
   //STATUS START
   if (from === "FollowUp" || from === "F") {
     StatusMethods = StatusMethods.filter(
-      (StatusMethods) => StatusMethods.value !== "FollowUp"
+      (StatusMethods) =>
+        StatusMethods.value !== "FollowUp" &&
+        StatusMethods.value !== "TrainingDemo"
     );
   } else if (from === "EngagedClient") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
         StatusMethods.value !== "EngagedClient" &&
-        StatusMethods.value !== "FollowUp"
+        StatusMethods.value !== "FollowUp" &&
+        StatusMethods.value !== "TrainingDemo"
     );
   } else if (from === "RegularClient") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
         StatusMethods.value !== "EngagedClient" &&
         StatusMethods.value !== "FollowUp" &&
-        StatusMethods.value !== "RegularClient"
+        StatusMethods.value !== "RegularClient" &&
+        StatusMethods.value !== "Demo" &&
+        StatusMethods.value !== "AdditionalDemo"
     );
   }
   if (demoCheck > 0) {
@@ -329,7 +335,11 @@ const AllSctStatusChange = ({
         addSctCalls(finalData);
       }
 
-      if (sctCallStatus.value === "Demo") {
+      if (
+        sctCallStatus.value === "Demo" ||
+        sctCallStatus.value === "AdditionalDemo" ||
+        sctCallStatus.value === "TrainingDemo"
+      ) {
         const demoData = {
           demoDate: demoDate,
           fromTime: fromTime,
