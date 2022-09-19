@@ -12,18 +12,7 @@ import {
 } from "../../actions/sct";
 import DemoSchedulesModal from "./DemoSchedulesModal";
 import { Modal } from "react-bootstrap";
-let StatusMethods = [
-  { value: "VoiceMail", label: "Voice Mail" },
-  { value: "CallBack", label: "Call Back" },
-  { value: "DND", label: "DND" },
-  { value: "NI", label: "NI" },
-  { value: "FollowUp", label: "Follow Up" },
-  { value: "Demo", label: "Demo" },
-  { value: "AdditionalDemo", label: "Additional Demo" },
-  { value: "EngagedClient", label: "Engaged Client" },
-  { value: "RegularClient", label: "Regular Client" },
-  { value: "TrainingDemo", label: "Training Demo" },
-];
+
 const AllSctStatusChange = ({
   auth: { isAuthenticated, user, users, loading },
   sct: { demoCheck },
@@ -42,6 +31,19 @@ const AllSctStatusChange = ({
   }, [leadDataVal, checkDemo]);
 
   //STATUS START
+  let StatusMethods = [
+    { value: "VoiceMail", label: "Voice Mail" },
+    { value: "CallBack", label: "Call Back" },
+    { value: "DND", label: "DND" },
+    { value: "NI", label: "NI" },
+    { value: "FollowUp", label: "Follow Up" },
+    { value: "Demo", label: "Demo" },
+    { value: "AdditionalDemo", label: "Additional Demo" },
+    { value: "EngagedClient", label: "Engaged Client" },
+    { value: "RegularClient", label: "Regular Client" },
+    { value: "TrainingDemo", label: "Training Demo" },
+  ];
+
   if (from === "FollowUp" || from === "F") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
@@ -63,6 +65,10 @@ const AllSctStatusChange = ({
         StatusMethods.value !== "RegularClient" &&
         StatusMethods.value !== "Demo" &&
         StatusMethods.value !== "AdditionalDemo"
+    );
+  } else {
+    StatusMethods = StatusMethods.filter(
+      (StatusMethods) => StatusMethods.value !== "TrainingDemo"
     );
   }
   if (demoCheck > 0) {
