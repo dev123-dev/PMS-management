@@ -27,6 +27,7 @@ const EditSctContact = ({
   editSctClientStaffDetails,
   from,
   filterData,
+  staffFilter,
 }) => {
   //formData
   useEffect(() => {
@@ -214,7 +215,8 @@ const EditSctContact = ({
       sctStaffCountryCode: staffCountryCode,
       sctStaffStateId: staffstateId,
       sctStaffDistrictId: staffdistrictId,
-      // filterData: filterData,
+      filterData: filterData,
+      staffFilter: staffFilter,
     };
 
     if (from === "client") {
@@ -223,7 +225,7 @@ const EditSctContact = ({
       editSctStaffDetails(finalData);
     }
     onEditModalChange(true);
-    ondivcloseChange(true);
+    // ondivcloseChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (

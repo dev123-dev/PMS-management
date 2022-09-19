@@ -75,7 +75,7 @@ export const addNewSctStaffDetails = (finalData) => async (dispatch) => {
     });
     await axios.post("/api/sct/add-new-sct-staff", finalData, config);
     dispatch(getSctStaffsData(finalData.staffFilter));
-    dispatch(refreshLead(finalData));
+    // dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -180,6 +180,8 @@ export const editSctStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/sct/edit-sct-staff", finalData, config);
+    dispatch(getSctStaffsData(finalData.staffFilter));
+    dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -196,11 +198,11 @@ export const editSctClientStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/sct/edit-sct-client-staff", finalData, config);
-    // dispatch(getStaffsData(finalData.staffFilter));
-    // if (finalData.filterData) {
-    //   dispatch(getSctClientDetails(finalData.filterData));
-    //   dispatch(getSctClientDetailsDD(finalData.filterData));
-    // }
+    dispatch(getSctStaffsData(finalData.staffFilter));
+    if (finalData.filterData) {
+      dispatch(getSctClientDetails(finalData.filterData));
+      dispatch(getSctClientDetailsDD(finalData.filterData));
+    }
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -235,6 +237,8 @@ export const deactivateSctStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/sct/deactivate-sct-staff", finalData, config);
+    dispatch(getSctStaffsData(finalData.staffFilter));
+    dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -256,11 +260,11 @@ export const deactivateSctClientStaffDetails =
         finalData,
         config
       );
-      // dispatch(getStaffsData(finalData.staffFilter));
-      // if (finalData.filterData) {
-      //   dispatch(getSctClientDetails(finalData.filterData));
-      //   dispatch(getSctClientDetailsDD(finalData.filterData));
-      // }
+      dispatch(getSctStaffsData(finalData.staffFilter));
+      if (finalData.filterData) {
+        dispatch(getSctClientDetails(finalData.filterData));
+        dispatch(getSctClientDetailsDD(finalData.filterData));
+      }
       dispatch({
         type: SET_LOADING_FALSE,
       });

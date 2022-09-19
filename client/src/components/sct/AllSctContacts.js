@@ -235,7 +235,8 @@ const AllSctContacts = ({
       sctStaffCountryCode: staffCountryCode,
       sctStaffStateId: staffstateId,
       sctStaffDistrictId: staffdistrictId,
-      // filterData: filterData,
+      filterData: filterData,
+      staffFilter: staffFilter,
     };
 
     if (from === "client") {
@@ -258,7 +259,7 @@ const AllSctContacts = ({
     });
     setstaffCountryCode("");
     getstaffcountryData("");
-    ondivcloseChange(true);
+    // ondivcloseChange(true);
   };
 
   const onSubmitDeactive = (e) => {
@@ -271,6 +272,7 @@ const AllSctContacts = ({
       sctStaffStatus: "Deactive",
       sctStaffDeactiveReason: sctStaffDeactiveReason,
       filterData: filterData,
+      staffFilter: staffFilter,
     };
     if (from === "client") {
       deactivateSctClientStaffDetails(finalData);
@@ -288,7 +290,7 @@ const AllSctContacts = ({
       sctStaffDeactiveReason: "",
       isSubmitted: true,
     });
-    ondivcloseChange(true);
+    // ondivcloseChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -415,6 +417,7 @@ const AllSctContacts = ({
             ondivcloseChange={ondivcloseChange}
             from={from}
             filterData={filterData}
+            staffFilter={staffFilter}
           />
         </Modal.Body>
       </Modal>
