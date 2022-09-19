@@ -80,10 +80,10 @@ const AllSctContacts = ({
     setUserDatas1(leadDataVal);
   };
 
-  const [userDataadd, setUserDataadd] = useState(null);
+  // const [userDataadd, setUserDataadd] = useState(null);
   const onAddstaff = (leadDataVal, idx) => {
     setshowStaffAddModal(true);
-    setUserDataadd(leadDataVal);
+    // setUserDataadd(leadDataVal);
   };
 
   const [showStaffAddModal, setshowStaffAddModal] = useState(false);

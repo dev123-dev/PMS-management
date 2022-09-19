@@ -4,13 +4,7 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { Redirect } from "react-router-dom";
-import {
-  editSctClientDetails,
-  getLeadsList,
-  getProjectList,
-} from "../../actions/sct";
-// import { getLeadsList } from "../../actions/dct";
+import { editSctClientDetails, getProjectList } from "../../actions/sct";
 import { getMarketingEmployee } from "../../actions/user";
 import {
   getActiveCountry,
@@ -30,7 +24,6 @@ const EditSctClients = ({
   onEditModalChange,
   getActiveCountry,
   getMarketingEmployee,
-  // getLeadsList,
   getProjectList,
   getActiveState,
   getActiveDistricts,
@@ -51,9 +44,6 @@ const EditSctClients = ({
   useEffect(() => {
     getProjectList();
   }, [getProjectList]);
-  // useEffect(() => {
-  //   getLeadsList();
-  // }, [getLeadsList]);
 
   //formData
   const [formData, setFormData] = useState({
@@ -788,10 +778,8 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  // addDctLeadDetails,
   getActiveCountry,
   getMarketingEmployee,
-  // getLeadsList,
   getActiveState,
   getActiveDistricts,
   getProjectList,

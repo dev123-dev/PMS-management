@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { Link } from "react-router-dom";
 import {
   getSctLeadDetails,
   getSctLeadDetailsDD,

@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Modal } from "react-bootstrap";
-import axios from "axios";
 import {
   getPurchaseOrderPrint,
   uploadPOFile,
