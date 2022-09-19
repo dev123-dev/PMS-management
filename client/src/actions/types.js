@@ -118,6 +118,7 @@ export const SCT_CLIENTS = "SCT_CLIENTS";
 export const SCT_CLIENTS_DD = "SCT_CLIENTS_DD";
 export const SCT_CLIENTS_EMP = "SCT_CLIENTS_EMP";
 export const PO_PRINT = "PO_PRINT";
+export const GET_SCT_STAFF_DATA = "GET_SCT_STAFF_DATA";
 
 //SETTINGS
 export const ALL_COMPANY_DETAILS = "ALL_COMPANY_DETAILS";

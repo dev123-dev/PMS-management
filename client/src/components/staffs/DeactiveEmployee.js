@@ -2,11 +2,13 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import { deactiveEmployeeDetails } from "../../actions/user";
 
 const DeactiveEmployee = ({
   auth: { isAuthenticated, user, users, loading },
   staffDeactivedata,
   onDeactiveModalChange,
+  deactiveEmployeeDetails,
 }) => {
   const [formData, setFormData] = useState({
     empFullName:
@@ -41,7 +43,7 @@ const DeactiveEmployee = ({
       empDeactiveDateTime: new Date().toLocaleString(),
       empStatus: "Deactive",
     };
-
+    deactiveEmployeeDetails(finalData);
     onDeactiveModalChange(true);
   };
 
@@ -110,4 +112,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(DeactiveEmployee);
+export default connect(mapStateToProps, { deactiveEmployeeDetails })(
+  DeactiveEmployee
+);

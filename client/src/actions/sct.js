@@ -25,6 +25,7 @@ import {
   SCT_CLIENTS_DD,
   SCT_CLIENTS_EMP,
   PO_PRINT,
+  GET_SCT_STAFF_DATA,
 } from "./types";
 
 const config = {
@@ -73,6 +74,8 @@ export const addNewSctStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/sct/add-new-sct-staff", finalData, config);
+    dispatch(getSctStaffsData(finalData.staffFilter));
+    dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -778,6 +781,33 @@ export const uploadAgreement = (finalData) => async (dispatch) => {
     // dispatch(refreshSelectedClient(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getSctStaffsData = (finalData) => async (dispatch) => {
+  try {
+    let res = [];
+    if (finalData.staffFrom == "lead") {
+      res = await axios.post(
+        "/api/sct/get-lead-staffs-data",
+        finalData,
+        config
+      );
+    } else if (finalData.staffFrom == "client") {
+      res = await axios.post(
+        "/api/sct/get-client-staffs-data",
+        finalData,
+        config
+      );
+    }
+    dispatch({
+      type: GET_SCT_STAFF_DATA,
+      payload: res.data,
     });
   } catch (err) {
     dispatch({

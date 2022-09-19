@@ -100,7 +100,7 @@ export const deactiveEmployeeDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/users/deactive-employee", finalData, config);
-    // dispatch(getAllUser());
+    dispatch(getAllEmployee());
     dispatch({
       type: SET_LOADING_FALSE,
     });
