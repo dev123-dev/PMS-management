@@ -757,10 +757,9 @@ export const uploadPOFile = (finalData) => async (dispatch) => {
 };
 
 export const refreshSelectedClient = (finalData) => async (dispatch) => {
-  console.log("finaldata", finalData);
   try {
     const res = await axios.post("/api/sct/selected-client", finalData);
-    console.log("reeeeessssssssss", res.data);
+
     localStorage.setItem("sctClientData", JSON.stringify(res.data));
   } catch (err) {
     dispatch({

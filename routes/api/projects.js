@@ -767,7 +767,7 @@ router.post("/get-last-amendment-counter", async (req, res) => {
       $eq: "Resolved",
     },
   };
-  // console.log(query);
+
   try {
     const getAmendmentLastCounter = await ProjectTrack.find(query);
     // .sort({
@@ -775,7 +775,6 @@ router.post("/get-last-amendment-counter", async (req, res) => {
     // })
     // .limit(1);
     res.json(getAmendmentLastCounter);
-    // console.log(getAmendmentLastCounter);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

@@ -435,7 +435,6 @@ const EditEmployeeDetails = ({
   };
 
   let allUserGroupData = JSON.parse(localStorage.getItem("allUserGroupData"));
-  //console.log(allUserGroupData);
 
   const allusergroups = [];
   allUserGroupData &&

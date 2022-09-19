@@ -16,7 +16,7 @@ const JobNotes = ({
     getSelectedClientDeatils({ clientId: allnotesdata.clientId });
   }, [getSelectedClientDeatils]);
   //formData
-  // console.log("selectedClientData", selectedClientData.standardInstruction);
+
   const [formData, setFormData] = useState({
     projectNotes:
       allnotesdata && allnotesdata.projectNotes

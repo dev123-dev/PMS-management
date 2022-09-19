@@ -19,7 +19,7 @@ const SctInvoicePdfPrint = ({
 }) => {
   const data = useHistory().location.data;
   let invoicePrintLS = JSON.parse(localStorage.getItem("invoicePrintLS"));
-  console.log(invoicePrintLS, "invoicePrintLS");
+
   //formData
 
   const [formData, setFormData] = useState({

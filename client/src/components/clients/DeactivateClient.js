@@ -51,7 +51,7 @@ const DeactivateClient = ({
       clientDeactiveById: user._id,
       clientDeactiveDate: new Date().toLocaleString(),
     };
-    // console.log(finalData);
+
     deactiveClient(finalData);
     onDeactiveModalChange(true);
     // setFormData({

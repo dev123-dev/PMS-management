@@ -36,9 +36,6 @@ const AllSctFollowup = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);
-  // console.log("allSctLeads", allSctLeads);
-  // console.log("allSctLeadsDD", allSctLeadsDD);
-  // console.log("allSctLeadsEmp", allSctLeadsEmp);
 
   const [filterData, setFilterData] = useState();
 

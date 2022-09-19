@@ -36,9 +36,6 @@ const AllSctLeads = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);
-  // console.log("getAllSctLeads", getAllSctLeads);
-  // console.log("getAllSctLeadsDD", getAllSctLeadsDD);
-  // console.log("getAllSctLeadsEmp", getAllSctLeadsEmp);
 
   const [filterData, setFilterData] = useState();
 

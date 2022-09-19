@@ -48,7 +48,7 @@ const DeactiveProjectStatus = ({
       projectStatusDeactiveById: user._id,
       projectStatusDeactiveDateTime: new Date().toLocaleString(),
     };
-    // console.log(finalData);
+
     deactiveProjectStatus(finalData);
     onDeactiveModalChange(true);
     // setFormData({

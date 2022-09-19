@@ -35,7 +35,7 @@ const EditPaymentMethod = ({
 
       paymentModeEditedById: user._id,
     };
-    // console.log(finalData);
+
     EditPaymentMode(finalData);
     setFormData({
       ...formData,

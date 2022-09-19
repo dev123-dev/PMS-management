@@ -1145,7 +1145,7 @@ router.post(
   "/upload-po-file",
   upload.single("myFile"),
   async (req, res, next) => {
-    console.log(req.file.originalname + " file successfully uploaded !!");
+    // console.log(req.file.originalname + " file successfully uploaded !!");
     const data = req.body;
     const uploadPo = await SctClients.updateOne(
       { _id: data.clientId },
@@ -1163,11 +1163,11 @@ router.post(
 
 router.post("/selected-client", async (req, res) => {
   const data = req.body;
-  console.log("data.clientId", data.clientId);
+
   try {
     const selectedSctClients = await SctClients.findOne({ _id: data.clientId });
     res.json(selectedSctClients);
-    console.log(selectedSctClients);
+    // console.log(selectedSctClients);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -1178,7 +1178,7 @@ router.post(
   "/upload-agreement-file",
   upload.single("myFile"),
   async (req, res, next) => {
-    console.log(req.file.originalname + " file successfully uploaded !!");
+    // console.log(req.file.originalname + " file successfully uploaded !!");
     const data = req.body;
     const uploadPo = await SctClients.updateOne(
       { _id: data.clientId },

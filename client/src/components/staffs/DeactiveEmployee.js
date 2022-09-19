@@ -46,7 +46,7 @@ const DeactiveEmployee = ({
       empDeactiveDateTime: new Date().toLocaleString(),
       empStatus: "Deactive",
     };
-    console.log(finalData);
+
     // editProjectStatus(finalData);
     onDeactiveModalChange(true);
     // setFormData({

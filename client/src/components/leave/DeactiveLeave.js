@@ -52,7 +52,7 @@ const DeactiveLeave = ({
       leaveDeactiveById: user._id,
       leaveDeactiveDate: new Date().toLocaleString(),
     };
-    // console.log(finalData);
+
     deactiveLeaveData(finalData);
     onDeactiveModalChange(true);
   };

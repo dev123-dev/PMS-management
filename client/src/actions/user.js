@@ -160,7 +160,6 @@ export const editLeaveDetails = (finalData) => async (dispatch) => {
 };
 
 export const getFilterEmpDetails = (finalData) => async (dispatch) => {
-  // console.log("action", finalData);
   try {
     const res = await axios.post(
       "/api/users/get-filter-emp-details",

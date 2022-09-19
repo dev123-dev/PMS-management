@@ -21,7 +21,6 @@ const AllSctDocuments = ({
   getInvoicePrint,
 }) => {
   let sctClientData = JSON.parse(localStorage.getItem("sctClientData"));
-  console.log("sctClientData", sctClientData);
 
   let documentCategory = [
     { value: "Quotation", label: "Quotation", cat: "Quotation" },

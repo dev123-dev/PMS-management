@@ -12,7 +12,7 @@ const DeleteProject = ({
   deleteProjectData,
 }) => {
   //formData
-  //console.log("data", Projectdeletedata);
+
   const [formData, setFormData] = useState({
     projectName:
       Projectdeletedata && Projectdeletedata.projectName

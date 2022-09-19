@@ -99,7 +99,6 @@ const DailyJobSheet = ({
   }
 
   const timeOutMsg = async (dailyJobsheetProjects) => {
-    console.log("timeoutcall");
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
@@ -270,7 +269,6 @@ const DailyJobSheet = ({
     }
   };
   const onRadioProjCatTypeChange = (e) => {
-    // console.log(e.target.value);
     // if (e.target.value === "student") {
     //   setFormData({ ...formData, userRole: e.target.value });
     // } else {
@@ -345,7 +343,7 @@ const DailyJobSheet = ({
       });
     }
   };
-  // console.log(radioselect);
+
   const [shownotesModal, setshownotesModal] = useState(false);
   const handlenotesModalClose = () => setshownotesModal(false);
 
@@ -500,7 +498,6 @@ const DailyJobSheet = ({
     }
   };
   // clients = dailyJobsheetProjects.clientName.length;
-  // console.log("clients", clients);
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -680,7 +677,7 @@ const DailyJobSheet = ({
                           (dailyJobsheetProjects, idx) => {
                             projectQty += dailyJobsheetProjects.projectQuantity;
                             // clients += dailyJobsheetProjects.clientName.length;
-                            // console.log("clients", clients);
+
                             let statusType =
                               dailyJobsheetProjects.projectStatusType;
                             if (statusType === "Downloading")

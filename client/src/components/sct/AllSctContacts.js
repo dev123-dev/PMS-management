@@ -230,7 +230,6 @@ const AllSctContacts = ({
       sctStaffDistrictId: staffdistrictId,
       // filterData: filterData,
     };
-    // console.log(finalData);
 
     if (from === "client") {
       addNewSctClientStaffDetails(finalData);

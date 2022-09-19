@@ -482,7 +482,7 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
       };
     }
   }
-  // console.log(query);
+
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
       _id: -1,
@@ -560,7 +560,7 @@ router.post("/get-dct-clients", auth, async (req, res) => {
       };
     }
   }
-  // console.log(query);
+  
   try {
     const getDctClientDetails = await DctClients.find(query).sort({
       dctCallDate: -1,

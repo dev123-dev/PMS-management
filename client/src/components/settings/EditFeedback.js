@@ -123,7 +123,6 @@ const EditFeedback = ({
       feedbackStatus: feedbackStatus.value,
       feedbackEditedById: user._id,
     };
-    // console.log(finalData);
     EditFeedbackData(finalData);
 
     onEditModalChange(true);

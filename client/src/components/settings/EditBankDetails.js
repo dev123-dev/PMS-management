@@ -49,7 +49,7 @@ const EditBankDetails = ({
       defaultBank: isChecked,
     };
     editCompanyBank(finalData);
-    console.log(finalData);
+
     setFormData({
       ...formData,
 

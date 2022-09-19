@@ -96,7 +96,6 @@ const EditSctClients = ({
 
     isSubmitted: false,
   });
-  console.log(alleditClientdata);
 
   const {
     sctCompanyName,

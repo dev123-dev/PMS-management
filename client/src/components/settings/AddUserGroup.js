@@ -28,7 +28,6 @@ const AddUserGroup = ({
       userGroupName: userGroupName,
       userGroupEnteredById: user._id,
     };
-    // console.log(finalData);
     addUserGroup(finalData);
     onAddModalChange(true);
     // setFormData({

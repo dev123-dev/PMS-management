@@ -42,8 +42,6 @@ const AddLeave = ({
   }, [getALLLeaveCatMode]);
   //formData
 
-  console.log(allStaffName);
-
   const [formData, setFormData] = useState({
     empId: "",
     leaveReason: "",
