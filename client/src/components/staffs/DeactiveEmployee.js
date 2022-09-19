@@ -1,15 +1,12 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Select from "react-select";
 import Spinner from "../layout/Spinner";
 
 const DeactiveEmployee = ({
   auth: { isAuthenticated, user, users, loading },
-  allProjectStatusdeavtivedata,
   staffDeactivedata,
   onDeactiveModalChange,
-  editProjectStatus,
 }) => {
   const [formData, setFormData] = useState({
     empFullName:
@@ -37,8 +34,6 @@ const DeactiveEmployee = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    // if (checkErrors()) {
     const finalData = {
       recordId: staffDeactivedata ? staffDeactivedata._id : "",
       empDeactiveReason: empDeactiveReason,
@@ -47,14 +42,7 @@ const DeactiveEmployee = ({
       empStatus: "Deactive",
     };
 
-    // editProjectStatus(finalData);
     onDeactiveModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // }
   };
 
   return !isAuthenticated || !user || !users ? (

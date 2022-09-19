@@ -1,7 +1,6 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Select from "react-select";
 import Spinner from "../layout/Spinner";
 import { deactiveProjectStatus } from "../../actions/projects";
 

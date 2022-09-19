@@ -13,7 +13,6 @@ import {
   getPurchaseOrderPrint,
   getInvoicePrint,
 } from "../../actions/sct";
-import FileBase64 from "react-file-base64";
 import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";

@@ -1,8 +1,8 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { Link, useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   Document,
   Page,
@@ -25,7 +25,6 @@ const SctQuotationpdfprint = ({
     forAddress: "",
     quotationNo: "",
     quotationDate: "",
-    isSubmitted: false,
   });
 
   const {
@@ -35,7 +34,6 @@ const SctQuotationpdfprint = ({
     forName,
     forAddress,
     companyAddress,
-    isSubmitted,
   } = formData;
 
   if (quotationDataLS && quotationDataLS.companyAddress && !companyAddress) {
@@ -74,10 +72,6 @@ const SctQuotationpdfprint = ({
       fontSize: "10px",
     },
 
-    viewer: {
-      width: window.innerWidth, //the pdf viewer will take up all of the width and height
-      height: window.innerHeight,
-    },
     right: {},
     rowcard: {},
     table: {

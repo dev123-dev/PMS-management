@@ -24,7 +24,7 @@ const EditBankDetails = ({
     isSubmitted: false,
   });
 
-  const { accountNo, IFSCCode, bankName, bankBranch, defaultBank } = formData;
+  const { accountNo, IFSCCode, bankName, bankBranch } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
