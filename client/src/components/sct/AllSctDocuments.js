@@ -216,8 +216,9 @@ const AllSctDocuments = ({
                 </center>
               </div>
             </div>
-            {(sctClientData && sctClientData.billingStatusCategory === "PO") ||
-              (docCat === "PO" && (
+            {
+              // (sctClientData && sctClientData.billingStatusCategory === "PO") ||
+              docCat === "PO" && (
                 <>
                   <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
                     <div className="card card-content ">
@@ -304,7 +305,8 @@ const AllSctDocuments = ({
                     </div>
                   )}
                 </>
-              ))}
+              )
+            }
           </div>
           {/* {(sctClientData &&
             sctClientData.billingStatusCategory === "Invoice") ||
