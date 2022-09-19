@@ -177,11 +177,10 @@ const SctQuotationpdfprint = ({
             </View>
           </View>
 
-          <View style={(styles.table, styles.section)}>
+          {/* <View style={(styles.table, styles.section)}>
             <View style={[styles.row]}>
               <Text
                 style={{
-                  // border: "1 px solid black",
                   width: "600px",
                 }}
               >
@@ -189,14 +188,13 @@ const SctQuotationpdfprint = ({
               </Text>
               <Text
                 style={{
-                  // border: "1 px solid black",
                   width: "600px",
                 }}
               >
                 Place of Supply:
               </Text>
             </View>
-          </View>
+          </View> */}
 
           <View style={(styles.table, styles.section)}>
             <View style={[styles.row, styles.bold, styles.header]}>
@@ -228,13 +226,35 @@ const SctQuotationpdfprint = ({
               ))}
           </View>
 
-          <View style={(styles.section, styles.space)}>
+          <View style={styles.section}>
+            <Text style={{ textAlign: "right" }}>Sub Total: {}</Text>
+            <Text style={{ textAlign: "right" }}>
+              Amount Chargeable (in words) &nbsp;: &nbsp;
+              {/* {toWords.convert(totSubTot, { currency: true })} */}
+            </Text>
+          </View>
+
+          <View
+            style={{
+              position: "absolute",
+              bottom: "20",
+              left: "0",
+              padding: "10",
+            }}
+          >
             <Text>Terms and Condition: </Text>
             <Text> 1. Applicable taxes will be extra.</Text>
             <Text> 2. Work will resume after full payment.</Text>
           </View>
 
-          <View style={{ paddingTop: "20px" }}>
+          <View
+            style={{
+              position: "absolute",
+              bottom: "0",
+              left: "0",
+              padding: "10",
+            }}
+          >
             <Text>
               For any enquiry, reach out via email at joel@pinnaclemedia.in,
               call on +91 99162 13542{" "}

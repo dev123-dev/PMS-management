@@ -62,6 +62,20 @@ const GenerateInvoice = ({
     isSubmitted,
   } = formData;
 
+  const onPaymentModeChange = (e) => {
+    setError({
+      ...error,
+      paymentmodeIdChecker: true,
+      paymentmodeIdErrorStyle: { color: "#000" },
+    });
+    if (e) {
+      setFormData({
+        ...formData,
+        modeOfPayment: e,
+      });
+    }
+  };
+
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -89,6 +103,11 @@ const GenerateInvoice = ({
 
   let allcompanyBank = [];
   const onCompanyChange = (e) => {
+    setError({
+      ...error,
+      FrmCmpnyIdChecker: true,
+      FrmCmpnyErrorStyle: { color: "#000" },
+    });
     if (e.value === "pinnacle media") {
       setShowHide1({
         ...showHide1,
@@ -129,27 +148,43 @@ const GenerateInvoice = ({
     );
   }
   const onBankChange = (e) => {
+    setError({
+      ...error,
+      BankIdChecker: true,
+      BankErrorStyle: { color: "#000" },
+    });
     getSelectedBank(e);
   };
   //Required Validation Starts
   const [error, setError] = useState({
+    FrmCmpnyErrorStyle: {},
+    FrmCmpnyIdChecker: false,
     paymentmodeIdChecker: false,
     paymentmodeIdErrorStyle: {},
-    clienttypeIdChecker: false,
-    clienttypeIdErrorStyle: {},
+    BankIdChecker: false,
+    BankErrorStyle: {},
   });
   const {
+    FrmCmpnyErrorStyle,
+    FrmCmpnyIdChecker,
     paymentmodeIdChecker,
     paymentmodeIdErrorStyle,
-    clienttypeIdChecker,
-    clienttypeIdErrorStyle,
+    BankIdChecker,
+    BankErrorStyle,
   } = error;
 
   const checkErrors = () => {
-    if (!clienttypeIdChecker) {
+    if (!FrmCmpnyIdChecker) {
       setError({
         ...error,
-        clienttypeIdErrorStyle: { color: "#F00" },
+        FrmCmpnyErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!BankIdChecker) {
+      setError({
+        ...error,
+        BankErrorStyle: { color: "#F00" },
       });
       return false;
     }
@@ -168,15 +203,6 @@ const GenerateInvoice = ({
   );
   const onDateChange = (e) => {
     setinvoiceDate(e.target.value);
-  };
-
-  const onClientTypeChange = (e) => {
-    if (e) {
-      setFormData({
-        ...formData,
-        modeOfPayment: e,
-      });
-    }
   };
 
   //add staff start
@@ -277,39 +303,40 @@ const GenerateInvoice = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
-    const finalData = {
-      clientId: sctDataVal ? sctDataVal._id : "",
-      clientName: sctCompanyName,
-      invoiceNo: invoiceNo,
-      invoiceDate: startinvoiceDate,
-      clientFromId: sctClientAssignedToId,
-      clientFrom: sctClientAssignedToName,
-      companyId: companyid,
-      companyName: companyname,
-      companyAddress: companyaddress,
-      forName: sctCompanyName,
-      forAddress: sctClientAddress,
-      clientEnteredById: user._id,
-      modeOfPayment: modeOfPayment.value ? modeOfPayment.value : null,
-      item: AddedDetails,
-      bank:
-        selectedBank && selectedBank.bankData ? selectedBank.bankData : null,
-      invoiceEnteredById: user._id,
-      invoiceEnteredByDateTime: new Date().toLocaleString("en-GB"),
-    };
-    saveInvoice(finalData);
-    setFormData({
-      ...formData,
-      sctClientAssignedToName: "",
-      sctCompanyName: "",
-      sctClientAddress: "",
-      invoiceNo: "",
-      companyName: "",
-      companyaddress: "",
-      startinvoiceDate: "",
-      isSubmitted: true,
-    });
+    if (checkErrors()) {
+      const finalData = {
+        clientId: sctDataVal ? sctDataVal._id : "",
+        clientName: sctCompanyName,
+        invoiceNo: invoiceNo,
+        invoiceDate: startinvoiceDate,
+        clientFromId: sctClientAssignedToId,
+        clientFrom: sctClientAssignedToName,
+        companyId: companyid,
+        companyName: companyname,
+        companyAddress: companyaddress,
+        forName: sctCompanyName,
+        forAddress: sctClientAddress,
+        clientEnteredById: user._id,
+        modeOfPayment: modeOfPayment.value ? modeOfPayment.value : null,
+        item: AddedDetails,
+        bank:
+          selectedBank && selectedBank.bankData ? selectedBank.bankData : null,
+        invoiceEnteredById: user._id,
+        invoiceEnteredByDateTime: new Date().toLocaleString("en-GB"),
+      };
+      saveInvoice(finalData);
+      setFormData({
+        ...formData,
+        sctClientAssignedToName: "",
+        sctCompanyName: "",
+        sctClientAddress: "",
+        invoiceNo: "",
+        companyName: "",
+        companyaddress: "",
+        startinvoiceDate: "",
+        isSubmitted: true,
+      });
+    }
   };
 
   const onInputChange1 = (e) => {
@@ -356,6 +383,7 @@ const GenerateInvoice = ({
                   value={invoiceNo}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
+                  required
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
@@ -381,12 +409,15 @@ const GenerateInvoice = ({
                   value={sctClientAssignedToName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
+                  disabled
                 />
               </div>
               <br />
               <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 ">
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">From* :</label>
+                  <label className="label-control" style={FrmCmpnyErrorStyle}>
+                    From* :
+                  </label>
                   <Select
                     name="companyName"
                     options={allcompanydata}
@@ -444,7 +475,7 @@ const GenerateInvoice = ({
               </div>
               <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 py-2">
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12 ">
-                  <label>Bank :</label>
+                  <label style={BankErrorStyle}>Bank :</label>
 
                   <Select
                     name="selBank"
@@ -456,14 +487,14 @@ const GenerateInvoice = ({
                   />
                 </div>
                 <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
-                  <label>Payment Mode:</label>
+                  <label style={paymentmodeIdErrorStyle}>Payment Mode:</label>
                   <Select
                     name="modeOfPayment"
                     isSearchable={true}
                     options={paymentTypeVal}
                     value={modeOfPayment}
                     placeholder="Select"
-                    onChange={(e) => onClientTypeChange(e)}
+                    onChange={(e) => onPaymentModeChange(e)}
                   />
                 </div>
               </div>

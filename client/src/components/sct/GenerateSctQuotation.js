@@ -88,11 +88,11 @@ const GenerateSctQuotation = ({
 
   const onCompanyChange = (e) => {
     // //Required Validation starts
-    // setError({
-    //   ...error,
-    //   paymentmodeIdChecker: true,
-    //   paymentmodeIdErrorStyle: { color: "#000" },
-    // });
+    setError({
+      ...error,
+      FrmCmpnyIdChecker: true,
+      FrmCmpnyErrorStyle: { color: "#000" },
+    });
     // //Required Validation ends
     if (e.value === "pinnacle media") {
       setShowHide1({
@@ -120,34 +120,38 @@ const GenerateSctQuotation = ({
 
   //Required Validation Starts
   const [error, setError] = useState({
-    paymentmodeIdChecker: false,
-    paymentmodeIdErrorStyle: {},
-    clienttypeIdChecker: false,
+    FrmCmpnyErrorStyle: {},
+    FrmCmpnyIdChecker: false,
+    // paymentmodeIdChecker: false,
+    // paymentmodeIdErrorStyle: {},
+    // clienttypeIdChecker: false,
 
-    clienttypeIdErrorStyle: {},
+    // clienttypeIdErrorStyle: {},
   });
   const {
-    paymentmodeIdChecker,
-    paymentmodeIdErrorStyle,
-    clienttypeIdChecker,
-    clienttypeIdErrorStyle,
+    FrmCmpnyErrorStyle,
+    FrmCmpnyIdChecker,
+    // paymentmodeIdChecker,
+    // paymentmodeIdErrorStyle,
+    // clienttypeIdChecker,
+    // clienttypeIdErrorStyle,
   } = error;
 
   const checkErrors = () => {
-    if (!clienttypeIdChecker) {
+    if (!FrmCmpnyIdChecker) {
       setError({
         ...error,
-        clienttypeIdErrorStyle: { color: "#F00" },
+        FrmCmpnyErrorStyle: { color: "#F00" },
       });
       return false;
     }
-    if (!paymentmodeIdChecker) {
-      setError({
-        ...error,
-        paymentmodeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+    // if (!paymentmodeIdChecker) {
+    //   setError({
+    //     ...error,
+    //     paymentmodeIdErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
 
     return true;
   };
@@ -259,42 +263,43 @@ const GenerateSctQuotation = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
-    const finalData = {
-      clientId: sctDataVal ? sctDataVal._id : "",
-      quotationId:
-        sctDataVal && sctDataVal.quotation && sctDataVal.quotation[0]
-          ? sctDataVal.quotation[0]._id
-          : null,
-      quotationGenerated: sctDataVal ? sctDataVal.quotationGenerated : "",
-      quotation: sctDataVal ? sctDataVal.quotation : null,
-      clientName: sctCompanyName,
-      quotationNo: quotationNo,
-      quotationDate: startquotationDate,
-      clientFromId: sctClientAssignedToId,
-      clientFrom: sctClientAssignedToName,
-      companyId: companyid,
-      companyName: companyname,
-      companyAddress: companyaddress,
-      forName: sctCompanyName,
-      forAddress: sctClientAddress,
-      clientEnteredById: user._id,
-      item: AddedDetails,
-    };
-    saveQuotation(finalData);
-    localStorage.setItem("quotationDataLS", JSON.stringify(finalData));
-    setFinalDataVal(finalData);
-    setFormData({
-      ...formData,
-      sctClientAssignedToName: "",
-      sctCompanyName: "",
-      sctClientAddress: "",
-      quotationNo: "",
-      companyName: "",
-      companyaddress: "",
-      startquotationDate: "",
-      isSubmitted: true,
-    });
+    if (checkErrors()) {
+      const finalData = {
+        clientId: sctDataVal ? sctDataVal._id : "",
+        quotationId:
+          sctDataVal && sctDataVal.quotation && sctDataVal.quotation[0]
+            ? sctDataVal.quotation[0]._id
+            : null,
+        quotationGenerated: sctDataVal ? sctDataVal.quotationGenerated : "",
+        quotation: sctDataVal ? sctDataVal.quotation : null,
+        clientName: sctCompanyName,
+        quotationNo: quotationNo,
+        quotationDate: startquotationDate,
+        clientFromId: sctClientAssignedToId,
+        clientFrom: sctClientAssignedToName,
+        companyId: companyid,
+        companyName: companyname,
+        companyAddress: companyaddress,
+        forName: sctCompanyName,
+        forAddress: sctClientAddress,
+        clientEnteredById: user._id,
+        item: AddedDetails,
+      };
+      saveQuotation(finalData);
+      localStorage.setItem("quotationDataLS", JSON.stringify(finalData));
+      setFinalDataVal(finalData);
+      setFormData({
+        ...formData,
+        sctClientAssignedToName: "",
+        sctCompanyName: "",
+        sctClientAddress: "",
+        quotationNo: "",
+        companyName: "",
+        companyaddress: "",
+        startquotationDate: "",
+        isSubmitted: true,
+      });
+    }
   };
 
   const onInputChange1 = (e) => {
@@ -341,6 +346,7 @@ const GenerateSctQuotation = ({
                   value={quotationNo}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
+                  required
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
@@ -366,12 +372,16 @@ const GenerateSctQuotation = ({
                   value={sctClientAssignedToName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
+                  disabled
+                  required
                 />
               </div>
               <br />
               <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 ">
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">From* :</label>
+                  <label className="label-control" style={FrmCmpnyErrorStyle}>
+                    From* :
+                  </label>
                   <Select
                     name="companyName"
                     options={allcompanydata}
@@ -399,6 +409,8 @@ const GenerateSctQuotation = ({
                     value={sctCompanyName}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
+                    required
+                    disabled
                   />
                 </div>
 
@@ -424,6 +436,8 @@ const GenerateSctQuotation = ({
                     style={{ width: "100%" }}
                     value={sctClientAddress}
                     onChange={(e) => onInputChange(e)}
+                    required
+                    disabled
                   ></textarea>
                 </div>
               </div>

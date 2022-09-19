@@ -237,7 +237,7 @@ const SctInvoicePdfPrint = ({
             <View style={styles.section}>
               <Text style={{ textAlign: "right" }}>Sub Total: {totSubTot}</Text>
               <Text style={{ textAlign: "right" }}>
-                Amount Chargreable (in words) &nbsp;: &nbsp;
+                Amount Chargeable (in words) &nbsp;: &nbsp;
                 {toWords.convert(totSubTot, { currency: true })}
               </Text>
               <Text style={{ textAlign: "right" }}>
