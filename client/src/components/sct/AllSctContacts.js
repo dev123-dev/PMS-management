@@ -467,7 +467,7 @@ const AllSctContacts = ({
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Region* :</label>
+                  <label className="label-control">Region :</label>
                   <Select
                     name="countryName"
                     options={allstaffcountry}
@@ -482,7 +482,7 @@ const AllSctContacts = ({
                     className="label-control"
                     // style={StateErrorStyle}
                   >
-                    State* :
+                    State :
                   </label>
                   <Select
                     name="stateName"
@@ -498,7 +498,7 @@ const AllSctContacts = ({
                     className="label-control"
                     // style={DistrictErrorStyle}
                   >
-                    District* :
+                    District :
                   </label>
                   <Select
                     name="districtName"
