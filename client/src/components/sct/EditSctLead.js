@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { Redirect } from "react-router-dom";
 import {
   editSctLeadDetails,
   getSctLeadsList,
@@ -88,8 +87,6 @@ const EditSctLead = ({
         : "",
 
     countrycode: "",
-
-    isSubmitted: false,
   });
 
   const {
@@ -101,7 +98,6 @@ const EditSctLead = ({
     sctClientName,
     sctLeadAddress,
     sctImportantPoints,
-    isSubmitted,
   } = formData;
 
   const allcountry = [];
@@ -209,11 +205,11 @@ const EditSctLead = ({
   );
   const onempChange = (e) => {
     // //Required Validation Starts
-    setError({
-      ...error,
-      AssignedtypeIdChecker: true,
-      AssignedtypeIdErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   AssignedtypeIdChecker: true,
+    //   AssignedtypeIdErrorStyle: { color: "#000" },
+    // });
     // //Required Validation ends
     var empId = "";
     var empName = "";
@@ -312,10 +308,10 @@ const EditSctLead = ({
   };
 
   const [error, setError] = useState({
-    countrytypeIdChecker: false,
-    countrytypeIdErrorStyle: {},
-    AssignedtypeIdChecker: false,
-    AssignedtypeIdErrorStyle: {},
+    // countrytypeIdChecker: false,
+    // countrytypeIdErrorStyle: {},
+    // AssignedtypeIdChecker: false,
+    // AssignedtypeIdErrorStyle: {},
 
     websiteValChecker: false,
     websiteValResult: "",
@@ -323,10 +319,10 @@ const EditSctLead = ({
     websiteInptErrStyle: {},
   });
   const {
-    countrytypeIdChecker,
-    countrytypeIdErrorStyle,
-    AssignedtypeIdChecker,
-    AssignedtypeIdErrorStyle,
+    // countrytypeIdChecker,
+    // countrytypeIdErrorStyle,
+    // AssignedtypeIdChecker,
+    // AssignedtypeIdErrorStyle,
 
     websiteValChecker,
     websiteValResult,
@@ -334,26 +330,26 @@ const EditSctLead = ({
     websiteInptErrStyle,
   } = error;
 
-  const checkErrors = () => {
-    if (!countrytypeIdChecker) {
-      setError({
-        ...error,
-        countrytypeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-    if (user.empCtAccess === "All") {
-      if (!AssignedtypeIdChecker) {
-        setError({
-          ...error,
-          AssignedtypeIdErrorStyle: { color: "#F00" },
-        });
-        return false;
-      }
-    }
+  // const checkErrors = () => {
+  //   if (!countrytypeIdChecker) {
+  //     setError({
+  //       ...error,
+  //       countrytypeIdErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
+  //   if (user.empCtAccess === "All") {
+  //     if (!AssignedtypeIdChecker) {
+  //       setError({
+  //         ...error,
+  //         AssignedtypeIdErrorStyle: { color: "#F00" },
+  //       });
+  //       return false;
+  //     }
+  //   }
 
-    return true;
-  };
+  //   return true;
+  // };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -396,14 +392,10 @@ const EditSctLead = ({
       sctPhone2: "",
       sctImportantPoints: "",
       countryId: "",
-      isSubmitted: true,
     });
     // }
   };
 
-  // if (isSubmitted) {
-  //   return <Redirect to="/all-leads" />;
-  // }
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };

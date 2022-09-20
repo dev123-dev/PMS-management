@@ -24,9 +24,6 @@ const GenerateSctQuotation = ({
 
   //formData
   const [formData, setFormData] = useState({
-    sctClientName:
-      sctDataVal && sctDataVal.sctClientName ? sctDataVal.sctClientName : "",
-
     sctClientAddress:
       sctDataVal && sctDataVal.sctClientAddress
         ? sctDataVal.sctClientAddress
@@ -50,8 +47,6 @@ const GenerateSctQuotation = ({
 
   const {
     quotationNo,
-
-    sctClientName,
     sctClientAssignedToId,
     sctCompanyName,
     sctClientAssignedToName,

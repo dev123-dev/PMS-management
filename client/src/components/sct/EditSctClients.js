@@ -83,8 +83,6 @@ const EditSctClients = ({
       alleditClientdata && alleditClientdata.sctBillingEmail
         ? alleditClientdata.sctBillingEmail
         : "",
-
-    isSubmitted: false,
   });
 
   const {
@@ -97,7 +95,6 @@ const EditSctClients = ({
     sctClientName,
     sctClientAddress,
     sctClientImportantPoints,
-    isSubmitted,
   } = formData;
 
   const allcountry = [];
@@ -123,11 +120,11 @@ const EditSctClients = ({
   const [countrycode, setcountrycode] = useState();
   const oncountryChange = (e) => {
     // //Required Validation Starts
-    setError({
-      ...error,
-      countrytypeIdChecker: true,
-      countrytypeIdErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   countrytypeIdChecker: true,
+    //   countrytypeIdErrorStyle: { color: "#000" },
+    // });
     // //Required Validation ends
     var countryId = "";
     var countrycode = "";
@@ -207,11 +204,11 @@ const EditSctClients = ({
   );
   const onempChange = (e) => {
     // //Required Validation Starts
-    setError({
-      ...error,
-      AssignedtypeIdChecker: true,
-      AssignedtypeIdErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   AssignedtypeIdChecker: true,
+    //   AssignedtypeIdErrorStyle: { color: "#000" },
+    // });
     // //Required Validation ends
     var empId = "";
     var empName = "";
@@ -310,10 +307,10 @@ const EditSctClients = ({
   };
 
   const [error, setError] = useState({
-    countrytypeIdChecker: false,
-    countrytypeIdErrorStyle: {},
-    AssignedtypeIdChecker: false,
-    AssignedtypeIdErrorStyle: {},
+    // countrytypeIdChecker: false,
+    // countrytypeIdErrorStyle: {},
+    // AssignedtypeIdChecker: false,
+    // AssignedtypeIdErrorStyle: {},
 
     websiteValChecker: false,
     websiteValResult: "",
@@ -321,10 +318,10 @@ const EditSctClients = ({
     websiteInptErrStyle: {},
   });
   const {
-    countrytypeIdChecker,
-    countrytypeIdErrorStyle,
-    AssignedtypeIdChecker,
-    AssignedtypeIdErrorStyle,
+    // countrytypeIdChecker,
+    // countrytypeIdErrorStyle,
+    // AssignedtypeIdChecker,
+    // AssignedtypeIdErrorStyle,
 
     websiteValChecker,
     websiteValResult,
@@ -332,26 +329,26 @@ const EditSctClients = ({
     websiteInptErrStyle,
   } = error;
 
-  const checkErrors = () => {
-    if (!countrytypeIdChecker) {
-      setError({
-        ...error,
-        countrytypeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-    if (user.empCtAccess === "All") {
-      if (!AssignedtypeIdChecker) {
-        setError({
-          ...error,
-          AssignedtypeIdErrorStyle: { color: "#F00" },
-        });
-        return false;
-      }
-    }
+  // const checkErrors = () => {
+  //   // if (!countrytypeIdChecker) {
+  //   //   setError({
+  //   //     ...error,
+  //   //     countrytypeIdErrorStyle: { color: "#F00" },
+  //   //   });
+  //   //   return false;
+  //   // }
+  //   // if (user.empCtAccess === "All") {
+  //   //   if (!AssignedtypeIdChecker) {
+  //   //     setError({
+  //   //       ...error,
+  //   //       AssignedtypeIdErrorStyle: { color: "#F00" },
+  //   //     });
+  //   //     return false;
+  //   //   }
+  //   // }
 
-    return true;
-  };
+  //   return true;
+  // };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -395,14 +392,10 @@ const EditSctClients = ({
       sctPhone2: "",
       sctClientImportantPoints: "",
       countryId: "",
-      isSubmitted: true,
     });
     // }
   };
 
-  // if (isSubmitted) {
-  //   return <Redirect to="/all-leads" />;
-  // }
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
