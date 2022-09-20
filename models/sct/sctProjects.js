@@ -14,13 +14,12 @@ const SctProjectSchema = new mongoose.Schema({
   },
   sctProjectDate: {
     type: String,
-    default: new Date().toLocaleString("en-GB"),
   },
   sctProjectEditedById: {
     type: ObjectId,
   },
   sctProjectEditedDateTime: {
-    type: Date,
+    type: String,
   },
 });
 

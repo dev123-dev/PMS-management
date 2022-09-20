@@ -48,7 +48,7 @@ const AllEngagedClient = ({
 
   const { projectStatusData } = formData;
 
-  const [filterData, setFilterData] = useState();
+  const [filterData, setFilterData] = useState({ sctClientCategory: "EC" });
 
   const [showHide, setShowHide] = useState({
     showdateselectionSection: false,

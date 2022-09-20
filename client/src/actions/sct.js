@@ -222,6 +222,7 @@ export const deactivateSctLeadDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/sct/deactivate-sct-Leads", finalData, config);
+    dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });

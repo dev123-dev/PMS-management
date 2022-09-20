@@ -36,7 +36,7 @@ const AllSctFollowup = ({
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);
 
-  const [filterData, setFilterData] = useState();
+  const [filterData, setFilterData] = useState({ sctLeadCategory: "F" });
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -435,7 +435,7 @@ const AllSctFollowup = ({
           <DeactiveSctLead
             onDeactiveModalChange={onDeactiveModalChange}
             Leaddeavtivedata={userDatadeactive}
-            // filterData={filterData}
+            filterData={filterData}
           />
         </Modal.Body>
       </Modal>

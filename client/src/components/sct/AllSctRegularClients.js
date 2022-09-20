@@ -40,7 +40,7 @@ const AllSctRegularClients = ({
 
   const { projectStatusData } = formData;
 
-  const [filterData, setFilterData] = useState();
+  const [filterData, setFilterData] = useState({ sctClientCategory: "RC" });
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
