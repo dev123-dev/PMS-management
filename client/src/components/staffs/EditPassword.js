@@ -177,90 +177,90 @@ const EditPassword = ({
     <Spinner />
   ) : (
     <Fragment>
-      <div className="container container_align">
-        <section className="sub_reg">
-          <form onSubmit={(e) => onSubmit(e)}>
-            <div className="row col-lg-12 col-md-11 col-sm-11 col-11 ">
-              <div className="col-lg-7 col-md-7 col-sm-12 col-12">
-                <label className="label-control">Password *</label>
-                <input
-                  type="password"
-                  name="password"
-                  className="form-control "
-                  value={password}
-                  minLength="8"
-                  style={passwordInptErrStyle}
-                  onChange={(e) => onInputChange(e)}
-                  autoComplete="false"
-                />
-                {passwordValChecker && (
-                  <span
-                    className="form-input-info positioning"
-                    style={passwordValStyle}
-                  >
-                    {passwordValResult}
-                  </span>
-                )}
-                <div
-                  className="cstm-hint"
-                  id="pass_admin_help"
-                  style={{ top: "60px" }}
-                >
-                  <img
-                    src={require("../../static/images/help1.png")}
-                    alt="help"
-                    id="img_tool_admin"
-                    className="pass_admin_help_icon_question"
-                  />
-                  <div
-                    id="tooltipPassAdmin"
-                    className="syle-hint"
-                    style={passwrdTooltip}
-                    data-hint="Password  at least 1 uppercase and 1 lowercase, 1 digit, 1 symbol, length from 8 to 20"
-                  ></div>
-                </div>
-              </div>
-              <div className="col-lg-7 col-md-7 col-sm-12 col-12">
-                <label className="label-control">Confirm Password *</label>
-                <input
-                  type="password"
-                  name="rePassword"
-                  className="form-control "
-                  value={rePassword}
-                  style={repwdInptErrStyle}
-                  onChange={(e) => onInputChange(e)}
-                  autoComplete="false"
-                />
-                {repwdValChecker && (
-                  <Fragment>
-                    <span
-                      className="form-input-info positioning"
-                      style={repwdValStyle}
-                    >
-                      {repwdValResult}
-                    </span>
-                  </Fragment>
-                )}
-              </div>
-              <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
-                <input
-                  type="submit"
-                  name="Submit"
-                  value="UPDATE"
-                  className="btn sub_form reg_continue blackbrd"
-                  id="updatePswd"
-                />
-                <Link
-                  className="btn sub_form reg_continue blackbrd"
-                  to="/landing-page"
-                >
-                  CANCEL
-                </Link>
-              </div>
+      {/* <div className="container container_align">
+        <section className="sub_reg"> */}
+      <form onSubmit={(e) => onSubmit(e)}>
+        <div className="row col-lg-12 col-md-11 col-sm-11 col-11 ">
+          <div className="col-lg-7 col-md-7 col-sm-12 col-12">
+            <label>Password *</label>
+            <input
+              type="password"
+              name="password"
+              className="form-control "
+              value={password}
+              minLength="8"
+              style={passwordInptErrStyle}
+              onChange={(e) => onInputChange(e)}
+              autoComplete="false"
+            />
+            {passwordValChecker && (
+              <span
+                className="form-input-info positioning"
+                style={passwordValStyle}
+              >
+                {passwordValResult}
+              </span>
+            )}
+            <div
+              className="cstm-hint"
+              id="pass_admin_help"
+              style={{ top: "60px" }}
+            >
+              <img
+                src={require("../../static/images/help1.png")}
+                alt="help"
+                id="img_tool_admin"
+                className="pass_admin_help_icon_question"
+              />
+              <div
+                id="tooltipPassAdmin"
+                className="syle-hint"
+                style={passwrdTooltip}
+                data-hint="Password  at least 1 uppercase and 1 lowercase, 1 digit, 1 symbol, length from 8 to 20"
+              ></div>
             </div>
-          </form>
-        </section>
-      </div>
+          </div>
+          <div className="col-lg-7 col-md-7 col-sm-12 col-12">
+            <label className="label-control">Confirm Password *</label>
+            <input
+              type="password"
+              name="rePassword"
+              className="form-control "
+              value={rePassword}
+              style={repwdInptErrStyle}
+              onChange={(e) => onInputChange(e)}
+              autoComplete="false"
+            />
+            {repwdValChecker && (
+              <Fragment>
+                <span
+                  className="form-input-info positioning"
+                  style={repwdValStyle}
+                >
+                  {repwdValResult}
+                </span>
+              </Fragment>
+            )}
+          </div>
+          <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
+            <input
+              type="submit"
+              name="Submit"
+              value="UPDATE"
+              className="btn sub_form reg_continue blackbrd"
+              id="updatePswd"
+            />
+            <Link
+              className="btn sub_form reg_continue blackbrd"
+              to="/landing-page"
+            >
+              CANCEL
+            </Link>
+          </div>
+        </div>
+      </form>
+      {/* </section>
+      </div> */}
     </Fragment>
   );
 };
