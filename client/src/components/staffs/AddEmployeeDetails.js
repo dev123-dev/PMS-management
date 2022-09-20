@@ -555,9 +555,7 @@ const AddEmployeeDetails = ({
                           </div>
 
                           <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
-                            <label className="label-control">
-                              Employee Name* :
-                            </label>
+                            <label>Employee Name* :</label>
                             <input
                               type="text"
                               name="empFullName"
@@ -568,9 +566,7 @@ const AddEmployeeDetails = ({
                             />
                           </div>
                           <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                            <label className="label-control">
-                              Employee Phone :
-                            </label>
+                            <label>Employee Phone :</label>
                             <input
                               type="number"
                               name="employeePhone"
@@ -644,10 +640,7 @@ const AddEmployeeDetails = ({
                             <h5>Other Info</h5>
                           </div>
                           <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                            <label
-                              className="label-control"
-                              style={DepartmentErrorStyle}
-                            >
+                            <label style={DepartmentErrorStyle}>
                               Department* :
                             </label>
                             <Select
@@ -670,10 +663,7 @@ const AddEmployeeDetails = ({
                             />
                           </div>
                           <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                            <label
-                              className="label-control"
-                              style={DesignationErrorStyle}
-                            >
+                            <label style={DesignationErrorStyle}>
                               Designation* :
                             </label>
 

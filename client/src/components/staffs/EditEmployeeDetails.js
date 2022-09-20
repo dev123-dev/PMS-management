@@ -555,7 +555,7 @@ const EditEmployeeDetails = ({
                   </div>
                   <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Employee Name* :</label>
+                      <label>Employee Name* :</label>
                       <input
                         type="text"
                         name="empFullName"
@@ -566,7 +566,7 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Employee Phone :</label>
+                      <label>Employee Phone :</label>
                       <input
                         type="number"
                         name="employeePhone"
@@ -581,7 +581,7 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Adhaar Card No :</label>
+                      <label>Adhaar Card No :</label>
                       <input
                         type="text"
                         name="employeeAadharNo"
@@ -591,7 +591,7 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Pan Card No :</label>
+                      <label>Pan Card No :</label>
                       <input
                         type="text"
                         name="employeePanNo"
@@ -869,7 +869,7 @@ const EditEmployeeDetails = ({
                   </div>
                   <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
                     <div className="col-lg-4 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Employee Code :</label>
+                      <label>Employee Code :</label>
                       <input
                         type="text"
                         name="employeeCode"
@@ -880,7 +880,7 @@ const EditEmployeeDetails = ({
                       />
                     </div>
                     <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-                      <label className="label-control">Address : </label>
+                      <label>Address : </label>
                       <textarea
                         name="empAddress"
                         id="empAddress"
@@ -943,7 +943,7 @@ const EditEmployeeDetails = ({
                 </div>
                 <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
                   <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                    <label className="label-control">Bank Name :</label>
+                    <label>Bank Name :</label>
                     <input
                       type="text"
                       name="employeeBankName"
@@ -954,7 +954,7 @@ const EditEmployeeDetails = ({
                     />
                   </div>
                   <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                    <label className="label-control">IFSC Code :</label>
+                    <label>IFSC Code :</label>
                     <input
                       type="text"
                       name="employeeIFSCcode"
@@ -965,7 +965,7 @@ const EditEmployeeDetails = ({
                     />
                   </div>
                   <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                    <label className="label-control">Account no :</label>
+                    <label>Account no :</label>
                     <input
                       type="text"
                       name="employeeAccountNo"
@@ -975,7 +975,7 @@ const EditEmployeeDetails = ({
                     />
                   </div>
                   <div className="col-lg-3 col-md-12 col-sm-12 col-12">
-                    <label className="label-control">Branch :</label>
+                    <label>Branch :</label>
                     <input
                       type="text"
                       name="employeeBranch"
