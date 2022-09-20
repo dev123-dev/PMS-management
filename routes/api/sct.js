@@ -803,32 +803,23 @@ router.post("/get-all-demos", async (req, res) => {
   if (stateId) {
     if (clientId)
       query = {
-        "output.stateId": mongoose.Types.ObjectId(stateId),
-        "output._id": mongoose.Types.ObjectId(clientId),
+        "clientDetails.stateId": mongoose.Types.ObjectId(stateId),
+        clientId: mongoose.Types.ObjectId(clientId),
         demoDate: demoDate,
       };
     else
       query = {
-        "output.stateId": mongoose.Types.ObjectId(stateId),
+        "clientDetails.stateId": mongoose.Types.ObjectId(stateId),
         demoDate: demoDate,
       };
   } else if (clientId) {
     query = {
-      "output._id": mongoose.Types.ObjectId(clientId),
+      clientId: mongoose.Types.ObjectId(clientId),
       demoDate: demoDate,
     };
   }
   try {
     const allDemos = await Demo.aggregate([
-      {
-        $lookup: {
-          from: "sctleads",
-          localField: "clientId",
-          foreignField: "_id",
-          as: "output",
-        },
-      },
-      { $unwind: "$output" },
       { $match: query },
       { $sort: { demoStatus: -1 } },
     ]);
@@ -843,24 +834,15 @@ router.post("/get-all-demos-state", async (req, res) => {
   const { demoDate } = req.body;
   let query = { demoDate: new Date().toISOString().split("T")[0] };
   if (demoDate) {
-    let query = { demoDate: demoDate };
+    query = { demoDate: demoDate };
   }
   try {
     const allDemoStates = await Demo.aggregate([
-      {
-        $lookup: {
-          from: "sctleads",
-          localField: "clientId",
-          foreignField: "_id",
-          as: "output",
-        },
-      },
-      { $unwind: "$output" },
       { $match: query },
       {
         $group: {
-          _id: "$output.stateId",
-          stateName: { $first: "$output.stateName" },
+          _id: "$clientDetails.stateId",
+          stateName: { $first: "$clientDetails.stateName" },
         },
       },
       { $sort: { _id: 1 } },
@@ -878,28 +860,20 @@ router.post("/get-all-demos-leads", async (req, res) => {
 
   if (stateId) {
     query = {
-      "output.stateId": mongoose.Types.ObjectId(stateId),
+      "clientDetails.stateId": mongoose.Types.ObjectId(stateId),
       demoDate: demoDate,
     };
   }
   try {
     const allDemoLeads = await Demo.aggregate([
-      {
-        $lookup: {
-          from: "sctleads",
-          localField: "clientId",
-          foreignField: "_id",
-          as: "output",
-        },
-      },
-      { $unwind: "$output" },
       { $match: query },
       {
         $group: {
-          _id: "$output._id",
-          sctClientName: { $first: "$output.sctClientName" },
+          _id: "$clientId",
+          sctClientName: { $first: "$clientName" },
         },
       },
+      { $sort: { _id: 1 } },
     ]);
     res.json(allDemoLeads);
   } catch (err) {

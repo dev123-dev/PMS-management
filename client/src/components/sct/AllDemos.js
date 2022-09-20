@@ -119,6 +119,7 @@ const AllDemos = ({
     getStateData("");
     setClientData("");
     getALLDemos("");
+    setSelectedDate(new Date().toISOString().split("T")[0]);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -203,14 +204,23 @@ const AllDemos = ({
                           }
                           return (
                             <tr key={idx}>
-                              <td>{allDemos.output.sctCompanyName}</td>
-                              <td>{allDemos.output.sctClientName}</td>
+                              <td>
+                                {allDemos.clientDetails &&
+                                  allDemos.clientDetails.sctCompanyName}
+                              </td>
+                              <td>{allDemos.clientName}</td>
                               <td>{demoDate}</td>
 
-                              <td>{allDemos.output.sctEmailId}</td>
-                              <td>{allDemos.output.sctPhone1}</td>
                               <td>
-                                {allDemos.fromTime} to{allDemos.toTime}
+                                {allDemos.clientDetails &&
+                                  allDemos.clientDetails.sctEmailId}
+                              </td>
+                              <td>
+                                {allDemos.clientDetails &&
+                                  allDemos.clientDetails.sctPhone1}
+                              </td>
+                              <td>
+                                {allDemos.fromTime} to {allDemos.toTime}
                               </td>
                               <td>
                                 {allDemos.demoStatus ? (
