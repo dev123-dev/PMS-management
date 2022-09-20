@@ -426,7 +426,7 @@ const EditSctClients = ({
         ...error,
         websiteValChecker: true,
         websiteValResult: "Exist",
-        websiteValStyle: { color: "#FF0000", marginTop: "30px" },
+        websiteValStyle: { color: "#FF0000", marginTop: "7px" },
         websiteInptErrStyle: { border: "1px solid #FF0000" },
       });
     } else {
@@ -434,7 +434,7 @@ const EditSctClients = ({
         ...error,
         websiteValChecker: true,
         websiteValResult: "Not Exist",
-        websiteValStyle: { color: "#43b90f", marginTop: "30px" },
+        websiteValStyle: { color: "#43b90f", marginTop: "7px" },
         websiteInptErrStyle: { border: "1px solid #43b90f" },
       });
     }
