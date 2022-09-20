@@ -129,7 +129,7 @@ const AllSctContacts = ({
     );
 
   const [staffcountry, getstaffcountryData] = useState();
-  const [staffcountryId, setstaffcountryID] = useState();
+  const [staffcountryId, setstaffcountryID] = useState(null);
   const [staffCountryCode, setstaffCountryCode] = useState();
   const [staffcountryname, setstaffcountryname] = useState();
   const onstaffcountryChange = (e) => {
@@ -161,9 +161,7 @@ const AllSctContacts = ({
   );
 
   const [staffstate, getstaffStateData] = useState("");
-
-  const [staffstateId, setstaffStateID] = useState("");
-  const [staffstateName, setstaffStateName] = useState("");
+  const [staffstateId, setstaffStateID] = useState(null);
 
   const onstaffStateChange = (e) => {
     getstaffdistrictData("");
@@ -176,14 +174,9 @@ const AllSctContacts = ({
     //Required Validation end
 
     var staffstateId = "";
-    var staffstateName = "";
     getstaffStateData(e);
-
     staffstateId = e.sId;
-    staffstateName = e.value;
-
     setstaffStateID(staffstateId);
-    setstaffStateName(staffstateName);
     let stateVal = {
       staffstateId: staffstateId,
     };
@@ -201,25 +194,13 @@ const AllSctContacts = ({
   );
 
   const [staffdistrict, getstaffdistrictData] = useState();
-  const [staffdistrictId, setstaffdistrictID] = useState();
-  const [staffdistrictName, setstaffdistrictName] = useState();
+  const [staffdistrictId, setstaffdistrictID] = useState(null);
 
   const onstaffdistrictChange = (e) => {
-    // setError({
-    //   ...error,
-    //   DistrictIdChecker: true,
-    //   DistrictErrorStyle: { color: "#000" },
-    // });
-
     var staffdistrictId = "";
-    var staffdistrictName = "";
     getstaffdistrictData(e);
-
     staffdistrictId = e.districtId;
-    staffdistrictName = e.value;
-
     setstaffdistrictID(staffdistrictId);
-    setstaffdistrictName(staffdistrictName);
   };
 
   const onSubmit = (e) => {
