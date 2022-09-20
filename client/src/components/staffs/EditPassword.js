@@ -182,7 +182,7 @@ const EditPassword = ({
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-11 col-11 ">
           <div className="col-lg-7 col-md-7 col-sm-12 col-12">
-            <label>Password *</label>
+            <label className="label-control">Password *</label>
             <input
               type="password"
               name="password"
