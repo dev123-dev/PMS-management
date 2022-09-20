@@ -5,8 +5,11 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
-import { getLeadsList } from "../../actions/dct";
-import { addSctLeadDetails, getProjectList } from "../../actions/sct";
+import {
+  addSctLeadDetails,
+  getProjectList,
+  getSctLeadsList,
+} from "../../actions/sct";
 import { getMarketingEmployee } from "../../actions/user";
 import {
   getActiveCountry,
@@ -18,15 +21,14 @@ const AddSctLeads = ({
   auth: { isAuthenticated, user, users, loading },
   user: { marketingEmployees },
   regions: { activeCountry, activeState, activeDistricts },
-  dct: { leadsList },
-  sct: { projectList },
+  sct: { projectList, sctLeadsList },
   getActiveState,
   getActiveDistricts,
   addSctLeadDetails,
   getActiveCountry,
   getProjectList,
   getMarketingEmployee,
-  getLeadsList,
+  getSctLeadsList,
 }) => {
   useEffect(() => {
     getActiveState();
@@ -41,8 +43,8 @@ const AddSctLeads = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
   useEffect(() => {
-    getLeadsList();
-  }, [getLeadsList]);
+    getSctLeadsList();
+  }, [getSctLeadsList]);
   useEffect(() => {
     getProjectList();
   }, [getProjectList]);
@@ -545,9 +547,9 @@ const AddSctLeads = ({
     ret = ret.replace("http://", "");
     ret = ret.replace("www.", "");
     var arr = ret.split(".");
-    const listWebsite = leadsList.filter(
-      (leadsList) =>
-        leadsList.website
+    const listWebsite = sctLeadsList.filter(
+      (sctLeadsList) =>
+        sctLeadsList.sctWebsite
           .replace("https://", "")
           .replace("http://", "")
           .replace("www.", "")
@@ -1104,7 +1106,7 @@ export default connect(mapStateToProps, {
   getActiveCountry,
   getProjectList,
   getMarketingEmployee,
-  getLeadsList,
+  getSctLeadsList,
   getActiveState,
   getActiveDistricts,
 })(AddSctLeads);

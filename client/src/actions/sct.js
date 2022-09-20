@@ -26,6 +26,7 @@ import {
   SCT_CLIENTS_EMP,
   PO_PRINT,
   GET_SCT_STAFF_DATA,
+  GET_SCT_LEADS_LIST,
 } from "./types";
 
 const config = {
@@ -811,6 +812,24 @@ export const getSctStaffsData = (finalData) => async (dispatch) => {
     }
     dispatch({
       type: GET_SCT_STAFF_DATA,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getSctLeadsList = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-sct-leads-list",
+      finalData,
+      config
+    );
+    dispatch({
+      type: GET_SCT_LEADS_LIST,
       payload: res.data,
     });
   } catch (err) {

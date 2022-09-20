@@ -7,10 +7,9 @@ import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
 import {
   editSctLeadDetails,
-  getLeadsList,
+  getSctLeadsList,
   getProjectList,
 } from "../../actions/sct";
-// import { getLeadsList } from "../../actions/dct";
 import { getMarketingEmployee } from "../../actions/user";
 import {
   getActiveCountry,
@@ -22,14 +21,13 @@ const EditSctLead = ({
   auth: { isAuthenticated, user, users, loading },
   user: { marketingEmployees },
   regions: { activeCountry, activeState, activeDistricts },
-  dct: { leadsList },
-  sct: { projectList },
+  sct: { projectList, sctLeadsList },
   alleditLeaddata,
   editSctLeadDetails,
   onEditModalChange,
   getActiveCountry,
   getMarketingEmployee,
-  // getLeadsList,
+  getSctLeadsList,
   getProjectList,
   getActiveState,
   getActiveDistricts,
@@ -50,9 +48,9 @@ const EditSctLead = ({
   useEffect(() => {
     getProjectList();
   }, [getProjectList]);
-  // useEffect(() => {
-  //   getLeadsList();
-  // }, [getLeadsList]);
+  useEffect(() => {
+    getSctLeadsList();
+  }, [getSctLeadsList]);
 
   //formData
   const [formData, setFormData] = useState({
@@ -412,9 +410,18 @@ const EditSctLead = ({
 
   const onleadCheck = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    var arr = e.target.value.split(".");
-    const listWebsite = leadsList.filter(
-      (leadsList) => leadsList.sctWebsite.split(".")[1] === arr[1]
+    let data = e.target.value;
+    var ret = data.replace("https://", "");
+    ret = ret.replace("http://", "");
+    ret = ret.replace("www.", "");
+    var arr = ret.split(".");
+    const listWebsite = sctLeadsList.filter(
+      (sctLeadsList) =>
+        sctLeadsList.sctWebsite
+          .replace("https://", "")
+          .replace("http://", "")
+          .replace("www.", "")
+          .split(".")[0] === arr[0]
     );
     if (e.target.value === "") {
       setError({
@@ -469,7 +476,6 @@ const EditSctLead = ({
                     value={sctWebsite}
                     style={websiteInptErrStyle}
                     className="form-control"
-                    // onChange={(e) => onInputChange(e)}
                     onChange={(e) => onleadCheck(e)}
                     required
                   />
@@ -772,7 +778,7 @@ export default connect(mapStateToProps, {
   // addDctLeadDetails,
   getActiveCountry,
   getMarketingEmployee,
-  // getLeadsList,
+  getSctLeadsList,
   getActiveState,
   getActiveDistricts,
   getProjectList,

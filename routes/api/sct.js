@@ -1226,4 +1226,20 @@ router.post("/get-client-staffs-data", async (req, res) => {
   }
 });
 
+router.post("/get-sct-leads-list", async (req, res) => {
+  try {
+    const getLeadsListData = await SctLeads.find(
+      {
+        sctLeadStatus: "Active",
+      },
+      {
+        sctWebsite: 1,
+      }
+    );
+    res.json(getLeadsListData);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 module.exports = router;
