@@ -540,9 +540,18 @@ const AddSctLeads = ({
 
   const onleadCheck = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    var arr = e.target.value.split(".");
+    let data = e.target.value;
+    var ret = data.replace("https://", "");
+    ret = ret.replace("http://", "");
+    ret = ret.replace("www.", "");
+    var arr = ret.split(".");
     const listWebsite = leadsList.filter(
-      (leadsList) => leadsList.sctWebsite.split(".")[1] === arr[1]
+      (leadsList) =>
+        leadsList.website
+          .replace("https://", "")
+          .replace("http://", "")
+          .replace("www.", "")
+          .split(".")[0] === arr[0]
     );
     if (e.target.value === "") {
       setError({
@@ -617,7 +626,6 @@ const AddSctLeads = ({
                       value={sctWebsite}
                       style={websiteInptErrStyle}
                       className="form-control"
-                      // onChange={(e) => onInputChange(e)}
                       onChange={(e) => onleadCheck(e)}
                       required
                     />
