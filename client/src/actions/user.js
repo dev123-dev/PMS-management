@@ -216,7 +216,19 @@ export const getMarketingEmployee = () => async (dispatch) => {
     });
   }
 };
-
+export const getSctMarketingEmployee = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/users/get-sct-marketing-employees");
+    dispatch({
+      type: MARKETING_EMPLOYEE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
 export const getLastEnteredEmpCode = () => async (dispatch) => {
   try {
     const res = await axios.post("/api/users/get-last-entered-emp-code");

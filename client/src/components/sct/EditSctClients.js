@@ -5,7 +5,7 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { editSctClientDetails, getProjectList } from "../../actions/sct";
-import { getMarketingEmployee } from "../../actions/user";
+import { getSctMarketingEmployee } from "../../actions/user";
 import {
   getActiveCountry,
   getActiveState,
@@ -23,7 +23,7 @@ const EditSctClients = ({
   editSctClientDetails,
   onEditModalChange,
   getActiveCountry,
-  getMarketingEmployee,
+  getSctMarketingEmployee,
   getProjectList,
   getActiveState,
   getActiveDistricts,
@@ -39,8 +39,8 @@ const EditSctClients = ({
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
   useEffect(() => {
-    getMarketingEmployee();
-  }, [getMarketingEmployee]);
+    getSctMarketingEmployee();
+  }, [getSctMarketingEmployee]);
   useEffect(() => {
     getProjectList();
   }, [getProjectList]);
@@ -778,7 +778,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getActiveCountry,
-  getMarketingEmployee,
+  getSctMarketingEmployee,
   getActiveState,
   getActiveDistricts,
   getProjectList,

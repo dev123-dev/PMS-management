@@ -10,7 +10,7 @@ import {
   getSctLeadsList,
   getProjectList,
 } from "../../actions/sct";
-import { getMarketingEmployee } from "../../actions/user";
+import { getSctMarketingEmployee } from "../../actions/user";
 import {
   getActiveCountry,
   getActiveState,
@@ -26,7 +26,7 @@ const EditSctLead = ({
   editSctLeadDetails,
   onEditModalChange,
   getActiveCountry,
-  getMarketingEmployee,
+  getSctMarketingEmployee,
   getSctLeadsList,
   getProjectList,
   getActiveState,
@@ -43,8 +43,8 @@ const EditSctLead = ({
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
   useEffect(() => {
-    getMarketingEmployee();
-  }, [getMarketingEmployee]);
+    getSctMarketingEmployee();
+  }, [getSctMarketingEmployee]);
   useEffect(() => {
     getProjectList();
   }, [getProjectList]);
@@ -777,7 +777,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   // addDctLeadDetails,
   getActiveCountry,
-  getMarketingEmployee,
+  getSctMarketingEmployee,
   getSctLeadsList,
   getActiveState,
   getActiveDistricts,

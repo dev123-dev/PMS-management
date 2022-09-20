@@ -10,7 +10,7 @@ import {
   getProjectList,
   getSctLeadsList,
 } from "../../actions/sct";
-import { getMarketingEmployee } from "../../actions/user";
+import { getSctMarketingEmployee } from "../../actions/user";
 import {
   getActiveCountry,
   getActiveState,
@@ -27,7 +27,7 @@ const AddSctLeads = ({
   addSctLeadDetails,
   getActiveCountry,
   getProjectList,
-  getMarketingEmployee,
+  getSctMarketingEmployee,
   getSctLeadsList,
 }) => {
   useEffect(() => {
@@ -40,8 +40,8 @@ const AddSctLeads = ({
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
   useEffect(() => {
-    getMarketingEmployee();
-  }, [getMarketingEmployee]);
+    getSctMarketingEmployee();
+  }, [getSctMarketingEmployee]);
   useEffect(() => {
     getSctLeadsList();
   }, [getSctLeadsList]);
@@ -1105,7 +1105,7 @@ export default connect(mapStateToProps, {
   addSctLeadDetails,
   getActiveCountry,
   getProjectList,
-  getMarketingEmployee,
+  getSctMarketingEmployee,
   getSctLeadsList,
   getActiveState,
   getActiveDistricts,
