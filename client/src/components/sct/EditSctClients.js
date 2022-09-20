@@ -524,7 +524,6 @@ const EditSctClients = ({
                     value={sctBillingEmail}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
-                    required
                   />
                 </div>
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
