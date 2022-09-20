@@ -129,7 +129,7 @@ const AddSctLeads = ({
           sctStaffRegionId: staffcountryId,
           sctStaffStateId: staffstateId,
           sctStaffDistrictId: staffdistrictId,
-          staffCountryCode: staffCountryCode,
+          sctStaffCountryCode: staffCountryCode,
         };
         setFormDatas({
           ...addData,
@@ -140,7 +140,7 @@ const AddSctLeads = ({
           sctStaffRegion: "",
           sctStaffStateId: "",
           sctStaffDistrictId: "",
-          staffCountryCode: "",
+          sctStaffCountryCode: "",
         });
         setstaffCountryCode("");
         getstaffcountryData("");
