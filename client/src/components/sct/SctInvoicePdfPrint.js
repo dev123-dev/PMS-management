@@ -87,6 +87,7 @@ const SctInvoicePdfPrint = ({
     section: {
       // margin: 10,
       padding: 10,
+      lineHeight: "1.6",
     },
     viewer: {
       width: window.innerWidth, //the pdf viewer will take up all of the width and height
@@ -239,7 +240,7 @@ const SctInvoicePdfPrint = ({
               </Text>
             </View>
             <View style={(styles.table, styles.section)}>
-              <View style={styles.linespace}>
+              <View>
                 <Text>Beneficary Name : {companyName}</Text>
                 <Text>Ac No : {accountNo} </Text>
                 <Text>Bank Name : {bankName} </Text>
