@@ -129,7 +129,7 @@ const SctPopdfPrint = ({
   // }
   let totSubTot = 0;
   poPrintLS &&
-    poPrintLS.item.map((row, i) => (totSubTot = Number(row.itemTotal)));
+    poPrintLS.item.map((row, i) => (totSubTot += Number(row.itemTotal)));
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />

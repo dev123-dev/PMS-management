@@ -11,6 +11,8 @@ import {
   StyleSheet,
   PDFViewer,
 } from "@react-pdf/renderer";
+import { ToWords } from "to-words";
+const toWords = new ToWords();
 const SctQuotationpdfprint = ({
   auth: { isAuthenticated, user, users, loading },
 }) => {
@@ -122,6 +124,10 @@ const SctQuotationpdfprint = ({
     // },
   });
 
+  let totSubTot = 0;
+  quotationDataLS &&
+    quotationDataLS.item.map((row, i) => (totSubTot += Number(row.grandTotal)));
+
   // if (!data || data === undefined) {
   //   return <Redirect to="/all-engaged-clients" />;
   // }
@@ -222,10 +228,10 @@ const SctQuotationpdfprint = ({
           </View>
 
           <View style={styles.section}>
-            <Text style={{ textAlign: "right" }}>Sub Total: {}</Text>
+            <Text style={{ textAlign: "right" }}>Sub Total: {totSubTot}</Text>
             <Text style={{ textAlign: "right" }}>
               Amount Chargeable (in words) &nbsp;: &nbsp;
-              {/* {toWords.convert(totSubTot, { currency: true })} */}
+              {toWords.convert(totSubTot, { currency: true })}
             </Text>
           </View>
 
