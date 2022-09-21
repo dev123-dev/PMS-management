@@ -5,12 +5,19 @@ import { AddCompanyDetails } from "../../actions/settings";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+import Select from "react-select";
 const AddCompany = ({
   auth: { isAuthenticated, user, users, loading },
   // onAddModalChange,
   AddCompanyDetails,
 }) => {
+  const bankTypeVal = [
+    { value: "Domestic", label: "Domestic" },
+    { value: "International", label: "International" },
+  ];
+
   //formData
+
   const [formData, setFormData] = useState({
     companyName: "",
     companyWebsite: "",
@@ -23,6 +30,7 @@ const AddCompany = ({
     companyDescription: "",
     companyAddress: "",
     companyShortForm: "",
+    companyType: "",
     isSubmitted: false,
   });
 
@@ -38,9 +46,43 @@ const AddCompany = ({
     companyDescription,
     companyAddress,
     companyShortForm,
+    companyType,
     isSubmitted,
   } = formData;
+  //Required Validation Starts
+  const [error, setError] = useState({
+    BankIdChecker: true,
+    BankErrorStyle: {},
+  });
+  const { BankIdChecker, BankErrorStyle } = error;
 
+  const checkErrors = () => {
+    if (!BankIdChecker) {
+      setError({
+        ...error,
+        BankErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const onBankTypeChange = (e) => {
+    //Required Validation starts
+    setError({
+      ...error,
+      BankIdChecker: true,
+      BankErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
+    if (e) {
+      setFormData({
+        ...formData,
+        companyType: e,
+      });
+    }
+  };
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -55,26 +97,27 @@ const AddCompany = ({
     bankName: "",
     bankBranch: "",
     defaultBank: "",
+    // companyType: bankTypeVal[0],
   });
 
   const { accountNo, IFSCCode, bankName, bankBranch, defaultBank } = addData;
 
   const [AddedDetails, AddDetails] = useState([]);
-  const [amount, setAmount] = useState();
 
   const onAdd = (e) => {
-    const staffList = AddedDetails.filter(
+    const bankList = AddedDetails.filter(
       (AddDetails) => AddDetails.accountNo === accountNo
     );
 
     e.preventDefault();
-    if (staffList.length === 0) {
-      // if (checkErrorscontact()) {
+    if (bankList.length === 0) {
+      // if (checkErrors()) {
       const addData = {
         accountNo: accountNo,
         IFSCCode: IFSCCode,
         bankName: bankName,
         bankBranch: bankBranch,
+
         defaultBank: isChecked,
       };
       setFormDatas({
@@ -83,11 +126,10 @@ const AddCompany = ({
         IFSCCode: "",
         bankName: "",
         bankBranch: "",
+
         defaultBank: "",
       });
       setIsChecked(false);
-      // setstaffCountryCode("");
-      // getstaffcountryData("");
       let temp = [];
       temp.push(...AddedDetails, addData);
       AddDetails(temp);
@@ -105,34 +147,37 @@ const AddCompany = ({
   const onInputChange1 = (e) => {
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
-
+  console.log(user);
   //Required Validation ends
   const onSubmit = (e) => {
     e.preventDefault();
-    const finalData = {
-      companyName: companyName,
-      companyWebsite: companyWebsite,
-      companyPhone1: companyPhone1,
-      companyPhone2: companyPhone2,
-      companyGSTIn: companyGSTIn,
-      companyPanNo: companyPanNo,
-      companyRegisterNo: companyRegisterNo,
-      companyTradeLicenseNo: companyTradeLicenseNo,
-      companyDescription: companyDescription,
-      companyAddress: companyAddress,
-      companyShortForm: companyShortForm,
-      bank: AddedDetails,
-      departmentEnteredById: user._id,
-      companyEnteredByName: user.FullName,
-    };
+    if (checkErrors()) {
+      const finalData = {
+        companyName: companyName,
+        companyWebsite: companyWebsite,
+        companyPhone1: companyPhone1,
+        companyPhone2: companyPhone2,
+        companyGSTIn: companyGSTIn,
+        companyPanNo: companyPanNo,
+        companyRegisterNo: companyRegisterNo,
+        companyTradeLicenseNo: companyTradeLicenseNo,
+        companyDescription: companyDescription,
+        companyAddress: companyAddress,
+        companyType: companyType.value ? companyType : bankTypeVal[0].value,
+        companyShortForm: companyShortForm,
+        bank: AddedDetails,
+        departmentEnteredById: user._id,
+        companyEnteredByName: user.empFullName,
+      };
+      console.log(finalData);
+      AddCompanyDetails(finalData);
+      // onAddModalChange(true);
+      setFormData({
+        ...formData,
 
-    AddCompanyDetails(finalData);
-    // onAddModalChange(true);
-    setFormData({
-      ...formData,
-
-      isSubmitted: true,
-    });
+        isSubmitted: true,
+      });
+    }
   };
 
   if (isSubmitted) {
@@ -160,6 +205,7 @@ const AddCompany = ({
                   value={companyName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
+                  required
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
@@ -240,6 +286,19 @@ const AddCompany = ({
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
+              <div className="col-lg-4 col-md-11 col-sm-12 col-12 ">
+                <label className="label-control" style={BankErrorStyle}>
+                  Bank Type* :
+                </label>
+                <Select
+                  name="companyType"
+                  isSearchable={true}
+                  options={bankTypeVal}
+                  value={companyType || bankTypeVal[0]}
+                  placeholder="Select"
+                  onChange={(e) => onBankTypeChange(e)}
+                />
+              </div>
               <div className="col-lg-4 col-md-12 col-sm-12 col-12">
                 <label className="label-control">Short Form :</label>
                 <input
@@ -293,7 +352,6 @@ const AddCompany = ({
                   onChange={(e) => onInputChange1(e)}
                 />
               </div>
-
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Account No :</label>
                 <input
@@ -324,6 +382,19 @@ const AddCompany = ({
                   onChange={(e) => onInputChange1(e)}
                 />
               </div>
+              {/* <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
+                <label className="label-control" style={BankErrorStyle}>
+                  Bank Type* :
+                </label>
+                <Select
+                  name="companyType"
+                  isSearchable={true}
+                  options={bankTypeVal}
+                  value={companyType || bankTypeVal[0]}
+                  placeholder="Select"
+                  onChange={(e) => onBankTypeChange(e)}
+                />
+              </div> */}
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Default :</label>
                 <input
@@ -333,8 +404,7 @@ const AddCompany = ({
                   onChange={handleOnChange}
                 />
               </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
-                <label className="label-control"></label>
+              <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                 <button
                   variant="success"
                   className="btn sub_form btn_continue Save float-right"
@@ -360,6 +430,7 @@ const AddCompany = ({
                     <th>IFSC Code</th>
                     <th>Bank Name</th>
                     <th>Branch</th>
+                    <th>Bank Type</th>
                     <th>Remove</th>
                   </tr>
                 </thead>
@@ -372,6 +443,7 @@ const AddCompany = ({
                           <td>{AddDetail.IFSCCode}</td>
                           <td>{AddDetail.bankName}</td>
                           <td>{AddDetail.bankBranch}</td>
+                          {/* <td>{AddDetail.companyType}</td> */}
                           <td>
                             <img
                               className="img_icon_size log"

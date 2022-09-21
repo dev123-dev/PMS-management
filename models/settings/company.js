@@ -64,6 +64,9 @@ const companyDetailsSchema = new mongoose.Schema({
   companyDeactivateReason: {
     type: String,
   },
+  companyType: {
+    type: String,
+  },
   bank: [
     {
       accountNo: {

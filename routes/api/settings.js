@@ -244,6 +244,7 @@ router.post("/edit-company-details", async (req, res) => {
           companyAddress: data.companyAddress,
           companyGSTIn: data.companyGSTIn,
           companyPanNo: data.companyPanNo,
+          companyType: data.companyType,
           companyEditedById: data.companyEditedById,
           companyEditedDateTime: new Date().toLocaleString("en-GB"),
         },

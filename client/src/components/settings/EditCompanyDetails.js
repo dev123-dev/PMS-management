@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { EditCompanyData, addNewBank } from "../../actions/settings";
 import { Modal } from "react-bootstrap";
+import Select from "react-select";
 import Spinner from "../layout/Spinner";
 import { useHistory } from "react-router-dom";
 import { Redirect, Link } from "react-router-dom";
@@ -15,7 +16,10 @@ const EditCompanyDetails = ({
   //formData
 
   const editcompanydatas = useHistory().location.data.editcompanydatas;
-
+  const bankTypeVal = [
+    { value: "Domestic", label: "Domestic" },
+    { value: "International", label: "International" },
+  ];
   const [formData, setFormData] = useState({
     companyName:
       editcompanydatas && editcompanydatas.companyName
@@ -62,6 +66,13 @@ const EditCompanyDetails = ({
       editcompanydatas && editcompanydatas.companyShortForm
         ? editcompanydatas.companyShortForm
         : "",
+    companyType:
+      editcompanydatas && editcompanydatas.companyType
+        ? {
+            value: editcompanydatas.companyType,
+            label: editcompanydatas.companyType,
+          }
+        : "",
 
     isSubmitted: false,
   });
@@ -78,13 +89,21 @@ const EditCompanyDetails = ({
     companyDescription,
     companyAddress,
     companyShortForm,
+    companyType,
     isSubmitted,
   } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  const onBankTypeChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        companyType: e,
+      });
+    }
+  };
   const [isChecked, setIsChecked] = useState(false);
   const handleOnChange = () => {
     setIsChecked(!isChecked);
@@ -95,6 +114,7 @@ const EditCompanyDetails = ({
     IFSCCode: "",
     bankName: "",
     bankBranch: "",
+    // companyType: "",
     defaultBank: "",
   });
 
@@ -117,6 +137,7 @@ const EditCompanyDetails = ({
         IFSCCode: IFSCCode,
         bankName: bankName,
         bankBranch: bankBranch,
+
         defaultBank: isChecked,
       };
       setFormDatas({
@@ -125,6 +146,7 @@ const EditCompanyDetails = ({
         IFSCCode: "",
         bankName: "",
         bankBranch: "",
+
         defaultBank: "",
       });
       setIsChecked(false);
@@ -178,6 +200,7 @@ const EditCompanyDetails = ({
       companyDescription: companyDescription,
       companyAddress: companyAddress,
       companyShortForm: companyShortForm,
+      companyType: companyType.value,
       companyEditedById: user._id,
       companyEditedDateTime: new Date().toLocaleString(),
     };
@@ -298,6 +321,17 @@ const EditCompanyDetails = ({
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
+              <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
+                <label className="label-control">Bank Type* :</label>
+                <Select
+                  name="companyType"
+                  isSearchable={true}
+                  options={bankTypeVal}
+                  value={companyType}
+                  placeholder="Select"
+                  onChange={(e) => onBankTypeChange(e)}
+                />
+              </div>
               <div className="col-lg-4 col-md-12 col-sm-12 col-12">
                 <label className="label-control">Short Form :</label>
                 <input
@@ -382,6 +416,17 @@ const EditCompanyDetails = ({
                   onChange={(e) => onInputChange1(e)}
                 />
               </div>
+              {/* <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
+                <label className="label-control">Bank Type* :</label>
+                <Select
+                  name="companyType"
+                  isSearchable={true}
+                  options={bankTypeVal}
+                  value={companyType || bankTypeVal[0]}
+                  placeholder="Select"
+                  onChange={(e) => onBankTypeChange(e)}
+                />
+              </div> */}
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Default :</label>
                 <input
@@ -391,7 +436,7 @@ const EditCompanyDetails = ({
                   onChange={handleOnChange}
                 />
               </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
+              <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                 <label className="label-control"></label>
                 <button
                   variant="success"
@@ -415,6 +460,7 @@ const EditCompanyDetails = ({
                     <th>IFSC Code</th>
                     <th>Bank Name</th>
                     <th>Branch</th>
+                    {/* <th>Bank Type</th> */}
                     <th>OP</th>
                   </tr>
                 </thead>
@@ -428,6 +474,7 @@ const EditCompanyDetails = ({
                           <td>{bank.IFSCCode}</td>
                           <td>{bank.bankName}</td>
                           <td>{bank.bankBranch}</td>
+                          {/* <td>{bank.companyType}</td> */}
                           <td>
                             {" "}
                             <img
@@ -449,6 +496,7 @@ const EditCompanyDetails = ({
                           <td>{AddDetail.IFSCCode}</td>
                           <td>{AddDetail.bankName}</td>
                           <td>{AddDetail.bankBranch}</td>
+                          {/* <td>{AddDetail.companyType}</td> */}
                           <td>
                             <img
                               className="img_icon_size log"
