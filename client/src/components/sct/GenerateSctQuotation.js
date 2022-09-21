@@ -68,6 +68,7 @@ const GenerateSctQuotation = ({
   allCompanyDetails.map((company) =>
     allcompanydata.push({
       companyaddress: company.companyAddress,
+      companyType: company.companyType,
       companyid: company._id,
       label: company.companyName,
       value: company.companyName,
@@ -78,7 +79,7 @@ const GenerateSctQuotation = ({
   const [company, getcompanyData] = useState("");
   const [companyid, setcompanyId] = useState("");
   const [companyname, setcompanyname] = useState("");
-
+  const [companyType, setcompanyType] = useState("");
   const onCompanyChange = (e) => {
     // //Required Validation starts
     setError({
@@ -87,7 +88,7 @@ const GenerateSctQuotation = ({
       FrmCmpnyErrorStyle: { color: "#000" },
     });
     // //Required Validation ends
-    if (e.value === "pinnacle media") {
+    if (e.value === "Domestic") {
       setShowHide1({
         ...showHide1,
         showGSTSection: false,

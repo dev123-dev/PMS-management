@@ -89,6 +89,7 @@ const GenerateInvoice = ({
   allCompanyDetails.map((company) =>
     allcompanydata.push({
       companyaddress: company.companyAddress,
+      companyType: company.companyType,
       companyid: company._id,
       label: company.companyName,
       value: company.companyName,
@@ -99,6 +100,8 @@ const GenerateInvoice = ({
   const [company, getcompanyData] = useState("");
   const [companyid, setcompanyId] = useState("");
   const [companyname, setcompanyname] = useState("");
+  const [companyType, setcompanyType] = useState("");
+
   const [bankList, setBankList] = useState();
 
   let allcompanyBank = [];
@@ -108,7 +111,7 @@ const GenerateInvoice = ({
       FrmCmpnyIdChecker: true,
       FrmCmpnyErrorStyle: { color: "#000" },
     });
-    if (e.value === "pinnacle media") {
+    if (e.companyType === "Domestic") {
       setShowHide1({
         ...showHide1,
         showGSTSection: false,
