@@ -42,12 +42,6 @@ const AllEngagedClient = ({
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);
 
-  const [formData, setFormData] = useState({
-    isSubmitted: false,
-  });
-
-  const { projectStatusData } = formData;
-
   const [filterData, setFilterData] = useState({ sctClientCategory: "EC" });
 
   const [showHide, setShowHide] = useState({
@@ -413,9 +407,9 @@ const AllEngagedClient = ({
                                   <>
                                     <Link
                                       className="float-right p05"
-                                      onClick={() => onClickInvoice(sctClients)}
+                                      onClick={() => onClickPO(sctClients)}
                                       to={{
-                                        pathname: "/generate-Invoice-Pdf-Print",
+                                        pathname: "/print-PO-pdf",
                                         data: {
                                           data: sctClients,
                                         },
@@ -435,7 +429,7 @@ const AllEngagedClient = ({
                                   <>
                                     <Link
                                       className="float-right p05"
-                                      onClick={() => onClickPO(sctClients)}
+                                      onClick={() => onClickInvoice(sctClients)}
                                       to={{
                                         pathname: "/generate-Invoice-Pdf-Print",
                                         data: {
