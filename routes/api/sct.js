@@ -1152,13 +1152,12 @@ router.post(
   "/upload-agreement-file",
   upload.single("myFile"),
   async (req, res, next) => {
-    // console.log(req.file.originalname + " file successfully uploaded !!");
     const data = req.body;
-    const uploadPo = await SctClients.updateOne(
+    const uploadAgreement = await SctClients.updateOne(
       { _id: data.clientId },
       {
         $set: {
-          invoiceFile: req.file,
+          agreementFile: req.file,
         },
       }
     );

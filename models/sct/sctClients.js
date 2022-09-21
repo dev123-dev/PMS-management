@@ -191,6 +191,7 @@ const SctClientsSchema = new mongoose.Schema({
     type: String,
   },
   POFile: {},
+  agreementFile: {},
   invoiceFile: {},
   quotation: [
     {

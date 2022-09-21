@@ -363,7 +363,7 @@ const AllSctDocuments = ({
               <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
                 <div className="card card-content ">
                   <center>
-                    <Link to="/profit-loss-report">
+                    <Link to="#">
                       <img
                         className=" log"
                         // src={require("../../static/images/profitloss.jfif")}
@@ -390,6 +390,25 @@ const AllSctDocuments = ({
                       <h4>Upload Agreement</h4>
                     </Link>
                   </center>
+                  {sctClientData.agreementFile &&
+                    sctClientData.agreementFile.filename && (
+                      <div style={{ marginTop: "-32px" }}>
+                        <Link
+                          to={{
+                            pathname: require("../../static/files/" +
+                              sctClientData.agreementFile.filename),
+                          }}
+                          target="_blank"
+                        >
+                          <img
+                            className="img_icon_size log float-right"
+                            src={require("../../static/images/print.png")}
+                            alt=""
+                            style={{ margin: "5px" }}
+                          />
+                        </Link>
+                      </div>
+                    )}
                 </div>
               </div>
             </div>
