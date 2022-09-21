@@ -344,6 +344,7 @@ const AllSctRegularClients = ({
                     from="client"
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
+                    page="AllSctRegularClients"
                   />
                 </div>
               </div>
@@ -359,6 +360,7 @@ const AllSctRegularClients = ({
                       ondivcloseChange={ondivcloseChange}
                       from="RegularClient"
                       filterData={filterData}
+                      page="AllSctRegularClients"
                     />
                   )}
                 </div>

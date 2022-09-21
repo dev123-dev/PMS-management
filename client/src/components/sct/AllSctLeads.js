@@ -341,6 +341,7 @@ const AllSctLeads = ({
                     from="lead"
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
+                    page="AllLeads"
                   />
                 </div>
               </div>
@@ -356,6 +357,7 @@ const AllSctLeads = ({
                       ondivcloseChange={ondivcloseChange}
                       from={leadData.dctLeadCategory}
                       filterData={filterData}
+                      page="AllLeads"
                     />
                   )}
                 </div>

@@ -93,7 +93,7 @@ export const addNewSctClientStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/sct/add-new-sct-client-staff", finalData, config);
-    // dispatch(getStaffsData(finalData.staffFilter));
+    dispatch(getSctStaffsData(finalData.staffFilter));
     // if (finalData.filterData) {
     //   dispatch(getSctClientDetails(finalData.filterData));
     //   dispatch(getSctClientDetailsDD(finalData.filterData));
@@ -182,7 +182,7 @@ export const editSctStaffDetails = (finalData) => async (dispatch) => {
     });
     await axios.post("/api/sct/edit-sct-staff", finalData, config);
     dispatch(getSctStaffsData(finalData.staffFilter));
-    dispatch(refreshLead(finalData));
+    // dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -200,10 +200,10 @@ export const editSctClientStaffDetails = (finalData) => async (dispatch) => {
     });
     await axios.post("/api/sct/edit-sct-client-staff", finalData, config);
     dispatch(getSctStaffsData(finalData.staffFilter));
-    if (finalData.filterData) {
-      dispatch(getSctClientDetails(finalData.filterData));
-      dispatch(getSctClientDetailsDD(finalData.filterData));
-    }
+    // if (finalData.filterData) {
+    //   dispatch(getSctClientDetails(finalData.filterData));
+    //   dispatch(getSctClientDetailsDD(finalData.filterData));
+    // }
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -240,7 +240,7 @@ export const deactivateSctStaffDetails = (finalData) => async (dispatch) => {
     });
     await axios.post("/api/sct/deactivate-sct-staff", finalData, config);
     dispatch(getSctStaffsData(finalData.staffFilter));
-    dispatch(refreshLead(finalData));
+    // dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -263,10 +263,10 @@ export const deactivateSctClientStaffDetails =
         config
       );
       dispatch(getSctStaffsData(finalData.staffFilter));
-      if (finalData.filterData) {
-        dispatch(getSctClientDetails(finalData.filterData));
-        dispatch(getSctClientDetailsDD(finalData.filterData));
-      }
+      // if (finalData.filterData) {
+      //   dispatch(getSctClientDetails(finalData.filterData));
+      //   dispatch(getSctClientDetailsDD(finalData.filterData));
+      // }
       dispatch({
         type: SET_LOADING_FALSE,
       });
@@ -279,12 +279,14 @@ export const deactivateSctClientStaffDetails =
 
 export const refreshLead = (finalData) => async (dispatch) => {
   try {
-    if (finalData.filterData) {
+    if (finalData.filterData && finalData.page !== "AllLeads") {
       dispatch(getSctLeadDetails(finalData.filterData));
       dispatch(getSctLeadDetailsDD(finalData.filterData));
     }
-    dispatch(getAllSctLead());
-    dispatch(getAllSctLeadDD());
+    if (finalData.page === "AllLeads") {
+      dispatch(getAllSctLead(finalData.filterData));
+      dispatch(getAllSctLeadDD(finalData.filterData));
+    }
   } catch (err) {
     dispatch({
       type: ERROR,
@@ -434,7 +436,7 @@ export const addSctCalls = (finalData) => async (dispatch) => {
       finalData,
       config
     );
-    // dispatch(refreshLead(finalData));
+    dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });

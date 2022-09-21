@@ -339,6 +339,7 @@ const AllSctProspects = ({
                     from="lead"
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
+                    page="AllSctProspects"
                   />
                 </div>
               </div>
@@ -354,6 +355,7 @@ const AllSctProspects = ({
                       ondivcloseChange={ondivcloseChange}
                       from={leadData.sctLeadCategory}
                       filterData={filterData}
+                      page="AllSctProspects"
                     />
                   )}
                 </div>

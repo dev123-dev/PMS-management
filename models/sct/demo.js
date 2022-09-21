@@ -11,7 +11,29 @@ const DemoSchema = new mongoose.Schema({
   clientName: {
     type: String,
   },
-  clientDetails: {},
+  clientDetails: {
+    sctCompanyName: {
+      type: String,
+    },
+    sctEmailId: {
+      type: String,
+    },
+    sctPhone1: {
+      type: String,
+    },
+    sctCallToStaffId: {
+      type: ObjectId,
+    },
+    sctCallToStaffName: {
+      type: String,
+    },
+    stateId: {
+      type: ObjectId,
+    },
+    stateName: {
+      type: String,
+    },
+  },
   fromTime: {
     type: String,
   },
@@ -26,6 +48,9 @@ const DemoSchema = new mongoose.Schema({
   },
   demoStatus: {
     type: String, //Not Taken, Taken
+  },
+  sctDemoComeFrom: {
+    type: String, //Lead,Client
   },
   demoEnteredById: {
     type: ObjectId,

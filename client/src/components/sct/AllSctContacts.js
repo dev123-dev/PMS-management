@@ -35,6 +35,7 @@ const AllSctContacts = ({
   from,
   filterData,
   getSctStaffsData,
+  page,
 }) => {
   useEffect(() => {
     getActiveState();
@@ -218,6 +219,7 @@ const AllSctContacts = ({
       sctStaffDistrictId: staffdistrictId,
       filterData: filterData,
       staffFilter: staffFilter,
+      page: page,
     };
 
     if (from === "client") {
@@ -254,6 +256,7 @@ const AllSctContacts = ({
       sctStaffDeactiveReason: sctStaffDeactiveReason,
       filterData: filterData,
       staffFilter: staffFilter,
+      page: page,
     };
     if (from === "client") {
       deactivateSctClientStaffDetails(finalData);
@@ -399,6 +402,7 @@ const AllSctContacts = ({
             from={from}
             filterData={filterData}
             staffFilter={staffFilter}
+            page={page}
           />
         </Modal.Body>
       </Modal>

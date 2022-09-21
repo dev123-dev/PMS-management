@@ -339,6 +339,7 @@ const AllSctFollowup = ({
                     from="lead"
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
+                    page="AllSctFollowup"
                   />
                 </div>
               </div>
@@ -354,6 +355,7 @@ const AllSctFollowup = ({
                       ondivcloseChange={ondivcloseChange}
                       from={leadData.sctLeadCategory}
                       filterData={filterData}
+                      page="AllSctFollowup"
                     />
                   )}
                 </div>

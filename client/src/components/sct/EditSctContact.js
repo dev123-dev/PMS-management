@@ -28,6 +28,7 @@ const EditSctContact = ({
   from,
   filterData,
   staffFilter,
+  page,
 }) => {
   //formData
   useEffect(() => {
@@ -217,6 +218,7 @@ const EditSctContact = ({
       sctStaffDistrictId: staffdistrictId,
       filterData: filterData,
       staffFilter: staffFilter,
+      page: page,
     };
 
     if (from === "client") {

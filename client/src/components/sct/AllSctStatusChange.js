@@ -25,6 +25,7 @@ const AllSctStatusChange = ({
   filterData,
   checkDemo,
   addSctClientDetails,
+  page,
 }) => {
   useEffect(() => {
     checkDemo({ demoUserId: leadDataVal._id });
@@ -333,6 +334,7 @@ const AllSctStatusChange = ({
         sctCallTakenDate: new Date().toISOString().split("T")[0],
         sctCallEnteredDate: new Date().toLocaleString("en-GB"),
         filterData: filterData,
+        page: page,
       };
 
       if (from === "EngagedClient" || from === "RegularClient") {
@@ -355,6 +357,7 @@ const AllSctStatusChange = ({
           demoEnteredById: user._id,
           clientId: leadDataVal._id,
           clientName: leadDataVal.sctClientName,
+          sctDemoComeFrom: callComeFromVal,
           clientDetails: {
             sctCompanyName: leadDataVal.sctCompanyName,
             sctEmailId: leadDataVal.sctEmailId,
