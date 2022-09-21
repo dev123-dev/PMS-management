@@ -3,10 +3,7 @@ import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
-
 import Spinner from "../layout/Spinner";
-// import AddDepartment from "./AddDepartment";
-// import EditDepartment from "./EditDepartment";
 import { getALLDemos, demoTaken } from "../../actions/sct";
 const AllDemos = ({
   auth: { isAuthenticated, user, users },

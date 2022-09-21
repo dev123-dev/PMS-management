@@ -92,10 +92,10 @@ const SctPopdfPrint = ({
       fontWeight: "bold",
     },
     row1: {
-      width: "17%",
+      width: "27%",
     },
     row2: {
-      width: "15%",
+      width: "32%",
     },
     row3: {
       width: "15%",
@@ -104,7 +104,8 @@ const SctPopdfPrint = ({
       width: "10%",
     },
     row5: {
-      width: "17%",
+      width: "6%",
+      textAlign: "right",
     },
     row6: {
       width: "17%",
@@ -116,7 +117,7 @@ const SctPopdfPrint = ({
       width: "17%",
     },
     total: {
-      marginLeft: "55%",
+      marginLeft: "85%",
     },
     // space: {
     //   height: "2px",
@@ -181,25 +182,21 @@ const SctPopdfPrint = ({
 
             <View style={{ margin: "10px" }}>
               <Text>Dear Sir/Mam : </Text>
-            </View>
-            <hr></hr>
-            <View style={{ margin: "10px" }}>
               <Text>
-                {"\n"}
-                {"\n"}On behalf of , We would like to place an order for the
-                following from your company. Please refer to the attachment for
-                the order list.
+                On behalf of , We would like to place an order for the following
+                from your company. Please refer to the attachment for the order
+                list.
               </Text>
             </View>
 
-            <View style={(styles.table, styles.section)}>
+            {/* <View style={(styles.table, styles.section)}>
               <View style={[styles.row, styles.bold, styles.header]}>
                 <Text style={{ width: "80%" }}>
                   Description of Work : {workDesc}
                 </Text>
                 <Text style={styles.row2}>Amount : {amount} </Text>
               </View>
-            </View>
+            </View> */}
             <View style={(styles.table, styles.section)}>
               <View style={[styles.row, styles.bold, styles.header]}>
                 <Text style={styles.row1}>Item Name</Text>
@@ -224,7 +221,6 @@ const SctPopdfPrint = ({
             </View>
             <View style={styles.row} wrap={false}>
               <Text style={styles.total}>Tax : {poPrintLS.tax}</Text>
-              {/* <Text style={styles.row5}></Text> */}
             </View>
             <View style={styles.row} wrap={false}>
               <Text style={styles.total}>Shipping : {poPrintLS.shipping}</Text>
@@ -234,36 +230,15 @@ const SctPopdfPrint = ({
                 Total : {totSubTot + poPrintLS.tax + poPrintLS.shipping}
               </Text>
             </View>
-            {/* <View style={(styles.table, styles.section)}>
-            <View style={[styles.row]}>
-              <Text
-                style={{
-                  // border: "1 px solid black",
-                  width: "600px",
-                }}
-              >
-                Country of Supply:
-              </Text>
-              <Text
-                style={{
-                  // border: "1 px solid black",
-                  width: "600px",
-                }}
-              >
-                Place of Supply:
-              </Text>
-            </View>
-          </View>
 
-          */}
-
-            {/* <View style={(styles.section, styles.space)}>
-            <Text>Terms and Condition: </Text>
-            <Text> 1. Applicable taxes will be extra.</Text>
-            <Text> 2. Work will resume after full payment.</Text>
-          </View> */}
-
-            <View style={{ paddingTop: "20px", margin: "10px" }}>
+            <View
+              style={{
+                position: "absolute",
+                bottom: "0",
+                left: "0",
+                padding: "10",
+              }}
+            >
               <Text>
                 For any enquiry, reach out via email at joel@pinnaclemedia.in,
                 call on +91 99162 13542{" "}

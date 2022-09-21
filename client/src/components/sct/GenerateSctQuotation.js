@@ -455,32 +455,43 @@ const GenerateSctQuotation = ({
               <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                 <label>Qty :</label>
                 <input
-                  type="text"
+                  type="Number"
                   name="qty"
                   value={qty}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
                 />
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                 <label>Rate :</label>
                 <input
-                  type="text"
+                  type="Number"
                   name="rate"
                   value={rate}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
                 />
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                 <label>Amount :</label>
                 <input
-                  type="text"
+                  type="Number"
                   name="amt"
                   value={qty * rate}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
-                  disabled
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
                 />
               </div>
               {showGSTSection && (
@@ -488,43 +499,59 @@ const GenerateSctQuotation = ({
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">GST :</label>
                     <input
-                      type="text"
+                      type="Number"
                       name="GST"
                       value={GST}
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
                     />
                   </div>
 
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">CGST :</label>
                     <input
-                      type="text"
+                      type="Number"
                       name="CGST"
                       value={CGST}
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
                     />
                   </div>
 
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12 ">
                     <label className="label-control">SGST :</label>
                     <input
-                      type="text"
+                      type="Number"
                       name="SGST"
                       value={SGST}
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
                     />
                   </div>
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12 ">
                     <label className="label-control">IGST :</label>
                     <input
-                      type="text"
+                      type="Number"
                       name="IGST"
                       value={IGST}
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
                     />
                   </div>
 
@@ -550,11 +577,15 @@ const GenerateSctQuotation = ({
               <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
                 <label className="label-control">Discount :</label>
                 <input
-                  type="text"
+                  type="Number"
                   name="discount"
                   value={discount}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
                 />
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">

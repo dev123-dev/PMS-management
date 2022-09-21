@@ -405,32 +405,44 @@ const GeneratePo = ({
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label>Qty :</label>
                 <input
-                  type="text"
+                  type="Number"
                   name="itemOty"
                   value={itemOty}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label>Rate :</label>
                 <input
-                  type="text"
+                  type="Number"
                   name="itemPrice"
                   value={itemPrice}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Amount :</label>
+
                 <input
-                  type="text"
+                  type="Number"
                   name="itemTotal"
                   value={itemOty * itemPrice}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
-                  disabled
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
                 />
               </div>
 
@@ -466,33 +478,45 @@ const GeneratePo = ({
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label>Tax :</label>
                 <input
-                  type="text"
+                  type="Number"
                   name="tax"
                   value={tax}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
                 />
               </div>
 
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label>Shipping:</label>
                 <input
-                  type="text"
+                  type="Number"
                   name="shipping"
                   value={shipping}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
                 />
               </div>
 
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
                 <label>Other :</label>
                 <input
-                  type="text"
+                  type="Number"
                   name="other"
                   value={other}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
                 />
               </div>
             </div>
