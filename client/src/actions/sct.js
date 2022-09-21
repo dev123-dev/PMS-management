@@ -458,10 +458,10 @@ export const addSctClientCalls = (finalData) => async (dispatch) => {
       finalData,
       config
     );
-    // if (finalData.filterData) {
-    //   dispatch(getDctClientDetails(finalData.filterData));
-    //   dispatch(getDctClientDetailsDD(finalData.filterData));
-    // }
+    if (finalData.filterData) {
+      dispatch(getSctClientDetails(finalData.filterData));
+      dispatch(getSctClientDetailsDD(finalData.filterData));
+    }
     dispatch({
       type: SET_LOADING_FALSE,
     });

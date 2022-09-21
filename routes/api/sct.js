@@ -817,6 +817,10 @@ router.post("/get-all-demos", async (req, res) => {
       clientId: mongoose.Types.ObjectId(clientId),
       demoDate: demoDate,
     };
+  } else if (demoDate) {
+    query = {
+      demoDate: demoDate,
+    };
   }
   try {
     const allDemos = await Demo.aggregate([

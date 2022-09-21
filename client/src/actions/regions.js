@@ -11,6 +11,7 @@ import {
   ACTIVE_DISTRICTS,
   ACTIVE_COUNTRY,
   STATES,
+  ACTIVE_STAFF_DISTRICTS,
 } from "./types";
 
 const config = {
@@ -262,6 +263,20 @@ export const getActiveDistricts = (stateVal) => async (dispatch) => {
     const res = await axios.post("/api/regions/get-active-districts", stateVal);
     dispatch({
       type: ACTIVE_DISTRICTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getActiveStaffDistricts = (stateVal) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/regions/get-active-districts", stateVal);
+    dispatch({
+      type: ACTIVE_STAFF_DISTRICTS,
       payload: res.data,
     });
   } catch (err) {

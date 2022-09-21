@@ -38,7 +38,9 @@ const EditSctContact = ({
     getActiveState();
   }, [getActiveState]);
   useEffect(() => {
-    getActiveDistricts();
+    getActiveDistricts({
+      stateId: allStaffdata.sctStaffStateId ? allStaffdata.sctStaffStateId : "",
+    });
   }, [getActiveDistricts]);
   const [formData, setFormData] = useState({
     sctStaffName:
@@ -142,28 +144,25 @@ const EditSctContact = ({
   const [staffstateId, setstaffStateID] = useState(
     allStaffdata && allStaffdata.sctStaffStateId
   );
-  const [staffstateName, setstaffStateName] = useState("");
 
   const onstaffStateChange = (e) => {
     getstaffdistrictData("");
-
     var staffstateId = "";
-    var staffstateName = "";
     getstaffStateData(e);
-
     staffstateId = e.sId;
-    staffstateName = e.value;
-
     setstaffStateID(staffstateId);
-    setstaffStateName(staffstateName);
     let stateVal = {
       staffstateId: staffstateId,
     };
     getActiveDistricts(stateVal);
   };
 
-  const allstaffdistrict = [];
+  const [staffdistrict, getstaffdistrictData] = useState();
+  const [staffdistrictId, setstaffdistrictID] = useState(
+    allStaffdata.sctStaffDistrictId ? allStaffdata.sctStaffDistrictId : null
+  );
 
+  const allstaffdistrict = [];
   activeDistricts.map((staffdistrict) =>
     allstaffdistrict.push({
       districtId: staffdistrict._id,
@@ -171,36 +170,22 @@ const EditSctContact = ({
       value: staffdistrict.districtName,
     })
   );
-
-  const [staffdistrict, getstaffdistrictData] = useState(
-    allStaffdata
-      ? allstaffdistrict.length !== 0
+  if (activeDistricts && !staffdistrict && allstaffdistrict.length > 0) {
+    getstaffdistrictData(
+      allstaffdistrict.length !== 0
         ? allstaffdistrict &&
-          allstaffdistrict.filter(
-            (x) => x.districtId === allStaffdata.sctStaffDistrictId
-          )[0]
+            allstaffdistrict.filter(
+              (x) => x.districtId === allStaffdata.sctStaffDistrictId
+            )[0]
         : ""
-      : ""
-  );
-  const [staffdistrictId, setstaffdistrictID] = useState();
-  const [staffdistrictName, setstaffdistrictName] = useState();
+    );
+  }
 
   const onstaffdistrictChange = (e) => {
-    // setError({
-    //   ...error,
-    //   DistrictIdChecker: true,
-    //   DistrictErrorStyle: { color: "#000" },
-    // });
-
     var staffdistrictId = "";
-    var staffdistrictName = "";
     getstaffdistrictData(e);
-
     staffdistrictId = e.districtId;
-    staffdistrictName = e.value;
-
     setstaffdistrictID(staffdistrictId);
-    setstaffdistrictName(staffdistrictName);
   };
 
   const onSubmit = (e) => {

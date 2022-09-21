@@ -76,6 +76,7 @@ export const ALL_DISTRICTS = "ALL_DISTRICTS";
 export const ACTIVE_COUNTRY = "ACTIVE_COUNTRY";
 export const ACTIVE_STATE = "ACTIVE_STATE";
 export const ACTIVE_DISTRICTS = "ACTIVE_DISTRICTS";
+export const ACTIVE_STAFF_DISTRICTS = "ACTIVE_STAFF_DISTRICTS";
 export const STATES = "STATES";
 export const ALL_LEADS = "ALL_LEADS";
 export const ALL_LEADS_DD = "ALL_LEADS_DD";

@@ -41,9 +41,6 @@ const AllSctContacts = ({
     getActiveState();
   }, [getActiveState]);
   useEffect(() => {
-    getActiveDistricts();
-  }, [getActiveDistricts]);
-  useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
   let staffFilter = { staffFrom: from, leadDataVal: leadDataVal };
@@ -179,7 +176,7 @@ const AllSctContacts = ({
     staffstateId = e.sId;
     setstaffStateID(staffstateId);
     let stateVal = {
-      staffstateId: staffstateId,
+      stateId: staffstateId,
     };
     getActiveDistricts(stateVal);
   };

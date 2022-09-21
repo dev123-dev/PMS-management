@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 ObjectId = mongoose.Schema.ObjectId;
-
+//Add New Column in sctClients & transfer function
 const SctLeadsSchema = new mongoose.Schema({
   sctCompanyName: {
     type: String,
