@@ -355,6 +355,15 @@ const AllSctStatusChange = ({
           demoEnteredById: user._id,
           clientId: leadDataVal._id,
           clientName: leadDataVal.sctClientName,
+          clientDetails: {
+            sctCompanyName: leadDataVal.sctCompanyName,
+            sctEmailId: leadDataVal.sctEmailId,
+            sctPhone1: leadDataVal.sctPhone1,
+            sctCallToStaffId: sctStaffs.staffsId ? sctStaffs.staffsId : null,
+            sctCallToStaffName: sctStaffs.value,
+            stateId: leadDataVal.stateId ? leadDataVal.stateId : null,
+            stateName: leadDataVal.stateName,
+          },
         };
         addDemo(demoData);
       }

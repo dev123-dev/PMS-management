@@ -11,6 +11,7 @@ const DemoSchema = new mongoose.Schema({
   clientName: {
     type: String,
   },
+  clientDetails: {},
   fromTime: {
     type: String,
   },
