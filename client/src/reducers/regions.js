@@ -5,6 +5,7 @@ import {
   ACTIVE_COUNTRY,
   ACTIVE_STATE,
   ACTIVE_DISTRICTS,
+  ACTIVE_STAFF_DISTRICTS,
   STATES,
 } from "../actions/types";
 
@@ -16,6 +17,7 @@ const initialState = {
   activeState: [],
   activeDistricts: [],
   statesData: [],
+  activeStaffDistricts: [],
 };
 
 const regions = (state = initialState, action) => {
@@ -50,6 +52,11 @@ const regions = (state = initialState, action) => {
       return {
         ...state,
         activeDistricts: payload,
+      };
+    case ACTIVE_STAFF_DISTRICTS:
+      return {
+        ...state,
+        activeStaffDistricts: payload,
       };
     case STATES:
       return {

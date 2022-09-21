@@ -56,37 +56,42 @@ const DemoSchedulesModal = ({
           </div>
         </div>
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-          <table
-            className="table table-bordered table-striped table-hover smll_row"
-            id="datatable2"
-          >
-            <thead>
-              <tr>
-                <th style={{ width: "10%" }}>Client Name </th>
-                <th style={{ width: "5%" }}>Demo Date</th>
-                <th style={{ width: "5%" }}>From Time</th>
-                <th style={{ width: "5%" }}>To Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {scheduledDemos &&
-                scheduledDemos.map((scheduledDemos, idx) => {
-                  var demoDate = "";
-                  if (scheduledDemos.demoDate) {
-                    var ED = scheduledDemos.demoDate.split(/\D/g);
-                    demoDate = [ED[2], ED[1], ED[0]].join("-");
-                  }
-                  return (
-                    <tr key={idx}>
-                      <td>{scheduledDemos.clientName}</td>
-                      <td>{demoDate}</td>
-                      <td>{scheduledDemos.fromTime}</td>
-                      <td>{scheduledDemos.toTime}</td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+          {scheduledDemos.length === 0 ? (
+            <h1>No Demo Scheduled</h1>
+          ) : (
+            <table
+              className="table table-bordered table-striped table-hover smll_row"
+              id="datatable2"
+            >
+              <thead>
+                <tr>
+                  <th style={{ width: "10%" }}>Client Name </th>
+                  <th style={{ width: "5%" }}>Demo Date</th>
+                  <th style={{ width: "5%" }}>From Time</th>
+                  <th style={{ width: "5%" }}>To Time</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {scheduledDemos &&
+                  scheduledDemos.map((scheduledDemos, idx) => {
+                    var demoDate = "";
+                    if (scheduledDemos.demoDate) {
+                      var ED = scheduledDemos.demoDate.split(/\D/g);
+                      demoDate = [ED[2], ED[1], ED[0]].join("-");
+                    }
+                    return (
+                      <tr key={idx}>
+                        <td>{scheduledDemos.clientName}</td>
+                        <td>{demoDate}</td>
+                        <td>{scheduledDemos.fromTime}</td>
+                        <td>{scheduledDemos.toTime}</td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          )}
         </div>
       </section>
     </Fragment>

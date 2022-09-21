@@ -15,15 +15,22 @@ import {
   getActiveCountry,
   getActiveState,
   getActiveDistricts,
+  getActiveStaffDistricts,
 } from "../../actions/regions";
 
 const AddSctLeads = ({
   auth: { isAuthenticated, user, users, loading },
   user: { marketingEmployees },
-  regions: { activeCountry, activeState, activeDistricts },
+  regions: {
+    activeCountry,
+    activeState,
+    activeDistricts,
+    activeStaffDistricts,
+  },
   sct: { projectList, sctLeadsList },
   getActiveState,
   getActiveDistricts,
+  getActiveStaffDistricts,
   addSctLeadDetails,
   getActiveCountry,
   getProjectList,
@@ -33,9 +40,6 @@ const AddSctLeads = ({
   useEffect(() => {
     getActiveState();
   }, [getActiveState]);
-  useEffect(() => {
-    getActiveDistricts();
-  }, [getActiveDistricts]);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
@@ -82,7 +86,6 @@ const AddSctLeads = ({
     sctStaffPhoneNumber: "",
     sctStaffEmailId: "",
     sctStaffDesignation: "",
-    sctStaffRegion: "",
     staffCountryCode: "",
   });
 
@@ -91,7 +94,6 @@ const AddSctLeads = ({
     sctStaffPhoneNumber,
     sctStaffEmailId,
     sctStaffDesignation,
-    sctStaffRegion,
   } = addData;
 
   const [error1, setError1] = useState({
@@ -139,7 +141,6 @@ const AddSctLeads = ({
           sctStaffPhoneNumber: "",
           sctStaffEmailId: "",
           sctStaffDesignation: "",
-          sctStaffRegion: "",
           sctStaffStateId: "",
           sctStaffDistrictId: "",
           sctStaffCountryCode: "",
@@ -206,7 +207,6 @@ const AddSctLeads = ({
 
   const [projects, getprojectsData] = useState();
   const [projectsId, setprojectsID] = useState();
-  const [projectsName, setprojectsName] = useState();
 
   const onprojectsChange = (e) => {
     //Required Validation Starts
@@ -217,14 +217,9 @@ const AddSctLeads = ({
     });
     //Required Validation ends
     var projectsId = "";
-    var projectsName = "";
-
     getprojectsData(e);
-
     projectsId = e.projectsId;
-    projectsName = e.value;
     setprojectsID(projectsId);
-    setprojectsName(projectsName);
   };
 
   const allemp = [];
@@ -343,7 +338,6 @@ const AddSctLeads = ({
 
   const [district, getdistrictData] = useState();
   const [districtId, setdistrictID] = useState();
-  const [districtName, setdistrictName] = useState();
 
   const ondistrictChange = (e) => {
     setError({
@@ -353,14 +347,9 @@ const AddSctLeads = ({
     });
 
     var districtId = "";
-    var districtName = "";
     getdistrictData(e);
-
     districtId = e.districtId;
-    districtName = e.value;
-
     setdistrictID(districtId);
-    setdistrictName(districtName);
   };
 
   const allstaffstates = [];
@@ -397,14 +386,14 @@ const AddSctLeads = ({
     setstaffStateID(staffstateId);
     setstaffStateName(staffstateName);
     let stateVal = {
-      staffstateId: staffstateId,
+      stateId: staffstateId,
     };
-    getActiveDistricts(stateVal);
+    getActiveStaffDistricts(stateVal);
   };
 
   const allstaffdistrict = [];
 
-  activeDistricts.map((staffdistrict) =>
+  activeStaffDistricts.map((staffdistrict) =>
     allstaffdistrict.push({
       districtId: staffdistrict._id,
       label: staffdistrict.districtName,
@@ -1109,4 +1098,5 @@ export default connect(mapStateToProps, {
   getSctLeadsList,
   getActiveState,
   getActiveDistricts,
+  getActiveStaffDistricts,
 })(AddSctLeads);
