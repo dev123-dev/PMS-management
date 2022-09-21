@@ -383,7 +383,7 @@ const AllSctDocuments = ({
                     <Link to="#" onClick={() => onUploadAgreement()}>
                       <img
                         className=" log"
-                        src={require("../../static/images/Po.png")}
+                        src={require("../../static/images/uploadagreement.png")}
                         alt="Upload Agreement"
                         title="Upload Agreement"
                       />
