@@ -427,7 +427,7 @@ const AllSctStatusChange = ({
       <form className="row" onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadstatus">
           <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
-            <label style={statusmodeIdErrorStyle}>Status :</label>
+            <label style={statusmodeIdErrorStyle}>Status* :</label>
             <Select
               name="sctCallStatus"
               options={StatusMethods}
@@ -449,7 +449,7 @@ const AllSctStatusChange = ({
           </div>
 
           <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
-            <label style={stafftypeIdErrorStyle}>Staff :</label>
+            <label style={stafftypeIdErrorStyle}>Staff* :</label>
 
             <Select
               name="sctStaffName"
@@ -463,7 +463,7 @@ const AllSctStatusChange = ({
           </div>
           {showdateselectionSection && (
             <div className=" col-lg-4 col-md-12 col-sm-12 col-12 ">
-              <label>{sctCallStatus && sctCallStatus.label} Date</label>
+              <label>{sctCallStatus && sctCallStatus.label} Date*</label>
               <input
                 type="date"
                 placeholder="dd/mm/yyyy"
@@ -543,7 +543,7 @@ const AllSctStatusChange = ({
             </>
           )}
           <div className="col-lg-8 col-md-12 col-sm-12 col-12 ">
-            <label className="label-control"> Notes :</label>
+            <label className="label-control"> Notes* :</label>
             <textarea
               name="sctCallNote"
               id="sctCallNote"
