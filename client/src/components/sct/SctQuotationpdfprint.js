@@ -126,7 +126,7 @@ const SctQuotationpdfprint = ({
 
   let totSubTot = 0;
   quotationDataLS &&
-    quotationDataLS.item.map((row, i) => (totSubTot += Number(row.grandTotal)));
+    quotationDataLS.item.map((row, i) => (totSubTot = Number(row.grandTotal)));
 
   // if (!data || data === undefined) {
   //   return <Redirect to="/all-engaged-clients" />;
