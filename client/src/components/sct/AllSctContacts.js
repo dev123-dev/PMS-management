@@ -205,7 +205,8 @@ const AllSctContacts = ({
     e.preventDefault();
     const finalData = {
       recordId: leadDataVal ? leadDataVal._id : "",
-      sctStaffName: sctStaffName,
+      sctStaffName:
+        sctStaffName.charAt(0).toUpperCase() + sctStaffName.slice(1),
       sctStaffPhoneNumber: sctStaffPhoneNumber,
       sctStaffEmailId: sctStaffEmailId,
       sctStaffDesignation: sctStaffDesignation,
