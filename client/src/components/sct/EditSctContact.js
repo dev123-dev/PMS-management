@@ -154,7 +154,7 @@ const EditSctContact = ({
     let stateVal = {
       staffstateId: staffstateId,
     };
-    getActiveDistricts(stateVal);
+    //  getActiveDistricts(stateVal);
   };
 
   // const [staffdistrict, getstaffdistrictData] = useState();

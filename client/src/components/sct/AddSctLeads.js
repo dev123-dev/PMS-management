@@ -130,10 +130,10 @@ const AddSctLeads = ({
           sctStaffDesignation: sctStaffDesignation,
           sctStaffRegion: staffcountryname,
           staffstateName: staffstateName,
-          staffdistrictName: staffdistrictName,
+          // staffdistrictName: staffdistrictName,
           sctStaffRegionId: staffcountryId ? staffcountryId : null,
           sctStaffStateId: staffstateId ? staffstateId : null,
-          sctStaffDistrictId: staffdistrictId ? staffdistrictId : null,
+          // sctStaffDistrictId: staffdistrictId ? staffdistrictId : null,
           sctStaffCountryCode: staffCountryCode,
         };
         setFormDatas({
@@ -143,13 +143,13 @@ const AddSctLeads = ({
           sctStaffEmailId: "",
           sctStaffDesignation: "",
           sctStaffStateId: "",
-          sctStaffDistrictId: "",
+          // sctStaffDistrictId: "",
           sctStaffCountryCode: "",
         });
         setstaffCountryCode("");
         getstaffcountryData("");
         getstaffStateData("");
-        getstaffdistrictData("");
+        // getstaffdistrictData("");
         let temp = [];
         temp.push(...AddedDetails, addData);
         AddDetails(temp);
@@ -303,7 +303,7 @@ const AddSctLeads = ({
   const [stateName, setStateName] = useState("");
 
   const onStateChange = (e) => {
-    getdistrictData("");
+    //  getdistrictData("");
     //Required Validation starts
     setError({
       ...error,
@@ -324,7 +324,7 @@ const AddSctLeads = ({
     let stateVal = {
       stateId: stateId,
     };
-    getActiveDistricts(stateVal);
+    // getActiveDistricts(stateVal);
   };
 
   const alldistrict = [];
@@ -368,7 +368,7 @@ const AddSctLeads = ({
   const [staffstateName, setstaffStateName] = useState("");
 
   const onstaffStateChange = (e) => {
-    getstaffdistrictData("");
+    //  getstaffdistrictData("");
     //Required Validation starts
     setError({
       ...error,
@@ -389,40 +389,40 @@ const AddSctLeads = ({
     let stateVal = {
       stateId: staffstateId,
     };
-    getActiveStaffDistricts(stateVal);
+    // getActiveStaffDistricts(stateVal);
   };
 
-  const allstaffdistrict = [];
+  // const allstaffdistrict = [];
 
-  activeStaffDistricts.map((staffdistrict) =>
-    allstaffdistrict.push({
-      districtId: staffdistrict._id,
-      label: staffdistrict.districtName,
-      value: staffdistrict.districtName,
-    })
-  );
+  // activeStaffDistricts.map((staffdistrict) =>
+  //   allstaffdistrict.push({
+  //     districtId: staffdistrict._id,
+  //     label: staffdistrict.districtName,
+  //     value: staffdistrict.districtName,
+  //   })
+  // );
 
-  const [staffdistrict, getstaffdistrictData] = useState();
-  const [staffdistrictId, setstaffdistrictID] = useState();
-  const [staffdistrictName, setstaffdistrictName] = useState();
+  // const [staffdistrict, getstaffdistrictData] = useState();
+  // const [staffdistrictId, setstaffdistrictID] = useState();
+  // const [staffdistrictName, setstaffdistrictName] = useState();
 
-  const onstaffdistrictChange = (e) => {
-    setError({
-      ...error,
-      DistrictIdChecker: true,
-      DistrictErrorStyle: { color: "#000" },
-    });
+  // const onstaffdistrictChange = (e) => {
+  //   setError({
+  //     ...error,
+  //     DistrictIdChecker: true,
+  //     DistrictErrorStyle: { color: "#000" },
+  //   });
 
-    var staffdistrictId = "";
-    var staffdistrictName = "";
-    getstaffdistrictData(e);
+  //   var staffdistrictId = "";
+  //   var staffdistrictName = "";
+  //   getstaffdistrictData(e);
 
-    staffdistrictId = e.districtId;
-    staffdistrictName = e.value;
+  //   staffdistrictId = e.districtId;
+  //   staffdistrictName = e.value;
 
-    setstaffdistrictID(staffdistrictId);
-    setstaffdistrictName(staffdistrictName);
-  };
+  //   setstaffdistrictID(staffdistrictId);
+  //   setstaffdistrictName(staffdistrictName);
+  // };
   const [error, setError] = useState({
     countrytypeIdChecker: false,
     countrytypeIdErrorStyle: {},
@@ -496,7 +496,7 @@ const AddSctLeads = ({
         sctcountryCode: countrycode,
         stateId: stateId ? stateId : null,
         stateName: stateName,
-        districtId: districtId ? districtId : null,
+        //  districtId: districtId ? districtId : null,
         projectsId: projectsId ? projectsId : null,
         projectsName: projects.value ? projects.value : null,
         sctLeadStatus: "Active",
@@ -738,13 +738,8 @@ const AddSctLeads = ({
                       onChange={(e) => onStateChange(e)}
                     />
                   </div>
-                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <label
-                      className="label-control"
-                      // style={DistrictErrorStyle}
-                    >
-                      District :
-                    </label>
+                  {/* <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">District :</label>
                     <Select
                       name="districtName"
                       options={alldistrict}
@@ -763,7 +758,7 @@ const AddSctLeads = ({
                         },
                       })}
                     />
-                  </div>
+                  </div> */}
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control" style={ProjectErrorStyle}>
                       Lead of :
@@ -900,13 +895,8 @@ const AddSctLeads = ({
                       })}
                     />
                   </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label
-                      className="label-control"
-                      // style={DistrictErrorStyle}
-                    >
-                      District :
-                    </label>
+                  {/* <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">District :</label>
                     <Select
                       name="districtName"
                       options={allstaffdistrict}
@@ -925,7 +915,7 @@ const AddSctLeads = ({
                         },
                       })}
                     />
-                  </div>
+                  </div> */}
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Staff Phone:</label>
                     <input
@@ -1004,8 +994,8 @@ const AddSctLeads = ({
                               <td>{AddDetail.sctStaffName}</td>
                               <td>
                                 {AddDetail.sctStaffRegion},
-                                {AddDetail.staffstateName},
-                                {AddDetail.staffdistrictName}
+                                {AddDetail.staffstateName}
+                                {/* {AddDetail.staffdistrictName} */}
                               </td>
                               <td>{AddDetail.sctStaffPhoneNumber}</td>
                               <td>{AddDetail.sctStaffEmailId}</td>

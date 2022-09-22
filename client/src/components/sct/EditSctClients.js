@@ -241,7 +241,7 @@ const EditSctClients = ({
   const [stateName, setStateName] = useState("");
 
   const onStateChange = (e) => {
-    getdistrictData("");
+    // getdistrictData("");
     //Required Validation starts
     setError({
       ...error,
@@ -262,49 +262,49 @@ const EditSctClients = ({
     let stateVal = {
       stateId: stateId,
     };
-    getActiveDistricts(stateVal);
+    // getActiveDistricts(stateVal);
   };
 
-  const alldistrict = [];
+  // const alldistrict = [];
 
-  activeDistricts.map((district) =>
-    alldistrict.push({
-      districtId: district._id,
-      label: district.districtName,
-      value: district.districtName,
-    })
-  );
+  // activeDistricts.map((district) =>
+  //   alldistrict.push({
+  //     districtId: district._id,
+  //     label: district.districtName,
+  //     value: district.districtName,
+  //   })
+  // );
 
-  const [district, getdistrictData] = useState(
-    alleditClientdata && alleditClientdata
-      ? alldistrict &&
-          alldistrict.filter(
-            (x) => x.districtId === alleditClientdata.districtId
-          )[0]
-      : ""
-  );
-  const [districtId, setdistrictID] = useState(
-    alleditClientdata && alleditClientdata.districtId
-  );
-  const [districtName, setdistrictName] = useState();
+  // const [district, getdistrictData] = useState(
+  //   alleditClientdata && alleditClientdata
+  //     ? alldistrict &&
+  //         alldistrict.filter(
+  //           (x) => x.districtId === alleditClientdata.districtId
+  //         )[0]
+  //     : ""
+  // );
+  // const [districtId, setdistrictID] = useState(
+  //   alleditClientdata && alleditClientdata.districtId
+  // );
+  // const [districtName, setdistrictName] = useState();
 
-  const ondistrictChange = (e) => {
-    setError({
-      ...error,
-      DistrictIdChecker: true,
-      DistrictErrorStyle: { color: "#000" },
-    });
+  // const ondistrictChange = (e) => {
+  //   setError({
+  //     ...error,
+  //     DistrictIdChecker: true,
+  //     DistrictErrorStyle: { color: "#000" },
+  //   });
 
-    var districtId = "";
-    var districtName = "";
-    getdistrictData(e);
+  //   var districtId = "";
+  //   var districtName = "";
+  //   getdistrictData(e);
 
-    districtId = e.districtId;
-    districtName = e.value;
+  //   districtId = e.districtId;
+  //   districtName = e.value;
 
-    setdistrictID(districtId);
-    setdistrictName(districtName);
-  };
+  //   setdistrictID(districtId);
+  //   setdistrictName(districtName);
+  // };
 
   const [error, setError] = useState({
     // countrytypeIdChecker: false,
@@ -373,7 +373,7 @@ const EditSctClients = ({
       projectsName: projects ? projects.value : null,
       stateId: stateId,
       stateName: stateName,
-      districtId: districtId,
+      //  districtId: districtId,
       sctClientAssignedToId: empId,
       sctClientAssignedToName: empName,
       sctClientEditedById: user._id,
@@ -604,13 +604,8 @@ const EditSctClients = ({
                     })}
                   />
                 </div>
-                <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                  <label
-                    className="label-control"
-                    // style={DistrictErrorStyle}
-                  >
-                    District* :
-                  </label>
+                {/* <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">District* :</label>
                   <Select
                     name="districtName"
                     options={alldistrict}
@@ -629,7 +624,7 @@ const EditSctClients = ({
                       },
                     })}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label
                     className="label-control"

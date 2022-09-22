@@ -162,7 +162,7 @@ const AllSctContacts = ({
   const [staffstateId, setstaffStateID] = useState(null);
 
   const onstaffStateChange = (e) => {
-    getstaffdistrictData("");
+    // getstaffdistrictData("");
     // //Required Validation starts
     // setError({
     //   ...error,
@@ -178,28 +178,28 @@ const AllSctContacts = ({
     let stateVal = {
       stateId: staffstateId,
     };
-    getActiveDistricts(stateVal);
+    // getActiveDistricts(stateVal);
   };
 
-  const allstaffdistrict = [];
+  // const allstaffdistrict = [];
 
-  activeDistricts.map((staffdistrict) =>
-    allstaffdistrict.push({
-      districtId: staffdistrict._id,
-      label: staffdistrict.districtName,
-      value: staffdistrict.districtName,
-    })
-  );
+  // activeDistricts.map((staffdistrict) =>
+  //   allstaffdistrict.push({
+  //     districtId: staffdistrict._id,
+  //     label: staffdistrict.districtName,
+  //     value: staffdistrict.districtName,
+  //   })
+  // );
 
-  const [staffdistrict, getstaffdistrictData] = useState();
-  const [staffdistrictId, setstaffdistrictID] = useState(null);
+  // const [staffdistrict, getstaffdistrictData] = useState();
+  // const [staffdistrictId, setstaffdistrictID] = useState(null);
 
-  const onstaffdistrictChange = (e) => {
-    var staffdistrictId = "";
-    getstaffdistrictData(e);
-    staffdistrictId = e.districtId;
-    setstaffdistrictID(staffdistrictId);
-  };
+  // const onstaffdistrictChange = (e) => {
+  //   var staffdistrictId = "";
+  //   getstaffdistrictData(e);
+  //   staffdistrictId = e.districtId;
+  //   setstaffdistrictID(staffdistrictId);
+  // };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -214,7 +214,7 @@ const AllSctContacts = ({
       sctStaffRegionId: staffcountryId ? staffcountryId : null,
       sctStaffCountryCode: staffCountryCode,
       sctStaffStateId: staffstateId ? staffstateId : null,
-      sctStaffDistrictId: staffdistrictId ? staffdistrictId : null,
+      // sctStaffDistrictId: staffdistrictId ? staffdistrictId : null,
       filterData: filterData,
       staffFilter: staffFilter,
       page: page,
@@ -479,13 +479,8 @@ const AllSctContacts = ({
                     onChange={(e) => onstaffStateChange(e)}
                   />
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label
-                    className="label-control"
-                    // style={DistrictErrorStyle}
-                  >
-                    District :
-                  </label>
+                {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">District :</label>
                   <Select
                     name="districtName"
                     options={allstaffdistrict}
@@ -494,7 +489,7 @@ const AllSctContacts = ({
                     placeholder="Select District"
                     onChange={(e) => onstaffdistrictChange(e)}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Staff Phone:</label>
                   <input
