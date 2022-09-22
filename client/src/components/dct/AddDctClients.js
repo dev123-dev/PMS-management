@@ -161,7 +161,7 @@ const AddDctClients = ({
     if (staffList.length === 0) {
       if (checkErrorscontact()) {
         const addData = {
-          staffName: staffName,
+          staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1),
           staffPhoneNumber: staffPhoneNumber,
           staffEmailId: staffEmailId,
           staffDesignation: staffDesignation,
@@ -375,9 +375,9 @@ const AddDctClients = ({
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
-        companyName: companyName,
+        companyName: companyName.charAt(0).toUpperCase() + companyName.slice(1),
         website: website,
-        clientName: clientName,
+        clientName: clientName.charAt(0).toUpperCase() + clientName.slice(1),
         clientCompanyFounderName: clientCompanyFounderName,
         emailId: emailId,
         clientEmail: clientEmail,

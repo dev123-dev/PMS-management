@@ -104,7 +104,7 @@ const EditContact = ({
     e.preventDefault();
     const finalData = {
       staffId: allStaffdata ? allStaffdata._id : "",
-      staffName: staffName,
+      staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1),
       staffPhoneNumber: staffPhoneNumber,
       staffEmailId: staffEmailId,
       staffDesignation: staffDesignation,

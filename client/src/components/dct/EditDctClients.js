@@ -232,7 +232,7 @@ const EditDctClients = ({
       const addData = {
         recordId:
           data && data.dctdata && data.dctdata._id ? data.dctdata._id : "",
-        staffName: staffName,
+        staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1),
         staffPhoneNumber: staffPhoneNumber,
         staffEmailId: staffEmailId,
         staffDesignation: staffDesignation,
@@ -456,9 +456,9 @@ const EditDctClients = ({
     e.preventDefault();
     const finalData = {
       recordId: data.dctdata ? data.dctdata._id : "",
-      companyName: companyName,
+      companyName: companyName.charAt(0).toUpperCase() + companyName.slice(1),
       website: website,
-      clientName: clientName,
+      clientName: clientName.charAt(0).toUpperCase() + clientName.slice(1),
       clientCompanyFounderName: clientCompanyFounderName,
       emailId: emailId,
       clientEmail: clientEmail,

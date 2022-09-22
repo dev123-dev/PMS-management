@@ -102,7 +102,7 @@ const AddLead = ({
       if (checkErrorscontact()) {
         const addData = {
           // id: idVal,
-          staffName: staffName,
+          staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1),
           staffPhoneNumber: staffPhoneNumber,
           staffEmailId: staffEmailId,
           staffDesignation: staffDesignation,
@@ -297,9 +297,9 @@ const AddLead = ({
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
-        companyName: companyName,
+        companyName: companyName.charAt(0).toUpperCase() + companyName.slice(1),
         website: website,
-        clientName: clientName,
+        clientName: clientName.charAt(0).toUpperCase() + clientName.slice(1),
         emailId: emailId,
         phone1: phone1,
         phone2: phone2,
