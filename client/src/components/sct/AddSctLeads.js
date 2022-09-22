@@ -14,8 +14,8 @@ import { getSctMarketingEmployee } from "../../actions/user";
 import {
   getActiveCountry,
   getActiveState,
-  getActiveDistricts,
-  getActiveStaffDistricts,
+  // getActiveDistricts,
+  // getActiveStaffDistricts,
 } from "../../actions/regions";
 
 const AddSctLeads = ({
@@ -24,13 +24,13 @@ const AddSctLeads = ({
   regions: {
     activeCountry,
     activeState,
-    activeDistricts,
-    activeStaffDistricts,
+    // activeDistricts,
+    // activeStaffDistricts,
   },
   sct: { projectList, sctLeadsList },
   getActiveState,
-  getActiveDistricts,
-  getActiveStaffDistricts,
+  // getActiveDistricts,
+  // getActiveStaffDistricts,
   addSctLeadDetails,
   getActiveCountry,
   getProjectList,
@@ -327,31 +327,31 @@ const AddSctLeads = ({
     // getActiveDistricts(stateVal);
   };
 
-  const alldistrict = [];
+  // const alldistrict = [];
 
-  activeDistricts.map((district) =>
-    alldistrict.push({
-      districtId: district._id,
-      label: district.districtName,
-      value: district.districtName,
-    })
-  );
+  // activeDistricts.map((district) =>
+  //   alldistrict.push({
+  //     districtId: district._id,
+  //     label: district.districtName,
+  //     value: district.districtName,
+  //   })
+  // );
 
-  const [district, getdistrictData] = useState();
-  const [districtId, setdistrictID] = useState();
+  // const [district, getdistrictData] = useState();
+  // const [districtId, setdistrictID] = useState();
 
-  const ondistrictChange = (e) => {
-    setError({
-      ...error,
-      DistrictIdChecker: true,
-      DistrictErrorStyle: { color: "#000" },
-    });
+  // const ondistrictChange = (e) => {
+  //   setError({
+  //     ...error,
+  //     DistrictIdChecker: true,
+  //     DistrictErrorStyle: { color: "#000" },
+  //   });
 
-    var districtId = "";
-    getdistrictData(e);
-    districtId = e.districtId;
-    setdistrictID(districtId);
-  };
+  //   var districtId = "";
+  //   getdistrictData(e);
+  //   districtId = e.districtId;
+  //   setdistrictID(districtId);
+  // };
 
   const allstaffstates = [];
   activeState.map((staffstate) =>
@@ -1087,6 +1087,6 @@ export default connect(mapStateToProps, {
   getSctMarketingEmployee,
   getSctLeadsList,
   getActiveState,
-  getActiveDistricts,
-  getActiveStaffDistricts,
+  // getActiveDistricts,
+  // getActiveStaffDistricts,
 })(AddSctLeads);

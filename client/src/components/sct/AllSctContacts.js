@@ -15,7 +15,7 @@ import {
 import {
   getActiveCountry,
   getActiveState,
-  getActiveDistricts,
+  // getActiveDistricts,
 } from "../../actions/regions";
 
 const AllSctContacts = ({
@@ -30,7 +30,7 @@ const AllSctContacts = ({
   ondivcloseChange,
   getActiveCountry,
   getActiveState,
-  getActiveDistricts,
+  // getActiveDistricts,
   showdateselectionSection,
   from,
   filterData,
@@ -653,6 +653,6 @@ export default connect(mapStateToProps, {
   getActiveCountry,
   deactivateSctClientStaffDetails,
   getActiveState,
-  getActiveDistricts,
+  // getActiveDistricts,
   getSctStaffsData,
 })(AllSctContacts);

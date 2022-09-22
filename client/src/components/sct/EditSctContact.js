@@ -10,7 +10,7 @@ import {
 import {
   getActiveCountry,
   getActiveState,
-  getActiveDistricts,
+  // getActiveDistricts,
 } from "../../actions/regions";
 
 const EditSctContact = ({
@@ -18,7 +18,7 @@ const EditSctContact = ({
   allStaffdata,
   getActiveCountry,
   getActiveState,
-  getActiveDistricts,
+  // getActiveDistricts,
   regions: { activeCountry, activeState, activeDistricts },
   allleaddata,
   ondivcloseChange,
@@ -37,11 +37,11 @@ const EditSctContact = ({
   useEffect(() => {
     getActiveState();
   }, [getActiveState]);
-  useEffect(() => {
-    getActiveDistricts({
-      stateId: allStaffdata.sctStaffStateId ? allStaffdata.sctStaffStateId : "",
-    });
-  }, [getActiveDistricts]);
+  // useEffect(() => {
+  //   getActiveDistricts({
+  //     stateId: allStaffdata.sctStaffStateId ? allStaffdata.sctStaffStateId : "",
+  //   });
+  // }, [getActiveDistricts]);
   const [formData, setFormData] = useState({
     sctStaffName:
       allStaffdata && allStaffdata.sctStaffName
@@ -376,5 +376,5 @@ export default connect(mapStateToProps, {
   getActiveCountry,
   editSctClientStaffDetails,
   getActiveState,
-  getActiveDistricts,
+  // getActiveDistricts,
 })(EditSctContact);
