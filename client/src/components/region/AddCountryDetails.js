@@ -24,7 +24,7 @@ const AddCountryDetails = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      countryName: countryName,
+      countryName: countryName.charAt(0).toUpperCase() + countryName.slice(1),
       countryCode: countryCode,
       countryEnteredById: user._id,
       countryEnteredByName: user.userName,

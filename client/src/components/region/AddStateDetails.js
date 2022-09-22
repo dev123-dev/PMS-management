@@ -24,7 +24,7 @@ const AddStateDetails = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      stateName: stateName,
+      stateName: stateName.charAt(0).toUpperCase() + stateName.slice(1),
       stateEnteredById: user._id,
       stateEnteredByName: user.userName,
       stateBelongsTo: "DCT",

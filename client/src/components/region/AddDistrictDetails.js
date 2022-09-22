@@ -73,7 +73,8 @@ const AddDistrictDetails = ({
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
-        districtName: districtName,
+        districtName:
+          districtName.charAt(0).toUpperCase() + districtName.slice(1),
         districtEnteredById: user._id,
         stateId: stateId,
         districtEnteredByName: user.userName,

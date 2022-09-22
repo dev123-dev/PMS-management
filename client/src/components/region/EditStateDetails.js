@@ -30,7 +30,7 @@ const EditStateDetails = ({
     // e.preventDefault();
     const finalData = {
       recordId: stateeditdata ? stateeditdata._id : "",
-      stateName: stateName,
+      stateName: stateName.charAt(0).toUpperCase() + stateName.slice(1),
       stateEditedById: user._id,
       stateEditedDateTime: user.userName,
     };

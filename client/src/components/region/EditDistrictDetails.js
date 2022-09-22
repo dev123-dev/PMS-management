@@ -55,7 +55,8 @@ const EditDistrictDetails = ({
     const finalData = {
       recordId: districts ? districts._id : "",
       stateId: stateId,
-      districtName: districtName,
+      districtName:
+        districtName.charAt(0).toUpperCase() + districtName.slice(1),
       districtEditedById: user._id,
       districtEditedDateTime: user.userName,
     };

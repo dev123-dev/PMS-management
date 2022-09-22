@@ -38,7 +38,7 @@ const EditSctCountry = ({
     // if (checkErrors()) {
     const finalData = {
       recordId: editcountrydata ? editcountrydata._id : "",
-      countryName: countryName,
+      countryName: countryName.charAt(0).toUpperCase() + countryName.slice(1),
       countryCode: countryCode,
       countryEditedById: user._id,
       countryEditedDateTime: new Date().toLocaleString(),
