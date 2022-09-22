@@ -10,6 +10,7 @@ const DeactiveSctLead = ({
   auth: { isAuthenticated, user, users, loading },
   Leaddeavtivedata,
   onDeactiveModalChange,
+  ondivcloseChange,
   deactivateSctLeadDetails,
   filterData,
 }) => {
@@ -47,6 +48,7 @@ const DeactiveSctLead = ({
     };
     deactivateSctLeadDetails(finalData);
     onDeactiveModalChange(true);
+    ondivcloseChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (

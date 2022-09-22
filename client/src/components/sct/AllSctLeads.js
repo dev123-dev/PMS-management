@@ -437,6 +437,7 @@ const AllSctLeads = ({
         </Modal.Header>
         <Modal.Body>
           <DeactiveSctLead
+            ondivcloseChange={ondivcloseChange}
             onDeactiveModalChange={onDeactiveModalChange}
             Leaddeavtivedata={userDatadeactive}
             filterData={filterData}
