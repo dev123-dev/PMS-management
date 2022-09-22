@@ -48,9 +48,9 @@ const SctLeadsSchema = new mongoose.Schema({
   stateName: {
     type: String,
   },
-  districtId: {
-    type: ObjectId,
-  },
+  // districtId: {
+  //   type: ObjectId,
+  // },
   sctLeadStatus: {
     type: String, //Active, Deactive
     default: "Active",
@@ -129,9 +129,9 @@ const SctLeadsSchema = new mongoose.Schema({
       sctStaffStateId: {
         type: ObjectId,
       },
-      sctStaffDistrictId: {
-        type: ObjectId,
-      },
+      // sctStaffDistrictId: {
+      //   type: ObjectId,
+      // },
       sctStaffDeactiveReason: {
         type: String,
       },

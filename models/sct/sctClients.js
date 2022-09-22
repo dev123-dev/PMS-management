@@ -55,9 +55,9 @@ const SctClientsSchema = new mongoose.Schema({
   stateName: {
     type: String,
   },
-  districtId: {
-    type: ObjectId,
-  },
+  // districtId: {
+  //   type: ObjectId,
+  // },
   sctClientStatus: {
     type: String, //Active, Deactive
   },
@@ -152,9 +152,9 @@ const SctClientsSchema = new mongoose.Schema({
       sctStaffStateId: {
         type: ObjectId,
       },
-      sctStaffDistrictId: {
-        type: ObjectId,
-      },
+      // sctStaffDistrictId: {
+      //   type: ObjectId,
+      // },
       sctStaffDeactiveReason: {
         type: String,
       },
