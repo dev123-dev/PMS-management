@@ -133,7 +133,13 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-                {!loading && isAuthenticated && user && (
+                {!loading &&
+                isAuthenticated &&
+                user &&
+                ((user.userGroupName &&
+                  user.userGroupName === "Administrator") ||
+                  user.userGroupName === "Super Admin" ||
+                  user.userGroupName === "Marketing") ? (
                   <Dropdown title="DCT">
                     <NavLink
                       to="/all-leads"
@@ -172,8 +178,16 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       <Dropdown.Item>Dct Calls History</Dropdown.Item>
                     </NavLink>
                   </Dropdown>
+                ) : (
+                  <></>
                 )}
-                {!loading && isAuthenticated && user && (
+                {!loading &&
+                isAuthenticated &&
+                user &&
+                ((user.userGroupName &&
+                  user.userGroupName === "Administrator") ||
+                  user.userGroupName === "Super Admin" ||
+                  user.userGroupName === "Marketing") ? (
                   <Dropdown title="SCT">
                     <NavLink
                       to="/all-sct-leads"
@@ -280,6 +294,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       <Dropdown.Item>Dct Calls History</Dropdown.Item>
                     </NavLink> */}
                   </Dropdown>
+                ) : (
+                  <></>
                 )}
                 {/* <NavItem>
                   {!loading &&
