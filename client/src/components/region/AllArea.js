@@ -23,33 +23,72 @@ const AllArea = ({ auth: { isAuthenticated, user, users } }) => {
           <Tabs>
             <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
               <TabList>
-                <Tab>Dct Country</Tab>
-                <Tab>Sct Country</Tab>
-                <Tab>State</Tab>
-                <Tab>District</Tab>
+                {(user &&
+                  user.userGroupName &&
+                  user.userGroupName === "Marketing") ||
+                user.userGroupName === "Dct Marketing" ||
+                user.userGroupName === "Administrator" ||
+                user.userGroupName === "Super Admin" ? (
+                  <Tab>Dct Country</Tab>
+                ) : (
+                  <></>
+                )}
+                {(user &&
+                  user.userGroupName &&
+                  user.userGroupName === "Marketing") ||
+                user.userGroupName === "Sct Marketing" ||
+                user.userGroupName === "Administrator" ||
+                user.userGroupName === "Super Admin" ? (
+                  <>
+                    <Tab>Sct Country</Tab>
+                    <Tab>State</Tab>
+                    <Tab>District</Tab>
+                  </>
+                ) : (
+                  <></>
+                )}
               </TabList>
             </div>
-
-            <TabPanel>
-              <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
-                <AllCountry />
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
-                <AllSctCountry />
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
-                <AllStates />
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
-                <AllDistricts />
-              </div>
-            </TabPanel>
+            {(user &&
+              user.userGroupName &&
+              user.userGroupName === "Marketing") ||
+            user.userGroupName === "Dct Marketing" ||
+            user.userGroupName === "Administrator" ||
+            user.userGroupName === "Super Admin" ? (
+              <TabPanel>
+                <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
+                  <AllCountry />
+                </div>
+              </TabPanel>
+            ) : (
+              <></>
+            )}
+            {(user &&
+              user.userGroupName &&
+              user.userGroupName === "Marketing") ||
+            user.userGroupName === "Sct Marketing" ||
+            user.userGroupName === "Administrator" ||
+            user.userGroupName === "Super Admin" ? (
+              <>
+                <TabPanel>
+                  <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
+                    <AllSctCountry />
+                  </div>
+                </TabPanel>
+                <TabPanel>
+                  <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
+                    <AllStates />
+                  </div>
+                </TabPanel>
+                <TabPanel>
+                  <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
+                    <AllDistricts />
+                  </div>
+                </TabPanel>
+              </>
+            ) : (
+              <></>
+            )}
           </Tabs>
         </section>
       </div>
