@@ -608,11 +608,7 @@ const AddSctLeads = ({
                   </div>
 
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label
-                    //  className="label-control"
-                    >
-                      Website :
-                    </label>
+                    <label>Website :</label>
                     <input
                       type="text"
                       name="sctWebsite"
