@@ -165,6 +165,7 @@ export const editSctLeadDetails = (finalData) => async (dispatch) => {
     });
     await axios.post("/api/sct/edit-sct-Leads", finalData, config);
     dispatch(refreshLead(finalData));
+    dispatch(getAllSctLead());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -223,6 +224,7 @@ export const deactivateSctLeadDetails = (finalData) => async (dispatch) => {
     });
     await axios.post("/api/sct/deactivate-sct-Leads", finalData, config);
     dispatch(refreshLead(finalData));
+    dispatch(getAllSctLead());
     dispatch({
       type: SET_LOADING_FALSE,
     });

@@ -356,8 +356,10 @@ const EditSctLead = ({
     // if (checkErrors()) {
     const finalData = {
       recordId: alleditLeaddata ? alleditLeaddata._id : "",
-      sctCompanyName: sctCompanyName,
-      sctClientName: sctClientName,
+      sctCompanyName:
+        sctCompanyName.charAt(0).toUpperCase() + sctCompanyName.slice(1),
+      sctClientName:
+        sctClientName.charAt(0).toUpperCase() + sctClientName.slice(1),
       sctEmailId: sctEmailId,
       sctPhone1: sctPhone1,
       sctPhone2: sctPhone2,

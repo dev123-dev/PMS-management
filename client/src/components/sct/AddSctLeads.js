@@ -480,9 +480,11 @@ const AddSctLeads = ({
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
-        sctCompanyName: sctCompanyName,
+        sctCompanyName:
+          sctCompanyName.charAt(0).toUpperCase() + sctCompanyName.slice(1),
         sctWebsite: sctWebsite,
-        sctClientName: sctClientName,
+        sctClientName:
+          sctClientName.charAt(0).toUpperCase() + sctClientName.slice(1),
         sctEmailId: sctEmailId,
         sctPhone1: sctPhone1,
         sctPhone2: sctPhone2,
@@ -505,6 +507,7 @@ const AddSctLeads = ({
         sctLeadAssignedToId: empId,
         sctLeadAssignedToName: empName,
       };
+      console.log(finalData);
       addSctLeadDetails(finalData);
       setFormData({
         ...formData,
