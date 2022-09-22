@@ -462,7 +462,7 @@ const EditSctLead = ({
                   <label
                   //  className="label-control"
                   >
-                    Website* :
+                    Website :
                   </label>
                   <input
                     type="text"
@@ -471,7 +471,7 @@ const EditSctLead = ({
                     style={websiteInptErrStyle}
                     className="form-control"
                     onChange={(e) => onleadCheck(e)}
-                    required
+                    // required
                   />
                   {websiteValChecker && (
                     <Fragment>

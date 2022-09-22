@@ -451,7 +451,7 @@ const EditSctClients = ({
                   <label
                   //  className="label-control"
                   >
-                    Website* :
+                    Website:
                   </label>
                   <input
                     type="text"
@@ -461,7 +461,7 @@ const EditSctClients = ({
                     className="form-control"
                     // onChange={(e) => onInputChange(e)}
                     onChange={(e) => onleadCheck(e)}
-                    required
+                    // required
                   />
                   {websiteValChecker && (
                     <Fragment>
