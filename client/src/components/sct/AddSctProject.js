@@ -32,7 +32,8 @@ const AddSctProject = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      sctProjectName: sctProjectName,
+      sctProjectName:
+        sctProjectName.charAt(0).toUpperCase() + sctProjectName.slice(1),
       sctProjectDesc: sctProjectDesc,
       sctProjectDate: startprojectDate,
       sctProjectEnteredById: user._id,

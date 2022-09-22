@@ -355,8 +355,10 @@ const EditSctClients = ({
     // if (checkErrors()) {
     const finalData = {
       recordId: alleditClientdata ? alleditClientdata._id : "",
-      sctCompanyName: sctCompanyName,
-      sctClientName: sctClientName,
+      sctCompanyName:
+        sctCompanyName.charAt(0).toUpperCase() + sctCompanyName.slice(1),
+      sctClientName:
+        sctClientName.charAt(0).toUpperCase() + sctClientName.slice(1),
       sctEmailId: sctEmailId,
       sctBillingEmail: sctBillingEmail,
       sctPhone1: sctPhone1,

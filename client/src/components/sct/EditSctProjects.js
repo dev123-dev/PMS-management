@@ -44,7 +44,8 @@ const EditSctProjects = ({
     e.preventDefault();
     const finalData = {
       recordId: allSctProjectdata ? allSctProjectdata._id : "",
-      sctProjectName: sctProjectName,
+      sctProjectName:
+        sctProjectName.charAt(0).toUpperCase() + sctProjectName.slice(1),
       sctProjectDesc: sctProjectDesc,
       sctProjectDate: startprojectDate,
       sctProjectEditedById: user._id,

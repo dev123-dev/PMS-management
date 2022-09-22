@@ -123,7 +123,8 @@ const AddSctLeads = ({
     if (staffList.length === 0) {
       if (checkErrorscontact()) {
         const addData = {
-          sctStaffName: sctStaffName,
+          sctStaffName:
+            sctStaffName.charAt(0).toUpperCase() + sctStaffName.slice(1),
           sctStaffPhoneNumber: sctStaffPhoneNumber,
           sctStaffEmailId: sctStaffEmailId,
           sctStaffDesignation: sctStaffDesignation,

@@ -249,7 +249,7 @@ router.post("/get-sct-marketing-employees", async (req, res) => {
     const getMarketingEmployeeDetails = await EmployeeDetails.find({
       empStatus: "Active",
       departmentName: "Software",
-      userGroupName: "Marketing",
+      userGroupName: "Sct Marketing",
     });
     res.json(getMarketingEmployeeDetails);
   } catch (err) {

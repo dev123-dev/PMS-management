@@ -192,7 +192,8 @@ const EditSctContact = ({
     e.preventDefault();
     const finalData = {
       sctStaffId: allStaffdata ? allStaffdata._id : "",
-      sctStaffName: sctStaffName,
+      sctStaffName:
+        sctStaffName.charAt(0).toUpperCase() + sctStaffName.slice(1),
       sctStaffPhoneNumber: sctStaffPhoneNumber,
       sctStaffEmailId: sctStaffEmailId,
       sctStaffDesignation: sctStaffDesignation,
