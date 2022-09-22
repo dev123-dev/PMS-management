@@ -9,6 +9,7 @@ import {
   addDemo,
   checkDemo,
   addSctClientDetails,
+  getSctStaffsData,
 } from "../../actions/sct";
 import DemoSchedulesModal from "./DemoSchedulesModal";
 import { Modal } from "react-bootstrap";
@@ -17,6 +18,7 @@ const AllSctStatusChange = ({
   auth: { isAuthenticated, user, users, loading },
   sct: { demoCheck },
   leadDataVal,
+  sct: { sctStaffData },
   addSctCalls,
   addSctClientCalls,
   addDemo,
@@ -26,10 +28,15 @@ const AllSctStatusChange = ({
   checkDemo,
   addSctClientDetails,
   page,
+  getSctStaffsData,
 }) => {
   useEffect(() => {
     checkDemo({ demoUserId: leadDataVal._id });
   }, [leadDataVal, checkDemo]);
+  let staffFilter = { staffFrom: from, leadDataVal: leadDataVal };
+  useEffect(() => {
+    getSctStaffsData(staffFilter);
+  }, [leadDataVal]);
 
   //STATUS START
   let StatusMethods = [
@@ -159,9 +166,9 @@ const AllSctStatusChange = ({
   };
 
   const allStaff = [];
-  leadDataVal &&
-    leadDataVal.sctStaffs &&
-    leadDataVal.sctStaffs.map(
+  sctStaffData &&
+    sctStaffData.sctStaffs &&
+    sctStaffData.sctStaffs.map(
       (sctStaffs) =>
         sctStaffs.sctStaffStatus === "Active" &&
         allStaff.push({
@@ -624,4 +631,5 @@ export default connect(mapStateToProps, {
   checkDemo,
   addSctClientDetails,
   addSctClientCalls,
+  getSctStaffsData,
 })(AllSctStatusChange);

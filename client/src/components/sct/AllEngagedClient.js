@@ -12,6 +12,7 @@ import {
   // getRegenerateData,
   getPurchaseOrderPrint,
   getInvoicePrint,
+  getSctStaffsData,
 } from "../../actions/sct";
 import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
@@ -21,8 +22,11 @@ import EditSctClients from "./EditSctClients";
 import DeactiveSctClient from "./DeactiveSctClient";
 
 const AllEngagedClient = ({
+  leadDataVal,
+  from,
   auth: { isAuthenticated, user, users },
   sct: { sctClients, sctClientsDD, sctClientsEmp },
+  sct: { sctStaffData },
   regions: { activeCountry },
   getSctClientDetails,
   getActiveCountry,
@@ -30,8 +34,13 @@ const AllEngagedClient = ({
   getSctLastmessage,
   // getRegenerateData,
   getPurchaseOrderPrint,
+  getSctStaffsData,
   getInvoicePrint,
 }) => {
+  let staffFilter = { staffFrom: from, leadDataVal: leadDataVal };
+  useEffect(() => {
+    getSctStaffsData(staffFilter);
+  }, [leadDataVal]);
   useEffect(() => {
     getSctClientDetails({ sctClientCategory: "EC" });
   }, []);
@@ -616,4 +625,5 @@ export default connect(mapStateToProps, {
   // getRegenerateData,
   getPurchaseOrderPrint,
   getInvoicePrint,
+  getSctStaffsData,
 })(AllEngagedClient);
