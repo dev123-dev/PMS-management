@@ -52,21 +52,17 @@ const AllSctProjects = ({
               <h5 className="heading_color">All Project Details </h5>
             </div>
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
-              {/* <img
-                className="img_icon_size log float-right"
-                onClick={() => onClickHandler()}
-                src={require("../../static/images/add-icon.png")}
-                alt="Add Department"
-                title="Add Department"
-              /> */}
-
-              <Link
-                to="#"
-                className="btn btn_green_bg float-right"
-                onClick={() => onClickHandler()}
-              >
-                Add SCT Project
-              </Link>
+              {user.userGroupName && user.userGroupName !== "Sct Marketing" ? (
+                <Link
+                  to="#"
+                  className="btn btn_green_bg float-right"
+                  onClick={() => onClickHandler()}
+                >
+                  Add SCT Project
+                </Link>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
           <div className="row">
@@ -82,7 +78,12 @@ const AllSctProjects = ({
                         <th>Project Name</th>
                         <th>Project Description</th>
                         <th>Project Formation Date</th>
-                        <th>Op</th>
+                        {user.userGroupName &&
+                        user.userGroupName !== "Sct Marketing" ? (
+                          <th>Op</th>
+                        ) : (
+                          <></>
+                        )}
                       </tr>
                     </thead>
                     <tbody>
@@ -98,15 +99,20 @@ const AllSctProjects = ({
                               <td>{allSctProject.sctProjectName}</td>
                               <td>{allSctProject.sctProjectDesc}</td>
                               <td>{sctProjectDate}</td>
-                              <td>
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() => onUpdate(allSctProject, idx)}
-                                  src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
-                                />
-                              </td>
+                              {user.userGroupName &&
+                              user.userGroupName !== "Sct Marketing" ? (
+                                <td>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allSctProject, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </td>
+                              ) : (
+                                <></>
+                              )}
                             </tr>
                           );
                         })}

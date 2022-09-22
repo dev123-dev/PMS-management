@@ -66,7 +66,11 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto navbar_Collapse_content">
                 <NavItem>
-                  {!loading && isAuthenticated && user ? (
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  user.userGroupName &&
+                  user.userGroupName !== "Sct Marketing" ? (
                     <NavLink
                       to="/job-queue"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -87,8 +91,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     user.userGroupName === "Administrator") ||
                     user.userGroupName === "Super Admin" ||
                     user.userGroupName === "Clarical Admins" ||
-                    user.designationName ===
-                      "Head of Marketing & Operation") ? (
+                    user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/daily-job-sheet"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -272,13 +275,24 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                         user.userGroupName === "Dct Marketing" ? (
                           <>
                             <li>
-                              <Link to="/all-dct-client">All Dct Clients</Link>
-                            </li>
-                            <li>
                               <Link to="/all-Region">All Region</Link>
                             </li>
                             <li>
                               <Link to="/all-sct-projects">All Projects</Link>
+                            </li>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+
+                        {(user &&
+                          user.userGroupName &&
+                          user.userGroupName === "Administrator") ||
+                        user.userGroupName === "Super Admin" ||
+                        user.userGroupName === "Marketing" ? (
+                          <>
+                            <li>
+                              <Link to="/all-dct-client">All Dct Clients</Link>
                             </li>
                           </>
                         ) : (
