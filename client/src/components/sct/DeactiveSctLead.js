@@ -1,8 +1,7 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { deactivateSctLeadDetails } from "../../actions/sct";
 
@@ -26,11 +25,9 @@ const DeactiveSctLead = ({
         ? Leaddeavtivedata.sctWebsite
         : "",
     sctLeadDeactiveReason: "",
-    isSubmitted: false,
   });
 
-  const { sctLeadDeactiveReason, sctWebsite, sctCompanyName, isSubmitted } =
-    formData;
+  const { sctLeadDeactiveReason, sctWebsite, sctCompanyName } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

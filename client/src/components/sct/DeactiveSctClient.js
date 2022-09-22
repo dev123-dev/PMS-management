@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
@@ -24,11 +24,9 @@ const DeactiveSctClient = ({
         ? Clientdeactivedata.sctWebsite
         : "",
     sctClientDeactivateReason: "",
-    isSubmitted: false,
   });
 
-  const { sctClientDeactivateReason, sctWebsite, sctCompanyName, isSubmitted } =
-    formData;
+  const { sctClientDeactivateReason, sctWebsite, sctCompanyName } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
