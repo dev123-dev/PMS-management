@@ -139,6 +139,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                 ((user.userGroupName &&
                   user.userGroupName === "Administrator") ||
                   user.userGroupName === "Super Admin" ||
+                  user.userGroupName === "Dct Marketing" ||
                   user.userGroupName === "Marketing") ? (
                   <Dropdown title="DCT">
                     <NavLink
@@ -187,6 +188,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                 ((user.userGroupName &&
                   user.userGroupName === "Administrator") ||
                   user.userGroupName === "Super Admin" ||
+                  user.userGroupName === "Sct Marketing" ||
                   user.userGroupName === "Marketing") ? (
                   <Dropdown title="SCT">
                     <NavLink
@@ -213,43 +215,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     >
                       <Dropdown.Item>All Engaged Clients</Dropdown.Item>
                     </NavLink>
-
-                    {/* <Dropdown.Menu title="All Engaged Clients">
-                      <NavLink
-                        to="/all-engaged-clients"
-                        activeStyle={{
-                          color: "#ffd037",
-                          textDecoration: "none",
-                        }}
-                      >
-                        <Dropdown.Item>Quotation & PO</Dropdown.Item>
-                      </NavLink>
-
-                      <NavLink
-                        to="/all-invoice-engaged-client"
-                        activeStyle={{
-                          color: "#ffd037",
-                          textDecoration: "none",
-                        }}
-                      >
-                        <Dropdown.Item>Invoice</Dropdown.Item>
-                      </NavLink>
-                    </Dropdown.Menu> */}
-
                     <NavLink
                       to="/all-regular-clients"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       <Dropdown.Item>All Regular Clients</Dropdown.Item>
                     </NavLink>
-
-                    <NavLink
-                      to="/all-sct-projects"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      <Dropdown.Item>All Projects</Dropdown.Item>
-                    </NavLink>
-
                     <NavLink
                       to="/all-demo"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -262,150 +233,10 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     >
                       <Dropdown.Item>Sct Calls History</Dropdown.Item>
                     </NavLink>
-
-                    {/* <NavLink
-                      to="/all-prospects"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      <Dropdown.Item>All Prospectus</Dropdown.Item>
-                    </NavLink>
-                    <NavLink
-                      to="/all-followup"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      <Dropdown.Item>All Followup</Dropdown.Item>
-                    </NavLink>
-                    <NavLink
-                      to="/test-client-followup"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      <Dropdown.Item>Test Client Followup</Dropdown.Item>
-                    </NavLink>
-                    <NavLink
-                      to="/regular-client-followup"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      <Dropdown.Item>Regular Client Followup</Dropdown.Item>
-                    </NavLink>
-                    <NavLink
-                      to="/dct-calls"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      <Dropdown.Item>Dct Calls History</Dropdown.Item>
-                    </NavLink> */}
                   </Dropdown>
                 ) : (
                   <></>
                 )}
-                {/* <NavItem>
-                  {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin" ||
-                    user.userGroupName === "Marketing") ? (
-                    <NavLink
-                      to="/all-leads"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      All Leads
-                    </NavLink>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </NavItem>
-                <NavItem>
-                  {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin" ||
-                    user.userGroupName === "Marketing") ? (
-                    <NavLink
-                      to="/all-prospects"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      All Prospectus
-                    </NavLink>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </NavItem>
-
-                <NavItem>
-                  {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin" ||
-                    user.userGroupName === "Marketing") ? (
-                    <NavLink
-                      to="/all-followup"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      All Followup
-                    </NavLink>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </NavItem>
-                <NavItem>
-                  {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin" ||
-                    user.userGroupName === "Marketing") ? (
-                    <NavLink
-                      to="/test-client-followup"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      Test Client Followup
-                    </NavLink>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </NavItem>
-                <NavItem>
-                  {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin" ||
-                    user.userGroupName === "Marketing") ? (
-                    <NavLink
-                      to="/regular-client-followup"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      Regular Client Followup
-                    </NavLink>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </NavItem>
-                <NavItem>
-                  {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin" ||
-                    user.userGroupName === "Marketing") ? (
-                    <NavLink
-                      to="/dct-calls"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      Dct Calls
-                    </NavLink>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </NavItem> */}
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>
@@ -436,13 +267,18 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                           user.userGroupName &&
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ||
-                        user.userGroupName === "Marketing" ? (
+                        user.userGroupName === "Marketing" ||
+                        user.userGroupName === "Sct Marketing" ||
+                        user.userGroupName === "Dct Marketing" ? (
                           <>
                             <li>
                               <Link to="/all-dct-client">All Dct Clients</Link>
                             </li>
                             <li>
                               <Link to="/all-Region">All Region</Link>
+                            </li>
+                            <li>
+                              <Link to="/all-sct-projects">All Projects</Link>
                             </li>
                           </>
                         ) : (
