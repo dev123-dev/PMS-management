@@ -147,7 +147,7 @@ const SctInvoicePdfPrint = ({
 
   let totSubTot = 0;
   invoicePrintLS &&
-    invoicePrintLS.item.map((row, i) => (totSubTot = Number(row.totalAmt)));
+    invoicePrintLS.item.map((row, i) => (totSubTot += Number(row.totalAmt)));
 
   // if (!data || data === undefined) {
   //   return <Redirect to="/all-engaged-clients" />;
