@@ -694,9 +694,10 @@ export const editSctClientDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/sct/edit-sct-Clients", finalData, config);
-    // dispatch(
-    //   getSctClientDetails({ sctClientCategory: "EC", sctClientCategory: "RC" })
-    // );
+    if (finalData.filterData) {
+      dispatch(getSctClientDetails(finalData.filterData));
+      dispatch(getSctClientDetailsDD(finalData.filterData));
+    }
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -713,9 +714,10 @@ export const deactivateSctClientDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/sct/deactivate-sct-Clients", finalData, config);
-    // dispatch(
-    //   getSctClientDetails({ sctClientCategory: "EC", sctClientCategory: "RC" })
-    // );
+    if (finalData.filterData) {
+      dispatch(getSctClientDetails(finalData.filterData));
+      dispatch(getSctClientDetailsDD(finalData.filterData));
+    }
     dispatch({
       type: SET_LOADING_FALSE,
     });

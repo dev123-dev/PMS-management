@@ -588,7 +588,7 @@ const AllEngagedClient = ({
           <DeactiveSctClient
             onDeactiveModalChange={onDeactiveModalChange}
             Clientdeactivedata={userDatadeactive}
-            // filterData={filterData}
+            filterData={filterData}
           />
         </Modal.Body>
       </Modal>
