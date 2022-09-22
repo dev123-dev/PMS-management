@@ -100,13 +100,13 @@ const EditSctContact = ({
       : ""
   );
   const [staffcountryId, setstaffcountryID] = useState(
-    allStaffdata.sctStaffRegionId
+    allStaffdata && allStaffdata.sctStaffRegionId
   );
   const [staffCountryCode, setstaffCountryCode] = useState(
-    allStaffdata.sctStaffCountryCode
+    allStaffdata && allStaffdata.sctStaffCountryCode
   );
   const [staffcountryname, setstaffcountryname] = useState(
-    allStaffdata.sctStaffRegion
+    allStaffdata && allStaffdata.sctStaffRegion
   );
   const onstaffcountryChange = (e) => {
     var staffcountryId = "";
@@ -146,7 +146,7 @@ const EditSctContact = ({
   );
 
   const onstaffStateChange = (e) => {
-    getstaffdistrictData("");
+    //  getstaffdistrictData("");
     var staffstateId = "";
     getstaffStateData(e);
     staffstateId = e.sId;
@@ -157,36 +157,36 @@ const EditSctContact = ({
     getActiveDistricts(stateVal);
   };
 
-  const [staffdistrict, getstaffdistrictData] = useState();
-  const [staffdistrictId, setstaffdistrictID] = useState(
-    allStaffdata.sctStaffDistrictId ? allStaffdata.sctStaffDistrictId : null
-  );
+  // const [staffdistrict, getstaffdistrictData] = useState();
+  // const [staffdistrictId, setstaffdistrictID] = useState(
+  //   allStaffdata.sctStaffDistrictId ? allStaffdata.sctStaffDistrictId : null
+  // );
 
-  const allstaffdistrict = [];
-  activeDistricts.map((staffdistrict) =>
-    allstaffdistrict.push({
-      districtId: staffdistrict._id,
-      label: staffdistrict.districtName,
-      value: staffdistrict.districtName,
-    })
-  );
-  if (activeDistricts && !staffdistrict && allstaffdistrict.length > 0) {
-    getstaffdistrictData(
-      allstaffdistrict.length !== 0
-        ? allstaffdistrict &&
-            allstaffdistrict.filter(
-              (x) => x.districtId === allStaffdata.sctStaffDistrictId
-            )[0]
-        : ""
-    );
-  }
+  // const allstaffdistrict = [];
+  // activeDistricts.map((staffdistrict) =>
+  //   allstaffdistrict.push({
+  //     districtId: staffdistrict._id,
+  //     label: staffdistrict.districtName,
+  //     value: staffdistrict.districtName,
+  //   })
+  // );
+  // if (activeDistricts && !staffdistrict && allstaffdistrict.length > 0) {
+  //   getstaffdistrictData(
+  //     allstaffdistrict.length !== 0
+  //       ? allstaffdistrict &&
+  //           allstaffdistrict.filter(
+  //             (x) => x.districtId === allStaffdata.sctStaffDistrictId
+  //           )[0]
+  //       : ""
+  //   );
+  // }
 
-  const onstaffdistrictChange = (e) => {
-    var staffdistrictId = "";
-    getstaffdistrictData(e);
-    staffdistrictId = e.districtId;
-    setstaffdistrictID(staffdistrictId);
-  };
+  // const onstaffdistrictChange = (e) => {
+  //   var staffdistrictId = "";
+  //   getstaffdistrictData(e);
+  //   staffdistrictId = e.districtId;
+  //   setstaffdistrictID(staffdistrictId);
+  // };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -200,7 +200,7 @@ const EditSctContact = ({
       sctStaffRegionId: staffcountryId,
       sctStaffCountryCode: staffCountryCode,
       sctStaffStateId: staffstateId,
-      sctStaffDistrictId: staffdistrictId,
+      //  sctStaffDistrictId: staffdistrictId,
       filterData: filterData,
       staffFilter: staffFilter,
       page: page,
@@ -270,7 +270,7 @@ const EditSctContact = ({
                 onChange={(e) => onstaffStateChange(e)}
               />
             </div>
-            <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+            {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
               <label
                 className="label-control"
                 // style={DistrictErrorStyle}
@@ -285,7 +285,7 @@ const EditSctContact = ({
                 placeholder="Select District"
                 onChange={(e) => onstaffdistrictChange(e)}
               />
-            </div>
+            </div> */}
             <div className="col-lg-3 col-md-6 col-sm-6 col-12">
               <label className="label-control">Staff Phone:</label>
               <input
