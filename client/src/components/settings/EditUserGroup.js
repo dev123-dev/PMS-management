@@ -28,28 +28,19 @@ const EditUserGroup = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
     const finalData = {
       recordId: userGroupsdata ? userGroupsdata._id : "",
-      userGroupName: userGroupName,
+      userGroupName: userGroupName.trim(),
       userGroupEditedById: user._id,
     };
     editUserGroup(finalData);
     onEditModalChange(true);
-    // onAddModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // }
   };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
     <Fragment>
-      {" "}
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
           <div className="col-lg-6 col-md-6 col-sm-6 col-12">

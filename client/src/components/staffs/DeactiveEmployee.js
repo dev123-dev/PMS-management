@@ -38,7 +38,7 @@ const DeactiveEmployee = ({
     e.preventDefault();
     const finalData = {
       recordId: staffDeactivedata ? staffDeactivedata._id : "",
-      empDeactiveReason: empDeactiveReason,
+      empDeactiveReason: empDeactiveReason.trim(),
       empDeactiveById: user._id,
       empDeactiveDateTime: new Date().toLocaleString(),
       empStatus: "Deactive",

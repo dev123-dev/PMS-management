@@ -23,19 +23,12 @@ const AddUserGroup = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
     const finalData = {
-      userGroupName: userGroupName,
+      userGroupName: userGroupName.trim(),
       userGroupEnteredById: user._id,
     };
     addUserGroup(finalData);
     onAddModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // }
   };
 
   return !isAuthenticated || !user || !users ? (

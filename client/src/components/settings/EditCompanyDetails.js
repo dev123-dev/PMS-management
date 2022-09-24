@@ -134,10 +134,9 @@ const EditCompanyDetails = ({
       const addData = {
         recordId: editcompanydatas ? editcompanydatas._id : "",
         accountNo: accountNo,
-        IFSCCode: IFSCCode,
-        bankName: bankName,
-        bankBranch: bankBranch,
-
+        IFSCCode: IFSCCode.trim(),
+        bankName: bankName.trim(),
+        bankBranch: bankBranch.trim(),
         defaultBank: isChecked,
       };
       setFormDatas({
@@ -146,7 +145,6 @@ const EditCompanyDetails = ({
         IFSCCode: "",
         bankName: "",
         bankBranch: "",
-
         defaultBank: "",
       });
       setIsChecked(false);
@@ -189,17 +187,17 @@ const EditCompanyDetails = ({
     e.preventDefault();
     const finalData = {
       recordId: editcompanydatas ? editcompanydatas._id : "",
-      companyName: companyName,
-      companyWebsite: companyWebsite,
+      companyName: companyName.trim(),
+      companyWebsite: companyWebsite.trim(),
       companyPhone1: companyPhone1,
       companyPhone2: companyPhone2,
-      companyGSTIn: companyGSTIn,
-      companyPanNo: companyPanNo,
-      companyRegisterNo: companyRegisterNo,
-      companyTradeLicenseNo: companyTradeLicenseNo,
-      companyDescription: companyDescription,
-      companyAddress: companyAddress,
-      companyShortForm: companyShortForm,
+      companyGSTIn: companyGSTIn.trim(),
+      companyPanNo: companyPanNo.trim(),
+      companyRegisterNo: companyRegisterNo.trim(),
+      companyTradeLicenseNo: companyTradeLicenseNo.trim(),
+      companyDescription: companyDescription.trim(),
+      companyAddress: companyAddress.trim(),
+      companyShortForm: companyShortForm.trim(),
       companyType: companyType.value,
       companyEditedById: user._id,
       companyEditedDateTime: new Date().toLocaleString(),

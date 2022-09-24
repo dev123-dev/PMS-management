@@ -44,25 +44,18 @@ const AddProjectStatus = ({
       });
       return false;
     }
-
     return true;
   };
   const onSubmit = (e) => {
     e.preventDefault();
-
     if (checkErrors()) {
       const finalData = {
         projectStatusCategory: projectStatusCategory.value,
-        projectStatusType: projectStatusType,
+        projectStatusType: projectStatusType.trim(),
         projectStutusEnteredById: user._id,
       };
       addProjectStatus(finalData);
       onAddModalChange(true);
-      // setFormData({
-      //   ...formData,
-      //   districtName: "",
-      //   isSubmitted: true,
-      // });
     }
   };
 

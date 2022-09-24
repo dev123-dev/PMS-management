@@ -29,7 +29,7 @@ const DeactiveCompany = ({
     e.preventDefault();
     const finalData = {
       recordId: companydeactivedata ? companydeactivedata._id : "",
-      companyDeactivateReason: companyDeactivateReason,
+      companyDeactivateReason: companyDeactivateReason.trim(),
       companyDeactivateById: user._id,
       companyDeactivateDateTime: new Date().toLocaleString(),
     };

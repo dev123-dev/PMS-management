@@ -34,18 +34,12 @@ const EditDesignation = ({
     e.preventDefault();
     const finalData = {
       recordId: allDeptartmentdata ? allDeptartmentdata._id : "",
-      designationName: designationName,
-      designationDesc: designationDesc,
+      designationName: designationName.trim(),
+      designationDesc: designationDesc.trim(),
       designationEditedById: user._id,
     };
     editDesignation(finalData);
     onEditModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // getStateData("");
   };
 
   return !isAuthenticated || !user || !users ? (

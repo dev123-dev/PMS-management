@@ -35,19 +35,12 @@ const DeactiveDesignation = ({
     e.preventDefault();
     const finalData = {
       recordId: Designationdeactivedata ? Designationdeactivedata._id : "",
-      designationDeactiveReason: designationDeactiveReason,
+      designationDeactiveReason: designationDeactiveReason.trim(),
       designationDeactiveById: user._id,
       designationDeactiveDateTime: new Date().toLocaleString(),
     };
-
     deactiveDesignationData(finalData);
     onDeactiveModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // getStateData("");
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -56,13 +49,13 @@ const DeactiveDesignation = ({
     <Fragment>
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
             <label className="label-control">
               {" "}
               Designation Name : {designationName}
             </label>
           </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
             <label className="label-control">
               Designation Description : {designationDesc}
             </label>

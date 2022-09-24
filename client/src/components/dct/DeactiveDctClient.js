@@ -39,7 +39,7 @@ const DeactiveDctClient = ({
     e.preventDefault();
     const finalData = {
       recordId: dctclientdeactivedata ? dctclientdeactivedata._id : "",
-      dctClientDeactivateReason: dctClientDeactivateReason,
+      dctClientDeactivateReason: dctClientDeactivateReason.trim(),
       dctClientDeactivateById: user._id,
       dctClientStatus: "Deactive",
       dctClientDeactivateDateTime: new Date().toLocaleString(),

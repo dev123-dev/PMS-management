@@ -43,19 +43,12 @@ const DeactiveProjectStatus = ({
       recordId: allProjectStatusdeavtivedata
         ? allProjectStatusdeavtivedata._id
         : "",
-      projectStatusDeactiveReason: projectStatusDeactiveReason,
+      projectStatusDeactiveReason: projectStatusDeactiveReason.trim(),
       projectStatusDeactiveById: user._id,
       projectStatusDeactiveDateTime: new Date().toLocaleString(),
     };
-
     deactiveProjectStatus(finalData);
     onDeactiveModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // }
   };
 
   return !isAuthenticated || !user || !users ? (

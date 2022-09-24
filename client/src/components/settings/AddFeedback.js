@@ -145,19 +145,17 @@ const AddFeedback = ({
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
-        feedbackProblem: feedbackProblem,
+        feedbackProblem: feedbackProblem.trim(),
         feedbackCategory: feedbackCategory.value,
         feedbackPriority: feedbackpriority.value,
         feedbackBelongsTo: feedbackBelongsTo.value,
-        feedbackNotes: feedbacknotes,
+        feedbackNotes: feedbacknotes.trim(),
         feedbackStatus: "Pending",
         feedbackEnteredById: user._id,
         feedbackEnteredByName: user.empFullName,
         feedbackEnteredDate: new Date().toISOString().split("T")[0],
       };
-
       AddFeedbackData(finalData);
-
       onAddFeedbackModalChange(true);
     }
   };

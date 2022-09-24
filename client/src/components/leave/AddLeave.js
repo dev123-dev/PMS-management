@@ -235,12 +235,11 @@ const AddLeave = ({
       const finalData = {
         leaveDateVals: leaveDateVals,
         leaveType: leaveTypedaymode.value,
-        leaveReason: leaveReason,
+        leaveReason: leaveReason.trim(),
         empId: employeeId,
         leavecategoryName: leavecatname,
         leavecategoryId: leavecatId,
       };
-
       addLeaves(finalData);
       onAddLeaveModalChange(true);
     }

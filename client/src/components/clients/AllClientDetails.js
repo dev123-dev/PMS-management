@@ -17,22 +17,9 @@ const AllClientDetails = ({
     getAllClients();
   }, [getAllClients]);
 
-  const [showAddModal, setShowAddModal] = useState(false);
-  const handleAddModalClose = () => setShowAddModal(false);
-  const onClickHandler = () => {
-    setShowAddModal(true);
-  };
-  const onAddModalChange = (e) => {
-    if (e) {
-      handleAddModalClose();
-    }
-  };
-
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
-  const onClickHandler1 = () => {
-    setShowEditModal(true);
-  };
+
   const onEditModalChange = (e) => {
     if (e) {
       handleEditModalClose();
@@ -47,9 +34,7 @@ const AllClientDetails = ({
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
   const handleDeactiveModalClose = () => setShowDeactiveModal(false);
-  const onClickHandler2 = () => {
-    setShowDeactiveModal(true);
-  };
+
   const onDeactiveModalChange = (e) => {
     if (e) {
       handleDeactiveModalClose();
@@ -151,36 +136,6 @@ const AllClientDetails = ({
             </div>
           </div>
         </section>
-        <Modal
-          show={showAddModal}
-          backdrop="static"
-          keyboard={false}
-          size="xl"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header>
-            <div className="col-lg-10">
-              <h3 className="modal-title text-center">
-                Add Department Details
-              </h3>
-            </div>
-            <div className="col-lg-1">
-              <button onClick={handleAddModalClose} className="close">
-                <img
-                  src={require("../../static/images/close.png")}
-                  alt="X"
-                  style={{ height: "20px", width: "20px" }}
-                />
-              </button>
-            </div>
-          </Modal.Header>
-          <Modal.Body>
-            {/* <AddDepartment
-              onAddModalChange={onAddModalChange}
-            /> */}
-          </Modal.Body>
-        </Modal>
       </div>
 
       <Modal

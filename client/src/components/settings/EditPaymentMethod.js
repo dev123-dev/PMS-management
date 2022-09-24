@@ -28,22 +28,17 @@ const EditPaymentMethod = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
     const finalData = {
       recordId: paymentModeData ? paymentModeData._id : "",
-      paymentModeName: paymentModeName,
-
+      paymentModeName: paymentModeName.trim(),
       paymentModeEditedById: user._id,
     };
-
     EditPaymentMode(finalData);
     setFormData({
       ...formData,
-
       isSubmitted: true,
     });
     onEditModalChange(true);
-    // }
   };
 
   return !isAuthenticated || !user || !users ? (

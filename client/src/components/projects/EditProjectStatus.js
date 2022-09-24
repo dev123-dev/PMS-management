@@ -36,22 +36,14 @@ const EditProjectStatus = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
     const finalData = {
       recordId: allProjectStatusdata ? allProjectStatusdata._id : "",
       projectStatusCategory: projectStatusCategory.value,
-      projectStatusType: projectStatusType,
+      projectStatusType: projectStatusType.trim(),
       projectStutusEditedById: user._id,
     };
-
     editProjectStatus(finalData);
     onEditModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // }
   };
   const StatusCategory = [
     { value: "Amend", label: "Amend" },

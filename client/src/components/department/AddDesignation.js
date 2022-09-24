@@ -28,19 +28,12 @@ const AddDesignation = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      designationName: designationName,
-      designationDesc: designationDesc,
+      designationName: designationName.trim(),
+      designationDesc: designationDesc.trim(),
       designationEnteredById: user._id,
     };
     AddNewDesignation(finalData);
     onAddModalChange(true);
-
-    // setFormData({
-    //   ...formData,
-    //   districtName: "",
-    //   isSubmitted: true,
-    // });
-    // getStateData("");
   };
 
   return !isAuthenticated || !user || !users ? (

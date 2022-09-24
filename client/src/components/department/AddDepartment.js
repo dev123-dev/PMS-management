@@ -26,8 +26,8 @@ const AddDepartment = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      departmentName: departmentName,
-      departmentDesc: departmentDesc,
+      departmentName: departmentName.trim(),
+      departmentDesc: departmentDesc.trim(),
       departmentEnteredById: user._id,
     };
     AddNewDepartment(finalData);

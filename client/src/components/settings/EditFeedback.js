@@ -115,16 +115,15 @@ const EditFeedback = ({
     // if (checkErrors()) {
     const finalData = {
       recordId: feedbackData ? feedbackData._id : "",
-      feedbackProblem: feedbackProblem,
+      feedbackProblem: feedbackProblem.trim(),
       feedbackCategory: feedbackCategory.value,
       feedbackPriority: feedbackPriority.value,
       feedbackBelongsTo: feedbackBelongsTo.value,
-      feedbackNotes: feedbackNotes,
+      feedbackNotes: feedbackNotes.trim(),
       feedbackStatus: feedbackStatus.value,
       feedbackEditedById: user._id,
     };
     EditFeedbackData(finalData);
-
     onEditModalChange(true);
   };
 

@@ -113,13 +113,6 @@ const AddDctClients = ({
   const [staffCountryCode, setstaffCountryCode] = useState();
   const [staffcountryname, setstaffcountryname] = useState();
   const onstaffcountryChange = (e) => {
-    // //Required Validation Starts
-    // setError({
-    //   ...error,
-    //   sIdChecker: true,
-    //   sIdErrorStyle: { color: "#000" },
-    // });
-    // //Required Validation ends
     var staffcountryId = "";
     var staffCountryCode = "";
     var staffcountryname = "";
@@ -163,8 +156,8 @@ const AddDctClients = ({
         const addData = {
           staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1),
           staffPhoneNumber: staffPhoneNumber,
-          staffEmailId: staffEmailId,
-          staffDesignation: staffDesignation,
+          staffEmailId: staffEmailId.trim(),
+          staffDesignation: staffDesignation.trim(),
           staffRegion: staffcountryname,
           staffRegionId: staffcountryId,
           staffCountryCode: staffCountryCode,
@@ -376,21 +369,21 @@ const AddDctClients = ({
     if (checkErrors()) {
       const finalData = {
         companyName: companyName.charAt(0).toUpperCase() + companyName.slice(1),
-        website: website,
+        website: website.trim(),
         clientName: clientName.charAt(0).toUpperCase() + clientName.slice(1),
-        clientCompanyFounderName: clientCompanyFounderName,
-        emailId: emailId,
-        clientEmail: clientEmail,
+        clientCompanyFounderName: clientCompanyFounderName.trim(),
+        emailId: emailId.trim(),
+        clientEmail: clientEmail.trim(),
         clientType: clientType.value,
-        billingEmail: billingEmail,
-        clientCurrency: clientCurrency,
-        clientFolderName: clientFolderName,
+        billingEmail: billingEmail.trim(),
+        clientCurrency: clientCurrency.trim(),
+        clientFolderName: clientFolderName.trim(),
         phone1: phone1,
         phone2: phone2,
         paymentId: paymentId,
-        paymentModeName: paymentModeName,
-        address: address,
-        importantPoints: importantPoints,
+        paymentModeName: paymentModeName.trim(),
+        address: address.trim(),
+        importantPoints: importantPoints.trim(),
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
         countryCode: countrycode,

@@ -34,7 +34,7 @@ const AddSctProject = ({
     const finalData = {
       sctProjectName:
         sctProjectName.charAt(0).toUpperCase() + sctProjectName.slice(1),
-      sctProjectDesc: sctProjectDesc,
+      sctProjectDesc: sctProjectDesc.trim(),
       sctProjectDate: startprojectDate,
       sctProjectEnteredById: user._id,
     };

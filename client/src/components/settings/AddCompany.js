@@ -114,10 +114,9 @@ const AddCompany = ({
       // if (checkErrors()) {
       const addData = {
         accountNo: accountNo,
-        IFSCCode: IFSCCode,
-        bankName: bankName,
-        bankBranch: bankBranch,
-
+        IFSCCode: IFSCCode.trim(),
+        bankName: bankName.trim(),
+        bankBranch: bankBranch.trim(),
         defaultBank: isChecked,
       };
       setFormDatas({
@@ -126,7 +125,6 @@ const AddCompany = ({
         IFSCCode: "",
         bankName: "",
         bankBranch: "",
-
         defaultBank: "",
       });
       setIsChecked(false);
@@ -153,28 +151,25 @@ const AddCompany = ({
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
-        companyName: companyName,
-        companyWebsite: companyWebsite,
+        companyName: companyName.trim(),
+        companyWebsite: companyWebsite.trim(),
         companyPhone1: companyPhone1,
         companyPhone2: companyPhone2,
-        companyGSTIn: companyGSTIn,
-        companyPanNo: companyPanNo,
-        companyRegisterNo: companyRegisterNo,
-        companyTradeLicenseNo: companyTradeLicenseNo,
-        companyDescription: companyDescription,
-        companyAddress: companyAddress,
+        companyGSTIn: companyGSTIn.trim(),
+        companyPanNo: companyPanNo.trim(),
+        companyRegisterNo: companyRegisterNo.trim(),
+        companyTradeLicenseNo: companyTradeLicenseNo.trim(),
+        companyDescription: companyDescription.trim(),
+        companyAddress: companyAddress.trim(),
         companyType: companyType.value ? companyType : bankTypeVal[0].value,
-        companyShortForm: companyShortForm,
+        companyShortForm: companyShortForm.trim(),
         bank: AddedDetails,
         departmentEnteredById: user._id,
         companyEnteredByName: user.empFullName,
       };
-      console.log(finalData);
       AddCompanyDetails(finalData);
-      // onAddModalChange(true);
       setFormData({
         ...formData,
-
         isSubmitted: true,
       });
     }
@@ -355,11 +350,15 @@ const AddCompany = ({
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Account No :</label>
                 <input
-                  type="text"
+                  type="Number"
                   name="accountNo"
                   value={accountNo}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">

@@ -22,20 +22,12 @@ const AddPaymentMethod = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
     const finalData = {
-      paymentModeName: paymentMode,
+      paymentModeName: paymentMode.trim(),
       paymentModeEnteredById: user._id,
     };
-
     AddPaymentMode(finalData);
-    // setFormData({
-    //   ...formData,
-    //   paymentMode: "",
-    //   isSubmitted: true,
-    // });
     onAddModalChange(true);
-    // }
   };
 
   return !isAuthenticated || !user || !users ? (

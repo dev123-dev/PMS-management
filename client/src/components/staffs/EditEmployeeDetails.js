@@ -184,134 +184,6 @@ const EditEmployeeDetails = ({
     empCA,
     profilephoto,
   } = formData;
-  // const [error, setError] = useState({
-  //   passwordValChecker: false,
-  //   passwordValResult: "",
-  //   passwordValStyle: {},
-  //   passwordInptErrStyle: {},
-
-  //   repwdValChecker: false,
-  //   repwdValResult: "",
-  //   repwdValStyle: {},
-  //   repwdInptErrStyle: {},
-  // });
-  // let passwrdTooltip = {
-  //   marginLeft: "-16em",
-  //   position: "absolute",
-  //   marginTop: "1.5em",
-  //   pointerEvents: "none",
-  //   zIndex: "999",
-  //   width: "300px",
-  // };
-  // const onInputChange3 = (e) => {
-  //   const { name, value } = e.target;
-  //   switch (name) {
-  //     case "password":
-  //       if (value === "") {
-  //         setError({
-  //           ...error,
-  //           passwordValChecker: true,
-  //           passwordValResult: "REQUIRED",
-  //           passwordValStyle: { color: "#FF0000", marginTop: "30px" },
-  //           passwordInptErrStyle: { border: "1px solid #FF0000" },
-  //         });
-  //         setFormData({ ...formData, [e.target.name]: "" });
-  //       } else {
-  //         const pwdFilter = /^(?=.*\d)(?=.*[a-z])/;
-  //         if (pwdFilter.test(value)) {
-  //           setError({
-  //             ...error,
-  //             passwordValChecker: true,
-  //             passwordValResult: "STRONG",
-  //             passwordValStyle: { color: "#43b90f", marginTop: "30px" },
-  //             passwordInptErrStyle: { border: "1px solid #43b90f" },
-  //           });
-  //         } else {
-  //           setError({
-  //             ...error,
-  //             passwordValChecker: true,
-  //             passwordValResult: "WEAK",
-  //             passwordValStyle: { color: "#FF0000", marginTop: "30px" },
-  //             passwordInptErrStyle: { border: "1px solid #FF0000" },
-  //           });
-  //         }
-  //         setFormData({ ...formData, [e.target.name]: value });
-  //       }
-  //       break;
-
-  //     case "rePassword":
-  //       if (value === "") {
-  //         setError({
-  //           ...error,
-  //           repwdValChecker: true,
-  //           repwdValResult: "REQUIRED",
-  //           repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-  //           repwdInptErrStyle: { border: "1px solid #FF0000" },
-  //         });
-  //         setFormData({ ...formData, [e.target.name]: "" });
-  //       } else {
-  //         if (value === formData.password) {
-  //           setError({
-  //             ...error,
-  //             repwdValChecker: true,
-  //             repwdValResult: "MATCHED",
-  //             repwdValStyle: { color: "#43b90f", marginTop: "30px" },
-  //             repwdInptErrStyle: { border: "1px solid #43b90f" },
-  //           });
-  //         } else {
-  //           setError({
-  //             ...error,
-  //             repwdValChecker: true,
-  //             repwdValResult: "DOES NOT MATCH",
-  //             repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-  //             repwdInptErrStyle: { border: "1px solid #FF0000" },
-  //           });
-  //         }
-  //         setFormData({ ...formData, [e.target.name]: value });
-  //       }
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-  // };
-
-  // const checkErrors = (formData) => {
-  //   if (formData && formData.password === "") {
-  //     setError({
-  //       ...error,
-  //       passwordValChecker: true,
-  //       passwordValResult: "REQUIRED",
-  //       passwordValStyle: { color: "#FF0000", marginTop: "30px" },
-  //       passwordInptErrStyle: { border: "1px solid #FF0000" },
-  //     });
-  //     return false;
-  //   }
-  //   if (formData && formData.rePassword !== formData.password) {
-  //     setError({
-  //       ...error,
-  //       repwdValChecker: true,
-  //       repwdValResult: "DOESNOT MATCH",
-  //       // repwdValResult: "REQUIRED",
-  //       repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-  //       repwdInptErrStyle: { border: "1px solid #FF0000" },
-  //     });
-  //     return false;
-  //   }
-
-  //   if (formData && formData.rePassword === "") {
-  //     setError({
-  //       ...error,
-  //       repwdValChecker: true,
-  //       repwdValResult: "REQUIRED",
-  //       repwdValStyle: { color: "#FF0000", marginTop: "30px" },
-  //       repwdInptErrStyle: { border: "1px solid #FF0000" },
-  //     });
-  //     return false;
-  //   }
-
-  //   return true;
-  // };
 
   const [color, setColor] = useState(
     allEmployeedata && allEmployeedata.empColorCode
@@ -481,38 +353,38 @@ const EditEmployeeDetails = ({
     // if (checkErrors()) {
     const finalData = {
       recordId: allEmployeedata ? allEmployeedata._id : "",
-      empFullName: empFullName,
+      empFullName: empFullName.trim(),
       empPhone: employeePhone,
-      empAadharNo: employeeAadharNo,
-      empPanNo: employeePanNo,
+      empAadharNo: employeeAadharNo.trim(),
+      empPanNo: employeePanNo.trim(),
       empDOB: employeeDOBDate,
-      empEmail: employeeEmail,
+      empEmail: employeeEmail.trim(),
       empJoiningDate: employeeDOJDate,
       departmentId: department.departmentId,
       departmentName: department.value,
       designationId: designation.designationId,
       designationName: designation.value,
 
-      empAddress: empAddress,
-      empState: employeeState,
-      empPincode: employeePincode,
-      empBankName: employeeBankName,
-      empIFSCCode: employeeIFSCcode,
-      empAccountNo: employeeAccountNo,
-      empBankBranch: employeeBranch,
-      empPFNo: employeePFNo,
-      empESICNo: employeeESI,
-      empUANNo: employeeUANNo,
-      empBasic: employeeBasic,
-      empHRA: employeeHRA,
-      empDA: employeeDA,
-      empCA: empCA,
+      empAddress: empAddress.trim(),
+      empState: employeeState.trim(),
+      empPincode: employeePincode.trim(),
+      empBankName: employeeBankName.trim(),
+      empIFSCCode: employeeIFSCcode.trim(),
+      empAccountNo: employeeAccountNo.trim(),
+      empBankBranch: employeeBranch.trim(),
+      empPFNo: employeePFNo.trim(),
+      empESICNo: employeeESI.trim(),
+      empUANNo: employeeUANNo.trim(),
+      empBasic: employeeBasic.trim(),
+      empHRA: employeeHRA.trim(),
+      empDA: employeeDA.trim(),
+      empCA: empCA.trim(),
       empColorCode: color,
       empDesignationDate: employeeDesigDate,
       empPFDate: employeePfDate,
-      cityallowance: cityallowance,
-      Others: Others,
-      proinc: proinc,
+      cityallowance: cityallowance.trim(),
+      Others: Others.trim(),
+      proinc: proinc.trim(),
       usergroupsId: usergroups.usergroupsId,
       userGroupName: usergroups.value,
       empEditedById: user._id,
@@ -768,86 +640,6 @@ const EditEmployeeDetails = ({
                     </div>
                   </div>
                 </div>
-
-                {/* <div className="row col-lg-11 col-md-11 col-sm-12 col-12">
-                  <div className="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                    <label className="label-control">UserName* :</label>
-                    <input
-                      type="text"
-                      name="userName"
-                      value={userName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                      autoComplete="false"
-                      required
-                    />
-                  </div>
-                  <div className=" col-lg-3 col-md-9 col-sm-9 col-12 py-4">
-                    <label> Password* :</label>
-                    <div className="">
-                      <input
-                        type="password"
-                        name="password"
-                        className="form-control "
-                        value={password}
-                        style={passwordInptErrStyle}
-                        onChange={(e) => onInputChange3(e)}
-                        autoComplete="false"
-                        required
-                      />
-                      {passwordValChecker && (
-                        <span
-                          className="form-input-info positioning"
-                          style={passwordValStyle}
-                        >
-                          {passwordValResult}
-                        </span>
-                      )}
-                      <div className="cstm-hint" id="pass_admin_help">
-                        <img
-                          src={require("../../static/images/help1.png")}
-                          alt="help"
-                          id="img_tool_admin"
-                          className="pass_admin_help_icon_question"
-                        />
-                        <div
-                          id="tooltipPassAdmin"
-                          className="syle-hint"
-                          style={passwrdTooltip}
-                          data-hint="Password  at least 1 uppercase and 1 lowercase, 1 digit, 1 symbol, length from 8 to 20"
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-3 col-md-9 col-sm-9 col-12 py-4">
-                    <label className="">Confirm Password* :</label>
-
-                    <div>
-                      <input
-                        type="password"
-                        name="rePassword"
-                        className="form-control "
-                        value={rePassword}
-                        style={repwdInptErrStyle}
-                        onChange={(e) => onInputChange3(e)}
-                        autoComplete="false"
-                        required
-                      />
-                      {repwdValChecker && (
-                        <Fragment>
-                          <span
-                            className="form-input-info positioning"
-                            style={repwdValStyle}
-                          >
-                            {repwdValResult}
-                          </span>
-                        </Fragment>
-                      )}
-                    </div>
-                  </div>
-                </div> */}
-
                 <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
                   <input
                     type="submit"
@@ -863,7 +655,6 @@ const EditEmployeeDetails = ({
             <form onSubmit={(e) => NextBackBtn(2)}>
               <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
                 <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
-                  {/* <div className=" card-new"> */}
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Area Info</h5>
                   </div>
@@ -937,7 +728,6 @@ const EditEmployeeDetails = ({
           <TabPanel tabId="3">
             <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
               <div className=" col-lg-12 col-md-11 col-sm-12 col-12">
-                {/* <div className=" card-new"> */}
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                   <h5>Bank Info</h5>
                 </div>
@@ -1108,21 +898,13 @@ const EditEmployeeDetails = ({
                 </div>
                 <form className="row" onSubmit={(e) => onSubmit(e)}>
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    {/* {loading ? (
-                          <button
-                            className="btn sub_form btn_continue blackbrd Save float-right"
-                            disabled
-                          >
-                            Loading...
-                          </button>
-                        ) : ( */}
                     <input
                       type="submit"
                       name="submit"
                       value="Update"
                       className="btn sub_form btn_continue Save float-right"
                     />
-                    {/* )} */}
+
                     <button
                       className="btn sub_form btn_continue Save float-right"
                       onClick={() => NextBackBtn(1)}
@@ -1131,7 +913,6 @@ const EditEmployeeDetails = ({
                     </button>
                   </div>
                 </form>
-                {/* </div> */}
               </div>
             </div>
           </TabPanel>
@@ -1142,7 +923,6 @@ const EditEmployeeDetails = ({
           </TabPanel>
         </Tabs>
       </section>
-      {/* </div> */}
     </Fragment>
   );
 };
