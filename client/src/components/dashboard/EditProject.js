@@ -204,13 +204,6 @@ const EditProject = ({
 
       clientnameIdErrorStyle: { color: "#000" },
     });
-    //Required Validation ends
-    // var clientId = "";
-    // var clientName = "";
-    // setClientData(e);
-    // clientId = e.clientId;
-
-    // clientName = e.clientName;
 
     setClientData(e);
     setClientId(e.clientId);
@@ -219,25 +212,6 @@ const EditProject = ({
     setBelongsToVal(e.belongsTo);
     setFolderNameVal(e.folderName);
   };
-
-  // const [projectStatusData, setProjectStatusData] = useState(
-  //   allProjectdata
-  //     ? projectStatusOpt &&
-  //         projectStatusOpt.filter(
-  //           (x) => x.projectStatusId === allProjectdata.projectStatusId
-  //         )[0]
-  //     : ""
-  // );
-  // const onProjectStatusChange = (e) => {
-  //   //Required Validation starts
-  //   // setError({
-  //   //   ...error,
-  //   //   projectstatusChecker: true,
-  //   //
-  //   // });
-  //   //Required Validation ends
-  //   setProjectStatusData(e);
-  // };
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -314,45 +288,28 @@ const EditProject = ({
     if (checkErrors()) {
       const finalData = {
         recordId: allProjectdata ? allProjectdata._id : "",
-        projectName: projectName,
+        projectName: projectName.trim(),
         clientId: clientId,
         inputpath: inputpath.trim(),
         clientName: clientData[0] ? clientData[0].value : clientData.value,
         parentClientId: clientBelongsToId ? clientBelongsToId : null,
         parentClientName: clientBelongsTo ? clientBelongsTo : null,
-        // projectLocation:
         clientFolderName: clientFolderName,
         projectPriority: priority.value,
-        // projectJobtype
-        // projectHours
-        projectNotes: Instructions,
-        projectDeadline: deadline,
-        //  projectStatusType: projectStatusData.value,
-        //  projectStatusId: projectStatusData.projectStatusId,
-        // projectPrice:
+        projectNotes: Instructions.trim(),
+        projectDeadline: deadline.trim(),
         projectQuantity: qty,
         projectUnconfirmed: isChecked,
-        outputformat: outputformat,
-        // projectVendor
+        outputformat: outputformat.trim(),
         clientTypeVal: clientType.value,
         projectTime: projectTime,
         projectDate: startprojectDate,
         clientTime: clientTime,
         clientDate: startclientDate,
         projectEditedById: user._id,
-        // projectEnteredByName: user.empFullName,
-        // projectEnteredDate:
-        // projectEntryTime
-        // clientType: clientType.value,
       };
-
       EditProjectData(finalData);
       onEditModalChange(true);
-      // setFormData({
-      //   ...formData,
-      //   districtName: "",
-      //   isSubmitted: true,
-      // });
     }
   };
 
