@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -10,16 +10,24 @@ import {
   uploadPOFile,
   uploadAgreement,
   getInvoicePrint,
+  getSelectedClient,
 } from "../../actions/sct";
 const AllSctDocuments = ({
   auth: { isAuthenticated, user, users },
+  sct: { selectedSctClient },
   sctClients,
   getPurchaseOrderPrint,
   uploadPOFile,
   uploadAgreement,
   getInvoicePrint,
+  getSelectedClient,
 }) => {
   let sctClientData = JSON.parse(localStorage.getItem("sctClientData"));
+  useEffect(() => {
+    getSelectedClient({ clientId: sctClientData._id });
+  }, [getSelectedClient]);
+
+  console.log(selectedSctClient);
 
   let documentCategory = [
     { value: "Quotation", label: "Quotation", cat: "Quotation" },
@@ -34,19 +42,19 @@ const AllSctDocuments = ({
   ];
 
   if (
-    sctClientData &&
-    sctClientData.billingStatusCategory &&
-    sctClientData.billingStatusCategory === "Quotation"
+    selectedSctClient &&
+    selectedSctClient.billingStatusCategory &&
+    selectedSctClient.billingStatusCategory === "Quotation"
   ) {
     documentCategory = documentCategory.filter(
       (documentCategory) =>
         documentCategory.cat === "Quotation" || documentCategory.cat === "PO"
     );
   } else if (
-    (sctClientData &&
-      sctClientData.billingStatusCategory &&
-      sctClientData.billingStatusCategory === "PO") ||
-    sctClientData.billingStatusCategory === "Invoice"
+    (selectedSctClient &&
+      selectedSctClient.billingStatusCategory &&
+      selectedSctClient.billingStatusCategory === "PO") ||
+    (selectedSctClient && selectedSctClient.billingStatusCategory === "Invoice")
   ) {
     documentCategory = documentCategory.filter(
       (documentCategory) =>
@@ -131,8 +139,9 @@ const AllSctDocuments = ({
   const onFileUpload = () => {
     const formData = new FormData();
     formData.append("myFile", selectedFile);
-    formData.append("clientId", sctClientData._id);
-    uploadPOFile(formData);
+    formData.append("clientId", selectedSctClient._id);
+    const finalData = { cllientId: selectedSctClient._id, formData: formData };
+    uploadPOFile(finalData);
     onUploadChange(true);
   };
 
@@ -143,8 +152,9 @@ const AllSctDocuments = ({
   const onAgreementFileUpload = () => {
     const formData = new FormData();
     formData.append("myFile", agreementselectedFile);
-    formData.append("clientId", sctClientData._id);
-    uploadAgreement(formData);
+    formData.append("clientId", selectedSctClient._id);
+    const finalData = { cllientId: selectedSctClient._id, formData: formData };
+    uploadAgreement(finalData);
     onUploadAgreementChange(true);
   };
   return !isAuthenticated || !user || !users ? (
@@ -153,7 +163,10 @@ const AllSctDocuments = ({
     <Fragment>
       <div className="container container_align ">
         <div className="col-lg-11 col-md-11 col-sm-12 col-12">
-          <h2 className="heading_color">All Documents </h2>
+          <h2 className="heading_color">
+            All Documents
+            {selectedSctClient && " of " + selectedSctClient.sctCompanyName}
+          </h2>
           <hr />
         </div>
         <div className="col-lg-2 col-md-11 col-sm-12 col-12">
@@ -171,127 +184,96 @@ const AllSctDocuments = ({
             onChange={onSliderChange(sctClients)}
           />
         </div>
-        <section className="sub_reg">
-          <div className="row col-lg-11 col-md-11 col-sm-12 col-12 py-5">
-            <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
-              <div className="card card-content ">
-                <center>
-                  <Link
-                    to={{
-                      pathname: "/generate-quotation",
-                      data: {
-                        sctdata: sctClientData,
-                      },
-                    }}
-                  >
-                    <img
-                      className=" log"
-                      src={require("../../static/images/quotation.png")}
-                      alt="Generate Quotation"
-                      title="Generate Quotation"
-                    />
-                    {sctClientData && sctClientData.quotationGenerated === 1 ? (
-                      <h4>Revised Quotation</h4>
-                    ) : (
-                      <h4>Generate Quotation </h4>
-                    )}
-                  </Link>
-                </center>
-
-                {sctClientData && sctClientData.quotationGenerated === 1 ? (
-                  <div style={{ marginTop: "-32px" }}>
+        {selectedSctClient && (
+          <section className="sub_reg">
+            <div className="row col-lg-11 col-md-11 col-sm-12 col-12 py-5">
+              <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
+                <div className="card card-content ">
+                  <center>
                     <Link
-                      onClick={() => onClickQuotation(sctClientData)}
                       to={{
-                        pathname: "/print-pdf",
+                        pathname: "/generate-quotation",
+                        data: {
+                          sctdata: selectedSctClient,
+                        },
                       }}
-                      target="_blank"
                     >
                       <img
-                        className="img_icon_size log float-right"
-                        src={require("../../static/images/print.png")}
-                        alt="Print Quatation"
-                        style={{ margin: "5px" }}
+                        className=" log"
+                        src={require("../../static/images/quotation.png")}
+                        alt="Generate Quotation"
+                        title="Generate Quotation"
                       />
+                      {selectedSctClient &&
+                      selectedSctClient.quotationGenerated === 1 ? (
+                        <h4>Revised Quotation</h4>
+                      ) : (
+                        <h4>Generate Quotation </h4>
+                      )}
                     </Link>
-                  </div>
-                ) : (
-                  <Link to="#"></Link>
-                )}
-              </div>
-            </div>
-            {docCat === "PO" || docCat === "Invoice" ? (
-              <>
-                <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
-                  <div className="card card-content ">
-                    <center>
+                  </center>
+
+                  {selectedSctClient &&
+                  selectedSctClient.quotationGenerated === 1 ? (
+                    <div style={{ marginTop: "-32px" }}>
                       <Link
+                        onClick={() => onClickQuotation(selectedSctClient)}
                         to={{
-                          pathname: "/generate-PO",
-                          data: {
-                            sctdata: sctClientData,
-                          },
+                          pathname: "/print-pdf",
                         }}
+                        target="_blank"
                       >
                         <img
-                          className="log"
-                          src={require("../../static/images/Po.png")}
-                          alt="Send Po"
+                          className="img_icon_size log float-right"
+                          src={require("../../static/images/print.png")}
+                          alt="Print Quatation"
+                          style={{ margin: "5px" }}
                         />
-                        {sctClientData && sctClientData.POGenerated === 1 ? (
-                          <h4>Revised Purchase Order</h4>
-                        ) : (
-                          <h4>Send Purchase Order</h4>
-                        )}
                       </Link>
-                    </center>
-                    {sctClientData.POGenerated === 1 && (
-                      <div style={{ marginTop: "-32px" }}>
-                        <Link
-                          onClick={() => onClickPO(sctClientData)}
-                          to={{
-                            pathname: "/print-PO-pdf",
-                            data: {
-                              data: sctClientData,
-                            },
-                          }}
-                          target="_blank"
-                          style={{ marginTop: "7px" }}
-                        >
-                          <img
-                            className="img_icon_size log float-right"
-                            src={require("../../static/images/print.png")}
-                            alt="Print Po"
-                            style={{ margin: "5px" }}
-                          />
-                        </Link>
-                      </div>
-                    )}
-                  </div>
+                    </div>
+                  ) : (
+                    <Link to="#"></Link>
+                  )}
                 </div>
-                {sctClientData.POGenerated === 1 && (
+              </div>
+              {docCat === "PO" || docCat === "Invoice" ? (
+                <>
                   <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
                     <div className="card card-content ">
                       <center>
-                        <Link to="#" onClick={() => onUpload()}>
+                        <Link
+                          to={{
+                            pathname: "/generate-PO",
+                            data: {
+                              sctdata: selectedSctClient,
+                            },
+                          }}
+                        >
                           <img
-                            className=" log"
-                            src={require("../../static/images/uploadPO.png")}
-                            alt="Upload PO"
-                            title="Upload PO"
+                            className="log"
+                            src={require("../../static/images/Po.png")}
+                            alt="Send Po"
                           />
-                          <h4>Upload PO</h4>
+                          {selectedSctClient &&
+                          selectedSctClient.POGenerated === 1 ? (
+                            <h4>Revised Purchase Order</h4>
+                          ) : (
+                            <h4>Send Purchase Order</h4>
+                          )}
                         </Link>
                       </center>
-
-                      {sctClientData.POFile && sctClientData.POFile.filename && (
+                      {selectedSctClient.POGenerated === 1 && (
                         <div style={{ marginTop: "-32px" }}>
                           <Link
+                            onClick={() => onClickPO(selectedSctClient)}
                             to={{
-                              pathname: require("../../static/files/" +
-                                sctClientData.POFile.filename),
+                              pathname: "/print-PO-pdf",
+                              data: {
+                                data: selectedSctClient,
+                              },
                             }}
                             target="_blank"
+                            style={{ marginTop: "7px" }}
                           >
                             <img
                               className="img_icon_size log float-right"
@@ -304,116 +286,155 @@ const AllSctDocuments = ({
                       )}
                     </div>
                   </div>
-                )}
-              </>
-            ) : (
-              <></>
-            )}
-          </div>
-          {docCat === "Invoice" && (
-            <div className="row col-lg-11 col-md-11 col-sm-12 col-12 py-5">
-              <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
-                <div className="card card-content ">
-                  <center>
-                    <Link
-                      to={{
-                        pathname: "/generate-Invoice",
-                        data: {
-                          sctdata: sctClientData,
-                        },
-                      }}
-                    >
-                      <img
-                        className=" log"
-                        src={require("../../static/images/invoice.png")}
-                        alt="Send Invoice"
-                        title="Send Invoice"
-                      />
-                      {sctClientData && sctClientData.invoiceGenerated === 1 ? (
-                        <h4>Revised Invoice</h4>
-                      ) : (
-                        <h4>Send Invoice</h4>
-                      )}
-                    </Link>
-                  </center>
+                  {selectedSctClient.POGenerated === 1 && (
+                    <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
+                      <div className="card card-content ">
+                        <center>
+                          <Link to="#" onClick={() => onUpload()}>
+                            <img
+                              className=" log"
+                              src={require("../../static/images/uploadPO.png")}
+                              alt="Upload PO"
+                              title="Upload PO"
+                            />
+                            <h4>Upload PO</h4>
+                          </Link>
+                        </center>
 
-                  {sctClientData && sctClientData.invoiceGenerated === 1 && (
-                    <div style={{ marginTop: "-32px" }}>
-                      <Link
-                        onClick={() => onClickInvoice(sctClientData)}
-                        to={{
-                          pathname: "/generate-Invoice-Pdf-Print",
-                          data: {
-                            data: sctClientData,
-                          },
-                        }}
-                        target="_blank"
-                      >
-                        <img
-                          className="img_icon_size log float-right"
-                          src={require("../../static/images/print.png")}
-                          alt="Print Po"
-                          style={{ margin: "5px" }}
-                        />
-                      </Link>
+                        {selectedSctClient.POFile &&
+                          selectedSctClient.POFile.filename && (
+                            <div style={{ marginTop: "-32px" }}>
+                              <Link
+                                to={{
+                                  pathname: require("../../static/files/" +
+                                    selectedSctClient.POFile.filename),
+                                }}
+                                target="_blank"
+                              >
+                                <img
+                                  className="img_icon_size log float-right"
+                                  src={require("../../static/images/print.png")}
+                                  alt="Print Po"
+                                  style={{ margin: "5px" }}
+                                />
+                              </Link>
+                            </div>
+                          )}
+                      </div>
                     </div>
                   )}
-                </div>
-              </div>
-              <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
-                <div className="card card-content ">
-                  <center>
-                    <Link to="#">
-                      <img
-                        className=" log"
-                        // src={require("../../static/images/profitloss.jfif")}
-                        src={require("../../static/images/Po.png")}
-                        alt="Send T&C Agreement"
-                        title="Send T&C Agreement"
-                      />
-                      <h4>Send T&C Agreement</h4>
-                    </Link>
-                  </center>
-                </div>
-              </div>
-
-              <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
-                <div className="card card-content ">
-                  <center>
-                    <Link to="#" onClick={() => onUploadAgreement()}>
-                      <img
-                        className=" log"
-                        src={require("../../static/images/uploadagreement.png")}
-                        alt="Upload Agreement"
-                        title="Upload Agreement"
-                      />
-                      <h4>Upload Agreement</h4>
-                    </Link>
-                  </center>
-                  {sctClientData.agreementFile &&
-                    sctClientData.agreementFile.filename && (
-                      <div style={{ marginTop: "-32px" }}>
-                        <Link
-                          to={{
-                            pathname: require("../../static/files/" +
-                              sctClientData.agreementFile.filename),
-                          }}
-                          target="_blank"
-                        >
-                          <img
-                            className="img_icon_size log float-right"
-                            src={require("../../static/images/print.png")}
-                            alt=""
-                            style={{ margin: "5px" }}
-                          />
-                        </Link>
-                      </div>
-                    )}
-                </div>
-              </div>
+                </>
+              ) : (
+                <></>
+              )}
             </div>
-          )}
-        </section>
+            {docCat === "Invoice" && (
+              <div className="row col-lg-11 col-md-11 col-sm-12 col-12 py-5">
+                <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
+                  <div className="card card-content ">
+                    <center>
+                      <Link
+                        to={{
+                          pathname: "/generate-Invoice",
+                          data: {
+                            sctdata: selectedSctClient,
+                          },
+                        }}
+                      >
+                        <img
+                          className=" log"
+                          src={require("../../static/images/invoice.png")}
+                          alt="Send Invoice"
+                          title="Send Invoice"
+                        />
+                        {selectedSctClient &&
+                        selectedSctClient.invoiceGenerated === 1 ? (
+                          <h4>Revised Invoice</h4>
+                        ) : (
+                          <h4>Send Invoice</h4>
+                        )}
+                      </Link>
+                    </center>
+
+                    {selectedSctClient &&
+                      selectedSctClient.invoiceGenerated === 1 && (
+                        <div style={{ marginTop: "-32px" }}>
+                          <Link
+                            onClick={() => onClickInvoice(selectedSctClient)}
+                            to={{
+                              pathname: "/generate-Invoice-Pdf-Print",
+                              data: {
+                                data: selectedSctClient,
+                              },
+                            }}
+                            target="_blank"
+                          >
+                            <img
+                              className="img_icon_size log float-right"
+                              src={require("../../static/images/print.png")}
+                              alt="Print Po"
+                              style={{ margin: "5px" }}
+                            />
+                          </Link>
+                        </div>
+                      )}
+                  </div>
+                </div>
+                <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
+                  <div className="card card-content ">
+                    <center>
+                      <Link to="#">
+                        <img
+                          className=" log"
+                          // src={require("../../static/images/profitloss.jfif")}
+                          src={require("../../static/images/Po.png")}
+                          alt="Send T&C Agreement"
+                          title="Send T&C Agreement"
+                        />
+                        <h4>Send T&C Agreement</h4>
+                      </Link>
+                    </center>
+                  </div>
+                </div>
+
+                <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
+                  <div className="card card-content ">
+                    <center>
+                      <Link to="#" onClick={() => onUploadAgreement()}>
+                        <img
+                          className=" log"
+                          src={require("../../static/images/uploadagreement.png")}
+                          alt="Upload Agreement"
+                          title="Upload Agreement"
+                        />
+                        <h4>Upload Agreement</h4>
+                      </Link>
+                    </center>
+                    {selectedSctClient.agreementFile &&
+                      selectedSctClient.agreementFile.filename && (
+                        <div style={{ marginTop: "-32px" }}>
+                          <Link
+                            to={{
+                              pathname: require("../../static/files/" +
+                                selectedSctClient.agreementFile.filename),
+                            }}
+                            target="_blank"
+                          >
+                            <img
+                              className="img_icon_size log float-right"
+                              src={require("../../static/images/print.png")}
+                              alt=""
+                              style={{ margin: "5px" }}
+                            />
+                          </Link>
+                        </div>
+                      )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </section>
+        )}
       </div>
       <Modal
         show={showUploadModal}
@@ -479,6 +500,7 @@ AllSctDocuments.propTypes = {
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  sct: state.sct,
 });
 
 export default connect(mapStateToProps, {
@@ -486,4 +508,5 @@ export default connect(mapStateToProps, {
   uploadPOFile,
   uploadAgreement,
   getInvoicePrint,
+  getSelectedClient,
 })(AllSctDocuments);

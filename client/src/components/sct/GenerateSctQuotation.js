@@ -305,7 +305,7 @@ const GenerateSctQuotation = ({
   // }
 
   if (!data) {
-    return <Redirect to="/all-engaged-clients" />;
+    return <Redirect to="/all-sct-documents" />;
   }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -322,7 +322,7 @@ const GenerateSctQuotation = ({
             <div className="col-lg-8 col-md-11 col-sm-12 col-12 py-2">
               <Link
                 className="btn btn_green_bg float-right"
-                to="/all-engaged-clients"
+                to="/all-sct-documents"
               >
                 Back
               </Link>
@@ -747,7 +747,7 @@ const GenerateSctQuotation = ({
               )}
               <Link
                 className="btn sub_form btn_continue blackbrd float-right"
-                to="/all-engaged-clients"
+                to="/all-sct-documents"
               >
                 Cancel
               </Link>

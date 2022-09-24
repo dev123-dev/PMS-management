@@ -22,6 +22,7 @@ import {
   PO_PRINT,
   GET_SCT_STAFF_DATA,
   GET_SCT_LEADS_LIST,
+  GET_SELECTED_CLIENT,
 } from "../actions/types";
 
 const initialState = {
@@ -50,6 +51,7 @@ const initialState = {
   poPrint: [],
   sctStaffData: [],
   sctLeadsList: [],
+  selectedSctClient: null,
 };
 
 const sct = (state = initialState, action) => {
@@ -169,6 +171,11 @@ const sct = (state = initialState, action) => {
       return {
         ...state,
         sctLeadsList: payload,
+      };
+    case GET_SELECTED_CLIENT:
+      return {
+        ...state,
+        selectedSctClient: payload,
       };
 
     default:

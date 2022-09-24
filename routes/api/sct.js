@@ -1145,7 +1145,6 @@ router.post("/selected-client", async (req, res) => {
   try {
     const selectedSctClients = await SctClients.findOne({ _id: data.clientId });
     res.json(selectedSctClients);
-    // console.log(selectedSctClients);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

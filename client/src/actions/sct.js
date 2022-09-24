@@ -27,6 +27,7 @@ import {
   PO_PRINT,
   GET_SCT_STAFF_DATA,
   GET_SCT_LEADS_LIST,
+  GET_SELECTED_CLIENT,
 } from "./types";
 
 const config = {
@@ -764,8 +765,8 @@ export const uploadPOFile = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     // localStorage.removeItem("sctClientData");
-    await axios.post("/api/sct/upload-po-file", finalData, config);
-    // dispatch(refreshSelectedClient(finalData));
+    await axios.post("/api/sct/upload-po-file", finalData.formData, config);
+    dispatch(getSelectedClient(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -776,11 +777,15 @@ export const uploadPOFile = (finalData) => async (dispatch) => {
   }
 };
 
-export const refreshSelectedClient = (finalData) => async (dispatch) => {
+export const getSelectedClient = (finalData) => async (dispatch) => {
   try {
+    console.log(finalData);
     const res = await axios.post("/api/sct/selected-client", finalData);
-
-    localStorage.setItem("sctClientData", JSON.stringify(res.data));
+    dispatch({
+      type: GET_SELECTED_CLIENT,
+      payload: res.data,
+    });
+    // localStorage.setItem("sctClientData", JSON.stringify(res.data));
   } catch (err) {
     dispatch({
       type: ERROR,
@@ -794,8 +799,12 @@ export const uploadAgreement = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     // localStorage.removeItem("sctClientData");
-    await axios.post("/api/sct/upload-agreement-file", finalData, config);
-    // dispatch(refreshSelectedClient(finalData));
+    await axios.post(
+      "/api/sct/upload-agreement-file",
+      finalData.formData,
+      config
+    );
+    dispatch(getSelectedClient(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
