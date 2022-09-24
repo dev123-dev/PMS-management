@@ -264,13 +264,12 @@ const AllStatuschange = ({
         callCategory: callCategoryVal,
         callStatus: callStatus.value,
         callDate: startStatusDate || todayDateymd,
-        callNote: callNote,
+        callNote: callNote.trim(),
         callComeFrom: callComeFromVal,
         callTakenDate: new Date().toISOString().split("T")[0],
         callEnteredDateTime: new Date().toLocaleString("en-GB"),
         filterData: filterData,
       };
-      // console.log(finalData);
       if (from === "TestClient" || from === "RegularClient") {
         addDctClientCalls(finalData);
       } else {

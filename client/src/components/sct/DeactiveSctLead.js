@@ -40,7 +40,7 @@ const DeactiveSctLead = ({
       sctLeadDeactivateByDateTime: new Date().toLocaleString("en-GB"),
       sctLeadDeactivateById: user._id,
       sctLeadStatus: "Deactive",
-      sctLeadDeactiveReason: sctLeadDeactiveReason,
+      sctLeadDeactiveReason: sctLeadDeactiveReason.trim(),
       filterData: filterData,
     };
     deactivateSctLeadDetails(finalData);

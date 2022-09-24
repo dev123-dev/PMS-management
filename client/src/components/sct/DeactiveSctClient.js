@@ -39,7 +39,7 @@ const DeactiveSctClient = ({
       sctClientDeactivateDateTime: new Date().toLocaleString("en-GB"),
       sctClientDeactivateById: user._id,
       sctClientStatus: "Deactive",
-      sctClientDeactivateReason: sctClientDeactivateReason,
+      sctClientDeactivateReason: sctClientDeactivateReason.trim(),
       filterData: filterData,
     };
     deactivateSctClientDetails(finalData);

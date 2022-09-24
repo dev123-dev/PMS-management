@@ -231,42 +231,31 @@ const AddProject = ({
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
-        projectName: projectName,
+        projectName: projectName.trim(),
         clientId: clientId,
         clientName: clientData.value,
         parentClientId: clientData.belongsToId,
         parentClientName: clientBelongsTo,
-        // projectLocation:
         inputpath: inputpath.trim(),
         clientFolderName: clientData.folderName,
         projectPriority: priority.value,
-        // projectJobtype
-        // projectHours
-        projectNotes: Instructions,
-        projectDeadline: deadline,
+        projectNotes: Instructions.trim(),
+        projectDeadline: deadline.trim(),
         projectStatusType: projectStatusData.value,
         projectStatusId: projectStatusData.projStatusId,
-        // projectPrice:
         projectQuantity: qty,
         projectUnconfirmed: isChecked,
-        // projectVendor
         clientTypeVal: clientType.value,
         projectTime: projectTime,
         projectDate: startprojectDate,
         clientTime: clientTime,
-        outputformat: outputformat,
+        outputformat: outputformat.trim(),
         clientDate: startclientDate,
         projectEnteredById: user._id,
         projectEnteredByName: user.empFullName,
-        // projectEnteredDate:
-        // projectEntryTime
-        // clientType: clientType.value,
       };
-
-      addProject(finalData);
       setFormData({
         ...formData,
-
         isSubmitted: true,
       });
     }

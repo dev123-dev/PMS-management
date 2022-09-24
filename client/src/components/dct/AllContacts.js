@@ -146,8 +146,8 @@ const AllContacts = ({
       recordId: leadDataVal ? leadDataVal._id : "",
       staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1),
       staffPhoneNumber: staffPhoneNumber,
-      staffEmailId: staffEmailId,
-      staffDesignation: staffDesignation,
+      staffEmailId: staffEmailId.trim(),
+      staffDesignation: staffDesignation.trim(),
       staffRegion: staffcountryname,
       staffRegionId: staffcountryId,
       staffCountryCode: staffCountryCode,
@@ -488,7 +488,7 @@ const AllContacts = ({
       >
         <Modal.Header>
           <div className="col-lg-10">
-            <h3 className="modal-title text-center">Deactivate Lead</h3>
+            <h3 className="modal-title text-center">Deactivate Staff</h3>
           </div>
           <div className="col-lg-1">
             <button onClick={handleDeactiveModalClose} className="close">
