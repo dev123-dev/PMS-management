@@ -378,8 +378,9 @@ const AllSctStatusChange = ({
         addDemo(demoData);
       }
       if (
-        sctCallStatus.value === "EngagedClient" ||
-        sctCallStatus.value === "RegularClient"
+        (sctCallStatus.value === "EngagedClient" ||
+          sctCallStatus.value === "RegularClient") &&
+        leadDataVal.sctClientCategory != "EC"
       ) {
         const transferData = {
           sctCompanyName: leadDataVal.sctCompanyName,
