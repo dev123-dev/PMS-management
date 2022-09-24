@@ -71,6 +71,13 @@ router.post("/edit-dct-Leads", async (req, res) => {
         },
       }
     );
+
+    //UFTR
+    await DctCalls.updateMany(
+      { callToId: data.recordId },
+      { $set: { callToName: data.companyName } }
+    );
+
     res.json(updateDctLeads);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
@@ -111,6 +118,12 @@ router.post("/edit-dct-clients", async (req, res) => {
           dctClientEditedDateTime: data.dctClientEditedDateTime,
         },
       }
+    );
+
+    //UFTR
+    await DctCalls.updateMany(
+      { callToId: data.recordId },
+      { $set: { callToName: data.companyName } }
     );
     res.json(updateDctClients);
   } catch (error) {
@@ -187,6 +200,11 @@ router.post("/edit-dct-staff", async (req, res) => {
         },
       }
     );
+    //UFTR
+    await DctCalls.updateMany(
+      { callToStaffId: data.staffId },
+      { $set: { callToStaffName: data.staffName } }
+    );
     res.json(updateDctLeads);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
@@ -209,6 +227,11 @@ router.post("/edit-dct-client-staff", async (req, res) => {
           "staffs.$.staffCountryCode": data.staffCountryCode,
         },
       }
+    );
+    //UFTR
+    await DctCalls.updateMany(
+      { callToStaffId: data.staffId },
+      { $set: { callToStaffName: data.staffName } }
     );
     res.json(updateDctClientStaff);
   } catch (error) {
@@ -560,7 +583,7 @@ router.post("/get-dct-clients", auth, async (req, res) => {
       };
     }
   }
-  
+
   try {
     const getDctClientDetails = await DctClients.find(query).sort({
       dctCallDate: -1,
