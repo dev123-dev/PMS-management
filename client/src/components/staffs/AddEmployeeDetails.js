@@ -11,7 +11,6 @@ import {
   getLastEnteredEmpCode,
 } from "../../actions/user";
 import { getALLDepartment, getActiveDesignation } from "../../actions/settings";
-import FileBase64 from "react-file-base64";
 import { Link, Redirect } from "react-router-dom";
 const AddEmployeeDetails = ({
   auth: { isAuthenticated, user, users },
@@ -112,9 +111,6 @@ const AddEmployeeDetails = ({
   } = formData;
 
   let lastEnteredCodeData = JSON.parse(localStorage.getItem("lastEnteredCode"));
-
-  const [memberCounter, setMemberCounter] = useState("01");
-  // const str = memberCounter.toString();
 
   const [empCode, setempCode] = useState("");
   if (

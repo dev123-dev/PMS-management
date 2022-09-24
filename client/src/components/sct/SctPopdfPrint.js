@@ -189,14 +189,6 @@ const SctPopdfPrint = ({
               </Text>
             </View>
 
-            {/* <View style={(styles.table, styles.section)}>
-              <View style={[styles.row, styles.bold, styles.header]}>
-                <Text style={{ width: "80%" }}>
-                  Description of Work : {workDesc}
-                </Text>
-                <Text style={styles.row2}>Amount : {amount} </Text>
-              </View>
-            </View> */}
             <View style={(styles.table, styles.section)}>
               <View style={[styles.row, styles.bold, styles.header]}>
                 <Text style={styles.row1}>Item Name</Text>

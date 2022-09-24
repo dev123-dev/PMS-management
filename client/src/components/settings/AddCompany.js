@@ -97,7 +97,6 @@ const AddCompany = ({
     bankName: "",
     bankBranch: "",
     defaultBank: "",
-    // companyType: bankTypeVal[0],
   });
 
   const { accountNo, IFSCCode, bankName, bankBranch, defaultBank } = addData;

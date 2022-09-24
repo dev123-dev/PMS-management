@@ -162,21 +162,26 @@ const AllSctDocuments = ({
   ) : (
     <Fragment>
       <div className="container container_align ">
-        <div className="col-lg-11 col-md-11 col-sm-12 col-12">
-          <h2 className="heading_color">
-            All Documents
-            {selectedSctClient && " of " + selectedSctClient.sctCompanyName}
-          </h2>
-          <hr />
+        <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
+          <div className="col-lg-8 col-md-11 col-sm-12 col-12">
+            <h2 className="heading_color">
+              All Documents
+              {selectedSctClient && " of " + selectedSctClient.sctCompanyName}
+            </h2>
+          </div>
+          <div className="col-lg-4 col-md-11 col-sm-12 col-12 py-2">
+            <Link
+              className="btn btn_green_bg float-right"
+              to="/all-engaged-clients"
+            >
+              Back
+            </Link>
+          </div>
         </div>
-        <div className="col-lg-2 col-md-11 col-sm-12 col-12">
+        <div className="col-lg-2 col-md-11 col-sm-12 col-12 ">
           <Select
             className="dropdownofengagedclient"
             name="projectStatusData"
-            // value={{
-            //   label: allFeedback.feedbackStatus,
-            //   value: allFeedback.feedbackStatus,
-            // }}
             value={projectStatusData}
             options={documentCategory}
             isSearchable={true}
@@ -383,10 +388,16 @@ const AllSctDocuments = ({
                 <div className="col-lg-4 col-md-6 col-sm-12 col-12 ">
                   <div className="card card-content ">
                     <center>
-                      <Link to="#">
+                      <Link
+                        to={{
+                          pathname: "/generate-Agreement",
+                          data: {
+                            sctdata: selectedSctClient,
+                          },
+                        }}
+                      >
                         <img
                           className=" log"
-                          // src={require("../../static/images/profitloss.jfif")}
                           src={require("../../static/images/Po.png")}
                           alt="Send T&C Agreement"
                           title="Send T&C Agreement"

@@ -1,0 +1,374 @@
+import React, { useState, Fragment, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import Select from "react-select";
+import { Link, useHistory } from "react-router-dom";
+import Spinner from "../layout/Spinner";
+import { getALLCompanyDetails } from "../../actions/settings";
+import { saveQuotation } from "../../actions/sct";
+import { Redirect } from "react-router-dom";
+
+const GenerateAgreement = ({
+  auth: { isAuthenticated, user, users, loading },
+  settings: { allCompanyDetails },
+  sct: { activeClient },
+  saveQuotation,
+  getALLCompanyDetails,
+}) => {
+  const data = useHistory().location.data;
+  let sctDataVal = data && data.sctdata;
+
+  useEffect(() => {
+    getALLCompanyDetails();
+  }, [getALLCompanyDetails]);
+
+  //formData
+  const [formData, setFormData] = useState({
+    sctClientAddress:
+      sctDataVal && sctDataVal.sctClientAddress
+        ? sctDataVal.sctClientAddress
+        : "",
+
+    sctCompanyName:
+      sctDataVal && sctDataVal.sctCompanyName ? sctDataVal.sctCompanyName : "",
+    sctClientAssignedToName:
+      sctDataVal && sctDataVal.sctClientAssignedToName
+        ? sctDataVal.sctClientAssignedToName
+        : "",
+    sctClientAssignedToId:
+      sctDataVal && sctDataVal.sctClientAssignedToId
+        ? sctDataVal.sctClientAssignedToId
+        : "",
+
+    quotationNo: "",
+    quotationDate: "",
+    isSubmitted: false,
+  });
+
+  const {
+    quotationNo,
+    sctClientAssignedToId,
+    sctCompanyName,
+    sctClientAssignedToName,
+    sctClientAddress,
+
+    isSubmitted,
+  } = formData;
+
+  const onInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const allcompanydata = [];
+  allCompanyDetails.map((company) =>
+    allcompanydata.push({
+      companyaddress: company.companyAddress,
+
+      companyid: company._id,
+      label: company.companyName,
+      value: company.companyName,
+    })
+  );
+  const [companyaddress, setcompanyaddressData] = useState("");
+
+  const [company, getcompanyData] = useState("");
+  const [companyid, setcompanyId] = useState("");
+  const [companyname, setcompanyname] = useState("");
+
+  const onCompanyChange = (e) => {
+    // //Required Validation starts
+    setError({
+      ...error,
+      FrmCmpnyIdChecker: true,
+      FrmCmpnyErrorStyle: { color: "#000" },
+    });
+    // //Required Validation ends
+
+    var companyid = "";
+    var companyname = "";
+    var companyaddress = "";
+    getcompanyData(e);
+    companyid = e.companyid;
+    companyname = e.value;
+    companyaddress = e.companyaddress;
+    setcompanyId(companyid);
+    setcompanyname(companyname);
+    setcompanyaddressData(companyaddress);
+  };
+
+  //Required Validation Starts
+  const [error, setError] = useState({
+    FrmCmpnyErrorStyle: {},
+    FrmCmpnyIdChecker: false,
+  });
+  const { FrmCmpnyErrorStyle, FrmCmpnyIdChecker } = error;
+
+  const checkErrors = () => {
+    if (!FrmCmpnyIdChecker) {
+      setError({
+        ...error,
+        FrmCmpnyErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    return true;
+  };
+  const [startquotationDate, setquotationDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const onDateChange = (e) => {
+    setquotationDate(e.target.value);
+  };
+
+  //add staff end
+  const [finalDataVal, setFinalDataVal] = useState([]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (checkErrors()) {
+      const finalData = {
+        clientId: sctDataVal ? sctDataVal._id : "",
+        quotationId:
+          sctDataVal && sctDataVal.quotation && sctDataVal.quotation[0]
+            ? sctDataVal.quotation[0]._id
+            : null,
+        quotationGenerated: sctDataVal ? sctDataVal.quotationGenerated : "",
+        quotation: sctDataVal ? sctDataVal.quotation : null,
+        clientName: sctCompanyName,
+        quotationNo: quotationNo,
+        quotationDate: startquotationDate,
+        clientFromId: sctClientAssignedToId,
+        clientFrom: sctClientAssignedToName,
+        companyId: companyid,
+        companyName: companyname,
+        companyAddress: companyaddress,
+        forName: sctCompanyName,
+        forAddress: sctClientAddress,
+        clientEnteredById: user._id,
+      };
+      saveQuotation(finalData);
+      localStorage.setItem("quotationDataLS", JSON.stringify(finalData));
+      setFinalDataVal(finalData);
+      setFormData({
+        ...formData,
+        sctClientAssignedToName: "",
+        sctCompanyName: "",
+        sctClientAddress: "",
+        quotationNo: "",
+        companyName: "",
+        companyaddress: "",
+        startquotationDate: "",
+        isSubmitted: true,
+      });
+    }
+  };
+
+  if (!data) {
+    return <Redirect to="/all-sct-documents" />;
+  }
+  return !isAuthenticated || !user || !users ? (
+    <Spinner />
+  ) : (
+    <Fragment>
+      {" "}
+      <div className="container container_align">
+        <form className="row" onSubmit={(e) => onSubmit(e)}>
+          <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
+            <div className=" col-lg-4 col-md-11 col-sm-10 col-10">
+              <h5 className="heading_color"> Quotation </h5>
+            </div>
+
+            <div className="col-lg-8 col-md-11 col-sm-12 col-12 py-2">
+              <Link
+                className="btn btn_green_bg float-right"
+                to="/all-sct-documents"
+              >
+                Back
+              </Link>
+            </div>
+          </div>
+          <hr />
+
+          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+            <div className="row card-new ">
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">Quotation No:</label>
+                <input
+                  type="text"
+                  name="quotationNo"
+                  value={quotationNo}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                  required
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">Quotation Date :</label>
+                <input
+                  type="date"
+                  placeholder="dd/mm/yyyy"
+                  className="form-control cpp-input datevalidation"
+                  name="quotationDate"
+                  value={startquotationDate}
+                  onChange={(e) => onDateChange(e)}
+                  style={{
+                    width: "100%",
+                  }}
+                  required
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">Client From :</label>
+                <input
+                  type="text"
+                  name="sctClientAssignedToName"
+                  value={sctClientAssignedToName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                  disabled
+                  required
+                />
+              </div>
+              <br />
+              <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 ">
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <label className="label-control" style={FrmCmpnyErrorStyle}>
+                    From* :
+                  </label>
+                  <Select
+                    name="companyName"
+                    options={allcompanydata}
+                    isSearchable={true}
+                    value={company}
+                    placeholder="Select Company"
+                    onChange={(e) => onCompanyChange(e)}
+                    theme={(theme) => ({
+                      ...theme,
+                      height: 26,
+                      minHeight: 26,
+                      borderRadius: 1,
+                      colors: {
+                        ...theme.colors,
+                        primary: "black",
+                      },
+                    })}
+                  />
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">For :</label>
+                  <input
+                    type="text"
+                    name="sctCompanyName"
+                    value={sctCompanyName}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                    required
+                    disabled
+                  />
+                </div>
+
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12  py-2">
+                  <textarea
+                    name="companyaddress"
+                    id="companyaddress"
+                    className="textarea form-control"
+                    rows="5"
+                    placeholder="From Address"
+                    style={{ width: "100%" }}
+                    value={companyaddress}
+                    onChange={(e) => onInputChange(e)}
+                  ></textarea>
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12  py-2">
+                  <textarea
+                    name="sctClientAddress"
+                    id="sctClientAddress"
+                    className="textarea form-control"
+                    rows="5"
+                    placeholder="To Address"
+                    style={{ width: "100%" }}
+                    value={sctClientAddress}
+                    onChange={(e) => onInputChange(e)}
+                    required
+                    disabled
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
+            size="lg"
+          >
+            <div className="col-lg-8 col-md-6 col-sm-12 col-12">
+              <label className="label-control colorRed">
+                * Indicates mandatory fields, Please fill mandatory fields
+                before Submit
+              </label>
+            </div>
+            <div className="col-lg-4 col-md-6 col-sm-12 col-12">
+              {loading ? (
+                <button
+                  className="btn sub_form btn_continue blackbrd Save float-right"
+                  disabled
+                >
+                  Loading...
+                </button>
+              ) : (
+                <>
+                  {isSubmitted ? (
+                    <Link
+                      className="btn sub_form btn_continue blackbrd  Save float-right"
+                      style={{ backgroundColor: "#007bff", color: "white" }}
+                      to={{
+                        pathname: "/print-pdf",
+                        data: {
+                          data,
+                          quotationData: finalDataVal,
+                        },
+                      }}
+                      target="_blank"
+                    >
+                      Print
+                    </Link>
+                  ) : (
+                    <input
+                      type="submit"
+                      name="Submit"
+                      value="Submit"
+                      className="btn sub_form btn_continue blackbrd Save float-right"
+                    />
+                  )}
+                </>
+              )}
+              <Link
+                className="btn sub_form btn_continue blackbrd float-right"
+                to="/all-sct-documents"
+              >
+                Cancel
+              </Link>
+            </div>
+          </div>
+        </form>
+      </div>
+    </Fragment>
+  );
+};
+
+GenerateAgreement.propTypes = {
+  auth: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  settings: state.settings,
+  sct: state.sct,
+});
+
+export default connect(mapStateToProps, {
+  saveQuotation,
+  getALLCompanyDetails,
+})(GenerateAgreement);

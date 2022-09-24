@@ -88,6 +88,7 @@ import SctPopdfPrint from "../sct/SctPopdfPrint";
 import AllSctDocuments from "../sct/AllSctDocuments";
 import GenerateInvoice from "../sct/GenerateInvoice";
 import SctInvoicePdfPrint from "../sct/SctInvoicePdfPrint";
+import GenerateAgreement from "../sct/GenerateAgreement";
 const RoutesFile = () => {
   return (
     <section>
@@ -171,6 +172,12 @@ const RoutesFile = () => {
         />
 
         <PrivateRoute exact path="/generate-PO" component={GeneratePo} />
+        <PrivateRoute
+          exact
+          path="/generate-Agreement"
+          component={GenerateAgreement}
+        />
+
         <PrivateRoute
           exact
           path="/generate-Invoice-Pdf-Print"
