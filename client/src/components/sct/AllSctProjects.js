@@ -5,12 +5,13 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import AddSctProject from "./AddSctProject";
-import { getALLSctProjects } from "../../actions/sct";
+import { getALLSctProjects, uploadAgreementTemplate } from "../../actions/sct";
 import EditSctProjects from "./EditSctProjects";
 
 const AllSctProjects = ({
   auth: { isAuthenticated, user, users },
   sct: { allSctProject },
+  uploadAgreementTemplate,
   getALLSctProjects,
 }) => {
   useEffect(() => {
@@ -40,6 +41,20 @@ const AllSctProjects = ({
   const onUpdate = (allSctProject, idx) => {
     setShowEditModal(true);
     setUserDatas(allSctProject);
+  };
+
+  const [selectedFile, setFile] = useState();
+
+  const onFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+  const onFileUpload = () => {
+    const formData = new FormData();
+    formData.append("myFile", selectedFile);
+    // formData.append("projectId", selectedSctClient._id);
+    const finalData = { formData: formData };
+    uploadAgreementTemplate(finalData);
+    onUploadChange(true);
   };
 
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -224,8 +239,8 @@ const AllSctProjects = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <input type="file" />
-            <button>Upload!</button>
+            <input type="file" onChange={onFileChange} />
+            <button onClick={onFileUpload}>Upload!</button>
           </Modal.Body>
         </Modal>
       </div>
@@ -243,4 +258,7 @@ const mapStateToProps = (state) => ({
   sct: state.sct,
 });
 
-export default connect(mapStateToProps, { getALLSctProjects })(AllSctProjects);
+export default connect(mapStateToProps, {
+  getALLSctProjects,
+  uploadAgreementTemplate,
+})(AllSctProjects);
