@@ -41,6 +41,20 @@ const AllSctProjects = ({
     setShowEditModal(true);
     setUserDatas(allSctProject);
   };
+
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const handleUploadModalClose = () => setShowUploadModal(false);
+
+  const onUploadChange = (e) => {
+    if (e) {
+      handleUploadModalClose();
+    }
+  };
+
+  const onUpload = () => {
+    setShowUploadModal(true);
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -106,6 +120,13 @@ const AllSctProjects = ({
                                     className="img_icon_size log"
                                     onClick={() => onUpdate(allSctProject, idx)}
                                     src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpload()}
+                                    src={require("../../static/images/uploadicon.jpg")}
                                     alt="Edit"
                                     title="Edit"
                                   />
@@ -177,6 +198,34 @@ const AllSctProjects = ({
               onEditModalChange={onEditModalChange}
               allSctProjectdata={userDatas}
             />
+          </Modal.Body>
+        </Modal>
+
+        <Modal
+          show={showUploadModal}
+          backdrop="static"
+          keyboard={false}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">Upload Agreement</h3>
+            </div>
+            <div className="col-lg-1">
+              <button onClick={handleUploadModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <input type="file" />
+            <button>Upload!</button>
           </Modal.Body>
         </Modal>
       </div>

@@ -76,7 +76,7 @@ const GenerateAgreement = ({
   const [companyname, setcompanyname] = useState("");
 
   const onCompanyChange = (e) => {
-    // //Required Validation starts
+    //Required Validation starts
     setError({
       ...error,
       FrmCmpnyIdChecker: true,
@@ -176,7 +176,7 @@ const GenerateAgreement = ({
         <form className="row" onSubmit={(e) => onSubmit(e)}>
           <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
             <div className=" col-lg-4 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color"> Quotation </h5>
+              <h5 className="heading_color"> Generate Agreement </h5>
             </div>
 
             <div className="col-lg-8 col-md-11 col-sm-12 col-12 py-2">
@@ -193,7 +193,7 @@ const GenerateAgreement = ({
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <div className="row card-new ">
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
-                <label className="label-control">Quotation No:</label>
+                <label className="label-control">Agreement No:</label>
                 <input
                   type="text"
                   name="quotationNo"
@@ -204,7 +204,7 @@ const GenerateAgreement = ({
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
-                <label className="label-control">Quotation Date :</label>
+                <label className="label-control">Agreement Date :</label>
                 <input
                   type="date"
                   placeholder="dd/mm/yyyy"
