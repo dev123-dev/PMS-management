@@ -1220,4 +1220,23 @@ router.post("/get-sct-leads-list", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post(
+  "/upload-agreement-template",
+  upload.single("myFile"),
+  async (req, res, next) => {
+    // console.log(req.file.originalname + " file successfully uploaded !!");
+    const data = req.body;
+    const uploadPo = await SctProjects.updateOne(
+      { _id: data.projectId },
+      {
+        $set: {
+          agreementTemplate: req.file,
+        },
+      }
+    );
+    res.sendStatus(200);
+  }
+);
+
 module.exports = router;

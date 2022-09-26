@@ -27,8 +27,6 @@ const AllSctDocuments = ({
     getSelectedClient({ clientId: sctClientData._id });
   }, [getSelectedClient]);
 
-  console.log(selectedSctClient);
-
   let documentCategory = [
     { value: "Quotation", label: "Quotation", cat: "Quotation" },
     { value: "PO", label: "PO", cat: "PO" },

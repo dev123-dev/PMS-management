@@ -859,3 +859,24 @@ export const getSctLeadsList = (finalData) => async (dispatch) => {
     });
   }
 };
+
+export const uploadAgreementTemplate = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post(
+      "/api/sct/upload-agreement-template",
+      finalData.formData,
+      config
+    );
+    dispatch(getSelectedClient(finalData));
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
