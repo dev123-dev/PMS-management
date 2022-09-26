@@ -43,20 +43,6 @@ const AllSctProjects = ({
     setUserDatas(allSctProject);
   };
 
-  const [selectedFile, setFile] = useState();
-
-  const onFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
-  const onFileUpload = () => {
-    const formData = new FormData();
-    formData.append("myFile", selectedFile);
-    // formData.append("projectId", selectedSctClient._id);
-    const finalData = { formData: formData };
-    uploadAgreementTemplate(finalData);
-    onUploadChange(true);
-  };
-
   const [showUploadModal, setShowUploadModal] = useState(false);
   const handleUploadModalClose = () => setShowUploadModal(false);
 
@@ -65,9 +51,24 @@ const AllSctProjects = ({
       handleUploadModalClose();
     }
   };
-
-  const onUpload = () => {
+  const [projectId, setprojectId] = useState();
+  const onUpload = (allSctProject, idx) => {
     setShowUploadModal(true);
+    setprojectId(allSctProject._id);
+  };
+  const [selectedFile, setFile] = useState();
+
+  const onFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+  const onFileUpload = () => {
+    const formData = new FormData();
+    formData.append("myFile", selectedFile);
+    formData.append("projectId", projectId);
+
+    const finalData = { projectId: projectId, formData: formData };
+    uploadAgreementTemplate(finalData);
+    onUploadChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -140,7 +141,7 @@ const AllSctProjects = ({
                                   />
                                   <img
                                     className="img_icon_size log"
-                                    onClick={() => onUpload()}
+                                    onClick={() => onUpload(allSctProject, idx)}
                                     src={require("../../static/images/uploadicon.jpg")}
                                     alt="Edit"
                                     title="Edit"
