@@ -115,6 +115,7 @@ router.post("/add-quotation", async (req, res) => {
             quotationGenerated: 1,
             billingStatus: "Quotation",
             billingStatusCategory: "Quotation",
+            quotationEnteredByDateTime: data.quotationEnteredByDateTime,
           },
           $push: {
             quotation: {
@@ -164,6 +165,7 @@ router.post("/add-quotation", async (req, res) => {
           $set: {
             billingStatus: "RevisedQuotation",
             billingStatusCategory: "Quotation",
+            quotationEnteredByDateTime: data.quotationEnteredByDateTime,
           },
         }
       );

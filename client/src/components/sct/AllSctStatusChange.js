@@ -340,6 +340,7 @@ const AllSctStatusChange = ({
         sctCallComeFrom: callComeFromVal,
         sctCallTakenDate: new Date().toISOString().split("T")[0],
         sctCallEnteredDate: new Date().toLocaleString("en-GB"),
+        sctCallDateTime: new Date().toLocaleString("en-GB"),
         filterData: filterData,
         page: page,
       };

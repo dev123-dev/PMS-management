@@ -507,6 +507,7 @@ const AddSctLeads = ({
         sctLeadEnteredByName: user.empFullName,
         sctLeadAssignedToId: empId,
         sctLeadAssignedToName: empName,
+        sctLeadEnteredDateTime: new Date().toLocaleString("en-GB"),
       };
       console.log(finalData);
       addSctLeadDetails(finalData);

@@ -278,6 +278,7 @@ const GenerateSctQuotation = ({
         forAddress: sctClientAddress,
         clientEnteredById: user._id,
         item: AddedDetails,
+        quotationEnteredByDateTime: new Date().toLocaleString("en-GB"),
       };
       saveQuotation(finalData);
       localStorage.setItem("quotationDataLS", JSON.stringify(finalData));
