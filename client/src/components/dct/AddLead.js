@@ -316,6 +316,7 @@ const AddLead = ({
         dctLeadEnteredByName: user.empFullName,
         dctLeadAssignedToId: empId,
         dctLeadAssignedToName: empName,
+        dctLeadEnteredDateTime: new Date().toLocaleString("en-GB"),
       };
       addDctLeadDetails(finalData);
       setFormData({

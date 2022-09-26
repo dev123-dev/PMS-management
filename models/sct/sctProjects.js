@@ -15,6 +15,7 @@ const SctProjectSchema = new mongoose.Schema({
   sctProjectDate: {
     type: String,
   },
+  agreementTemplate: {},
   sctProjectEditedById: {
     type: ObjectId,
   },

@@ -374,6 +374,7 @@ const AllSctStatusChange = ({
             stateId: leadDataVal.stateId ? leadDataVal.stateId : null,
             stateName: leadDataVal.stateName,
           },
+          demoEnteredByDateTime: new Date().toLocaleString("en-GB"),
         };
         addDemo(demoData);
       }

@@ -396,6 +396,7 @@ const AddDctClients = ({
         dctClientEnteredByName: user.empFullName,
         dctClientAssignedToId: empId,
         dctClientAssignedToName: empName,
+        dctClientEnteredDateTime: new Date().toLocaleString("en-GB"),
       };
       addDctClientDetails(finalData);
       setFormData({
