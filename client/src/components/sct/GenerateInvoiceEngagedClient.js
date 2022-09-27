@@ -324,20 +324,8 @@ const GenerateInvoiceEngagedClient = ({
                               <td>{sctCallDate}</td>
                               <td>
                                 <Select
-                                  // styles={{
-                                  //   control: (base) => ({
-                                  //     ...base,
-                                  //     background: "#456792",
-                                  //     color: "white !important",
-                                  //     fontWeight: "bold",
-                                  //   }),
-                                  // }}
                                   className="dropdownofengagedclient"
                                   name="projectStatusData"
-                                  // value={{
-                                  //   label: allFeedback.feedbackStatus,
-                                  //   value: allFeedback.feedbackStatus,
-                                  // }}
                                   value={projectStatusData}
                                   options={priorityCategory}
                                   isSearchable={true}
@@ -346,15 +334,6 @@ const GenerateInvoiceEngagedClient = ({
                                 />
                               </td>
                               <td>
-                                {/* <button
-                                  className="btn btn_green_bg"
-                                  onClick={() =>
-                                    onClickVerify(allSctLeads, idx)
-                                  }
-                                >
-                                  Generate Quotation
-                                </button> */}
-
                                 <Link
                                   className="btn btn_green_bg float-right"
                                   to={{
@@ -487,7 +466,6 @@ const GenerateInvoiceEngagedClient = ({
           <DeactiveSctLead
             onDeactiveModalChange={onDeactiveModalChange}
             Leaddeavtivedata={userDatadeactive}
-            // filterData={filterData}
           />
         </Modal.Body>
       </Modal>

@@ -129,38 +129,39 @@ const GenerateAgreement = ({
     if (checkErrors()) {
       const finalData = {
         clientId: sctDataVal ? sctDataVal._id : "",
-        quotationId:
-          sctDataVal && sctDataVal.quotation && sctDataVal.quotation[0]
-            ? sctDataVal.quotation[0]._id
-            : null,
-        quotationGenerated: sctDataVal ? sctDataVal.quotationGenerated : "",
-        quotation: sctDataVal ? sctDataVal.quotation : null,
-        clientName: sctCompanyName,
-        quotationNo: quotationNo,
-        quotationDate: startquotationDate,
-        clientFromId: sctClientAssignedToId,
-        clientFrom: sctClientAssignedToName,
+        // quotationId:
+        //   sctDataVal && sctDataVal.quotation && sctDataVal.quotation[0]
+        //     ? sctDataVal.quotation[0]._id
+        //     : null,
+        //  quotationGenerated: sctDataVal ? sctDataVal.quotationGenerated : "",
+        //   quotation: sctDataVal ? sctDataVal.quotation : null,
+        //    clientName: sctCompanyName,
+        // quotationNo: quotationNo,
+        //   clientFromId: sctClientAssignedToId,
+        //   clientFrom: sctClientAssignedToName,
+        date_time: startquotationDate,
         companyId: companyid,
-        companyName: companyname,
-        companyAddress: companyaddress,
-        forName: sctCompanyName,
-        forAddress: sctClientAddress,
-        clientEnteredById: user._id,
+        company_name: companyname,
+        company_address: companyaddress,
+        client_name: sctCompanyName,
+        client_address: sctClientAddress,
+        // clientEnteredById: user._id,
       };
-      saveQuotation(finalData);
-      localStorage.setItem("quotationDataLS", JSON.stringify(finalData));
-      setFinalDataVal(finalData);
-      setFormData({
-        ...formData,
-        sctClientAssignedToName: "",
-        sctCompanyName: "",
-        sctClientAddress: "",
-        quotationNo: "",
-        companyName: "",
-        companyaddress: "",
-        startquotationDate: "",
-        isSubmitted: true,
-      });
+      console.log(finalData);
+      // saveQuotation(finalData);
+      // localStorage.setItem("quotationDataLS", JSON.stringify(finalData));
+      // setFinalDataVal(finalData);
+      // setFormData({
+      //   ...formData,
+      //   sctClientAssignedToName: "",
+      //   sctCompanyName: "",
+      //   sctClientAddress: "",
+      //   quotationNo: "",
+      //   companyName: "",
+      //   companyaddress: "",
+      //   startquotationDate: "",
+      //   isSubmitted: true,
+      // });
     }
   };
 
