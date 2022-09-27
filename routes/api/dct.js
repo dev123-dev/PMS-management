@@ -116,6 +116,8 @@ router.post("/edit-dct-clients", async (req, res) => {
           services: data.services,
           dctClientEditedById: data.dctClientEditedById,
           dctClientEditedDateTime: data.dctClientEditedDateTime,
+          dctClientAssignedToId: data.dctClientAssignedToId,
+          dctClientAssignedToName: data.dctClientAssignedToName,
         },
       }
     );
