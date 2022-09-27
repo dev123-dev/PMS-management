@@ -114,11 +114,11 @@ const GenerateAgreement = ({
 
     return true;
   };
-  const [startquotationDate, setquotationDate] = useState(
+  const [startagreementDate, setagreementDate] = useState(
     new Date().toISOString().split("T")[0]
   );
   const onDateChange = (e) => {
-    setquotationDate(e.target.value);
+    setagreementDate(e.target.value);
   };
 
   //add staff end
@@ -129,39 +129,15 @@ const GenerateAgreement = ({
     if (checkErrors()) {
       const finalData = {
         clientId: sctDataVal ? sctDataVal._id : "",
-        // quotationId:
-        //   sctDataVal && sctDataVal.quotation && sctDataVal.quotation[0]
-        //     ? sctDataVal.quotation[0]._id
-        //     : null,
-        //  quotationGenerated: sctDataVal ? sctDataVal.quotationGenerated : "",
-        //   quotation: sctDataVal ? sctDataVal.quotation : null,
-        //    clientName: sctCompanyName,
-        // quotationNo: quotationNo,
-        //   clientFromId: sctClientAssignedToId,
-        //   clientFrom: sctClientAssignedToName,
-        date_time: startquotationDate,
+        date_time: startagreementDate,
         companyId: companyid,
         company_name: companyname,
         company_address: companyaddress,
         client_name: sctCompanyName,
         client_address: sctClientAddress,
-        // clientEnteredById: user._id,
       };
       console.log(finalData);
       saveAgreement(finalData);
-      // localStorage.setItem("quotationDataLS", JSON.stringify(finalData));
-      // setFinalDataVal(finalData);
-      // setFormData({
-      //   ...formData,
-      //   sctClientAssignedToName: "",
-      //   sctCompanyName: "",
-      //   sctClientAddress: "",
-      //   quotationNo: "",
-      //   companyName: "",
-      //   companyaddress: "",
-      //   startquotationDate: "",
-      //   isSubmitted: true,
-      // });
     }
   };
 
@@ -191,7 +167,7 @@ const GenerateAgreement = ({
           </div>
           <hr />
 
-          <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
             <div className="row card-new ">
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
                 <label className="label-control">Agreement No:</label>
@@ -211,7 +187,7 @@ const GenerateAgreement = ({
                   placeholder="dd/mm/yyyy"
                   className="form-control cpp-input datevalidation"
                   name="quotationDate"
-                  value={startquotationDate}
+                  value={startagreementDate}
                   onChange={(e) => onDateChange(e)}
                   style={{
                     width: "100%",
