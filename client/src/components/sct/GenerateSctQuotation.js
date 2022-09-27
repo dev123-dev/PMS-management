@@ -257,6 +257,18 @@ const GenerateSctQuotation = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
+    let billingStatusCategory = null,
+      billingStatus = null;
+    if (
+      sctDataVal &&
+      sctDataVal.billingStatusCategory !== "PO" &&
+      sctDataVal.billingStatusCategory !== "Invoice"
+    ) {
+      if (sctDataVal.quotationGenerated === 0) billingStatus = "Quotation";
+      else billingStatus = "RevisedQuotation";
+      billingStatusCategory = "Quotation";
+    }
+
     if (checkErrors()) {
       const finalData = {
         clientId: sctDataVal ? sctDataVal._id : "",
@@ -279,6 +291,8 @@ const GenerateSctQuotation = ({
         clientEnteredById: user._id,
         item: AddedDetails,
         quotationEnteredByDateTime: new Date().toLocaleString("en-GB"),
+        billingStatusCategory: billingStatusCategory,
+        billingStatus: billingStatus,
       };
       saveQuotation(finalData);
       localStorage.setItem("quotationDataLS", JSON.stringify(finalData));

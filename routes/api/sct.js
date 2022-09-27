@@ -113,8 +113,8 @@ router.post("/add-quotation", async (req, res) => {
         {
           $set: {
             quotationGenerated: 1,
-            billingStatus: "Quotation",
-            billingStatusCategory: "Quotation",
+            billingStatus: data.billingStatus,
+            billingStatusCategory: data.billingStatusCategory,
             quotationEnteredByDateTime: data.quotationEnteredByDateTime,
           },
           $push: {
@@ -163,8 +163,8 @@ router.post("/add-quotation", async (req, res) => {
         { _id: data.clientId },
         {
           $set: {
-            billingStatus: "RevisedQuotation",
-            billingStatusCategory: "Quotation",
+            billingStatus: data.billingStatus,
+            billingStatusCategory: data.billingStatusCategory,
             quotationEnteredByDateTime: data.quotationEnteredByDateTime,
           },
         }
@@ -196,8 +196,8 @@ router.post("/add-purchase-order", async (req, res) => {
         $set: {
           POGenerated: 1,
           POId: output._id,
-          billingStatus: "SendPO",
-          billingStatusCategory: "PO",
+          billingStatus: data.billingStatus,
+          billingStatusCategory: data.billingStatusCategory,
         },
       }
     );
@@ -238,6 +238,7 @@ router.post("/add-invoice", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
 //EDIT
 router.post("/edit-sct-Leads", async (req, res) => {
   try {
@@ -357,6 +358,7 @@ router.post("/deactivate-sct-staff", async (req, res) => {
           "sctStaffs.$.sctStaffDeactivateById": data.sctStaffDeactivateById,
           "sctStaffs.$.sctStaffDeactiveByDateTime":
             data.sctStaffDeactiveByDateTime,
+          "sctStaffs.$.sctStaffDeactiveReason": data.sctStaffDeactiveReason,
         },
       }
     );
@@ -377,6 +379,7 @@ router.post("/deactivate-sct-client-staff", async (req, res) => {
           "sctStaffs.$.sctStaffDeactivateById": data.sctStaffDeactivateById,
           "sctStaffs.$.sctStaffDeactiveByDateTime":
             data.sctStaffDeactiveByDateTime,
+          "sctStaffs.$.sctStaffDeactiveReason": data.sctStaffDeactiveReason,
         },
       }
     );
@@ -1220,23 +1223,5 @@ router.post("/get-sct-leads-list", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
-
-router.post(
-  "/upload-agreement-template",
-  upload.single("myFile"),
-  async (req, res, next) => {
-    // console.log(req.file.originalname + " file successfully uploaded !!");
-    const data = req.body;
-    const uploadPo = await SctProjects.updateOne(
-      { _id: data.projectId },
-      {
-        $set: {
-          agreementTemplate: req.file,
-        },
-      }
-    );
-    res.sendStatus(200);
-  }
-);
 
 module.exports = router;

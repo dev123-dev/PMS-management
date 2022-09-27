@@ -287,6 +287,7 @@ router.post("/deactivate-dct-staff", async (req, res) => {
           "staffs.$.staffStatus": data.staffStatus,
           "staffs.$.staffDeactivateById": data.staffDeactivateById,
           "staffs.$.staffDeactiveByDateTime": data.staffDeactiveByDateTime,
+          "staffs.$.staffDeactiveReason": data.staffDeactiveReason,
         },
       }
     );
@@ -306,6 +307,7 @@ router.post("/deactivate-dct-client-staff", async (req, res) => {
           "staffs.$.staffStatus": data.staffStatus,
           "staffs.$.staffDeactivateById": data.staffDeactivateById,
           "staffs.$.staffDeactiveByDateTime": data.staffDeactiveByDateTime,
+          "staffs.$.staffDeactiveReason": data.staffDeactiveReason,
         },
       }
     );

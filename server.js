@@ -18,6 +18,7 @@ app.use("/api/client", require("./routes/api/client"));
 app.use("/api/regions", require("./routes/api/regions"));
 app.use("/api/dct", require("./routes/api/dct"));
 app.use("/api/sct", require("./routes/api/sct"));
+app.use("/api/other", require("./routes/api/other"));
 
 // Set static folder for client build Serve static assets in production
 //app.use(express.static('client/build'));

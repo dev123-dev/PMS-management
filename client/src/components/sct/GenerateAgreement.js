@@ -5,14 +5,14 @@ import Select from "react-select";
 import { Link, useHistory } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getALLCompanyDetails } from "../../actions/settings";
-import { saveQuotation } from "../../actions/sct";
+import { saveAgreement } from "../../actions/sct";
 import { Redirect } from "react-router-dom";
 
 const GenerateAgreement = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allCompanyDetails },
   sct: { activeClient },
-  saveQuotation,
+  saveAgreement,
   getALLCompanyDetails,
 }) => {
   const data = useHistory().location.data;
@@ -148,7 +148,7 @@ const GenerateAgreement = ({
         // clientEnteredById: user._id,
       };
       console.log(finalData);
-      // saveQuotation(finalData);
+      saveAgreement(finalData);
       // localStorage.setItem("quotationDataLS", JSON.stringify(finalData));
       // setFinalDataVal(finalData);
       // setFormData({
@@ -370,6 +370,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  saveQuotation,
+  saveAgreement,
   getALLCompanyDetails,
 })(GenerateAgreement);

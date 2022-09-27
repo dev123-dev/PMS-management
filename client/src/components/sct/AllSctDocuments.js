@@ -31,12 +31,6 @@ const AllSctDocuments = ({
     { value: "Quotation", label: "Quotation", cat: "Quotation" },
     { value: "PO", label: "PO", cat: "PO" },
     { value: "Invoice", label: "Invoice", cat: "Invoice" },
-    // { value: "RevisedQuotation", label: "Revised Quotation", cat: "Quotation" },
-    // { value: "SendPO", label: "Send PO", cat: "PO" },
-    // { value: "POReceived", label: "PO Received", cat: "PO" },
-    // { value: "GenerateInvoice", label: "Generate Invoice", cat: "Invoice" },
-    // { value: "RevisedInvoice", label: "Revised Invoice", cat: "Invoice" },
-    // { value: "PaymentReceived", label: "Payment Received", cat: "Invoice" },
   ];
 
   if (

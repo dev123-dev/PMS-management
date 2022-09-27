@@ -210,6 +210,18 @@ const GeneratePo = ({
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
+    let billingStatusCategory = null,
+      billingStatus = null;
+    if (
+      data &&
+      data.sctdata &&
+      data.sctdata.billingStatusCategory !== "Invoice"
+    ) {
+      if (data.sctdata.POGenerated === 0) billingStatus = "GeneratePO";
+      else billingStatus = "RevisedPO";
+      billingStatusCategory = "PO";
+    }
+
     const finalData = {
       clientId: data && data.sctdata ? data && data.sctdata._id : "",
       clientName: sctCompanyName,
@@ -229,6 +241,8 @@ const GeneratePo = ({
       item: AddedDetails,
       POEnteredById: user._id,
       POEnteredByDateTime: new Date().toLocaleString("en-GB"),
+      billingStatusCategory: billingStatusCategory,
+      billingStatus: billingStatus,
     };
     savePurchaseOrder(finalData);
     setFinalDataVal(finalData);

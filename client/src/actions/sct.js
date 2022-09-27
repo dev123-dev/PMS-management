@@ -158,6 +158,24 @@ export const saveInvoice = (finalData) => async (dispatch) => {
     });
   }
 };
+
+export const saveAgreement = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    // await axios.post("/api/sct/add-agreement", finalData, config);
+    await axios.post("/api/other/generate-agreement-doc", finalData, config);
+    // dispatch(getInvoicePrint({ clientId: finalData.clientId }));
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
 //EDIT
 export const editSctLeadDetails = (finalData) => async (dispatch) => {
   try {
@@ -866,7 +884,7 @@ export const uploadAgreementTemplate = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post(
-      "/api/sct/upload-agreement-template",
+      "/api/other/upload-agreement-template",
       finalData.formData,
       config
     );
