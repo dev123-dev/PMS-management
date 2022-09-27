@@ -210,8 +210,9 @@ const GeneratePo = ({
   const onSubmit = (e) => {
     e.preventDefault();
     // if (checkErrors()) {
-    let billingStatusCategory = null,
-      billingStatus = null;
+    let billingStatusCategory =
+        data && data.sctdata && data.sctdata.billingStatusCategory,
+      billingStatus = data && data.sctdata && data.sctdata.billingStatus;
     if (
       data &&
       data.sctdata &&

@@ -129,10 +129,25 @@ const AllSctDocuments = ({
     setFile(event.target.files[0]);
   };
   const onFileUpload = () => {
+    let billingStatusCategory = selectedSctClient.billingStatusCategory,
+      billingStatus = selectedSctClient.billingStatus;
+    if (
+      selectedSctClient &&
+      selectedSctClient.billingStatusCategory !== "Invoice"
+    ) {
+      billingStatus = "POReceived";
+      billingStatusCategory = "PO";
+    }
+
     const formData = new FormData();
     formData.append("myFile", selectedFile);
     formData.append("clientId", selectedSctClient._id);
-    const finalData = { cllientId: selectedSctClient._id, formData: formData };
+    formData.append("billingStatus", billingStatus);
+    formData.append("billingStatusCategory", billingStatusCategory);
+    const finalData = {
+      cllientId: selectedSctClient._id,
+      formData: formData,
+    };
     uploadPOFile(finalData);
     onUploadChange(true);
   };

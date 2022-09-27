@@ -1135,8 +1135,10 @@ router.post(
       {
         $set: {
           POFile: req.file,
-          billingStatus: "POReceived",
-          billingStatusCategory: "PO",
+          // billingStatus: "POReceived",
+          // billingStatusCategory: "PO",
+          billingStatus: data.billingStatus,
+          billingStatusCategory: data.billingStatusCategory,
         },
       }
     );

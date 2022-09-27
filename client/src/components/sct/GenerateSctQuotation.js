@@ -257,8 +257,8 @@ const GenerateSctQuotation = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    let billingStatusCategory = null,
-      billingStatus = null;
+    let billingStatusCategory = sctDataVal.billingStatusCategory,
+      billingStatus = sctDataVal.billingStatus;
     if (
       sctDataVal &&
       sctDataVal.billingStatusCategory !== "PO" &&
