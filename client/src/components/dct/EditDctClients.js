@@ -237,7 +237,7 @@ const EditDctClients = ({
         staffEmailId: staffEmailId.trim(),
         staffDesignation: staffDesignation.trim(),
         staffRegion: staffcountryname,
-        staffRegionId: staffcountryId,
+        staffRegionId: staffcountryId ? staffcountryId : null,
         staffCountryCode: staffCountryCode,
       };
       setFormDatas({
@@ -467,7 +467,7 @@ const EditDctClients = ({
       clientCurrency: clientCurrency.trim(),
       phone1: phone1,
       phone2: phone2,
-      paymentId: paymentId,
+      paymentId: paymentId ? paymentId : null,
       clientFolderName: clientFolderName.trim(),
       paymentModeName: paymentModeName.trim(),
       address: address.trim(),

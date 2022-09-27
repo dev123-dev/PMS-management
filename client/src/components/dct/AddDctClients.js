@@ -159,7 +159,7 @@ const AddDctClients = ({
           staffEmailId: staffEmailId.trim(),
           staffDesignation: staffDesignation.trim(),
           staffRegion: staffcountryname,
-          staffRegionId: staffcountryId,
+          staffRegionId: staffcountryId ? staffcountryId : null,
           staffCountryCode: staffCountryCode,
         };
         setFormDatas({
@@ -380,7 +380,7 @@ const AddDctClients = ({
         clientFolderName: clientFolderName.trim(),
         phone1: phone1,
         phone2: phone2,
-        paymentId: paymentId,
+        paymentId: paymentId ? paymentId : null,
         paymentModeName: paymentModeName.trim(),
         address: address.trim(),
         importantPoints: importantPoints.trim(),
