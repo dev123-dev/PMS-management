@@ -293,7 +293,7 @@ const AddCompany = ({
                   onChange={(e) => onBankTypeChange(e)}
                 />
               </div>
-              <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+              <div className="col-lg-2 col-md-12 col-sm-12 col-12 py-2">
                 <label className="label-control">Short Form :</label>
                 <input
                   type="text"
@@ -303,7 +303,7 @@ const AddCompany = ({
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+              <div className="col-lg-5 col-md-12 col-sm-12 col-12 py-2">
                 <label className="label-control">Description :</label>
                 <textarea
                   name="companyDescription"
@@ -316,7 +316,7 @@ const AddCompany = ({
                   onChange={(e) => onInputChange(e)}
                 ></textarea>
               </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+              <div className="col-lg-5 col-md-12 col-sm-12 col-12 py-2">
                 <label className="label-control">Address :</label>
                 <textarea
                   name="companyAddress"
@@ -380,19 +380,7 @@ const AddCompany = ({
                   onChange={(e) => onInputChange1(e)}
                 />
               </div>
-              {/* <div className="col-lg-3 col-md-11 col-sm-12 col-12 ">
-                <label className="label-control" style={BankErrorStyle}>
-                  Bank Type* :
-                </label>
-                <Select
-                  name="companyType"
-                  isSearchable={true}
-                  options={bankTypeVal}
-                  value={companyType || bankTypeVal[0]}
-                  placeholder="Select"
-                  onChange={(e) => onBankTypeChange(e)}
-                />
-              </div> */}
+
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Default :</label>
                 <input
