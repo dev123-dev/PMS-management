@@ -17,6 +17,9 @@ const AgreementsSchema = new mongoose.Schema({
   agreementDate: {
     type: String,
   },
+  agreementDateInWords: {
+    type: String,
+  },
   companyId: {
     type: ObjectId,
   },
