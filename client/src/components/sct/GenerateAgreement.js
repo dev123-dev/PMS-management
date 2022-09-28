@@ -245,7 +245,7 @@ const GenerateAgreement = ({
                   />
                 </div>
 
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12  py-2">
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <textarea
                     name="companyaddress"
                     id="companyaddress"
@@ -257,7 +257,7 @@ const GenerateAgreement = ({
                     onChange={(e) => onInputChange(e)}
                   ></textarea>
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12  py-2">
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <textarea
                     name="sctClientAddress"
                     id="sctClientAddress"
@@ -268,8 +268,51 @@ const GenerateAgreement = ({
                     value={sctClientAddress}
                     onChange={(e) => onInputChange(e)}
                     required
-                    disabled
                   ></textarea>
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
+                  <label className="label-control">From Name :</label>
+                  <input
+                    type="text"
+                    name="sctClientAssignedToName"
+                    //   value={sctClientAssignedToName}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                    required
+                  />
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
+                  <label className="label-control">From Designation:</label>
+                  <input
+                    type="text"
+                    name="sctClientAssignedToName"
+                    //   value={sctClientAssignedToName}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                    required
+                  />
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
+                  <label className="label-control">To Name :</label>
+                  <input
+                    type="text"
+                    name="sctClientAssignedToName"
+                    //   value={sctClientAssignedToName}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                    required
+                  />
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
+                  <label className="label-control">To Designation:</label>
+                  <input
+                    type="text"
+                    name="sctClientAssignedToName"
+                    //   value={sctClientAssignedToName}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                    required
+                  />
                 </div>
               </div>
             </div>
