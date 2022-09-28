@@ -207,7 +207,29 @@ router.post("/get-dailyjobsheet-client", async (req, res) => {
   }
 });
 
-router.post("/get-verification-client", async (req, res) => {
+// router.post("/get-verification-client", async (req, res) => {
+//   let query = {};
+//   query = {
+//     projectStatus: {
+//       $eq: "Active",
+//     },
+//     projectVerificationStatus: { $ne: "Verified" },
+//   };
+//   try {
+//     const getVerfClientDetails = await Project.aggregate([
+//       {
+//         $match: query,
+//       },
+//       { $group: { _id: "$clientId", clientName: { $first: "$clientName" } } },
+//     ]);
+//     res.json(getVerfClientDetails);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Internal Server Error.");
+//   }
+// });
+
+router.post("/get-verification-folder", async (req, res) => {
   let query = {};
   query = {
     projectStatus: {
@@ -216,16 +238,22 @@ router.post("/get-verification-client", async (req, res) => {
     projectVerificationStatus: { $ne: "Verified" },
   };
   try {
-    const getVerfClientDetails = await Project.aggregate([
+    const getVerfFolderDetails = await Project.aggregate([
       {
         $match: query,
       },
-      { $group: { _id: "$clientId", clientName: { $first: "$clientName" } } },
+      {
+        $group: {
+          _id: "$clientFolderName",
+          clientFolderName: { $first: "$clientFolderName" },
+        },
+      },
     ]);
-    res.json(getVerfClientDetails);
+    res.json(getVerfFolderDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
   }
 });
+
 module.exports = router;

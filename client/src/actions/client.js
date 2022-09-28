@@ -7,7 +7,8 @@ import {
   ACTIVE_CLIENTS,
   ACTIVE_CLIENT_FILTER,
   ALL_DJS_CLIENTS,
-  ALL_VERF_CLIENTS,
+  // ALL_VERF_CLIENTS,
+  ALL_VERF_FOLDER,
 } from "./types";
 
 const config = {
@@ -138,14 +139,31 @@ export const getDailyjobSheetClients = (selDateData) => async (dispatch) => {
   }
 };
 
-export const getVerificationClients = (selDateData) => async (dispatch) => {
+// export const getVerificationClients = (selDateData) => async (dispatch) => {
+//   try {
+//     const res = await axios.post(
+//       "/api/client/get-verification-client",
+//       selDateData
+//     );
+//     dispatch({
+//       type: ALL_VERF_CLIENTS,
+//       payload: res.data,
+//     });
+//   } catch (err) {
+//     dispatch({
+//       type: AUTH_ERROR,
+//     });
+//   }
+// };
+
+export const getVerificationFolder = (selDateData) => async (dispatch) => {
   try {
     const res = await axios.post(
-      "/api/client/get-verification-client",
+      "/api/client/get-verification-folder",
       selDateData
     );
     dispatch({
-      type: ALL_VERF_CLIENTS,
+      type: ALL_VERF_FOLDER,
       payload: res.data,
     });
   } catch (err) {

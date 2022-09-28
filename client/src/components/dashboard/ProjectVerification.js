@@ -9,7 +9,8 @@ import {
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
 } from "../../actions/projects";
-import { getVerificationClients } from "../../actions/client";
+import { getVerificationFolder } from "../../actions/client";
+// getVerificationClients,
 import {
   AddProjectTrack,
   getAllchanges,
@@ -23,11 +24,13 @@ const client = new w3cwebsocket("ws://192.168.6.159:8000");
 const ProjectVerification = ({
   auth: { isAuthenticated, user, users },
   project: { unVerifiedProjects, allStatusVerification },
-  client: { activeVerfificationClients },
+  client: { activeVerfificationFolders },
+  // activeVerfificationClients
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
   getUpdatedProjectStaus,
-  getVerificationClients,
+  // getVerificationClients,
+  getVerificationFolder,
 }) => {
   useEffect(() => {
     client.onopen = () => {
@@ -44,23 +47,28 @@ const ProjectVerification = ({
     getAllProjectStatusVerification();
   }, [getAllProjectStatusVerification]);
   useEffect(() => {
-    getVerificationClients();
-  }, [getVerificationClients]);
+    getVerificationFolder();
+  }, [getVerificationFolder]);
+  // useEffect(() => {
+  //   getVerificationClients();
+  // }, [getVerificationClients]);
 
   const [clientData, setClientData] = useState("");
   const [projectStatusData, setProjectStatusData] = useState("");
   const [singledate, setsingledate] = useState("");
-
   const [searchData, setSearchData] = useState("");
 
+  console.log(activeVerfificationFolders, "activeVerfificationFolders");
+
   const activeClientsOpt = [];
-  activeVerfificationClients.map((clientsData) =>
-    activeClientsOpt.push({
-      clientId: clientsData._id,
-      label: clientsData.clientName,
-      value: clientsData.clientName,
-    })
-  );
+  // activeVerfificationClients.map((clientsData) =>
+  //   activeClientsOpt.push({
+  //     clientId: clientsData._id,
+  //     label: clientsData.clientName,
+  //     value: clientsData.clientName,
+  //   })
+  // );
+
   const onClientChange = (e) => {
     setClientData(e);
     let selDateData = {
@@ -360,6 +368,7 @@ ProjectVerification.propTypes = {
   getverificationProjectDeatils: PropTypes.func.isRequired,
   AddProjectTrack: PropTypes.func.isRequired,
   getAllchanges: PropTypes.func.isRequired,
+  getVerificationFolder: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -373,5 +382,6 @@ export default connect(mapStateToProps, {
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
   getUpdatedProjectStaus,
-  getVerificationClients,
+  // getVerificationClients,
+  getVerificationFolder,
 })(ProjectVerification);

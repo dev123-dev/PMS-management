@@ -3,7 +3,8 @@ import {
   ACTIVE_CLIENTS,
   ACTIVE_CLIENT_FILTER,
   ALL_DJS_CLIENTS,
-  ALL_VERF_CLIENTS,
+  // ALL_VERF_CLIENTS,
+  ALL_VERF_FOLDER,
 } from "../actions/types";
 
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
   activeClient: [],
   activeClientFilter: [],
   activeDailyJobSheetClients: [],
-  activeVerfificationClients: [],
+  // activeVerfificationClients: [],
+  activeVerfificationFolders: [],
 };
 
 const client = (state = initialState, action) => {
@@ -37,12 +39,16 @@ const client = (state = initialState, action) => {
         ...state,
         activeDailyJobSheetClients: payload,
       };
-    case ALL_VERF_CLIENTS:
+    // case ALL_VERF_CLIENTS:
+    //   return {
+    //     ...state,
+    //     activeVerfificationClients: payload,
+    //   };
+    case ALL_VERF_FOLDER:
       return {
         ...state,
-        activeVerfificationClients: payload,
+        activeVerfificationFolders: payload,
       };
-
     default:
       return state;
   }
