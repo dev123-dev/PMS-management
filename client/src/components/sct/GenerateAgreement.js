@@ -50,6 +50,7 @@ const GenerateAgreement = ({
     fromDesg: "",
     toName: "",
     toDesg: "",
+    agreementDateInWords: "",
     isSubmitted: false,
   });
 
@@ -62,6 +63,7 @@ const GenerateAgreement = ({
     fromName,
     fromDesg,
     toName,
+    agreementDateInWords,
     toDesg,
     isSubmitted,
   } = formData;
@@ -143,6 +145,7 @@ const GenerateAgreement = ({
         client_name: sctCompanyName,
         client_address: sctClientAddress,
         agreementDate: startagreementDate,
+        agreementDateInWords: agreementDateInWords,
         companyId: companyid,
         company_name: companyname,
         company_address: companyaddress,
@@ -213,8 +216,18 @@ const GenerateAgreement = ({
                   }}
                   required
                 />
+              </div>{" "}
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">Agreement Date Time:</label>
+                <input
+                  type="text"
+                  name="agreementDateInWords"
+                  value={agreementDateInWords}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                  required
+                />
               </div>
-
               <br />
               {/* <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 "> */}
               <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -252,7 +265,6 @@ const GenerateAgreement = ({
                   disabled
                 />
               </div>
-
               <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                 <textarea
                   name="companyaddress"
