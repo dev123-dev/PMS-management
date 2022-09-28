@@ -28,6 +28,7 @@ import {
   GET_SCT_STAFF_DATA,
   GET_SCT_LEADS_LIST,
   GET_SELECTED_CLIENT,
+  SELECTED_PROJECT,
 } from "./types";
 
 const config = {
@@ -577,6 +578,20 @@ export const getProjectList = () => async (dispatch) => {
     const res = await axios.post("/api/sct/get-sct-project");
     dispatch({
       type: SCT_PROJECT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getSelectedProject = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/sct/get-selected-project", finalData);
+    dispatch({
+      type: SELECTED_PROJECT,
       payload: res.data,
     });
   } catch (err) {

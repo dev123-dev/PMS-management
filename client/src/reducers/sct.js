@@ -23,6 +23,7 @@ import {
   GET_SCT_STAFF_DATA,
   GET_SCT_LEADS_LIST,
   GET_SELECTED_CLIENT,
+  SELECTED_PROJECT,
 } from "../actions/types";
 
 const initialState = {
@@ -52,6 +53,7 @@ const initialState = {
   sctStaffData: [],
   sctLeadsList: [],
   selectedSctClient: null,
+  selectedProject: [],
 };
 
 const sct = (state = initialState, action) => {
@@ -176,6 +178,11 @@ const sct = (state = initialState, action) => {
       return {
         ...state,
         selectedSctClient: payload,
+      };
+    case SELECTED_PROJECT:
+      return {
+        ...state,
+        selectedProject: payload,
       };
 
     default:

@@ -5,15 +5,16 @@ import Select from "react-select";
 import { Link, useHistory } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getALLCompanyDetails } from "../../actions/settings";
-import { saveAgreement } from "../../actions/sct";
+import { saveAgreement, getSelectedProject } from "../../actions/sct";
 import { Redirect } from "react-router-dom";
 
 const GenerateAgreement = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allCompanyDetails },
-  sct: { activeClient },
+  sct: { selectedProject },
   saveAgreement,
   getALLCompanyDetails,
+  getSelectedProject,
 }) => {
   const data = useHistory().location.data;
   let sctDataVal = data && data.sctdata;
@@ -21,6 +22,9 @@ const GenerateAgreement = ({
   useEffect(() => {
     getALLCompanyDetails();
   }, [getALLCompanyDetails]);
+  useEffect(() => {
+    getSelectedProject({ projectId: sctDataVal.projectsId });
+  }, [getSelectedProject]);
 
   //formData
   const [formData, setFormData] = useState({
@@ -135,6 +139,7 @@ const GenerateAgreement = ({
         company_address: companyaddress,
         client_name: sctCompanyName,
         client_address: sctClientAddress,
+        agreementTemplate: selectedProject.agreementTemplate.filename,
       };
       console.log(finalData);
       saveAgreement(finalData);
@@ -391,4 +396,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   saveAgreement,
   getALLCompanyDetails,
+  getSelectedProject,
 })(GenerateAgreement);
