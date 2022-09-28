@@ -63,7 +63,6 @@ const ProjectVerification = ({
   const activeFolderOpt = [];
   activeVerfificationFolders.map((folderData) =>
     activeFolderOpt.push({
-      folderId: folderData._id,
       label: folderData.clientFolderName,
       value: folderData.clientFolderName,
     })
@@ -72,7 +71,7 @@ const ProjectVerification = ({
   const onFolderChange = (e) => {
     setClientData(e);
     let selDateData = {
-      folderId: e.folderId,
+      folder: e.value,
       statusId: projectStatusData.value,
       dateVal: singledate,
     };
@@ -82,7 +81,7 @@ const ProjectVerification = ({
   const onProjectStatusChange = (e) => {
     setProjectStatusData(e);
     let selDateData = {
-      folderId: folderData.folderId,
+      folder: folderData.value,
       statusId: e.value,
       dateVal: singledate,
     };
@@ -102,7 +101,7 @@ const ProjectVerification = ({
   const onDateChange2 = (e) => {
     setsingledate(e.target.value);
     let selDateData = {
-      folderId: folderData.folderId,
+      folder: folderData.value,
       statusId: projectStatusData.value,
       dateVal: e.target.value,
     };

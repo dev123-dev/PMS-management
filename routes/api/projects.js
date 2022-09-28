@@ -503,16 +503,16 @@ router.get("/get-project-status-verification", async (req, res) => {
   }
 });
 router.post("/get-verification-project-details", async (req, res) => {
-  const { clientId, statusId, dateVal } = req.body;
+  const { clientId, statusId, dateVal, folder } = req.body;
   let query = {};
   if (dateVal) {
-    if (clientId) {
+    if (folder) {
       if (statusId) {
         query = {
           $and: [
             { projectVerificationStatus: { $ne: "Verified" } },
             { projectStatus: { $eq: "Active" } },
-            { clientId: { $eq: clientId } },
+            { clientFolderName: { $eq: folder } },
             { projectStatusId: { $eq: statusId } },
             { projectDate: { $eq: dateVal } },
           ],
@@ -522,7 +522,7 @@ router.post("/get-verification-project-details", async (req, res) => {
           $and: [
             { projectVerificationStatus: { $ne: "Verified" } },
             { projectStatus: { $eq: "Active" } },
-            { clientId: { $eq: clientId } },
+            { clientFolderName: { $eq: folder } },
             { projectDate: { $eq: dateVal } },
           ],
         };
@@ -548,13 +548,13 @@ router.post("/get-verification-project-details", async (req, res) => {
       }
     }
   } else {
-    if (clientId) {
+    if (folder) {
       if (statusId) {
         query = {
           $and: [
             { projectVerificationStatus: { $ne: "Verified" } },
             { projectStatus: { $eq: "Active" } },
-            { clientId: { $eq: clientId } },
+            { clientFolderName: { $eq: folder } },
             { projectStatusId: { $eq: statusId } },
           ],
         };
@@ -563,7 +563,7 @@ router.post("/get-verification-project-details", async (req, res) => {
           $and: [
             { projectVerificationStatus: { $ne: "Verified" } },
             { projectStatus: { $eq: "Active" } },
-            { clientId: { $eq: clientId } },
+            { clientFolderName: { $eq: folder } },
           ],
         };
       }
