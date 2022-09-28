@@ -60,7 +60,7 @@ router.post("/generate-agreement-doc", async (req, res) => {
     fs.writeFileSync(
       path.resolve(
         "./client/src/static/agreement",
-        data.company_name + "_agreement.docx"
+        data.client_name + "_agreement.docx"
       ),
       buf
     );

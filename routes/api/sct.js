@@ -13,6 +13,7 @@ const SctProjects = require("../../models/sct/SctProjects");
 const Quotation = require("../../models/sct/quotation");
 const PurchaseOrder = require("../../models/sct/purchaseOrder");
 const Invoice = require("../../models/sct/invoice");
+const Agreement = require("../../models/sct/agreement");
 const multer = require("multer");
 
 var storage = multer.diskStorage({
@@ -212,6 +213,37 @@ router.post("/add-invoice", async (req, res) => {
   let data = req.body;
   try {
     const expireOldInvoice = await Invoice.updateMany(
+      { clientId: data.clientId, status: "Active" },
+      {
+        $set: {
+          status: "Expired",
+        },
+      }
+    );
+    let AddInvoice = new Invoice(data);
+    output = await AddInvoice.save();
+    const updateClientInvoiceStatus = await SctClients.updateOne(
+      { _id: data.clientId },
+      {
+        $set: {
+          invoiceGenerated: 1,
+          invoiceId: output._id,
+          billingStatus: "GenerateInvoice",
+          billingStatusCategory: "Invoice",
+        },
+      }
+    );
+    res.json(updateClientInvoiceStatus);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/add-agreement", async (req, res) => {
+  let data = req.body;
+  try {
+    const expireOldAgreement = await Invoice.updateMany(
       { clientId: data.clientId, status: "Active" },
       {
         $set: {
