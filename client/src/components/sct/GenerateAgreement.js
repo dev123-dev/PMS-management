@@ -46,6 +46,10 @@ const GenerateAgreement = ({
 
     quotationNo: "",
     quotationDate: "",
+    fromName: "",
+    fromDesg: "",
+    toName: "",
+    toDesg: "",
     isSubmitted: false,
   });
 
@@ -55,7 +59,10 @@ const GenerateAgreement = ({
     sctCompanyName,
     sctClientAssignedToName,
     sctClientAddress,
-
+    fromName,
+    fromDesg,
+    toName,
+    toDesg,
     isSubmitted,
   } = formData;
 
@@ -140,6 +147,10 @@ const GenerateAgreement = ({
         client_name: sctCompanyName,
         client_address: sctClientAddress,
         agreementTemplate: selectedProject.agreementTemplate.filename,
+        fromName: fromName,
+        fromDesg: fromDesg,
+        toName: toName,
+        toDesg: toDesg,
       };
       console.log(finalData);
       saveAgreement(finalData);
@@ -172,7 +183,7 @@ const GenerateAgreement = ({
           </div>
           <hr />
 
-          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <div className="row card-new ">
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
                 <label className="label-control">Agreement No:</label>
@@ -185,7 +196,7 @@ const GenerateAgreement = ({
                   required
                 />
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
                 <label className="label-control">Agreement Date :</label>
                 <input
                   type="date"
@@ -200,131 +211,120 @@ const GenerateAgreement = ({
                   required
                 />
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
-                <label className="label-control">Client From :</label>
+
+              <br />
+              {/* <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 "> */}
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label className="label-control" style={FrmCmpnyErrorStyle}>
+                  From* :
+                </label>
+                <Select
+                  name="companyName"
+                  options={allcompanydata}
+                  isSearchable={true}
+                  value={company}
+                  placeholder="Select Company"
+                  onChange={(e) => onCompanyChange(e)}
+                  theme={(theme) => ({
+                    ...theme,
+                    height: 26,
+                    minHeight: 26,
+                    borderRadius: 1,
+                    colors: {
+                      ...theme.colors,
+                      primary: "black",
+                    },
+                  })}
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <label className="label-control">For :</label>
                 <input
                   type="text"
-                  name="sctClientAssignedToName"
-                  value={sctClientAssignedToName}
+                  name="sctCompanyName"
+                  value={sctCompanyName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
+                  required
                   disabled
+                />
+              </div>
+
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <textarea
+                  name="companyaddress"
+                  id="companyaddress"
+                  className="textarea form-control"
+                  rows="5"
+                  placeholder="From Address"
+                  style={{ width: "100%" }}
+                  value={companyaddress}
+                  onChange={(e) => onInputChange(e)}
+                ></textarea>
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <textarea
+                  name="sctClientAddress"
+                  id="sctClientAddress"
+                  className="textarea form-control"
+                  rows="5"
+                  placeholder="To Address"
+                  style={{ width: "100%" }}
+                  value={sctClientAddress}
+                  onChange={(e) => onInputChange(e)}
+                  required
+                ></textarea>
+              </div>
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">From Name :</label>
+                <input
+                  type="text"
+                  name="fromName"
+                  value={fromName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
                   required
                 />
               </div>
-              <br />
-              <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 ">
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control" style={FrmCmpnyErrorStyle}>
-                    From* :
-                  </label>
-                  <Select
-                    name="companyName"
-                    options={allcompanydata}
-                    isSearchable={true}
-                    value={company}
-                    placeholder="Select Company"
-                    onChange={(e) => onCompanyChange(e)}
-                    theme={(theme) => ({
-                      ...theme,
-                      height: 26,
-                      minHeight: 26,
-                      borderRadius: 1,
-                      colors: {
-                        ...theme.colors,
-                        primary: "black",
-                      },
-                    })}
-                  />
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">For :</label>
-                  <input
-                    type="text"
-                    name="sctCompanyName"
-                    value={sctCompanyName}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
-                    required
-                    disabled
-                  />
-                </div>
-
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <textarea
-                    name="companyaddress"
-                    id="companyaddress"
-                    className="textarea form-control"
-                    rows="5"
-                    placeholder="From Address"
-                    style={{ width: "100%" }}
-                    value={companyaddress}
-                    onChange={(e) => onInputChange(e)}
-                  ></textarea>
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <textarea
-                    name="sctClientAddress"
-                    id="sctClientAddress"
-                    className="textarea form-control"
-                    rows="5"
-                    placeholder="To Address"
-                    style={{ width: "100%" }}
-                    value={sctClientAddress}
-                    onChange={(e) => onInputChange(e)}
-                    required
-                  ></textarea>
-                </div>
-                <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-                  <label className="label-control">From Name :</label>
-                  <input
-                    type="text"
-                    name="sctClientAssignedToName"
-                    //   value={sctClientAssignedToName}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
-                    required
-                  />
-                </div>
-                <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-                  <label className="label-control">From Designation:</label>
-                  <input
-                    type="text"
-                    name="sctClientAssignedToName"
-                    //   value={sctClientAssignedToName}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
-                    required
-                  />
-                </div>
-                <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-                  <label className="label-control">To Name :</label>
-                  <input
-                    type="text"
-                    name="sctClientAssignedToName"
-                    //   value={sctClientAssignedToName}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
-                    required
-                  />
-                </div>
-                <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-                  <label className="label-control">To Designation:</label>
-                  <input
-                    type="text"
-                    name="sctClientAssignedToName"
-                    //   value={sctClientAssignedToName}
-                    className="form-control"
-                    onChange={(e) => onInputChange(e)}
-                    required
-                  />
-                </div>
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">From Designation:</label>
+                <input
+                  type="text"
+                  name="fromDesg"
+                  value={fromDesg}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                  required
+                />
+              </div>
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">To Name :</label>
+                <input
+                  type="text"
+                  name="toName"
+                  value={toName}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                  required
+                />
+              </div>
+              <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">To Designation:</label>
+                <input
+                  type="text"
+                  name="toDesg"
+                  value={toDesg}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                  required
+                />
               </div>
             </div>
           </div>
+          {/* </div> */}
 
           <div
-            className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
+            className="row col-lg-8 col-md-11 col-sm-12 col-12 Savebutton no_padding"
             size="lg"
           >
             <div className="col-lg-8 col-md-6 col-sm-12 col-12">
