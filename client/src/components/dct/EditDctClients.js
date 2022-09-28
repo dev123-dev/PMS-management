@@ -222,6 +222,23 @@ const EditDctClients = ({
 
   const [AddedDetails, AddDetails] = useState([]);
 
+  const [error1, setError1] = useState({
+    nametypeIdChecker: false,
+    nametypeIdErrorStyle: {},
+  });
+  const { nametypeIdChecker, nametypeIdErrorStyle } = error1;
+  const checkErrorscontact = () => {
+    if (!nametypeIdChecker) {
+      setError1({
+        ...error1,
+        nametypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    return true;
+  };
+
   const onAdd = (e) => {
     const staffList = AddedDetails.filter(
       (AddDetails) => AddDetails.staffName === staffName
@@ -229,32 +246,34 @@ const EditDctClients = ({
 
     e.preventDefault();
     if (staffList.length === 0) {
-      const addData = {
-        recordId:
-          data && data.dctdata && data.dctdata._id ? data.dctdata._id : "",
-        staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1),
-        staffPhoneNumber: staffPhoneNumber,
-        staffEmailId: staffEmailId.trim(),
-        staffDesignation: staffDesignation.trim(),
-        staffRegion: staffcountryname,
-        staffRegionId: staffcountryId ? staffcountryId : null,
-        staffCountryCode: staffCountryCode,
-      };
-      setFormDatas({
-        ...addData,
+      if (checkErrorscontact()) {
+        const addData = {
+          recordId:
+            data && data.dctdata && data.dctdata._id ? data.dctdata._id : "",
+          staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1),
+          staffPhoneNumber: staffPhoneNumber,
+          staffEmailId: staffEmailId.trim(),
+          staffDesignation: staffDesignation.trim(),
+          staffRegion: staffcountryname ? staffcountryname : "",
+          staffRegionId: staffcountryId ? staffcountryId : null,
+          staffCountryCode: staffCountryCode,
+        };
+        setFormDatas({
+          ...addData,
 
-        staffName: "",
-        staffPhoneNumber: "",
-        staffEmailId: "",
-        staffDesignation: "",
-        staffRegion: "",
-        staffCountryCode: "",
-      });
-      setstaffCountryCode("");
-      getstaffcountryData("");
-      let temp = [];
-      temp.push(...AddedDetails, addData);
-      AddDetails(temp);
+          staffName: "",
+          staffPhoneNumber: "",
+          staffEmailId: "",
+          staffDesignation: "",
+          staffRegion: "",
+          staffCountryCode: "",
+        });
+        setstaffCountryCode("");
+        getstaffcountryData("");
+        let temp = [];
+        temp.push(...AddedDetails, addData);
+        AddDetails(temp);
+      }
     }
   };
   const onRemoveChange = (staffName) => {
@@ -281,17 +300,24 @@ const EditDctClients = ({
       : ""
   );
   const [countryId, setcountryID] = useState(data && data.dctdata.countryId);
+  const [countryName, setcountryName] = useState(
+    data && data.dctdata.countryName
+  );
   const [countrycode, setcountrycode] = useState(
     data && data.dctdata.countrycode
   );
   const oncountryChange = (e) => {
     var countryId = "";
     var countrycode = "";
+    var countryName = "";
     countrycode = e.countrycode;
+
     getcountryData(e);
     countryId = e.countryId;
+    countryName = e.value;
     setcountryID(countryId);
     setcountrycode(countrycode);
+    setcountryName(countryName);
   };
 
   const [ServicesDetails, SetServiceDetails] = useState(
@@ -462,18 +488,18 @@ const EditDctClients = ({
       clientCompanyFounderName: clientCompanyFounderName.trim(),
       emailId: emailId.trim(),
       clientEmail: clientEmail.trim(),
-      clientType: clientType.value,
+      clientType: clientType.value ? clientType.value : "",
       billingEmail: billingEmail.trim(),
       clientCurrency: clientCurrency.trim(),
       phone1: phone1,
       phone2: phone2,
       paymentId: paymentId ? paymentId : null,
       clientFolderName: clientFolderName.trim(),
-      paymentModeName: paymentModeName.trim(),
+      paymentModeName: paymentModeName.value ? paymentModeName : "",
       address: address.trim(),
       importantPoints: importantPoints.trim(),
       countryId: countryId ? countryId : null,
-      countryName: country.value ? country.value : null,
+      countryName: countryName ? countryName : "",
       countryCode: countrycode,
       dctClientStatus: "Active",
       dctClientCategory: clientType.value === "Test" ? "TC" : "RC",
@@ -481,8 +507,8 @@ const EditDctClients = ({
       services: ServicesDetails,
       dctClientEditedById: user._id,
       dctClientEditedDateTime: new Date().toLocaleString("en-GB"),
-      dctClientAssignedToId: empId,
-      dctClientAssignedToName: empName,
+      dctClientAssignedToId: empId ? empId : null,
+      dctClientAssignedToName: empName ? empName : "",
     };
     editDctClientsDetails(finalData);
     let i = 0;
@@ -508,6 +534,11 @@ const EditDctClients = ({
   };
 
   const onInputChange1 = (e) => {
+    setError1({
+      ...error1,
+      nametypeIdChecker: true,
+      nametypeIdErrorStyle: { color: "#000" },
+    });
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
 
@@ -803,7 +834,12 @@ const EditDctClients = ({
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Staff Name:</label>
+                    <label
+                      className="label-control"
+                      style={nametypeIdErrorStyle}
+                    >
+                      Staff Name:
+                    </label>
                     <input
                       type="text"
                       name="staffName"
