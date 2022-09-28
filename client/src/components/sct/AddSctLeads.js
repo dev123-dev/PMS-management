@@ -646,6 +646,17 @@ const AddSctLeads = ({
                       required
                     />
                   </div>
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label style={ProjectErrorStyle}>Lead of :</label>
+                    <Select
+                      name="sctProjectName"
+                      options={allprojects}
+                      isSearchable={true}
+                      value={projects}
+                      placeholder="Select Projects"
+                      onChange={(e) => onprojectsChange(e)}
+                    />
+                  </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label
                     // className="label-control"
@@ -662,11 +673,7 @@ const AddSctLeads = ({
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label
-                    // className="label-control"
-                    >
-                      Client Name:
-                    </label>
+                    <label className="label-control">Client Name:</label>
                     <input
                       type="text"
                       name="sctClientName"
@@ -760,19 +767,7 @@ const AddSctLeads = ({
                       })}
                     />
                   </div> */}
-                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <label className="label-control" style={ProjectErrorStyle}>
-                      Lead of :
-                    </label>
-                    <Select
-                      name="sctProjectName"
-                      options={allprojects}
-                      isSearchable={true}
-                      value={projects}
-                      placeholder="Select Projects"
-                      onChange={(e) => onprojectsChange(e)}
-                    />
-                  </div>
+
                   {user.empCtAccess && user.empCtAccess === "All" ? (
                     <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                       <label
