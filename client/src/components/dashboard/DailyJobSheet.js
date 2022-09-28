@@ -85,8 +85,8 @@ const DailyJobSheet = ({
   const [selDateDataVal, setSelDateDataVal] = useState();
   getDailyJobsheetProjectDeatils(selDateDataVal);
 
-  const [clientData, setClientData] = useState("");
-  const [clientId, setClientId] = useState("");
+  const [projectData, setClientData] = useState("");
+  const [folderId, setClientId] = useState("");
   const [clientName, setClientName] = useState("");
   function dhm(pDateTime) {
     let pStartDate = new Date(pDateTime);
@@ -410,7 +410,7 @@ const DailyJobSheet = ({
     let selDateData = {
       selDate: singledate,
       dateType: "Single Date",
-      clientId: clientData.clientId,
+      folderId: projectData.folderId,
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
@@ -423,7 +423,7 @@ const DailyJobSheet = ({
       fromdate: fromdate,
       todate: todate,
       dateType: "Multi Date",
-      clientId: clientData.clientId,
+      folderId: projectData.folderId,
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
@@ -473,23 +473,23 @@ const DailyJobSheet = ({
     }
   };
 
-  const activeClientsOpt = [];
-  // activeDailyJobSheetClients.map((clientsData) =>
-  //   activeClientsOpt.push({
-  //     clientId: clientsData._id,
-  //     label: clientsData.clientName,
-  //     value: clientsData.clientName,
-  //   })
-  // );
-  const onClientChange = (e) => {
+  const activeFolderOpt = [];
+  activeDailyJobSheetFolder.map((folderData) =>
+    activeFolderOpt.push({
+      folderId: folderData._id,
+      label: folderData.clientFolderName,
+      value: folderData.clientFolderName,
+    })
+  );
+  const onProjectChange = (e) => {
     setClientData(e);
-    setClientId(e.clientId);
+    setClientId(e.folderId);
     let selDateData = {
       selDate: singledate,
       fromdate: fromdate,
       todate: todate,
       dateType: Dateselectmode.value ? Dateselectmode.value : "Single Date",
-      clientId: e.clientId,
+      folderId: e.folderId,
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
@@ -614,12 +614,12 @@ const DailyJobSheet = ({
               )}
               <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
                 <Select
-                  name="clientData"
+                  name="projectData"
                   isSearchable={true}
-                  value={clientData}
-                  options={activeClientsOpt}
+                  value={projectData}
+                  options={activeFolderOpt}
                   placeholder="Select"
-                  onChange={(e) => onClientChange(e)}
+                  onChange={(e) => onProjectChange(e)}
                 />
               </div>
             </div>
