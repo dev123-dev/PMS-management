@@ -53,26 +53,26 @@ const ProjectVerification = ({
   //   getVerificationClients();
   // }, [getVerificationClients]);
 
-  const [clientData, setClientData] = useState("");
+  const [folderData, setClientData] = useState("");
   const [projectStatusData, setProjectStatusData] = useState("");
   const [singledate, setsingledate] = useState("");
   const [searchData, setSearchData] = useState("");
 
-  console.log(activeVerfificationFolders, "activeVerfificationFolders");
+  //console.log(activeVerfificationFolders, "activeVerfificationFolders");
 
-  const activeClientsOpt = [];
-  // activeVerfificationClients.map((clientsData) =>
-  //   activeClientsOpt.push({
-  //     clientId: clientsData._id,
-  //     label: clientsData.clientName,
-  //     value: clientsData.clientName,
-  //   })
-  // );
+  const activeFolderOpt = [];
+  activeVerfificationFolders.map((folderData) =>
+    activeFolderOpt.push({
+      folderId: folderData._id,
+      label: folderData.clientFolderName,
+      value: folderData.clientFolderName,
+    })
+  );
 
-  const onClientChange = (e) => {
+  const onFolderChange = (e) => {
     setClientData(e);
     let selDateData = {
-      clientId: e.clientId,
+      folderId: e.folderId,
       statusId: projectStatusData.value,
       dateVal: singledate,
     };
@@ -82,7 +82,7 @@ const ProjectVerification = ({
   const onProjectStatusChange = (e) => {
     setProjectStatusData(e);
     let selDateData = {
-      clientId: clientData.clientId,
+      folderId: folderData.folderId,
       statusId: e.value,
       dateVal: singledate,
     };
@@ -102,7 +102,7 @@ const ProjectVerification = ({
   const onDateChange2 = (e) => {
     setsingledate(e.target.value);
     let selDateData = {
-      clientId: clientData.clientId,
+      folderId: folderData.folderId,
       statusId: projectStatusData.value,
       dateVal: e.target.value,
     };
@@ -153,12 +153,12 @@ const ProjectVerification = ({
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
-                name="clientData"
+                name="folderData"
                 isSearchable={true}
-                value={clientData}
-                options={activeClientsOpt}
+                value={folderData}
+                options={activeFolderOpt}
                 placeholder="Select"
-                onChange={(e) => onClientChange(e)}
+                onChange={(e) => onFolderChange(e)}
               />
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
