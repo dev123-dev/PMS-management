@@ -405,7 +405,7 @@ const AllSctDocuments = ({
                       >
                         <img
                           className=" log"
-                          src={require("../../static/images/Po.png")}
+                          src={require("../../static/images/T&C.jpg")}
                           alt="Send T&C Agreement"
                           title="Send T&C Agreement"
                         />
