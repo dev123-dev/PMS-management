@@ -366,6 +366,7 @@ const GenerateAgreement = ({
               ) : (
                 <>
                   {isSubmitted &&
+                  !loading &&
                   AgreementFile &&
                   AgreementFile.generatedAgreementFile ? (
                     <Link

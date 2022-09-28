@@ -139,12 +139,13 @@ const AllSctProjects = ({
                                     alt="Edit"
                                     title="Edit"
                                   />
+                                  &emsp;
                                   <img
                                     className="img_icon_size log"
                                     onClick={() => onUpload(allSctProject, idx)}
-                                    src={require("../../static/images/uploadicon.jpg")}
-                                    alt="Edit"
-                                    title="Edit"
+                                    src={require("../../static/images/upload.png")}
+                                    alt="Upload Aggrement Template"
+                                    title="Upload Aggrement Template"
                                   />
                                 </td>
                               ) : (
