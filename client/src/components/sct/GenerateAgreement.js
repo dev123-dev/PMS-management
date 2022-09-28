@@ -140,17 +140,20 @@ const GenerateAgreement = ({
     if (checkErrors()) {
       const finalData = {
         clientId: sctDataVal ? sctDataVal._id : "",
-        date_time: startagreementDate,
+        client_name: sctCompanyName,
+        client_address: sctClientAddress,
+        agreementDate: startagreementDate,
         companyId: companyid,
         company_name: companyname,
         company_address: companyaddress,
-        client_name: sctCompanyName,
-        client_address: sctClientAddress,
         agreementTemplate: selectedProject.agreementTemplate.filename,
         fromName: fromName,
         fromDesg: fromDesg,
         toName: toName,
         toDesg: toDesg,
+        status: "Active",
+        agreementEnteredById: user._id,
+        agreementEnteredByDateTime: new Date().toLocaleString("en-GB"),
       };
       console.log(finalData);
       saveAgreement(finalData);

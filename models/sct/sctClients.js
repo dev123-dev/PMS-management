@@ -10,7 +10,7 @@ const SctClientsSchema = new mongoose.Schema({
     type: String,
   },
   sctLeadId: {
-    //
+    //id from lead table
     type: ObjectId,
   },
   sctEmailId: {
@@ -182,6 +182,13 @@ const SctClientsSchema = new mongoose.Schema({
     default: 0,
   },
   invoiceId: {
+    type: ObjectId,
+  },
+  agreementGenerated: {
+    type: Number, //0,1
+    default: 0,
+  },
+  agreementId: {
     type: ObjectId,
   },
   billingStatus: {

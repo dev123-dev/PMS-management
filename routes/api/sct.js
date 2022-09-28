@@ -243,7 +243,7 @@ router.post("/add-invoice", async (req, res) => {
 router.post("/add-agreement", async (req, res) => {
   let data = req.body;
   try {
-    const expireOldAgreement = await Invoice.updateMany(
+    const expireOldAgreement = await Agreement.updateMany(
       { clientId: data.clientId, status: "Active" },
       {
         $set: {
@@ -251,20 +251,20 @@ router.post("/add-agreement", async (req, res) => {
         },
       }
     );
-    let AddInvoice = new Invoice(data);
-    output = await AddInvoice.save();
-    const updateClientInvoiceStatus = await SctClients.updateOne(
+    let AddAgreement = new Agreement(data);
+    output = await AddAgreement.save();
+    const updateClientAgreementStatus = await SctClients.updateOne(
       { _id: data.clientId },
       {
         $set: {
-          invoiceGenerated: 1,
-          invoiceId: output._id,
-          billingStatus: "GenerateInvoice",
+          agreementGenerated: 1,
+          agreementId: output._id,
+          billingStatus: "GenerateAgreement",
           billingStatusCategory: "Invoice",
         },
       }
     );
-    res.json(updateClientInvoiceStatus);
+    res.json(updateClientAgreementStatus);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -1210,6 +1210,8 @@ router.post(
       {
         $set: {
           agreementFile: req.file,
+          billingStatus: "AgreementReceived",
+          billingStatusCategory: "Invoice",
         },
       }
     );
