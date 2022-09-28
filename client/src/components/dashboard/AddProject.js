@@ -254,6 +254,7 @@ const AddProject = ({
         projectEnteredById: user._id,
         projectEnteredByName: user.empFullName,
       };
+      addProject(finalData);
       setFormData({
         ...formData,
         isSubmitted: true,
