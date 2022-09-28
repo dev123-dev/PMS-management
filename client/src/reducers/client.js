@@ -2,7 +2,8 @@ import {
   ALL_CLIENTS,
   ACTIVE_CLIENTS,
   ACTIVE_CLIENT_FILTER,
-  ALL_DJS_CLIENTS,
+  // ALL_DJS_CLIENTS,
+  ALL_DJS_FOLDER,
   // ALL_VERF_CLIENTS,
   ALL_VERF_FOLDER,
 } from "../actions/types";
@@ -11,7 +12,8 @@ const initialState = {
   allClient: [],
   activeClient: [],
   activeClientFilter: [],
-  activeDailyJobSheetClients: [],
+  // activeDailyJobSheetClients: [],
+  activeDailyJobSheetFolder: [],
   // activeVerfificationClients: [],
   activeVerfificationFolders: [],
 };
@@ -34,11 +36,17 @@ const client = (state = initialState, action) => {
         ...state,
         activeClientFilter: payload,
       };
-    case ALL_DJS_CLIENTS:
+    // case ALL_DJS_CLIENTS:
+    //   return {
+    //     ...state,
+    //     activeDailyJobSheetClients: payload,
+    //   };
+    case ALL_DJS_FOLDER:
       return {
         ...state,
-        activeDailyJobSheetClients: payload,
+        activeDailyJobSheetFolder: payload,
       };
+
     // case ALL_VERF_CLIENTS:
     //   return {
     //     ...state,

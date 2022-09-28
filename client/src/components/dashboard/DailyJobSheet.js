@@ -18,7 +18,10 @@ import {
   updateMsgSent,
 } from "../../actions/projects";
 
-import { getDailyjobSheetClients } from "../../actions/client";
+import {
+  // getDailyjobSheetClients,
+  getDailyjobSheetFolder,
+} from "../../actions/client";
 import JobNotes from "./JobNotes";
 import AllLatestChange from "./AllLatestChange";
 import { w3cwebsocket } from "websocket";
@@ -33,12 +36,14 @@ const client = new w3cwebsocket("ws://192.168.6.159:8000");
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
   project: { dailyJobsheetProjects, allProjectStatus },
-  client: { activeDailyJobSheetClients },
+  client: { activeDailyJobSheetFolder },
+  // activeDailyJobSheetClients
   getDailyJobsheetProjectDeatils,
   AddProjectTrack,
   getAllProjectStatus,
   getUpdatedProjectStausForDailyJobSheet,
-  getDailyjobSheetClients,
+  // getDailyjobSheetClients,
+  getDailyjobSheetFolder,
   updateMsgSent,
 }) => {
   const socket = useRef();
@@ -57,10 +62,14 @@ const DailyJobSheet = ({
   useEffect(() => {
     getAllProjectStatus();
   }, [getAllProjectStatus]);
+  // useEffect(() => {
+  //   getDailyjobSheetClients();
+  // }, [getDailyjobSheetClients]);
   useEffect(() => {
-    getDailyjobSheetClients();
-  }, [getDailyjobSheetClients]);
+    getDailyjobSheetFolder();
+  }, [getDailyjobSheetFolder]);
 
+  console.log("activeDailyJobSheetFolder", activeDailyJobSheetFolder);
   const [contacts, setContacts] = useState([]);
   useEffect(async () => {
     const data = await axios.get(`${allUsersRoute}/${user._id}`);
@@ -291,7 +300,8 @@ const DailyJobSheet = ({
     setFormData({
       Dateselectmode: DateMethods[0],
     });
-    getDailyjobSheetClients("");
+    // getDailyjobSheetClients("");
+    getDailyjobSheetFolder("");
     setSelDateDataVal("");
     setClientData("");
     setsingledate(new Date().toISOString().split("T")[0]);
@@ -404,7 +414,8 @@ const DailyJobSheet = ({
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
-    getDailyjobSheetClients(selDateData);
+    // getDailyjobSheetClients(selDateData);
+    getDailyjobSheetFolder(selDateData);
   };
 
   const onSearchmultidate = (e) => {
@@ -416,7 +427,8 @@ const DailyJobSheet = ({
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
-    getDailyjobSheetClients(selDateData);
+    // getDailyjobSheetClients(selDateData);
+    getDailyjobSheetFolder(selDateData);
   };
   const [showAllChangeModal, setshowAllChangeModal] = useState(false);
   const handleAllChangeModalClose = () => setshowAllChangeModal(false);
@@ -462,13 +474,13 @@ const DailyJobSheet = ({
   };
 
   const activeClientsOpt = [];
-  activeDailyJobSheetClients.map((clientsData) =>
-    activeClientsOpt.push({
-      clientId: clientsData._id,
-      label: clientsData.clientName,
-      value: clientsData.clientName,
-    })
-  );
+  // activeDailyJobSheetClients.map((clientsData) =>
+  //   activeClientsOpt.push({
+  //     clientId: clientsData._id,
+  //     label: clientsData.clientName,
+  //     value: clientsData.clientName,
+  //   })
+  // );
   const onClientChange = (e) => {
     setClientData(e);
     setClientId(e.clientId);
@@ -1154,6 +1166,7 @@ export default connect(mapStateToProps, {
   AddProjectTrack,
   getAllProjectStatus,
   getUpdatedProjectStausForDailyJobSheet,
-  getDailyjobSheetClients,
+  // getDailyjobSheetClients,
+  getDailyjobSheetFolder,
   updateMsgSent,
 })(DailyJobSheet);

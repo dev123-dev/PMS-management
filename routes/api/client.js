@@ -158,7 +158,56 @@ router.post("/get-active-client-filter", async (req, res) => {
   }
 });
 
-router.post("/get-dailyjobsheet-client", async (req, res) => {
+// router.post("/get-dailyjobsheet-client", async (req, res) => {
+//   const { selDate, fromdate, todate, dateType } = req.body;
+//   let query = {};
+//   if (dateType === "Multi Date") {
+//     query = {
+//       projectStatus: {
+//         $eq: "Active",
+//       },
+//       projectDate: {
+//         $gte: fromdate,
+//         $lte: todate,
+//       },
+//     };
+//   } else if (dateType === "Single Date") {
+//     if (selDate) selDateVal = selDate;
+//     else selDateVal = new Date().toISOString().split("T")[0];
+
+//     query = {
+//       projectStatus: {
+//         $eq: "Active",
+//       },
+//       projectDate: {
+//         $eq: selDateVal,
+//       },
+//     };
+//   } else {
+//     query = {
+//       projectStatus: {
+//         $eq: "Active",
+//       },
+//       projectDate: {
+//         $eq: new Date().toISOString().split("T")[0],
+//       },
+//     };
+//   }
+//   try {
+//     const getDJSClientDetails = await Project.aggregate([
+//       {
+//         $match: query,
+//       },
+//       { $group: { _id: "$clientId", clientName: { $first: "$clientName" } } },
+//     ]).sort({ clientName: 1 });
+//     res.json(getDJSClientDetails);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Internal Server Error.");
+//   }
+// });
+
+router.post("/get-dailyjobsheet-folder", async (req, res) => {
   const { selDate, fromdate, todate, dateType } = req.body;
   let query = {};
   if (dateType === "Multi Date") {
@@ -194,13 +243,18 @@ router.post("/get-dailyjobsheet-client", async (req, res) => {
     };
   }
   try {
-    const getDJSClientDetails = await Project.aggregate([
+    const getDJSFolderDetails = await Project.aggregate([
       {
         $match: query,
       },
-      { $group: { _id: "$clientId", clientName: { $first: "$clientName" } } },
-    ]).sort({ clientName: 1 });
-    res.json(getDJSClientDetails);
+      {
+        $group: {
+          _id: "$clientFolderName",
+          clientFolderName: { $first: "$clientFolderName" },
+        },
+      },
+    ]).sort({ clientFolderName: 1 });
+    res.json(getDJSFolderDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

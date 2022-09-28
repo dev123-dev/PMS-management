@@ -6,7 +6,8 @@ import {
   ALL_CLIENTS,
   ACTIVE_CLIENTS,
   ACTIVE_CLIENT_FILTER,
-  ALL_DJS_CLIENTS,
+  // ALL_DJS_CLIENTS,
+  ALL_DJS_FOLDER,
   // ALL_VERF_CLIENTS,
   ALL_VERF_FOLDER,
 } from "./types";
@@ -122,14 +123,31 @@ export const getActiveClientsFilter = (clientTypeVal) => async (dispatch) => {
   }
 };
 
-export const getDailyjobSheetClients = (selDateData) => async (dispatch) => {
+// export const getDailyjobSheetClients = (selDateData) => async (dispatch) => {
+//   try {
+//     const res = await axios.post(
+//       "/api/client/get-dailyjobsheet-client",
+//       selDateData
+//     );
+//     dispatch({
+//       type: ALL_DJS_CLIENTS,
+//       payload: res.data,
+//     });
+//   } catch (err) {
+//     dispatch({
+//       type: AUTH_ERROR,
+//     });
+//   }
+// };
+
+export const getDailyjobSheetFolder = (selDateData) => async (dispatch) => {
   try {
     const res = await axios.post(
-      "/api/client/get-dailyjobsheet-client",
+      "/api/client/get-dailyjobsheet-folder",
       selDateData
     );
     dispatch({
-      type: ALL_DJS_CLIENTS,
+      type: ALL_DJS_FOLDER,
       payload: res.data,
     });
   } catch (err) {
