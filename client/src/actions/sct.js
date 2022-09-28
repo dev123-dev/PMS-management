@@ -166,7 +166,13 @@ export const saveAgreement = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/sct/add-agreement", finalData, config);
-    await axios.post("/api/other/generate-agreement-doc", finalData, config);
+    const res = await axios.post(
+      "/api/other/generate-agreement-doc",
+      finalData,
+      config
+    );
+    localStorage.setItem("generatedAgreementFileLS", JSON.stringify(res.data));
+    // dispatch(getSelectedClient(finalData));
     // dispatch(getInvoicePrint({ clientId: finalData.clientId }));
     dispatch({
       type: SET_LOADING_FALSE,

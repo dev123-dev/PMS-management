@@ -412,6 +412,24 @@ const AllSctDocuments = ({
                         <h4>Send T&C Agreement</h4>
                       </Link>
                     </center>
+                    {selectedSctClient.generatedAgreementFile && (
+                      <div style={{ marginTop: "-32px" }}>
+                        <Link
+                          to={{
+                            pathname: require("../../static/agreement/" +
+                              selectedSctClient.generatedAgreementFile),
+                          }}
+                          target="_blank"
+                        >
+                          <img
+                            className="img_icon_size log float-right"
+                            src={require("../../static/images/download.png")}
+                            alt=""
+                            style={{ margin: "5px" }}
+                          />
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </div>
 

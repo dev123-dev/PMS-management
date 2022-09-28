@@ -191,6 +191,9 @@ const SctClientsSchema = new mongoose.Schema({
   agreementId: {
     type: ObjectId,
   },
+  generatedAgreementFile: {
+    type: String,
+  },
   billingStatus: {
     type: String,
   },

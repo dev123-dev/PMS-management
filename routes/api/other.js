@@ -8,6 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
 const SctProjects = require("../../models/sct/SctProjects");
+const SctClients = require("../../models/sct/sctClients");
 var storage = multer.diskStorage({
   destination: "./client/src/static/agreement",
   filename: function (req, file, cb) {
@@ -19,7 +20,6 @@ const upload = multer({ storage: storage });
 //ADD
 router.post("/generate-agreement-doc", async (req, res) => {
   let data = req.body;
-  console.log(data);
   try {
     // Load the docx file as binary content
     const content = fs.readFileSync(
@@ -35,17 +35,16 @@ router.post("/generate-agreement-doc", async (req, res) => {
 
     // Render the document (Replace {first_name} by John, {last_name} by Doe, ...)
     doc.render({
-      company_name: data.company_name,
-      client_name: data.client_name,
-      date_time: data.startquotationDate,
-      company_short_name: "Pinnacle",
-      company_address: data.company_address,
-      client_address: data.client_address,
-      company_by: "Mr. Joel Sequeira",
-      comp_by_desg: "General Manager",
-      client_by: "President Sampada",
-      client_by_desg: "President",
-      date: "29-09-2022",
+      companyName: data.companyName,
+      clientName: data.clientName,
+      agreementDateInWords: data.agreementDateInWords,
+      companyAddress: data.companyAddress,
+      clientAddress: data.clientAddress,
+      fromName: data.fromName,
+      fromDesg: data.fromDesg,
+      toName: data.toName,
+      toDesg: data.toDesg,
+      date: data.agreementDate,
     });
 
     const buf = doc.getZip().generate({
@@ -57,14 +56,23 @@ router.post("/generate-agreement-doc", async (req, res) => {
 
     // buf is a nodejs Buffer, you can either write it to a
     // file or res.send it with express for example.
+    let docName = data.clientName + " Agreement.docx";
+
     fs.writeFileSync(
-      path.resolve(
-        "./client/src/static/agreement",
-        data.client_name + "_agreement.docx"
-      ),
+      path.resolve("./client/src/static/agreement", docName),
       buf
     );
-    res.sendStatus(200);
+
+    const updateAgreementGeneration = await SctClients.updateOne(
+      { _id: data.clientId },
+      {
+        $set: {
+          generatedAgreementFile: docName,
+        },
+      }
+    );
+
+    res.json({ generatedAgreementFile: docName });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

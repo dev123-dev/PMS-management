@@ -25,7 +25,9 @@ const GenerateAgreement = ({
   useEffect(() => {
     getSelectedProject({ projectId: sctDataVal.projectsId });
   }, [getSelectedProject]);
-
+  let AgreementFile = JSON.parse(
+    localStorage.getItem("generatedAgreementFileLS")
+  );
   //formData
   const [formData, setFormData] = useState({
     sctClientAddress:
@@ -133,7 +135,6 @@ const GenerateAgreement = ({
   const onDateChange = (e) => {
     setagreementDate(e.target.value);
   };
-
   //add staff end
   const [finalDataVal, setFinalDataVal] = useState([]);
 
@@ -142,13 +143,13 @@ const GenerateAgreement = ({
     if (checkErrors()) {
       const finalData = {
         clientId: sctDataVal ? sctDataVal._id : "",
-        client_name: sctCompanyName,
-        client_address: sctClientAddress,
+        clientName: sctCompanyName,
+        clientAddress: sctClientAddress,
         agreementDate: startagreementDate,
         agreementDateInWords: agreementDateInWords,
         companyId: companyid,
-        company_name: companyname,
-        company_address: companyaddress,
+        companyName: companyname,
+        companyAddress: companyaddress,
         agreementTemplate: selectedProject.agreementTemplate.filename,
         fromName: fromName,
         fromDesg: fromDesg,
@@ -158,8 +159,12 @@ const GenerateAgreement = ({
         agreementEnteredById: user._id,
         agreementEnteredByDateTime: new Date().toLocaleString("en-GB"),
       };
-      console.log(finalData);
+      // console.log(finalData);
       saveAgreement(finalData);
+      setFormData({
+        ...formData,
+        isSubmitted: true,
+      });
     }
   };
 
@@ -218,7 +223,9 @@ const GenerateAgreement = ({
                 />
               </div>{" "}
               <div className="col-lg-3 col-md-6 col-sm-6 col-12 py-2">
-                <label className="label-control">Agreement Date Time:</label>
+                <label className="label-control">
+                  Agreement Date in words:
+                </label>
                 <input
                   type="text"
                   name="agreementDateInWords"
@@ -358,20 +365,19 @@ const GenerateAgreement = ({
                 </button>
               ) : (
                 <>
-                  {isSubmitted ? (
+                  {isSubmitted &&
+                  AgreementFile &&
+                  AgreementFile.generatedAgreementFile ? (
                     <Link
                       className="btn sub_form btn_continue blackbrd  Save float-right"
                       style={{ backgroundColor: "#007bff", color: "white" }}
                       to={{
-                        pathname: "/print-pdf",
-                        data: {
-                          data,
-                          quotationData: finalDataVal,
-                        },
+                        pathname: require("../../static/agreement/" +
+                          AgreementFile.generatedAgreementFile),
                       }}
                       target="_blank"
                     >
-                      Print
+                      Download
                     </Link>
                   ) : (
                     <input
