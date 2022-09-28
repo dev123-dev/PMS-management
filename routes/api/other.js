@@ -6,9 +6,8 @@ const PizZip = require("pizzip");
 const Docxtemplater = require("docxtemplater");
 const fs = require("fs");
 const path = require("path");
-
 const multer = require("multer");
-
+const SctProjects = require("../../models/sct/SctProjects");
 var storage = multer.diskStorage({
   destination: "./client/src/static/agreement",
   filename: function (req, file, cb) {
@@ -16,6 +15,7 @@ var storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
+
 //ADD
 router.post("/generate-agreement-doc", async (req, res) => {
   let data = req.body;
@@ -23,7 +23,7 @@ router.post("/generate-agreement-doc", async (req, res) => {
   try {
     // Load the docx file as binary content
     const content = fs.readFileSync(
-      path.resolve("./client/src/static/agreement", "Agreement_Template.docx"),
+      path.resolve("./client/src/static/agreement", data.agreementTemplate),
       "binary"
     );
     const zip = new PizZip(content);
@@ -58,9 +58,13 @@ router.post("/generate-agreement-doc", async (req, res) => {
     // buf is a nodejs Buffer, you can either write it to a
     // file or res.send it with express for example.
     fs.writeFileSync(
-      path.resolve("./client/src/static/agreement", "Agreement_Sampada.docx"),
+      path.resolve(
+        "./client/src/static/agreement",
+        data.company_name + "_agreement.docx"
+      ),
       buf
     );
+    res.sendStatus(200);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
