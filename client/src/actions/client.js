@@ -64,6 +64,7 @@ export const deactiveClient = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/client/deactive-client", finalData, config);
+    dispatch(getAllClients());
     dispatch({
       type: SET_LOADING_FALSE,
     });
