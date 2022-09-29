@@ -448,34 +448,33 @@ const EditSctClients = ({
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                   <h5>Company Info</h5>
                 </div>
-
-                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label
-                  //  className="label-control"
+
+                  // style={StateErrorStyle}
                   >
-                    Website:
+                    Lead of :
                   </label>
-                  <input
-                    type="text"
-                    name="sctWebsite"
-                    value={sctWebsite}
-                    style={websiteInptErrStyle}
-                    className="form-control"
-                    // onChange={(e) => onInputChange(e)}
-                    onChange={(e) => onleadCheck(e)}
-                    // required
+                  <Select
+                    name="sctProjectName"
+                    options={allprojects}
+                    isSearchable={true}
+                    value={projects}
+                    placeholder="Select Projects"
+                    onChange={(e) => onprojectsChange(e)}
+                    theme={(theme) => ({
+                      ...theme,
+                      height: 26,
+                      minHeight: 26,
+                      borderRadius: 1,
+                      colors: {
+                        ...theme.colors,
+                        primary: "black",
+                      },
+                    })}
                   />
-                  {websiteValChecker && (
-                    <Fragment>
-                      <span
-                        className="form-input-info positioning"
-                        style={websiteValStyle}
-                      >
-                        {websiteValResult}
-                      </span>
-                    </Fragment>
-                  )}
                 </div>
+
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
                   <label
                   // className="label-control"
@@ -506,13 +505,35 @@ const EditSctClients = ({
                     required
                   />
                 </div>
-
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                   <label
-                  // className="label-control"
+                  //  className="label-control"
                   >
-                    Billing Email Id :
+                    Website:
                   </label>
+                  <input
+                    type="text"
+                    name="sctWebsite"
+                    value={sctWebsite}
+                    style={websiteInptErrStyle}
+                    className="form-control"
+                    // onChange={(e) => onInputChange(e)}
+                    onChange={(e) => onleadCheck(e)}
+                    // required
+                  />
+                  {websiteValChecker && (
+                    <Fragment>
+                      <span
+                        className="form-input-info positioning"
+                        style={websiteValStyle}
+                      >
+                        {websiteValResult}
+                      </span>
+                    </Fragment>
+                  )}
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Billing Email Id :</label>
                   <input
                     type="text"
                     name="sctBillingEmail"
@@ -625,32 +646,7 @@ const EditSctClients = ({
                     })}
                   />
                 </div> */}
-                <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                  <label
-                    className="label-control"
-                    // style={StateErrorStyle}
-                  >
-                    Lead of :
-                  </label>
-                  <Select
-                    name="sctProjectName"
-                    options={allprojects}
-                    isSearchable={true}
-                    value={projects}
-                    placeholder="Select Projects"
-                    onChange={(e) => onprojectsChange(e)}
-                    theme={(theme) => ({
-                      ...theme,
-                      height: 26,
-                      minHeight: 26,
-                      borderRadius: 1,
-                      colors: {
-                        ...theme.colors,
-                        primary: "black",
-                      },
-                    })}
-                  />
-                </div>
+
                 {user.empCtAccess && user.empCtAccess === "All" ? (
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label
