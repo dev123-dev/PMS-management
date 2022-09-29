@@ -10,6 +10,7 @@ import {
   editDctClientsDetails,
   deactivateDctClientStaffDetails,
   addNewDctClientStaffDetails,
+  getStaffsData,
 } from "../../actions/dct";
 import { getMarketingEmployee } from "../../actions/user";
 
@@ -22,12 +23,14 @@ const EditDctClients = ({
   user: { marketingEmployees },
   settings: { paymentMode },
   regions: { activeCountry },
+  dct: { staffData },
   editDctClientsDetails,
   getALLPaymentMode,
   getActiveCountry,
   deactivateDctClientStaffDetails,
   addNewDctClientStaffDetails,
   getMarketingEmployee,
+  getStaffsData,
 }) => {
   const data = useHistory().location.data;
   useEffect(() => {
@@ -39,13 +42,15 @@ const EditDctClients = ({
   useEffect(() => {
     getMarketingEmployee();
   }, [getMarketingEmployee]);
-
+  let staffFilter = { staffFrom: "client", leadDataVal: data && data.dctdata };
+  useEffect(() => {
+    getStaffsData(staffFilter);
+  }, [getStaffsData]);
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
   ];
   //formData
-
   const [formData, setFormData] = useState({
     clientName:
       data && data.dctdata && data.dctdata.clientName
@@ -472,6 +477,7 @@ const EditDctClients = ({
       staffDeactiveByDateTime: new Date().toLocaleString("en-GB"),
       staffStatus: "Deactive",
       staffDeactiveReason: staffDeactiveReason,
+      staffFilter: staffFilter,
     };
     deactivateDctClientStaffDetails(finalData);
     onDeactiveModalChange(true);
@@ -495,7 +501,7 @@ const EditDctClients = ({
       phone2: phone2,
       paymentId: paymentId ? paymentId : null,
       clientFolderName: clientFolderName.trim(),
-      paymentModeName: paymentModeName.value ? paymentModeName : "",
+      paymentModeName: paymentModeName ? paymentModeName : "",
       address: address.trim(),
       importantPoints: importantPoints.trim(),
       countryId: countryId ? countryId : null,
@@ -509,6 +515,7 @@ const EditDctClients = ({
       dctClientEditedDateTime: new Date().toLocaleString("en-GB"),
       dctClientAssignedToId: empId ? empId : null,
       dctClientAssignedToName: empName ? empName : "",
+      staffFilter: staffFilter,
     };
     editDctClientsDetails(finalData);
     let i = 0;
@@ -949,9 +956,9 @@ const EditDctClients = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {data.dctdata &&
-                        data.dctdata.staffs &&
-                        data.dctdata.staffs.map((staff, idx) => {
+                      {staffData &&
+                        staffData.staffs &&
+                        staffData.staffs.map((staff, idx) => {
                           if (staff.staffStatus === "Active")
                             return (
                               <tr key={idx}>
@@ -1073,6 +1080,7 @@ const EditDctClients = ({
               allStaffdata={userDatas}
               allleaddata={userDatas1}
               from="client"
+              staffFilter={staffFilter}
             />
           </Modal.Body>
         </Modal>
@@ -1162,6 +1170,7 @@ EditDctClients.propTypes = {
   client: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
   getALLPaymentMode: PropTypes.func.isRequired,
+  dct: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -1170,6 +1179,7 @@ const mapStateToProps = (state) => ({
   settings: state.settings,
   client: state.client,
   regions: state.regions,
+  dct: state.dct,
 });
 
 export default connect(mapStateToProps, {
@@ -1179,4 +1189,5 @@ export default connect(mapStateToProps, {
   deactivateDctClientStaffDetails,
   addNewDctClientStaffDetails,
   getMarketingEmployee,
+  getStaffsData,
 })(EditDctClients);
