@@ -434,6 +434,10 @@ const AddSctLeads = ({
     websiteValResult: "",
     websiteValStyle: {},
     websiteInptErrStyle: {},
+    companyNameValChecker: false,
+    companyNameValResult: "",
+    companyNameValStyle: {},
+    companyNameInptErrStyle: {},
   });
   const {
     countrytypeIdChecker,
@@ -446,6 +450,10 @@ const AddSctLeads = ({
     websiteValResult,
     websiteValStyle,
     websiteInptErrStyle,
+    companyNameValChecker,
+    companyNameValResult,
+    companyNameValStyle,
+    companyNameInptErrStyle,
   } = error;
 
   const checkErrors = () => {
@@ -533,7 +541,7 @@ const AddSctLeads = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  console.log("sctLeadsList", sctLeadsList);
   const onleadCheck = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     let data = e.target.value;
@@ -549,6 +557,9 @@ const AddSctLeads = ({
           .replace("www.", "")
           .split(".")[0] === arr[0]
     );
+    const listCompanyName = sctLeadsList.filter(
+      (sctLeadsList) => sctLeadsList.sctCompanyName[0] === arr[0]
+    );
     if (e.target.value === "") {
       setError({
         ...error,
@@ -556,14 +567,23 @@ const AddSctLeads = ({
         websiteValResult: "",
         websiteValStyle: {},
         websiteInptErrStyle: {},
+        companyNameValChecker: false,
+        companyNameValResult: "",
+        companyNameValStyle: {},
+        companyNameInptErrStyle: {},
       });
-    } else if (listWebsite.length > 0) {
+    } else if (listWebsite.length > 0 && listCompanyName.length > 0) {
       setError({
         ...error,
         websiteValChecker: true,
         websiteValResult: "Exist",
         websiteValStyle: { color: "#FF0000", marginTop: "7px" },
         websiteInptErrStyle: { border: "1px solid #FF0000" },
+
+        companyNameValChecker: true,
+        companyNameValResult: "Exist",
+        companyNameValStyle: { color: "#FF0000", marginTop: "7px" },
+        companyNameInptErrStyle: { border: "1px solid #FF0000" },
       });
     } else {
       setError({
@@ -572,6 +592,11 @@ const AddSctLeads = ({
         websiteValResult: "Not Exist",
         websiteValStyle: { color: "#43b90f", marginTop: "7px" },
         websiteInptErrStyle: { border: "1px solid #43b90f" },
+
+        companyNameValChecker: true,
+        companyNameValResult: "Not Exist",
+        companyNameValStyle: { color: "#43b90f", marginTop: "7px" },
+        companyNameInptErrStyle: { border: "1px solid #43b90f" },
       });
     }
   };
@@ -642,9 +667,21 @@ const AddSctLeads = ({
                       name="sctCompanyName"
                       value={sctCompanyName}
                       className="form-control"
-                      onChange={(e) => onInputChange(e)}
+                      style={companyNameInptErrStyle}
+                      onChange={(e) => onleadCheck(e)}
+                      // onChange={(e) => onInputChange(e)}
                       required
                     />
+                    {companyNameValChecker && (
+                      <Fragment>
+                        <span
+                          className="form-input-info positioning"
+                          style={companyNameValStyle}
+                        >
+                          {companyNameValResult}
+                        </span>
+                      </Fragment>
+                    )}
                   </div>
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label style={ProjectErrorStyle}>Lead of :</label>
