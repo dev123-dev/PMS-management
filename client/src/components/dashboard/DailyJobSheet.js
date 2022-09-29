@@ -85,9 +85,32 @@ const DailyJobSheet = ({
   const [selDateDataVal, setSelDateDataVal] = useState();
   getDailyJobsheetProjectDeatils(selDateDataVal);
 
-  const [projectData, setClientData] = useState("");
-  const [folderId, setClientId] = useState("");
+  const [projectData, setprojectData] = useState("");
+  const [folderId, setfolderId] = useState("");
   const [clientName, setClientName] = useState("");
+
+  const activeFolderOpt = [];
+  activeDailyJobSheetFolder.map((folderData) =>
+    activeFolderOpt.push({
+      folderId: folderData._id,
+      label: folderData.clientFolderName,
+      value: folderData.clientFolderName,
+    })
+  );
+  const onProjectChange = (e) => {
+    setprojectData(e);
+    setfolderId(e.folderId);
+    let selDateData = {
+      selDate: singledate,
+      fromdate: fromdate,
+      todate: todate,
+      dateType: Dateselectmode.value ? Dateselectmode.value : "Single Date",
+      folderId: e.folderId,
+    };
+    setSelDateDataVal(selDateData);
+    getDailyJobsheetProjectDeatils(selDateData);
+  };
+
   function dhm(pDateTime) {
     let pStartDate = new Date(pDateTime);
     let pEndDate = new Date();
@@ -303,7 +326,7 @@ const DailyJobSheet = ({
     // getDailyjobSheetClients("");
     getDailyjobSheetFolder("");
     setSelDateDataVal("");
-    setClientData("");
+    setprojectData("");
     setsingledate(new Date().toISOString().split("T")[0]);
     setSelectedDate(new Date().toISOString().split("T")[0]);
     setShowHide({
@@ -393,7 +416,7 @@ const DailyJobSheet = ({
   );
   //
   const onDateChange2 = (e) => {
-    setClientData("");
+    setprojectData("");
     setsingledate(e.target.value);
   };
   const [todate, settodate] = useState("");
@@ -451,7 +474,7 @@ const DailyJobSheet = ({
   });
   const { showdateSection, showdateSection1 } = showHide;
   const onDateModeChange = (e) => {
-    setClientData("");
+    setprojectData("");
     if (e) {
       setFormData({
         ...formData,
@@ -471,28 +494,6 @@ const DailyJobSheet = ({
         showdateSection1: true,
       });
     }
-  };
-
-  const activeFolderOpt = [];
-  activeDailyJobSheetFolder.map((folderData) =>
-    activeFolderOpt.push({
-      folderId: folderData._id,
-      label: folderData.clientFolderName,
-      value: folderData.clientFolderName,
-    })
-  );
-  const onProjectChange = (e) => {
-    setClientData(e);
-    setClientId(e.folderId);
-    let selDateData = {
-      selDate: singledate,
-      fromdate: fromdate,
-      todate: todate,
-      dateType: Dateselectmode.value ? Dateselectmode.value : "Single Date",
-      folderId: e.folderId,
-    };
-    setSelDateDataVal(selDateData);
-    getDailyJobsheetProjectDeatils(selDateData);
   };
 
   const [userDatadeactive, setUserDatadeactive] = useState(null);
