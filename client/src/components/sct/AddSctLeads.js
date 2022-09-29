@@ -457,6 +457,13 @@ const AddSctLeads = ({
   } = error;
 
   const checkErrors = () => {
+    if (!ProjectIdChecker) {
+      setError({
+        ...error,
+        ProjectErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
     if (!countrytypeIdChecker) {
       setError({
         ...error,
@@ -472,14 +479,6 @@ const AddSctLeads = ({
         });
         return false;
       }
-    }
-
-    if (!ProjectIdChecker) {
-      setError({
-        ...error,
-        ProjectErrorStyle: { color: "#F00" },
-      });
-      return false;
     }
 
     return true;
@@ -633,29 +632,18 @@ const AddSctLeads = ({
                     <hr />
                     <h5>Company Info</h5>
                   </div>
-
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label>Website :</label>
-                    <input
-                      type="text"
-                      name="sctWebsite"
-                      value={sctWebsite}
-                      style={websiteInptErrStyle}
-                      className="form-control"
-                      onChange={(e) => onleadCheck(e)}
-                      // required
+                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <label style={ProjectErrorStyle}>Lead of :</label>
+                    <Select
+                      name="sctProjectName"
+                      options={allprojects}
+                      isSearchable={true}
+                      value={projects}
+                      placeholder="Select Projects"
+                      onChange={(e) => onprojectsChange(e)}
                     />
-                    {websiteValChecker && (
-                      <Fragment>
-                        <span
-                          className="form-input-info positioning"
-                          style={websiteValStyle}
-                        >
-                          {websiteValResult}
-                        </span>
-                      </Fragment>
-                    )}
                   </div>
+
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12 ">
                     <label
                     // className="label-control"
@@ -683,17 +671,7 @@ const AddSctLeads = ({
                       </Fragment>
                     )}
                   </div>
-                  <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <label style={ProjectErrorStyle}>Lead of :</label>
-                    <Select
-                      name="sctProjectName"
-                      options={allprojects}
-                      isSearchable={true}
-                      value={projects}
-                      placeholder="Select Projects"
-                      onChange={(e) => onprojectsChange(e)}
-                    />
-                  </div>
+
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label
                     // className="label-control"
@@ -708,6 +686,28 @@ const AddSctLeads = ({
                       onChange={(e) => onInputChange(e)}
                       required
                     />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label>Website :</label>
+                    <input
+                      type="text"
+                      name="sctWebsite"
+                      value={sctWebsite}
+                      style={websiteInptErrStyle}
+                      className="form-control"
+                      onChange={(e) => onleadCheck(e)}
+                      // required
+                    />
+                    {websiteValChecker && (
+                      <Fragment>
+                        <span
+                          className="form-input-info positioning"
+                          style={websiteValStyle}
+                        >
+                          {websiteValResult}
+                        </span>
+                      </Fragment>
+                    )}
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Client Name:</label>
