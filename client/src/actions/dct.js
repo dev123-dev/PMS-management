@@ -170,11 +170,11 @@ export const addNewDctClientStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/add-new-dct-client-staff", finalData, config);
-    dispatch(getStaffsData(finalData.staffFilter));
-    if (finalData.filterData) {
-      dispatch(getDctClientDetails(finalData.filterData));
-      dispatch(getDctClientDetailsDD(finalData.filterData));
-    }
+    // dispatch(getStaffsData(finalData.staffFilter));
+    // if (finalData.filterData) {
+    //   dispatch(getDctClientDetails(finalData.filterData));
+    //   dispatch(getDctClientDetailsDD(finalData.filterData));
+    // }
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -208,11 +208,11 @@ export const editDctClientStaffDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/edit-dct-client-staff", finalData, config);
-    dispatch(getStaffsData(finalData.staffFilter));
-    if (finalData.filterData) {
-      dispatch(getDctClientDetails(finalData.filterData));
-      dispatch(getDctClientDetailsDD(finalData.filterData));
-    }
+    // dispatch(getStaffsData(finalData.staffFilter));
+    // if (finalData.filterData) {
+    //   dispatch(getDctClientDetails(finalData.filterData));
+    //   dispatch(getDctClientDetailsDD(finalData.filterData));
+    // }
     dispatch({
       type: SET_LOADING_FALSE,
     });
