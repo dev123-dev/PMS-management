@@ -91,6 +91,7 @@ router.post("/deactive-client", async (req, res) => {
           clientStatus: "Deactive",
           clientDeactiveById: data.clientDeactiveById,
           clientDeactiveDate: data.clientDeactiveDate,
+          clientDeactiveReason: data.clientDeactiveReason,
           clientDeactiveDateTime: Date.now(),
         },
       }

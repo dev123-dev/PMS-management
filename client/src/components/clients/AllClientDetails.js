@@ -101,23 +101,27 @@ const AllClientDetails = ({
                               <td>{allClient.paymentModeName}</td>
                               <td>{allClient.clientCountry}</td>
                               <td>
-                                <>
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onDeactive(allClient, idx)}
-                                    src={require("../../static/images/delete.png")}
-                                    alt="Deactivate"
-                                    title="Deactivate"
-                                  />
-                                  &nbsp;
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(allClient, idx)}
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  />
-                                </>
+                                {allClient.clientStatus === "Active" ? (
+                                  <>
+                                    <img
+                                      className="img_icon_size log"
+                                      onClick={() => onDeactive(allClient, idx)}
+                                      src={require("../../static/images/delete.png")}
+                                      alt="Deactivate"
+                                      title="Deactivate"
+                                    />
+                                    &nbsp;
+                                    <img
+                                      className="img_icon_size log"
+                                      onClick={() => onUpdate(allClient, idx)}
+                                      src={require("../../static/images/edit_icon.png")}
+                                      alt="Edit"
+                                      title="Edit"
+                                    />
+                                  </>
+                                ) : (
+                                  "Deactivated"
+                                )}
                               </td>
                             </tr>
                           );
