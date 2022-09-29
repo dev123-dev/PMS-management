@@ -1270,6 +1270,9 @@ router.post("/get-sct-leads-list", async (req, res) => {
       },
       {
         sctWebsite: 1,
+        sctCompanyName: 1,
+        projectsId: 1,
+        sctEmailId: 1,
       }
     );
     res.json(getLeadsListData);
