@@ -365,10 +365,10 @@ router.post("/get-job-queue-project-details", async (req, res) => {
 });
 
 router.post("/get-daily-jobsheet-project-details", async (req, res) => {
-  const { selDate, fromdate, todate, dateType, clientId } = req.body;
+  const { selDate, fromdate, todate, dateType, clientId, folderId } = req.body;
   let query = {};
   if (dateType === "Multi Date") {
-    if (clientId) {
+    if (folderId) {
       query = {
         projectStatus: {
           $eq: "Active",
@@ -377,8 +377,8 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
           $gte: fromdate,
           $lte: todate,
         },
-        clientId: {
-          $eq: mongoose.Types.ObjectId(clientId),
+        clientFolderName: {
+          $eq: folderId,
         },
       };
     } else {
@@ -396,7 +396,7 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
     if (selDate) selDateVal = selDate;
     else selDateVal = new Date().toISOString().split("T")[0];
 
-    if (clientId) {
+    if (folderId) {
       query = {
         projectStatus: {
           $eq: "Active",
@@ -404,8 +404,8 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
         projectDate: {
           $eq: selDateVal,
         },
-        clientId: {
-          $eq: mongoose.Types.ObjectId(clientId),
+        clientFolderName: {
+          $eq: folderId,
         },
       };
     } else {
@@ -419,7 +419,7 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
       };
     }
   } else {
-    if (clientId) {
+    if (folderId) {
       query = {
         projectStatus: {
           $eq: "Active",
@@ -427,8 +427,8 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
         projectDate: {
           $eq: new Date().toISOString().split("T")[0],
         },
-        clientId: {
-          $eq: mongoose.Types.ObjectId(clientId),
+        clientFolderName: {
+          $eq: folderId,
         },
       };
     } else {

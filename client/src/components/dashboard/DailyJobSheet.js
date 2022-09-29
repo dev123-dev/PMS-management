@@ -90,13 +90,14 @@ const DailyJobSheet = ({
   const [clientName, setClientName] = useState("");
 
   const activeFolderOpt = [];
-  activeDailyJobSheetFolder.map((folderData) =>
-    activeFolderOpt.push({
-      folderId: folderData._id,
-      label: folderData.clientFolderName,
-      value: folderData.clientFolderName,
-    })
-  );
+  activeDailyJobSheetFolder &&
+    activeDailyJobSheetFolder.map((folderData) =>
+      activeFolderOpt.push({
+        folderId: folderData._id,
+        label: folderData.clientFolderName,
+        value: folderData.clientFolderName,
+      })
+    );
   const onProjectChange = (e) => {
     setprojectData(e);
     setfolderId(e.folderId);
