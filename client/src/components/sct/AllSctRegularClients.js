@@ -84,6 +84,7 @@ const AllSctRegularClients = ({
     setLeadData(sctClients);
     const searchData = {
       sctCallToId: sctClients._id,
+      sctLeadId: sctClients.sctLeadId ? sctClients.sctLeadId : null,
     };
     setsearchDataVal(searchData);
     getSctLastmessage(searchData);

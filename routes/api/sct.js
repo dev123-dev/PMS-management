@@ -714,13 +714,17 @@ router.post("/get-sct-clients", auth, async (req, res) => {
 //*****************************************************/
 
 router.post("/get-sct-last-message", async (req, res) => {
-  const { sctCallToId } = req.body;
+  const { sctCallToId, sctLeadId } = req.body;
   let query = {};
-  query = {
-    sctCallToId: {
-      $eq: sctCallToId,
-    },
-  };
+  if (sctLeadId) {
+    query = {
+      $or: [{ sctCallToId: sctCallToId }, { sctCallToId: sctLeadId }],
+    };
+  } else {
+    query = {
+      sctCallToId: sctCallToId,
+    };
+  }
   try {
     const getLastMsgData = await SctCalls.findOne(query)
       .sort({
@@ -747,13 +751,18 @@ router.post("/add-sct-calls", async (req, res) => {
 });
 
 router.post("/get-call-history", async (req, res) => {
-  const { sctCallToId } = req.body;
+  const { sctCallToId, sctLeadId } = req.body;
   let query = {};
-  query = {
-    sctCallToId: {
-      $eq: sctCallToId,
-    },
-  };
+  if (sctLeadId) {
+    query = {
+      $or: [{ sctCallToId: sctCallToId }, { sctCallToId: sctLeadId }],
+    };
+  } else {
+    query = {
+      sctCallToId: sctCallToId,
+    };
+  }
+
   try {
     const getLastMsgData = await SctCalls.find(query).sort({
       _id: -1,
