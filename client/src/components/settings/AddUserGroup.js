@@ -24,7 +24,7 @@ const AddUserGroup = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      userGroupName: userGroupName.trim(),
+      userGroupName: userGroupName?.trim(),
       userGroupEnteredById: user._id,
     };
     addUserGroup(finalData);

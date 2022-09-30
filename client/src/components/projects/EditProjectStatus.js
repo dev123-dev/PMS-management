@@ -39,7 +39,7 @@ const EditProjectStatus = ({
     const finalData = {
       recordId: allProjectStatusdata ? allProjectStatusdata._id : "",
       projectStatusCategory: projectStatusCategory.value,
-      projectStatusType: projectStatusType.trim(),
+      projectStatusType: projectStatusType?.trim(),
       projectStutusEditedById: user._id,
     };
     editProjectStatus(finalData);

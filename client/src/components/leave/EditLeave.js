@@ -113,7 +113,7 @@ const EditLeave = ({
       recordId: allLeavedata ? allLeavedata._id : "",
       leaveDate: leaveDate,
       leaveType: leaveTypedaymode.value,
-      leaveReason: leaveReason.trim(),
+      leaveReason: leaveReason?.trim(),
       leavecategoryName: leavecatname,
       leavecategoryId: leavecatId,
       leaveEditedById: user._id,

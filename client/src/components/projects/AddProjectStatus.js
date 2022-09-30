@@ -51,7 +51,7 @@ const AddProjectStatus = ({
     if (checkErrors()) {
       const finalData = {
         projectStatusCategory: projectStatusCategory.value,
-        projectStatusType: projectStatusType.trim(),
+        projectStatusType: projectStatusType?.trim(),
         projectStutusEnteredById: user._id,
       };
       addProjectStatus(finalData);

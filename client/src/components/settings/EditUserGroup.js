@@ -30,7 +30,7 @@ const EditUserGroup = ({
     e.preventDefault();
     const finalData = {
       recordId: userGroupsdata ? userGroupsdata._id : "",
-      userGroupName: userGroupName.trim(),
+      userGroupName: userGroupName?.trim(),
       userGroupEditedById: user._id,
     };
     editUserGroup(finalData);

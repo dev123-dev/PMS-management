@@ -41,7 +41,7 @@ const DeactiveLead = ({
       dctLeadDeactivateByDateTime: new Date().toLocaleString("en-GB"),
       dctLeadDeactivateById: user._id,
       dctLeadStatus: "Deactive",
-      dctLeadDeactiveReason: dctLeadDeactiveReason.trim(),
+      dctLeadDeactiveReason: dctLeadDeactiveReason?.trim(),
       filterData: filterData,
     };
     deactivateDctLeadDetails(finalData);

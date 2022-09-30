@@ -35,7 +35,7 @@ const DeactiveDesignation = ({
     e.preventDefault();
     const finalData = {
       recordId: Designationdeactivedata ? Designationdeactivedata._id : "",
-      designationDeactiveReason: designationDeactiveReason.trim(),
+      designationDeactiveReason: designationDeactiveReason?.trim(),
       designationDeactiveById: user._id,
       designationDeactiveDateTime: new Date().toLocaleString(),
     };

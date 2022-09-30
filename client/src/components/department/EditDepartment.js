@@ -35,8 +35,8 @@ const EditDepartment = ({
     e.preventDefault();
     const finalData = {
       recordId: allDeptartmentdata ? allDeptartmentdata._id : "",
-      departmentName: departmentName.trim(),
-      departmentDesc: departmentDesc.trim(),
+      departmentName: departmentName?.trim(),
+      departmentDesc: departmentDesc?.trim(),
       departmentEditedById: user._id,
     };
 

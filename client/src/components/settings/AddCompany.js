@@ -113,9 +113,9 @@ const AddCompany = ({
       // if (checkErrors()) {
       const addData = {
         accountNo: accountNo,
-        IFSCCode: IFSCCode.trim(),
-        bankName: bankName.trim(),
-        bankBranch: bankBranch.trim(),
+        IFSCCode: IFSCCode?.trim(),
+        bankName: bankName?.trim(),
+        bankBranch: bankBranch?.trim(),
         defaultBank: isChecked,
       };
       setFormDatas({
@@ -150,18 +150,18 @@ const AddCompany = ({
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
-        companyName: companyName.trim(),
-        companyWebsite: companyWebsite.trim(),
+        companyName: companyName?.trim(),
+        companyWebsite: companyWebsite?.trim(),
         companyPhone1: companyPhone1,
         companyPhone2: companyPhone2,
-        companyGSTIn: companyGSTIn.trim(),
-        companyPanNo: companyPanNo.trim(),
-        companyRegisterNo: companyRegisterNo.trim(),
-        companyTradeLicenseNo: companyTradeLicenseNo.trim(),
-        companyDescription: companyDescription.trim(),
-        companyAddress: companyAddress.trim(),
+        companyGSTIn: companyGSTIn?.trim(),
+        companyPanNo: companyPanNo?.trim(),
+        companyRegisterNo: companyRegisterNo?.trim(),
+        companyTradeLicenseNo: companyTradeLicenseNo?.trim(),
+        companyDescription: companyDescription?.trim(),
+        companyAddress: companyAddress?.trim(),
         companyType: companyType.value ? companyType : bankTypeVal[0].value,
-        companyShortForm: companyShortForm.trim(),
+        companyShortForm: companyShortForm?.trim(),
         bank: AddedDetails,
         departmentEnteredById: user._id,
         companyEnteredByName: user.empFullName,

@@ -34,8 +34,8 @@ const EditDesignation = ({
     e.preventDefault();
     const finalData = {
       recordId: allDeptartmentdata ? allDeptartmentdata._id : "",
-      designationName: designationName.trim(),
-      designationDesc: designationDesc.trim(),
+      designationName: designationName?.trim(),
+      designationDesc: designationDesc?.trim(),
       designationEditedById: user._id,
     };
     editDesignation(finalData);

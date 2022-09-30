@@ -156,8 +156,8 @@ const AddDctClients = ({
         const addData = {
           staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1),
           staffPhoneNumber: staffPhoneNumber,
-          staffEmailId: staffEmailId.trim(),
-          staffDesignation: staffDesignation.trim(),
+          staffEmailId: staffEmailId?.trim(),
+          staffDesignation: staffDesignation?.trim(),
           staffRegion: staffcountryname,
           staffRegionId: staffcountryId ? staffcountryId : null,
           staffCountryCode: staffCountryCode,

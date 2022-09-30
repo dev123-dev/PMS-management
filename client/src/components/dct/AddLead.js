@@ -103,8 +103,8 @@ const AddLead = ({
         const addData = {
           staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1),
           staffPhoneNumber: staffPhoneNumber,
-          staffEmailId: staffEmailId.trim(),
-          staffDesignation: staffDesignation.trim(),
+          staffEmailId: staffEmailId?.trim(),
+          staffDesignation: staffDesignation?.trim(),
           staffRegion: staffcountryname,
           staffRegionId: staffcountryId,
           staffCountryCode: staffCountryCode,
@@ -297,13 +297,13 @@ const AddLead = ({
     if (checkErrors()) {
       const finalData = {
         companyName: companyName.charAt(0).toUpperCase() + companyName.slice(1),
-        website: website.trim(),
+        website: website?.trim(),
         clientName: clientName.charAt(0).toUpperCase() + clientName.slice(1),
-        emailId: emailId.trim(),
+        emailId: emailId?.trim(),
         phone1: phone1,
         phone2: phone2,
-        dctLeadAddress: dctLeadAddress.trim(),
-        importantPoints: importantPoints.trim(),
+        dctLeadAddress: dctLeadAddress?.trim(),
+        importantPoints: importantPoints?.trim(),
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
         countryCode: countrycode,

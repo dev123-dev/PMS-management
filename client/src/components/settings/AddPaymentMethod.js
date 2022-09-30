@@ -23,7 +23,7 @@ const AddPaymentMethod = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      paymentModeName: paymentMode.trim(),
+      paymentModeName: paymentMode?.trim(),
       paymentModeEnteredById: user._id,
     };
     AddPaymentMode(finalData);

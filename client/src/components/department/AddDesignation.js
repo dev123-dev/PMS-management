@@ -28,8 +28,8 @@ const AddDesignation = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-      designationName: designationName.trim(),
-      designationDesc: designationDesc.trim(),
+      designationName: designationName?.trim(),
+      designationDesc: designationDesc?.trim(),
       designationEnteredById: user._id,
     };
     AddNewDesignation(finalData);

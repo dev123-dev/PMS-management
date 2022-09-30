@@ -336,7 +336,7 @@ const AllSctStatusChange = ({
         sctCallStatus: sctCallStatus.value,
         // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
         sctCallDate: startStatusDate || todayDateymd,
-        sctCallNote: sctCallNote.trim(),
+        sctCallNote: sctCallNote?.trim(),
         sctCallComeFrom: callComeFromVal,
         sctCallTakenDate: new Date().toISOString().split("T")[0],
         sctCallEnteredDate: new Date().toLocaleString("en-GB"),

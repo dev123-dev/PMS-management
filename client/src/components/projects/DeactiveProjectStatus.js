@@ -43,7 +43,7 @@ const DeactiveProjectStatus = ({
       recordId: allProjectStatusdeavtivedata
         ? allProjectStatusdeavtivedata._id
         : "",
-      projectStatusDeactiveReason: projectStatusDeactiveReason.trim(),
+      projectStatusDeactiveReason: projectStatusDeactiveReason?.trim(),
       projectStatusDeactiveById: user._id,
       projectStatusDeactiveDateTime: new Date().toLocaleString(),
     };

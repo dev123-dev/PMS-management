@@ -145,11 +145,11 @@ const AddFeedback = ({
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
-        feedbackProblem: feedbackProblem.trim(),
+        feedbackProblem: feedbackProblem?.trim(),
         feedbackCategory: feedbackCategory.value,
         feedbackPriority: feedbackpriority.value,
         feedbackBelongsTo: feedbackBelongsTo.value,
-        feedbackNotes: feedbacknotes.trim(),
+        feedbackNotes: feedbacknotes?.trim(),
         feedbackStatus: "Pending",
         feedbackEnteredById: user._id,
         feedbackEnteredByName: user.empFullName,

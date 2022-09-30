@@ -235,7 +235,7 @@ const AddLeave = ({
       const finalData = {
         leaveDateVals: leaveDateVals,
         leaveType: leaveTypedaymode.value,
-        leaveReason: leaveReason.trim(),
+        leaveReason: leaveReason?.trim(),
         empId: employeeId,
         leavecategoryName: leavecatname,
         leavecategoryId: leavecatId,

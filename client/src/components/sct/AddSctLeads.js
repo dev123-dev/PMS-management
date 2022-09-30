@@ -126,8 +126,8 @@ const AddSctLeads = ({
           sctStaffName:
             sctStaffName.charAt(0).toUpperCase() + sctStaffName.slice(1),
           sctStaffPhoneNumber: sctStaffPhoneNumber,
-          sctStaffEmailId: sctStaffEmailId.trim(),
-          sctStaffDesignation: sctStaffDesignation.trim(),
+          sctStaffEmailId: sctStaffEmailId?.trim(),
+          sctStaffDesignation: sctStaffDesignation?.trim(),
           sctStaffRegion: staffcountryname,
           staffstateName: staffstateName,
           // staffdistrictName: staffdistrictName,
@@ -492,14 +492,14 @@ const AddSctLeads = ({
       const finalData = {
         sctCompanyName:
           sctCompanyName.charAt(0).toUpperCase() + sctCompanyName.slice(1),
-        sctWebsite: sctWebsite.trim(),
+        sctWebsite: sctWebsite?.trim(),
         sctClientName:
           sctClientName.charAt(0).toUpperCase() + sctClientName.slice(1),
-        sctEmailId: sctEmailId.trim(),
+        sctEmailId: sctEmailId?.trim(),
         sctPhone1: sctPhone1,
         sctPhone2: sctPhone2,
-        sctLeadAddress: sctLeadAddress.trim(),
-        sctImportantPoints: sctImportantPoints.trim(),
+        sctLeadAddress: sctLeadAddress?.trim(),
+        sctImportantPoints: sctImportantPoints?.trim(),
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
         sctcountryCode: countrycode,

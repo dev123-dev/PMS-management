@@ -195,8 +195,8 @@ const EditSctContact = ({
       sctStaffName:
         sctStaffName.charAt(0).toUpperCase() + sctStaffName.slice(1),
       sctStaffPhoneNumber: sctStaffPhoneNumber,
-      sctStaffEmailId: sctStaffEmailId.trim(),
-      sctStaffDesignation: sctStaffDesignation.trim(),
+      sctStaffEmailId: sctStaffEmailId?.trim(),
+      sctStaffDesignation: sctStaffDesignation?.trim(),
       sctStaffRegion: staffcountryname,
       sctStaffRegionId: staffcountryId,
       sctStaffCountryCode: staffCountryCode,
