@@ -399,7 +399,7 @@ const AddDctClients = ({
         dctClientEnteredDateTime: new Date().toLocaleString("en-GB"),
       };
       console.log(finalData);
-      //addDctClientDetails(finalData);
+      addDctClientDetails(finalData);
       setFormData({
         ...formData,
 
