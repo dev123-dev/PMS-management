@@ -1065,7 +1065,10 @@ router.post("/get-all-sct-calls-emp", auth, async (req, res) => {
 router.post("/check-demo", async (req, res) => {
   const { demoUserId } = req.body;
   try {
-    const checkForDemo = await Demo.find({ clientId: demoUserId }).count();
+    const checkForDemo = await Demo.find({
+      clientId: demoUserId,
+      demoStatus: "Taken",
+    }).count();
     res.json(checkForDemo);
   } catch (err) {
     console.error(err.message);

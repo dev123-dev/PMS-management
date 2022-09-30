@@ -221,6 +221,7 @@ const AddSctLeads = ({
     getprojectsData(e);
     projectsId = e.projectsId;
     setprojectsID(projectsId);
+    setProjectMatch(true);
   };
 
   const allemp = [];
@@ -423,6 +424,7 @@ const AddSctLeads = ({
   //   setstaffdistrictID(staffdistrictId);
   //   setstaffdistrictName(staffdistrictName);
   // };
+
   const [error, setError] = useState({
     countrytypeIdChecker: false,
     countrytypeIdErrorStyle: {},
@@ -534,31 +536,29 @@ const AddSctLeads = ({
     }
   };
 
-  if (isSubmitted) {
-    return <Redirect to="/all-sct-leads" />;
-  }
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  console.log("sctLeadsList", sctLeadsList);
+
   const onleadCheck = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    let data = e.target.value;
-    var ret = data.replace("https://", "");
-    ret = ret.replace("http://", "");
-    ret = ret.replace("www.", "");
-    var arr = ret.split(".");
-    const listWebsite = sctLeadsList.filter(
-      (sctLeadsList) =>
-        sctLeadsList.sctWebsite
-          .replace("https://", "")
-          .replace("http://", "")
-          .replace("www.", "")
-          .split(".")[0] === arr[0]
-    );
-    const listCompanyName = sctLeadsList.filter(
-      (sctLeadsList) => sctLeadsList.sctCompanyName[0] === arr[0]
-    );
+    let listWebsite = [];
+    if (e.target.name === "sctWebsite") {
+      let data = e.target.value;
+      var ret = data.replace("https://", "");
+      ret = ret.replace("http://", "");
+      ret = ret.replace("www.", "");
+      var arr = ret.split(".");
+      listWebsite = sctLeadsList.filter(
+        (sctLeadsList) =>
+          sctLeadsList.sctWebsite
+            .replace("https://", "")
+            .replace("http://", "")
+            .replace("www.", "")
+            .split(".")[0] === arr[0]
+      );
+    }
+
     if (e.target.value === "") {
       setError({
         ...error,
@@ -566,23 +566,16 @@ const AddSctLeads = ({
         websiteValResult: "",
         websiteValStyle: {},
         websiteInptErrStyle: {},
-        companyNameValChecker: false,
-        companyNameValResult: "",
-        companyNameValStyle: {},
-        companyNameInptErrStyle: {},
       });
-    } else if (listWebsite.length > 0 && listCompanyName.length > 0) {
+    }
+
+    if (listWebsite.length > 0) {
       setError({
         ...error,
         websiteValChecker: true,
         websiteValResult: "Exist",
         websiteValStyle: { color: "#FF0000", marginTop: "7px" },
         websiteInptErrStyle: { border: "1px solid #FF0000" },
-
-        companyNameValChecker: true,
-        companyNameValResult: "Exist",
-        companyNameValStyle: { color: "#FF0000", marginTop: "7px" },
-        companyNameInptErrStyle: { border: "1px solid #FF0000" },
       });
     } else {
       setError({
@@ -591,13 +584,40 @@ const AddSctLeads = ({
         websiteValResult: "Not Exist",
         websiteValStyle: { color: "#43b90f", marginTop: "7px" },
         websiteInptErrStyle: { border: "1px solid #43b90f" },
-
-        companyNameValChecker: true,
-        companyNameValResult: "Not Exist",
-        companyNameValStyle: { color: "#43b90f", marginTop: "7px" },
-        companyNameInptErrStyle: { border: "1px solid #43b90f" },
       });
     }
+  };
+
+  const [companyMatch, setCompanyMatch] = useState(false);
+  const [emailIdMatch, setEmailIdMatch] = useState(false);
+  const [projectMatch, setProjectMatch] = useState(true);
+
+  const onleadCheckNew = (e) => {
+    if (projectsId) {
+      setProjectMatch(true);
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+      let listCompanyName = [];
+      if (e.target.name === "sctCompanyName") {
+        listCompanyName = sctLeadsList.filter(
+          (sctLeadsList) =>
+            sctLeadsList.sctCompanyName === e.target.value &&
+            sctLeadsList.projectsId === projectsId
+        );
+        if (listCompanyName.length > 0) setCompanyMatch(true);
+        else setCompanyMatch(false);
+      }
+
+      let listEmail = [];
+      if (e.target.name === "sctEmailId") {
+        listEmail = sctLeadsList.filter(
+          (sctLeadsList) =>
+            sctLeadsList.sctEmailId === e.target.value &&
+            sctLeadsList.projectsId === projectsId
+        );
+        if (listEmail.length > 0) setEmailIdMatch(true);
+        else setEmailIdMatch(false);
+      }
+    } else setProjectMatch(false);
   };
 
   const onInputChange2 = (e) => {
@@ -612,6 +632,9 @@ const AddSctLeads = ({
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
 
+  if (isSubmitted) {
+    return <Redirect to="/all-sct-leads" />;
+  }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -630,7 +653,30 @@ const AddSctLeads = ({
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h2 className="heading_color">Add Lead</h2>
                     <hr />
-                    <h5>Company Info</h5>
+                    <h5>
+                      Company Info
+                      <span
+                        style={{
+                          color: "#FF6666",
+                          fontSize: "14px",
+                          float: "right",
+                        }}
+                      >
+                        {projectMatch ? (
+                          <>
+                            {companyMatch ? " Company " : ""}
+                            {emailIdMatch
+                              ? companyMatch
+                                ? "and EmailId"
+                                : " EmailId "
+                              : ""}
+                            {companyMatch || emailIdMatch ? " Match Found" : ""}
+                          </>
+                        ) : (
+                          "Please select Project First"
+                        )}
+                      </span>
+                    </h5>
                   </div>
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label style={ProjectErrorStyle}>Lead of :</label>
@@ -656,7 +702,7 @@ const AddSctLeads = ({
                       value={sctCompanyName}
                       className="form-control"
                       style={companyNameInptErrStyle}
-                      onChange={(e) => onleadCheck(e)}
+                      onChange={(e) => onleadCheckNew(e)}
                       // onChange={(e) => onInputChange(e)}
                       required
                     />
@@ -683,7 +729,7 @@ const AddSctLeads = ({
                       name="sctEmailId"
                       value={sctEmailId}
                       className="form-control"
-                      onChange={(e) => onInputChange(e)}
+                      onChange={(e) => onleadCheckNew(e)}
                       required
                     />
                   </div>
