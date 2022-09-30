@@ -36,12 +36,12 @@ const DctLeadsSchema = new mongoose.Schema({
   countryCode: {
     type: String,
   },
-  stateId: {
-    type: ObjectId,
-  },
-  districtId: {
-    type: ObjectId,
-  },
+  // stateId: {
+  //   type: ObjectId,
+  // },
+  // districtId: {
+  //   type: ObjectId,
+  // } //praziz,
   dctLeadStatus: {
     type: String, //Active, Deactive
     default: "Active",
@@ -63,7 +63,7 @@ const DctLeadsSchema = new mongoose.Schema({
   },
   dctLeadEnteredDateTime: {
     type: String,
-    default: new Date().toLocaleString("en-GB"),
+    // default: new Date().toLocaleString("en-GB"),
   },
   dctLeadEditedById: {
     type: ObjectId,

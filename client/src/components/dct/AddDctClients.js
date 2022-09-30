@@ -369,21 +369,21 @@ const AddDctClients = ({
     if (checkErrors()) {
       const finalData = {
         companyName: companyName.charAt(0).toUpperCase() + companyName.slice(1),
-        website: website.trim(),
+        website: website?.trim(),
         clientName: clientName.charAt(0).toUpperCase() + clientName.slice(1),
-        clientCompanyFounderName: clientCompanyFounderName.trim(),
-        emailId: emailId.trim(),
-        clientEmail: clientEmail.trim(),
+        clientCompanyFounderName: clientCompanyFounderName?.trim(),
+        emailId: emailId?.trim(),
+        clientEmail: clientEmail?.trim(),
         clientType: clientType.value,
-        billingEmail: billingEmail.trim(),
-        clientCurrency: clientCurrency.trim(),
-        clientFolderName: clientFolderName.trim(),
+        billingEmail: billingEmail?.trim(),
+        clientCurrency: clientCurrency?.trim(),
+        clientFolderName: clientFolderName?.trim(),
         phone1: phone1,
         phone2: phone2,
         paymentId: paymentId ? paymentId : null,
-        paymentModeName: paymentModeName.trim(),
-        address: address.trim(),
-        importantPoints: importantPoints.trim(),
+        paymentModeName: paymentModeName?.trim(),
+        address: address?.trim(),
+        importantPoints: importantPoints?.trim(),
         countryId: countryId ? countryId : null,
         countryName: country.value ? country.value : null,
         countryCode: countrycode,
@@ -398,7 +398,8 @@ const AddDctClients = ({
         dctClientAssignedToName: empName,
         dctClientEnteredDateTime: new Date().toLocaleString("en-GB"),
       };
-      addDctClientDetails(finalData);
+      console.log(finalData);
+      //addDctClientDetails(finalData);
       setFormData({
         ...formData,
 

@@ -420,7 +420,7 @@ const EditLead = ({
                 )}
                 <Link
                   className="btn sub_form btn_continue blackbrd float-right"
-                  // to="/job-queue"
+                  to="#"
                   onClick={() => onEditModalChange(true)}
                 >
                   Cancel
