@@ -57,8 +57,12 @@ const SctQuotationpdfprint = ({
         : "",
     });
   }
+  var quotationDate1 = "";
 
-  const [startquotationDate, setquotationDate] = useState(quotationDate);
+  var ED = quotationDataLS.quotationDate.split(/\D/g);
+  quotationDate1 = [ED[2], ED[1], ED[0]].join("-");
+
+  // const [startquotationDate, setquotationDate] = useState(quotationDate);
   const styles = StyleSheet.create({
     section: {
       // margin: 10,
@@ -147,7 +151,7 @@ const SctQuotationpdfprint = ({
             </View>
             <View style={styles.section}>
               <Text>Quotation No #:{quotationNo}</Text>
-              <Text>Quotation Date:{startquotationDate}</Text>
+              <Text>Quotation Date:{quotationDate1}</Text>
             </View>
 
             <View style={(styles.table, styles.section)}>
