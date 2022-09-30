@@ -1,19 +1,29 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { addDctCalls, addDctClientCalls } from "../../actions/dct";
+import {
+  addDctCalls,
+  addDctClientCalls,
+  getStaffsData,
+} from "../../actions/dct";
 
 const AllStatuschange = ({
   auth: { isAuthenticated, user, users, loading },
+  dct: { staffData },
   leadDataVal,
   addDctCalls,
   addDctClientCalls,
   ondivcloseChange,
   from,
   filterData,
+  getStaffsData,
 }) => {
+  let staffFilter = { staffFrom: from, leadDataVal: leadDataVal };
+  useEffect(() => {
+    getStaffsData(staffFilter);
+  }, [leadDataVal]);
   let StatusMethods = [
     { value: "VoiceMail", label: "Voice Mail" },
     { value: "CallBack", label: "Call Back" },
@@ -115,9 +125,9 @@ const AllStatuschange = ({
   };
 
   const allStaff = [];
-  leadDataVal &&
-    leadDataVal.staffs &&
-    leadDataVal.staffs.map(
+  staffData &&
+    staffData.staffs &&
+    staffData.staffs.map(
       (staffs) =>
         staffs.staffStatus === "Active" &&
         allStaff.push({
@@ -401,8 +411,11 @@ AllStatuschange.propTypes = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  dct: state.dct,
 });
 
-export default connect(mapStateToProps, { addDctCalls, addDctClientCalls })(
-  AllStatuschange
-);
+export default connect(mapStateToProps, {
+  addDctCalls,
+  addDctClientCalls,
+  getStaffsData,
+})(AllStatuschange);

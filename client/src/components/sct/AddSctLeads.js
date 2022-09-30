@@ -596,22 +596,27 @@ const AddSctLeads = ({
     if (projectsId) {
       setProjectMatch(true);
       setFormData({ ...formData, [e.target.name]: e.target.value });
+
       let listCompanyName = [];
       if (e.target.name === "sctCompanyName") {
+        if (e.target.value === "") setCompanyMatch(false);
         listCompanyName = sctLeadsList.filter(
           (sctLeadsList) =>
-            sctLeadsList.sctCompanyName === e.target.value &&
+            sctLeadsList.sctCompanyName.toUpperCase() ===
+              e.target.value.toUpperCase() &&
             sctLeadsList.projectsId === projectsId
         );
         if (listCompanyName.length > 0) setCompanyMatch(true);
         else setCompanyMatch(false);
       }
-
+      // sctLeadsList.sctCompanyName.includes(e.target.value);
       let listEmail = [];
       if (e.target.name === "sctEmailId") {
+        if (e.target.value === "") setEmailIdMatch(false);
         listEmail = sctLeadsList.filter(
           (sctLeadsList) =>
-            sctLeadsList.sctEmailId === e.target.value &&
+            sctLeadsList.sctEmailId.toUpperCase() ===
+              e.target.value.toUpperCase() &&
             sctLeadsList.projectsId === projectsId
         );
         if (listEmail.length > 0) setEmailIdMatch(true);
@@ -655,13 +660,7 @@ const AddSctLeads = ({
                     <hr />
                     <h5>
                       Company Info
-                      <span
-                        style={{
-                          color: "#FF6666",
-                          fontSize: "16px",
-                          float: "right",
-                        }}
-                      >
+                      <span className="warningMsg">
                         {projectMatch ? (
                           <>
                             {companyMatch ? " Company " : ""}

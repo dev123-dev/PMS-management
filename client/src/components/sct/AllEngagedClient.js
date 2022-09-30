@@ -297,9 +297,9 @@ const AllEngagedClient = ({
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
                         <th style={{ width: "8%" }}>Call Date</th>
-                        {/* <th style={{ width: "18%" }}>Status</th> */}
                         <th style={{ width: "7%" }}>Print</th>
                         <th style={{ width: "7%" }}>Op</th>
+                        <th style={{ width: "4%" }}>Docs</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -343,25 +343,7 @@ const AllEngagedClient = ({
                                   {sctClients.sctWebsite}
                                 </Link>
                               </td>
-                              <td>
-                                {fileVal !== "" ? (
-                                  <>
-                                    <Link
-                                      onClick={() =>
-                                        onClickHandler2(sctClients, idx)
-                                      }
-                                      to={{
-                                        pathname: fileVal,
-                                      }}
-                                      target="_blank"
-                                    >
-                                      {sctClients.sctEmailId}
-                                    </Link>
-                                  </>
-                                ) : (
-                                  <>{sctClients.sctEmailId}</>
-                                )}
-                              </td>
+                              <td>{sctClients.sctEmailId}</td>
                               <td>{sctClients.countryName}</td>
                               <td>
                                 {sctClients.sctcountryCode
@@ -474,6 +456,27 @@ const AllEngagedClient = ({
                                   alt="Edit"
                                   title="Edit"
                                 />
+                              </td>
+                              <td>
+                                <Link
+                                  onClick={() =>
+                                    onClickHandler2(sctClients, idx)
+                                  }
+                                  to={{
+                                    pathname: "/all-sct-documents",
+                                    data: {
+                                      sctdata: sctClients,
+                                    },
+                                  }}
+                                >
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onDeactive(sctClients, idx)}
+                                    src={require("../../static/images/documents.png")}
+                                    alt="Delete Project"
+                                    title="Delete Project"
+                                  />
+                                </Link>
                               </td>
                             </tr>
                           );

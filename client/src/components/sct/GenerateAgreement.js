@@ -23,7 +23,7 @@ const GenerateAgreement = ({
     getALLCompanyDetails();
   }, [getALLCompanyDetails]);
   useEffect(() => {
-    getSelectedProject({ projectId: sctDataVal.projectsId });
+    getSelectedProject({ projectId: sctDataVal && sctDataVal.projectsId });
   }, [getSelectedProject]);
   let AgreementFile = JSON.parse(
     localStorage.getItem("generatedAgreementFileLS")
@@ -140,7 +140,11 @@ const GenerateAgreement = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (checkErrors()) {
+    if (
+      checkErrors() &&
+      selectedProject.agreementTemplate &&
+      selectedProject.agreementTemplate.filename
+    ) {
       const finalData = {
         clientId: sctDataVal ? sctDataVal._id : "",
         clientName: sctCompanyName,
@@ -180,7 +184,7 @@ const GenerateAgreement = ({
         <form className="row" onSubmit={(e) => onSubmit(e)}>
           <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
             <div className=" col-lg-4 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color"> Generate Agreement </h5>
+              <h5 className="heading_color">Generate Agreement</h5>
             </div>
 
             <div className="col-lg-8 col-md-11 col-sm-12 col-12 py-2">
@@ -191,6 +195,13 @@ const GenerateAgreement = ({
                 Back
               </Link>
             </div>
+            <span className="warningMsg">
+              {selectedProject &&
+              selectedProject.agreementTemplate &&
+              selectedProject.agreementTemplate.filename
+                ? ""
+                : "Agreement Template not found. Contact Admin"}
+            </span>
           </div>
           <hr />
 

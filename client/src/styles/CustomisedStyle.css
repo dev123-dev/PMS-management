@@ -2152,3 +2152,10 @@ button:focus,button:active {
 .p05{
   padding-left:3px;
 }
+
+.warningMsg{
+color:#FF6666 ;
+font-size: 16px;
+float: right;
+font-weight: 600;
+}
