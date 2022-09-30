@@ -658,7 +658,7 @@ const AddSctLeads = ({
                       <span
                         style={{
                           color: "#FF6666",
-                          fontSize: "14px",
+                          fontSize: "16px",
                           float: "right",
                         }}
                       >
