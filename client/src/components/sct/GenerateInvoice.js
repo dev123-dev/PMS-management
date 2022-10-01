@@ -100,7 +100,6 @@ const GenerateInvoice = ({
   const [company, getcompanyData] = useState("");
   const [companyid, setcompanyId] = useState("");
   const [companyname, setcompanyname] = useState("");
-  const [companyType, setcompanyType] = useState("");
 
   const [bankList, setBankList] = useState();
 
@@ -142,22 +141,6 @@ const GenerateInvoice = ({
       })
     );
 
-  if (bankList && !selectedBank && allcompanyBank) {
-    getSelectedBank(
-      allcompanyBank &&
-        allcompanyBank.filter(
-          (allcompanyBank) => allcompanyBank.default === true
-        )
-    );
-  }
-  const onBankChange = (e) => {
-    setError({
-      ...error,
-      BankIdChecker: true,
-      BankErrorStyle: { color: "#000" },
-    });
-    getSelectedBank(e);
-  };
   //Required Validation Starts
   const [error, setError] = useState({
     FrmCmpnyErrorStyle: {},
@@ -175,6 +158,37 @@ const GenerateInvoice = ({
     BankIdChecker,
     BankErrorStyle,
   } = error;
+  if (bankList && !selectedBank && allcompanyBank) {
+    let defaultBank = [];
+    defaultBank =
+      allcompanyBank &&
+      allcompanyBank.filter(
+        (allcompanyBank) => allcompanyBank.default === true
+      );
+    getSelectedBank(defaultBank[0] ? defaultBank[0] : []);
+
+    if (defaultBank.length > 0) {
+      setError({
+        ...error,
+        BankIdChecker: true,
+        BankErrorStyle: { color: "#000" },
+      });
+    } else {
+      setError({
+        ...error,
+        BankIdChecker: false,
+        BankErrorStyle: { color: "#F00" },
+      });
+    }
+  }
+  const onBankChange = (e) => {
+    setError({
+      ...error,
+      BankIdChecker: true,
+      BankErrorStyle: { color: "#000" },
+    });
+    getSelectedBank(e);
+  };
 
   const checkErrors = () => {
     if (!FrmCmpnyIdChecker) {
@@ -240,7 +254,6 @@ const GenerateInvoice = ({
   } = addData;
 
   const [AddedDetails, AddDetails] = useState([]);
-  const [amount, setAmount] = useState();
 
   const onAdd = (e) => {
     const staffList = AddedDetails.filter(
