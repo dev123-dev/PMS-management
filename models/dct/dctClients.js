@@ -151,5 +151,15 @@ const DctClientsSchema = new mongoose.Schema({
       },
     },
   ],
+  instructions: [
+    {
+      instructionName: {
+        type: String,
+      },
+      instructionDiscription: {
+        type: String,
+      },
+    },
+  ],
 });
 module.exports = dctClients = mongoose.model("dctClients", DctClientsSchema);
