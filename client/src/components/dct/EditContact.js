@@ -104,9 +104,9 @@ const EditContact = ({
     e.preventDefault();
     const finalData = {
       staffId: allStaffdata ? allStaffdata._id : "",
-      staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1),
+      staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1), //to make first letter capital
       staffPhoneNumber: staffPhoneNumber,
-      staffEmailId: staffEmailId?.trim(),
+      staffEmailId: staffEmailId?.trim(), //to trim and ? if there is no value inputed
       staffDesignation: staffDesignation?.trim(),
       staffRegion: staffcountryname,
       staffRegionId: staffcountryId,

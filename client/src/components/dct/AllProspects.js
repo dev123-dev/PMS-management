@@ -120,6 +120,7 @@ const AllProspects = ({
   const [country, getcountryData] = useState();
   const [countryId, getcountryIdData] = useState(null);
 
+  //to hide and unide the timezones according to region selected
   const oncountryChange = (e) => {
     if (e.value === "US") {
       setShowHide1({

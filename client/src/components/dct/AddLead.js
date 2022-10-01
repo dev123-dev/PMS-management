@@ -291,7 +291,7 @@ const AddLead = ({
 
     return true;
   };
-
+  //add lead
   const onSubmit = (e) => {
     e.preventDefault();
     if (checkErrors()) {
@@ -342,6 +342,7 @@ const AddLead = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  //to check whether lead is there or not
   const onleadCheck = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     let data = e.target.value;

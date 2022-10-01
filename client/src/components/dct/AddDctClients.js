@@ -364,6 +364,8 @@ const AddDctClients = ({
     setempID(empId);
     setNameID(empName);
   };
+
+  //add dct clients
   const onSubmit = (e) => {
     e.preventDefault();
     if (checkErrors()) {
@@ -421,6 +423,7 @@ const AddDctClients = ({
   };
 
   const [selectedLead, setSelectedLead] = useState(null);
+  //for checking whether lead is present or not
   const onleadCheck = (e) => {
     setSelectedLead(null);
     setFormData({ ...formData, [e.target.name]: e.target.value });
