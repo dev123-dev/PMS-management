@@ -113,7 +113,7 @@ const AddSctLeads = ({
     return true;
   };
   const [AddedDetails, AddDetails] = useState([]);
-
+  //to add staff to the grid
   const onAdd = (e) => {
     const staffList = AddedDetails.filter(
       (AddDetails) => AddDetails.sctStaffName === sctStaffName
@@ -425,6 +425,8 @@ const AddSctLeads = ({
   //   setstaffdistrictName(staffdistrictName);
   // };
 
+  //validation starts
+
   const [error, setError] = useState({
     countrytypeIdChecker: false,
     countrytypeIdErrorStyle: {},
@@ -458,6 +460,7 @@ const AddSctLeads = ({
     companyNameInptErrStyle,
   } = error;
 
+  //for validation of dropdown
   const checkErrors = () => {
     if (!ProjectIdChecker) {
       setError({
@@ -486,6 +489,7 @@ const AddSctLeads = ({
     return true;
   };
 
+  //add
   const onSubmit = (e) => {
     e.preventDefault();
     if (checkErrors()) {
@@ -518,7 +522,6 @@ const AddSctLeads = ({
         sctLeadAssignedToName: empName,
         sctLeadEnteredDateTime: new Date().toLocaleString("en-GB"),
       };
-      console.log(finalData);
       addSctLeadDetails(finalData);
       setFormData({
         ...formData,
