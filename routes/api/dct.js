@@ -900,4 +900,21 @@ router.post("/get-client-staffs-data", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/get-client-instruction-data", async (req, res) => {
+  let { leadDataVal } = req.body;
+  let query = {};
+  if (leadDataVal) {
+    query = {
+      _id: leadDataVal._id,
+    };
+  }
+  try {
+    const getClientsStaffData = await DctClients.findOne(query);
+    res.json(getClientsStaffData);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 module.exports = router;

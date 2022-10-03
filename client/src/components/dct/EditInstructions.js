@@ -12,7 +12,7 @@ const EditInstructions = ({
   editDctClientInstructionDetails,
   from,
   filterData,
-  // staffFilter,
+  instructionFilter,
 }) => {
   //formData
 
@@ -43,6 +43,7 @@ const EditInstructions = ({
         instructionName.charAt(0).toUpperCase() + instructionName.slice(1), //to make first letter capital
       instructionDiscription: instructionDiscription,
       filterData: filterData,
+      instructionFilter: instructionFilter,
     };
     editDctClientInstructionDetails(finalData);
     onEditInstructionModalChange(true);

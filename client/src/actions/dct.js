@@ -23,6 +23,7 @@ import {
   GET_LEADS_LIST,
   GET_SELECTED_LEADS,
   GET_STAFF_DATA,
+  GET_INSTRUCTION_DATA,
 } from "./types";
 
 const config = {
@@ -259,7 +260,8 @@ export const editDctClientInstructionDetails =
         finalData,
         config
       );
-      // if (finalData.staffFilter) dispatch(getStaffsData(finalData.staffFilter));
+      if (finalData.instructionFilter)
+        dispatch(getInstructionData(finalData.instructionFilter));
       if (finalData.filterData) {
         dispatch(getDctClientDetails(finalData.filterData));
         dispatch(getDctClientDetailsDD(finalData.filterData));
@@ -637,6 +639,27 @@ export const getStaffsData = (finalData) => async (dispatch) => {
     }
     dispatch({
       type: GET_STAFF_DATA,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getInstructionData = (finalData) => async (dispatch) => {
+  try {
+    let res = [];
+
+    res = await axios.post(
+      "/api/dct/get-client-instruction-data",
+      finalData,
+      config
+    );
+
+    dispatch({
+      type: GET_INSTRUCTION_DATA,
       payload: res.data,
     });
   } catch (err) {

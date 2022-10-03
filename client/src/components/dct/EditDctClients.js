@@ -14,6 +14,7 @@ import {
   addNewDctClientStaffDetails,
   addNewDctClientInstructionDetails,
   getStaffsData,
+  getInstructionData,
 } from "../../actions/dct";
 import { getMarketingEmployee } from "../../actions/user";
 import { getActiveCountry } from "../../actions/regions";
@@ -26,7 +27,7 @@ const EditDctClients = ({
   user: { marketingEmployees },
   settings: { paymentMode },
   regions: { activeCountry },
-  dct: { staffData },
+  dct: { staffData, instructionData },
   editDctClientsDetails,
   getALLPaymentMode,
   getActiveCountry,
@@ -35,6 +36,7 @@ const EditDctClients = ({
   addNewDctClientInstructionDetails,
   getMarketingEmployee,
   getStaffsData,
+  getInstructionData,
 }) => {
   const data = useHistory().location.data;
   useEffect(() => {
@@ -50,6 +52,15 @@ const EditDctClients = ({
   useEffect(() => {
     getStaffsData(staffFilter);
   }, [getStaffsData]);
+
+  let instructionFilter = {
+    staffFrom: "client",
+    leadDataVal: data && data.dctdata,
+  };
+  useEffect(() => {
+    getInstructionData(instructionFilter);
+  }, [getInstructionData]);
+
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
@@ -1211,28 +1222,30 @@ const EditDctClients = ({
                         </tr>
                       </thead>
                       <tbody>
-                        {data &&
-                          data.dctdata &&
-                          data.dctdata.instructions.map((instructions, idx) => {
-                            return (
-                              <tr key={idx}>
-                                <td>{instructions.instructionName}</td>
-                                <td>{instructions.instructionDiscription}</td>
+                        {instructionData &&
+                          instructionData.instructions &&
+                          instructionData.instructions.map(
+                            (instructions, idx) => {
+                              return (
+                                <tr key={idx}>
+                                  <td>{instructions.instructionName}</td>
+                                  <td>{instructions.instructionDiscription}</td>
 
-                                <td>
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() =>
-                                      onUpdateinstructions(instructions, idx)
-                                    }
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  />
-                                </td>
-                              </tr>
-                            );
-                          })}
+                                  <td>
+                                    <img
+                                      className="img_icon_size log"
+                                      onClick={() =>
+                                        onUpdateinstructions(instructions, idx)
+                                      }
+                                      src={require("../../static/images/edit_icon.png")}
+                                      alt="Edit"
+                                      title="Edit"
+                                    />
+                                  </td>
+                                </tr>
+                              );
+                            }
+                          )}
 
                         {AddedInstructionDetails &&
                           AddedInstructionDetails.map(
@@ -1414,7 +1427,9 @@ const EditDctClients = ({
         >
           <Modal.Header>
             <div className="col-lg-10">
-              <h3 className="modal-title text-center">Edit Staff Details</h3>
+              <h3 className="modal-title text-center">
+                Edit Instruction Details
+              </h3>
             </div>
             <div className="col-lg-1">
               <button
@@ -1435,6 +1450,7 @@ const EditDctClients = ({
               allInstructiondata={intructionDatas}
               allleaddata={intructionDatas1}
               from="client"
+              instructionFilter={instructionFilter}
             />
           </Modal.Body>
         </Modal>
@@ -1470,4 +1486,5 @@ export default connect(mapStateToProps, {
   addNewDctClientInstructionDetails,
   getMarketingEmployee,
   getStaffsData,
+  getInstructionData,
 })(EditDctClients);

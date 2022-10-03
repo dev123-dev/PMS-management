@@ -18,6 +18,7 @@ import {
   GET_LEADS_LIST,
   GET_SELECTED_LEADS,
   GET_STAFF_DATA,
+  GET_INSTRUCTION_DATA,
 } from "../actions/types";
 
 const initialState = {
@@ -40,6 +41,7 @@ const initialState = {
   leadsList: [],
   selectedLeads: [],
   staffData: [],
+  instructionData: [],
 };
 
 const dct = (state = initialState, action) => {
@@ -139,6 +141,11 @@ const dct = (state = initialState, action) => {
       return {
         ...state,
         staffData: payload,
+      };
+    case GET_INSTRUCTION_DATA:
+      return {
+        ...state,
+        instructionData: payload,
       };
 
     default:
