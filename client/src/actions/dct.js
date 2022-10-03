@@ -185,6 +185,31 @@ export const addNewDctClientStaffDetails = (finalData) => async (dispatch) => {
   }
 };
 
+export const addNewDctClientInstructionDetails =
+  (finalData) => async (dispatch) => {
+    try {
+      dispatch({
+        type: SET_LOADING_TRUE,
+      });
+      await axios.post(
+        "/api/dct/add-new-dctclient-instruction",
+        finalData,
+        config
+      );
+      if (finalData.filterData) {
+        dispatch(getDctClientDetails(finalData.filterData));
+        dispatch(getDctClientDetailsDD(finalData.filterData));
+      }
+      dispatch({
+        type: SET_LOADING_FALSE,
+      });
+    } catch (err) {
+      dispatch({
+        type: ERROR,
+      });
+    }
+  };
+
 export const editDctStaffDetails = (finalData) => async (dispatch) => {
   try {
     dispatch({
@@ -222,6 +247,32 @@ export const editDctClientStaffDetails = (finalData) => async (dispatch) => {
     });
   }
 };
+
+export const editDctClientInstructionDetails =
+  (finalData) => async (dispatch) => {
+    try {
+      dispatch({
+        type: SET_LOADING_TRUE,
+      });
+      await axios.post(
+        "/api/dct/edit-dctclient-instruction-details",
+        finalData,
+        config
+      );
+      // if (finalData.staffFilter) dispatch(getStaffsData(finalData.staffFilter));
+      if (finalData.filterData) {
+        dispatch(getDctClientDetails(finalData.filterData));
+        dispatch(getDctClientDetailsDD(finalData.filterData));
+      }
+      dispatch({
+        type: SET_LOADING_FALSE,
+      });
+    } catch (err) {
+      dispatch({
+        type: ERROR,
+      });
+    }
+  };
 
 export const deactivateDctStaffDetails = (finalData) => async (dispatch) => {
   try {
@@ -571,13 +622,13 @@ export const getSelectedLead = (finalData) => async (dispatch) => {
 export const getStaffsData = (finalData) => async (dispatch) => {
   try {
     let res = [];
-    if (finalData.staffFrom == "lead") {
+    if (finalData.staffFrom === "lead") {
       res = await axios.post(
         "/api/dct/get-lead-staffs-data",
         finalData,
         config
       );
-    } else if (finalData.staffFrom == "client") {
+    } else if (finalData.staffFrom === "client") {
       res = await axios.post(
         "/api/dct/get-client-staffs-data",
         finalData,

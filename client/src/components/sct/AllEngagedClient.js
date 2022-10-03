@@ -473,8 +473,8 @@ const AllEngagedClient = ({
                                     className="img_icon_size log"
                                     onClick={() => onDeactive(sctClients, idx)}
                                     src={require("../../static/images/documents.png")}
-                                    alt="Delete Project"
-                                    title="Delete Project"
+                                    alt="Documents"
+                                    title="Documents"
                                   />
                                 </Link>
                               </td>

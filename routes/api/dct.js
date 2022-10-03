@@ -185,6 +185,27 @@ router.post("/add-new-dct-client-staff", async (req, res) => {
   }
 });
 
+router.post("/add-new-dctclient-instruction", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctClientInstruction = await DctClients.updateOne(
+      { _id: data.recordId },
+      {
+        $push: {
+          instructions: {
+            _id: new mongoose.Types.ObjectId(),
+            instructionName: data.instructionName,
+            instructionDiscription: data.instructionDiscription,
+          },
+        },
+      }
+    );
+    res.json(updateDctClientInstruction);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
 router.post("/edit-dct-staff", async (req, res) => {
   try {
     let data = req.body;
@@ -236,6 +257,25 @@ router.post("/edit-dct-client-staff", async (req, res) => {
       { $set: { callToStaffName: data.staffName } }
     );
     res.json(updateDctClientStaff);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/edit-dctclient-instruction-details", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDctClientInstrution = await DctClients.updateOne(
+      { "instructions._id": data.instructionId },
+      {
+        $set: {
+          "instructions.$.instructionName": data.instructionName,
+          "instructions.$.instructionDiscription": data.instructionDiscription,
+        },
+      }
+    );
+
+    res.json(updateDctClientInstrution);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
