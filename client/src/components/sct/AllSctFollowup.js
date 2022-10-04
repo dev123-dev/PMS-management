@@ -287,7 +287,16 @@ const AllSctFollowup = ({
                             >
                               <td>{idx + 1}</td>
                               <td>{allSctLeads.sctCompanyName}</td>
-                              <td>{allSctLeads.sctWebsite}</td>
+                              <td>
+                                {" "}
+                                <a
+                                  href={allSctLeads.sctWebsite}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {allSctLeads.sctWebsite}
+                                </a>
+                              </td>
                               <td>{allSctLeads.sctEmailId}</td>
                               <td>{allSctLeads.countryName}</td>
                               <td>

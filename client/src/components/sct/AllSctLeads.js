@@ -15,7 +15,6 @@ import DeactiveSctLead from "./DeactiveSctLead";
 import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
-
 import { getActiveCountry } from "../../actions/regions";
 
 const AllSctLeads = ({
@@ -287,7 +286,15 @@ const AllSctLeads = ({
                             >
                               <td>{idx + 1}</td>
                               <td>{getAllSctLeads.sctCompanyName}</td>
-                              <td>{getAllSctLeads.sctWebsite}</td>
+                              <td>
+                                <a
+                                  href={getAllSctLeads.sctWebsite}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {getAllSctLeads.sctWebsite}
+                                </a>
+                              </td>
                               <td>{getAllSctLeads.sctEmailId}</td>
                               <td>{getAllSctLeads.countryName}</td>
                               <td>

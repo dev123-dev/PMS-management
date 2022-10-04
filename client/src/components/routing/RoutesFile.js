@@ -105,7 +105,7 @@ const RoutesFile = () => {
           component={TestClientFollowup}
         />
         <PrivateRoute exact path="/all-leads" component={AllLeads} />
-        <PrivateRoute exact path="/all-leads" component={AllLeads} />
+        {/* <PrivateRoute exact path="/all-leads" component={AllLeads} /> */}
         <PrivateRoute exact path="/add-dct-client" component={AddDctClients} />
         <PrivateRoute exact path="/all-dct-client" component={AllDctClients} />
         <PrivateRoute

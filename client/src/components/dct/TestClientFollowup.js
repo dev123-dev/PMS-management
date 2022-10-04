@@ -358,7 +358,16 @@ const TestClientFollowup = ({
                                 {dctClients.companyName}
                                 {/* </Link> */}
                               </td>
-                              <td>{dctClients.website}</td>
+                              <td>
+                                {" "}
+                                <a
+                                  href={dctClients.website}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {dctClients.website}
+                                </a>
+                              </td>
                               <td>{dctClients.emailId}</td>
                               <td>{dctClients.countryName}</td>
                               <td>

@@ -396,7 +396,16 @@ const AllProspects = ({
                                 {allLeads.companyName}
                                 {/* </Link> */}
                               </td>
-                              <td>{allLeads.website}</td>
+                              <td>
+                                {" "}
+                                <a
+                                  href={allLeads.website}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {allLeads.website}
+                                </a>
+                              </td>
                               <td>{allLeads.emailId}</td>
                               <td>{allLeads.countryName}</td>
                               <td>
