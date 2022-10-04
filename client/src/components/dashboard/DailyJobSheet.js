@@ -69,7 +69,6 @@ const DailyJobSheet = ({
     getDailyjobSheetFolder();
   }, [getDailyjobSheetFolder]);
 
-  console.log("activeDailyJobSheetFolder", activeDailyJobSheetFolder);
   const [contacts, setContacts] = useState([]);
   useEffect(async () => {
     const data = await axios.get(`${allUsersRoute}/${user._id}`);
@@ -87,7 +86,7 @@ const DailyJobSheet = ({
 
   const [projectData, setprojectData] = useState("");
   const [folderId, setfolderId] = useState("");
-  const [clientName, setClientName] = useState("");
+  const [clientName1, setClientName] = useState("");
 
   const activeFolderOpt = [];
   activeDailyJobSheetFolder &&
@@ -101,6 +100,11 @@ const DailyJobSheet = ({
   const onProjectChange = (e) => {
     setprojectData(e);
     setfolderId(e.folderId);
+
+    var clientName1 = "";
+    clientName1 = e.value;
+    setClientName(clientName1);
+
     let selDateData = {
       selDate: singledate,
       fromdate: fromdate,
@@ -192,6 +196,7 @@ const DailyJobSheet = ({
       // "projectPriority",
     ],
   ];
+
   dailyJobsheetProjects.map((dailyJobsheetData) =>
     csvData.push([
       dailyJobsheetData.clientName,
@@ -511,7 +516,8 @@ const DailyJobSheet = ({
       handleDeactiveModalClose();
     }
   };
-  // clients = dailyJobsheetProjects.clientName.length;
+
+  const fileName = [clientName1 ? clientName1 : "Client Report"];
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -629,7 +635,7 @@ const DailyJobSheet = ({
             {/* <CSVDownload data={dailyJobsheetProjects} target="_blank" />; */}
 
             <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
-              <CSVLink data={csvData}>
+              <CSVLink data={csvData} filename={fileName}>
                 <button className="btn btn_green_bg float-right">Export</button>
               </CSVLink>
               <button
