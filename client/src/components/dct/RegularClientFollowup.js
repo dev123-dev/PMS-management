@@ -361,7 +361,7 @@ const RegularClientFollowup = ({
                               </td>
                               <td>
                                 <a
-                                  href={dctClients.sctWebsite}
+                                  href={dctClients.website}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                 >
