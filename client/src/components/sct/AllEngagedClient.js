@@ -340,7 +340,13 @@ const AllEngagedClient = ({
                                     },
                                   }}
                                 >
-                                  {sctClients.sctWebsite}
+                                  <a
+                                    href={sctClients.sctWebsite}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {sctClients.sctWebsite}
+                                  </a>
                                 </Link>
                               </td>
                               <td>{sctClients.sctEmailId}</td>

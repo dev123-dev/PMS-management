@@ -292,7 +292,16 @@ const AllSctRegularClients = ({
                             >
                               {/* <td>{idx + 1}</td> */}
                               <td>{sctClients.sctCompanyName}</td>
-                              <td>{sctClients.sctWebsite}</td>
+                              <td>
+                                {" "}
+                                <a
+                                  href={sctClients.sctWebsite}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {sctClients.sctWebsite}
+                                </a>
+                              </td>
                               <td>{sctClients.sctEmailId}</td>
                               <td>{sctClients.countryName}</td>
                               <td>

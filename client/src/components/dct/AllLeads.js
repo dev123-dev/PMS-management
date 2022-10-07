@@ -378,18 +378,16 @@ const AllLeads = ({
                               onClick={() => onClickHandler(getAllLeads, idx)}
                             >
                               <td>{idx + 1}</td>
+                              <td>{getAllLeads.companyName}</td>
                               <td>
-                                {/* <Link
-                                  className="float-left ml-1"
-                                  to="#"
-                                  // onClick={() =>
-                                  //   onClickHandler(getAllLeads, idx)
-                                  // }
-                                > */}
-                                {getAllLeads.companyName}
-                                {/* </Link> */}
+                                <a
+                                  href={getAllLeads.website}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {getAllLeads.website}
+                                </a>
                               </td>
-                              <td>{getAllLeads.website}</td>
                               <td>{getAllLeads.emailId}</td>
                               <td>{getAllLeads.countryName}</td>
                               <td>
