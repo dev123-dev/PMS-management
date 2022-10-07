@@ -30,10 +30,10 @@ const JobNotes = ({
     isSubmitted: false,
   });
   const [showHide, setShowHide] = useState({
-    showStandardinstructionSection: true,
+    showStandardinstructionSection: false,
   });
   const [showHide1, setShowHide1] = useState({
-    showProjectInstructionSection: false,
+    showProjectInstructionSection: true,
   });
 
   const { showStandardinstructionSection } = showHide;
@@ -41,11 +41,11 @@ const JobNotes = ({
   const onstandardinstruction = () => {
     setShowHide({
       ...showHide,
-      showStandardinstructionSection: false,
+      showStandardinstructionSection: true,
     });
     setShowHide1({
       ...showHide1,
-      showProjectInstructionSection: true,
+      showProjectInstructionSection: false,
     });
   };
 
