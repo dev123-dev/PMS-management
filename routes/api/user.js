@@ -60,12 +60,13 @@ router.post("/edit-employee", async (req, res) => {
   try {
     let data = req.body;
     let allEmployeedata = data.allEmployeedata;
+    console.log(data);
     const historyData = {
       edhId: allEmployeedata._id,
       edhFullName: allEmployeedata.empFullName,
       edhEmpCode: allEmployeedata.empCode,
       edhDepartmentId: allEmployeedata.departmentId,
-      edhDesignationId: allEmployeedata.designationId,
+      edhDesignationId: allEmployeedata.empDesignationId,
       edhDesignationDate: allEmployeedata.empDesignationDate,
       edhJoiningDate: allEmployeedata.empJoiningDate,
       edhDOB: allEmployeedata.empDOB,
@@ -96,6 +97,7 @@ router.post("/edit-employee", async (req, res) => {
     };
     let employeeDetailsHistory = new EmployeeDetailsHistory(historyData);
     await employeeDetailsHistory.save();
+
     const updateEmployeeDetails = await EmployeeDetails.updateOne(
       { _id: data.recordId },
       {
@@ -110,7 +112,7 @@ router.post("/edit-employee", async (req, res) => {
           departmentId: data.departmentId,
           departmentName: data.departmentName,
           empGroupId: data.empGroupId,
-          empDesignationId: data.empDesignationId,
+          designationId: data.designationId,
           designationName: data.designationName,
           usergroupsId: data.usergroupsId,
           userGroupName: data.userGroupName,
@@ -141,6 +143,7 @@ router.post("/edit-employee", async (req, res) => {
         },
       }
     );
+
     res.json(updateEmployeeDetails);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
