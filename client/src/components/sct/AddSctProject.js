@@ -89,7 +89,6 @@ const AddSctProject = ({
               style={{ width: "100%" }}
               value={sctProjectDesc}
               onChange={(e) => onInputChange(e)}
-              required
             ></textarea>
           </div>
         </div>
