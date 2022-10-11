@@ -60,13 +60,12 @@ router.post("/edit-employee", async (req, res) => {
   try {
     let data = req.body;
     let allEmployeedata = data.allEmployeedata;
-    console.log(data);
     const historyData = {
       edhId: allEmployeedata._id,
       edhFullName: allEmployeedata.empFullName,
       edhEmpCode: allEmployeedata.empCode,
       edhDepartmentId: allEmployeedata.departmentId,
-      edhDesignationId: allEmployeedata.empDesignationId,
+      edhDesignationId: allEmployeedata.designationId,
       edhDesignationDate: allEmployeedata.empDesignationDate,
       edhJoiningDate: allEmployeedata.empJoiningDate,
       edhDOB: allEmployeedata.empDOB,
