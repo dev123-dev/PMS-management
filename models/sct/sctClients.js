@@ -72,6 +72,9 @@ const SctClientsSchema = new mongoose.Schema({
   sctCallDate: {
     type: String,
   },
+  sctCallTime: {
+    type: String,
+  },
   sctClientEnteredById: {
     type: ObjectId,
   },

@@ -57,7 +57,7 @@ const DemoSchema = new mongoose.Schema({
   },
   demoEnteredByDateTime: {
     type: String,
-    default: new Date().toLocaleString("en-GB"),
+    // default: new Date().toLocaleString("en-GB"),
   },
 });
 module.exports = demo = mongoose.model("demo", DemoSchema);

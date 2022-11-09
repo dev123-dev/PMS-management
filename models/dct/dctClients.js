@@ -89,7 +89,7 @@ const DctClientsSchema = new mongoose.Schema({
   },
   dctClientEnteredDateTime: {
     type: String,
-    default: new Date().toLocaleString("en-GB"),
+    // default: new Date().toLocaleString("en-GB"),
   },
   dctClientEditedById: {
     type: ObjectId,

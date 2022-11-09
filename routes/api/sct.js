@@ -431,6 +431,7 @@ router.post("/update-sct-leads-status", async (req, res) => {
           sctLeadCategory: data.sctCallCategory,
           sctLeadCategoryStatus: data.sctCallStatus,
           sctCallDate: data.sctCallDate,
+          sctCallTime: data.sctCallTime,
         },
       }
     );
@@ -450,6 +451,7 @@ router.post("/update-sct-clients-status", async (req, res) => {
           sctClientCategory: data.sctCallCategory,
           sctClientCategoryStatus: data.sctCallStatus,
           sctCallDate: data.sctCallDate,
+          sctCallTime: data.sctCallTime,
         },
       }
     );
@@ -853,8 +855,22 @@ router.post("/add-demo", async (req, res) => {
   }
 });
 
-router.post("/get-all-demos", async (req, res) => {
-  const { stateId, clientId, demoDate } = req.body;
+router.post("/get-all-demos", auth, async (req, res) => {
+  const { stateId, clientId, demoDate, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  let demoEnteredById = "";
+  if (userInfo.empCtAccess !== "All")
+    demoEnteredById = mongoose.Types.ObjectId(userInfo._id);
+  else {
+    if (assignedTo) {
+      demoEnteredById = mongoose.Types.ObjectId(assignedTo);
+    } else {
+      demoEnteredById = { $ne: null };
+    }
+  }
+
   let query = { demoDate: new Date().toISOString().split("T")[0] };
   if (stateId) {
     if (clientId)
@@ -883,7 +899,182 @@ router.post("/get-all-demos", async (req, res) => {
       { $match: query },
       { $sort: { demoStatus: -1 } },
     ]);
-    res.json(allDemos);
+    res.json({
+      allDemos: allDemos,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-all-demos-report", auth, async (req, res) => {
+  const { assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  let demoEnteredById = "";
+  if (userInfo.empCtAccess !== "All")
+    demoEnteredById = mongoose.Types.ObjectId(userInfo._id);
+  else {
+    if (assignedTo) {
+      demoEnteredById = mongoose.Types.ObjectId(assignedTo);
+    } else {
+      demoEnteredById = { $ne: null };
+    }
+  }
+
+  let query = {
+    demoDate: new Date().toISOString().split("T")[0],
+    demoEnteredById,
+  };
+
+  try {
+    let allDemos = (allDemosTaken = allDemosAddedToday = []);
+    if (userInfo.empCtAccess === "All") {
+      allDemos = await Demo.aggregate([
+        { $match: query },
+        {
+          $lookup: {
+            from: "empdetails",
+            localField: "demoEnteredById",
+            foreignField: "_id",
+            as: "output",
+          },
+        },
+        { $unwind: "$output" },
+        {
+          $group: {
+            _id: "$demoEnteredById",
+            empName: { $first: "$output.userName" },
+            count: { $sum: 1 },
+          },
+        },
+        { $sort: { demoStatus: -1 } },
+      ]);
+
+      allDemosTaken = await Demo.aggregate([
+        { $match: query },
+        { $match: { demoStatus: "Taken", demoEnteredById } },
+        {
+          $lookup: {
+            from: "empdetails",
+            localField: "demoEnteredById",
+            foreignField: "_id",
+            as: "output",
+          },
+        },
+        { $unwind: "$output" },
+        {
+          $group: {
+            _id: "$demoEnteredById",
+            empName: { $first: "$output.userName" },
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+      allDemosAddedToday = await Demo.aggregate([
+        {
+          $match: {
+            callDate: new Date().toISOString().split("T")[0],
+            demoEnteredById,
+          },
+        },
+        {
+          $lookup: {
+            from: "empdetails",
+            localField: "demoEnteredById",
+            foreignField: "_id",
+            as: "output",
+          },
+        },
+
+        { $unwind: "$output" },
+        {
+          $group: {
+            _id: "$demoEnteredById",
+            empName: { $first: "$output.userName" },
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+    } else {
+      allDemos = await Demo.aggregate([
+        { $match: query },
+        { $sort: { demoStatus: -1 } },
+      ]);
+      allDemosTaken = await Demo.aggregate([
+        { $match: query },
+        { $match: { demoStatus: "Taken", demoEnteredById } },
+      ]);
+      allDemosAddedToday = await Demo.aggregate([
+        {
+          $match: {
+            callDate: new Date().toISOString().split("T")[0],
+            demoEnteredById,
+          },
+        },
+      ]);
+    }
+
+    res.json({
+      allDemos: allDemos,
+      allDemosTaken: allDemosTaken,
+      allDemosAddedToday: allDemosAddedToday,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-all-today-lead-entered", auth, async (req, res) => {
+  const { demoDate, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  let sctLeadAssignedToId = "";
+  if (userInfo.empCtAccess !== "All")
+    sctLeadAssignedToId = mongoose.Types.ObjectId(userInfo._id);
+  else {
+    if (assignedTo) {
+      sctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
+    } else {
+      sctLeadAssignedToId = { $ne: null };
+    }
+  }
+  try {
+    let allLeadEnteredToday = [];
+    if (userInfo.empCtAccess === "All") {
+      allLeadEnteredToday = await SctLeads.aggregate([
+        {
+          $match: {
+            sctLeadEnteredDate: new Date().toISOString().split("T")[0],
+            sctLeadAssignedToId,
+          },
+        },
+        {
+          $group: {
+            _id: "$sctLeadAssignedToId",
+            sctLeadAssignedToName: { $first: "$sctLeadAssignedToName" },
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+    } else {
+      allLeadEnteredToday = await SctLeads.aggregate([
+        {
+          $match: {
+            sctLeadEnteredDate: new Date().toISOString().split("T")[0],
+            sctLeadAssignedToId,
+          },
+        },
+      ]);
+    }
+
+    res.json({
+      allLeadEnteredToday: allLeadEnteredToday,
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -916,6 +1107,7 @@ router.post("/get-all-demos-state", async (req, res) => {
 
 router.post("/get-all-demos-leads", async (req, res) => {
   const { stateId, demoDate } = req.body;
+
   let query = { demoDate: new Date().toISOString().split("T")[0] };
 
   if (stateId) {
@@ -986,8 +1178,11 @@ router.post("/get-all-sct-calls", auth, async (req, res) => {
 
   if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
   else {
-    if (assignedTo) sctCallFromId = assignedTo;
-    else sctCallFromId = { $ne: null };
+    if (assignedTo) {
+      sctCallFromId = assignedTo;
+    } else {
+      sctCallFromId = { $ne: null };
+    }
   }
   if (selectedDate) {
     dateVal = selectedDate;
@@ -1056,6 +1251,98 @@ router.post("/get-all-sct-calls-emp", auth, async (req, res) => {
       },
     ]).sort({ _id: 1 });
     res.json(getAllSctCallsDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-all-sct-calls-count", auth, async (req, res) => {
+  let { selectedDate, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  var dateVal = new Date().toISOString().split("T")[0];
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+  if (selectedDate) {
+    dateVal = selectedDate;
+  }
+
+  if (selectedDate) {
+    query = {
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  } else {
+    query = {
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  }
+  try {
+    const getAllSctCallsCount = await SctCalls.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$sctCallFromId",
+          sctCallFromName: { $first: "$sctCallFromName" },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    let getAllSctCallsClient = [];
+    if (userInfo.empCtAccess === "All") {
+      getAllSctCallsClient = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: {
+              sctCallFromId: "$sctCallFromId",
+              sctCallToId: "$sctCallToId",
+            },
+            sctCallFromId: { $first: "$sctCallFromId" },
+            sctCallFromName: { $first: "$sctCallFromName" },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $group: {
+            _id: "$sctCallFromId",
+            sctCallFromName: { $first: "$sctCallFromName" },
+            countClient: { $sum: 1 },
+            countCall: { $sum: "$count" },
+          },
+        },
+      ]);
+    } else {
+      getAllSctCallsClient = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: "$sctCallToId",
+            sctCallFromName: { $first: "$sctCallFromName" },
+            countClient: { $sum: 1 },
+          },
+        },
+      ]);
+    }
+    res.json({
+      getAllSctCallsCount: getAllSctCallsCount,
+      getAllSctCallsClient: getAllSctCallsClient,
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -1282,5 +1569,207 @@ router.post("/get-sct-leads-list", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/get-sct-leads-details", auth, async (req, res) => {
+  const { sctLeadAssignedToId } = req.body;
+  let query = {};
+  query = {
+    sctLeadAssignedToId: {
+      $eq: sctLeadAssignedToId,
+    },
+  };
+  try {
+    const allSctLeadDetails = await SctLeads.find(query);
+    res.json(allSctLeadDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/sct-transfer-lead", async (req, res) => {
+  try {
+    let data = req.body;
+    let i = 0;
+
+    for (i = 0; i < data.access.length; i++) {
+      await SctLeads.updateOne(
+        { _id: data.access[i].transfercheckedId },
+        {
+          $set: {
+            sctLeadAssignedToId: data.sctLeadTransferToId,
+            sctLeadAssignedToName: data.sctLeadTransferToName,
+          },
+        }
+      );
+    }
+    console.log("success");
+    // res.json({ status: "success" });
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/get-all-sct-calls-client-count", auth, async (req, res) => {
+  let { selectedDate, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  var dateVal = new Date().toISOString().split("T")[0];
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+  if (selectedDate) {
+    dateVal = selectedDate;
+  }
+
+  if (selectedDate) {
+    query = {
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  } else {
+    query = {
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  }
+  try {
+    const getAllSctCallsDetails = await SctCalls.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$sctCallToId",
+        },
+      },
+    ]);
+    res.json(getAllSctCallsDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// router.post("/get-all-demos", auth, async (req, res) => {
+//   const { stateId, clientId, demoDate } = req.body;
+//   const userInfo = await EmployeeDetails.findById(req.user.id).select(
+//     "-password"
+//   );
+//   let query = {
+//     demoDate: new Date().toISOString().split("T")[0],
+//     demoEnteredById: mongoose.Types.ObjectId(userInfo._id),
+//   };
+//   if (stateId) {
+//     if (clientId)
+//       query = {
+//         "clientDetails.stateId": mongoose.Types.ObjectId(stateId),
+//         clientId: mongoose.Types.ObjectId(clientId),
+//         demoDate: demoDate,
+//         demoEnteredById: mongoose.Types.ObjectId(userInfo._id),
+//       };
+//     else
+//       query = {
+//         "clientDetails.stateId": mongoose.Types.ObjectId(stateId),
+//         demoDate: demoDate,
+//         demoEnteredById: mongoose.Types.ObjectId(userInfo._id),
+//       };
+//   } else if (clientId) {
+//     query = {
+//       clientId: mongoose.Types.ObjectId(clientId),
+//       demoDate: demoDate,
+//       demoEnteredById: mongoose.Types.ObjectId(userInfo._id),
+//     };
+//   } else if (demoDate) {
+//     query = {
+//       demoDate: demoDate,
+//       demoEnteredById: mongoose.Types.ObjectId(userInfo._id),
+//     };
+//   }
+//   try {
+//     const allDemos = await Demo.aggregate([
+//       { $match: query },
+//       { $sort: { demoStatus: -1 } },
+//     ]);
+//     res.json(allDemos);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Internal Server Error.");
+//   }
+// });
+
+// router.post("/get-all-demos-state", auth, async (req, res) => {
+//   const { demoDate } = req.body;
+//   const userInfo = await EmployeeDetails.findById(req.user.id).select(
+//     "-password"
+//   );
+//   let query = {
+//     demoDate: new Date().toISOString().split("T")[0],
+//     demoEnteredById: mongoose.Types.ObjectId(userInfo._id),
+//   };
+//   if (demoDate) {
+//     query = {
+//       demoDate: demoDate,
+//       demoEnteredById: mongoose.Types.ObjectId(userInfo._id),
+//     };
+//   }
+//   try {
+//     const allDemoStates = await Demo.aggregate([
+//       { $match: query },
+//       {
+//         $group: {
+//           _id: "$clientDetails.stateId",
+//           stateName: { $first: "$clientDetails.stateName" },
+//         },
+//       },
+//       { $sort: { _id: 1 } },
+//     ]);
+//     res.json(allDemoStates);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Internal Server Error.");
+//   }
+// });
+
+// router.post("/get-all-demos-leads", auth, async (req, res) => {
+//   const { stateId, demoDate } = req.body;
+//   const userInfo = await EmployeeDetails.findById(req.user.id).select(
+//     "-password"
+//   );
+//   let query = {
+//     demoDate: new Date().toISOString().split("T")[0],
+//     demoEnteredById: mongoose.Types.ObjectId(userInfo._id),
+//   };
+
+//   if (stateId) {
+//     query = {
+//       "clientDetails.stateId": mongoose.Types.ObjectId(stateId),
+//       demoDate: demoDate,
+//       demoEnteredById: mongoose.Types.ObjectId(userInfo._id),
+//     };
+//   }
+//   try {
+//     const allDemoLeads = await Demo.aggregate([
+//       { $match: query },
+//       {
+//         $group: {
+//           _id: "$clientId",
+//           sctClientName: { $first: "$clientName" },
+//         },
+//       },
+//       { $sort: { _id: 1 } },
+//     ]);
+//     res.json(allDemoLeads);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Internal Server Error.");
+//   }
+// });
 
 module.exports = router;

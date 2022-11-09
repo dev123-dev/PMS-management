@@ -14,6 +14,10 @@ const TeamsSchema = new mongoose.Schema({
   teamEnteredByName: {
     type: String,
   },
+  teamStatus: {
+    type: String,
+    default: "Active",
+  },
   teamEnteredDateTime: {
     type: String,
   },

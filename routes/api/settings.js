@@ -6,6 +6,7 @@ const config = require("config");
 const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const Department = require("../../models/Department");
+const Team = require("../../models/settings/teams");
 const Designation = require("../../models/Designation");
 const Menu = require("../../models/Menus");
 const PaymentMode = require("../../models/PaymentMode");
@@ -542,4 +543,85 @@ router.post("/edit-bank", async (req, res) => {
   }
 });
 
+router.get("/get-all-teams-details", async (req, res) => {
+  try {
+    const allTeamDetails = await Team.find({
+      teamStatus: {
+        $eq: "Active",
+      },
+    });
+    res.json(allTeamDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/add-team", async (req, res) => {
+  let data = req.body;
+  try {
+    let TeamDetails = new Team(data);
+    output = await TeamDetails.save();
+    res.send(output);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/edit-team", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateTeam = await Team.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          teamName: data.teamName,
+          teamDescription: data.teamDescription,
+          teamEditedById: data.teamEditedById,
+          teamEditedByName: data.teamEditedByName,
+          teamEditedDateTime: data.teamEditedDateTime,
+        },
+      }
+    );
+    res.json(updateTeam);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/deactive-team-data", async (req, res) => {
+  try {
+    let data = req.body;
+    const deactiveTeamData = await Team.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          teamStatus: "Deactive",
+          teamDeactiveReason: data.teamDeactiveReason,
+          teamDeactiveById: data.teamDeactiveById,
+          teamDeactiveDateTime: data.teamDeactiveDateTime,
+        },
+      }
+    );
+
+    res.json(deactiveTeamData);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.get("/get-all-teams", async (req, res) => {
+  try {
+    const allTeamName = await Team.find({
+      teamStatus: {
+        $eq: "Active",
+      },
+    });
+    res.json(allTeamName);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 module.exports = router;

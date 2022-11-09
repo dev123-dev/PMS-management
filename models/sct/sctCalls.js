@@ -29,6 +29,9 @@ const SctCallsSchema = new mongoose.Schema({
   sctCallDate: {
     type: String,
   },
+  sctCallTime: {
+    type: String,
+  },
   sctCallNote: {
     type: String,
   },
@@ -43,7 +46,7 @@ const SctCallsSchema = new mongoose.Schema({
   },
   sctCallDateTime: {
     type: String,
-    default: new Date().toLocaleString("en-GB"),
+    // default: new Date().toLocaleString("en-GB"),
   },
 });
 module.exports = sctCalls = mongoose.model("sctCalls", SctCallsSchema);

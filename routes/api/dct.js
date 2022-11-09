@@ -571,6 +571,46 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/get-skill-details", auth, async (req, res) => {
+  const { dctLeadAssignedToId } = req.body;
+  let query = {};
+  query = {
+    dctLeadAssignedToId: {
+      $eq: dctLeadAssignedToId,
+    },
+  };
+  try {
+    const allSkillDetails = await DctLeads.find(query);
+    res.json(allSkillDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/transfer-lead", async (req, res) => {
+  try {
+    let data = req.body;
+    let i = 0;
+
+    for (i = 0; i < data.access.length; i++) {
+      await DctLeads.updateOne(
+        { _id: data.access[i].transfercheckedId },
+        {
+          $set: {
+            dctLeadAssignedToId: data.dctLeadTransferToId,
+            dctLeadAssignedToName: data.dctLeadTransferToName,
+          },
+        }
+      );
+    }
+    console.log("success");
+    // res.json({ status: "success" });
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
 //CLIENT
 //TEST CLIENTS,REGULAR CLIENTS
 router.post("/get-dct-clients", auth, async (req, res) => {
@@ -917,4 +957,150 @@ router.post("/get-client-instruction-data", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/get-all-dct-calls-count", auth, async (req, res) => {
+  let { selectedDate, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  var dateVal = new Date().toISOString().split("T")[0];
+  let callFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") callFromId = userInfo._id;
+  else {
+    if (assignedTo) callFromId = mongoose.Types.ObjectId(assignedTo);
+    else callFromId = { $ne: null };
+  }
+
+  if (selectedDate) {
+    dateVal = selectedDate;
+  }
+
+  if (selectedDate) {
+    query = {
+      callTakenDate: dateVal,
+      callFromId,
+    };
+  } else {
+    query = {
+      callTakenDate: dateVal,
+      callFromId,
+    };
+  }
+  try {
+    let getAllDctCallsClient = [];
+    const getAllDctCallsCount = await DctCalls.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$callFromId",
+          callFromName: { $first: "$callFromName" },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    if (userInfo.empCtAccess === "All") {
+      getAllDctCallsClient = await DctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: {
+              callFromId: "$callFromId",
+              callToId: "$callToId",
+            },
+            callFromId: { $first: "$callFromId" },
+            callFromName: { $first: "$callFromName" },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $group: {
+            _id: "$callFromId",
+            callFromName: { $first: "$callFromName" },
+            countClient: { $sum: 1 },
+            countCall: { $sum: "$count" },
+          },
+        },
+      ]);
+    } else {
+      getAllDctCallsClient = await DctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: "$callToId",
+            callFromName: { $first: "$callFromName" },
+            countVal: { $sum: 1 },
+          },
+        },
+      ]);
+    }
+    res.json({
+      getAllDctCallsCount: getAllDctCallsCount,
+      getAllDctCallsClient: getAllDctCallsClient,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-all-today-dct-lead-entered", auth, async (req, res) => {
+  const { demoDate, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  let dctLeadAssignedToId = "";
+  if (userInfo.empCtAccess !== "All")
+    dctLeadAssignedToId = mongoose.Types.ObjectId(userInfo._id);
+  else {
+    if (assignedTo) {
+      dctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
+    } else {
+      dctLeadAssignedToId = { $ne: null };
+    }
+  }
+  try {
+    let allDctLeadEnteredToday = [];
+    if (userInfo.empCtAccess === "All") {
+      allDctLeadEnteredToday = await DctLeads.aggregate([
+        {
+          $match: {
+            dctLeadEnteredDate: new Date().toISOString().split("T")[0],
+            dctLeadAssignedToId,
+          },
+        },
+        {
+          $group: {
+            _id: "$dctLeadAssignedToId",
+            dctLeadAssignedToName: { $first: "$dctLeadAssignedToName" },
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+    } else {
+      allDctLeadEnteredToday = await DctLeads.aggregate([
+        {
+          $match: {
+            dctLeadEnteredDate: new Date().toISOString().split("T")[0],
+            dctLeadAssignedToId,
+          },
+        },
+      ]);
+    }
+    res.json({
+      allDctLeadEnteredToday: allDctLeadEnteredToday,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;

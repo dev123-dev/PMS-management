@@ -251,7 +251,7 @@ router.post("/get-sct-marketing-employees", async (req, res) => {
     const getMarketingEmployeeDetails = await EmployeeDetails.find({
       empStatus: "Active",
       departmentName: "Software",
-      userGroupName: "Sct Marketing",
+      $or: [{ userGroupName: "Sct Marketing" }, { userGroupName: "Marketing" }],
     });
     res.json(getMarketingEmployeeDetails);
   } catch (err) {
@@ -283,6 +283,19 @@ router.get("/get-all-staff-name", async (req, res) => {
       },
     });
     res.json(allProjectStatus);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-dct-staff-name", async (req, res) => {
+  try {
+    const allDctStaffData = await EmployeeDetails.find({
+      empStatus: "Active",
+      $or: [{ userGroupName: "Dct Marketing" }, { userGroupName: "Marketing" }],
+    });
+    res.json(allDctStaffData);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

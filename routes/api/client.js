@@ -5,6 +5,7 @@ const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const ClientDetails = require("../../models/Client");
 const ClientHistoryDetails = require("../../models/ClientHistory");
+const DctClients = require("../../models/dct/dctClients");
 const Project = require("../../models/Project");
 
 //ADD
@@ -133,7 +134,7 @@ router.post("/get-active-client-filter", async (req, res) => {
   let query = {};
   if (clientTypeinfo) {
     query = {
-      clientStatus: {
+      dctClientStatus: {
         $eq: "Active",
       },
       clientType: {
@@ -142,7 +143,7 @@ router.post("/get-active-client-filter", async (req, res) => {
     };
   } else {
     query = {
-      clientStatus: {
+      dctClientStatus: {
         $eq: "Active",
       },
       clientType: {
@@ -151,8 +152,39 @@ router.post("/get-active-client-filter", async (req, res) => {
     };
   }
   try {
-    const getActiveClientFilterDetails = await ClientDetails.find(query);
+    const getActiveClientFilterDetails = await DctClients.find(query);
     res.json(getActiveClientFilterDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-active-staff-filter", async (req, res) => {
+  const { clientId } = req.body;
+  let query = {};
+  // if (staffTypeinfo) {
+  query = {
+    // clientStatus: {
+    //   $eq: "Active",
+    // },
+    _id: {
+      $eq: clientId,
+    },
+  };
+  // } else {
+  //   query = {
+  //     // clientStatus: {
+  //     //   $eq: "Active",
+  //     // },
+  //     clientType: {
+  //       $eq: "Regular",
+  //     },
+  //   };
+  // }
+  try {
+    const getActiveStaffFilterDetails = await DctClients.find(query);
+    res.json(getActiveStaffFilterDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

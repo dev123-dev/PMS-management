@@ -64,6 +64,9 @@ const SctLeadsSchema = new mongoose.Schema({
   sctCallDate: {
     type: String,
   },
+  sctCallTime: {
+    type: String,
+  },
   sctLeadEnteredById: {
     type: ObjectId,
   },
@@ -72,7 +75,10 @@ const SctLeadsSchema = new mongoose.Schema({
   },
   sctLeadEnteredDateTime: {
     type: String,
-    default: new Date().toLocaleString("en-GB"),
+    // default: new Date().toLocaleString("en-GB"),
+  },
+  sctLeadEnteredDate: {
+    type: String,
   },
   sctLeadEditedById: {
     type: ObjectId,

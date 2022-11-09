@@ -65,6 +65,10 @@ const DctLeadsSchema = new mongoose.Schema({
     type: String,
     // default: new Date().toLocaleString("en-GB"),
   },
+
+  dctLeadEnteredDate: {
+    type: String,
+  },
   dctLeadEditedById: {
     type: ObjectId,
   },

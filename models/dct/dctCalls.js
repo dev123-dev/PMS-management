@@ -17,6 +17,9 @@ const DctCallsSchema = new mongoose.Schema({
   callFromId: {
     type: ObjectId,
   },
+  callToNumber: {
+    type: String,
+  },
   callFromName: {
     type: String,
   },
@@ -40,7 +43,7 @@ const DctCallsSchema = new mongoose.Schema({
   },
   callEnteredDateTime: {
     type: String,
-    default: new Date().toLocaleString("en-GB"),
+    // default: new Date().toLocaleString("en-GB"),
   },
 });
 module.exports = dctCalls = mongoose.model("dctCalls", DctCallsSchema);

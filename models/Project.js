@@ -26,6 +26,9 @@ const ProjectSchema = new mongoose.Schema({
   projectPriority: {
     type: String,
   },
+  projectBelongsToId: {
+    type: ObjectId,
+  },
   // projectHours: {
   //   type: String,
   // },
