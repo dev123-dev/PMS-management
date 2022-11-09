@@ -9,6 +9,8 @@ import {
   SCT_PROJECT,
   SCT_LAST_MSG,
   ALL_DEMOS,
+  ALL_DEMOS_TAKEN,
+  ALL_DEMOS_TODAY_ADDED,
   SCTCALLHISTORY,
   SCHEDULED_DEMOS,
   ALL_SCT_CALLS,
@@ -24,6 +26,10 @@ import {
   GET_SCT_LEADS_LIST,
   GET_SELECTED_CLIENT,
   SELECTED_PROJECT,
+  ALL_SCT_ASSIGNED_LEAD_DETAILS,
+  SCT_CALLS_COUNT,
+  ALL_LEAD_ENTRY_TODAY,
+  SCT_CALLS_CLIENT_COUNT,
 } from "../actions/types";
 
 const initialState = {
@@ -40,6 +46,8 @@ const initialState = {
   projectList: [],
   sctcallHistory: [],
   allDemos: [],
+  allDemosTaken: [],
+  allDemosAddedToday: [],
   scheduledDemos: [],
   allSctCalls: null,
   allSctCallsEmp: null,
@@ -54,6 +62,10 @@ const initialState = {
   sctLeadsList: [],
   selectedSctClient: null,
   selectedProject: [],
+  allSctEmpAssignedLeadData: [],
+  sctCallsCount: [],
+  allLeadEnteredToday: [],
+  sctCallsClientCount: [],
 };
 
 const sct = (state = initialState, action) => {
@@ -99,6 +111,18 @@ const sct = (state = initialState, action) => {
         ...state,
         sctcallHistory: payload,
       };
+
+    case SCT_CALLS_COUNT:
+      return {
+        ...state,
+        sctCallsCount: payload,
+      };
+    case ALL_LEAD_ENTRY_TODAY:
+      return {
+        ...state,
+        allLeadEnteredToday: payload,
+      };
+
     case ALL_SCT_PROJECT:
       return {
         ...state,
@@ -114,6 +138,17 @@ const sct = (state = initialState, action) => {
         ...state,
         allDemos: payload,
       };
+    case ALL_DEMOS_TAKEN:
+      return {
+        ...state,
+        allDemosTaken: payload,
+      };
+    case ALL_DEMOS_TODAY_ADDED:
+      return {
+        ...state,
+        allDemosAddedToday: payload,
+      };
+
     case SCHEDULED_DEMOS:
       return {
         ...state,
@@ -123,6 +158,11 @@ const sct = (state = initialState, action) => {
       return {
         ...state,
         allSctCalls: payload,
+      };
+    case SCT_CALLS_CLIENT_COUNT:
+      return {
+        ...state,
+        sctCallsClientCount: payload,
       };
     case ALL_SCT_CALLS_EMP:
       return {
@@ -183,6 +223,12 @@ const sct = (state = initialState, action) => {
       return {
         ...state,
         selectedProject: payload,
+      };
+
+    case ALL_SCT_ASSIGNED_LEAD_DETAILS:
+      return {
+        ...state,
+        allSctEmpAssignedLeadData: payload,
       };
 
     default:
