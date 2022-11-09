@@ -123,6 +123,7 @@ const DctCallsHistory = ({
                         <th style={{ width: "8%" }}>Call Taken Date</th>
                         <th style={{ width: "15%" }}>Company Name</th>
                         <th style={{ width: "15%" }}>Call To</th>
+                        <th style={{ width: "15%" }}>Called Number</th>
                         <th style={{ width: "25%" }}>Notes</th>
                         <th style={{ width: "6%" }}>Next Date</th>
                       </tr>
@@ -146,6 +147,7 @@ const DctCallsHistory = ({
                               <td>{calltakenDate}</td>
                               <td>{allDctCalls.callToName}</td>
                               <td>{allDctCalls.callToStaffName}</td>
+                              <td>{allDctCalls.callToNumber}</td>
                               <td>{allDctCalls.callNote}</td>
                               <td>{callDates}</td>
                             </tr>

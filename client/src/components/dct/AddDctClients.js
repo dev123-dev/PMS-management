@@ -760,7 +760,7 @@ const AddDctClients = ({
                       <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                         <label>Phone 1* :</label>
                         <input
-                          type="number"
+                          type="text"
                           name="phone1"
                           value={phone1}
                           className="form-control"
@@ -775,7 +775,7 @@ const AddDctClients = ({
                       <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                         <label className="label-control">Phone 2 :</label>
                         <input
-                          type="number"
+                          type="text"
                           name="phone2"
                           value={phone2}
                           className="form-control"
@@ -1008,7 +1008,7 @@ const AddDctClients = ({
                       <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                         <label className="label-control">Staff Phone:</label>
                         <input
-                          type="number"
+                          type="text"
                           name="staffCountryCode"
                           value={staffCountryCode}
                           className="form-control"
@@ -1022,7 +1022,7 @@ const AddDctClients = ({
                           <br />
                         </label>
                         <input
-                          type="number"
+                          type="text"
                           name="staffPhoneNumber"
                           value={staffPhoneNumber}
                           className="form-control"

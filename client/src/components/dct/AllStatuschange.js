@@ -132,12 +132,16 @@ const AllStatuschange = ({
         staffs.staffStatus === "Active" &&
         allStaff.push({
           staffsId: staffs._id,
+          phone1: staffData.phone1,
+          staffsNumber: staffs.staffPhoneNumber,
           label: staffs.staffName,
           value: staffs.staffName,
         })
     );
-
   const [staffs, getstaffsData] = useState("");
+  const [phone1, getphone1Data] = useState("");
+  const [staffsNumber, getstaffsNumberData] = useState("");
+
   const onStaffChange = (e) => {
     //  Required Validation starts
     setError({
@@ -148,6 +152,12 @@ const AllStatuschange = ({
     // Required Validation ends
 
     getstaffsData(e);
+    var staffsNumber = "";
+    var phone1 = "";
+    staffsNumber = e.staffsNumber;
+    phone1 = e.phone1;
+    getphone1Data(phone1);
+    getstaffsNumberData(staffsNumber);
   };
   const [startStatusDate, setStatusDate] = useState("");
   const onDateChange = (e) => {
@@ -267,6 +277,7 @@ const AllStatuschange = ({
       const finalData = {
         callToId: leadDataVal._id,
         callToName: leadDataVal.companyName,
+        callToNumber: staffsNumber ? staffsNumber : phone1,
         callToStaffId: staffs.staffsId,
         callToStaffName: staffs.value,
         callFromId: user._id,
@@ -280,6 +291,7 @@ const AllStatuschange = ({
         callEnteredDateTime: new Date().toLocaleString("en-GB"),
         filterData: filterData,
       };
+
       if (from === "TestClient" || from === "RegularClient") {
         addDctClientCalls(finalData);
       } else {

@@ -29,6 +29,19 @@ const AddLead = ({
     getLeadsList();
   }, [getLeadsList]);
 
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+
+  var todayDateymd = yyyy + "-" + mm + "-" + dd;
+
   //formData
   const [formData, setFormData] = useState({
     companyName: "",
@@ -316,6 +329,7 @@ const AddLead = ({
         dctLeadEnteredByName: user.empFullName,
         dctLeadAssignedToId: empId,
         dctLeadAssignedToName: empName,
+        dctLeadEnteredDate: todayDateymd,
         dctLeadEnteredDateTime: new Date().toLocaleString("en-GB"),
       };
       addDctLeadDetails(finalData);
@@ -462,7 +476,7 @@ const AddLead = ({
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Phone 1* :</label>
                     <input
-                      type="number"
+                      type="text"
                       name="phone1"
                       value={phone1}
                       className="form-control"
@@ -477,7 +491,7 @@ const AddLead = ({
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Phone 2 :</label>
                     <input
-                      type="number"
+                      type="text"
                       name="phone2"
                       value={phone2}
                       className="form-control"
@@ -640,7 +654,7 @@ const AddLead = ({
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Staff Phone:</label>
                     <input
-                      type="number"
+                      type="text"
                       name="staffCountryCode"
                       value={staffCountryCode}
                       className="form-control"
@@ -654,7 +668,7 @@ const AddLead = ({
                       <br />
                     </label>
                     <input
-                      type="number"
+                      type="text"
                       name="staffPhoneNumber"
                       value={staffPhoneNumber}
                       className="form-control"

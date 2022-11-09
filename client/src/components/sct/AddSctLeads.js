@@ -53,6 +53,18 @@ const AddSctLeads = ({
     getProjectList();
   }, [getProjectList]);
 
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+
+  var todayDateymd = yyyy + "-" + mm + "-" + dd;
   //formData
   const [formData, setFormData] = useState({
     sctCompanyName: "",
@@ -520,6 +532,7 @@ const AddSctLeads = ({
         sctLeadEnteredByName: user.empFullName,
         sctLeadAssignedToId: empId,
         sctLeadAssignedToName: empName,
+        sctLeadEnteredDate: todayDateymd,
         sctLeadEnteredDateTime: new Date().toLocaleString("en-GB"),
       };
       addSctLeadDetails(finalData);
@@ -771,7 +784,7 @@ const AddSctLeads = ({
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Phone 1* :</label>
                     <input
-                      type="number"
+                      type="text"
                       name="sctPhone1"
                       value={sctPhone1}
                       className="form-control"
@@ -786,7 +799,7 @@ const AddSctLeads = ({
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Phone 2 :</label>
                     <input
-                      type="number"
+                      type="text"
                       name="sctPhone2"
                       value={sctPhone2}
                       className="form-control"
@@ -1000,7 +1013,7 @@ const AddSctLeads = ({
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Staff Phone:</label>
                     <input
-                      type="number"
+                      type="text"
                       name="staffCountryCode"
                       value={staffCountryCode}
                       className="form-control"
@@ -1014,7 +1027,7 @@ const AddSctLeads = ({
                       <br />
                     </label>
                     <input
-                      type="number"
+                      type="text"
                       name="sctStaffPhoneNumber"
                       value={sctStaffPhoneNumber}
                       className="form-control"

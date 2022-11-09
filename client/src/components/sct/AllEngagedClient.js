@@ -297,6 +297,7 @@ const AllEngagedClient = ({
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
                         <th style={{ width: "8%" }}>Call Date</th>
+                        <th style={{ width: "8%" }}>Call Time</th>
                         <th style={{ width: "7%" }}>Print</th>
                         <th style={{ width: "7%" }}>Op</th>
                         <th style={{ width: "4%" }}>Docs</th>
@@ -359,6 +360,7 @@ const AllEngagedClient = ({
                                 {sctClients.sctPhone1}
                               </td>
                               <td>{sctCallDate}</td>
+                              <td>{sctClients.sctCallTime}</td>
                               {/* <td>
                                 <Select
                                   className="dropdownofengagedclient"
