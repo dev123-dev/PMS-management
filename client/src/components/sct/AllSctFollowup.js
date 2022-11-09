@@ -261,10 +261,12 @@ const AllSctFollowup = ({
                       <tr>
                         <th style={{ width: "3%" }}>Sl.No</th>
                         <th style={{ width: "15%" }}>Company </th>
-                        <th style={{ width: "15%" }}>Website </th>
-                        <th style={{ width: "13%" }}>Email</th>
+                        <th style={{ width: "10%" }}>Website </th>
+                        <th style={{ width: "10%" }}>Email</th>
                         <th style={{ width: "8%" }}>Region</th>
-                        <th style={{ width: "13%" }}>Contact</th>
+                        <th style={{ width: "8%" }}>State</th>
+                        <th style={{ width: "8%" }}>Contact</th>
+                        <th style={{ width: "8%" }}>Call Date</th>
                         <th style={{ width: "8%" }}>Call Date</th>
                         <th style={{ width: "5%" }}>Op</th>
                       </tr>
@@ -299,6 +301,7 @@ const AllSctFollowup = ({
                               </td>
                               <td>{allSctLeads.sctEmailId}</td>
                               <td>{allSctLeads.countryName}</td>
+                              <td>{allSctLeads.stateName}</td>
                               <td>
                                 {allSctLeads.sctcountryCode
                                   ? "+" + allSctLeads.sctcountryCode
@@ -307,6 +310,7 @@ const AllSctFollowup = ({
                                 {allSctLeads.sctPhone1}
                               </td>
                               <td>{sctCallDate}</td>
+                              <td>{allSctLeads.sctCallTime}</td>
                               <td>
                                 <img
                                   className="img_icon_size log"
