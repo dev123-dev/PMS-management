@@ -40,7 +40,6 @@ const SctDailyReport = ({
       })
     );
 
-  console.log(sctCallsCount, "sdf");
   return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
@@ -53,7 +52,7 @@ const SctDailyReport = ({
           {user.empCtAccess && user.empCtAccess === "Individual" ? (
             <>
               <Fragment>
-                <div className="row col-lg-11 col-md-11 col-sm-12 col-12 py-5">
+                <div className="row col-lg-12 col-md-11 col-sm-12 col-12 py-5">
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
                     <div className="card card-content ">
                       <center>
@@ -118,7 +117,7 @@ const SctDailyReport = ({
           ) : (
             <>
               <Fragment>
-                <div className="row col-lg-11 col-md-11 col-sm-12 col-12 py-5">
+                <div className="row col-lg-12 col-md-11 col-sm-12 col-12 py-5">
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
                     <div className="card card-content ">
                       <center>
