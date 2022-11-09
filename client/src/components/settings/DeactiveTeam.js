@@ -2,30 +2,29 @@ import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { deactiveProjectStatus } from "../../actions/projects";
-import { EditFeedbackStatusData } from "../../actions/settings";
+import { deactiveTeamData } from "../../actions/settings";
 
-const ChangeFeedbackStatus = ({
+const DeactiveTeam = ({
   auth: { isAuthenticated, user, users, loading },
-  feedbackData1,
-  onStatusModalChange,
-  EditFeedbackStatusData,
+  teamdeactivedata,
+  onDeactiveModalChange,
+  deactiveTeamData,
 }) => {
+  //formData
   const [formData, setFormData] = useState({
-    projectStatusType:
-      feedbackData1 && feedbackData1.projectStatusType
-        ? feedbackData1.projectStatusType
+    teamName:
+      teamdeactivedata && teamdeactivedata.teamName
+        ? teamdeactivedata.teamName
         : "",
-    projectStatusCategory:
-      feedbackData1 && feedbackData1.projectStatusCategory
-        ? feedbackData1.projectStatusCategory
+    teamDescription:
+      teamdeactivedata && teamdeactivedata.teamDescription
+        ? teamdeactivedata.teamDescription
         : "",
-    projectStatusDeactiveReason: "",
+
     isSubmitted: false,
   });
 
-  const { projectStatusType, projectStatusCategory, feedbackStatusNotes } =
-    formData;
+  const { teamName, teamDescription, teamDeactiveReason } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,16 +32,15 @@ const ChangeFeedbackStatus = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-
     const finalData = {
-      recordId: feedbackData1.recordId,
-      feedbackStatus: feedbackData1.feedbackStatus,
-      feedbackStatusNotes: feedbackStatusNotes,
-      feedbackEditedById: user._id,
+      recordId: teamdeactivedata ? teamdeactivedata._id : "",
+      teamDeactiveReason: teamDeactiveReason?.trim(),
+      teamDeactiveById: user._id,
+      teamDeactiveByName: user.fullName,
+      teamDeactiveDateTime: new Date().toLocaleString("en-GB"),
     };
-
-    EditFeedbackStatusData(finalData);
-    onStatusModalChange(true);
+    deactiveTeamData(finalData);
+    onDeactiveModalChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -52,16 +50,25 @@ const ChangeFeedbackStatus = ({
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-            <label className="label-control">Notes* : </label>
+            <label className="label-control"> Team Name : {teamName}</label>
+          </div>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+            <label className="label-control">
+              Designation Description : {teamDescription}
+            </label>
+          </div>
+
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+            <label className="label-control">Deactive Reason* :</label>
 
             <textarea
-              name="feedbackStatusNotes"
-              id="feedbackStatusNotes"
+              name="teamDeactiveReason"
+              id="teamDeactiveReason"
               className="textarea form-control"
               rows="3"
-              placeholder="Reason"
+              placeholder="Deactive Reason"
               style={{ width: "100%" }}
-              value={feedbackStatusNotes}
+              value={teamDeactiveReason}
               onChange={(e) => onInputChange(e)}
               required
             ></textarea>
@@ -90,17 +97,13 @@ const ChangeFeedbackStatus = ({
   );
 };
 
-ChangeFeedbackStatus.propTypes = {
+DeactiveTeam.propTypes = {
   auth: PropTypes.object.isRequired,
-  deactiveProjectStatus: PropTypes.func.isRequired,
-  EditFeedbackStatusData: PropTypes.func.isRequired,
+  deactiveTeamData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {
-  deactiveProjectStatus,
-  EditFeedbackStatusData,
-})(ChangeFeedbackStatus);
+export default connect(mapStateToProps, { deactiveTeamData })(DeactiveTeam);

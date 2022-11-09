@@ -1,48 +1,39 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { AddNewTeam } from "../../actions/settings";
 import Spinner from "../layout/Spinner";
-import { deactiveProjectStatus } from "../../actions/projects";
-import { EditFeedbackStatusData } from "../../actions/settings";
 
-const ChangeFeedbackStatus = ({
+const AddTeam = ({
   auth: { isAuthenticated, user, users, loading },
-  feedbackData1,
-  onStatusModalChange,
-  EditFeedbackStatusData,
+  onAddModalChange,
+  AddNewTeam,
 }) => {
+  //formData
   const [formData, setFormData] = useState({
-    projectStatusType:
-      feedbackData1 && feedbackData1.projectStatusType
-        ? feedbackData1.projectStatusType
-        : "",
-    projectStatusCategory:
-      feedbackData1 && feedbackData1.projectStatusCategory
-        ? feedbackData1.projectStatusCategory
-        : "",
-    projectStatusDeactiveReason: "",
+    teamName: "",
+    teamDescription: "",
     isSubmitted: false,
   });
 
-  const { projectStatusType, projectStatusCategory, feedbackStatusNotes } =
-    formData;
+  const { teamName, teamDescription } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  //Required Validation ends
   const onSubmit = (e) => {
     e.preventDefault();
-
     const finalData = {
-      recordId: feedbackData1.recordId,
-      feedbackStatus: feedbackData1.feedbackStatus,
-      feedbackStatusNotes: feedbackStatusNotes,
-      feedbackEditedById: user._id,
+      teamName: teamName?.trim(),
+      teamDescription: teamDescription?.trim(),
+      teamEnteredById: user._id,
+      teamEnteredByName: user.empFullName,
+      teamEnteredDateTime: new Date().toLocaleString("en-GB"),
     };
-
-    EditFeedbackStatusData(finalData);
-    onStatusModalChange(true);
+    AddNewTeam(finalData);
+    onAddModalChange(true);
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -51,19 +42,28 @@ const ChangeFeedbackStatus = ({
     <Fragment>
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-            <label className="label-control">Notes* : </label>
-
-            <textarea
-              name="feedbackStatusNotes"
-              id="feedbackStatusNotes"
-              className="textarea form-control"
-              rows="3"
-              placeholder="Reason"
-              style={{ width: "100%" }}
-              value={feedbackStatusNotes}
+          <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+            <label className="label-control"> Team Name * :</label>
+            <input
+              type="text"
+              name="teamName"
+              value={teamName}
+              className="form-control"
               onChange={(e) => onInputChange(e)}
               required
+            />
+          </div>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+            <label className="label-control"> Description :</label>
+            <textarea
+              name="teamDescription"
+              id="teamDescription"
+              className="textarea form-control"
+              rows="3"
+              placeholder="Team Description"
+              style={{ width: "100%" }}
+              value={teamDescription}
+              onChange={(e) => onInputChange(e)}
             ></textarea>
           </div>
         </div>
@@ -90,17 +90,15 @@ const ChangeFeedbackStatus = ({
   );
 };
 
-ChangeFeedbackStatus.propTypes = {
+AddTeam.propTypes = {
   auth: PropTypes.object.isRequired,
-  deactiveProjectStatus: PropTypes.func.isRequired,
-  EditFeedbackStatusData: PropTypes.func.isRequired,
+  settings: PropTypes.object.isRequired,
+  AddNewTeam: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  settings: state.settings,
 });
 
-export default connect(mapStateToProps, {
-  deactiveProjectStatus,
-  EditFeedbackStatusData,
-})(ChangeFeedbackStatus);
+export default connect(mapStateToProps, { AddNewTeam })(AddTeam);

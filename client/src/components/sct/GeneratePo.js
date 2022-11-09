@@ -70,7 +70,36 @@ const GeneratePo = ({
     workDesc,
     isSubmitted,
   } = formData;
+  const [error1, setError1] = useState({
+    nametypeIdChecker: false,
+    nametypeIdErrorStyle: {},
+    membertypeIdChecker: false,
+    membertypeIdErrorStyle: {},
+  });
+  const {
+    nametypeIdChecker,
+    nametypeIdErrorStyle,
+    membertypeIdChecker,
+    membertypeIdErrorStyle,
+  } = error1;
+  const checkErrorscontact = () => {
+    if (!nametypeIdChecker) {
+      setError1({
+        ...error1,
+        nametypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!membertypeIdChecker) {
+      setError1({
+        ...error1,
+        membertypeIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
 
+    return true;
+  };
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -91,13 +120,13 @@ const GeneratePo = ({
   const [companyname, setcompanyname] = useState("");
 
   const onCompanyChange = (e) => {
-    // //Required Validation starts
-    // setError({
-    //   ...error,
-    //   paymentmodeIdChecker: true,
-    //   paymentmodeIdErrorStyle: { color: "#000" },
-    // });
-    // //Required Validation ends
+    //Required Validation starts
+    setError({
+      ...error,
+      FromIdChecker: true,
+      FromErrorStyle: { color: "#000" },
+    });
+    //Required Validation ends
 
     var companyid = "";
     var companyname = "";
@@ -114,31 +143,16 @@ const GeneratePo = ({
 
   //Required Validation Starts
   const [error, setError] = useState({
-    paymentmodeIdChecker: false,
-    paymentmodeIdErrorStyle: {},
-    clienttypeIdChecker: false,
-
-    clienttypeIdErrorStyle: {},
+    FromIdChecker: false,
+    FromErrorStyle: {},
   });
-  const {
-    paymentmodeIdChecker,
-    paymentmodeIdErrorStyle,
-    clienttypeIdChecker,
-    clienttypeIdErrorStyle,
-  } = error;
+  const { FromIdChecker, FromErrorStyle } = error;
 
   const checkErrors = () => {
-    if (!clienttypeIdChecker) {
+    if (!FromIdChecker) {
       setError({
         ...error,
-        clienttypeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-    if (!paymentmodeIdChecker) {
-      setError({
-        ...error,
-        paymentmodeIdErrorStyle: { color: "#F00" },
+        FromErrorStyle: { color: "#F00" },
       });
       return false;
     }
@@ -209,59 +223,60 @@ const GeneratePo = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
-    let billingStatusCategory =
-        data && data.sctdata && data.sctdata.billingStatusCategory,
-      billingStatus = data && data.sctdata && data.sctdata.billingStatus;
-    if (
-      data &&
-      data.sctdata &&
-      data.sctdata.billingStatusCategory !== "Invoice"
-    ) {
-      if (data.sctdata.POGenerated === 0) billingStatus = "GeneratePO";
-      else billingStatus = "RevisedPO";
-      billingStatusCategory = "PO";
-    }
+    if (checkErrors()) {
+      let billingStatusCategory =
+          data && data.sctdata && data.sctdata.billingStatusCategory,
+        billingStatus = data && data.sctdata && data.sctdata.billingStatus;
+      if (
+        data &&
+        data.sctdata &&
+        data.sctdata.billingStatusCategory !== "Invoice"
+      ) {
+        if (data.sctdata.POGenerated === 0) billingStatus = "GeneratePO";
+        else billingStatus = "RevisedPO";
+        billingStatusCategory = "PO";
+      }
 
-    const finalData = {
-      clientId: data && data.sctdata ? data && data.sctdata._id : "",
-      clientName: sctCompanyName,
-      PONo: PONo,
-      PODate: PODate,
-      clientFromId: sctClientAssignedToId,
-      clientFrom: sctClientAssignedToName,
-      companyId: companyid,
-      companyName: companyname,
-      companyAddress: companyaddress,
-      forName: sctCompanyName,
-      forAddress: sctClientAddress,
-      workDesc: workDesc,
-      other: other,
-      tax: tax,
-      shipping: shipping,
-      item: AddedDetails,
-      POEnteredById: user._id,
-      POEnteredByDateTime: new Date().toLocaleString("en-GB"),
-      billingStatusCategory: billingStatusCategory,
-      billingStatus: billingStatus,
-    };
-    savePurchaseOrder(finalData);
-    setFinalDataVal(finalData);
-    setFormData({
-      ...formData,
-      sctClientAssignedToName: "",
-      sctCompanyName: "",
-      sctClientAddress: "",
-      PONo: "",
-      companyName: "",
-      companyaddress: "",
-      PODate: "",
-      other: "",
-      tax: "",
-      shipping: "",
-      workDesc: "",
-      isSubmitted: true,
-    });
+      const finalData = {
+        clientId: data && data.sctdata ? data && data.sctdata._id : "",
+        clientName: sctCompanyName,
+        PONo: PONo,
+        PODate: PODate,
+        clientFromId: sctClientAssignedToId,
+        clientFrom: sctClientAssignedToName,
+        companyId: companyid,
+        companyName: companyname,
+        companyAddress: companyaddress,
+        forName: sctCompanyName,
+        forAddress: sctClientAddress,
+        workDesc: workDesc,
+        other: other,
+        tax: tax,
+        shipping: shipping,
+        item: AddedDetails,
+        POEnteredById: user._id,
+        POEnteredByDateTime: new Date().toLocaleString("en-GB"),
+        billingStatusCategory: billingStatusCategory,
+        billingStatus: billingStatus,
+      };
+      savePurchaseOrder(finalData);
+      setFinalDataVal(finalData);
+      setFormData({
+        ...formData,
+        sctClientAssignedToName: "",
+        sctCompanyName: "",
+        sctClientAddress: "",
+        PONo: "",
+        companyName: "",
+        companyaddress: "",
+        PODate: "",
+        other: "",
+        tax: "",
+        shipping: "",
+        workDesc: "",
+        isSubmitted: true,
+      });
+    }
   };
   let totSubTot = 0;
   if (!data) {
@@ -293,13 +308,14 @@ const GeneratePo = ({
           <div className="col-lg-6 col-md-12 col-sm-12 col-12">
             <div className="row card-new ">
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
-                <label className="label-control">Purchase Order No:</label>
+                <label className="label-control">Purchase Order No* :</label>
                 <input
                   type="text"
                   name="PONo"
                   value={PONo}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
+                  required
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
@@ -343,7 +359,9 @@ const GeneratePo = ({
               <br />
               <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 ">
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">From* :</label>
+                  <label className="label-control" style={FromErrorStyle}>
+                    From* :
+                  </label>
                   <Select
                     name="companyName"
                     options={allcompanydata}

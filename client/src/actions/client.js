@@ -6,6 +6,7 @@ import {
   ALL_CLIENTS,
   ACTIVE_CLIENTS,
   ACTIVE_CLIENT_FILTER,
+  ACTIVE_STAFF_FILTER,
   // ALL_DJS_CLIENTS,
   ALL_DJS_FOLDER,
   // ALL_VERF_CLIENTS,
@@ -115,6 +116,24 @@ export const getActiveClientsFilter = (clientTypeVal) => async (dispatch) => {
     localStorage.setItem("activeClientData", JSON.stringify(res.data));
     dispatch({
       type: ACTIVE_CLIENT_FILTER,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getActiveStaffFilter = (clientVal) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/client/get-active-staff-filter",
+      clientVal
+    );
+    localStorage.setItem("activeStaffData", JSON.stringify(res.data));
+    dispatch({
+      type: ACTIVE_STAFF_FILTER,
       payload: res.data,
     });
   } catch (err) {

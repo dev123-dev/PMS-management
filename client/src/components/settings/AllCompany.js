@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import AddCompany from "./AddCompany";
-import EditCompanyDetails from "./EditCompanyDetails";
 import { getALLCompanyDetails } from "../../actions/settings";
 import DeactiveCompany from "./DeactiveCompany";
 const AllCompany = ({

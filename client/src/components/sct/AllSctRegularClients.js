@@ -271,6 +271,7 @@ const AllSctRegularClients = ({
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
                         <th style={{ width: "8%" }}>Call Date</th>
+                        <th style={{ width: "8%" }}>Call Date</th>
                         <th style={{ width: "5%" }}>Op</th>
                       </tr>
                     </thead>
@@ -312,6 +313,7 @@ const AllSctRegularClients = ({
                                 {sctClients.sctPhone1}
                               </td>
                               <td>{sctCallDate}</td>
+                              <td>{sctClients.sctCallTime}</td>
 
                               <td>
                                 <img

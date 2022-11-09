@@ -5,6 +5,7 @@ import {
   SET_LOADING_TRUE,
   SET_LOADING_FALSE,
   PAYMENT_MODE,
+  TEAM_NAME,
   ALL_DEPARTMENT,
   ALL_DESIGNATION,
   ACTIVE_DESIGNATION,
@@ -14,6 +15,7 @@ import {
   ALL_FEEDBACK,
   ALL_DELETED_PROJECTS,
   ALL_COMPANY_DETAILS,
+  ALL_TEAMS_DETAILS,
 } from "./types";
 
 const config = {
@@ -513,6 +515,87 @@ export const editCompanyBank = (finalData) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: ERROR,
+    });
+  }
+};
+
+export const getALLTeamDetails = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/settings/get-all-teams-details");
+    // localStorage.setItem("allDesignationData", JSON.stringify(res.data));
+    dispatch({
+      type: ALL_TEAMS_DETAILS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const AddNewTeam = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/settings/add-team", finalData, config);
+    dispatch(getALLTeamDetails());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const editTeam = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/settings/edit-team", finalData);
+    dispatch(getALLTeamDetails());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const deactiveTeamData = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/settings/deactive-team-data", finalData, config);
+    dispatch(getALLTeamDetails());
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getALLTeams = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/settings/get-all-teams");
+    localStorage.setItem("allTeamNameData", JSON.stringify(res.data));
+    dispatch({
+      type: TEAM_NAME,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
     });
   }
 };

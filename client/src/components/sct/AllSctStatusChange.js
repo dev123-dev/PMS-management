@@ -97,9 +97,11 @@ const AllSctStatusChange = ({
     sctCallNote: "",
     toTime: "",
     fromTime: "",
+    sctCallTime: "",
     isSubmitted: false,
   });
-  const { sctCallNote, sctCallStatus, toTime, fromTime } = formData;
+  const { sctCallNote, sctCallStatus, toTime, fromTime, sctCallTime } =
+    formData;
 
   //DATE START
   var todayDateymd = new Date().toISOString().split("T")[0];
@@ -336,6 +338,7 @@ const AllSctStatusChange = ({
         sctCallStatus: sctCallStatus.value,
         // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
         sctCallDate: startStatusDate || todayDateymd,
+        sctCallTime: sctCallTime,
         sctCallNote: sctCallNote?.trim(),
         sctCallComeFrom: callComeFromVal,
         sctCallTakenDate: new Date().toISOString().split("T")[0],
@@ -407,6 +410,7 @@ const AllSctStatusChange = ({
           sctClientStatus: "Active",
           sctClientCategory: callCategoryVal,
           sctCallDate: new Date().toISOString().split("T")[0],
+          sctCallTime: sctCallTime,
           sctClientEnteredById: user._id,
           sctClientEnteredByName: user.empFullName,
           sctClientEnteredDateTime: new Date().toLocaleString("en-GB"),
@@ -415,6 +419,7 @@ const AllSctStatusChange = ({
           clientType: clientTypeVal,
           sctStaffs: leadDataVal.sctStaffs,
         };
+
         addSctClientDetails(transferData);
       }
       setFormData({
@@ -552,6 +557,20 @@ const AllSctStatusChange = ({
               </div>
             </>
           )}
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+            <label className="label-control">Call Time* :</label>
+            <br />
+            <input
+              type="time"
+              className="form-control"
+              name="sctCallTime"
+              value={sctCallTime}
+              min="00:00"
+              max="24:00"
+              onChange={(e) => onInputChange(e)}
+              // required
+            />
+          </div>
           <div className="col-lg-8 col-md-12 col-sm-12 col-12 ">
             <label className="label-control"> Notes* :</label>
             <textarea
@@ -567,7 +586,7 @@ const AllSctStatusChange = ({
             ></textarea>
           </div>
 
-          <div className="col-lg-4 col-md-12 col-sm-12 col-12 mt-5">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
             <br />
             {loading ? (
               <button
