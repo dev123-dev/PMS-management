@@ -2,6 +2,7 @@ import {
   ALL_CLIENTS,
   ACTIVE_CLIENTS,
   ACTIVE_CLIENT_FILTER,
+  ACTIVE_STAFF_FILTER,
   // ALL_DJS_CLIENTS,
   ALL_DJS_FOLDER,
   // ALL_VERF_CLIENTS,
@@ -12,6 +13,7 @@ const initialState = {
   allClient: [],
   activeClient: [],
   activeClientFilter: [],
+  activeStaffFilter: [],
   // activeDailyJobSheetClients: [],
   activeDailyJobSheetFolder: [],
   // activeVerfificationClients: [],
@@ -35,6 +37,11 @@ const client = (state = initialState, action) => {
       return {
         ...state,
         activeClientFilter: payload,
+      };
+    case ACTIVE_STAFF_FILTER:
+      return {
+        ...state,
+        activeStaffFilter: payload,
       };
     // case ALL_DJS_CLIENTS:
     //   return {

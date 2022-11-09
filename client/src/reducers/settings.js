@@ -1,5 +1,6 @@
 import {
   PAYMENT_MODE,
+  TEAM_NAME,
   ALL_DEPARTMENT,
   ALL_DESIGNATION,
   ALL_STAFF_NAMES,
@@ -7,16 +8,19 @@ import {
   ALL_FEEDBACK,
   ALL_DELETED_PROJECTS,
   ALL_COMPANY_DETAILS,
+  ALL_TEAMS_DETAILS,
 } from "../actions/types";
 
 const initialState = {
   paymentMode: [],
+  activeTeams: [],
   allDeptartment: [],
   allDesignation: [],
   activeDesignation: [],
   allFeedback: [],
   allDeletedProjects: [],
   allCompanyDetails: [],
+  allTeamDetails: [],
 };
 
 const settings = (state = initialState, action) => {
@@ -28,11 +32,18 @@ const settings = (state = initialState, action) => {
         ...state,
         paymentMode: payload,
       };
+    case TEAM_NAME:
+      return {
+        ...state,
+        activeTeams: payload,
+      };
+
     case ALL_STAFF_NAMES:
       return {
         ...state,
         allStaffName: payload,
       };
+
     case ALL_DEPARTMENT:
       return {
         ...state,
@@ -62,6 +73,11 @@ const settings = (state = initialState, action) => {
       return {
         ...state,
         allCompanyDetails: payload,
+      };
+    case ALL_TEAMS_DETAILS:
+      return {
+        ...state,
+        allTeamDetails: payload,
       };
     default:
       return state;
