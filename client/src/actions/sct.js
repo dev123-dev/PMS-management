@@ -14,6 +14,8 @@ import {
   SCTCALLHISTORY,
   ALL_SCT_PROJECT,
   ALL_DEMOS,
+  ALL_DEMOS_TAKEN,
+  ALL_DEMOS_TODAY_ADDED,
   SCT_PROJECT,
   SCHEDULED_DEMOS,
   ALL_SCT_CALLS,
@@ -29,6 +31,10 @@ import {
   GET_SCT_LEADS_LIST,
   GET_SELECTED_CLIENT,
   SELECTED_PROJECT,
+  ALL_SCT_ASSIGNED_LEAD_DETAILS,
+  SCT_CALLS_COUNT,
+  ALL_LEAD_ENTRY_TODAY,
+  SCT_CALLS_CLIENT_COUNT,
 } from "./types";
 
 const config = {
@@ -614,7 +620,7 @@ export const getALLDemos = (filterData) => async (dispatch) => {
     const res3 = await axios.post("/api/sct/get-all-demos-leads", filterData);
     dispatch({
       type: ALL_DEMOS,
-      payload: res.data,
+      payload: res.data.allDemos,
     });
     dispatch({
       type: DEMO_STATES,
@@ -623,6 +629,63 @@ export const getALLDemos = (filterData) => async (dispatch) => {
     dispatch({
       type: DEMO_LEADS,
       payload: res3.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getALLDemosReport = (filterData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/sct/get-all-demos-report", filterData);
+    dispatch({
+      type: ALL_DEMOS,
+      payload: res.data.allDemos,
+    });
+    dispatch({
+      type: ALL_DEMOS_TAKEN,
+      payload: res.data.allDemosTaken,
+    });
+    dispatch({
+      type: ALL_DEMOS_TODAY_ADDED,
+      payload: res.data.allDemosAddedToday,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllSctCallClientCount = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-all-sct-calls-client-count",
+      finalData,
+      config
+    );
+    dispatch({
+      type: SCT_CALLS_CLIENT_COUNT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllLeadToday = (filterData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-all-today-lead-entered",
+      filterData
+    );
+    dispatch({
+      type: ALL_LEAD_ENTRY_TODAY,
+      payload: res.data.allLeadEnteredToday,
     });
   } catch (err) {
     dispatch({
@@ -689,6 +752,24 @@ export const getAllSctCallEmp = (finalData) => async (dispatch) => {
     );
     dispatch({
       type: ALL_SCT_CALLS_EMP,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllSctCallCount = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-all-sct-calls-count",
+      finalData,
+      config
+    );
+    dispatch({
+      type: SCT_CALLS_COUNT,
       payload: res.data,
     });
   } catch (err) {
@@ -910,6 +991,38 @@ export const uploadAgreementTemplate = (finalData) => async (dispatch) => {
       config
     );
     dispatch(getSelectedClient(finalData));
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getSctEmpLeadAssignedDetails = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/sct/get-sct-leads-details", finalData);
+    // localStorage.setItem("allDesignationData", JSON.stringify(res.data));
+    dispatch({
+      type: ALL_SCT_ASSIGNED_LEAD_DETAILS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const SctTransferLeads = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+    await axios.post("/api/sct/sct-transfer-lead", finalData);
+
     dispatch({
       type: SET_LOADING_FALSE,
     });
