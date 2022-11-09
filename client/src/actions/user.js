@@ -14,6 +14,7 @@ import {
   GET_LEAVES_STAFF,
   LEAVE_TYPECAT_MODE,
   MARKETING_EMPLOYEE,
+  ALL_DCT_STAFF_NAMES,
 } from "./types";
 
 const config = {
@@ -132,6 +133,20 @@ export const getAllStaff = () => async (dispatch) => {
     const res = await axios.get("/api/users/get-all-staff-name");
     dispatch({
       type: ALL_STAFF_NAMES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getAllDctStaff = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/users/get-dct-staff-name");
+    dispatch({
+      type: ALL_DCT_STAFF_NAMES,
       payload: res.data,
     });
   } catch (err) {
