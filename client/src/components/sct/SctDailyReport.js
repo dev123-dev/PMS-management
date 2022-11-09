@@ -68,6 +68,7 @@ const SctDailyReport = ({
                           Calls :{" "}
                           {sctCallsCount &&
                             sctCallsCount.getAllSctCallsCount &&
+                            sctCallsCount.getAllSctCallsCount[0] &&
                             sctCallsCount.getAllSctCallsCount[0].count}
                         </h3>
                       </center>

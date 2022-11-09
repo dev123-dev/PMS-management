@@ -41,7 +41,10 @@ const DctDailyReport = ({
                           {dctCallsClientCount && dctCallsClientCount.length}
                         </h3>
                         <h3>
-                          Calls :{dctCallsCount && dctCallsCount[0].count}
+                          Calls :
+                          {dctCallsCount &&
+                            dctCallsCount[0] &&
+                            dctCallsCount[0].count}
                         </h3>
                       </center>
                     </div>
