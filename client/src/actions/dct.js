@@ -24,6 +24,10 @@ import {
   GET_SELECTED_LEADS,
   GET_STAFF_DATA,
   GET_INSTRUCTION_DATA,
+  ALL_ASSIGNED_LEAD_DETAILS,
+  DCT_CALLS_CLIENT_COUNT,
+  DCT_CALLS_COUNT,
+  ALL_DCT_LEAD_ENTRY_TODAY,
 } from "./types";
 
 const config = {
@@ -383,6 +387,37 @@ export const getDctLeadDetails = (finalData) => async (dispatch) => {
   }
 };
 
+export const getEmpLeadAssignedDetails = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/dct/get-skill-details", finalData);
+    // localStorage.setItem("allDesignationData", JSON.stringify(res.data));
+    dispatch({
+      type: ALL_ASSIGNED_LEAD_DETAILS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const TransferLeads = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+    await axios.post("/api/dct/transfer-lead", finalData);
+
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
 export const getDctLeadDetailsDD = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
@@ -661,6 +696,45 @@ export const getInstructionData = (finalData) => async (dispatch) => {
     dispatch({
       type: GET_INSTRUCTION_DATA,
       payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllDctCallCount = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/dct/get-all-dct-calls-count",
+      finalData,
+      config
+    );
+    dispatch({
+      type: DCT_CALLS_COUNT,
+      payload: res.data.getAllDctCallsCount,
+    });
+    dispatch({
+      type: DCT_CALLS_CLIENT_COUNT,
+      payload: res.data.getAllDctCallsClient,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllDctLeadToday = (filterData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/dct/get-all-today-dct-lead-entered",
+      filterData
+    );
+    dispatch({
+      type: ALL_DCT_LEAD_ENTRY_TODAY,
+      payload: res.data.allDctLeadEnteredToday,
     });
   } catch (err) {
     dispatch({
