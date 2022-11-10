@@ -162,7 +162,7 @@ const SctDailyReport = ({
                       style={{ height: "100%" }}
                     >
                       <center>
-                        <h3>Today's Lead Entry : </h3>
+                        <h3>Today's Lead Entry </h3>
                       </center>
 
                       {/*className="table-responsive fixTableHead" */}
@@ -243,8 +243,8 @@ const SctDailyReport = ({
                     >
                       <center>
                         <h3>
-                          Demos Scheduled Today :{" "}
-                          {allDemosAddedToday && allDemosAddedToday.length}
+                          Demos Scheduled Today
+                          {/* {allDemosAddedToday && allDemosAddedToday.length} */}
                         </h3>
                       </center>
                       <div style={{ padding: "0 15px 0 15px" }}>
