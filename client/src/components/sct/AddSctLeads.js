@@ -506,11 +506,9 @@ const AddSctLeads = ({
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
-        sctCompanyName:
-          sctCompanyName.charAt(0).toUpperCase() + sctCompanyName.slice(1),
+        sctCompanyName: sctCompanyName.trim(),
         sctWebsite: sctWebsite?.trim(),
-        sctClientName:
-          sctClientName.charAt(0).toUpperCase() + sctClientName.slice(1),
+        sctClientName: sctClientName.trim(),
         sctEmailId: sctEmailId?.trim(),
         sctPhone1: sctPhone1,
         sctPhone2: sctPhone2,

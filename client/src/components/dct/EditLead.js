@@ -197,9 +197,9 @@ const EditLead = ({
     // if (checkErrors()) {
     const finalData = {
       recordId: alleditLeaddata ? alleditLeaddata._id : "",
-      companyName: companyName.charAt(0).toUpperCase() + companyName.slice(1),
+      companyName: companyName.trim(),
       website: website?.trim(),
-      clientName: clientName.charAt(0).toUpperCase() + clientName.slice(1),
+      clientName: clientName.trim(),
       emailId: emailId?.trim(),
       phone1: phone1,
       phone2: phone2,

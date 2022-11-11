@@ -457,9 +457,9 @@ const AddDctClients = ({
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
-        companyName: companyName.charAt(0).toUpperCase() + companyName.slice(1),
+        companyName: companyName.trim(),
         website: website?.trim(),
-        clientName: clientName.charAt(0).toUpperCase() + clientName.slice(1),
+        clientName: clientName.trim(),
         clientCompanyFounderName: clientCompanyFounderName?.trim(),
         emailId: emailId?.trim(),
         clientEmail: clientEmail?.trim(),

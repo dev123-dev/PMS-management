@@ -114,7 +114,7 @@ const AddLead = ({
     if (staffList.length === 0) {
       if (checkErrorscontact()) {
         const addData = {
-          staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1),
+          staffName: staffName.trim(),
           staffPhoneNumber: staffPhoneNumber,
           staffEmailId: staffEmailId?.trim(),
           staffDesignation: staffDesignation?.trim(),
