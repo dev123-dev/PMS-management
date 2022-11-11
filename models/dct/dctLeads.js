@@ -16,10 +16,10 @@ const DctLeadsSchema = new mongoose.Schema({
     type: String,
   },
   phone1: {
-    type: Number,
+    type: String,
   },
   phone2: {
-    type: Number,
+    type: String,
   },
   dctLeadAddress: {
     type: String,
@@ -97,7 +97,7 @@ const DctLeadsSchema = new mongoose.Schema({
         type: String,
       },
       staffPhoneNumber: {
-        type: Number,
+        type: String,
       },
       staffEmailId: {
         type: String,
