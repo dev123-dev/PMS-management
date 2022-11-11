@@ -17,10 +17,10 @@ const SctClientsSchema = new mongoose.Schema({
     type: String,
   },
   sctPhone1: {
-    type: Number,
+    type: String,
   },
   sctPhone2: {
-    type: Number,
+    type: String,
   },
   sctBillingEmail: {
     type: String,
@@ -131,7 +131,7 @@ const SctClientsSchema = new mongoose.Schema({
         type: String,
       },
       sctStaffPhoneNumber: {
-        type: Number,
+        type: String,
       },
       sctStaffEmailId: {
         type: String,

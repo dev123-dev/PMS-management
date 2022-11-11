@@ -21,10 +21,10 @@ const DctClientsSchema = new mongoose.Schema({
     type: String,
   },
   phone1: {
-    type: Number,
+    type: String,
   },
   phone2: {
-    type: Number,
+    type: String,
   },
   website: {
     type: String,
@@ -119,7 +119,7 @@ const DctClientsSchema = new mongoose.Schema({
         type: String,
       },
       staffPhoneNumber: {
-        type: Number,
+        type: String,
       },
       staffEmailId: {
         type: String,
