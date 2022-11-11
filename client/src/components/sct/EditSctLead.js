@@ -85,7 +85,10 @@ const EditSctLead = ({
       alleditLeaddata && alleditLeaddata.sctImportantPoints
         ? alleditLeaddata.sctImportantPoints
         : "",
-
+    sctNotes:
+      alleditLeaddata && alleditLeaddata.sctNotes
+        ? alleditLeaddata.sctNotes
+        : "",
     countrycode: "",
   });
 
@@ -98,6 +101,7 @@ const EditSctLead = ({
     sctClientName,
     sctLeadAddress,
     sctImportantPoints,
+    sctNotes,
   } = formData;
 
   const allcountry = [];
@@ -374,6 +378,7 @@ const EditSctLead = ({
       stateId: stateId,
       stateName: stateName,
       //  districtId: districtId,
+      sctNotes: sctNotes,
       sctLeadAssignedToId: empId,
       sctLeadAssignedToName: empName,
       sctLeadEditedById: user._id,
@@ -679,7 +684,7 @@ const EditSctLead = ({
                     onChange={(e) => onInputChange(e)}
                   ></textarea>
                 </div>
-                <div className="col-lg-6  col-md-6 col-sm-6 col-12 ">
+                <div className="col-lg-3  col-md-6 col-sm-6 col-12 ">
                   <label className="label-control">Address :</label>
                   <textarea
                     name="sctLeadAddress"
@@ -689,6 +694,19 @@ const EditSctLead = ({
                     placeholder=" Address"
                     style={{ width: "100%" }}
                     value={sctLeadAddress}
+                    onChange={(e) => onInputChange(e)}
+                  ></textarea>
+                </div>
+                <div className="col-lg-3  col-md-6 col-sm-6 col-12 ">
+                  <label className="label-control">sctNotes :</label>
+                  <textarea
+                    name="sctNotes"
+                    id="sctNotes"
+                    className="textarea form-control"
+                    rows="3"
+                    placeholder=" Address"
+                    style={{ width: "100%" }}
+                    value={sctNotes}
                     onChange={(e) => onInputChange(e)}
                   ></textarea>
                   <br />
