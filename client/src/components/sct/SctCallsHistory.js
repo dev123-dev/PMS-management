@@ -122,6 +122,7 @@ const SctCallsHistory = ({
                       <tr>
                         <th style={{ width: "4%" }}>Sl No.</th>
                         <th style={{ width: "8%" }}>Call Taken Date</th>
+                        <th style={{ width: "8%" }}>Call Taken Time</th>
                         <th style={{ width: "15%" }}>Company Name</th>
                         <th style={{ width: "15%" }}>Call To</th>
                         <th style={{ width: "25%" }}>Notes</th>
@@ -147,6 +148,9 @@ const SctCallsHistory = ({
                             <tr key={idx}>
                               <td>{idx + 1}</td>
                               <td>{sctCallTakenDate}</td>
+                              <td>
+                                {allSctCalls.sctCallDateTime.split(" ")[1]}
+                              </td>
                               <td>{allSctCalls.sctCallToName}</td>
                               <td>{allSctCalls.sctCallToStaffName}</td>
                               <td>{allSctCalls.sctCallNote}</td>

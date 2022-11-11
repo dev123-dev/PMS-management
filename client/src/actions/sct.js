@@ -1032,3 +1032,16 @@ export const SctTransferLeads = (finalData) => async (dispatch) => {
     });
   }
 };
+
+export const addImportSctLeadData = (changeData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/add-import-sct-lead-data",
+      changeData
+    );
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
