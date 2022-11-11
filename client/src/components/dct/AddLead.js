@@ -750,41 +750,44 @@ const AddLead = ({
                 </div>
               </div>
             </div>
-
-            <div
-              className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
-              size="lg"
-            >
-              <div className="col-lg-8 col-md-6 col-sm-12 col-12">
-                <label className="label-control colorRed">
-                  * Indicates mandatory fields, Please fill mandatory fields
-                  before Submit
-                </label>
-              </div>
-              <div className="col-lg-4 col-md-6 col-sm-12 col-12">
-                {loading ? (
-                  <button
-                    className="btn sub_form btn_continue blackbrd Save float-right"
-                    disabled
+            {websiteValResult === "Exist" ? (
+              <></>
+            ) : (
+              <div
+                className="row col-lg-12 col-md-11 col-sm-12 col-12 Savebutton no_padding"
+                size="lg"
+              >
+                <div className="col-lg-8 col-md-6 col-sm-12 col-12">
+                  <label className="label-control colorRed">
+                    * Indicates mandatory fields, Please fill mandatory fields
+                    before Submit
+                  </label>
+                </div>
+                <div className="col-lg-4 col-md-6 col-sm-12 col-12">
+                  {loading ? (
+                    <button
+                      className="btn sub_form btn_continue blackbrd Save float-right"
+                      disabled
+                    >
+                      Loading...
+                    </button>
+                  ) : (
+                    <input
+                      type="submit"
+                      name="Submit"
+                      value="Submit"
+                      className="btn sub_form btn_continue blackbrd Save float-right"
+                    />
+                  )}
+                  <Link
+                    className="btn sub_form btn_continue blackbrd float-right"
+                    to="/all-leads"
                   >
-                    Loading...
-                  </button>
-                ) : (
-                  <input
-                    type="submit"
-                    name="Submit"
-                    value="Submit"
-                    className="btn sub_form btn_continue blackbrd Save float-right"
-                  />
-                )}
-                <Link
-                  className="btn sub_form btn_continue blackbrd float-right"
-                  to="/all-leads"
-                >
-                  Cancel
-                </Link>
+                    Cancel
+                  </Link>
+                </div>
               </div>
-            </div>
+            )}
           </section>
         </form>
       </div>

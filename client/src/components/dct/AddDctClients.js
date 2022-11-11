@@ -945,14 +945,18 @@ const AddDctClients = ({
                           onChange={(e) => onInputChange(e)}
                         ></textarea>
                       </div>
-                      <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                        <input
-                          type="submit"
-                          name="submit"
-                          value="Next"
-                          className="btn sub_form btn_continue Save float-right"
-                        />
-                      </div>
+                      {websiteValResult === "Exist" ? (
+                        <></>
+                      ) : (
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                          <input
+                            type="submit"
+                            name="submit"
+                            value="Next"
+                            className="btn sub_form btn_continue Save float-right"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </form>
