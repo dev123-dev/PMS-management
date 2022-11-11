@@ -15,6 +15,7 @@ const PurchaseOrder = require("../../models/sct/purchaseOrder");
 const Invoice = require("../../models/sct/invoice");
 const Agreement = require("../../models/sct/agreement");
 const multer = require("multer");
+const csvtojson = require("csvtojson");
 
 var storage = multer.diskStorage({
   destination: "./client/src/static/files",
@@ -1608,6 +1609,24 @@ router.post("/sct-transfer-lead", async (req, res) => {
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
+});
+
+router.post("/add-import-sct-lead-data", async (req, res) => {
+  let filePath = "C:/PMSExcelImport/";
+  let data = req.body;
+  let pathName = filePath + data.filePathName;
+  csvtojson()
+    .fromFile(pathName)
+    .then((csvData) => {
+      SctLeads.insertMany(csvData)
+        .then(function () {
+          console.log("Data inserted");
+          res.json({ success: "success" });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
 });
 
 router.post("/get-all-sct-calls-client-count", auth, async (req, res) => {
