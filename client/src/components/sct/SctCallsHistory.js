@@ -2,13 +2,18 @@ import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getAllSctCall, getAllSctCallEmp } from "../../actions/sct";
+import {
+  getAllSctCall,
+  getAllSctCallEmp,
+  getAllSctCallClientCount,
+} from "../../actions/sct";
 import Select from "react-select";
 const SctCallsHistory = ({
   auth: { isAuthenticated, user, users },
-  sct: { allSctCalls, allSctCallsEmp },
+  sct: { allSctCalls, allSctCallsEmp, sctCallsClientCount },
   getAllSctCall,
   getAllSctCallEmp,
+  getAllSctCallClientCount,
 }) => {
   useEffect(() => {
     getAllSctCall();
@@ -17,6 +22,10 @@ const SctCallsHistory = ({
   useEffect(() => {
     getAllSctCallEmp();
   }, [getAllSctCallEmp]);
+
+  useEffect(() => {
+    getAllSctCallClientCount();
+  }, [getAllSctCallClientCount]);
 
   var today = new Date();
   var dd = today.getDate();
@@ -44,6 +53,7 @@ const SctCallsHistory = ({
   const onempChange = (e) => {
     getempData(e);
     getAllSctCall({ selectedDate: fromdate, assignedTo: e.empId });
+    getAllSctCallClientCount({ selectedDate: fromdate, assignedTo: e.empId });
   };
 
   const [fromdate, setfromdate] = useState(todayDateymd);
@@ -51,6 +61,7 @@ const SctCallsHistory = ({
     setfromdate(e.target.value);
     getAllSctCall({ selectedDate: e.target.value });
     getAllSctCallEmp({ selectedDate: e.target.value });
+    getAllSctCallClientCount({ selectedDate: e.target.value });
     getempData("");
   };
 
@@ -59,7 +70,9 @@ const SctCallsHistory = ({
     setfromdate(todayDateymd);
     getAllSctCall();
     getAllSctCallEmp();
+    getAllSctCallClientCount();
   };
+  let callClientArr = [];
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -122,6 +135,7 @@ const SctCallsHistory = ({
                       <tr>
                         <th style={{ width: "4%" }}>Sl No.</th>
                         <th style={{ width: "8%" }}>Call Taken Date</th>
+                        <th style={{ width: "8%" }}>Call Taken Time</th>
                         <th style={{ width: "15%" }}>Company Name</th>
                         <th style={{ width: "15%" }}>Call To</th>
                         <th style={{ width: "25%" }}>Notes</th>
@@ -143,10 +157,21 @@ const SctCallsHistory = ({
                               "-"
                             );
                           }
+                          //code working
+                          // if (
+                          //   callClientArr.includes(allSctCalls.sctCallToName)
+                          // ) {
+                          //   console.log("callClientArr", callClientArr);
+                          // } else {
+                          //   callClientArr.push(allSctCalls.sctCallToName);
+                          // }
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
                               <td>{sctCallTakenDate}</td>
+                              <td>
+                                {allSctCalls.sctCallDateTime.split(" ")[1]}
+                              </td>
                               <td>{allSctCalls.sctCallToName}</td>
                               <td>{allSctCalls.sctCallToStaffName}</td>
                               <td>{allSctCalls.sctCallNote}</td>
@@ -161,6 +186,12 @@ const SctCallsHistory = ({
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
                     <label>
                       No of Calls : {allSctCalls && allSctCalls.length}
+                    </label>
+                  </div>
+                  <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
+                    <label>
+                      No of Clients :{" "}
+                      {sctCallsClientCount && sctCallsClientCount.length}
                     </label>
                   </div>
                 </div>
@@ -184,4 +215,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getAllSctCall,
   getAllSctCallEmp,
+  getAllSctCallClientCount,
 })(SctCallsHistory);
