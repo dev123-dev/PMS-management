@@ -42,7 +42,7 @@ const AllArea = ({ auth: { isAuthenticated, user, users } }) => {
                   <>
                     <Tab>Sct Country</Tab>
                     <Tab>State</Tab>
-                    <Tab>District</Tab>
+                    {/* <Tab>District</Tab> */}
                   </>
                 ) : (
                   <></>
@@ -80,11 +80,11 @@ const AllArea = ({ auth: { isAuthenticated, user, users } }) => {
                     <AllStates />
                   </div>
                 </TabPanel>
-                <TabPanel>
+                {/* <TabPanel>
                   <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
                     <AllDistricts />
                   </div>
-                </TabPanel>
+                </TabPanel> */}
               </>
             ) : (
               <></>
