@@ -9,6 +9,7 @@ import {
   getAllSctLead,
   getAllSctLeadDD,
   getSctLastmessage,
+  addImportSctLeadData,
 } from "../../actions/sct";
 import EditSctLead from "./EditSctLead";
 import DeactiveSctLead from "./DeactiveSctLead";
@@ -26,6 +27,7 @@ const AllSctLeads = ({
   getActiveState,
   getAllSctLeadDD,
   getSctLastmessage,
+  addImportSctLeadData,
 }) => {
   useEffect(() => {
     getAllSctLead();
@@ -214,6 +216,36 @@ const AllSctLeads = ({
     setcolorData("");
   };
 
+  const [showPathSettingModal, setShowPathModal] = useState(false);
+  const handleShowPathModalClose = () => setShowPathModal(false);
+  const onClickImport = () => {
+    setShowPathModal(true);
+  };
+
+  const [formData, setFormData] = useState({
+    batchCsvPath: "",
+    isSubmitted: false,
+  });
+
+  const { batchCsvPath } = formData;
+  const { showBatchSection } = showHide;
+
+  const handleImg = (e) => {
+    setFormData({
+      ...formData,
+      batchCsvPath: e.target.files[0].name,
+    });
+  };
+
+  const onFileUpload = (e) => {
+    e.preventDefault();
+    const finalData = {
+      filePathName: batchCsvPath,
+    };
+    addImportSctLeadData(finalData);
+    handleShowPathModalClose();
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -274,6 +306,12 @@ const AllSctLeads = ({
             </div>
 
             <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickImport()}
+              >
+                Import
+              </button>
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -495,6 +533,48 @@ const AllSctLeads = ({
           />
         </Modal.Body>
       </Modal>
+      <Modal
+        show={showPathSettingModal}
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Import Lead Details</h3>
+          </div>
+          <div className="col-lg-2">
+            <button onClick={handleShowPathModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <form className="row" onSubmit={(e) => onFileUpload(e)}>
+          <Modal.Body>
+            <input
+              type="file"
+              accept=".csv"
+              id="photo"
+              className="visually-hidden"
+              onChange={handleImg}
+              required
+            />
+
+            <input
+              type="submit"
+              name="Submit"
+              value="Submit"
+              className="btn sub_form btn_continue blackbrd Save float-right"
+            />
+          </Modal.Body>
+        </form>
+      </Modal>
     </Fragment>
   );
 };
@@ -517,4 +597,5 @@ export default connect(mapStateToProps, {
   getActiveCountry,
   getActiveState,
   getSctLastmessage,
+  addImportSctLeadData,
 })(AllSctLeads);

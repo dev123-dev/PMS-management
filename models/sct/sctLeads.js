@@ -4,7 +4,7 @@ ObjectId = mongoose.Schema.ObjectId;
 const SctLeadsSchema = new mongoose.Schema({
   sctCompanyName: {
     type: String,
-    required: true,
+    // required: true,
   },
   sctClientName: {
     type: String,
@@ -13,10 +13,10 @@ const SctLeadsSchema = new mongoose.Schema({
     type: String,
   },
   sctPhone1: {
-    type: Number,
+    type: String,
   },
   sctPhone2: {
-    type: Number,
+    type: String,
   },
   sctWebsite: {
     type: String,
@@ -25,6 +25,9 @@ const SctLeadsSchema = new mongoose.Schema({
     type: String,
   },
   sctImportantPoints: {
+    type: String,
+  },
+  sctNotes: {
     type: String,
   },
   projectsId: {
@@ -111,7 +114,7 @@ const SctLeadsSchema = new mongoose.Schema({
         type: String,
       },
       sctStaffPhoneNumber: {
-        type: Number,
+        type: String,
       },
       sctStaffEmailId: {
         type: String,
