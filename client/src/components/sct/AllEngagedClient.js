@@ -17,7 +17,7 @@ import {
 import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
-import { getActiveCountry } from "../../actions/regions";
+import { getActiveCountry, getActiveState } from "../../actions/regions";
 import EditSctClients from "./EditSctClients";
 import DeactiveSctClient from "./DeactiveSctClient";
 
@@ -27,9 +27,10 @@ const AllEngagedClient = ({
   auth: { isAuthenticated, user, users },
   sct: { sctClients, sctClientsDD, sctClientsEmp },
   sct: { sctStaffData },
-  regions: { activeCountry },
+  regions: { activeCountry, activeState },
   getSctClientDetails,
   getActiveCountry,
+  getActiveState,
   getSctClientDetailsDD,
   getSctLastmessage,
   // getRegenerateData,
@@ -49,6 +50,9 @@ const AllEngagedClient = ({
   }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
+  }, []);
+  useEffect(() => {
+    getActiveState({ countryBelongsTo: "SCT" });
   }, []);
 
   const [filterData, setFilterData] = useState({ sctClientCategory: "EC" });
@@ -138,6 +142,30 @@ const AllEngagedClient = ({
     setFilterData({ countryId: e.countryId, sctClientCategory: "EC" });
   };
 
+  const allstates = [];
+  activeState.map((state) =>
+    allstates.push({
+      stateId: state._id,
+      label: state.stateName,
+      value: state.stateName,
+    })
+  );
+
+  const [state, getStateData] = useState("");
+
+  const [stateId, setStateID] = useState("");
+  const [stateName, setStateName] = useState("");
+
+  const onStateChange = (e) => {
+    getStateData(e);
+    getclientsData("");
+    getempData("");
+    setStateID(e.stateId);
+    getSctClientDetails({ stateId: e.stateId, sctClientCategory: "EC" });
+    getSctClientDetailsDD({ stateId: e.stateId, sctClientCategory: "EC" });
+    setFilterData({ stateId: e.stateId, sctClientCategory: "EC" });
+  };
+
   const allclient = [];
   sctClientsDD.map((clients) =>
     allclient.push({
@@ -150,12 +178,12 @@ const AllEngagedClient = ({
   const onclientsChange = (e) => {
     getclientsData(e);
     getSctClientDetails({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: e.clientsId,
       sctClientCategory: "EC",
     });
     setFilterData({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: e.clientsId,
       sctClientCategory: "EC",
     });
@@ -176,20 +204,20 @@ const AllEngagedClient = ({
     getempData(e);
     setempID(e.empId);
     getSctClientDetails({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
       sctClientCategory: "EC",
     });
     getSctClientDetailsDD({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
       sctClientCategory: "EC",
       emp: true,
     });
     setFilterData({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
       sctClientCategory: "EC",
@@ -231,7 +259,7 @@ const AllEngagedClient = ({
             <div className=" col-lg-3 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Engaged Clients Quotation & PO</h5>
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="countryName"
                 options={allcountry}
@@ -240,8 +268,17 @@ const AllEngagedClient = ({
                 placeholder="Select Region"
                 onChange={(e) => oncountryChange(e)}
               />
+            </div> */}
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+              <Select
+                name="stateName"
+                options={allstates}
+                isSearchable={true}
+                value={state}
+                placeholder="Select State"
+                onChange={(e) => onStateChange(e)}
+              />
             </div>
-
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="companyName"
@@ -633,6 +670,7 @@ export default connect(mapStateToProps, {
   getSctClientDetails,
   getSctClientDetailsDD,
   getActiveCountry,
+  getActiveState,
   getSctLastmessage,
   // getRegenerateData,
   getPurchaseOrderPrint,

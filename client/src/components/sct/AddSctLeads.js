@@ -831,7 +831,7 @@ const AddSctLeads = ({
                       className="label-control"
                       // style={StateErrorStyle}
                     >
-                      State :
+                      State* :
                     </label>
                     <Select
                       name="stateName"
@@ -870,7 +870,7 @@ const AddSctLeads = ({
                         className="label-control"
                         style={AssignedtypeIdErrorStyle}
                       >
-                        Assigned To :
+                        Assigned To* :
                       </label>
                       <Select
                         name="empFullName"

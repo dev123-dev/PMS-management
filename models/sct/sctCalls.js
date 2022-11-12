@@ -20,6 +20,9 @@ const SctCallsSchema = new mongoose.Schema({
   sctCallFromName: {
     type: String,
   },
+  sctcallToNumber: {
+    type: String,
+  },
   sctCallCategory: {
     type: String,
   },

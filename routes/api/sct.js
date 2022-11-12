@@ -465,7 +465,7 @@ router.post("/update-sct-clients-status", async (req, res) => {
 //LEAD
 //FOLLOWUP,PROSPECTS
 router.post("/get-sct-Leads", auth, async (req, res) => {
-  let { countryId, clientsId, sctLeadCategory, assignedTo } = req.body;
+  let { stateId, countryId, clientsId, sctLeadCategory, assignedTo } = req.body;
 
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
@@ -488,11 +488,11 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
     catCondition = [{ sctLeadCategory: "F" }, { sctLeadCategory: "F" }];
   }
   let query = {};
-  if (countryId) {
+  if (stateId) {
     if (clientsId) {
       query = {
         sctLeadStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
+        stateId: mongoose.Types.ObjectId(stateId),
         _id: mongoose.Types.ObjectId(clientsId),
         $or: catCondition,
         sctCallDate: { $lte: todayDate },
@@ -501,7 +501,7 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
     } else {
       query = {
         sctLeadStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
+        stateId: mongoose.Types.ObjectId(stateId),
         $or: catCondition,
         sctCallDate: { $lte: todayDate },
         sctLeadAssignedToId,
@@ -550,7 +550,7 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
 
 //ALL LEADS
 router.post("/get-all-sct-Leads", auth, async (req, res) => {
-  let { countryId, clientsId, assignedTo } = req.body;
+  let { stateId, clientsId, assignedTo } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -566,11 +566,11 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
   }
 
   let query = {};
-  if (countryId) {
+  if (stateId) {
     if (clientsId) {
       query = {
         sctLeadStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
+        stateId: mongoose.Types.ObjectId(stateId),
         _id: mongoose.Types.ObjectId(clientsId),
         $and: [
           { sctLeadCategory: { $ne: "EC" } },
@@ -581,7 +581,7 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
     } else {
       query = {
         sctLeadStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
+        stateId: mongoose.Types.ObjectId(stateId),
         $and: [
           { sctLeadCategory: { $ne: "EC" } },
           { sctLeadCategory: { $ne: "RC" } },
@@ -636,7 +636,8 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
 //CLIENT
 //ENGAGED CLIENTS,REGULAR CLIENTS
 router.post("/get-sct-clients", auth, async (req, res) => {
-  let { countryId, clientsId, sctClientCategory, assignedTo } = req.body;
+  let { stateId, countryId, clientsId, sctClientCategory, assignedTo } =
+    req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -652,11 +653,11 @@ router.post("/get-sct-clients", auth, async (req, res) => {
   }
   var todayDate = new Date().toISOString().split("T")[0];
   let query = {};
-  if (countryId) {
+  if (stateId) {
     if (clientsId) {
       query = {
         sctClientStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
+        stateId: mongoose.Types.ObjectId(stateId),
         _id: mongoose.Types.ObjectId(clientsId),
         sctClientCategory: sctClientCategory,
         sctCallDate: { $lte: todayDate },
@@ -665,7 +666,7 @@ router.post("/get-sct-clients", auth, async (req, res) => {
     } else {
       query = {
         sctClientStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
+        stateId: mongoose.Types.ObjectId(stateId),
         sctClientCategory: sctClientCategory,
         sctCallDate: { $lte: todayDate },
         sctClientAssignedToId,

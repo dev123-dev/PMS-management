@@ -15,14 +15,15 @@ import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
 
-import { getActiveCountry } from "../../actions/regions";
+import { getActiveCountry, getActiveState } from "../../actions/regions";
 
 const AllSctFollowup = ({
   auth: { isAuthenticated, user, users },
   sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp },
-  regions: { activeCountry },
+  regions: { activeCountry, activeState },
   getSctLeadDetails,
   getActiveCountry,
+  getActiveState,
   getSctLeadDetailsDD,
   getSctLastmessage,
 }) => {
@@ -34,6 +35,9 @@ const AllSctFollowup = ({
   }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
+  }, []);
+  useEffect(() => {
+    getActiveState({ countryBelongsTo: "SCT" });
   }, []);
 
   const [filterData, setFilterData] = useState({ sctLeadCategory: "F" });
@@ -120,6 +124,30 @@ const AllSctFollowup = ({
     setFilterData({ countryId: e.countryId, sctLeadCategory: "F" });
   };
 
+  const allstates = [];
+  activeState.map((state) =>
+    allstates.push({
+      stateId: state._id,
+      label: state.stateName,
+      value: state.stateName,
+    })
+  );
+
+  const [state, getStateData] = useState("");
+
+  const [stateId, setStateID] = useState("");
+  const [stateName, setStateName] = useState("");
+
+  const onStateChange = (e) => {
+    getStateData(e);
+    getclientsData("");
+    getempData("");
+    setStateID(e.stateId);
+    getSctLeadDetails({ stateId: e.stateId, sctLeadCategory: "F" });
+    getSctLeadDetailsDD({ stateId: e.stateId, sctLeadCategory: "F" });
+    setFilterData({ stateId: e.stateId, sctLeadCategory: "F" });
+  };
+
   const allclient = [];
   allSctLeadsDD.map((clients) =>
     allclient.push({
@@ -132,12 +160,12 @@ const AllSctFollowup = ({
   const onclientsChange = (e) => {
     getclientsData(e);
     getSctLeadDetails({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: e.clientsId,
       sctLeadCategory: "F",
     });
     setFilterData({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: e.clientsId,
       sctLeadCategory: "F",
     });
@@ -158,20 +186,20 @@ const AllSctFollowup = ({
     getempData(e);
     setempID(e.empId);
     getSctLeadDetails({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
       sctLeadCategory: "F",
     });
     getSctLeadDetailsDD({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
       sctLeadCategory: "F",
       emp: true,
     });
     setFilterData({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
       sctLeadCategory: "F",
@@ -200,7 +228,7 @@ const AllSctFollowup = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Followup</h5>
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="countryName"
                 options={allcountry}
@@ -209,8 +237,17 @@ const AllSctFollowup = ({
                 placeholder="Select Region"
                 onChange={(e) => oncountryChange(e)}
               />
+            </div> */}
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+              <Select
+                name="stateName"
+                options={allstates}
+                isSearchable={true}
+                value={state}
+                placeholder="Select State"
+                onChange={(e) => onStateChange(e)}
+              />
             </div>
-
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="companyName"
@@ -474,5 +511,6 @@ export default connect(mapStateToProps, {
   getSctLeadDetails,
   getSctLeadDetailsDD,
   getActiveCountry,
+  getActiveState,
   getSctLastmessage,
 })(AllSctFollowup);

@@ -15,14 +15,15 @@ import DeactiveSctLead from "./DeactiveSctLead";
 import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
-import { getActiveCountry } from "../../actions/regions";
+import { getActiveCountry, getActiveState } from "../../actions/regions";
 
 const AllSctLeads = ({
   auth: { isAuthenticated, user, users },
   sct: { getAllSctLeads, getAllSctLeadsDD, getAllSctLeadsEmp },
-  regions: { activeCountry },
+  regions: { activeCountry, activeState },
   getAllSctLead,
   getActiveCountry,
+  getActiveState,
   getAllSctLeadDD,
   getSctLastmessage,
 }) => {
@@ -34,6 +35,9 @@ const AllSctLeads = ({
   }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
+  }, []);
+  useEffect(() => {
+    getActiveState({ countryBelongsTo: "SCT" });
   }, []);
 
   const [filterData, setFilterData] = useState();
@@ -119,6 +123,31 @@ const AllSctLeads = ({
     getAllSctLeadDD({ countryId: e.countryId });
     setFilterData({ countryId: e.countryId });
   };
+
+  const allstates = [];
+  activeState.map((state) =>
+    allstates.push({
+      stateId: state._id,
+      label: state.stateName,
+      value: state.stateName,
+    })
+  );
+
+  const [state, getStateData] = useState("");
+
+  const [stateId, setStateID] = useState("");
+  const [stateName, setStateName] = useState("");
+
+  const onStateChange = (e) => {
+    getStateData(e);
+    getclientsData("");
+    getempData("");
+    setStateID(e.stateId);
+    getAllSctLead({ stateId: e.stateId });
+    getAllSctLeadDD({ stateId: e.stateId });
+    setFilterData({ stateId: e.stateId });
+  };
+
   const allclient = [];
   getAllSctLeadsDD.map((clients) =>
     allclient.push({
@@ -130,12 +159,13 @@ const AllSctLeads = ({
   const [clients, getclientsData] = useState();
   const onclientsChange = (e) => {
     getclientsData(e);
+
     getAllSctLead({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: e.clientsId,
     });
     setFilterData({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: e.clientsId,
     });
   };
@@ -155,18 +185,18 @@ const AllSctLeads = ({
     getempData(e);
     setempID(e.empId);
     getAllSctLead({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
     });
     getAllSctLeadDD({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
       emp: true,
     });
     setFilterData({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
     });
@@ -194,7 +224,7 @@ const AllSctLeads = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Leads</h5>
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="countryName"
                 options={allcountry}
@@ -203,8 +233,17 @@ const AllSctLeads = ({
                 placeholder="Select Region"
                 onChange={(e) => oncountryChange(e)}
               />
+            </div> */}
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+              <Select
+                name="stateName"
+                options={allstates}
+                isSearchable={true}
+                value={state}
+                placeholder="Select State"
+                onChange={(e) => onStateChange(e)}
+              />
             </div>
-
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="companyName"
@@ -476,5 +515,6 @@ export default connect(mapStateToProps, {
   getAllSctLead,
   getAllSctLeadDD,
   getActiveCountry,
+  getActiveState,
   getSctLastmessage,
 })(AllSctLeads);

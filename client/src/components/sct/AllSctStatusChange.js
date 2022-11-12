@@ -98,10 +98,17 @@ const AllSctStatusChange = ({
     toTime: "",
     fromTime: "",
     sctCallTime: "",
+    sctcallToNumber: "",
     isSubmitted: false,
   });
-  const { sctCallNote, sctCallStatus, toTime, fromTime, sctCallTime } =
-    formData;
+  const {
+    sctCallNote,
+    sctCallStatus,
+    toTime,
+    fromTime,
+    sctCallTime,
+    sctcallToNumber,
+  } = formData;
 
   //DATE START
   var todayDateymd = new Date().toISOString().split("T")[0];
@@ -175,12 +182,17 @@ const AllSctStatusChange = ({
         sctStaffs.sctStaffStatus === "Active" &&
         allStaff.push({
           staffsId: sctStaffs._id,
+          phone1: sctStaffData.sctPhone1,
+          staffsNumber: sctStaffs.sctStaffPhoneNumber,
           label: sctStaffs.sctStaffName,
           value: sctStaffs.sctStaffName,
         })
     );
 
   const [sctStaffs, getstaffsData] = useState("");
+  const [phone1, getphone1Data] = useState("");
+  const [staffsNumber, getstaffsNumberData] = useState("");
+
   const onStaffChange = (e) => {
     setError({
       ...error,
@@ -188,6 +200,12 @@ const AllSctStatusChange = ({
       stafftypeIdErrorStyle: { color: "#000" },
     });
     getstaffsData(e);
+    var staffsNumber = "";
+    var phone1 = "";
+    staffsNumber = e.staffsNumber;
+    phone1 = e.phone1;
+    getphone1Data(phone1);
+    getstaffsNumberData(staffsNumber);
   };
 
   const [startStatusDate, setStatusDate] = useState("");
@@ -336,6 +354,7 @@ const AllSctStatusChange = ({
         sctCallFromName: user.userName,
         sctCallCategory: callCategoryVal,
         sctCallStatus: sctCallStatus.value,
+        sctcallToNumber: staffsNumber ? staffsNumber : phone1,
         // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
         sctCallDate: startStatusDate || demoDate || todayDateymd,
         sctCallTime: sctCallTime,
