@@ -1031,7 +1031,8 @@ router.post("/get-all-demos-report", auth, async (req, res) => {
 });
 
 router.post("/get-all-today-lead-entered", auth, async (req, res) => {
-  const { demoDate, assignedTo } = req.body;
+  const { selDate, fromdate, todate, dateType, demoDate, assignedTo } =
+    req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -1260,7 +1261,8 @@ router.post("/get-all-sct-calls-emp", auth, async (req, res) => {
 });
 
 router.post("/get-all-sct-calls-count", auth, async (req, res) => {
-  let { selectedDate, assignedTo } = req.body;
+  let { selDate, dateType, fromdate, todate, selectedDate, assignedTo } =
+    req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -1273,21 +1275,42 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
     if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
     else sctCallFromId = { $ne: null };
   }
-  if (selectedDate) {
-    dateVal = selectedDate;
+  if (selDate) {
+    dateVal = selDate;
+  }
+  if (dateType === "Multi Date") {
+    if (selDate) {
+      query = {
+        sctCallFromId,
+        sctCallTakenDate: {
+          $gte: fromdate,
+          $lte: todate,
+        },
+      };
+    } else {
+      query = {
+        sctCallFromId,
+        sctCallTakenDate: {
+          $gte: fromdate,
+          $lte: todate,
+        },
+      };
+    }
+  } else if (dateType === "Single Date") {
+    if (selDate) {
+      query = {
+        sctCallTakenDate: selDate,
+        sctCallFromId,
+      };
+    } else {
+      query = {
+        sctCallTakenDate: selDate,
+        sctCallFromId,
+      };
+    }
+  } else {
   }
 
-  if (selectedDate) {
-    query = {
-      sctCallTakenDate: dateVal,
-      sctCallFromId,
-    };
-  } else {
-    query = {
-      sctCallTakenDate: dateVal,
-      sctCallFromId,
-    };
-  }
   try {
     const getAllSctCallsCount = await SctCalls.aggregate([
       {

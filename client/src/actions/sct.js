@@ -677,11 +677,12 @@ export const getAllSctCallClientCount = (finalData) => async (dispatch) => {
   }
 };
 
-export const getAllLeadToday = (filterData) => async (dispatch) => {
+export const getAllLeadToday = (filterData, finalData) => async (dispatch) => {
   try {
     const res = await axios.post(
       "/api/sct/get-all-today-lead-entered",
-      filterData
+      filterData,
+      finalData
     );
     dispatch({
       type: ALL_LEAD_ENTRY_TODAY,
