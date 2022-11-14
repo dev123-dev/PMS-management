@@ -637,27 +637,32 @@ export const getALLDemos = (filterData) => async (dispatch) => {
   }
 };
 
-export const getALLDemosReport = (filterData) => async (dispatch) => {
-  try {
-    const res = await axios.post("/api/sct/get-all-demos-report", filterData);
-    dispatch({
-      type: ALL_DEMOS,
-      payload: res.data.allDemos,
-    });
-    dispatch({
-      type: ALL_DEMOS_TAKEN,
-      payload: res.data.allDemosTaken,
-    });
-    dispatch({
-      type: ALL_DEMOS_TODAY_ADDED,
-      payload: res.data.allDemosAddedToday,
-    });
-  } catch (err) {
-    dispatch({
-      type: ERROR,
-    });
-  }
-};
+export const getALLDemosReport =
+  (filterData, finalData) => async (dispatch) => {
+    try {
+      const res = await axios.post(
+        "/api/sct/get-all-demos-report",
+        filterData,
+        finalData
+      );
+      dispatch({
+        type: ALL_DEMOS,
+        payload: res.data.allDemos,
+      });
+      dispatch({
+        type: ALL_DEMOS_TAKEN,
+        payload: res.data.allDemosTaken,
+      });
+      dispatch({
+        type: ALL_DEMOS_TODAY_ADDED,
+        payload: res.data.allDemosAddedToday,
+      });
+    } catch (err) {
+      dispatch({
+        type: ERROR,
+      });
+    }
+  };
 
 export const getAllSctCallClientCount = (finalData) => async (dispatch) => {
   try {

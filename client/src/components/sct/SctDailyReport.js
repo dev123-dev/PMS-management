@@ -91,6 +91,7 @@ const SctDailyReport = ({
     // setSelDateDataVal(selDateData);
     getAllSctCallCount(finalData);
     getAllLeadToday(finalData);
+    getALLDemosReport(finalData);
     // getDailyjobSheetFolder(selDateData);
   };
 
@@ -112,6 +113,7 @@ const SctDailyReport = ({
     // setSelDateDataVal(selDateData);
     getAllSctCallCount(finalData);
     getAllLeadToday(finalData);
+    getALLDemosReport(finalData);
     // getDailyjobSheetFolder(selDateData);
   };
 

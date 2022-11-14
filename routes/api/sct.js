@@ -911,7 +911,7 @@ router.post("/get-all-demos", auth, async (req, res) => {
 });
 
 router.post("/get-all-demos-report", auth, async (req, res) => {
-  const { assignedTo } = req.body;
+  const { assignedTo, selDate, dateType, fromdate, todate } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -925,81 +925,190 @@ router.post("/get-all-demos-report", auth, async (req, res) => {
       demoEnteredById = { $ne: null };
     }
   }
-
+  var demoDate = new Date().toISOString().split("T")[0];
+  if (selDate) {
+    demoDate = selDate;
+  }
   let query = {
-    demoDate: new Date().toISOString().split("T")[0],
+    demoDate: selDate,
     demoEnteredById,
   };
 
   try {
-    let allDemos = (allDemosTaken = allDemosAddedToday = []);
-    if (userInfo.empCtAccess === "All") {
-      allDemos = await Demo.aggregate([
-        { $match: query },
-        {
-          $lookup: {
-            from: "empdetails",
-            localField: "demoEnteredById",
-            foreignField: "_id",
-            as: "output",
+    if (dateType === "Multi Date") {
+      let allDemos = (allDemosTaken = allDemosAddedToday = []);
+      if (userInfo.empCtAccess === "All") {
+        allDemos = await Demo.aggregate([
+          { $match: query },
+          {
+            $lookup: {
+              from: "empdetails",
+              localField: "demoEnteredById",
+              foreignField: "_id",
+              as: "output",
+            },
           },
-        },
-        { $unwind: "$output" },
-        {
-          $group: {
-            _id: "$demoEnteredById",
-            empName: { $first: "$output.userName" },
-            count: { $sum: 1 },
+          { $unwind: "$output" },
+          {
+            $group: {
+              _id: "$demoEnteredById",
+              empName: { $first: "$output.userName" },
+              count: { $sum: 1 },
+            },
           },
-        },
-        { $sort: { demoStatus: -1 } },
-      ]);
+          { $sort: { demoStatus: -1 } },
+        ]);
 
-      allDemosTaken = await Demo.aggregate([
-        { $match: query },
-        { $match: { demoStatus: "Taken", demoEnteredById } },
-        {
-          $lookup: {
-            from: "empdetails",
-            localField: "demoEnteredById",
-            foreignField: "_id",
-            as: "output",
+        allDemosTaken = await Demo.aggregate([
+          { $match: query },
+          { $match: { demoStatus: "Taken", demoEnteredById } },
+          {
+            $lookup: {
+              from: "empdetails",
+              localField: "demoEnteredById",
+              foreignField: "_id",
+              as: "output",
+            },
           },
-        },
-        { $unwind: "$output" },
-        {
-          $group: {
-            _id: "$demoEnteredById",
-            empName: { $first: "$output.userName" },
-            count: { $sum: 1 },
+          { $unwind: "$output" },
+          {
+            $group: {
+              _id: "$demoEnteredById",
+              empName: { $first: "$output.userName" },
+              count: { $sum: 1 },
+            },
           },
-        },
-      ]);
-      allDemosAddedToday = await Demo.aggregate([
-        {
-          $match: {
-            callDate: new Date().toISOString().split("T")[0],
-            demoEnteredById,
+        ]);
+        allDemosAddedToday = await Demo.aggregate([
+          {
+            $match: {
+              callDate: new Date().toISOString().split("T")[0],
+              demoEnteredById,
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "empdetails",
-            localField: "demoEnteredById",
-            foreignField: "_id",
-            as: "output",
+          {
+            $lookup: {
+              from: "empdetails",
+              localField: "demoEnteredById",
+              foreignField: "_id",
+              as: "output",
+            },
           },
-        },
 
-        { $unwind: "$output" },
-        {
-          $group: {
-            _id: "$demoEnteredById",
-            empName: { $first: "$output.userName" },
-            count: { $sum: 1 },
+          { $unwind: "$output" },
+          {
+            $group: {
+              _id: "$demoEnteredById",
+              empName: { $first: "$output.userName" },
+              count: { $sum: 1 },
+            },
           },
-        },
-      ]);
+        ]);
+      } else {
+        allDemos = await Demo.aggregate([
+          { $match: query },
+          { $sort: { demoStatus: -1 } },
+        ]);
+        allDemosTaken = await Demo.aggregate([
+          { $match: query },
+          { $match: { demoStatus: "Taken", demoEnteredById } },
+        ]);
+        allDemosAddedToday = await Demo.aggregate([
+          {
+            $match: {
+              callDate: selDate,
+              demoEnteredById,
+            },
+          },
+        ]);
+      }
+    } else if (dateType === "Single Date") {
+      let allDemos = (allDemosTaken = allDemosAddedToday = []);
+      if (userInfo.empCtAccess === "All") {
+        allDemos = await Demo.aggregate([
+          { $match: query },
+          {
+            $lookup: {
+              from: "empdetails",
+              localField: "demoEnteredById",
+              foreignField: "_id",
+              as: "output",
+            },
+          },
+          { $unwind: "$output" },
+          {
+            $group: {
+              _id: "$demoEnteredById",
+              empName: { $first: "$output.userName" },
+              count: { $sum: 1 },
+            },
+          },
+          { $sort: { demoStatus: -1 } },
+        ]);
+
+        allDemosTaken = await Demo.aggregate([
+          { $match: query },
+          { $match: { demoStatus: "Taken", demoEnteredById } },
+          {
+            $lookup: {
+              from: "empdetails",
+              localField: "demoEnteredById",
+              foreignField: "_id",
+              as: "output",
+            },
+          },
+          { $unwind: "$output" },
+          {
+            $group: {
+              _id: "$demoEnteredById",
+              empName: { $first: "$output.userName" },
+              count: { $sum: 1 },
+            },
+          },
+        ]);
+        allDemosAddedToday = await Demo.aggregate([
+          {
+            $match: {
+              callDate: selDate,
+              demoEnteredById,
+            },
+          },
+          {
+            $lookup: {
+              from: "empdetails",
+              localField: "demoEnteredById",
+              foreignField: "_id",
+              as: "output",
+            },
+          },
+
+          { $unwind: "$output" },
+          {
+            $group: {
+              _id: "$demoEnteredById",
+              empName: { $first: "$output.userName" },
+              count: { $sum: 1 },
+            },
+          },
+        ]);
+      } else {
+        allDemos = await Demo.aggregate([
+          { $match: query },
+          { $sort: { demoStatus: -1 } },
+        ]);
+        allDemosTaken = await Demo.aggregate([
+          { $match: query },
+          { $match: { demoStatus: "Taken", demoEnteredById } },
+        ]);
+        allDemosAddedToday = await Demo.aggregate([
+          {
+            $match: {
+              callDate: selDate,
+              demoEnteredById,
+            },
+          },
+        ]);
+      }
     } else {
       allDemos = await Demo.aggregate([
         { $match: query },
@@ -1048,31 +1157,67 @@ router.post("/get-all-today-lead-entered", auth, async (req, res) => {
   }
   try {
     let allLeadEnteredToday = [];
-    if (userInfo.empCtAccess === "All") {
-      allLeadEnteredToday = await SctLeads.aggregate([
-        {
-          $match: {
-            sctLeadEnteredDate: new Date().toISOString().split("T")[0],
-            sctLeadAssignedToId,
+    if (dateType === "Multi Date") {
+      if (userInfo.empCtAccess === "All") {
+        allLeadEnteredToday = await SctLeads.aggregate([
+          {
+            $match: {
+              sctLeadEnteredDate: {
+                $gte: fromdate,
+                $lte: todate,
+              },
+              sctLeadAssignedToId,
+            },
           },
-        },
-        {
-          $group: {
-            _id: "$sctLeadAssignedToId",
-            sctLeadAssignedToName: { $first: "$sctLeadAssignedToName" },
-            count: { $sum: 1 },
+          {
+            $group: {
+              _id: "$sctLeadAssignedToId",
+              sctLeadAssignedToName: { $first: "$sctLeadAssignedToName" },
+              count: { $sum: 1 },
+            },
           },
-        },
-      ]);
-    } else {
-      allLeadEnteredToday = await SctLeads.aggregate([
-        {
-          $match: {
-            sctLeadEnteredDate: new Date().toISOString().split("T")[0],
-            sctLeadAssignedToId,
+        ]);
+      } else {
+        allLeadEnteredToday = await SctLeads.aggregate([
+          {
+            $match: {
+              sctLeadEnteredDate: {
+                $gte: fromdate,
+                $lte: todate,
+              },
+              // sctLeadEnteredDate: new Date().toISOString().split("T")[0],
+              sctLeadAssignedToId,
+            },
           },
-        },
-      ]);
+        ]);
+      }
+    } else if (dateType === "Single Date") {
+      if (userInfo.empCtAccess === "All") {
+        allLeadEnteredToday = await SctLeads.aggregate([
+          {
+            $match: {
+              sctLeadEnteredDate: selDate,
+              sctLeadAssignedToId,
+            },
+          },
+          {
+            $group: {
+              _id: "$sctLeadAssignedToId",
+              sctLeadAssignedToName: { $first: "$sctLeadAssignedToName" },
+              count: { $sum: 1 },
+            },
+          },
+        ]);
+      } else {
+        allLeadEnteredToday = await SctLeads.aggregate([
+          {
+            $match: {
+              sctLeadEnteredDate: new Date().toISOString().split("T")[0],
+              sctLeadAssignedToId,
+            },
+          },
+        ]);
+      }
     }
 
     res.json({
