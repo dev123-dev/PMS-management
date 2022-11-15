@@ -859,7 +859,15 @@ router.post("/add-demo", async (req, res) => {
 });
 
 router.post("/get-all-demos", auth, async (req, res) => {
-  const { stateId, clientId, demoDate, assignedTo } = req.body;
+  const {
+    stateId,
+    clientId,
+    demoDateVal,
+    fromdate,
+    todate,
+    dateType,
+    assignedTo,
+  } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -873,8 +881,17 @@ router.post("/get-all-demos", auth, async (req, res) => {
       demoEnteredById = { $ne: null };
     }
   }
+  let demoDate = new Date().toISOString().split("T")[0];
+  if (dateType === "Multi Date") {
+    demoDate = {
+      $gte: fromdate,
+      $lte: todate,
+    };
+  } else if (demoDateVal) {
+    demoDate = demoDateVal;
+  }
 
-  let query = { demoDate: new Date().toISOString().split("T")[0] };
+  let query = { demoDate: demoDate };
   if (stateId) {
     if (clientId)
       query = {
@@ -1228,11 +1245,18 @@ router.post("/get-all-today-lead-entered", auth, async (req, res) => {
 });
 
 router.post("/get-all-demos-state", async (req, res) => {
-  const { demoDate } = req.body;
-  let query = { demoDate: new Date().toISOString().split("T")[0] };
-  if (demoDate) {
-    query = { demoDate: demoDate };
+  const { demoDateVal, fromdate, todate, dateType } = req.body;
+  let demoDate = new Date().toISOString().split("T")[0];
+  if (dateType === "Multi Date") {
+    demoDate = {
+      $gte: fromdate,
+      $lte: todate,
+    };
+  } else if (demoDateVal) {
+    demoDate = demoDateVal;
   }
+
+  let query = { demoDate: demoDate };
   try {
     const allDemoStates = await Demo.aggregate([
       { $match: query },
@@ -1252,9 +1276,17 @@ router.post("/get-all-demos-state", async (req, res) => {
 });
 
 router.post("/get-all-demos-leads", async (req, res) => {
-  const { stateId, demoDate } = req.body;
-
-  let query = { demoDate: new Date().toISOString().split("T")[0] };
+  const { stateId, demoDateVal, fromdate, todate, dateType } = req.body;
+  let demoDate = new Date().toISOString().split("T")[0];
+  if (dateType === "Multi Date") {
+    demoDate = {
+      $gte: fromdate,
+      $lte: todate,
+    };
+  } else if (demoDateVal) {
+    demoDate = demoDateVal;
+  }
+  let query = { demoDate: demoDate };
 
   if (stateId) {
     query = {
