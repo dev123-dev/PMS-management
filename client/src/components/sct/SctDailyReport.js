@@ -345,7 +345,7 @@ const SctDailyReport = ({
                                 return (
                                   <tr key={idx}>
                                     <td>{idx + 1}</td>
-                                    <td>{today.sctLeadAssignedToName}</td>
+                                    <td>{today.sctLeadEnteredByName}</td>
                                     <td>{today.count}</td>
                                   </tr>
                                 );
