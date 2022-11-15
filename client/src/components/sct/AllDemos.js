@@ -179,6 +179,13 @@ const AllDemos = ({
     setClientData("");
     getALLDemos("");
     setSelectedDate(new Date().toISOString().split("T")[0]);
+
+    setSelectedDate(new Date().toISOString().split("T")[0]);
+    setShowHide({
+      ...showHide,
+      showdateSection: false,
+      showdateSection1: true,
+    });
   };
 
   return !isAuthenticated || !user || !users ? (
