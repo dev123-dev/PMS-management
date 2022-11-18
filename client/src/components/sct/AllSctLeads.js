@@ -31,12 +31,12 @@ const AllSctLeads = ({
   getProjectList,
   addImportSctLeadData,
 }) => {
-  useEffect(() => {
-    getAllSctLead();
-  }, []);
-  useEffect(() => {
-    getAllSctLeadDD();
-  }, []);
+  // useEffect(() => {
+  //   getAllSctLead();
+  // }, []);
+  // useEffect(() => {
+  //   getAllSctLeadDD();
+  // }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);
@@ -44,7 +44,7 @@ const AllSctLeads = ({
     getActiveState({ countryBelongsTo: "SCT" });
   }, []);
   useEffect(() => {
-    getProjectList({ countryBelongsTo: "SCT" });
+    getProjectList({});
   }, []);
 
   const [filterData, setFilterData] = useState();
