@@ -100,7 +100,7 @@ const SctCallsHistory = ({
                 <></>
               )}
             </div>
-            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
