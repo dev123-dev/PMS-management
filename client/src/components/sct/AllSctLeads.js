@@ -443,7 +443,9 @@ const AllSctLeads = ({
                                 {sctCallDate}&nbsp;{getAllSctLeads.sctCallTime}
                               </td>
                               {/* <td>{getAllSctLeads.sctCallTime}</td> */}
-                              <td>{getAllSctLeads.sctNotes}</td>
+                              <td className="secondlinebreak">
+                                {getAllSctLeads.sctNotes}
+                              </td>
                               <td>{getAllSctLeads.sctLeadEnteredByName}</td>
 
                               <td>
