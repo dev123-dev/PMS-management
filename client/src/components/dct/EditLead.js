@@ -273,6 +273,8 @@ const EditLead = ({
                       name="phone1"
                       value={phone1}
                       className="form-control"
+                      maxLength="12"
+                      minLength={10}
                       onChange={(e) => onInputChange(e)}
                       required
                     />
@@ -283,6 +285,8 @@ const EditLead = ({
                       type="text"
                       name="phone2"
                       value={phone2}
+                      maxLength="12"
+                      minLength={10}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />

@@ -787,6 +787,8 @@ const AddSctLeads = ({
                       value={sctPhone1}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      maxLength="12"
+                      minLength={10}
                       onKeyDown={(e) =>
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
@@ -802,10 +804,8 @@ const AddSctLeads = ({
                       value={sctPhone2}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
+                      maxLength="12"
+                      minLength={10}
                     />
                   </div>
 
@@ -1015,6 +1015,8 @@ const AddSctLeads = ({
                       name="staffCountryCode"
                       value={staffCountryCode}
                       className="form-control"
+                      maxLength="12"
+                      minLength={10}
                       style={{ width: "50px" }}
                       disabled
                     />

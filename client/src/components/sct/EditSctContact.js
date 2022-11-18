@@ -294,6 +294,8 @@ const EditSctContact = ({
                 name="staffCountryCode"
                 value={staffCountryCode}
                 className="form-control"
+                maxLength="12"
+                minLength={10}
                 style={{ width: "50px" }}
                 disabled
               />

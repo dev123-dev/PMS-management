@@ -563,6 +563,8 @@ const EditSctLead = ({
                     value={sctPhone1}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
+                    maxLength="12"
+                    minLength={10}
                     onKeyDown={(e) =>
                       (e.keyCode === 69 || e.keyCode === 190) &&
                       e.preventDefault()
@@ -578,6 +580,8 @@ const EditSctLead = ({
                     value={sctPhone2}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
+                    maxLength="12"
+                    minLength={10}
                     onKeyDown={(e) =>
                       (e.keyCode === 69 || e.keyCode === 190) &&
                       e.preventDefault()

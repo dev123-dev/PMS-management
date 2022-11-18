@@ -481,6 +481,8 @@ const AddLead = ({
                       value={phone1}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      maxLength="12"
+                      minLength={10}
                       onKeyDown={(e) =>
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
@@ -496,6 +498,8 @@ const AddLead = ({
                       value={phone2}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      maxLength="12"
+                      minLength={10}
                       onKeyDown={(e) =>
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
