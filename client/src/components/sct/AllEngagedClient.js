@@ -13,6 +13,7 @@ import {
   getPurchaseOrderPrint,
   getInvoicePrint,
   getSctStaffsData,
+  getProjectList,
 } from "../../actions/sct";
 import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
@@ -25,8 +26,7 @@ const AllEngagedClient = ({
   leadDataVal,
   from,
   auth: { isAuthenticated, user, users },
-  sct: { sctClients, sctClientsDD, sctClientsEmp },
-  sct: { sctStaffData },
+  sct: { sctClients, sctClientsDD, sctClientsEmp, projectList, sctStaffData },
   regions: { activeCountry, activeState },
   getSctClientDetails,
   getActiveCountry,
@@ -37,6 +37,7 @@ const AllEngagedClient = ({
   getPurchaseOrderPrint,
   getSctStaffsData,
   getInvoicePrint,
+  getProjectList,
 }) => {
   let staffFilter = { staffFrom: from, leadDataVal: leadDataVal };
   useEffect(() => {
@@ -53,6 +54,9 @@ const AllEngagedClient = ({
   }, []);
   useEffect(() => {
     getActiveState({ countryBelongsTo: "SCT" });
+  }, []);
+  useEffect(() => {
+    getProjectList({});
   }, []);
 
   const [filterData, setFilterData] = useState({ sctClientCategory: "EC" });
@@ -140,6 +144,31 @@ const AllEngagedClient = ({
     getSctClientDetails({ countryId: e.countryId, sctClientCategory: "EC" });
     getSctClientDetailsDD({ countryId: e.countryId, sctClientCategory: "EC" });
     setFilterData({ countryId: e.countryId, sctClientCategory: "EC" });
+  };
+
+  const allprojects = [];
+  projectList &&
+    projectList.map((projects) =>
+      allprojects.push({
+        projectsId: projects._id,
+
+        label: projects.sctProjectName,
+        value: projects.sctProjectName,
+      })
+    );
+
+  const [projects, getprojectsData] = useState();
+
+  const [projectsId, setprojectsID] = useState();
+  const [projectsName, setprojectsName] = useState();
+  const onprojectsChange = (e) => {
+    getprojectsData(e);
+    getclientsData("");
+    getempData("");
+    setprojectsID(e.projectsId);
+    getSctClientDetails({ projectsId: e.projectsId });
+    getSctClientDetailsDD({ projectsId: e.projectsId });
+    setFilterData({ projectsId: e.projectsId });
   };
 
   const allstates = [];
@@ -271,6 +300,26 @@ const AllEngagedClient = ({
             </div> */}
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
+                name="sctProjectName"
+                options={allprojects}
+                isSearchable={true}
+                value={projects}
+                placeholder="Select Projects"
+                onChange={(e) => onprojectsChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+              <Select
                 name="stateName"
                 options={allstates}
                 isSearchable={true}
@@ -308,7 +357,7 @@ const AllEngagedClient = ({
               )}
             </div>
 
-            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-1 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -676,4 +725,5 @@ export default connect(mapStateToProps, {
   getPurchaseOrderPrint,
   getInvoicePrint,
   getSctStaffsData,
+  getProjectList,
 })(AllEngagedClient);
