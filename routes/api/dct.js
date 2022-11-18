@@ -1056,14 +1056,14 @@ router.post("/get-all-today-dct-lead-entered", auth, async (req, res) => {
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
-  let dctLeadAssignedToId = "";
+  let dctLeadEnteredById = "";
   if (userInfo.empCtAccess !== "All")
-    dctLeadAssignedToId = mongoose.Types.ObjectId(userInfo._id);
+    dctLeadEnteredById = mongoose.Types.ObjectId(userInfo._id);
   else {
     if (assignedTo) {
-      dctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
+      dctLeadEnteredById = mongoose.Types.ObjectId(assignedTo);
     } else {
-      dctLeadAssignedToId = { $ne: null };
+      dctLeadEnteredById = { $ne: null };
     }
   }
   try {
@@ -1073,13 +1073,13 @@ router.post("/get-all-today-dct-lead-entered", auth, async (req, res) => {
         {
           $match: {
             dctLeadEnteredDate: new Date().toISOString().split("T")[0],
-            dctLeadAssignedToId,
+            dctLeadEnteredById,
           },
         },
         {
           $group: {
-            _id: "$dctLeadAssignedToId",
-            dctLeadAssignedToName: { $first: "$dctLeadAssignedToName" },
+            _id: "$dctLeadEnteredById",
+            dctLeadEnteredByName: { $first: "$dctLeadEnteredByName" },
             count: { $sum: 1 },
           },
         },
@@ -1089,7 +1089,7 @@ router.post("/get-all-today-dct-lead-entered", auth, async (req, res) => {
         {
           $match: {
             dctLeadEnteredDate: new Date().toISOString().split("T")[0],
-            dctLeadAssignedToId,
+            dctLeadEnteredById,
           },
         },
       ]);

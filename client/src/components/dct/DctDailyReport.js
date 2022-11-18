@@ -142,7 +142,7 @@ const DctDailyReport = ({
                                 return (
                                   <tr key={idx}>
                                     <td>{idx + 1}</td>
-                                    <td>{lead.dctLeadAssignedToName}</td>
+                                    <td>{lead.dctLeadEnteredByName}</td>
                                     <td>{lead.count}</td>
                                   </tr>
                                 );
