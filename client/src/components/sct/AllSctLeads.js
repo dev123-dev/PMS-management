@@ -10,6 +10,7 @@ import {
   getAllSctLeadDD,
   getSctLastmessage,
   addImportSctLeadData,
+  getProjectList,
 } from "../../actions/sct";
 import EditSctLead from "./EditSctLead";
 import DeactiveSctLead from "./DeactiveSctLead";
@@ -20,13 +21,14 @@ import { getActiveCountry, getActiveState } from "../../actions/regions";
 
 const AllSctLeads = ({
   auth: { isAuthenticated, user, users },
-  sct: { getAllSctLeads, getAllSctLeadsDD, getAllSctLeadsEmp },
+  sct: { getAllSctLeads, getAllSctLeadsDD, getAllSctLeadsEmp, projectList },
   regions: { activeCountry, activeState },
   getAllSctLead,
   getActiveCountry,
   getActiveState,
   getAllSctLeadDD,
   getSctLastmessage,
+  getProjectList,
   addImportSctLeadData,
 }) => {
   useEffect(() => {
@@ -40,6 +42,9 @@ const AllSctLeads = ({
   }, []);
   useEffect(() => {
     getActiveState({ countryBelongsTo: "SCT" });
+  }, []);
+  useEffect(() => {
+    getProjectList({ countryBelongsTo: "SCT" });
   }, []);
 
   const [filterData, setFilterData] = useState();
@@ -124,6 +129,31 @@ const AllSctLeads = ({
     getAllSctLead({ countryId: e.countryId });
     getAllSctLeadDD({ countryId: e.countryId });
     setFilterData({ countryId: e.countryId });
+  };
+
+  const allprojects = [];
+  projectList &&
+    projectList.map((projects) =>
+      allprojects.push({
+        projectsId: projects._id,
+
+        label: projects.sctProjectName,
+        value: projects.sctProjectName,
+      })
+    );
+
+  const [projects, getprojectsData] = useState();
+
+  const [projectsId, setprojectsID] = useState();
+  const [projectsName, setprojectsName] = useState();
+  const onprojectsChange = (e) => {
+    getprojectsData(e);
+    getclientsData("");
+    getempData("");
+    setprojectsID(e.projectsId);
+    getAllSctLead({ projectsId: e.projectsId });
+    getAllSctLeadDD({ projectsId: e.projectsId });
+    setFilterData({ projectsId: e.projectsId });
   };
 
   const allstates = [];
@@ -253,7 +283,7 @@ const AllSctLeads = ({
       <div className="container container_align">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Leads</h5>
             </div>
             {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -266,6 +296,27 @@ const AllSctLeads = ({
                 onChange={(e) => oncountryChange(e)}
               />
             </div> */}
+
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+              <Select
+                name="sctProjectName"
+                options={allprojects}
+                isSearchable={true}
+                value={projects}
+                placeholder="Select Projects"
+                onChange={(e) => onprojectsChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="stateName"
@@ -305,7 +356,7 @@ const AllSctLeads = ({
               )}
             </div>
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-3">
               {user.userGroupName && user.userGroupName === "Super Admin" && (
                 <button
                   className="btn btn_green_bg float-right"
@@ -606,4 +657,5 @@ export default connect(mapStateToProps, {
   getActiveState,
   getSctLastmessage,
   addImportSctLeadData,
+  getProjectList,
 })(AllSctLeads);
