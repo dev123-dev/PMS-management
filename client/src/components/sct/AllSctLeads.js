@@ -335,16 +335,17 @@ const AllSctLeads = ({
                   >
                     <thead>
                       <tr>
-                        <th style={{ width: "3%" }}>Sl.No</th>
-                        <th style={{ width: "15%" }}>Company </th>
-                        <th style={{ width: "15%" }}>Website </th>
+                        {/* <th style={{ width: "3%" }}>Sl.No</th> */}
+                        <th style={{ width: "10%" }}>Company </th>
+                        <th style={{ width: "10%" }}>Website </th>
                         <th style={{ width: "10%" }}>Email</th>
-                        <th style={{ width: "8%" }}>Region</th>
+                        {/* <th style={{ width: "8%" }}>Region</th> */}
                         <th style={{ width: "8%" }}>State</th>
                         <th style={{ width: "8%" }}>Contact</th>
-                        <th style={{ width: "8%" }}>Call Date</th>
-                        <th style={{ width: "8%" }}>Call Time</th>
+                        <th style={{ width: "15%" }}>Call Date & Time</th>
+                        {/* <th style={{ width: "8%" }}>Call Time</th> */}
                         <th style={{ width: "2%" }}>Notes</th>
+                        <th>Entered By</th>
                         <th style={{ width: "5%" }}>Op</th>
                       </tr>
                     </thead>
@@ -366,7 +367,7 @@ const AllSctLeads = ({
                                 onClickHandler(getAllSctLeads, idx)
                               }
                             >
-                              <td>{idx + 1}</td>
+                              {/* <td>{idx + 1}</td> */}
                               <td>{getAllSctLeads.sctCompanyName}</td>
                               <td>
                                 <a
@@ -378,7 +379,7 @@ const AllSctLeads = ({
                                 </a>
                               </td>
                               <td>{getAllSctLeads.sctEmailId}</td>
-                              <td>{getAllSctLeads.countryName}</td>
+                              {/* <td>{getAllSctLeads.countryName}</td> */}
                               <td>{getAllSctLeads.stateName}</td>
                               <td>
                                 {getAllSctLeads.sctcountryCode
@@ -387,9 +388,13 @@ const AllSctLeads = ({
                                 &nbsp;
                                 {getAllSctLeads.sctPhone1}
                               </td>
-                              <td>{sctCallDate}</td>
-                              <td>{getAllSctLeads.sctCallTime}</td>
+                              <td>
+                                {sctCallDate}&nbsp;{getAllSctLeads.sctCallTime}
+                              </td>
+                              {/* <td>{getAllSctLeads.sctCallTime}</td> */}
                               <td>{getAllSctLeads.sctNotes}</td>
+                              <td>{getAllSctLeads.sctLeadEnteredByName}</td>
+
                               <td>
                                 <img
                                   className="img_icon_size log"
