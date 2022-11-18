@@ -8,6 +8,7 @@ import {
   getSctLeadDetails,
   getSctLeadDetailsDD,
   getSctLastmessage,
+  getProjectList,
 } from "../../actions/sct";
 import EditSctLead from "./EditSctLead";
 import DeactiveSctLead from "./DeactiveSctLead";
@@ -19,13 +20,14 @@ import { getActiveCountry, getActiveState } from "../../actions/regions";
 
 const AllSctFollowup = ({
   auth: { isAuthenticated, user, users },
-  sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp },
+  sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp, projectList },
   regions: { activeCountry, activeState },
   getSctLeadDetails,
   getActiveCountry,
   getActiveState,
   getSctLeadDetailsDD,
   getSctLastmessage,
+  getProjectList,
 }) => {
   useEffect(() => {
     getSctLeadDetails({ sctLeadCategory: "F" });
@@ -39,7 +41,9 @@ const AllSctFollowup = ({
   useEffect(() => {
     getActiveState({ countryBelongsTo: "SCT" });
   }, []);
-
+  useEffect(() => {
+    getProjectList({});
+  }, []);
   const [filterData, setFilterData] = useState({ sctLeadCategory: "F" });
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -122,6 +126,31 @@ const AllSctFollowup = ({
     getSctLeadDetails({ countryId: e.countryId, sctLeadCategory: "F" });
     getSctLeadDetailsDD({ countryId: e.countryId, sctLeadCategory: "F" });
     setFilterData({ countryId: e.countryId, sctLeadCategory: "F" });
+  };
+
+  const allprojects = [];
+  projectList &&
+    projectList.map((projects) =>
+      allprojects.push({
+        projectsId: projects._id,
+
+        label: projects.sctProjectName,
+        value: projects.sctProjectName,
+      })
+    );
+
+  const [projects, getprojectsData] = useState();
+
+  const [projectsId, setprojectsID] = useState();
+  const [projectsName, setprojectsName] = useState();
+  const onprojectsChange = (e) => {
+    getprojectsData(e);
+    getclientsData("");
+    getempData("");
+    setprojectsID(e.projectsId);
+    getSctLeadDetails({ projectsId: e.projectsId });
+    getSctLeadDetailsDD({ projectsId: e.projectsId });
+    setFilterData({ projectsId: e.projectsId });
   };
 
   const allstates = [];
@@ -240,6 +269,26 @@ const AllSctFollowup = ({
             </div> */}
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
+                name="sctProjectName"
+                options={allprojects}
+                isSearchable={true}
+                value={projects}
+                placeholder="Select Projects"
+                onChange={(e) => onprojectsChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+              <Select
                 name="stateName"
                 options={allstates}
                 isSearchable={true}
@@ -277,7 +326,7 @@ const AllSctFollowup = ({
               )}
             </div>
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -513,4 +562,5 @@ export default connect(mapStateToProps, {
   getActiveCountry,
   getActiveState,
   getSctLastmessage,
+  getProjectList,
 })(AllSctFollowup);
