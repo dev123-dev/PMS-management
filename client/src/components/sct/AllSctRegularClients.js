@@ -8,6 +8,7 @@ import {
   getSctClientDetails,
   getSctClientDetailsDD,
   getSctLastmessage,
+  getProjectList,
 } from "../../actions/sct";
 import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
@@ -18,13 +19,14 @@ import EditSctClients from "./EditSctClients";
 import DeactiveSctClient from "./DeactiveSctClient";
 const AllSctRegularClients = ({
   auth: { isAuthenticated, user, users },
-  sct: { sctClients, sctClientsDD, sctClientsEmp },
+  sct: { sctClients, sctClientsDD, sctClientsEmp, projectList },
   regions: { activeCountry, activeState },
   getSctClientDetails,
   getActiveCountry,
   getActiveState,
   getSctClientDetailsDD,
   getSctLastmessage,
+  getProjectList,
 }) => {
   useEffect(() => {
     getSctClientDetails({ sctClientCategory: "RC" });
@@ -37,6 +39,9 @@ const AllSctRegularClients = ({
   }, []);
   useEffect(() => {
     getActiveState({ countryBelongsTo: "SCT" });
+  }, []);
+  useEffect(() => {
+    getProjectList({});
   }, []);
 
   const [formData, setFormData] = useState({
@@ -128,6 +133,31 @@ const AllSctRegularClients = ({
     getSctClientDetails({ countryId: e.countryId, sctClientCategory: "RC" });
     getSctClientDetailsDD({ countryId: e.countryId, sctClientCategory: "RC" });
     setFilterData({ countryId: e.countryId, sctClientCategory: "RC" });
+  };
+
+  const allprojects = [];
+  projectList &&
+    projectList.map((projects) =>
+      allprojects.push({
+        projectsId: projects._id,
+
+        label: projects.sctProjectName,
+        value: projects.sctProjectName,
+      })
+    );
+
+  const [projects, getprojectsData] = useState();
+
+  const [projectsId, setprojectsID] = useState();
+  const [projectsName, setprojectsName] = useState();
+  const onprojectsChange = (e) => {
+    getprojectsData(e);
+    getclientsData("");
+    getempData("");
+    setprojectsID(e.projectsId);
+    getSctClientDetails({ projectsId: e.projectsId });
+    getSctClientDetailsDD({ projectsId: e.projectsId });
+    setFilterData({ projectsId: e.projectsId });
   };
 
   const allstates = [];
@@ -231,7 +261,7 @@ const AllSctRegularClients = ({
       <div className="container container_align">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className=" col-lg-3 col-md-11 col-sm-10 col-10">
+            <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Regular Clients </h5>
             </div>
             {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -244,6 +274,27 @@ const AllSctRegularClients = ({
                 onChange={(e) => oncountryChange(e)}
               />
             </div> */}
+
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+              <Select
+                name="sctProjectName"
+                options={allprojects}
+                isSearchable={true}
+                value={projects}
+                placeholder="Select Projects"
+                onChange={(e) => onprojectsChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="stateName"
@@ -283,7 +334,7 @@ const AllSctRegularClients = ({
               )}
             </div>
 
-            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -518,4 +569,5 @@ export default connect(mapStateToProps, {
   getActiveCountry,
   getActiveState,
   getSctLastmessage,
+  getProjectList,
 })(AllSctRegularClients);
