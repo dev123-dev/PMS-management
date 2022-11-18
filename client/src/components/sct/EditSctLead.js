@@ -511,7 +511,7 @@ const EditSctLead = ({
                     Email Id* :
                   </label>
                   <input
-                    type="text"
+                    type="email"
                     name="sctEmailId"
                     value={sctEmailId}
                     className="form-control"

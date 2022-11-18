@@ -497,7 +497,7 @@ const EditSctClients = ({
                     Email Id* :
                   </label>
                   <input
-                    type="text"
+                    type="email"
                     name="sctEmailId"
                     value={sctEmailId}
                     className="form-control"
@@ -535,7 +535,7 @@ const EditSctClients = ({
                 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Billing Email Id :</label>
                   <input
-                    type="text"
+                    type="email"
                     name="sctBillingEmail"
                     value={sctBillingEmail}
                     className="form-control"

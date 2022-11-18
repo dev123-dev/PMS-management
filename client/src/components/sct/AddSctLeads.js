@@ -943,7 +943,7 @@ const AddSctLeads = ({
                       Email Id :
                     </label>
                     <input
-                      type="text"
+                      type="email"
                       name="sctStaffEmailId"
                       value={sctStaffEmailId}
                       className="form-control"
