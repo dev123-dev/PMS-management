@@ -881,6 +881,7 @@ router.post("/get-all-demos", auth, async (req, res) => {
       demoEnteredById = { $ne: null };
     }
   }
+
   let demoDate = new Date().toISOString().split("T")[0];
   if (dateType === "Multi Date") {
     demoDate = {
@@ -914,6 +915,7 @@ router.post("/get-all-demos", auth, async (req, res) => {
       demoDate: demoDate,
     };
   }
+
   try {
     const allDemos = await Demo.aggregate([
       { $match: query },

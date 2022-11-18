@@ -306,12 +306,14 @@ const AllSctLeads = ({
             </div>
 
             <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
-              <button
-                className="btn btn_green_bg float-right"
-                onClick={() => onClickImport()}
-              >
-                Import
-              </button>
+              {user.userGroupName && user.userGroupName === "Super Admin" && (
+                <button
+                  className="btn btn_green_bg float-right"
+                  onClick={() => onClickImport()}
+                >
+                  Import
+                </button>
+              )}
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -342,6 +344,7 @@ const AllSctLeads = ({
                         <th style={{ width: "8%" }}>Contact</th>
                         <th style={{ width: "8%" }}>Call Date</th>
                         <th style={{ width: "8%" }}>Call Time</th>
+                        <th style={{ width: "2%" }}>Notes</th>
                         <th style={{ width: "5%" }}>Op</th>
                       </tr>
                     </thead>
@@ -386,7 +389,7 @@ const AllSctLeads = ({
                               </td>
                               <td>{sctCallDate}</td>
                               <td>{getAllSctLeads.sctCallTime}</td>
-
+                              <td>{getAllSctLeads.sctNotes}</td>
                               <td>
                                 <img
                                   className="img_icon_size log"

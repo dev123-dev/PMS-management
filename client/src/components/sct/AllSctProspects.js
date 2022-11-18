@@ -304,6 +304,7 @@ const AllSctProspects = ({
                         <th style={{ width: "8%" }}>Contact</th>
                         <th style={{ width: "8%" }}>Call Date</th>
                         <th style={{ width: "8%" }}>Call Time</th>
+                        <th style={{ width: "2%" }}>Notes</th>
                         <th style={{ width: "5%" }}>Op</th>
                       </tr>
                     </thead>
@@ -347,6 +348,7 @@ const AllSctProspects = ({
                               </td>
                               <td>{sctCallDate}</td>
                               <td>{allSctLeads.sctCallTime}</td>
+                              <td>{allSctLeads.sctNotes}</td>
                               <td>
                                 <img
                                   className="img_icon_size log"
