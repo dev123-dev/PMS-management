@@ -817,6 +817,9 @@ label {
   overflow-y: auto;
   height:74.5vh;
 }
+.secondlinebreak{
+  white-space: unset !important;
+}
 .fixTableHeadcontact{
   overflow-y: auto;
   height:20vh;
