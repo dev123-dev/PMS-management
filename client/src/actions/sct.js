@@ -366,6 +366,9 @@ export const getSctLeadDetailsDD = (finalData) => async (dispatch) => {
 //ALL LEADS
 export const getAllSctLead = (finalData) => async (dispatch) => {
   try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
     const res = await axios.post(
       "/api/sct/get-all-sct-Leads",
       finalData,
@@ -374,6 +377,9 @@ export const getAllSctLead = (finalData) => async (dispatch) => {
     dispatch({
       type: GET_ALL_SCT_LEADS,
       payload: res.data.result1,
+    });
+    dispatch({
+      type: SET_LOADING_FALSE,
     });
   } catch (err) {
     dispatch({
@@ -386,7 +392,10 @@ export const getAllSctLeadDD = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post(
       "/api/sct/get-all-sct-Leads",
-      finalData,
+      {
+        ...finalData,
+        DD: true,
+      },
       config
     );
     dispatch({

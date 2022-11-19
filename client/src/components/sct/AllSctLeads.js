@@ -20,7 +20,7 @@ import AllSctStatusChange from "./AllSctStatusChange";
 import { getActiveCountry, getActiveState } from "../../actions/regions";
 
 const AllSctLeads = ({
-  auth: { isAuthenticated, user, users },
+  auth: { isAuthenticated, user, users, loading },
   sct: { getAllSctLeads, getAllSctLeadsDD, getAllSctLeadsEmp, projectList },
   regions: { activeCountry, activeState },
   getAllSctLead,
@@ -126,9 +126,16 @@ const AllSctLeads = ({
     getclientsData("");
     getempData("");
     getcountryIdData(e.countryId);
-    getAllSctLead({ countryId: e.countryId });
-    getAllSctLeadDD({ countryId: e.countryId });
-    setFilterData({ countryId: e.countryId });
+    let searchData = {
+      projectsId: projectsId,
+      countryId: e.countryId,
+      stateId: stateId,
+      clientsId: clientsId,
+      assignedTo: empId,
+    };
+    getAllSctLead(searchData);
+    getAllSctLeadDD(searchData);
+    setFilterData(searchData);
   };
 
   const allprojects = [];
@@ -151,9 +158,16 @@ const AllSctLeads = ({
     getclientsData("");
     getempData("");
     setprojectsID(e.projectsId);
-    getAllSctLead({ projectsId: e.projectsId });
-    getAllSctLeadDD({ projectsId: e.projectsId });
-    setFilterData({ projectsId: e.projectsId });
+    let searchData = {
+      projectsId: e.projectsId,
+      countryId: countryId,
+      stateId: stateId,
+      clientsId: clientsId,
+      assignedTo: empId,
+    };
+    getAllSctLead(searchData);
+    getAllSctLeadDD(searchData);
+    setFilterData(searchData);
   };
 
   const allstates = [];
@@ -175,11 +189,17 @@ const AllSctLeads = ({
     getclientsData("");
     getempData("");
     setStateID(e.stateId);
-    getAllSctLead({ stateId: e.stateId });
-    getAllSctLeadDD({ stateId: e.stateId });
-    setFilterData({ stateId: e.stateId });
+    let searchData = {
+      projectsId: projectsId,
+      countryId: countryId,
+      stateId: e.stateId,
+      clientsId: clientsId,
+      assignedTo: empId,
+    };
+    getAllSctLead(searchData);
+    getAllSctLeadDD(searchData);
+    setFilterData(searchData);
   };
-
   const allclient = [];
   getAllSctLeadsDD.map((clients) =>
     allclient.push({
@@ -189,17 +209,19 @@ const AllSctLeads = ({
     })
   );
   const [clients, getclientsData] = useState();
+  const [clientsId, getclientsIdData] = useState();
   const onclientsChange = (e) => {
     getclientsData(e);
-
-    getAllSctLead({
+    getclientsIdData(e.clientsId);
+    let searchData = {
+      projectsId: projectsId,
+      countryId: countryId,
       stateId: stateId,
       clientsId: e.clientsId,
-    });
-    setFilterData({
-      stateId: stateId,
-      clientsId: e.clientsId,
-    });
+      assignedTo: empId,
+    };
+    getAllSctLead(searchData);
+    setFilterData(searchData);
   };
 
   const allemp = [{ empId: null, label: "All", value: null }];
@@ -216,22 +238,16 @@ const AllSctLeads = ({
   const onempChange = (e) => {
     getempData(e);
     setempID(e.empId);
-    getAllSctLead({
+    let searchData = {
+      projectsId: projectsId,
+      countryId: countryId,
       stateId: stateId,
-      clientsId: clients ? clients.clientsId : null,
+      clientsId: clientsId,
       assignedTo: e.empId,
-    });
-    getAllSctLeadDD({
-      stateId: stateId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      emp: true,
-    });
-    setFilterData({
-      stateId: stateId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-    });
+    };
+    getAllSctLead(searchData);
+    getAllSctLeadDD(searchData);
+    setFilterData(searchData);
   };
 
   const onClickReset = () => {
@@ -296,7 +312,6 @@ const AllSctLeads = ({
                 onChange={(e) => oncountryChange(e)}
               />
             </div> */}
-
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="sctProjectName"
@@ -355,7 +370,6 @@ const AllSctLeads = ({
                 <></>
               )}
             </div>
-
             <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2">
               {user.userGroupName && user.userGroupName === "Super Admin" && (
                 <button
@@ -443,9 +457,7 @@ const AllSctLeads = ({
                                 {sctCallDate}&nbsp;{getAllSctLeads.sctCallTime}
                               </td>
                               {/* <td>{getAllSctLeads.sctCallTime}</td> */}
-                              <td className="secondlinebreak">
-                                {getAllSctLeads.sctNotes}
-                              </td>
+                              <td>{getAllSctLeads.sctNotes}</td>
                               <td>{getAllSctLeads.sctLeadEnteredByName}</td>
 
                               <td>
@@ -532,6 +544,7 @@ const AllSctLeads = ({
           </div>
         </section>
       </div>
+
       <Modal
         show={showEditModal}
         backdrop="static"
@@ -636,6 +649,7 @@ const AllSctLeads = ({
           </Modal.Body>
         </form>
       </Modal>
+      {loading && <Spinner />}
     </Fragment>
   );
 };

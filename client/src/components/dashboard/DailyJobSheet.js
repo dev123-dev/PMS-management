@@ -204,7 +204,7 @@ const DailyJobSheet = ({
       dailyJobsheetData.projectDate,
       dailyJobsheetData.projectQuantity,
       "",
-      dailyJobsheetData.projectNotes,
+      dailyJobsheetData.projectNotes.replaceAll("\n", " "),
       // dailyJobsheetData.clientFolderName,
       // dailyJobsheetData.projectDeadline,
       // dailyJobsheetData.projectEnteredByName,
