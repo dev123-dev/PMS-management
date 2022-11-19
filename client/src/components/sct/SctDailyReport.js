@@ -7,6 +7,7 @@ import {
   getALLDemosReport,
   getAllLeadToday,
 } from "../../actions/sct";
+import Select from "react-select";
 const SctDailyReport = ({
   auth: { isAuthenticated, user },
   sct: {
@@ -30,6 +31,92 @@ const SctDailyReport = ({
     getALLDemosReport();
   }, [getALLDemosReport]);
 
+  const DateMethods = [
+    { value: "Single Date", label: "Single Date" },
+    { value: "Multi Date", label: "Multi Date" },
+  ];
+
+  const [showHide, setShowHide] = useState({
+    showdateSection: false,
+    showdateSection1: true,
+  });
+  const { showdateSection, showdateSection1 } = showHide;
+
+  const [formData, setFormData] = useState({
+    Dateselectmode: DateMethods[0],
+
+    isSubmitted: false,
+  });
+  const { Dateselectmode } = formData;
+  const onDateModeChange = (e) => {
+    // setprojectData("");
+    if (e) {
+      setFormData({
+        ...formData,
+        Dateselectmode: e,
+      });
+    }
+    if (e.value === "Multi Date") {
+      setShowHide({
+        ...showHide,
+        showdateSection: true,
+        showdateSection1: false,
+      });
+    } else {
+      setShowHide({
+        ...showHide,
+        showdateSection: false,
+        showdateSection1: true,
+      });
+    }
+  };
+
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+
+  const [singledate, setsingledate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  //
+  const onDateChange2 = (e) => {
+    // setprojectData("");
+    setsingledate(e.target.value);
+    let finalData = {
+      selDate: e.target.value,
+      dateType: "Single Date",
+      // folderId: projectData.folderId,
+    };
+
+    // setSelDateDataVal(selDateData);
+    getAllSctCallCount(finalData);
+    getAllLeadToday(finalData);
+    getALLDemosReport(finalData);
+    // getDailyjobSheetFolder(selDateData);
+  };
+
+  const [fromdate, setfromdate] = useState("");
+  const onDateChange = (e) => {
+    setfromdate(e.target.value);
+  };
+
+  const [todate, settodate] = useState("");
+  const onDateChange1 = (e) => {
+    settodate(e.target.value);
+
+    let finalData = {
+      fromdate: fromdate,
+      todate: e.target.value,
+      dateType: "Multi Date",
+      // folderId: projectData.folderId,
+    };
+    // setSelDateDataVal(selDateData);
+    getAllSctCallCount(finalData);
+    getAllLeadToday(finalData);
+    getALLDemosReport(finalData);
+    // getDailyjobSheetFolder(selDateData);
+  };
+
   const alldemosentered = [];
   allLeadEnteredToday &&
     allLeadEnteredToday.map((demos) =>
@@ -45,8 +132,82 @@ const SctDailyReport = ({
   ) : (
     <Fragment>
       <div className="container container_align">
-        <div className="col-lg-11 col-md-11 col-sm-12 col-12">
-          <h2 className="heading_color">Sct Daily Report </h2>
+        <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
+          <div className="col-lg-11 col-md-11 col-sm-12 col-12">
+            <h2 className="heading_color">Sct Daily Report </h2>
+          </div>
+          <div className="row col-lg-12 col-md-6 col-sm-12 col-12 no_padding">
+            <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-2">
+              <Select
+                name="Dateselectmode"
+                options={DateMethods}
+                isSearchable={true}
+                // defaultValue={DateMethods[0]}
+                value={Dateselectmode}
+                placeholder="Select"
+                onChange={(e) => onDateModeChange(e)}
+              />
+            </div>
+            {showdateSection && (
+              <>
+                <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                  <input
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
+                    name="fromdate"
+                    value={fromdate}
+                    onChange={(e) => onDateChange(e)}
+                    style={{
+                      width: "110%",
+                    }}
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
+                    required
+                  />
+                </div>
+                <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                  <input
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
+                    name="todate"
+                    value={todate}
+                    onChange={(e) => onDateChange1(e)}
+                    style={{
+                      width: "110%",
+                    }}
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
+                    required
+                  />
+                </div>
+              </>
+            )}
+            {showdateSection1 && (
+              <>
+                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                  <input
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
+                    name="singledate"
+                    value={singledate}
+                    onChange={(e) => onDateChange2(e)}
+                    style={{
+                      width: "100%",
+                    }}
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
+                    required
+                  />
+                </div>
+              </>
+            )}
+          </div>
         </div>
         <section className="sub_reg">
           {user.empCtAccess && user.empCtAccess === "Individual" ? (
@@ -184,7 +345,7 @@ const SctDailyReport = ({
                                 return (
                                   <tr key={idx}>
                                     <td>{idx + 1}</td>
-                                    <td>{today.sctLeadAssignedToName}</td>
+                                    <td>{today.sctLeadEnteredByName}</td>
                                     <td>{today.count}</td>
                                   </tr>
                                 );

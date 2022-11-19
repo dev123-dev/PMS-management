@@ -283,7 +283,7 @@ const TransferDctLeads = ({
               <h5 className="heading_color">Transfer Dct Leads</h5>
             </div>
 
-            <div className="col-lg-10 col-md-11 col-sm-12 col-11 py-3 ">
+            <div className="col-lg-10 col-md-11 col-sm-12 col-11 py-2 ">
               <Link className="btn btn_green_bg float-right" to="/all-leads">
                 Back
               </Link>

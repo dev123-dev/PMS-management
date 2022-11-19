@@ -12,7 +12,7 @@ const Spinner = () => {
           <div className="page-loader-inner">
             <div className="loader-logo-name">
               <img
-                src={require("../../static/images/pmLogo.jpg")}
+                src={require("../../static/images/Loader_New.gif")}
                 alt="Loading..."
               />
             </div>

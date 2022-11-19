@@ -181,6 +181,19 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     >
                       <Dropdown.Item>Dct Calls History</Dropdown.Item>
                     </NavLink>
+
+                    <NavLink
+                      to="/transfer-dct-leads"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>Transfer Dct Leads</Dropdown.Item>
+                    </NavLink>
+                    <NavLink
+                      to="/dct-daily-report"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item> Dct Daily Report</Dropdown.Item>
+                    </NavLink>
                   </Dropdown>
                 ) : (
                   <></>
@@ -235,6 +248,19 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       <Dropdown.Item>Sct Calls History</Dropdown.Item>
+                    </NavLink>
+
+                    <NavLink
+                      to="/transfer-sct-leads"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>Transfer Sct Leads</Dropdown.Item>
+                    </NavLink>
+                    <NavLink
+                      to="/sct-daily-report"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item> Sct Daily Report</Dropdown.Item>
                     </NavLink>
                   </Dropdown>
                 ) : (

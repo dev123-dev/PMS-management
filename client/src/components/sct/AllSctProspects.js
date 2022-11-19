@@ -8,6 +8,7 @@ import {
   getSctLeadDetails,
   getSctLeadDetailsDD,
   getSctLastmessage,
+  getProjectList,
 } from "../../actions/sct";
 import EditSctLead from "./EditSctLead";
 import DeactiveSctLead from "./DeactiveSctLead";
@@ -15,16 +16,18 @@ import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
 
-import { getActiveCountry } from "../../actions/regions";
+import { getActiveCountry, getActiveState } from "../../actions/regions";
 
 const AllSctProspects = ({
   auth: { isAuthenticated, user, users },
-  sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp },
-  regions: { activeCountry },
+  sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp, projectList },
+  regions: { activeCountry, activeState },
   getSctLeadDetails,
   getActiveCountry,
+  getActiveState,
   getSctLeadDetailsDD,
   getSctLastmessage,
+  getProjectList,
 }) => {
   useEffect(() => {
     getSctLeadDetails({ sctLeadCategory: "P" });
@@ -35,7 +38,13 @@ const AllSctProspects = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);
+  useEffect(() => {
+    getActiveState({ countryBelongsTo: "SCT" });
+  }, []);
 
+  useEffect(() => {
+    getProjectList({ countryBelongsTo: "SCT" });
+  }, []);
   const [filterData, setFilterData] = useState({ sctLeadCategory: "P" });
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -120,6 +129,54 @@ const AllSctProspects = ({
     setFilterData({ countryId: e.countryId, sctLeadCategory: "P" });
   };
 
+  const allprojects = [];
+  projectList &&
+    projectList.map((projects) =>
+      allprojects.push({
+        projectsId: projects._id,
+
+        label: projects.sctProjectName,
+        value: projects.sctProjectName,
+      })
+    );
+
+  const [projects, getprojectsData] = useState();
+
+  const [projectsId, setprojectsID] = useState();
+  const [projectsName, setprojectsName] = useState();
+  const onprojectsChange = (e) => {
+    getprojectsData(e);
+    getclientsData("");
+    getempData("");
+    setprojectsID(e.projectsId);
+    getSctLeadDetails({ projectsId: e.projectsId });
+    getSctLeadDetailsDD({ projectsId: e.projectsId });
+    setFilterData({ projectsId: e.projectsId });
+  };
+
+  const allstates = [];
+  activeState.map((state) =>
+    allstates.push({
+      stateId: state._id,
+      label: state.stateName,
+      value: state.stateName,
+    })
+  );
+
+  const [state, getStateData] = useState("");
+
+  const [stateId, setStateID] = useState("");
+  const [stateName, setStateName] = useState("");
+
+  const onStateChange = (e) => {
+    getStateData(e);
+    getclientsData("");
+    getempData("");
+    setStateID(e.stateId);
+    getSctLeadDetails({ stateId: e.stateId, sctLeadCategory: "P" });
+    getSctLeadDetailsDD({ stateId: e.stateId, sctLeadCategory: "P" });
+    setFilterData({ stateId: e.stateId, sctLeadCategory: "P" });
+  };
   const allclient = [];
   allSctLeadsDD.map((clients) =>
     allclient.push({
@@ -132,12 +189,12 @@ const AllSctProspects = ({
   const onclientsChange = (e) => {
     getclientsData(e);
     getSctLeadDetails({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: e.clientsId,
       sctLeadCategory: "P",
     });
     setFilterData({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: e.clientsId,
       sctLeadCategory: "P",
     });
@@ -158,20 +215,20 @@ const AllSctProspects = ({
     getempData(e);
     setempID(e.empId);
     getSctLeadDetails({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
       sctLeadCategory: "P",
     });
     getSctLeadDetailsDD({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
       sctLeadCategory: "P",
       emp: true,
     });
     setFilterData({
-      countryId: countryId,
+      stateId: stateId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
       sctLeadCategory: "P",
@@ -200,7 +257,7 @@ const AllSctProspects = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Sct Prospects</h5>
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="countryName"
                 options={allcountry}
@@ -209,8 +266,37 @@ const AllSctProspects = ({
                 placeholder="Select Region"
                 onChange={(e) => oncountryChange(e)}
               />
+            </div> */}
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+              <Select
+                name="sctProjectName"
+                options={allprojects}
+                isSearchable={true}
+                value={projects}
+                placeholder="Select Projects"
+                onChange={(e) => onprojectsChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
             </div>
-
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+              <Select
+                name="stateName"
+                options={allstates}
+                isSearchable={true}
+                value={state}
+                placeholder="Select State"
+                onChange={(e) => onStateChange(e)}
+              />
+            </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="companyName"
@@ -240,7 +326,7 @@ const AllSctProspects = ({
               )}
             </div>
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -259,15 +345,17 @@ const AllSctProspects = ({
                   >
                     <thead>
                       <tr>
-                        <th style={{ width: "3%" }}>Sl.No</th>
+                        {/* <th style={{ width: "3%" }}>Sl.No</th> */}
                         <th style={{ width: "15%" }}>Company </th>
-                        <th style={{ width: "15%" }}>Website </th>
-                        <th style={{ width: "10%" }}>Email</th>
-                        <th style={{ width: "8%" }}>Region</th>
+                        <th style={{ width: "8%" }}>Website </th>
+                        <th style={{ width: "8%" }}>Email</th>
+                        {/* <th style={{ width: "8%" }}>Region</th> */}
                         <th style={{ width: "8%" }}>State</th>
                         <th style={{ width: "8%" }}>Contact</th>
-                        <th style={{ width: "8%" }}>Call Date</th>
-                        <th style={{ width: "8%" }}>Call Time</th>
+                        <th style={{ width: "15%" }}>Call Date & Time</th>
+                        {/* <th style={{ width: "8%" }}>Call Time</th> */}
+                        <th style={{ width: "2%" }}>Notes</th>
+                        <th>Entered By</th>
                         <th style={{ width: "5%" }}>Op</th>
                       </tr>
                     </thead>
@@ -287,7 +375,7 @@ const AllSctProspects = ({
                               }
                               onClick={() => onClickHandler(allSctLeads, idx)}
                             >
-                              <td>{idx + 1}</td>
+                              {/* <td>{idx + 1}</td> */}
                               <td>{allSctLeads.sctCompanyName}</td>
                               <td>
                                 {" "}
@@ -300,7 +388,7 @@ const AllSctProspects = ({
                                 </a>
                               </td>
                               <td>{allSctLeads.sctEmailId}</td>
-                              <td>{allSctLeads.countryName}</td>
+                              {/* <td>{allSctLeads.countryName}</td> */}
                               <td>{allSctLeads.stateName}</td>
                               <td>
                                 {allSctLeads.sctcountryCode
@@ -309,8 +397,14 @@ const AllSctProspects = ({
                                 &nbsp;
                                 {allSctLeads.sctPhone1}
                               </td>
-                              <td>{sctCallDate}</td>
-                              <td>{allSctLeads.sctCallTime}</td>
+                              <td>
+                                {" "}
+                                {sctCallDate}&nbsp;{allSctLeads.sctCallTime}
+                              </td>
+
+                              {/* <td>{allSctLeads.sctCallTime}</td> */}
+                              <td>{allSctLeads.sctNotes}</td>
+                              <td>{allSctLeads.sctLeadEnteredByName}</td>
                               <td>
                                 <img
                                   className="img_icon_size log"
@@ -475,4 +569,6 @@ export default connect(mapStateToProps, {
   getSctLeadDetailsDD,
   getActiveCountry,
   getSctLastmessage,
+  getActiveState,
+  getProjectList,
 })(AllSctProspects);

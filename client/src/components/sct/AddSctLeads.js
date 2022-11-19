@@ -738,7 +738,7 @@ const AddSctLeads = ({
                       Email Id* :
                     </label>
                     <input
-                      type="text"
+                      type="email"
                       name="sctEmailId"
                       value={sctEmailId}
                       className="form-control"
@@ -787,6 +787,8 @@ const AddSctLeads = ({
                       value={sctPhone1}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      maxLength="12"
+                      minLength={10}
                       onKeyDown={(e) =>
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
@@ -802,10 +804,8 @@ const AddSctLeads = ({
                       value={sctPhone2}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
+                      maxLength="12"
+                      minLength={10}
                     />
                   </div>
 
@@ -831,7 +831,7 @@ const AddSctLeads = ({
                       className="label-control"
                       // style={StateErrorStyle}
                     >
-                      State :
+                      State* :
                     </label>
                     <Select
                       name="stateName"
@@ -870,7 +870,7 @@ const AddSctLeads = ({
                         className="label-control"
                         style={AssignedtypeIdErrorStyle}
                       >
-                        Assigned To :
+                        Assigned To* :
                       </label>
                       <Select
                         name="empFullName"
@@ -943,7 +943,7 @@ const AddSctLeads = ({
                       Email Id :
                     </label>
                     <input
-                      type="text"
+                      type="email"
                       name="sctStaffEmailId"
                       value={sctStaffEmailId}
                       className="form-control"
@@ -1015,6 +1015,8 @@ const AddSctLeads = ({
                       name="staffCountryCode"
                       value={staffCountryCode}
                       className="form-control"
+                      maxLength="12"
+                      minLength={10}
                       style={{ width: "50px" }}
                       disabled
                     />

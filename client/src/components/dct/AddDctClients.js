@@ -729,7 +729,7 @@ const AddDctClients = ({
                       <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                         <label>Email Id* :</label>
                         <input
-                          type="text"
+                          type="email"
                           name="emailId"
                           value={emailId}
                           className="form-control"
@@ -740,7 +740,7 @@ const AddDctClients = ({
                       <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                         <label>Production Email :</label>
                         <input
-                          type="text"
+                          type="email"
                           name="clientEmail"
                           value={clientEmail}
                           className="form-control"
@@ -750,7 +750,7 @@ const AddDctClients = ({
                       <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                         <label>Billing Email :</label>
                         <input
-                          type="text"
+                          type="email"
                           name="billingEmail"
                           value={billingEmail}
                           className="form-control"
@@ -765,6 +765,8 @@ const AddDctClients = ({
                           value={phone1}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
+                          maxLength="12"
+                          minLength={10}
                           onKeyDown={(e) =>
                             (e.keyCode === 69 || e.keyCode === 190) &&
                             e.preventDefault()
@@ -780,6 +782,8 @@ const AddDctClients = ({
                           value={phone2}
                           className="form-control"
                           onChange={(e) => onInputChange(e)}
+                          maxLength="12"
+                          minLength={10}
                           onKeyDown={(e) =>
                             (e.keyCode === 69 || e.keyCode === 190) &&
                             e.preventDefault()
@@ -990,7 +994,7 @@ const AddDctClients = ({
                       <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                         <label className="label-control">Email Id :</label>
                         <input
-                          type="text"
+                          type="email"
                           name="staffEmailId"
                           value={staffEmailId}
                           className="form-control"
@@ -1017,6 +1021,8 @@ const AddDctClients = ({
                           value={staffCountryCode}
                           className="form-control"
                           style={{ width: "50px" }}
+                          maxLength="12"
+                          minLength={10}
                           disabled
                         />
                       </div>

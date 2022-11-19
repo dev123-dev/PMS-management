@@ -465,7 +465,7 @@ const AddLead = ({
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Email Id* :</label>
                     <input
-                      type="text"
+                      type="email"
                       name="emailId"
                       value={emailId}
                       className="form-control"
@@ -481,6 +481,8 @@ const AddLead = ({
                       value={phone1}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      maxLength="12"
+                      minLength={10}
                       onKeyDown={(e) =>
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
@@ -496,6 +498,8 @@ const AddLead = ({
                       value={phone2}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
+                      maxLength="12"
+                      minLength={10}
                       onKeyDown={(e) =>
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
@@ -633,7 +637,7 @@ const AddLead = ({
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Email Id :</label>
                     <input
-                      type="text"
+                      type="email"
                       name="staffEmailId"
                       value={staffEmailId}
                       className="form-control"

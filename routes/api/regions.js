@@ -6,6 +6,9 @@ const mongoose = require("mongoose");
 const Country = require("../../models/regions/country");
 const State = require("../../models/regions/state");
 const District = require("../../models/regions/district");
+const SctLeads = require("../../models/sct/sctLeads");
+const SctClients = require("../../models/sct/sctClients");
+const Demo = require("../../models/sct/demo");
 
 //ADD
 
@@ -69,6 +72,15 @@ router.post("/edit-country-details", async (req, res) => {
 router.post("/edit-state-details", async (req, res) => {
   try {
     let data = req.body;
+    const updateLeadState = await SctLeads.updateMany(
+      { stateId: data.recordId },
+      { $set: { stateName: data.stateName } }
+    );
+    const updateClientState = await SctClients.updateMany(
+      { stateId: data.recordId },
+      { $set: { stateName: data.stateName } }
+    );
+
     const updateStateDetails = await State.updateOne(
       { _id: data.recordId },
       {

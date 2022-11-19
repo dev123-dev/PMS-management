@@ -511,7 +511,7 @@ const EditSctLead = ({
                     Email Id* :
                   </label>
                   <input
-                    type="text"
+                    type="email"
                     name="sctEmailId"
                     value={sctEmailId}
                     className="form-control"
@@ -563,6 +563,8 @@ const EditSctLead = ({
                     value={sctPhone1}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
+                    maxLength="12"
+                    minLength={10}
                     onKeyDown={(e) =>
                       (e.keyCode === 69 || e.keyCode === 190) &&
                       e.preventDefault()
@@ -578,6 +580,8 @@ const EditSctLead = ({
                     value={sctPhone2}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
+                    maxLength="12"
+                    minLength={10}
                     onKeyDown={(e) =>
                       (e.keyCode === 69 || e.keyCode === 190) &&
                       e.preventDefault()
@@ -698,7 +702,7 @@ const EditSctLead = ({
                   ></textarea>
                 </div>
                 <div className="col-lg-3  col-md-6 col-sm-6 col-12 ">
-                  <label className="label-control">sctNotes :</label>
+                  <label className="label-control">Sct Notes :</label>
                   <textarea
                     name="sctNotes"
                     id="sctNotes"

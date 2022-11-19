@@ -113,7 +113,7 @@ const SctCallsHistory = ({
                 <></>
               )}
             </div>
-            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -138,6 +138,7 @@ const SctCallsHistory = ({
                         <th style={{ width: "8%" }}>Call Taken Time</th>
                         <th style={{ width: "15%" }}>Company Name</th>
                         <th style={{ width: "15%" }}>Call To</th>
+                        <th style={{ width: "15%" }}>Called Number</th>
                         <th style={{ width: "25%" }}>Notes</th>
                         <th style={{ width: "6%" }}>Next Date</th>
                       </tr>
@@ -174,6 +175,7 @@ const SctCallsHistory = ({
                               </td>
                               <td>{allSctCalls.sctCallToName}</td>
                               <td>{allSctCalls.sctCallToStaffName}</td>
+                              <td>{allSctCalls.sctcallToNumber}</td>
                               <td>{allSctCalls.sctCallNote}</td>
                               <td>{sctCallDate}</td>
                             </tr>

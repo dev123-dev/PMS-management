@@ -258,7 +258,7 @@ const EditLead = ({
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Email Id* :</label>
                     <input
-                      type="text"
+                      type="email"
                       name="emailId"
                       value={emailId}
                       className="form-control"
@@ -273,6 +273,8 @@ const EditLead = ({
                       name="phone1"
                       value={phone1}
                       className="form-control"
+                      maxLength="12"
+                      minLength={10}
                       onChange={(e) => onInputChange(e)}
                       required
                     />
@@ -283,6 +285,8 @@ const EditLead = ({
                       type="text"
                       name="phone2"
                       value={phone2}
+                      maxLength="12"
+                      minLength={10}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />

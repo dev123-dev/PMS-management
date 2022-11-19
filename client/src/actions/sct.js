@@ -366,6 +366,9 @@ export const getSctLeadDetailsDD = (finalData) => async (dispatch) => {
 //ALL LEADS
 export const getAllSctLead = (finalData) => async (dispatch) => {
   try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
     const res = await axios.post(
       "/api/sct/get-all-sct-Leads",
       finalData,
@@ -374,6 +377,9 @@ export const getAllSctLead = (finalData) => async (dispatch) => {
     dispatch({
       type: GET_ALL_SCT_LEADS,
       payload: res.data.result1,
+    });
+    dispatch({
+      type: SET_LOADING_FALSE,
     });
   } catch (err) {
     dispatch({
@@ -386,7 +392,10 @@ export const getAllSctLeadDD = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post(
       "/api/sct/get-all-sct-Leads",
-      finalData,
+      {
+        ...finalData,
+        DD: true,
+      },
       config
     );
     dispatch({
@@ -637,27 +646,32 @@ export const getALLDemos = (filterData) => async (dispatch) => {
   }
 };
 
-export const getALLDemosReport = (filterData) => async (dispatch) => {
-  try {
-    const res = await axios.post("/api/sct/get-all-demos-report", filterData);
-    dispatch({
-      type: ALL_DEMOS,
-      payload: res.data.allDemos,
-    });
-    dispatch({
-      type: ALL_DEMOS_TAKEN,
-      payload: res.data.allDemosTaken,
-    });
-    dispatch({
-      type: ALL_DEMOS_TODAY_ADDED,
-      payload: res.data.allDemosAddedToday,
-    });
-  } catch (err) {
-    dispatch({
-      type: ERROR,
-    });
-  }
-};
+export const getALLDemosReport =
+  (filterData, finalData) => async (dispatch) => {
+    try {
+      const res = await axios.post(
+        "/api/sct/get-all-demos-report",
+        filterData,
+        finalData
+      );
+      dispatch({
+        type: ALL_DEMOS,
+        payload: res.data.allDemos,
+      });
+      dispatch({
+        type: ALL_DEMOS_TAKEN,
+        payload: res.data.allDemosTaken,
+      });
+      dispatch({
+        type: ALL_DEMOS_TODAY_ADDED,
+        payload: res.data.allDemosAddedToday,
+      });
+    } catch (err) {
+      dispatch({
+        type: ERROR,
+      });
+    }
+  };
 
 export const getAllSctCallClientCount = (finalData) => async (dispatch) => {
   try {
@@ -677,11 +691,12 @@ export const getAllSctCallClientCount = (finalData) => async (dispatch) => {
   }
 };
 
-export const getAllLeadToday = (filterData) => async (dispatch) => {
+export const getAllLeadToday = (filterData, finalData) => async (dispatch) => {
   try {
     const res = await axios.post(
       "/api/sct/get-all-today-lead-entered",
-      filterData
+      filterData,
+      finalData
     );
     dispatch({
       type: ALL_LEAD_ENTRY_TODAY,

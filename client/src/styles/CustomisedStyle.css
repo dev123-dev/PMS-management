@@ -17,6 +17,10 @@
   margin-top: 55px;
   margin-bottom: 55px;
 }
+.container-left_align {
+  margin-left: 20px;
+}
+
 .container_align_CT{
   margin-top: 55px;
   margin-bottom: 30px;
@@ -816,6 +820,9 @@ label {
 .fixTableHeadCT{
   overflow-y: auto;
   height:74.5vh;
+}
+.secondlinebreak{
+  white-space: unset !important;
 }
 .fixTableHeadcontact{
   overflow-y: auto;
