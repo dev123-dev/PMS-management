@@ -46,6 +46,14 @@ const DailyJobSheet = ({
   getDailyjobSheetFolder,
   updateMsgSent,
 }) => {
+  let passwrdTooltip = {
+    marginLeft: "-16em",
+    position: "absolute",
+    marginTop: "1.5em",
+    pointerEvents: "none",
+    zIndex: "999",
+    width: "300px",
+  };
   const socket = useRef();
   useEffect(() => {
     client.onopen = () => {
@@ -181,6 +189,7 @@ const DailyJobSheet = ({
   const csvData = [
     [
       "Client Name",
+      "Folder Name",
       "Project Name",
       "Project Date ",
       "Qty",
@@ -200,6 +209,7 @@ const DailyJobSheet = ({
   dailyJobsheetProjects.map((dailyJobsheetData) =>
     csvData.push([
       dailyJobsheetData.clientName,
+      dailyJobsheetData.clientFolderName,
       dailyJobsheetData.projectName,
       dailyJobsheetData.projectDate,
       dailyJobsheetData.projectQuantity,
@@ -552,6 +562,27 @@ const DailyJobSheet = ({
                   <></>
                 )}
               </div>
+              <div
+                className="col-lg-1 col-md-4 col-sm-4 col-12  mr-5 cstm-hint"
+                id="pass_admin_help"
+              >
+                <img
+                  src={require("../../static/images/help1.png")}
+                  alt="help"
+                  id="img_tool_admin"
+                  className="pass_admin_help_icon_question mr-5"
+                  style={{
+                    cursor: "pointer",
+                  }}
+                />
+                <div
+                  id="tooltipPassAdmin"
+                  className="syle-hint mr-5"
+                  style={passwrdTooltip}
+                  data-hint="Date Filter based on Project Date.Queue duration based on client
+                time"
+                ></div>
+              </div>
               {showdateSection && (
                 <>
                   <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -669,6 +700,7 @@ const DailyJobSheet = ({
                           <></>
                         )}
                         <th style={{ width: "5%" }}>Folder</th>
+                        <th style={{ width: "1%" }}></th>
                         <th style={{ width: "15%" }}>Project Name</th>
                         <th style={{ width: "12%" }}>Queue Duration</th>
                         <th style={{ width: "10%" }}>Estimated Time</th>
@@ -769,6 +801,18 @@ const DailyJobSheet = ({
                                         alt="Last change"
                                         title="Last change"
                                       />
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </td>
+                                <td>
+                                  {/* SLAP UserGroupRights */}
+                                  {(user.userGroupName &&
+                                    user.userGroupName === "Administrator") ||
+                                  user.userGroupName === "Super Admin" ||
+                                  user.userGroupName === "Clarical Admins" ? (
+                                    <>
                                       <Link
                                         className="float-left ml-3 aTagActiveRemoveClrBlk"
                                         to="#"

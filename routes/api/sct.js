@@ -1792,7 +1792,7 @@ router.post("/sct-transfer-lead", async (req, res) => {
 });
 
 router.post("/add-import-sct-lead-data", async (req, res) => {
-  let filePath = "C:/PMSExcelImport/";
+  let filePath = "D:/PMSExcelImport/";
   let data = req.body;
   let pathName = filePath + data.filePathName;
   csvtojson()

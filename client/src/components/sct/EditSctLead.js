@@ -702,7 +702,7 @@ const EditSctLead = ({
                   ></textarea>
                 </div>
                 <div className="col-lg-3  col-md-6 col-sm-6 col-12 ">
-                  <label className="label-control">sctNotes :</label>
+                  <label className="label-control">Sct Notes :</label>
                   <textarea
                     name="sctNotes"
                     id="sctNotes"

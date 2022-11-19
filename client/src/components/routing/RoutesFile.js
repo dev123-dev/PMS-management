@@ -64,6 +64,8 @@ import EditLead from "../dct/EditLead";
 import DeactiveLead from "../dct/DeactiveLead";
 import Amendments from "../dashboard/Amendments";
 import DctCallsHistory from "../dct/DctCallsHistory";
+import DctDailyReport from "../dct/DctDailyReport";
+import TransferDctLeads from "../dct/TransferDctLeads";
 //leavemanagement
 import AllLeave from "../leave/AllLeave";
 
@@ -89,6 +91,8 @@ import AllSctDocuments from "../sct/AllSctDocuments";
 import GenerateInvoice from "../sct/GenerateInvoice";
 import SctInvoicePdfPrint from "../sct/SctInvoicePdfPrint";
 import GenerateAgreement from "../sct/GenerateAgreement";
+import TransferSctLeads from "../sct/TransferSctLeads";
+import SctDailyReport from "../sct/SctDailyReport";
 const RoutesFile = () => {
   return (
     <section>
@@ -99,6 +103,26 @@ const RoutesFile = () => {
         <PrivateRoute exact path="/job-queue" component={JobQueue} />
         <PrivateRoute exact path="/all-prospects" component={AllProspects} />
         <PrivateRoute exact path="/all-followup" component={Allfollowup} />
+        <PrivateRoute
+          exact
+          path="/sct-daily-report"
+          component={SctDailyReport}
+        />
+        <PrivateRoute
+          exact
+          path="/transfer-sct-leads"
+          component={TransferSctLeads}
+        />
+        <PrivateRoute
+          exact
+          path="/dct-daily-report"
+          component={DctDailyReport}
+        />
+        <PrivateRoute
+          exact
+          path="/transfer-dct-leads"
+          component={TransferDctLeads}
+        />
         <PrivateRoute
           exact
           path="/test-client-followup"
