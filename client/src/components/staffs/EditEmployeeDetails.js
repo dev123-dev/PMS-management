@@ -697,7 +697,7 @@ const EditEmployeeDetails = ({
                     <div className="col-lg-4 col-md-12 col-sm-12 col-12">
                       <label className="label-control">Pincode :</label>
                       <input
-                        type="text"
+                        type="number"
                         name="employeePincode"
                         value={employeePincode}
                         className="form-control"
