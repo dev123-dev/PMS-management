@@ -632,7 +632,7 @@ const EditEmployeeDetails = ({
                         />
 
                         <img
-                          className="log_size"
+                          className="photo_size"
                           alt="Preview"
                           src={`${profilephoto}`}
                         />
