@@ -243,6 +243,8 @@ const AllSctFollowup = ({
     setFilterData();
     ondivcloseChange(true);
     setcolorData("");
+    getprojectsData("");
+    getStateData("");
   };
 
   return !isAuthenticated || !user || !users ? (

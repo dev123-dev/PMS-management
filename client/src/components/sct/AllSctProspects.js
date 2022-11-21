@@ -141,7 +141,6 @@ const AllSctProspects = ({
 
   const [projects, getprojectsData] = useState();
   const [projectsId, setprojectsID] = useState();
-  const [projectsName, setprojectsName] = useState();
   const onprojectsChange = (e) => {
     getprojectsData(e);
     getclientsData("");
@@ -167,7 +166,6 @@ const AllSctProspects = ({
 
   const [state, getStateData] = useState("");
   const [stateId, setStateID] = useState("");
-  const [stateName, setStateName] = useState("");
 
   const onStateChange = (e) => {
     getStateData(e);
@@ -242,6 +240,8 @@ const AllSctProspects = ({
     setFilterData();
     ondivcloseChange(true);
     setcolorData("");
+    getprojectsData("");
+    getStateData("");
   };
 
   return !isAuthenticated || !user || !users ? (

@@ -266,6 +266,8 @@ const AllEngagedClient = ({
     setFilterData();
     ondivcloseChange(true);
     setcolorData("");
+    getprojectsData("");
+    getStateData("");
   };
 
   const onClickQuotation = (sctClients) => {
