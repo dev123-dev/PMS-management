@@ -331,10 +331,16 @@ export const refreshLead = (finalData) => async (dispatch) => {
 //LEAD
 export const getSctLeadDetails = (finalData) => async (dispatch) => {
   try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
     const res = await axios.post("/api/sct/get-sct-Leads", finalData, config);
     dispatch({
       type: ALL_SCT_LEADS,
       payload: res.data.result1,
+    });
+    dispatch({
+      type: SET_LOADING_FALSE,
     });
   } catch (err) {
     dispatch({
