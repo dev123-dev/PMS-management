@@ -29,12 +29,12 @@ const AllSctProspects = ({
   getSctLastmessage,
   getProjectList,
 }) => {
-  // useEffect(() => {
-  //   getSctLeadDetails({ sctLeadCategory: "P" });
-  // }, []);
-  // useEffect(() => {
-  //   getSctLeadDetailsDD({ sctLeadCategory: "P" });
-  // }, []);
+  useEffect(() => {
+    getSctLeadDetails();
+  }, []);
+  useEffect(() => {
+    getSctLeadDetailsDD();
+  }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);

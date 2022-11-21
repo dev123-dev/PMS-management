@@ -29,10 +29,10 @@ const AllSctRegularClients = ({
   getProjectList,
 }) => {
   useEffect(() => {
-    getSctClientDetails({ sctClientCategory: "RC" });
+    getSctClientDetails();
   }, []);
   useEffect(() => {
-    getSctClientDetailsDD({ sctClientCategory: "RC" });
+    getSctClientDetailsDD();
   }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
@@ -155,9 +155,13 @@ const AllSctRegularClients = ({
     getclientsData("");
     getempData("");
     setprojectsID(e.projectsId);
-    getSctClientDetails({ projectsId: e.projectsId });
-    getSctClientDetailsDD({ projectsId: e.projectsId });
-    setFilterData({ projectsId: e.projectsId });
+    let searchData = {
+      projectsId: e.projectsId,
+      sctClientCategory: "RC",
+    };
+    getSctClientDetails(searchData);
+    getSctClientDetailsDD(searchData);
+    setFilterData(searchData);
   };
 
   const allstates = [];
@@ -179,9 +183,14 @@ const AllSctRegularClients = ({
     getclientsData("");
     getempData("");
     setStateID(e.stateId);
-    getSctClientDetails({ stateId: e.stateId, sctClientCategory: "RC" });
-    getSctClientDetailsDD({ stateId: e.stateId, sctClientCategory: "RC" });
-    setFilterData({ stateId: e.stateId, sctClientCategory: "RC" });
+    let searchData = {
+      projectsId: projectsId,
+      stateId: e.stateId,
+      sctClientCategory: "RC",
+    };
+    getSctClientDetails(searchData);
+    getSctClientDetailsDD(searchData);
+    setFilterData(searchData);
   };
 
   const allclient = [];
@@ -193,18 +202,18 @@ const AllSctRegularClients = ({
     })
   );
   const [clients, getclientsData] = useState();
+  const [clientsId, getclientsIdData] = useState();
   const onclientsChange = (e) => {
     getclientsData(e);
-    getSctClientDetails({
+    getclientsIdData(e.clientsId);
+    let searchData = {
+      projectsId: projectsId,
       stateId: stateId,
       clientsId: e.clientsId,
       sctClientCategory: "RC",
-    });
-    setFilterData({
-      stateId: stateId,
-      clientsId: e.clientsId,
-      sctClientCategory: "RC",
-    });
+    };
+    getSctClientDetails(searchData);
+    setFilterData(searchData);
   };
 
   const allemp = [{ empId: null, label: "All", value: null }];
@@ -221,25 +230,19 @@ const AllSctRegularClients = ({
   const onempChange = (e) => {
     getempData(e);
     setempID(e.empId);
-    getSctClientDetails({
+    let searchData = {
+      projectsId: projectsId,
       stateId: stateId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
+      clientsId: clientsId,
       sctClientCategory: "RC",
-    });
+      assignedTo: e.empId,
+    };
+    getSctClientDetails(searchData);
     getSctClientDetailsDD({
-      stateId: stateId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      sctClientCategory: "RC",
+      ...searchData,
       emp: true,
     });
-    setFilterData({
-      stateId: stateId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      sctClientCategory: "RC",
-    });
+    setFilterData(searchData);
   };
 
   const onClickReset = () => {
@@ -247,9 +250,9 @@ const AllSctRegularClients = ({
     getcountryIdData("");
     getclientsData("");
     getempData("");
-    getSctClientDetails({ sctClientCategory: "RC" });
-    getSctClientDetailsDD({ sctClientCategory: "RC" });
-    setFilterData({ sctClientCategory: "RC" });
+    getSctClientDetails();
+    getSctClientDetailsDD();
+    setFilterData();
     ondivcloseChange(true);
     setcolorData("");
   };
