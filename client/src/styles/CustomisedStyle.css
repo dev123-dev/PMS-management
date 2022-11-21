@@ -264,6 +264,12 @@ footer.footer .top_top {
   margin-top: 0px;
 }
 
+.photo_size {
+  width: 150px;
+  height: 150px;
+  margin-top: 0px;
+}
+
 #pass_admin_help div#tooltipPassAdmin {
   display: none;
 }
