@@ -589,12 +589,6 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
       projectsId: mongoose.Types.ObjectId(projectsId),
     };
   }
-  if (empId) {
-    query = {
-      ...query,
-      projectsId: mongoose.Types.ObjectId(projectsId),
-    };
-  }
 
   try {
     let getSctLeadsDetails = (getSctLeadsEmp = []);
@@ -634,8 +628,14 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
 //CLIENT
 //ENGAGED CLIENTS,REGULAR CLIENTS
 router.post("/get-sct-clients", auth, async (req, res) => {
-  let { stateId, countryId, clientsId, sctClientCategory, assignedTo } =
-    req.body;
+  let {
+    stateId,
+    countryId,
+    clientsId,
+    sctClientCategory,
+    assignedTo,
+    projectsId,
+  } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -643,68 +643,58 @@ router.post("/get-sct-clients", auth, async (req, res) => {
   if (userInfo.empCtAccess !== "All")
     sctClientAssignedToId = mongoose.Types.ObjectId(userInfo._id);
   else {
-    if (assignedTo) {
-      sctClientAssignedToId = mongoose.Types.ObjectId(assignedTo);
-    } else {
-      sctClientAssignedToId = { $ne: null };
-    }
+    if (assignedTo) sctClientAssignedToId = mongoose.Types.ObjectId(assignedTo);
+    else sctClientAssignedToId = { $ne: null };
   }
   var todayDate = new Date().toISOString().split("T")[0];
-  let query = {};
-  if (stateId) {
-    if (clientsId) {
-      query = {
-        sctClientStatus: "Active",
-        stateId: mongoose.Types.ObjectId(stateId),
-        _id: mongoose.Types.ObjectId(clientsId),
-        sctClientCategory: sctClientCategory,
-        sctCallDate: { $lte: todayDate },
-        sctClientAssignedToId,
-      };
-    } else {
-      query = {
-        sctClientStatus: "Active",
-        stateId: mongoose.Types.ObjectId(stateId),
-        sctClientCategory: sctClientCategory,
-        sctCallDate: { $lte: todayDate },
-        sctClientAssignedToId,
-      };
-    }
-  } else {
-    if (clientsId) {
-      query = {
-        sctClientStatus: "Active",
-        _id: mongoose.Types.ObjectId(clientsId),
-        sctClientCategory: sctClientCategory,
-        sctCallDate: { $lte: todayDate },
-        sctClientAssignedToId,
-      };
-    } else {
-      query = {
-        sctClientStatus: "Active",
-        sctClientCategory: sctClientCategory,
-        sctCallDate: { $lte: todayDate },
-        sctClientAssignedToId,
-      };
-    }
-  }
-  try {
-    const getSctClientDetails = await SctClients.find(query).sort({
-      sctCallDate: -1,
-      sctClientCategory: -1,
-    });
+  let query = {
+    sctClientStatus: "Active",
+    sctClientCategory: sctClientCategory,
+    sctCallDate: { $lte: todayDate },
+    sctClientAssignedToId,
+  };
 
-    const getSctClientEmp = await SctClients.aggregate([
-      {
-        $match: query,
-      },
-      {
-        $group: {
-          _id: "$sctClientAssignedToId",
-          sctClientAssignedToName: { $first: "$sctClientAssignedToName" },
+  if (projectsId) {
+    query = {
+      ...query,
+      projectsId: mongoose.Types.ObjectId(projectsId),
+    };
+  }
+
+  if (stateId) {
+    query = {
+      ...query,
+      stateId: mongoose.Types.ObjectId(stateId),
+    };
+  }
+
+  if (clientsId) {
+    query = {
+      ...query,
+      _id: mongoose.Types.ObjectId(clientsId),
+    };
+  }
+
+  try {
+    let getSctClientDetails = (getSctClientEmp = []);
+    if (projectsId) {
+      getSctClientDetails = await SctClients.find(query).sort({
+        sctCallDate: -1,
+        sctClientCategory: -1,
+      });
+
+      getSctClientEmp = await SctClients.aggregate([
+        {
+          $match: query,
         },
-      },
-    ]).sort({ _id: 1 });
+        {
+          $group: {
+            _id: "$sctClientAssignedToId",
+            sctClientAssignedToName: { $first: "$sctClientAssignedToName" },
+          },
+        },
+      ]).sort({ _id: 1 });
+    }
     res.json({ result1: getSctClientDetails, result2: getSctClientEmp });
   } catch (err) {
     console.error(err.message);

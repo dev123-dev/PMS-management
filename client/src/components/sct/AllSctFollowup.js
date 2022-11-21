@@ -30,10 +30,10 @@ const AllSctFollowup = ({
   getProjectList,
 }) => {
   useEffect(() => {
-    getSctLeadDetails({ sctLeadCategory: "F" });
+    getSctLeadDetails();
   }, []);
   useEffect(() => {
-    getSctLeadDetailsDD({ sctLeadCategory: "F" });
+    getSctLeadDetailsDD();
   }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
@@ -140,7 +140,6 @@ const AllSctFollowup = ({
     );
 
   const [projects, getprojectsData] = useState();
-
   const [projectsId, setprojectsID] = useState();
   const [projectsName, setprojectsName] = useState();
   const onprojectsChange = (e) => {
@@ -148,9 +147,13 @@ const AllSctFollowup = ({
     getclientsData("");
     getempData("");
     setprojectsID(e.projectsId);
-    getSctLeadDetails({ projectsId: e.projectsId });
-    getSctLeadDetailsDD({ projectsId: e.projectsId });
-    setFilterData({ projectsId: e.projectsId });
+    let searchData = {
+      projectsId: e.projectsId,
+      sctLeadCategory: "F",
+    };
+    getSctLeadDetails(searchData);
+    getSctLeadDetailsDD(searchData);
+    setFilterData(searchData);
   };
 
   const allstates = [];
@@ -163,7 +166,6 @@ const AllSctFollowup = ({
   );
 
   const [state, getStateData] = useState("");
-
   const [stateId, setStateID] = useState("");
   const [stateName, setStateName] = useState("");
 
@@ -172,9 +174,14 @@ const AllSctFollowup = ({
     getclientsData("");
     getempData("");
     setStateID(e.stateId);
-    getSctLeadDetails({ stateId: e.stateId, sctLeadCategory: "F" });
-    getSctLeadDetailsDD({ stateId: e.stateId, sctLeadCategory: "F" });
-    setFilterData({ stateId: e.stateId, sctLeadCategory: "F" });
+    let searchData = {
+      projectsId: projectsId,
+      stateId: e.stateId,
+      sctLeadCategory: "F",
+    };
+    getSctLeadDetails(searchData);
+    getSctLeadDetailsDD(searchData);
+    setFilterData(searchData);
   };
 
   const allclient = [];
@@ -186,18 +193,18 @@ const AllSctFollowup = ({
     })
   );
   const [clients, getclientsData] = useState();
+  const [clientsId, getclientsIdData] = useState();
   const onclientsChange = (e) => {
     getclientsData(e);
-    getSctLeadDetails({
+    getclientsIdData(e.clientsId);
+    let searchData = {
+      projectsId: projectsId,
       stateId: stateId,
       clientsId: e.clientsId,
       sctLeadCategory: "F",
-    });
-    setFilterData({
-      stateId: stateId,
-      clientsId: e.clientsId,
-      sctLeadCategory: "F",
-    });
+    };
+    getSctLeadDetails(searchData);
+    setFilterData(searchData);
   };
 
   const allemp = [{ empId: null, label: "All", value: null }];
@@ -213,26 +220,17 @@ const AllSctFollowup = ({
   const [empId, setempID] = useState();
   const onempChange = (e) => {
     getempData(e);
+    let searchData = {
+      projectsId: projectsId,
+      stateId: stateId,
+      clientsId: clientsId,
+      sctLeadCategory: "F",
+      assignedTo: e.empId,
+    };
     setempID(e.empId);
-    getSctLeadDetails({
-      stateId: stateId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      sctLeadCategory: "F",
-    });
-    getSctLeadDetailsDD({
-      stateId: stateId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      sctLeadCategory: "F",
-      emp: true,
-    });
-    setFilterData({
-      stateId: stateId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      sctLeadCategory: "F",
-    });
+    getSctLeadDetails(searchData);
+    getSctLeadDetailsDD(searchData);
+    setFilterData(searchData);
   };
 
   const onClickReset = () => {
@@ -240,11 +238,13 @@ const AllSctFollowup = ({
     getcountryIdData("");
     getclientsData("");
     getempData("");
-    getSctLeadDetails({ sctLeadCategory: "F" });
-    getSctLeadDetailsDD({ sctLeadCategory: "F" });
-    setFilterData({ sctLeadCategory: "F" });
+    getSctLeadDetails();
+    getSctLeadDetailsDD();
+    setFilterData();
     ondivcloseChange(true);
     setcolorData("");
+    getprojectsData("");
+    getStateData("");
   };
 
   return !isAuthenticated || !user || !users ? (

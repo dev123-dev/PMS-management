@@ -31,12 +31,12 @@ const AllSctLeads = ({
   getProjectList,
   addImportSctLeadData,
 }) => {
-  // useEffect(() => {
-  //   getAllSctLead();
-  // }, []);
-  // useEffect(() => {
-  //   getAllSctLeadDD();
-  // }, []);
+  useEffect(() => {
+    getAllSctLead();
+  }, []);
+  useEffect(() => {
+    getAllSctLeadDD();
+  }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);
@@ -152,7 +152,6 @@ const AllSctLeads = ({
   const [projects, getprojectsData] = useState();
 
   const [projectsId, setprojectsID] = useState();
-  const [projectsName, setprojectsName] = useState();
   const onprojectsChange = (e) => {
     getprojectsData(e);
     getclientsData("");
@@ -180,10 +179,7 @@ const AllSctLeads = ({
   );
 
   const [state, getStateData] = useState("");
-
   const [stateId, setStateID] = useState("");
-  const [stateName, setStateName] = useState("");
-
   const onStateChange = (e) => {
     getStateData(e);
     getclientsData("");
@@ -261,6 +257,8 @@ const AllSctLeads = ({
     setFilterData();
     ondivcloseChange(true);
     setcolorData("");
+    getprojectsData("");
+    getStateData("");
   };
 
   const [showPathSettingModal, setShowPathModal] = useState(false);
