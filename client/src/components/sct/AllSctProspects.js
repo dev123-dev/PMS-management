@@ -19,7 +19,7 @@ import AllSctStatusChange from "./AllSctStatusChange";
 import { getActiveCountry, getActiveState } from "../../actions/regions";
 
 const AllSctProspects = ({
-  auth: { isAuthenticated, user, users },
+  auth: { isAuthenticated, user, users, loading },
   sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp, projectList },
   regions: { activeCountry, activeState },
   getSctLeadDetails,
@@ -29,12 +29,12 @@ const AllSctProspects = ({
   getSctLastmessage,
   getProjectList,
 }) => {
-  useEffect(() => {
-    getSctLeadDetails({ sctLeadCategory: "P" });
-  }, []);
-  useEffect(() => {
-    getSctLeadDetailsDD({ sctLeadCategory: "P" });
-  }, []);
+  // useEffect(() => {
+  //   getSctLeadDetails({ sctLeadCategory: "P" });
+  // }, []);
+  // useEffect(() => {
+  //   getSctLeadDetailsDD({ sctLeadCategory: "P" });
+  // }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, []);
@@ -134,14 +134,12 @@ const AllSctProspects = ({
     projectList.map((projects) =>
       allprojects.push({
         projectsId: projects._id,
-
         label: projects.sctProjectName,
         value: projects.sctProjectName,
       })
     );
 
   const [projects, getprojectsData] = useState();
-
   const [projectsId, setprojectsID] = useState();
   const [projectsName, setprojectsName] = useState();
   const onprojectsChange = (e) => {
@@ -149,9 +147,13 @@ const AllSctProspects = ({
     getclientsData("");
     getempData("");
     setprojectsID(e.projectsId);
-    getSctLeadDetails({ projectsId: e.projectsId });
-    getSctLeadDetailsDD({ projectsId: e.projectsId });
-    setFilterData({ projectsId: e.projectsId });
+    let searchData = {
+      projectsId: e.projectsId,
+      sctLeadCategory: "P",
+    };
+    getSctLeadDetails(searchData);
+    getSctLeadDetailsDD(searchData);
+    setFilterData(searchData);
   };
 
   const allstates = [];
@@ -164,7 +166,6 @@ const AllSctProspects = ({
   );
 
   const [state, getStateData] = useState("");
-
   const [stateId, setStateID] = useState("");
   const [stateName, setStateName] = useState("");
 
@@ -173,9 +174,14 @@ const AllSctProspects = ({
     getclientsData("");
     getempData("");
     setStateID(e.stateId);
-    getSctLeadDetails({ stateId: e.stateId, sctLeadCategory: "P" });
-    getSctLeadDetailsDD({ stateId: e.stateId, sctLeadCategory: "P" });
-    setFilterData({ stateId: e.stateId, sctLeadCategory: "P" });
+    let searchData = {
+      projectsId: projectsId,
+      stateId: e.stateId,
+      sctLeadCategory: "P",
+    };
+    getSctLeadDetails(searchData);
+    getSctLeadDetailsDD(searchData);
+    setFilterData(searchData);
   };
   const allclient = [];
   allSctLeadsDD.map((clients) =>
@@ -186,18 +192,18 @@ const AllSctProspects = ({
     })
   );
   const [clients, getclientsData] = useState();
+  const [clientsId, getclientsIdData] = useState();
   const onclientsChange = (e) => {
     getclientsData(e);
-    getSctLeadDetails({
+    getclientsIdData(e.clientsId);
+    let searchData = {
+      projectsId: projectsId,
       stateId: stateId,
       clientsId: e.clientsId,
       sctLeadCategory: "P",
-    });
-    setFilterData({
-      stateId: stateId,
-      clientsId: e.clientsId,
-      sctLeadCategory: "P",
-    });
+    };
+    getSctLeadDetails(searchData);
+    setFilterData(searchData);
   };
 
   const allemp = [{ empId: null, label: "All", value: null }];
@@ -214,25 +220,16 @@ const AllSctProspects = ({
   const onempChange = (e) => {
     getempData(e);
     setempID(e.empId);
-    getSctLeadDetails({
+    let searchData = {
+      projectsId: projectsId,
       stateId: stateId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
+      clientsId: clientsId,
       sctLeadCategory: "P",
-    });
-    getSctLeadDetailsDD({
-      stateId: stateId,
-      clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
-      sctLeadCategory: "P",
-      emp: true,
-    });
-    setFilterData({
-      stateId: stateId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      sctLeadCategory: "P",
-    });
+    };
+    getSctLeadDetails(searchData);
+    getSctLeadDetailsDD(searchData);
+    setFilterData(searchData);
   };
 
   const onClickReset = () => {
@@ -240,9 +237,9 @@ const AllSctProspects = ({
     getcountryIdData("");
     getclientsData("");
     getempData("");
-    getSctLeadDetails({ sctLeadCategory: "P" });
-    getSctLeadDetailsDD({ sctLeadCategory: "P" });
-    setFilterData({ sctLeadCategory: "P" });
+    getSctLeadDetails();
+    getSctLeadDetailsDD();
+    setFilterData();
     ondivcloseChange(true);
     setcolorData("");
   };
@@ -548,6 +545,7 @@ const AllSctProspects = ({
           />
         </Modal.Body>
       </Modal>
+      {loading && <Spinner />}
     </Fragment>
   );
 };

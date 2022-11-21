@@ -467,7 +467,14 @@ router.post("/update-sct-clients-status", async (req, res) => {
 //LEAD
 //FOLLOWUP,PROSPECTS
 router.post("/get-sct-Leads", auth, async (req, res) => {
-  let { stateId, countryId, clientsId, sctLeadCategory, assignedTo } = req.body;
+  let {
+    stateId,
+    countryId,
+    clientsId,
+    sctLeadCategory,
+    assignedTo,
+    projectsId,
+  } = req.body;
 
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
@@ -476,11 +483,8 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
   if (userInfo.empCtAccess !== "All")
     sctLeadAssignedToId = mongoose.Types.ObjectId(userInfo._id);
   else {
-    if (assignedTo) {
-      sctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
-    } else {
-      sctLeadAssignedToId = { $ne: null };
-    }
+    if (assignedTo) sctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
+    else sctLeadAssignedToId = { $ne: null };
   }
   var todayDate = new Date().toISOString().split("T")[0];
   let catCondition = [];
@@ -489,60 +493,52 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
   } else if (sctLeadCategory == "F") {
     catCondition = [{ sctLeadCategory: "F" }, { sctLeadCategory: "F" }];
   }
-  let query = {};
-  if (stateId) {
-    if (clientsId) {
-      query = {
-        sctLeadStatus: "Active",
-        stateId: mongoose.Types.ObjectId(stateId),
-        _id: mongoose.Types.ObjectId(clientsId),
-        $or: catCondition,
-        sctCallDate: { $lte: todayDate },
-        sctLeadAssignedToId,
-      };
-    } else {
-      query = {
-        sctLeadStatus: "Active",
-        stateId: mongoose.Types.ObjectId(stateId),
-        $or: catCondition,
-        sctCallDate: { $lte: todayDate },
-        sctLeadAssignedToId,
-      };
-    }
-  } else {
-    if (clientsId) {
-      query = {
-        sctLeadStatus: "Active",
-        _id: mongoose.Types.ObjectId(clientsId),
-        $or: catCondition,
-        sctCallDate: { $lte: todayDate },
-        sctLeadAssignedToId,
-      };
-    } else {
-      query = {
-        sctLeadStatus: "Active",
-        $or: catCondition,
-        sctCallDate: { $lte: todayDate },
-        sctLeadAssignedToId,
-      };
-    }
+  let query = {
+    sctLeadStatus: "Active",
+    $or: catCondition,
+    sctCallDate: { $lte: todayDate },
+    sctLeadAssignedToId,
+  };
+
+  if (projectsId) {
+    query = {
+      ...query,
+      projectsId: mongoose.Types.ObjectId(projectsId),
+    };
   }
+
+  if (stateId) {
+    query = {
+      ...query,
+      stateId: mongoose.Types.ObjectId(stateId),
+    };
+  }
+  if (clientsId) {
+    query = {
+      ...query,
+      _id: mongoose.Types.ObjectId(clientsId),
+    };
+  }
+
   try {
-    const getSctLeadsDetails = await SctLeads.find(query).sort({
-      sctCallDate: -1,
-      sctLeadCategory: -1,
-    });
-    const getSctLeadsEmp = await SctLeads.aggregate([
-      {
-        $match: query,
-      },
-      {
-        $group: {
-          _id: "$sctLeadAssignedToId",
-          sctLeadAssignedToName: { $first: "$sctLeadAssignedToName" },
+    let getSctLeadsDetails = (getSctLeadsEmp = []);
+    if (sctLeadCategory) {
+      getSctLeadsDetails = await SctLeads.find(query).sort({
+        sctCallDate: -1,
+        sctLeadCategory: -1,
+      });
+      getSctLeadsEmp = await SctLeads.aggregate([
+        {
+          $match: query,
         },
-      },
-    ]).sort({ _id: 1 });
+        {
+          $group: {
+            _id: "$sctLeadAssignedToId",
+            sctLeadAssignedToName: { $first: "$sctLeadAssignedToName" },
+          },
+        },
+      ]).sort({ _id: 1 });
+    }
     res.json({ result1: getSctLeadsDetails, result2: getSctLeadsEmp });
   } catch (err) {
     console.error(err.message);

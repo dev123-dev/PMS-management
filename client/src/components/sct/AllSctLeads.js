@@ -187,13 +187,14 @@ const AllSctLeads = ({
   const onStateChange = (e) => {
     getStateData(e);
     getclientsData("");
+    getclientsIdData("");
     getempData("");
+    setempID("");
     setStateID(e.stateId);
     let searchData = {
       projectsId: projectsId,
       countryId: countryId,
       stateId: e.stateId,
-      clientsId: clientsId,
       assignedTo: empId,
     };
     getAllSctLead(searchData);
@@ -213,12 +214,12 @@ const AllSctLeads = ({
   const onclientsChange = (e) => {
     getclientsData(e);
     getclientsIdData(e.clientsId);
+    setempID("");
     let searchData = {
       projectsId: projectsId,
       countryId: countryId,
       stateId: stateId,
       clientsId: e.clientsId,
-      assignedTo: empId,
     };
     getAllSctLead(searchData);
     setFilterData(searchData);
