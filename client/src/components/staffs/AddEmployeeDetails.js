@@ -894,6 +894,7 @@ const AddEmployeeDetails = ({
                         <textarea
                           name="employeeAddr"
                           id="employeeAddr"
+                          value={employeeAddr}
                           className="textarea form-control"
                           rows="3"
                           placeholder="Address"
