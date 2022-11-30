@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
+import { Link } from "react-router-dom";
 import Select from "react-select";
 import {
   getSctClientDetails,
@@ -71,7 +72,9 @@ const AllSctRegularClients = ({
     setShowEditModal(true);
     setUserDatas(sctClients);
   };
-
+  const onClickHandler2 = (sctClients, idx) => {
+    localStorage.setItem("sctClientData", JSON.stringify(sctClients));
+  };
   const [userDatadeactive, setUserDatadeactive] = useState(null);
   const onDeactive = (sctClients, idx) => {
     setShowDeactiveModal(true);
@@ -367,6 +370,7 @@ const AllSctRegularClients = ({
                         <th style={{ width: "8%" }}>Call Date</th>
                         <th style={{ width: "8%" }}>Call Date</th>
                         <th style={{ width: "5%" }}>Op</th>
+                        <th style={{ width: "4%" }}>Docs</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -425,6 +429,28 @@ const AllSctRegularClients = ({
                                   alt="Edit"
                                   title="Edit"
                                 />
+                              </td>
+
+                              <td>
+                                <Link
+                                  onClick={() =>
+                                    onClickHandler2(sctClients, idx)
+                                  }
+                                  to={{
+                                    pathname: "/all-sct-documents",
+                                    data: {
+                                      sctdata: sctClients,
+                                    },
+                                  }}
+                                >
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onDeactive(sctClients, idx)}
+                                    src={require("../../static/images/documents.png")}
+                                    alt="Documents"
+                                    title="Documents"
+                                  />
+                                </Link>
                               </td>
                             </tr>
                           );
