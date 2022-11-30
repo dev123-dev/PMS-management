@@ -89,6 +89,15 @@ const SctLeadsSchema = new mongoose.Schema({
   sctLeadEditedDateTime: {
     type: String,
   },
+  sctLeadTransferById: {
+    type: ObjectId,
+  },
+  sctLeadTransferByName: {
+    type: String,
+  },
+  sctLeadTransferDateTime: {
+    type: String,
+  },
   sctLeadDeactivateById: {
     type: ObjectId,
   },

@@ -90,6 +90,16 @@ const DctLeadsSchema = new mongoose.Schema({
   dctLeadAssignedToName: {
     type: String,
   },
+
+  dctLeadTransferById: {
+    type: ObjectId,
+  },
+  dctLeadTransferByName: {
+    type: String,
+  },
+  dctLeadTransferDateTime: {
+    type: String,
+  },
   services: [],
   staffs: [
     {

@@ -1766,6 +1766,9 @@ router.post("/sct-transfer-lead", async (req, res) => {
           $set: {
             sctLeadAssignedToId: data.sctLeadTransferToId,
             sctLeadAssignedToName: data.sctLeadTransferToName,
+            sctLeadTransferByName: data.sctLeadTransferByName,
+            sctLeadTransferById: data.sctLeadTransferById,
+            sctLeadTransferDateTime: data.sctLeadTransferDateTime,
           },
         }
       );
