@@ -253,6 +253,9 @@ const TransferDctLeads = ({
         dctLeadTransferToName: empName1,
         dctLeadTransferToId: empId1,
         access: AddedTransferDetails,
+        dctLeadTransferById: user._id,
+        dctLeadTransferByName: user.empFullName,
+        dctLeadTransferDateTime: new Date().toLocaleString("en-GB"),
       };
 
       setTransferFormDatas({

@@ -601,6 +601,9 @@ router.post("/transfer-lead", async (req, res) => {
           $set: {
             dctLeadAssignedToId: data.dctLeadTransferToId,
             dctLeadAssignedToName: data.dctLeadTransferToName,
+            dctLeadTransferByName: data.dctLeadTransferByName,
+            dctLeadTransferById: data.dctLeadTransferById,
+            dctLeadTransferDateTime: data.dctLeadTransferDateTime,
           },
         }
       );

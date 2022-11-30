@@ -249,6 +249,9 @@ const TransferSctLeads = ({
         sctLeadTransferToName: empName1,
         sctLeadTransferToId: empId1,
         access: AddedTransferDetails,
+        sctLeadTransferById: user._id,
+        sctLeadTransferByName: user.empFullName,
+        sctLeadTransferDateTime: new Date().toLocaleString("en-GB"),
       };
 
       setTransferFormDatas({
