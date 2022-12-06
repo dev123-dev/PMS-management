@@ -93,10 +93,12 @@ import SctInvoicePdfPrint from "../sct/SctInvoicePdfPrint";
 import GenerateAgreement from "../sct/GenerateAgreement";
 import TransferSctLeads from "../sct/TransferSctLeads";
 import SctDailyReport from "../sct/SctDailyReport";
+import ClientReport from "../Reports/ClientReport";
 const RoutesFile = () => {
   return (
     <section>
       <Switch>
+        <PrivateRoute exact path="/client-report" component={ClientReport} />
         <PrivateRoute exact path="/daily-job-sheet" component={DailyJobSheet} />
         <PrivateRoute exact path="/chat" component={Chat} />
         <PrivateRoute exact path="/job-queue" component={JobQueue} />

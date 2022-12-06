@@ -382,6 +382,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                           <Link to="/all-feedback">All Feedback</Link>
                         </li>
                         <li>
+                          <Link to="/client-report">Client Report</Link>
+                        </li>
+                        <li>
                           <Link to="#" onClick={() => handleLogoutModalShow()}>
                             Logout
                           </Link>
