@@ -8,6 +8,7 @@ import ChangeProjectLifeCycle from "./ChangeProjectLifeCycle";
 import Spinner from "../layout/Spinner";
 import EditProject from "./EditProject";
 import axios from "axios";
+import { CSVLink } from "react-csv";
 import { allUsersRoute, host, sendMessageRoute } from "../../utils/APIRoutes";
 import {
   getJobQueueProjectDeatils,
@@ -154,6 +155,11 @@ const JobQueue = ({
       folderNameSearch: e.value,
       statusCategory: statusData.value,
     };
+
+    var clientFolderName = "";
+    clientFolderName = e.value;
+    setClientName(clientFolderName);
+
     setFilterData(finalData);
     getJobQueueProjectDeatils(finalData);
   };
@@ -430,6 +436,49 @@ const JobQueue = ({
     getJobQueueProjectDeatils(finalData);
   };
 
+  const csvData = [
+    [
+      "Client Name",
+      "Folder Name",
+      "Project Name",
+      "Project Date ",
+      "Status",
+      "Qty",
+      "Price",
+      "Notes",
+      // "Folder Name",
+      // "Project Deadline",
+      // "Entered By",
+      // "Client Date Time",
+      // "Project Status",
+      // "Client Type",
+      // "Project Working Status",
+      // "projectPriority",
+    ],
+  ];
+
+  jobQueueProjects.map((JobqueuesheetData) =>
+    csvData.push([
+      JobqueuesheetData.clientName,
+      JobqueuesheetData.clientFolderName,
+      JobqueuesheetData.projectName,
+      JobqueuesheetData.projectDate,
+      JobqueuesheetData.projectStatusType,
+      JobqueuesheetData.projectQuantity,
+      "",
+      JobqueuesheetData.projectNotes.replaceAll("\n", " "),
+      // dailyJobsheetData.clientFolderName,
+      // dailyJobsheetData.projectDeadline,
+      // dailyJobsheetData.projectEnteredByName,
+      // dailyJobsheetData.clientDate + " : " + dailyJobsheetData.clientTime,
+      // dailyJobsheetData.projectStatus,
+      // dailyJobsheetData.clientTypeVal,
+      // dailyJobsheetData.projectStatusType,
+      // dailyJobsheetData.projectPriority,
+    ])
+  );
+  const fileName = [clientFolderName ? clientFolderName : "Client Report"];
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -462,6 +511,9 @@ const JobQueue = ({
             </div>
 
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
+              <CSVLink data={csvData} filename={fileName}>
+                <button className="btn btn_green_bg float-right">Export</button>
+              </CSVLink>
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -503,16 +555,17 @@ const JobQueue = ({
 
                         <th style={{ width: "6%" }}>Folder </th>
                         <th style={{ width: "6%" }}>Path</th>
+                        <th style={{ width: "1%" }}></th>
                         <th style={{ width: "20%" }}>Project Name</th>
 
                         <th style={{ width: "12%" }}>Queue Duration</th>
                         <th style={{ width: "10%" }}>Estimated Time</th>
                         <th style={{ width: "10%" }}>Job Time</th>
-                        {/* <th style={{ width: "2%" }}>Priority</th> */}
                         <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "3%" }}>Qty</th>
                         <th style={{ width: "8%" }}>Output Format</th>
                         <th style={{ width: "13%" }}>Status</th>
+                        <th style={{ width: "2%" }}>Target</th>
                         {/* <th style={{ width: "5%" }}>Latest Change</th>
                         <th style={{ width: "5%" }}>Job Notes</th> */}
                         {/* SLAP UserGroupRights */}
@@ -522,7 +575,7 @@ const JobQueue = ({
                         user.userGroupName === "Clarical Admins" ||
                         user.userGroupName === "Quality Controller" ||
                         user.userGroupName === "Distributors" ? (
-                          <th style={{ width: "3%" }}>OP</th>
+                          <th style={{ width: "4%" }}>OP</th>
                         ) : (
                           <></>
                         )}
@@ -621,6 +674,9 @@ const JobQueue = ({
                                 ) : (
                                   <></>
                                 )}
+                              </td>
+                              <td>
+                                {" "}
                                 <Link
                                   className="float-left ml-3 aTagActiveRemoveClrBlk"
                                   to="#"
@@ -629,7 +685,6 @@ const JobQueue = ({
                                   {jobQueueProjects.projectName}
                                 </Link>
                               </td>
-
                               <td>
                                 {
                                   dhm(
@@ -659,7 +714,7 @@ const JobQueue = ({
                                   </span>
                                 )}
                               </td>
-                              {/* <td>{jobQueueProjects.projectPriority}</td> */}
+
                               <td>{jobQueueProjects.projectDeadline}</td>
                               <td>
                                 {jobQueueProjects.projectQuantity}&nbsp;
@@ -676,7 +731,8 @@ const JobQueue = ({
                                 user.userGroupName === "Super Admin" ||
                                 user.userGroupName === "Clarical Admins" ||
                                 user.userGroupName === "Quality Controller" ||
-                                user.userGroupName === "Distributors" ? (
+                                user.userGroupName === "Distributors" ||
+                                user.userGroupName === "Marketing" ? (
                                   <>
                                     <img
                                       className="img_icon_size log float-left mt-2"
@@ -749,6 +805,23 @@ const JobQueue = ({
                                 </Link>
                               </td> */}
                               {/* SLAP UserGroupRights */}
+                              <td>
+                                <Link
+                                  to={{
+                                    pathname: "/add-daily-target",
+                                    data: {
+                                      targetdata: jobQueueProjects,
+                                    },
+                                  }}
+                                >
+                                  <img
+                                    className="img_icon_size log"
+                                    src={require("../../static/images/target.jpg")}
+                                    alt="Add Daily Target"
+                                    title="Add Daily Target"
+                                  />
+                                </Link>
+                              </td>
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
                               user.userGroupName === "Super Admin" ||

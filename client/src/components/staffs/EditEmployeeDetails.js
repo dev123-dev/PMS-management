@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
-
 import { connect } from "react-redux";
 import Select from "react-select";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -260,6 +259,22 @@ const EditEmployeeDetails = ({
     );
   }
   const [departmentId, setdepartmentId] = useState("");
+  // base64String = "data:image/jpeg;base64......";
+  const [photoSizeAlert, setPhotoSizeAlert] = useState(false);
+  const [photoSize, setPhotoSize] = useState(false);
+
+  const checksize = (base64) => {
+    var stringLength = base64.length - "data:image/png;base64,".length;
+    var sizeInBytes = 4 * Math.ceil(stringLength / 3) * 0.5624896334383812;
+    var sizeInKb = sizeInBytes / 1000;
+    console.log("sizeInKb", sizeInKb);
+    setPhotoSize(sizeInKb.toFixed(2) + "KB");
+    if (sizeInKb >= 70) {
+      setPhotoSizeAlert(true);
+    } else {
+      setPhotoSizeAlert(false);
+    }
+  };
 
   const onDepartmentChange = (e) => {
     var departmentId = "";
@@ -401,6 +416,14 @@ const EditEmployeeDetails = ({
     //   isSubmitted: true,
     // });
     // }
+  };
+  const removeImage = () => {
+    setFormData({
+      ...formData,
+      profilephoto: "",
+    });
+    setPhotoSizeAlert(false);
+    setPhotoSize("");
   };
   // code for next previous tabing ends
   return !isAuthenticated || !user || !users ? (
@@ -623,30 +646,66 @@ const EditEmployeeDetails = ({
                         <FileBase64
                           type="file"
                           multiple={false}
+                          accept="image/*,capture=camera"
+                          capture="”camera"
+                          onDone={({ base64 }) => {
+                            setFormData({
+                              ...formData,
+                              profilephoto: base64,
+                            });
+                            checksize(base64);
+                          }}
+                          // onDone={(base64) => checksize(base64)}
+                        />
+
+                        {/* <input
+                          accept="image/*,capture=camera"
+                          capture="”camera"
+                          type="file"
                           onDone={({ base64 }) =>
                             setFormData({
                               ...formData,
                               profilephoto: base64,
                             })
                           }
-                        />
+                          onChange={(event) => handleCompressedUpload(event)}
+                        /> */}
 
                         <img
                           className="photo_size"
                           alt="Preview"
                           src={`${profilephoto}`}
                         />
+                        {photoSize ? photoSize : ""}
                       </div>
+                      {profilephoto ? (
+                        <button
+                          className="btn btn_green_bg"
+                          onClick={() => removeImage()}
+                        >
+                          Remove
+                        </button>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                 </div>
                 <div className="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
-                  <input
-                    type="submit"
-                    name="submit"
-                    value="Next"
-                    className="btn sub_form btn_continue Save float-right"
-                  />
+                  {photoSizeAlert ? (
+                    <span className="float-right" style={{ color: "red" }}>
+                      {photoSizeAlert
+                        ? "Images size should be less than 70KB"
+                        : ""}
+                    </span>
+                  ) : (
+                    <input
+                      type="submit"
+                      name="submit"
+                      value="Next"
+                      className="btn sub_form btn_continue Save float-right"
+                    />
+                  )}
                 </div>
               </form>
             </div>
