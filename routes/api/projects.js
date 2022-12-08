@@ -798,4 +798,80 @@ router.post("/update-amendment-type-status", async (req, res) => {
   }
 });
 
+router.post("/get-clients-report", async (req, res) => {
+  const { selectedY, clientId, clientType } = req.body;
+  let query = {};
+  if (selectedY) {
+    query = { projectDate: { $regex: new RegExp("^" + selectedY, "i") } };
+  } else {
+    query = {
+      projectDate: { $regex: new RegExp("^" + new Date().getFullYear(), "i") },
+    };
+  }
+  if (clientId) {
+    query = { ...query, clientId: mongoose.Types.ObjectId(clientId) };
+  }
+
+  if (clientType) {
+    query = { ...query, "output.clientType": clientType };
+  }
+  try {
+    const getClientReport = await Project.aggregate([
+      {
+        $lookup: {
+          from: "clients",
+          localField: "clientId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $unwind: "$output" },
+      { $match: query },
+      {
+        $group: {
+          _id: {
+            clientId: "$clientId",
+            month: {
+              $month: {
+                $dateFromString: { dateString: "$projectDate" },
+              },
+            },
+          },
+          clientName: { $first: "$clientName" },
+          count: { $sum: "$projectQuantity" },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          count: 1,
+          clientId: "$_id.clientId",
+          month_year: { $concat: ["m", { $toString: "$_id.month" }] },
+          clientName: 1,
+        },
+      },
+      {
+        $group: {
+          _id: "$clientId",
+          clientName: { $first: "$clientName" },
+          data: { $push: { k: "$month_year", v: "$count" } },
+        },
+      },
+      {
+        $project: {
+          clientId: "$_id",
+          data: { $arrayToObject: "$data" },
+          clientName: 1,
+          _id: 0,
+        },
+      },
+      { $sort: { clientId: 1 } },
+    ]);
+    res.json(getClientReport);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;

@@ -7,6 +7,7 @@ import {
   ALL_DJS_FOLDER,
   // ALL_VERF_CLIENTS,
   ALL_VERF_FOLDER,
+  ACTIVE_REPORT_CLIENTS,
 } from "../actions/types";
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   activeDailyJobSheetFolder: [],
   // activeVerfificationClients: [],
   activeVerfificationFolders: [],
+  activeReportClients: [],
 };
 
 const client = (state = initialState, action) => {
@@ -63,6 +65,11 @@ const client = (state = initialState, action) => {
       return {
         ...state,
         activeVerfificationFolders: payload,
+      };
+    case ACTIVE_REPORT_CLIENTS:
+      return {
+        ...state,
+        activeReportClients: payload,
       };
     default:
       return state;

@@ -11,6 +11,7 @@ import {
   ALL_DJS_FOLDER,
   // ALL_VERF_CLIENTS,
   ALL_VERF_FOLDER,
+  ACTIVE_REPORT_CLIENTS,
 } from "./types";
 
 const config = {
@@ -202,6 +203,20 @@ export const getVerificationFolder = (selDateData) => async (dispatch) => {
     );
     dispatch({
       type: ALL_VERF_FOLDER,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getReportClients = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/client/get-Report-clients", finalData);
+    dispatch({
+      type: ACTIVE_REPORT_CLIENTS,
       payload: res.data,
     });
   } catch (err) {

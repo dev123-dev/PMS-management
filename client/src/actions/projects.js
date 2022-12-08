@@ -17,6 +17,7 @@ import {
   AMENDMENT_LAST_HISTORY_PROJECTS,
   AMENDMENT_LAST_COUNTER,
   SELECTED_CLIENT_DATA,
+  CLIENTS_REPORT_DATA,
 } from "./types";
 
 const config = {
@@ -523,5 +524,17 @@ export const updateProjectTrack = (finalData) => async (dispatch) => {
     dispatch({
       type: AUTH_ERROR,
     });
+  }
+};
+
+export const getClientsReport = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/projects/get-clients-report", finalData);
+    dispatch({
+      type: CLIENTS_REPORT_DATA,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
   }
 };

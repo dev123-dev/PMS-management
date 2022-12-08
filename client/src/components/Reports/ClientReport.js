@@ -1,128 +1,90 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
-import {
-  getAllEmployee,
-  getAllStaff,
-  getFilterEmpDetails,
-} from "../../actions/user";
-import {
-  getActiveClientsFilter,
-  getActiveStaffFilter,
-} from "../../actions/client";
+import { getReportClients } from "../../actions/client";
+import { getClientsReport } from "../../actions/projects";
 const ClientReport = ({
-  auth: { allUser, isAuthenticated, user, users },
-
-  client: { activeClientFilter, activeStaffFilter },
-
-  getActiveClientsFilter,
-  getActiveStaffFilter,
-  getAllProjectStatus,
+  auth: { isAuthenticated, user, users },
+  client: { activeReportClients },
+  project: { clientsReportData },
+  getReportClients,
+  getClientsReport,
 }) => {
   useEffect(() => {
-    getActiveClientsFilter();
-  }, [getActiveClientsFilter]);
-  // useEffect(() => {
-  //   getActiveStaffFilter();
-  // }, [getActiveStaffFilter]);
+    getReportClients();
+    getClientsReport();
+  }, [getReportClients, getClientsReport]);
 
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
   ];
-  const [showEditModal, setShowEditModal] = useState(false);
-  const handleEditModalClose = () => setShowEditModal(false);
 
-  const onEditModalChange = (e) => {
-    if (e) {
-      handleEditModalClose();
-    }
-  };
-
-  const [userDatas, setUserDatas] = useState(null);
-  // const onUpdate = (allEmployee, idx) => {
-  //   setShowEditModal(true);
-  //   setUserDatas(allEmployee);
-  // };
-
-  const [staffData, setstaffData] = useState("");
+  var clientDiffrence = "";
+  if (clientsReportData.length !== activeReportClients.length) {
+    clientDiffrence = activeReportClients.filter(
+      (allClients) =>
+        !clientsReportData.some(({ clientId }) => clientId === allClients._id)
+    );
+  }
 
   const onClickReset = () => {
-    getFilterEmpDetails("");
-    setstaffData("");
+    getReportClients();
+    getClientsReport();
+    setclientType("");
+    setClientData("");
+    setMonthStartDate(new Date());
   };
 
-  //formData
-  const [formData, setFormData] = useState({
-    clientType: "",
-    isSubmitted: false,
-  });
-
-  const { clientType, isSubmitted } = formData;
+  const [clientType, setclientType] = useState();
   const onClientTypeChange = (e) => {
     if (e) {
-      setFormData({
-        ...formData,
-        clientType: e,
-      });
-      let clientTypeVal = {
-        clientTypeinfo: e.value,
+      setclientType(e);
+      let finalData = {
+        clientType: e.value,
       };
-      getActiveClientsFilter(clientTypeVal);
+      getReportClients(finalData);
+      getClientsReport(finalData);
     }
-    setClientData("");
-    setFolderNameVal("");
   };
 
   const activeClientsOpt = [];
-  activeClientFilter.map((clientsData) =>
+  activeReportClients.map((clientsData) =>
     activeClientsOpt.push({
       clientId: clientsData._id,
-      belongsToId: clientsData.clientBelongsToId,
-      belongsTo: clientsData.clientBelongsToName,
-      folderName: clientsData.clientFolderName,
       label: clientsData.clientName,
       value: clientsData.clientName,
     })
   );
 
-  // const projectStatusOpt = [];
-  // allProjectStatus.map((projStatusData) =>
-  //   projectStatusOpt.push({
-  //     projStatusId: projStatusData._id,
-  //     label: projStatusData.projectStatusType,
-  //     value: projStatusData.projectStatusType,
-  //   })
-  // );
   const [clientData, setClientData] = useState("");
-  const [clientId, setClientId] = useState("");
-  // const [clientBelongsTo, setBelongsToVal] = useState("");
-  const [clientFolderName, setFolderNameVal] = useState("");
+  const [clientFilter, setClientFilter] = useState(false);
   const onClientChange = (e) => {
     if (e) {
-      setFormData({
-        ...formData,
-        clientId: clientId,
-      });
-      let clientVal = {
+      setClientData(e);
+      let finalData = {
         clientId: e.clientId,
       };
-      getActiveStaffFilter(clientVal);
+      getClientsReport(finalData);
     }
-    setClientData(e);
-    setClientId(e.clientId);
-    // setBelongsToVal(e.belongsTo);
-
-    setFolderNameVal(e.folderName);
+    setClientFilter(true);
   };
-  const [startMonthDate, setMonthStartDate] = useState(new Date());
-  const monthYearChange = (dt) => {};
 
+  const [startMonthDate, setMonthStartDate] = useState(new Date());
+  const yearChange = (dt) => {
+    var getYear = new Date(dt).getFullYear();
+    setMonthStartDate(dt);
+    const finalData = {
+      selectedY: getYear,
+    };
+    getClientsReport(finalData);
+    setClientFilter(false);
+  };
+
+  let idVal = 0;
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -138,8 +100,7 @@ const ClientReport = ({
               <DatePicker
                 className="form-control yearpicker"
                 placeholder="yyyy"
-                //   maxDate={subMonths(new Date(), -1)}
-                onChange={(date) => monthYearChange(date)}
+                onChange={(date) => yearChange(date)}
                 dateFormat="yyyy"
                 selected={startMonthDate}
                 style={{ textAlign: "center" }}
@@ -151,7 +112,7 @@ const ClientReport = ({
                 name="clientType"
                 isSearchable={true}
                 options={clientTypeVal}
-                value={clientType || clientTypeVal[0]}
+                value={clientType}
                 placeholder="Client Type"
                 onChange={(e) => onClientTypeChange(e)}
               />
@@ -167,12 +128,12 @@ const ClientReport = ({
               />
             </div>
             <div className="col-lg-5 col-md-11 col-sm-12 col-11 py-3">
-              <button
+              {/* <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
               >
                 Export
-              </button>
+              </button> */}
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -193,57 +154,80 @@ const ClientReport = ({
                       <tr>
                         <th>Sl No.</th>
                         <th>Client</th>
-                        <th>January</th>
-                        <th>Febraury</th>
-                        <th>March</th>
-                        <th>April</th>
+                        <th>Jan</th>
+                        <th>Feb</th>
+                        <th>Mar</th>
+                        <th>Apr</th>
                         <th>May</th>
-                        <th>June</th>
-                        <th>July</th>
-                        <th>August</th>
-                        <th>September</th>
-                        <th>October</th>
-                        <th>November</th>
-                        <th>December</th>
+                        <th>Jun</th>
+                        <th>Jul</th>
+                        <th>Aug</th>
+                        <th>Sep</th>
+                        <th>Oct</th>
+                        <th>Nov</th>
+                        <th>Dec</th>
+                        <th>Total</th>
                       </tr>
                     </thead>
+                    <tbody>
+                      {clientsReportData &&
+                        clientsReportData.map((clientReport, idx) => {
+                          let data = clientReport.data;
+                          idVal++;
+                          return (
+                            <tr key={idx}>
+                              <td>{idVal}</td>
+                              <td>{clientReport.clientName}</td>
+                              <td>{data["m1"]}</td>
+                              <td>{data["m2"]}</td>
+                              <td>{data["m3"]}</td>
+                              <td>{data["m4"]}</td>
+                              <td>{data["m5"]}</td>
+                              <td>{data["m6"]}</td>
+                              <td>{data["m7"]}</td>
+                              <td>{data["m8"]}</td>
+                              <td>{data["m9"]}</td>
+                              <td>{data["m10"]}</td>
+                              <td>{data["m11"]}</td>
+                              <td>{data["m12"]}</td>
+                              <td>
+                                {Object.values(data).reduce((a, b) => a + b, 0)}
+                              </td>
+                            </tr>
+                          );
+                        })}
+
+                      {!clientFilter &&
+                        clientDiffrence &&
+                        clientDiffrence.map((clientDiff, idx) => {
+                          idVal++;
+                          return (
+                            <tr key={idx}>
+                              <td>{idVal}</td>
+                              <td>{clientDiff.clientName}</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </section>
             </div>
           </div>
-
-          <div className="row col-md-12 col-lg-12 col-sm-12 col-12  ">
-            <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
-              {/* <strong> No of Clients:{allEmployee.length}</strong> */}
-            </div>
-          </div>
         </section>
-        <Modal
-          show={showEditModal}
-          backdrop="static"
-          keyboard={false}
-          size="xl"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header>
-            <div className="col-lg-10 col-md-10 col-sm-10 col-10">
-              <h3 className="modal-title text-center">Edit Staff Details</h3>
-            </div>
-            <div className="col-lg-2 col-md-2 col-sm-2 col-2">
-              <button onClick={handleEditModalClose} className="close">
-                <img
-                  src={require("../../static/images/close.png")}
-                  alt="X"
-                  style={{ height: "20px", width: "20px" }}
-                />
-              </button>
-            </div>
-          </Modal.Header>
-          <Modal.Body></Modal.Body>
-        </Modal>
       </div>
     </Fragment>
   );
@@ -253,23 +237,16 @@ ClientReport.propTypes = {
   auth: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  // getAllProjectStatus: PropTypes.func.isRequired,
-  getActiveClientsFilter: PropTypes.func.isRequired,
-  // getActiveStaffFilter: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   user: state.user,
   settings: state.settings,
   client: state.client,
+  project: state.project,
 });
 
 export default connect(mapStateToProps, {
-  getAllEmployee,
-  getAllStaff,
-  getFilterEmpDetails,
-
-  // getAllProjectStatus,
-  getActiveClientsFilter,
-  // getActiveStaffFilter,
+  getReportClients,
+  getClientsReport,
 })(ClientReport);

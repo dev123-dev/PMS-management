@@ -343,4 +343,19 @@ router.post("/get-verification-folder", async (req, res) => {
   }
 });
 
+router.post("/get-Report-clients", async (req, res) => {
+  const { clientType } = req.body;
+  let query = {};
+  if (clientType) {
+    query = { clientType: clientType };
+  }
+  try {
+    const getProjectClients = await ClientDetails.find(query);
+    res.json(getProjectClients);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 module.exports = router;

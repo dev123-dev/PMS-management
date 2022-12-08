@@ -44,7 +44,7 @@ router.post("/generate-agreement-doc", async (req, res) => {
       fromDesg: data.fromDesg,
       toName: data.toName,
       toDesg: data.toDesg,
-      date: data.agreementDate,
+      agreementDate: data.agreementDate,
     });
 
     const buf = doc.getZip().generate({
