@@ -100,6 +100,8 @@ router.post("/edit-project", async (req, res) => {
           projectNotes: data.projectNotes,
           projectDeadline: data.projectDeadline,
           projectQuantity: data.projectQuantity,
+          staffName: data.staffName,
+          staffId: data.staffId,
           clientTypeVal: data.clientTypeVal,
           projectTime: data.projectTime,
           projectDate: data.projectDate,

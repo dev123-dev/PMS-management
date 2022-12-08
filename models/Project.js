@@ -14,6 +14,12 @@ const ProjectSchema = new mongoose.Schema({
   clientName: {
     type: String,
   },
+  staffId: {
+    type: ObjectId,
+  },
+  staffName: {
+    type: String,
+  },
   parentClientId: {
     type: ObjectId,
   },
