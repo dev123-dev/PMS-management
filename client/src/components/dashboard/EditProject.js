@@ -45,7 +45,7 @@ const EditProject = ({
   useEffect(() => {
     getActiveStaffFilter();
   }, [getActiveStaffFilter]);
-  console.log("allProjectdata", allProjectdata);
+
   //formData
   const [formData, setFormData] = useState({
     projectName:
