@@ -128,7 +128,7 @@ const EditProject = ({
 
     isSubmitted: false,
   });
-
+  console.log("allProjectdata", allProjectdata);
   const {
     projectName,
     qty,
@@ -279,9 +279,9 @@ const EditProject = ({
     );
 
   const [staff, getstaffData] = useState(
-    allProjectdata
+    allProjectdata && allProjectdata
       ? allstaffs &&
-          allstaffs.filter((x) => x.value === allProjectdata.staffName)
+          allstaffs.filter((x) => x.sId === allProjectdata.staffId)[0]
       : ""
   );
 
