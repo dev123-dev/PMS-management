@@ -324,6 +324,8 @@ const AddProject = ({
         projectQuantity: qty,
         projectUnconfirmed: isChecked,
         clientTypeVal: clientType.value,
+        staffName: staffName,
+        staffId: staffId,
         //   projectTime: projectTime,
         projectDate: startprojectDate,
         projectTime: projectEnteredTime,
