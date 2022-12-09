@@ -30,25 +30,25 @@ const AddDailyTarget = ({
   });
 
   const { projectName, projectQuantity, isSubmitted } = formData;
-  const clientTypeVal = [
+  const targetTypeVal = [
     { value: "Day", label: "Day" },
     { value: "Night", label: "Night" },
   ];
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const allpaymentmodes = [];
-  activeTeams.map((payment) =>
-    allpaymentmodes.push({
-      paymentId: payment._id,
-      label: payment.teamName,
-      value: payment.teamName,
+  const allactiveTeams = [];
+  activeTeams.map((teams) =>
+    allactiveTeams.push({
+      teamId: teams._id,
+      label: teams.teamName,
+      value: teams.teamName,
     })
   );
-  const [payment, getStateData] = useState("");
-  const [paymentId, setpaymentId] = useState("");
-  const [paymentModeName, setpaymentname] = useState("");
-  const onPayModeChange = (e) => {
+  const [teams, getteamsData] = useState("");
+  const [teamsId, setteamsId] = useState("");
+  const [teamsName, setteamsname] = useState("");
+  const onTeamChange = (e) => {
     //Required Validation starts
     // setError({
     //   ...error,
@@ -57,18 +57,21 @@ const AddDailyTarget = ({
     // });
     //Required Validation ends
 
-    var paymentId = "";
-    var paymentModeName = "";
+    var teamsId = "";
+    var teamsName = "";
+    getteamsData(e);
+    teamsId = e.teamsId;
+    teamsName = e.value;
 
-    paymentId = e.paymentId;
-    paymentModeName = e.value;
+    setteamsId(teamsId);
+    setteamsname(teamsName);
 
     setFormDatas({
       ...addData,
-      payment1: paymentModeName,
+      teamsName: teamsName,
     });
   };
-  const onClientTypeChange = (e) => {
+  const onTargetChange = (e) => {
     //Required Validation starts
     // setError({
     //   ...error,
@@ -79,7 +82,7 @@ const AddDailyTarget = ({
     if (e) {
       setFormDatas({
         ...addData,
-        clientType: e,
+        targetType: e,
       });
     }
   };
@@ -101,12 +104,12 @@ const AddDailyTarget = ({
   const [addData, setFormDatas] = useState({
     isChecked: false,
     staffName: "",
-    clientTime: "",
-    clientType: "",
-    payment1: "",
+    estimatedTime: "",
+    targetType: "",
+    qty: "",
   });
 
-  const { staffName, clientTime, clientType, isChecked, payment1 } = addData;
+  const { staffName, estimatedTime, targetType, qty, isChecked } = addData;
 
   const [error1, setError1] = useState({
     nametypeIdChecker: false,
@@ -126,31 +129,37 @@ const AddDailyTarget = ({
   };
   const [AddedDetails, AddDetails] = useState([]);
   const onAdd = (e) => {
-    // const staffList = AddedDetails.filter(
+    // const projectList = AddedDetails.filter(
     //   (AddDetails) => AddDetails.staffName === staffName
     // );
 
     // e.preventDefault();
-    // if (staffList.length === 0) {
+    // if (projectList.length === 0) {
     //   if (checkErrorscontact()) {
     const addData = {
       staffName: staffName.charAt(0).toUpperCase() + staffName.slice(1),
-      clientTime: clientTime,
-      clientType: clientType.value,
-      payment1: paymentModeName,
+      estimatedTime: estimatedTime,
+      targetType: targetType.value,
+      qty: qty,
+      teamsName: teamsName,
+      teamsId: teamsId,
       isChecked: isChecked,
     };
 
     setFormDatas({
       ...addData,
       staffName: "",
-      clientTime: "",
-      clientType: "",
+      estimatedTime: "",
+      targetType: "",
+      qty: "",
+      teamsName: "",
+      teamsId: "",
       payment: "",
       isChecked: false,
     });
-    // setstaffCountryCode("");
-    // getstaffcountryData("");
+    getteamsData("");
+    setteamsId("");
+    setteamsname("");
     let temp = [];
     temp.push(...AddedDetails, addData);
     AddDetails(temp);
@@ -218,8 +227,8 @@ const AddDailyTarget = ({
                   </label>
                   <input
                     type="number"
-                    name="staffName"
-                    value={staffName}
+                    name="qty"
+                    value={qty}
                     className="form-control"
                     onChange={(e) => onInputChange1(e)}
                     required
@@ -229,8 +238,8 @@ const AddDailyTarget = ({
                   <label className="label-control">Remaining Qty :</label>
                   <input
                     type="number"
-                    // name="sctPhone2"
-                    // value={sctPhone2}
+                    // name="Remaining"
+                    // value={Remaining}
                     className="form-control"
                     disabled
                   />
@@ -239,24 +248,24 @@ const AddDailyTarget = ({
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Assigned To:</label>
                   <Select
-                    name="paymentMode"
-                    options={allpaymentmodes}
+                    name="teamName"
+                    options={allactiveTeams}
                     isSearchable={true}
-                    value={payment}
-                    placeholder="Select Mode"
-                    onChange={(e) => onPayModeChange(e)}
+                    value={teams}
+                    placeholder="Select Team"
+                    onChange={(e) => onTeamChange(e)}
                   />
                 </div>
 
                 <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                   <label className="label-control">Target Set For:</label>
                   <Select
-                    name="clientType"
+                    name="targetType"
                     isSearchable={true}
-                    options={clientTypeVal}
-                    value={clientType}
+                    options={targetTypeVal}
+                    value={targetType}
                     placeholder="Select"
-                    onChange={(e) => onClientTypeChange(e)}
+                    onChange={(e) => onTargetChange(e)}
                   />
                 </div>
 
@@ -264,8 +273,8 @@ const AddDailyTarget = ({
                   <label className="label-control">Estimated Time :</label>
                   <input
                     type="time"
-                    name="clientTime"
-                    value={clientTime}
+                    name="estimatedTime"
+                    value={estimatedTime}
                     className="form-control"
                     min="00:00"
                     max="24:00"
@@ -315,11 +324,11 @@ const AddDailyTarget = ({
                       AddedDetails.map((AddDetail, idx) => {
                         return (
                           <tr key={idx}>
-                            <td>{AddDetail.staffName}</td>
-                            <td>{AddDetail.payment}</td>
-                            <td>{AddDetail.clientTime}</td>
-                            <td>{AddDetail.clientType}</td>
+                            <td>{AddDetail.teamsName}</td>
+                            <td>{AddDetail.targetType}</td>
+                            <td>{AddDetail.qty}</td>
                             <td>{AddDetail.isChecked}</td>
+                            <td>{AddDetail.estimatedTime}</td>
                             <td>
                               <img
                                 className="img_icon_size log"
