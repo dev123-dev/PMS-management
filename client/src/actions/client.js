@@ -12,6 +12,8 @@ import {
   // ALL_VERF_CLIENTS,
   ALL_VERF_FOLDER,
   ACTIVE_REPORT_CLIENTS,
+  ALL_DCT_CLIENTS,
+  CLIENT_FILTER,
 } from "./types";
 
 const config = {
@@ -123,6 +125,36 @@ export const getActiveClientsFilter = (clientTypeVal) => async (dispatch) => {
     dispatch({
       type: AUTH_ERROR,
     });
+  }
+};
+
+export const getClientsFilter = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/client/get-client-filter");
+    localStorage.setItem("activeClientData", JSON.stringify(res.data));
+    dispatch({
+      type: CLIENT_FILTER,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getFilterDCTClientDetails = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/client/get-filter-dctclient-details",
+      finalData
+    );
+    dispatch({
+      type: ALL_DCT_CLIENTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
   }
 };
 

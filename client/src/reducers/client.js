@@ -2,6 +2,7 @@ import {
   ALL_CLIENTS,
   ACTIVE_CLIENTS,
   ACTIVE_CLIENT_FILTER,
+  CLIENT_FILTER,
   ACTIVE_STAFF_FILTER,
   // ALL_DJS_CLIENTS,
   ALL_DJS_FOLDER,
@@ -15,6 +16,7 @@ const initialState = {
   activeClient: [],
   activeClientFilter: [],
   activeStaffFilter: [],
+  allfilterClients: [],
   // activeDailyJobSheetClients: [],
   activeDailyJobSheetFolder: [],
   // activeVerfificationClients: [],
@@ -40,6 +42,13 @@ const client = (state = initialState, action) => {
         ...state,
         activeClientFilter: payload,
       };
+
+    case CLIENT_FILTER:
+      return {
+        ...state,
+        allfilterClients: payload,
+      };
+
     case ACTIVE_STAFF_FILTER:
       return {
         ...state,
