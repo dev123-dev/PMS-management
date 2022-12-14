@@ -20,7 +20,7 @@ const ClientCallHistory = ({
           <thead>
             <tr>
               <th style={{ width: "10%" }}>Staff Name </th>
-              <th style={{ width: "5%" }}>Call Taken </th>
+              <th style={{ width: "6%" }}>Call Taken Date</th>
               <th style={{ width: "5%" }}>Status</th>
               <th style={{ width: "5%" }}>Category</th>
               <th style={{ width: "6%" }}>Next Call Date</th>
