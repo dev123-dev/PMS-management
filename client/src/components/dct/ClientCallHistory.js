@@ -20,10 +20,11 @@ const ClientCallHistory = ({
           <thead>
             <tr>
               <th style={{ width: "10%" }}>Staff Name </th>
-              <th style={{ width: "5%" }}>Call Date</th>
+              <th style={{ width: "5%" }}>Call Taken </th>
               <th style={{ width: "5%" }}>Status</th>
               <th style={{ width: "5%" }}>Category</th>
-              <th style={{ width: "30%" }}>Notes</th>
+              <th style={{ width: "6%" }}>Next Call Date</th>
+              <th style={{ width: "25%" }}>Notes</th>
               <th style={{ width: "6%" }}>By</th>
             </tr>
           </thead>
@@ -34,6 +35,11 @@ const ClientCallHistory = ({
                 if (callHistory.callDate) {
                   var ED = callHistory.callDate.split(/\D/g);
                   callDates = [ED[2], ED[1], ED[0]].join("-");
+                }
+                var callTakenDate = "";
+                if (callHistory.callTakenDate) {
+                  var ED1 = callHistory.callTakenDate.split(/\D/g);
+                  callTakenDate = [ED1[2], ED1[1], ED1[0]].join("-");
                 }
                 if (callHistory.callCategory === "F") {
                   var callCategory = "Followup";
@@ -47,9 +53,10 @@ const ClientCallHistory = ({
                 return (
                   <tr key={idx}>
                     <td>{callHistory.callToStaffName}</td>
-                    <td>{callDates}</td>
+                    <td>{callTakenDate}</td>
                     <td>{callHistory.callStatus}</td>
                     <td>{callCategory}</td>
+                    <td>{callDates}</td>
                     <td>
                       <Link
                         to="#"
