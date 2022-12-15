@@ -13,7 +13,7 @@ import {
 import DeactiveDctClient from "./DeactiveDctClient";
 const AllDctClients = ({
   auth: { isAuthenticated, user, users },
-  dct: { allDctClients, allDctClientsDD },
+  dct: { allDctClients },
   client: { allfilterClients },
   getClientsFilter,
   getFilterDCTClientDetails,
@@ -28,12 +28,6 @@ const AllDctClients = ({
   useEffect(() => {
     getFilterDCTClientDetails();
   }, [getFilterDCTClientDetails]);
-
-  const [formData, setFormData] = useState({
-    isSubmitted: false,
-  });
-
-  const {} = formData;
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
   const handleDeactiveModalClose = () => setShowDeactiveModal(false);
