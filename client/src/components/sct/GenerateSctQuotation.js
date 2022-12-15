@@ -116,20 +116,8 @@ const GenerateSctQuotation = ({
   const [error, setError] = useState({
     FrmCmpnyErrorStyle: {},
     FrmCmpnyIdChecker: false,
-    // paymentmodeIdChecker: false,
-    // paymentmodeIdErrorStyle: {},
-    // clienttypeIdChecker: false,
-
-    // clienttypeIdErrorStyle: {},
   });
-  const {
-    FrmCmpnyErrorStyle,
-    FrmCmpnyIdChecker,
-    // paymentmodeIdChecker,
-    // paymentmodeIdErrorStyle,
-    // clienttypeIdChecker,
-    // clienttypeIdErrorStyle,
-  } = error;
+  const { FrmCmpnyErrorStyle, FrmCmpnyIdChecker } = error;
 
   const checkErrors = () => {
     if (!FrmCmpnyIdChecker) {
@@ -139,13 +127,6 @@ const GenerateSctQuotation = ({
       });
       return false;
     }
-    // if (!paymentmodeIdChecker) {
-    //   setError({
-    //     ...error,
-    //     paymentmodeIdErrorStyle: { color: "#F00" },
-    //   });
-    //   return false;
-    // }
 
     return true;
   };
@@ -202,25 +183,64 @@ const GenerateSctQuotation = ({
         itemName: itemName,
         GST: GST,
         rate: rate,
+        baseRate: (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2),
         qty: qty,
-        amt: Math.round(qty * rate),
+        amt: Math.round(
+          qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
+        ),
         SGST: SGST,
         CGST: CGST,
         IGST: IGST,
         totalAmt: Math.round(
-          Number(qty * rate) +
-            (Number(qty * rate) * Number(GST)) / 100 +
-            (Number(qty * rate) * Number(SGST)) / 100 +
-            (Number(qty * rate) * Number(CGST)) / 100 +
-            (Number(qty * rate) * Number(IGST)) / 100
+          Number(
+            qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
+          ) +
+            (Number(
+              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
+            ) *
+              Number(GST)) /
+              100 +
+            (Number(
+              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
+            ) *
+              Number(SGST)) /
+              100 +
+            (Number(
+              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
+            ) *
+              Number(CGST)) /
+              100 +
+            (Number(
+              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
+            ) *
+              Number(IGST)) /
+              100
         ),
         discount: discount,
         grandTotal: Math.round(
-          Number(qty * rate) +
-            (Number(qty * rate) * Number(GST)) / 100 +
-            (Number(qty * rate) * Number(SGST)) / 100 +
-            (Number(qty * rate) * Number(CGST)) / 100 +
-            (Number(qty * rate) * Number(IGST)) / 100 -
+          Number(
+            qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
+          ) +
+            (Number(
+              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
+            ) *
+              Number(GST)) /
+              100 +
+            (Number(
+              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
+            ) *
+              Number(SGST)) /
+              100 +
+            (Number(
+              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
+            ) *
+              Number(CGST)) /
+              100 +
+            (Number(
+              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
+            ) *
+              Number(IGST)) /
+              100 -
             Number(discount)
         ),
         desc: desc,
@@ -230,6 +250,7 @@ const GenerateSctQuotation = ({
         itemName: "",
         GST: "",
         rate: "",
+        baseRate: "",
         qty: "",
         amt: "",
         CGST: "",
@@ -316,10 +337,6 @@ const GenerateSctQuotation = ({
   const onInputChange1 = (e) => {
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
-
-  // if (isSubmitted) {
-  //   return <Redirect to="/all-clients" />;
-  // }
 
   if (!data) {
     return <Redirect to="/all-sct-documents" />;
@@ -484,7 +501,7 @@ const GenerateSctQuotation = ({
                   }
                 />
               </div>
-              <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
                 <label>Rate :</label>
                 <input
                   type="Number"
@@ -498,12 +515,34 @@ const GenerateSctQuotation = ({
                   }
                 />
               </div>
+              <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                <label>Base Rate :</label>
+                <input
+                  type="Number"
+                  name="baseRate"
+                  value={(
+                    rate / parseFloat("1." + ("0" + GST).slice(-2))
+                  ).toFixed(2)}
+                  className="form-control"
+                  onChange={(e) => onInputChange1(e)}
+                  onKeyDown={(e) =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
+                  disabled
+                />
+              </div>
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label>Amount :</label>
+                <label className="label-control">Amount :</label>
                 <input
                   type="Number"
                   name="amt"
-                  value={Math.round(qty * rate)}
+                  value={Math.round(
+                    qty *
+                      (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(
+                        2
+                      )
+                  )}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
                   onKeyDown={(e) =>
@@ -579,11 +618,44 @@ const GenerateSctQuotation = ({
                       type="text"
                       name="totalAmt"
                       value={Math.round(
-                        Number(qty * rate) +
-                          (Number(qty * rate) * Number(GST)) / 100 +
-                          (Number(qty * rate) * Number(SGST)) / 100 +
-                          (Number(qty * rate) * Number(CGST)) / 100 +
-                          (Number(qty * rate) * Number(IGST)) / 100
+                        Number(
+                          qty *
+                            (
+                              rate / parseFloat("1." + ("0" + GST).slice(-2))
+                            ).toFixed(2)
+                        ) +
+                          (Number(
+                            qty *
+                              (
+                                rate / parseFloat("1." + ("0" + GST).slice(-2))
+                              ).toFixed(2)
+                          ) *
+                            Number(GST)) /
+                            100 +
+                          (Number(
+                            qty *
+                              (
+                                rate / parseFloat("1." + ("0" + GST).slice(-2))
+                              ).toFixed(2)
+                          ) *
+                            Number(SGST)) /
+                            100 +
+                          (Number(
+                            qty *
+                              (
+                                rate / parseFloat("1." + ("0" + GST).slice(-2))
+                              ).toFixed(2)
+                          ) *
+                            Number(CGST)) /
+                            100 +
+                          (Number(
+                            qty *
+                              (
+                                rate / parseFloat("1." + ("0" + GST).slice(-2))
+                              ).toFixed(2)
+                          ) *
+                            Number(IGST)) /
+                            100
                       )}
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
@@ -612,11 +684,44 @@ const GenerateSctQuotation = ({
                   type="text"
                   name="grandTotal"
                   value={Math.round(
-                    Number(qty * rate) +
-                      (Number(qty * rate) * Number(GST)) / 100 +
-                      (Number(qty * rate) * Number(SGST)) / 100 +
-                      (Number(qty * rate) * Number(CGST)) / 100 +
-                      (Number(qty * rate) * Number(IGST)) / 100 -
+                    Number(
+                      qty *
+                        (
+                          rate / parseFloat("1." + ("0" + GST).slice(-2))
+                        ).toFixed(2)
+                    ) +
+                      (Number(
+                        qty *
+                          (
+                            rate / parseFloat("1." + ("0" + GST).slice(-2))
+                          ).toFixed(2)
+                      ) *
+                        Number(GST)) /
+                        100 +
+                      (Number(
+                        qty *
+                          (
+                            rate / parseFloat("1." + ("0" + GST).slice(-2))
+                          ).toFixed(2)
+                      ) *
+                        Number(SGST)) /
+                        100 +
+                      (Number(
+                        qty *
+                          (
+                            rate / parseFloat("1." + ("0" + GST).slice(-2))
+                          ).toFixed(2)
+                      ) *
+                        Number(CGST)) /
+                        100 +
+                      (Number(
+                        qty *
+                          (
+                            rate / parseFloat("1." + ("0" + GST).slice(-2))
+                          ).toFixed(2)
+                      ) *
+                        Number(IGST)) /
+                        100 -
                       Number(discount)
                   )}
                   className="form-control"
@@ -661,6 +766,7 @@ const GenerateSctQuotation = ({
                   <tr>
                     <th>Item Name</th>
                     <th>Rate</th>
+                    <th>Base Rate</th>
                     <th>Qty</th>
                     <th>Amount</th>
                     {showGSTSection && (
@@ -685,6 +791,7 @@ const GenerateSctQuotation = ({
                         <tr key={idx}>
                           <td>{AddDetail.itemName}</td>
                           <td>{AddDetail.rate}</td>
+                          <td>{AddDetail.baseRate}</td>
                           <td>{AddDetail.qty}</td>
                           <td>{AddDetail.amt}</td>
                           {showGSTSection && (
