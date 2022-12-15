@@ -7,7 +7,6 @@ import Select from "react-select";
 import Spinner from "../layout/Spinner";
 import { getAllDctClient } from "../../actions/dct";
 import {
-  getActiveClientsFilter,
   getClientsFilter,
   getFilterDCTClientDetails,
 } from "../../actions/client";
@@ -54,17 +53,12 @@ const AllDctClients = ({
   allfilterClients.map((clientsData) =>
     activeClientsOpt.push({
       clientId: clientsData._id,
-      belongsToId: clientsData.clientBelongsToId,
-      belongsTo: clientsData.clientBelongsToName,
-      folderName: clientsData.clientFolderName,
       label: clientsData.clientName,
       value: clientsData.clientName,
     })
   );
   const [clientData, setClientData] = useState("");
   const [clientId, setClientId] = useState("");
-  // const [clientBelongsTo, setBelongsToVal] = useState("");
-  const [clientFolderName, setFolderNameVal] = useState("");
 
   const onClientChange = (e) => {
     setClientData(e);
