@@ -35,8 +35,8 @@ const GenerateInvoice = ({
       sctDataVal && sctDataVal.sctClientAddress
         ? sctDataVal.sctClientAddress
         : "",
-    sctEmailId:
-      sctDataVal && sctDataVal.sctEmailId ? sctDataVal.sctEmailId : "",
+    // sctEmailId:
+    //   sctDataVal && sctDataVal.sctEmailId ? sctDataVal.sctEmailId : "",
     sctCompanyName:
       sctDataVal && sctDataVal.sctCompanyName ? sctDataVal.sctCompanyName : "",
     sctClientAssignedToName:
@@ -50,6 +50,7 @@ const GenerateInvoice = ({
     modeOfPayment: "",
     invoiceNo: "",
     invoiceDate: "",
+    EmailId: "",
     isSubmitted: false,
   });
 
@@ -60,7 +61,7 @@ const GenerateInvoice = ({
     sctClientAssignedToName,
     sctClientAddress,
     modeOfPayment,
-    sctEmailId,
+    EmailId,
     isSubmitted,
   } = formData;
 
@@ -341,6 +342,7 @@ const GenerateInvoice = ({
           selectedBank && selectedBank.bankData ? selectedBank.bankData : null,
         invoiceEnteredById: user._id,
         invoiceEnteredByDateTime: new Date().toLocaleString("en-GB"),
+        EmailId: EmailId,
       };
       saveInvoice(finalData);
       setFormData({
@@ -431,13 +433,13 @@ const GenerateInvoice = ({
                 />
               </div>
               <div className="col-lg-5 col-md-6 col-sm-6 col-12 py-1">
-                <label>Client Email :</label>
+                <label>Email :</label>
                 <input
                   type="text"
-                  name="sctEmailId"
-                  value={sctEmailId}
+                  name="EmailId"
+                  value={EmailId}
                   className="form-control"
-                  disabled
+                  onChange={(e) => onInputChange(e)}
                 />
               </div>
               <br />

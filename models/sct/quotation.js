@@ -11,6 +11,9 @@ const QuotationsSchema = new mongoose.Schema({
   quotationNo: {
     type: String,
   },
+  EmailId: {
+    type: String,
+  },
   quotationDate: {
     type: String,
   },

@@ -30,8 +30,6 @@ const GenerateSctQuotation = ({
         ? sctDataVal.sctClientAddress
         : "",
 
-    sctEmailId:
-      sctDataVal && sctDataVal.sctEmailId ? sctDataVal.sctEmailId : "",
     sctCompanyName:
       sctDataVal && sctDataVal.sctCompanyName ? sctDataVal.sctCompanyName : "",
     sctClientAssignedToName:
@@ -42,7 +40,7 @@ const GenerateSctQuotation = ({
       sctDataVal && sctDataVal.sctClientAssignedToId
         ? sctDataVal.sctClientAssignedToId
         : "",
-
+    EmailId: "",
     quotationNo: "",
     quotationDate: "",
     isSubmitted: false,
@@ -54,7 +52,7 @@ const GenerateSctQuotation = ({
     sctCompanyName,
     sctClientAssignedToName,
     sctClientAddress,
-    sctEmailId,
+    EmailId,
     isSubmitted,
   } = formData;
 
@@ -305,6 +303,7 @@ const GenerateSctQuotation = ({
         quotationGenerated: sctDataVal ? sctDataVal.quotationGenerated : "",
         quotation: sctDataVal ? sctDataVal.quotation : null,
         clientName: sctCompanyName,
+        EmailId: EmailId,
         quotationNo: quotationNo,
         quotationDate: startquotationDate,
         clientFromId: sctClientAssignedToId,
@@ -408,13 +407,13 @@ const GenerateSctQuotation = ({
                 />
               </div>
               <div className="col-lg-5 col-md-6 col-sm-6 col-12 py-2">
-                <label className="label-control">Client Email :</label>
+                <label>Email :</label>
                 <input
                   type="text"
-                  name="sctEmailId"
-                  value={sctEmailId}
+                  name="EmailId"
+                  value={EmailId}
                   className="form-control"
-                  disabled
+                  onChange={(e) => onInputChange(e)}
                 />
               </div>
 
