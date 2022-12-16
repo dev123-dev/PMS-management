@@ -23,12 +23,15 @@ const GenerateSctQuotation = ({
   }, [getALLCompanyDetails]);
 
   //formData
+  console.log("sctDataVal", sctDataVal);
   const [formData, setFormData] = useState({
     sctClientAddress:
       sctDataVal && sctDataVal.sctClientAddress
         ? sctDataVal.sctClientAddress
         : "",
 
+    sctEmailId:
+      sctDataVal && sctDataVal.sctEmailId ? sctDataVal.sctEmailId : "",
     sctCompanyName:
       sctDataVal && sctDataVal.sctCompanyName ? sctDataVal.sctCompanyName : "",
     sctClientAssignedToName:
@@ -51,7 +54,7 @@ const GenerateSctQuotation = ({
     sctCompanyName,
     sctClientAssignedToName,
     sctClientAddress,
-
+    sctEmailId,
     isSubmitted,
   } = formData;
 
@@ -404,6 +407,17 @@ const GenerateSctQuotation = ({
                   required
                 />
               </div>
+              <div className="col-lg-5 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">Client Email :</label>
+                <input
+                  type="text"
+                  name="sctEmailId"
+                  value={sctEmailId}
+                  className="form-control"
+                  disabled
+                />
+              </div>
+
               <br />
               <div className="row card-new col-lg-12 col-md-11 col-sm-12 col-12 ">
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">

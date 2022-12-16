@@ -35,7 +35,8 @@ const GenerateInvoice = ({
       sctDataVal && sctDataVal.sctClientAddress
         ? sctDataVal.sctClientAddress
         : "",
-
+    sctEmailId:
+      sctDataVal && sctDataVal.sctEmailId ? sctDataVal.sctEmailId : "",
     sctCompanyName:
       sctDataVal && sctDataVal.sctCompanyName ? sctDataVal.sctCompanyName : "",
     sctClientAssignedToName:
@@ -59,6 +60,7 @@ const GenerateInvoice = ({
     sctClientAssignedToName,
     sctClientAddress,
     modeOfPayment,
+    sctEmailId,
     isSubmitted,
   } = formData;
 
@@ -425,6 +427,16 @@ const GenerateInvoice = ({
                   value={sctClientAssignedToName}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
+                  disabled
+                />
+              </div>
+              <div className="col-lg-5 col-md-6 col-sm-6 col-12 py-1">
+                <label>Client Email :</label>
+                <input
+                  type="text"
+                  name="sctEmailId"
+                  value={sctEmailId}
+                  className="form-control"
                   disabled
                 />
               </div>
