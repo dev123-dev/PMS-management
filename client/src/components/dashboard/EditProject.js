@@ -128,7 +128,7 @@ const EditProject = ({
 
     isSubmitted: false,
   });
-  console.log("allProjectdata", allProjectdata);
+
   const {
     projectName,
     qty,

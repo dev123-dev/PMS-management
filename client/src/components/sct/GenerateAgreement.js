@@ -163,7 +163,6 @@ const GenerateAgreement = ({
         agreementEnteredById: user._id,
         agreementEnteredByDateTime: new Date().toLocaleString("en-GB"),
       };
-      // console.log(finalData);
       saveAgreement(finalData);
       setFormData({
         ...formData,

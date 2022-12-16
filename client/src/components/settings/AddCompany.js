@@ -144,7 +144,7 @@ const AddCompany = ({
   const onInputChange1 = (e) => {
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
-  console.log(user);
+
   //Required Validation ends
   const onSubmit = (e) => {
     e.preventDefault();

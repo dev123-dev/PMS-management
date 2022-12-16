@@ -488,7 +488,6 @@ const AddDctClients = ({
         dctClientAssignedToName: empName,
         dctClientEnteredDateTime: new Date().toLocaleString("en-GB"),
       };
-      console.log(finalData);
       addDctClientDetails(finalData);
       setFormData({
         ...formData,

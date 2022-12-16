@@ -16,9 +16,6 @@ const DctDailyReport = ({
     getAllDctLeadToday();
   }, [getAllDctLeadToday]);
 
-  console.log("allDctLeadEnteredToday", allDctLeadEnteredToday);
-  // console.log("dctCallsCount", dctCallsCount);
-
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (

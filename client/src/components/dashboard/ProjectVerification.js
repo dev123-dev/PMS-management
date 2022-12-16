@@ -58,8 +58,6 @@ const ProjectVerification = ({
   const [singledate, setsingledate] = useState("");
   const [searchData, setSearchData] = useState("");
 
-  //console.log(activeVerfificationFolders, "activeVerfificationFolders");
-
   const activeFolderOpt = [];
   activeVerfificationFolders.map((folderData) =>
     activeFolderOpt.push({

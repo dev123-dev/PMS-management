@@ -23,7 +23,7 @@ const GenerateSctQuotation = ({
   }, [getALLCompanyDetails]);
 
   //formData
-  console.log("sctDataVal", sctDataVal);
+
   const [formData, setFormData] = useState({
     sctClientAddress:
       sctDataVal && sctDataVal.sctClientAddress

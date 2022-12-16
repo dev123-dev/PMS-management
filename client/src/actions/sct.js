@@ -920,7 +920,6 @@ export const uploadPOFile = (finalData) => async (dispatch) => {
 
 export const getSelectedClient = (finalData) => async (dispatch) => {
   try {
-    console.log(finalData);
     const res = await axios.post("/api/sct/selected-client", finalData);
     dispatch({
       type: GET_SELECTED_CLIENT,

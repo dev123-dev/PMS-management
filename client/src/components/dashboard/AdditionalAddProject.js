@@ -149,10 +149,7 @@ const AdditionalAddProject = ({
       value: projStatusData.projectStatusType,
     })
   );
-  // console.log("ProjectCycledata", ProjectCycledata);
-  // console.log(allProjectStatus, "allProjectStatus");
-  // console.log("ProjectCycledata.value", ProjectCycledata.value);
-  // console.log("projectStatusOpt", projectStatusOpt);
+
   if (ProjectCycledata && ProjectCycledata.value === "New AI") {
     projectStatusOpt = projectStatusOpt.filter(
       (projectStatusOpt) =>
@@ -376,7 +373,7 @@ const AdditionalAddProject = ({
       projectEnteredById: user._id,
       projectEnteredByName: user.empFullName,
     };
-    // console.log(finalData);
+
     addProject(finalData);
     onProjectCycleModalChange(true);
     // setFormData({

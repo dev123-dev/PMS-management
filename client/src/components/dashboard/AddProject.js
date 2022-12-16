@@ -336,7 +336,7 @@ const AddProject = ({
         projectEnteredById: user._id,
         projectEnteredByName: user.empFullName,
       };
-      console.log(finalData);
+
       addProject(finalData);
       setFormData({
         ...formData,

@@ -267,7 +267,7 @@ const EditEmployeeDetails = ({
     var stringLength = base64.length - "data:image/png;base64,".length;
     var sizeInBytes = 4 * Math.ceil(stringLength / 3) * 0.5624896334383812;
     var sizeInKb = sizeInBytes / 1000;
-    console.log("sizeInKb", sizeInKb);
+
     setPhotoSize(sizeInKb.toFixed(2) + "KB");
     if (sizeInKb >= 70) {
       setPhotoSizeAlert(true);
