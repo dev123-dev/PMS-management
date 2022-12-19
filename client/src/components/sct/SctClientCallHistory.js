@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 const SctClientCallHistory = ({
   auth: { isAuthenticated, user, users, loading },
   sct: { sctcallHistory },
-  onClientCallHistoryModalChange,
 }) => {
   return !isAuthenticated || !user || !users ? (
     <Spinner />
