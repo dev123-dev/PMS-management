@@ -94,6 +94,9 @@ import GenerateAgreement from "../sct/GenerateAgreement";
 import TransferSctLeads from "../sct/TransferSctLeads";
 import SctDailyReport from "../sct/SctDailyReport";
 import ClientReport from "../Reports/ClientReport";
+import AddDailyTarget from "../dashboard/AddDailyTarget";
+import ProjectSummary from "../dashboard/ProjectSummary";
+import AdditionalAddProject from "../dashboard/AdditionalAddProject";
 const RoutesFile = () => {
   return (
     <section>
@@ -102,13 +105,27 @@ const RoutesFile = () => {
         <PrivateRoute exact path="/daily-job-sheet" component={DailyJobSheet} />
         <PrivateRoute exact path="/chat" component={Chat} />
         <PrivateRoute exact path="/job-queue" component={JobQueue} />
-        <PrivateRoute exact path="/job-queue" component={JobQueue} />
         <PrivateRoute exact path="/all-prospects" component={AllProspects} />
         <PrivateRoute exact path="/all-followup" component={Allfollowup} />
         <PrivateRoute
           exact
           path="/sct-daily-report"
           component={SctDailyReport}
+        />
+        <PrivateRoute
+          exact
+          path="/add-daily-target"
+          component={AddDailyTarget}
+        />
+        <PrivateRoute
+          exact
+          path="/project-summary"
+          component={ProjectSummary}
+        />
+        <PrivateRoute
+          exact
+          path="/additional-add-project"
+          component={AdditionalAddProject}
         />
         <PrivateRoute
           exact

@@ -102,7 +102,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-                {/* <NavItem>
+                <NavItem>
                   {!loading &&
                   isAuthenticated &&
                   user &&
@@ -113,12 +113,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       to="/all-Amendments"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      Amendments
+                      AM/AI
                     </NavLink>
                   ) : (
                     <NavItem></NavItem>
                   )}
-                </NavItem> */}
+                </NavItem>
                 <NavItem>
                   {!loading &&
                   isAuthenticated &&

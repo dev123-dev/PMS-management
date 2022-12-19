@@ -2,16 +2,20 @@ import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
+import Select from "react-select";
 import { Link, useHistory } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
+import JobHistory from "./JobHistory";
 import AllProjectsummaryHistory from "./AllProjectsummaryHistory";
-import { getAllchanges } from "../../actions/projects";
+import { getAllchanges, getLatestChanges } from "../../actions/projects";
 const ProjectSummary = ({
   auth: { isAuthenticated, user, users },
+  project: { clientJobSummary, allProjectStatus },
   getAllchanges,
+  getLatestChanges,
 }) => {
-  const data = useHistory().location.data.jobsheetdata;
+  const data = useHistory().location.data;
   //formData
   const [formData, setFormData] = useState({
     projectId: data && data.projectId ? data.projectId : "",
@@ -23,8 +27,6 @@ const ProjectSummary = ({
     projectNotes: data && data.projectNotes ? data.projectNotes : "",
     isSubmitted: false,
   });
-  console.log("data", data);
-  // console.log("projectId", projectId);
 
   const {
     clientName,
@@ -48,11 +50,54 @@ const ProjectSummary = ({
     const finalData = {
       projectId: data._id,
     };
-
     getAllchanges(finalData);
     setshowAllChangeModal(true);
     setUserDatas3(data);
   };
+  // Modal
+  const projectStatusOpt = [];
+  allProjectStatus.map((projStatusData) =>
+    projectStatusOpt.push({
+      projectStatusCategory: projStatusData.projectStatusCategory,
+      label: projStatusData.projectStatusType,
+      value: projStatusData._id,
+    })
+  );
+  console.log(projectStatusOpt);
+
+  let AIOpt = projectStatusOpt.filter(
+    (projectStatusOpt) =>
+      projectStatusOpt.projectStatusCategory === "Additional Instruction"
+  );
+  let AmendOpt = projectStatusOpt.filter(
+    (projectStatusOpt) => projectStatusOpt.projectStatusCategory === "Amend"
+  );
+  let NormalOpt = projectStatusOpt.filter(
+    (projectStatusOpt) =>
+      projectStatusOpt.projectStatusCategory !== "Amend" ||
+      projectStatusOpt.projectStatusCategory !== "Additional Instruction"
+  );
+
+  const [showhistoryModal, setshowhistoryModal] = useState(false);
+  const handlehistoryModalClose = () => setshowhistoryModal(false);
+  const onhistoryModalChange = (e) => {
+    if (e) {
+      handlehistoryModalClose();
+    }
+  };
+
+  const [userDatas1, setUserDatas1] = useState(null);
+  const onhistory = (clientJobSummary, idx) => {
+    const finalData = {
+      projectId: clientJobSummary._id,
+    };
+    localStorage.removeItem("getLatestChangesDetails");
+
+    getLatestChanges(finalData);
+    setshowhistoryModal(true);
+    setUserDatas1(clientJobSummary);
+  };
+
   if (!data) {
     return <Redirect to="/daily-job-sheet" />;
   }
@@ -77,7 +122,6 @@ const ProjectSummary = ({
 
               <button
                 className="btn btn_green_bg float-right"
-                // onClick={() => handleGoToAllLatestChange(jobQueueProjects)}
                 onClick={() => handleGoToAllLatestChange(data)}
               >
                 History
@@ -154,38 +198,80 @@ const ProjectSummary = ({
                   >
                     <thead>
                       <tr>
-                        <th>SL.NO</th>
-
-                        <th>Qty </th>
+                        <th>Sl</th>
+                        <th>Qty</th>
                         <th>Type</th>
                         <th>Deadline</th>
-                        <th>Pending qty</th>
-                        <th>Status</th>
+                        <th>Pending Qty</th>
+                        <th style={{ width: "25%" }}>Status</th>
                       </tr>
                     </thead>
-                    {/* <tbody>
-                      {unVerifiedProjects &&
-                        unVerifiedProjects.map((unVerifiedProjects, idx) => {
+                    <tbody>
+                      {clientJobSummary &&
+                        clientJobSummary.map((clientJobSummary, idx) => {
+                          let PSC = clientJobSummary.projectStatusCategory;
+                          console.log(PSC);
                           return (
                             <tr key={idx}>
-                              <td>{unVerifiedProjects.clientFolderName}</td>
+                              <td>{idx + 1}</td>
+                              <td>{clientJobSummary.projectQuantity}</td>
+                              <td>{clientJobSummary.projectPriority}</td>
+                              <td>{clientJobSummary.projectDeadline}</td>
+                              <td>{clientJobSummary.projectDeadline}</td>
                               <td>
-                                <label>{unVerifiedProjects.projectName}</label>
-                              </td>
+                                {/* SLAP UserGroupRights */}
+                                {(user.userGroupName &&
+                                  user.userGroupName === "Administrator") ||
+                                user.userGroupName === "Super Admin" ||
+                                user.userGroupName === "Clarical Admins" ||
+                                user.userGroupName === "Quality Controller" ||
+                                user.userGroupName === "Distributors" ||
+                                user.userGroupName === "Marketing" ? (
+                                  <>
+                                    <img
+                                      className="img_icon_size log float-left mt-2"
+                                      onClick={() =>
+                                        onhistory(clientJobSummary, idx)
+                                      }
+                                      src={require("../../static/images/colortheme.png")}
+                                      alt="Last change"
+                                      title="Last change"
+                                    />
 
-                              <td>{unVerifiedProjects.projectPriority}</td>
-                              <td>{unVerifiedProjects.projectPriority}</td>
-                              <td>{unVerifiedProjects.projectDeadline}</td>
-
-                              <td>
-                                <label>
-                                  {unVerifiedProjects.projectStatusType}
-                                </label>
+                                    <Select
+                                      className="ml-4"
+                                      name="projectStatusData"
+                                      value={{
+                                        label:
+                                          clientJobSummary.projectStatusType,
+                                        value: clientJobSummary.projectStatusId,
+                                      }}
+                                      options={
+                                        PSC === "Additional Instruction"
+                                          ? AIOpt
+                                          : PSC === "Amend"
+                                          ? AmendOpt
+                                          : NormalOpt
+                                      }
+                                      isSearchable={true}
+                                      placeholder="Select"
+                                      // onChange={onSliderChange(
+                                      //   clientJobSummary
+                                      // )}
+                                    />
+                                  </>
+                                ) : (
+                                  <>
+                                    <label>
+                                      {clientJobSummary.projectStatusType}
+                                    </label>
+                                  </>
+                                )}
                               </td>
                             </tr>
                           );
                         })}
-                    </tbody> */}
+                    </tbody>
                   </table>
                 </div>
               </section>
@@ -223,6 +309,35 @@ const ProjectSummary = ({
           />
         </Modal.Body>
       </Modal>
+      <Modal
+        show={showhistoryModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Latest Changes </h3>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handlehistoryModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <JobHistory
+            onhistoryModalChange={onhistoryModalChange}
+            allProjectdata={userDatas1}
+          />
+        </Modal.Body>
+      </Modal>
     </Fragment>
   );
 };
@@ -233,6 +348,9 @@ ProjectSummary.propTypes = {
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  project: state.project,
 });
 
-export default connect(mapStateToProps, { getAllchanges })(ProjectSummary);
+export default connect(mapStateToProps, { getAllchanges, getLatestChanges })(
+  ProjectSummary
+);

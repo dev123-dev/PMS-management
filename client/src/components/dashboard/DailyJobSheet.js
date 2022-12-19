@@ -16,6 +16,7 @@ import {
   AddProjectTrack,
   getUpdatedProjectStausForDailyJobSheet,
   updateMsgSent,
+  getSummary,
 } from "../../actions/projects";
 
 import {
@@ -46,6 +47,7 @@ const DailyJobSheet = ({
   // getDailyjobSheetClients,
   getDailyjobSheetFolder,
   updateMsgSent,
+  getSummary,
 }) => {
   const socket = useRef();
   useEffect(() => {
@@ -83,7 +85,7 @@ const DailyJobSheet = ({
   }, []);
 
   const [selDateDataVal, setSelDateDataVal] = useState();
-  getDailyJobsheetProjectDeatils(selDateDataVal);
+  // getDailyJobsheetProjectDeatils(selDateDataVal);
 
   const [projectData, setprojectData] = useState("");
   const [folderId, setfolderId] = useState("");
@@ -525,6 +527,13 @@ const DailyJobSheet = ({
     }
   };
 
+  const handleGetJobSummary = (data) => {
+    const finalData = {
+      projectId: data._id,
+    };
+    getSummary(finalData);
+  };
+
   const onClickReset = () => {
     getDailyJobsheetProjectDeatils("");
     setFormData({
@@ -834,11 +843,14 @@ const DailyJobSheet = ({
                                   <center>
                                     <Link
                                       className="btn btn_green_bg"
+                                      onClick={() =>
+                                        handleGetJobSummary(
+                                          dailyJobsheetProjects
+                                        )
+                                      }
                                       to={{
                                         pathname: "/project-summary",
-                                        data: {
-                                          jobsheetdata: dailyJobsheetProjects,
-                                        },
+                                        data: dailyJobsheetProjects,
                                       }}
                                     >
                                       View
@@ -1244,4 +1256,5 @@ export default connect(mapStateToProps, {
   // getDailyjobSheetClients,
   getDailyjobSheetFolder,
   updateMsgSent,
+  getSummary,
 })(DailyJobSheet);

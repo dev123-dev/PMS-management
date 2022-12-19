@@ -13,6 +13,7 @@ import {
   AMENDMENT_LAST_COUNTER,
   SELECTED_CLIENT_DATA,
   CLIENTS_REPORT_DATA,
+  CLIENT_JOB_SUMMARY,
 } from "../actions/types";
 
 const initialState = {
@@ -29,6 +30,7 @@ const initialState = {
   amendentLastCounter: [],
   selectedClientData: [],
   clientsReportData: [],
+  clientJobSummary: [],
 };
 
 const projects = (state = initialState, action) => {
@@ -106,7 +108,11 @@ const projects = (state = initialState, action) => {
         ...state,
         clientsReportData: payload,
       };
-
+    case CLIENT_JOB_SUMMARY:
+      return {
+        ...state,
+        clientJobSummary: payload,
+      };
     default:
       return state;
   }

@@ -372,22 +372,16 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
   if (dateType === "Multi Date") {
     if (folderId) {
       query = {
-        projectStatus: {
-          $eq: "Active",
-        },
+        projectStatus: "Active",
         projectDate: {
           $gte: fromdate,
           $lte: todate,
         },
-        clientFolderName: {
-          $eq: folderId,
-        },
+        clientFolderName: folderId,
       };
     } else {
       query = {
-        projectStatus: {
-          $eq: "Active",
-        },
+        projectStatus: "Active",
         projectDate: {
           $gte: fromdate,
           $lte: todate,
@@ -400,50 +394,34 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
 
     if (folderId) {
       query = {
-        projectStatus: {
-          $eq: "Active",
-        },
-        projectDate: {
-          $eq: selDateVal,
-        },
-        clientFolderName: {
-          $eq: folderId,
-        },
+        projectStatus: "Active",
+        projectDate: selDateVal,
+        clientFolderName: folderId,
       };
     } else {
       query = {
-        projectStatus: {
-          $eq: "Active",
-        },
-        projectDate: {
-          $eq: selDateVal,
-        },
+        projectStatus: "Active",
+        projectDate: selDateVal,
       };
     }
   } else {
     if (folderId) {
       query = {
-        projectStatus: {
-          $eq: "Active",
-        },
-        projectDate: {
-          $eq: new Date().toISOString().split("T")[0],
-        },
-        clientFolderName: {
-          $eq: folderId,
-        },
+        projectStatus: "Active",
+        projectDate: new Date().toISOString().split("T")[0],
+        clientFolderName: folderId,
       };
     } else {
       query = {
-        projectStatus: {
-          $eq: "Active",
-        },
-        projectDate: {
-          $eq: new Date().toISOString().split("T")[0],
-        },
+        projectStatus: "Active",
+        projectDate: new Date().toISOString().split("T")[0],
       };
     }
   }
+  query = {
+    ...query,
+    projectBelongsToId: null,
+  };
   // get-dailyjobsheet-client
   try {
     // const getDailyJobSheetDetails = await Project.find(query);
@@ -613,9 +591,18 @@ router.post("/get-all-changes", async (req, res) => {
       // { $unwind: "$output" },
       {
         $match: {
-          "output._id": {
-            $eq: mongoose.Types.ObjectId(projectId),
-          },
+          $or: [
+            {
+              "output._id": {
+                $eq: mongoose.Types.ObjectId(projectId),
+              },
+            },
+            {
+              "output.projectBelongsToId": {
+                $eq: mongoose.Types.ObjectId(projectId),
+              },
+            },
+          ],
         },
       },
     ]);
@@ -662,21 +649,27 @@ router.post("/get-amendment-project-details", async (req, res) => {
   let query = {};
   if (setTypeData) {
     query = {
-      projectStatusType: {
-        $eq: "Amendment",
-      },
-      amendmentType: {
-        $eq: setTypeData,
-      },
+      $or: [
+        {
+          projectStatusType: "Amendment",
+        },
+        {
+          projectStatusType: "Additional Instruction",
+        },
+      ],
+      amendmentType: setTypeData,
     };
   } else {
     query = {
-      projectStatusType: {
-        $eq: "Amendment",
-      },
-      amendmentType: {
-        $eq: "UnResolved",
-      },
+      $or: [
+        {
+          projectStatusType: "Amendment",
+        },
+        {
+          projectStatusType: "Additional Instruction",
+        },
+      ],
+      amendmentType: "UnResolved",
     };
   }
   try {
@@ -870,6 +863,19 @@ router.post("/get-clients-report", async (req, res) => {
       { $sort: { clientId: 1 } },
     ]);
     res.json(getClientReport);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-summary", async (req, res) => {
+  const { projectId } = req.body;
+  try {
+    const getProjectSummary = await Project.find({
+      $or: [{ projectBelongsToId: projectId }, { _id: projectId }],
+    });
+    res.json(getProjectSummary);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

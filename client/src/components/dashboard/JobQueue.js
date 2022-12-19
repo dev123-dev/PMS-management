@@ -80,7 +80,7 @@ const JobQueue = ({
   }, []);
 
   const [filterData, setFilterData] = useState("");
-  getJobQueueProjectDeatils(filterData);
+  // getJobQueueProjectDeatils(filterData);
 
   // const [sliderValue, setSliderValue] = useState([]);
   const StatusCategory = [
@@ -149,6 +149,7 @@ const JobQueue = ({
         value: clientsData._id,
       })
     );
+
   const onClientChange = (e) => {
     setClientData(e);
     const finalData = {
@@ -165,12 +166,19 @@ const JobQueue = ({
   };
 
   // Modal
-  const projectStatusOpt = [];
+  let projectStatusOpt = [];
   allProjectStatus.map((projStatusData) =>
     projectStatusOpt.push({
+      projectStatusCategory: projStatusData.projectStatusCategory,
       label: projStatusData.projectStatusType,
       value: projStatusData._id,
     })
+  );
+
+  projectStatusOpt = projectStatusOpt.filter(
+    (projectStatusOpt) =>
+      projectStatusOpt.projectStatusCategory !== "Additional Instruction" &&
+      projectStatusOpt.projectStatusCategory !== "Amend"
   );
 
   const [statusChangeValue, setStatusChange] = useState("");
@@ -268,13 +276,6 @@ const JobQueue = ({
     }
   };
 
-  const onRadioProjCatTypeChange = (e) => {
-    // if (e.target.value === "student") {
-    //   setFormData({ ...formData, userRole: e.target.value });
-    // } else {
-    //   setFormData({ ...formData, userRole: e.target.value });
-    // }
-  };
   let projectQty = 0,
     downloadingQty = 0,
     WorkingQty = 0,

@@ -10,10 +10,6 @@ import {
 } from "../../actions/client";
 import { getAllProjectStatus, addProject } from "../../actions/projects";
 import { Redirect } from "react-router-dom";
-// const clientTypeVal = [
-//   { value: "Regular", label: "Regular Client" },
-//   { value: "Test", label: "Test Client" },
-// ];
 
 const priorityVal = [
   { value: "Low", label: "Low" },
@@ -189,8 +185,9 @@ const AdditionalAddProject = ({
   // };
 
   const [projectStatusData, setProjectStatusData] = useState(
-    projectStatusOpt[1]
+    projectStatusOpt[0]
   );
+
   const onProjectStatusChange = (e) => {
     //Required Validation starts
     // setError({
@@ -617,20 +614,23 @@ const AdditionalAddProject = ({
                   <h5>Other Info</h5>
                 </div>
                 <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                  <label
-                  // className="label-control"
-                  // style={projectstatusErrorStyle}
-                  >
-                    Project Status* :
-                  </label>
-                  <Select
+                  <label>Project Status* :</label>
+                  <input
+                    type="text"
                     name="projectStatusData"
-                    value={projectStatusData || projectStatusOpt[1]}
+                    value={projectStatusOpt[0].value}
+                    className="form-control"
+                    disabled
+                  />
+                  {/* <Select
+                    name="projectStatusData"
+                    value={projectStatusData || projectStatusOpt[0]}
                     options={projectStatusOpt}
                     isSearchable={true}
                     placeholder="Select"
                     onChange={(e) => onProjectStatusChange(e)}
-                  />
+                    editable="false"
+                  /> */}
                 </div>
                 <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                   <label

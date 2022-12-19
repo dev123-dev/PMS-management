@@ -11,11 +11,7 @@ import {
 } from "../../actions/projects";
 import { getVerificationFolder } from "../../actions/client";
 // getVerificationClients,
-import {
-  AddProjectTrack,
-  getAllchanges,
-  getUpdatedProjectStaus,
-} from "../../actions/projects";
+import { getAllchanges, getUpdatedProjectStaus } from "../../actions/projects";
 import { w3cwebsocket } from "websocket";
 //client in websocket
 //SLAP IP
@@ -363,7 +359,6 @@ ProjectVerification.propTypes = {
   project: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
   getverificationProjectDeatils: PropTypes.func.isRequired,
-  AddProjectTrack: PropTypes.func.isRequired,
   getAllchanges: PropTypes.func.isRequired,
   getVerificationFolder: PropTypes.func.isRequired,
 };
@@ -374,7 +369,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  AddProjectTrack,
   getAllchanges,
   getverificationProjectDeatils,
   getAllProjectStatusVerification,

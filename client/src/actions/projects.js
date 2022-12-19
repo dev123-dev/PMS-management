@@ -18,6 +18,7 @@ import {
   AMENDMENT_LAST_COUNTER,
   SELECTED_CLIENT_DATA,
   CLIENTS_REPORT_DATA,
+  CLIENT_JOB_SUMMARY,
 } from "./types";
 
 const config = {
@@ -532,6 +533,18 @@ export const getClientsReport = (finalData) => async (dispatch) => {
     const res = await axios.post("/api/projects/get-clients-report", finalData);
     dispatch({
       type: CLIENTS_REPORT_DATA,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getSummary = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/projects/get-summary", finalData);
+    dispatch({
+      type: CLIENT_JOB_SUMMARY,
       payload: res.data,
     });
   } catch (err) {
