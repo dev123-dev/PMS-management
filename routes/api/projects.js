@@ -654,7 +654,7 @@ router.post("/get-amendment-project-details", async (req, res) => {
           projectStatusType: "Amendment",
         },
         {
-          projectStatusType: "Additional Instruction",
+          projectStatusType: "Additional_Instruction",
         },
       ],
       amendmentType: setTypeData,
@@ -666,7 +666,7 @@ router.post("/get-amendment-project-details", async (req, res) => {
           projectStatusType: "Amendment",
         },
         {
-          projectStatusType: "Additional Instruction",
+          projectStatusType: "Additional_Instruction",
         },
       ],
       amendmentType: "UnResolved",

@@ -121,7 +121,7 @@ const AmendAddDiscussion = ({
                 id="discussionPointsNotes"
                 className="textarea form-control"
                 rows="4"
-                placeholder="discussionPointsNotes"
+                placeholder="Discussion Points Notes"
                 value={discussionPointsNotes}
                 style={{ width: "100%" }}
                 onChange={(e) => onInputChange(e)}

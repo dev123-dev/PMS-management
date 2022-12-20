@@ -63,20 +63,30 @@ const ProjectSummary = ({
       value: projStatusData._id,
     })
   );
-  console.log(projectStatusOpt);
 
   let AIOpt = projectStatusOpt.filter(
     (projectStatusOpt) =>
       projectStatusOpt.projectStatusCategory === "Additional Instruction"
   );
+
   let AmendOpt = projectStatusOpt.filter(
     (projectStatusOpt) => projectStatusOpt.projectStatusCategory === "Amend"
   );
   let NormalOpt = projectStatusOpt.filter(
     (projectStatusOpt) =>
-      projectStatusOpt.projectStatusCategory !== "Amend" ||
+      projectStatusOpt.projectStatusCategory !== "Amend" &&
       projectStatusOpt.projectStatusCategory !== "Additional Instruction"
   );
+
+  // console.log(allProjectStatus);
+  let allAI = [],
+    allAmend = [];
+  allProjectStatus.map((aps) => {
+    if (aps.projectStatusCategory === "Additional Instruction")
+      allAI.push(aps.projectStatusType);
+    else if (aps.projectStatusCategory === "Amend")
+      allAmend.push(aps.projectStatusType);
+  });
 
   const [showhistoryModal, setshowhistoryModal] = useState(false);
   const handlehistoryModalClose = () => setshowhistoryModal(false);
@@ -209,8 +219,7 @@ const ProjectSummary = ({
                     <tbody>
                       {clientJobSummary &&
                         clientJobSummary.map((clientJobSummary, idx) => {
-                          let PSC = clientJobSummary.projectStatusCategory;
-                          console.log(PSC);
+                          let PST = clientJobSummary.projectStatusType;
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
@@ -247,9 +256,9 @@ const ProjectSummary = ({
                                         value: clientJobSummary.projectStatusId,
                                       }}
                                       options={
-                                        PSC === "Additional Instruction"
+                                        allAI.includes(PST)
                                           ? AIOpt
-                                          : PSC === "Amend"
+                                          : allAmend.includes(PST)
                                           ? AmendOpt
                                           : NormalOpt
                                       }

@@ -35,6 +35,7 @@ const ProjectTrackSchema = new mongoose.Schema({
   },
   amendmentType: {
     type: String, //Resolved,UnResolved
+    default: "UnResolved",
   },
 });
 
