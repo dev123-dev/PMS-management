@@ -20,6 +20,7 @@ const ChangeProjectLifeCycle = ({
   getLastAmendmentCounter,
   contacts,
   socket,
+  mainProjectId,
 }) => {
   //formData
   const [formData, setFormData] = useState({
@@ -115,6 +116,7 @@ const ChangeProjectLifeCycle = ({
         projectStatusChangedById: user._id,
         amendmentCounter: "1",
         amendmentType: "UnResolved",
+        mainProjectId: mainProjectId,
       };
       AddProjectTrack(amendmentData);
       msgContent = " images for Amend.";
@@ -136,6 +138,7 @@ const ChangeProjectLifeCycle = ({
         projectStatusChangedbyName: user.empFullName,
         projectStatusChangedById: user._id,
         amendmentCounter: "1",
+        mainProjectId: mainProjectId,
       };
       AddProjectTrack(finalData);
       if (ProjectCycledata.value === "Amend_QC DONE")
@@ -151,6 +154,7 @@ const ChangeProjectLifeCycle = ({
         ptEstimatedDateTime: ptEstimatedDateTimeVal,
         projectStatusChangedbyName: user.empFullName,
         projectStatusChangedById: user._id,
+        mainProjectId: mainProjectId,
       };
       AddProjectTrack(finalData);
       if (ProjectCycledata.value === "Reviewed")
@@ -323,5 +327,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   AddProjectTrack,
   getLastAmendmentCounter,
-  // AddAmendmentHistory,
 })(ChangeProjectLifeCycle);

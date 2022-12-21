@@ -175,11 +175,34 @@ const JobQueue = ({
     })
   );
 
-  projectStatusOpt = projectStatusOpt.filter(
+  // projectStatusOpt = projectStatusOpt.filter(
+  //   (projectStatusOpt) =>
+  //     projectStatusOpt.projectStatusCategory !== "Additional Instruction" &&
+  //     projectStatusOpt.projectStatusCategory !== "Amend"
+  // );
+
+  let AIOpt = projectStatusOpt.filter(
     (projectStatusOpt) =>
-      projectStatusOpt.projectStatusCategory !== "Additional Instruction" &&
-      projectStatusOpt.projectStatusCategory !== "Amend"
+      projectStatusOpt.projectStatusCategory === "Additional Instruction"
   );
+
+  let AmendOpt = projectStatusOpt.filter(
+    (projectStatusOpt) => projectStatusOpt.projectStatusCategory === "Amend"
+  );
+  let NormalOpt = projectStatusOpt.filter(
+    (projectStatusOpt) =>
+      projectStatusOpt.projectStatusCategory !== "Amend" &&
+      projectStatusOpt.projectStatusCategory !== "Additional Instruction"
+  );
+
+  let allAI = [],
+    allAmend = [];
+  allProjectStatus.map((aps) => {
+    if (aps.projectStatusCategory === "Additional Instruction")
+      allAI.push(aps.projectStatusType);
+    else if (aps.projectStatusCategory === "Amend")
+      allAmend.push(aps.projectStatusType);
+  });
 
   const [statusChangeValue, setStatusChange] = useState("");
   const [statusValue, setStatusValue] = useState("");
@@ -585,6 +608,7 @@ const JobQueue = ({
                     <tbody>
                       {jobQueueProjects &&
                         jobQueueProjects.map((jobQueueProjects, idx) => {
+                          let PST = jobQueueProjects.projectStatusType;
                           projectQty += jobQueueProjects.projectQuantity;
                           let statusType = jobQueueProjects.projectStatusType;
                           if (statusType === "Downloading") downloadingQty += 1;
@@ -767,7 +791,13 @@ const JobQueue = ({
                                           jobQueueProjects.projectStatusType,
                                         value: jobQueueProjects.projectStatusId,
                                       }}
-                                      options={projectStatusOpt}
+                                      options={
+                                        allAI.includes(PST)
+                                          ? AIOpt
+                                          : allAmend.includes(PST)
+                                          ? AmendOpt
+                                          : NormalOpt
+                                      }
                                       isSearchable={true}
                                       placeholder="Select"
                                       onChange={onSliderChange(

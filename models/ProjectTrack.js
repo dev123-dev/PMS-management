@@ -27,8 +27,8 @@ const ProjectTrackSchema = new mongoose.Schema({
     type: String,
   },
   projectTrackDateTime: {
-    type: Date,
-    default: Date.now(),
+    type: String,
+    // default: Date.now(),
   },
   amendmentCounter: {
     type: Number,

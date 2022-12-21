@@ -89,6 +89,7 @@ export const AddProjectTrack = (finalData) => async (dispatch) => {
     await axios.post("/api/projects/add-project-track", finalData, config);
     dispatch(getJobQueueProjectDeatils());
     dispatch(getDailyJobsheetProjectDeatils());
+    dispatch(getSummary({ projectId: finalData.mainProjectId }));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -518,6 +519,7 @@ export const updateProjectTrack = (finalData) => async (dispatch) => {
     });
     await axios.post("/api/projects/update-amendment-type-status", finalData);
     // dispatch(getAllProjectStatus());
+    dispatch(getAmendmentProjectDeatils());
     dispatch({
       type: SET_LOADING_FALSE,
     });
