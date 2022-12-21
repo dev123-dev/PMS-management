@@ -27,6 +27,8 @@ const AddCompany = ({
     companyPanNo: "",
     companyRegisterNo: "",
     companyTradeLicenseNo: "",
+    quotationNoCounter: "",
+    invoiceNoCounter: "",
     companyDescription: "",
     companyAddress: "",
     companyShortForm: "",
@@ -43,6 +45,8 @@ const AddCompany = ({
     companyPanNo,
     companyRegisterNo,
     companyTradeLicenseNo,
+    invoiceNoCounter,
+    quotationNoCounter,
     companyDescription,
     companyAddress,
     companyShortForm,
@@ -158,6 +162,8 @@ const AddCompany = ({
         companyPanNo: companyPanNo?.trim(),
         companyRegisterNo: companyRegisterNo?.trim(),
         companyTradeLicenseNo: companyTradeLicenseNo?.trim(),
+        quotationNoCounter: quotationNoCounter,
+        invoiceNoCounter: invoiceNoCounter,
         companyDescription: companyDescription?.trim(),
         companyAddress: companyAddress?.trim(),
         companyType: companyType.value ? companyType : bankTypeVal[0].value,
@@ -329,6 +335,26 @@ const AddCompany = ({
                   onChange={(e) => onInputChange(e)}
                 ></textarea>
               </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Quotation No Counter :</label>
+                <input
+                  type="text"
+                  name="quotationNoCounter"
+                  value={quotationNoCounter}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+                <label className="label-control">Invoice No Counter :</label>
+                <input
+                  type="text"
+                  name="invoiceNoCounter"
+                  value={invoiceNoCounter}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
             </div>
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
@@ -380,9 +406,8 @@ const AddCompany = ({
                   onChange={(e) => onInputChange1(e)}
                 />
               </div>
-
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Default :</label>
+                <label className="label-control">Default Bank :</label>
                 <input
                   type="checkbox"
                   id="default"
@@ -390,6 +415,7 @@ const AddCompany = ({
                   onChange={handleOnChange}
                 />
               </div>
+
               <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                 <button
                   variant="success"
