@@ -4,10 +4,8 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { Link } from "react-router-dom";
 import {
   getAmendmentProjectDeatils,
-  AddAmendmentHistory,
   getLastAmendmentHistoryDeatils,
   updateProjectTrack,
 } from "../../actions/projects";
@@ -61,6 +59,7 @@ const Amendments = ({
   const [ProjRestore, setProjRestore] = useState();
 
   const onClickHandler = (amendmentProjects, idx) => {
+    setcolorData(idx);
     localStorage.removeItem("getLastAmendmentDetails");
     setProjLastchnage(null);
     setProjRestore(amendmentProjects);
@@ -83,7 +82,7 @@ const Amendments = ({
   const [showHide1, setShowHide1] = useState({
     showunresolvedSection: true,
   });
-
+  const [colorData, setcolorData] = useState();
   const { showhistory_submitSection } = showHide;
   const { showunresolvedSection } = showHide1;
 
@@ -152,6 +151,9 @@ const Amendments = ({
                           return (
                             <tr
                               key={idx}
+                              className={
+                                colorData === idx ? "seletedrowcolorchange" : ""
+                              }
                               onClick={() =>
                                 onClickHandler(amendmentProjects, idx)
                               }
@@ -337,7 +339,6 @@ Amendments.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
   getAmendmentProjectDeatils: PropTypes.func.isRequired,
-  AddAmendmentHistory: PropTypes.func.isRequired,
   getLastAmendmentHistoryDeatils: PropTypes.func.isRequired,
   updateProjectTrack: PropTypes.func.isRequired,
 };
@@ -349,7 +350,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getAmendmentProjectDeatils,
-  AddAmendmentHistory,
   getLastAmendmentHistoryDeatils,
   updateProjectTrack,
 })(Amendments);
