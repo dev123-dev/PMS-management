@@ -46,7 +46,7 @@ const ProjectSummary = ({
 
   //formData
   const [formData, setFormData] = useState({
-    projectId: data && data.projectId ? data.projectId : "",
+    projectId: data && data._id ? data._id : "",
     clientName: data && data.clientName ? data.clientName : "",
     projectName: data && data.projectName ? data.projectName : "",
     projectQuantity: data && data.projectQuantity ? data.projectQuantity : "",
@@ -107,7 +107,6 @@ const ProjectSummary = ({
       projectStatusOpt.projectStatusCategory !== "Additional Instruction"
   );
 
-  // console.log(allProjectStatus);
   let allAI = [],
     allAmend = [];
   allProjectStatus.map((aps) => {

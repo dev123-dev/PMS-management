@@ -872,10 +872,12 @@ router.post("/get-clients-report", async (req, res) => {
 router.post("/get-summary", async (req, res) => {
   const { projectId } = req.body;
   try {
-    const getProjectSummary = await Project.find({
-      $or: [{ projectBelongsToId: projectId }, { _id: projectId }],
-    });
-    res.json(getProjectSummary);
+    if (projectId) {
+      const getProjectSummary = await Project.find({
+        $or: [{ projectBelongsToId: projectId }, { _id: projectId }],
+      });
+      res.json(getProjectSummary);
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
