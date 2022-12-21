@@ -235,6 +235,7 @@ router.post("/edit-company-details", async (req, res) => {
       {
         $set: {
           companyName: data.companyName,
+          companyLogo: data.companyLogo,
           companyWebsite: data.companyWebsite,
           companyRegisterNo: data.companyRegisterNo,
           quotationNoCounter: data.quotationNoCounter,

@@ -8,6 +8,7 @@ import Spinner from "../layout/Spinner";
 import { useHistory } from "react-router-dom";
 import { Redirect, Link } from "react-router-dom";
 import EditBankDetails from "./EditBankDetails";
+import FileBase64 from "react-file-base64";
 const EditCompanyDetails = ({
   auth: { isAuthenticated, user, users, loading },
   EditCompanyData,
@@ -28,6 +29,10 @@ const EditCompanyDetails = ({
     companyWebsite:
       editcompanydatas && editcompanydatas.companyWebsite
         ? editcompanydatas.companyWebsite
+        : "",
+    companyLogo:
+      editcompanydatas && editcompanydatas.companyLogo
+        ? editcompanydatas.companyLogo
         : "",
     companyPhone1:
       editcompanydatas && editcompanydatas.companyPhone1
@@ -93,6 +98,7 @@ const EditCompanyDetails = ({
     companyPhone2,
     companyGSTIn,
     companyPanNo,
+    companyLogo,
     quotationNoCounter,
     invoiceNoCounter,
     companyRegisterNo,
@@ -210,6 +216,7 @@ const EditCompanyDetails = ({
       companyTradeLicenseNo: companyTradeLicenseNo?.trim(),
       companyDescription: companyDescription?.trim(),
       companyAddress: companyAddress?.trim(),
+      companyLogo: companyLogo,
       companyShortForm: companyShortForm?.trim(),
       companyType: companyType.value,
       companyEditedById: user._id,
@@ -398,6 +405,27 @@ const EditCompanyDetails = ({
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
+              </div>
+              <div className="row col-lg-12 col-md-4 col-sm-4 col-12 py-3">
+                <label className="label-control">Company Logo :</label>
+
+                <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
+                  <FileBase64
+                    type="file"
+                    multiple={false}
+                    onDone={({ base64 }) =>
+                      setFormData({
+                        ...formData,
+                        companyLogo: base64,
+                      })
+                    }
+                  />
+                  <img
+                    className="log_size"
+                    alt="Pinnacle Media"
+                    src={`${companyLogo}`}
+                  />
+                </div>
               </div>
             </div>
           </div>

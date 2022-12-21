@@ -6,6 +6,7 @@ import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import Select from "react-select";
+import FileBase64 from "react-file-base64";
 const AddCompany = ({
   auth: { isAuthenticated, user, users, loading },
   // onAddModalChange,
@@ -33,6 +34,7 @@ const AddCompany = ({
     companyAddress: "",
     companyShortForm: "",
     companyType: "",
+    companyLogo: "",
     isSubmitted: false,
   });
 
@@ -51,6 +53,7 @@ const AddCompany = ({
     companyAddress,
     companyShortForm,
     companyType,
+    companyLogo,
     isSubmitted,
   } = formData;
   //Required Validation Starts
@@ -169,6 +172,7 @@ const AddCompany = ({
         companyType: companyType.value ? companyType : bankTypeVal[0].value,
         companyShortForm: companyShortForm?.trim(),
         bank: AddedDetails,
+        companyLogo: companyLogo,
         departmentEnteredById: user._id,
         companyEnteredByName: user.empFullName,
       };
@@ -354,6 +358,29 @@ const AddCompany = ({
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                 />
+              </div>
+
+              <div className="row col-lg-12 col-md-12 col-sm-12 col-12 py-3">
+                <label className="label-control">Company Logo :</label>
+
+                <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
+                  <FileBase64
+                    type="file"
+                    multiple={false}
+                    onDone={({ base64 }) =>
+                      setFormData({
+                        ...formData,
+                        companyLogo: base64,
+                      })
+                    }
+                  />
+
+                  <img
+                    className="log_size"
+                    alt="Preview"
+                    src={`${companyLogo}`}
+                  />
+                </div>
               </div>
             </div>
           </div>
