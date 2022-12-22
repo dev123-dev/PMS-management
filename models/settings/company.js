@@ -67,11 +67,14 @@ const companyDetailsSchema = new mongoose.Schema({
   companyType: {
     type: String,
   },
-  quotationNoCounter: {
+  abbreviation: {
     type: String,
   },
+  quotationNoCounter: {
+    type: Number,
+  },
   invoiceNoCounter: {
-    type: String,
+    type: Number,
   },
   bank: [
     {

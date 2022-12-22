@@ -59,13 +59,13 @@ const JobQueue = ({
   }, []);
   useEffect(() => {
     getJobQueueProjectDeatils();
-  }, [getJobQueueProjectDeatils]);
+  }, []);
   useEffect(() => {
     getAllProjectStatus();
-  }, [getAllProjectStatus]);
+  }, []);
   useEffect(() => {
     getAllFolder();
-  }, [getAllFolder]);
+  }, []);
 
   const [contacts, setContacts] = useState([]);
   useEffect(async () => {
@@ -277,6 +277,7 @@ const JobQueue = ({
         projectStatusChangedbyName: user.empFullName,
         projectStatusChangedById: user._id,
         amendmentCounter: "1",
+        projectTrackDateTime: new Date().toLocaleString("en-GB"),
       };
 
       AddProjectTrack(finalData);
@@ -571,7 +572,8 @@ const JobQueue = ({
                         {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
-                        user.userGroupName === "Super Admin" ? (
+                        user.userGroupName === "Super Admin" ||
+                        user.userGroupName === "Clarical Admins" ? (
                           <th style={{ width: "10%" }}>Client Name</th>
                         ) : (
                           <></>
@@ -650,7 +652,8 @@ const JobQueue = ({
                               {/* SLAP UserGroupRights */}
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
-                              user.userGroupName === "Super Admin" ? (
+                              user.userGroupName === "Super Admin" ||
+                              user.userGroupName === "Clarical Admins" ? (
                                 <td>{jobQueueProjects.clientName}</td>
                               ) : (
                                 <></>

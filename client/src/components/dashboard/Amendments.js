@@ -11,11 +11,10 @@ import {
 } from "../../actions/projects";
 import AmendLastDiscussion from "./AmendLastDiscussion";
 import AmendAddDiscussion from "./AmendAddDiscussion";
-
 import AmendHistory from "./AmendHistory";
 const Amendments = ({
   auth: { isAuthenticated, user, users },
-  project: { amendentHistory, amendentLastHistory, amendmentProjects },
+  project: { amendmentProjects },
   getAmendmentProjectDeatils,
   getLastAmendmentHistoryDeatils,
 }) => {
@@ -33,6 +32,11 @@ const Amendments = ({
     { value: "UnResolved", label: "UnResolved" },
   ];
   const { projectStatusCategory } = formData;
+  const [showHide2, setShowHide2] = useState({
+    showonclickSection: false,
+  });
+
+  const { showonclickSection } = showHide2;
 
   const onStatuscatChange = (e) => {
     if (e) {
@@ -73,6 +77,10 @@ const Amendments = ({
     setShowHide({
       ...showHide,
       showhistory_submitSection: true,
+    });
+    setShowHide2({
+      ...showHide2,
+      showonclickSection: true,
     });
   };
 
@@ -134,7 +142,7 @@ const Amendments = ({
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
-                    className="table table-bordered table-striped table-hover smll_row"
+                    className="table table-bordered table-striped hoverrow smll_row"
                     id="datatable2"
                   >
                     <thead>
@@ -158,17 +166,7 @@ const Amendments = ({
                                 onClickHandler(amendmentProjects, idx)
                               }
                             >
-                              <td>
-                                {/* <Link
-                                  className="float-left ml-3"
-                                  to="#"
-                                  onClick={() =>
-                                    onClickHandler(amendmentProjects, idx)
-                                  }
-                                > */}
-                                {amendmentProjects.output[0].clientName}
-                                {/* </Link> */}
-                              </td>
+                              <td>{amendmentProjects.output[0].clientName}</td>
                               <td>
                                 <b>
                                   {amendmentProjects.output[0].clientFolderName}
@@ -190,7 +188,9 @@ const Amendments = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePart2divHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Amendment</label>
-                  <AmendAddDiscussion ProjRestoreVal={ProjRestore} />
+                  {showonclickSection && (
+                    <AmendAddDiscussion ProjRestoreVal={ProjRestore} />
+                  )}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePart2divHeight">
@@ -198,11 +198,13 @@ const Amendments = ({
                   <label className="sidePartHeading ">
                     Amendment Last Discussion
                   </label>
-                  <AmendLastDiscussion
-                    ProjLastchnageVal={ProjLastchnage}
-                    ProjRestoreVal={ProjRestore}
-                    setProjLastchnageFunc={setProjLastchnage}
-                  />
+                  {showonclickSection && (
+                    <AmendLastDiscussion
+                      ProjLastchnageVal={ProjLastchnage}
+                      ProjRestoreVal={ProjRestore}
+                      setProjLastchnageFunc={setProjLastchnage}
+                    />
+                  )}
                 </div>
               </div>
 
