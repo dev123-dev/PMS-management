@@ -79,6 +79,7 @@ const JobQueue = ({
     }
   }, []);
 
+  console.log("jobQueueProjects", jobQueueProjects);
   const [filterData, setFilterData] = useState("");
   // getJobQueueProjectDeatils(filterData);
 
@@ -576,7 +577,7 @@ const JobQueue = ({
                         ) : (
                           <></>
                         )}
-
+                        <th style={{ width: "6%" }}>Staff Name</th>
                         <th style={{ width: "6%" }}>Folder </th>
                         <th style={{ width: "6%" }}>Path</th>
                         <th style={{ width: "1%" }}></th>
@@ -655,6 +656,7 @@ const JobQueue = ({
                               ) : (
                                 <></>
                               )}
+                              <td>{jobQueueProjects.staffName}</td>
                               <td>
                                 <b>{jobQueueProjects.clientFolderName}</b>
                               </td>
