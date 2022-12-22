@@ -61,16 +61,13 @@ const DailyJobSheet = ({
   }, []);
   useEffect(() => {
     getDailyJobsheetProjectDeatils();
-  }, [getDailyJobsheetProjectDeatils]);
+  }, []);
   useEffect(() => {
     getAllProjectStatus();
-  }, [getAllProjectStatus]);
-  // useEffect(() => {
-  //   getDailyjobSheetClients();
-  // }, [getDailyjobSheetClients]);
+  }, []);
   useEffect(() => {
     getDailyjobSheetFolder();
-  }, [getDailyjobSheetFolder]);
+  }, []);
 
   const [contacts, setContacts] = useState([]);
   useEffect(async () => {

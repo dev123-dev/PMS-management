@@ -134,7 +134,7 @@ router.post("/get-active-client-filter", async (req, res) => {
   let query = {};
   if (clientTypeinfo) {
     query = {
-      dctClientStatus: {
+      clientStatus: {
         $eq: "Active",
       },
       clientType: {
@@ -143,7 +143,7 @@ router.post("/get-active-client-filter", async (req, res) => {
     };
   } else {
     query = {
-      dctClientStatus: {
+      clientStatus: {
         $eq: "Active",
       },
       clientType: {
@@ -152,7 +152,7 @@ router.post("/get-active-client-filter", async (req, res) => {
     };
   }
   try {
-    const getActiveClientFilterDetails = await DctClients.find(query);
+    const getActiveClientFilterDetails = await ClientDetails.find(query);
     res.json(getActiveClientFilterDetails);
   } catch (err) {
     console.error(err.message);

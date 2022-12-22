@@ -241,20 +241,8 @@ const GenerateInvoice = ({
     desc: "",
   });
 
-  const {
-    itemName,
-    GST,
-    rate,
-    qty,
-    amt,
-    CGST,
-    SGST,
-    IGST,
-    totalAmt,
-    discount,
-    grandTotal,
-    desc,
-  } = addData;
+  const { itemName, GST, rate, qty, CGST, SGST, IGST, discount, desc } =
+    addData;
 
   const [AddedDetails, AddDetails] = useState([]);
 
@@ -271,24 +259,26 @@ const GenerateInvoice = ({
         GST: GST,
         rate: rate,
         qty: qty,
-        amt: qty * rate,
+        amt: Math.round(qty * rate),
         SGST: SGST,
         CGST: CGST,
         IGST: IGST,
-        totalAmt:
+        totalAmt: Math.round(
           Number(qty * rate) +
-          (Number(qty * rate) * Number(GST)) / 100 +
-          (Number(qty * rate) * Number(SGST)) / 100 +
-          (Number(qty * rate) * Number(CGST)) / 100 +
-          (Number(qty * rate) * Number(IGST)) / 100,
+            (Number(qty * rate) * Number(GST)) / 100 +
+            (Number(qty * rate) * Number(SGST)) / 100 +
+            (Number(qty * rate) * Number(CGST)) / 100 +
+            (Number(qty * rate) * Number(IGST)) / 100
+        ),
         discount: discount,
-        grandTotal:
+        grandTotal: Math.round(
           Number(qty * rate) +
-          (Number(qty * rate) * Number(GST)) / 100 +
-          (Number(qty * rate) * Number(SGST)) / 100 +
-          (Number(qty * rate) * Number(CGST)) / 100 +
-          (Number(qty * rate) * Number(IGST)) / 100 -
-          Number(discount),
+            (Number(qty * rate) * Number(GST)) / 100 +
+            (Number(qty * rate) * Number(SGST)) / 100 +
+            (Number(qty * rate) * Number(CGST)) / 100 +
+            (Number(qty * rate) * Number(IGST)) / 100 -
+            Number(discount)
+        ),
         desc: desc,
       };
       setFormDatas({
@@ -579,7 +569,7 @@ const GenerateInvoice = ({
                 <input
                   type="Number"
                   name="amt"
-                  value={qty * rate}
+                  value={Math.round(qty * rate)}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
                   onKeyDown={(e) =>
@@ -653,13 +643,13 @@ const GenerateInvoice = ({
                     <input
                       type="text"
                       name="totalAmt"
-                      value={
+                      value={Math.round(
                         Number(qty * rate) +
-                        (Number(qty * rate) * Number(GST)) / 100 +
-                        (Number(qty * rate) * Number(SGST)) / 100 +
-                        (Number(qty * rate) * Number(CGST)) / 100 +
-                        (Number(qty * rate) * Number(IGST)) / 100
-                      }
+                          (Number(qty * rate) * Number(GST)) / 100 +
+                          (Number(qty * rate) * Number(SGST)) / 100 +
+                          (Number(qty * rate) * Number(CGST)) / 100 +
+                          (Number(qty * rate) * Number(IGST)) / 100
+                      )}
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
                       disabled
@@ -686,14 +676,14 @@ const GenerateInvoice = ({
                 <input
                   type="text"
                   name="grandTotal"
-                  value={
+                  value={Math.round(
                     Number(qty * rate) +
-                    (Number(qty * rate) * Number(GST)) / 100 +
-                    (Number(qty * rate) * Number(SGST)) / 100 +
-                    (Number(qty * rate) * Number(CGST)) / 100 +
-                    (Number(qty * rate) * Number(IGST)) / 100 -
-                    Number(discount)
-                  }
+                      (Number(qty * rate) * Number(GST)) / 100 +
+                      (Number(qty * rate) * Number(SGST)) / 100 +
+                      (Number(qty * rate) * Number(CGST)) / 100 +
+                      (Number(qty * rate) * Number(IGST)) / 100 -
+                      Number(discount)
+                  )}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
                 />

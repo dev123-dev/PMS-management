@@ -43,9 +43,12 @@ const AllLatestChange = ({
                             {getAllChangesData.projectStatusChangedbyName}
                           </td>
                           <td>
-                            {new Date(
-                              getAllChangesData.projectTrackDateTime
-                            ).toLocaleString("en-GB")}
+                            {typeof getAllChangesData.projectTrackDateTime ===
+                            "string"
+                              ? getAllChangesData.projectTrackDateTime
+                              : new Date(
+                                  getAllChangesData.projectTrackDateTime
+                                ).toLocaleString("en-GB")}
                           </td>
                           <td>{getAllChangesData.projectStatusType}</td>
                           <td>{getAllChangesData.projectTrackLatestChange}</td>
