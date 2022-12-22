@@ -27,6 +27,7 @@ const AddCompany = ({
     companyPanNo: "",
     companyRegisterNo: "",
     companyTradeLicenseNo: "",
+    abbreviation: "",
     quotationNoCounter: "",
     invoiceNoCounter: "",
     companyDescription: "",
@@ -46,6 +47,7 @@ const AddCompany = ({
     companyRegisterNo,
     companyTradeLicenseNo,
     invoiceNoCounter,
+    abbreviation,
     quotationNoCounter,
     companyDescription,
     companyAddress,
@@ -162,6 +164,7 @@ const AddCompany = ({
         companyPanNo: companyPanNo?.trim(),
         companyRegisterNo: companyRegisterNo?.trim(),
         companyTradeLicenseNo: companyTradeLicenseNo?.trim(),
+        abbreviation: abbreviation,
         quotationNoCounter: quotationNoCounter,
         invoiceNoCounter: invoiceNoCounter,
         companyDescription: companyDescription?.trim(),
@@ -336,6 +339,16 @@ const AddCompany = ({
                 ></textarea>
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Abbreviation :</label>
+                <input
+                  type="text"
+                  name="abbreviation"
+                  value={abbreviation}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Quotation No Counter :</label>
                 <input
                   type="text"
@@ -345,7 +358,7 @@ const AddCompany = ({
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Invoice No Counter :</label>
                 <input
                   type="text"
