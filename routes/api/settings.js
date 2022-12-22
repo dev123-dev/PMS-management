@@ -238,6 +238,7 @@ router.post("/edit-company-details", async (req, res) => {
           companyLogo: data.companyLogo,
           companyWebsite: data.companyWebsite,
           companyRegisterNo: data.companyRegisterNo,
+          abbreviation: data.abbreviation,
           quotationNoCounter: data.quotationNoCounter,
           invoiceNoCounter: data.invoiceNoCounter,
           companyTradeLicenseNo: data.companyTradeLicenseNo,
