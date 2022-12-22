@@ -209,6 +209,7 @@ const ProjectSummary = ({
         projectStatusChangedById: user._id,
         amendmentCounter: "1",
         mainProjectId: projectId,
+        projectTrackDateTime: new Date().toLocaleString("en-GB"),
       };
 
       AddProjectTrack(finalData);
@@ -359,7 +360,7 @@ const ProjectSummary = ({
                               <td>{clientJobSummary.projectQuantity}</td>
                               <td>{clientJobSummary.projectPriority}</td>
                               <td>{clientJobSummary.projectDeadline}</td>
-                              <td>{clientJobSummary.projectDeadline}</td>
+                              <td></td>
                               <td>
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&

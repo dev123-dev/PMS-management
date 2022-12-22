@@ -11,11 +11,10 @@ import {
 } from "../../actions/projects";
 import AmendLastDiscussion from "./AmendLastDiscussion";
 import AmendAddDiscussion from "./AmendAddDiscussion";
-
 import AmendHistory from "./AmendHistory";
 const Amendments = ({
   auth: { isAuthenticated, user, users },
-  project: { amendentHistory, amendentLastHistory, amendmentProjects },
+  project: { amendmentProjects },
   getAmendmentProjectDeatils,
   getLastAmendmentHistoryDeatils,
 }) => {

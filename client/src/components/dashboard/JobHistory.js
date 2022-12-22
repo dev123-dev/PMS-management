@@ -85,9 +85,11 @@ const JobHistory = ({
         </div>
         <div className="col-lg-8 col-md-12 col-sm-12 col-12">
           <label className="label-control">
-            Date&Time :{" "}
+            Date&Time :
             <strong>
-              {new Date(projectEnteredDateTime).toLocaleString("en-GB")}
+              {typeof projectEnteredDateTime === "string"
+                ? projectEnteredDateTime
+                : new Date(projectEnteredDateTime).toLocaleString("en-GB")}
             </strong>
           </label>
         </div>

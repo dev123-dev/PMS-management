@@ -51,6 +51,10 @@ const EditCompanyDetails = ({
       editcompanydatas && editcompanydatas.companyPanNo
         ? editcompanydatas.companyPanNo
         : "",
+    abbreviation:
+      editcompanydatas && editcompanydatas.abbreviation
+        ? editcompanydatas.abbreviation
+        : "",
     quotationNoCounter:
       editcompanydatas && editcompanydatas.quotationNoCounter
         ? editcompanydatas.quotationNoCounter
@@ -98,6 +102,7 @@ const EditCompanyDetails = ({
     companyPhone2,
     companyGSTIn,
     companyPanNo,
+    abbreviation,
     companyLogo,
     quotationNoCounter,
     invoiceNoCounter,
@@ -208,6 +213,7 @@ const EditCompanyDetails = ({
       companyWebsite: companyWebsite?.trim(),
       companyPhone1: companyPhone1,
       companyPhone2: companyPhone2,
+      abbreviation: abbreviation,
       quotationNoCounter: quotationNoCounter,
       invoiceNoCounter: invoiceNoCounter,
       companyGSTIn: companyGSTIn?.trim(),
@@ -387,6 +393,16 @@ const EditCompanyDetails = ({
                 ></textarea>
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Abbreviation :</label>
+                <input
+                  type="text"
+                  name="abbreviation"
+                  value={abbreviation}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Quotation No Counter :</label>
                 <input
                   type="text"
@@ -396,7 +412,7 @@ const EditCompanyDetails = ({
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                 <label className="label-control">Invoice No Counter :</label>
                 <input
                   type="text"
