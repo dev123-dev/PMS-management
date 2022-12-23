@@ -71,6 +71,8 @@ const GenerateSctQuotation = ({
       companyaddress: company.companyAddress,
       companyType: company.companyType,
       companyid: company._id,
+      abbreviation: company.abbreviation,
+      quotationNoCounter: company.quotationNoCounter,
       label: company.companyName,
       value: company.companyName,
     })
@@ -81,6 +83,8 @@ const GenerateSctQuotation = ({
   const [companyid, setcompanyId] = useState("");
   const [companyname, setcompanyname] = useState("");
   const [companyType, setcompanyType] = useState("");
+  const [abbreviation, setabbreviation] = useState("");
+  const [quotationNoCounter, setquotationNoCounter] = useState("");
   const onCompanyChange = (e) => {
     // //Required Validation starts
     setError({
@@ -104,15 +108,49 @@ const GenerateSctQuotation = ({
     var companyid = "";
     var companyname = "";
     var companyaddress = "";
+    var quotationNoCounter = "";
+    var abbreviation = "";
     getcompanyData(e);
     companyid = e.companyid;
     companyname = e.value;
     companyaddress = e.companyaddress;
+    quotationNoCounter = e.quotationNoCounter;
+    abbreviation = e.abbreviation;
     setcompanyId(companyid);
     setcompanyname(companyname);
     setcompanyaddressData(companyaddress);
+    setquotationNoCounter(quotationNoCounter);
+    setabbreviation(abbreviation);
   };
 
+  // if (quotationNoCounter) {
+  var fiscalyearstart = "",
+    fiscalyearend = "";
+  var today = new Date();
+  if (today.getMonth() + 1 <= 3) {
+    fiscalyearstart = today.getFullYear() - 1;
+    fiscalyearend = today.getFullYear();
+  } else {
+    fiscalyearstart = today.getFullYear();
+    fiscalyearend = today.getFullYear() + 1;
+  }
+  var counter = quotationNoCounter ? quotationNoCounter : 0;
+  counter = counter + 1;
+  //   var new_str = name.substr(-2);
+  //   var NewCode = Number(new_str) + 1;
+  //   var str = name.slice(0, -2);
+
+  //   if (NewCode > 99) {
+  //     new_str = name.substr(-3);
+  //     str = name.slice(0, -3);
+  //   }
+  //   if (NewCode > 999) {
+  //     new_str = name.substr(-4);
+  //     str = name.slice(0, -4);
+  //   }
+  // }
+  var currentQuotationNo =
+    abbreviation + "/" + fiscalyearstart + "-" + fiscalyearend + "/" + counter;
   //Required Validation Starts
   const [error, setError] = useState({
     FrmCmpnyErrorStyle: {},
@@ -373,10 +411,11 @@ const GenerateSctQuotation = ({
                 <input
                   type="text"
                   name="quotationNo"
-                  value={quotationNo}
+                  value={abbreviation ? currentQuotationNo : ""}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                   required
+                  disabled
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">

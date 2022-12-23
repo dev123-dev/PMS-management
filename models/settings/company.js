@@ -76,6 +76,10 @@ const companyDetailsSchema = new mongoose.Schema({
   invoiceNoCounter: {
     type: Number,
   },
+  counterCheck: {
+    type: Number,
+    default: 0,
+  },
   bank: [
     {
       accountNo: {
