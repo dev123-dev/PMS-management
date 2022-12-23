@@ -14,6 +14,7 @@ import ChangeProjectLifeCycle from "../dashboard/ChangeProjectLifeCycle";
 import AllLatestChange from "../dashboard/AllLatestChange";
 import Chat from "../../pages/Chat";
 import ProjectVerification from "../dashboard/ProjectVerification";
+import Billing from "../dashboard/Billing";
 
 // staff
 import AddEmployeeDetails from "../staffs/AddEmployeeDetails";
@@ -112,6 +113,8 @@ const RoutesFile = () => {
           path="/sct-daily-report"
           component={SctDailyReport}
         />
+        <PrivateRoute exact path="/billing" component={Billing} />
+
         <PrivateRoute
           exact
           path="/add-daily-target"
