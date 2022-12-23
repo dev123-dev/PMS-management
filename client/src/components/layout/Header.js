@@ -136,6 +136,23 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
+                <NavItem>
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
+                    <NavLink
+                      to="/billing"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Billing
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
                 {!loading &&
                 isAuthenticated &&
                 user &&

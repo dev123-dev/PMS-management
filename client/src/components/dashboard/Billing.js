@@ -6,7 +6,7 @@ import Select from "react-select";
 import Spinner from "../layout/Spinner";
 import VerificationModal from "./VerificationModal";
 import {
-  getverificationProjectDeatils,
+  getverifiedProjectDeatils,
   getAllProjectStatusVerification,
 } from "../../actions/projects";
 import { getVerificationFolder } from "../../actions/client";
@@ -17,12 +17,12 @@ import { w3cwebsocket } from "websocket";
 //SLAP IP
 const client = new w3cwebsocket("ws://192.168.6.159:8000");
 
-const ProjectVerification = ({
+const Billing = ({
   auth: { isAuthenticated, user, users },
-  project: { unVerifiedProjects, allStatusVerification },
+  project: { VerifiedProjects, allStatusVerification },
   client: { activeVerfificationFolders },
   // activeVerfificationClients
-  getverificationProjectDeatils,
+  getverifiedProjectDeatils,
   getAllProjectStatusVerification,
   getUpdatedProjectStaus,
   // getVerificationClients,
@@ -37,8 +37,8 @@ const ProjectVerification = ({
     };
   }, []);
   useEffect(() => {
-    getverificationProjectDeatils();
-  }, [getverificationProjectDeatils]);
+    getverifiedProjectDeatils();
+  }, [getverifiedProjectDeatils]);
   useEffect(() => {
     getAllProjectStatusVerification();
   }, [getAllProjectStatusVerification]);
@@ -70,7 +70,7 @@ const ProjectVerification = ({
       dateVal: singledate,
     };
     setSearchData(selDateData);
-    getverificationProjectDeatils(selDateData);
+    getverifiedProjectDeatils(selDateData);
   };
   const onProjectStatusChange = (e) => {
     setProjectStatusData(e);
@@ -80,7 +80,7 @@ const ProjectVerification = ({
       dateVal: singledate,
     };
     setSearchData(selDateData);
-    getverificationProjectDeatils(selDateData);
+    getverifiedProjectDeatils(selDateData);
   };
 
   // Modal
@@ -100,7 +100,7 @@ const ProjectVerification = ({
       dateVal: e.target.value,
     };
     setSearchData(selDateData);
-    getverificationProjectDeatils(selDateData);
+    getverifiedProjectDeatils(selDateData);
   };
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -111,7 +111,7 @@ const ProjectVerification = ({
     }
   };
   const onClickReset = () => {
-    getverificationProjectDeatils("");
+    getverifiedProjectDeatils("");
     setSearchData("");
     setProjectStatusData("");
     setClientData("");
@@ -120,8 +120,8 @@ const ProjectVerification = ({
 
   const [loggedStaffData, setLoggedStaffData] = useState(null);
   const [userDatas, setUserDatas] = useState(null);
-  const onClickVerify = (unVerifiedProjects, idx) => {
-    setUserDatas(unVerifiedProjects);
+  const onClickVerify = (VerifiedProjects, idx) => {
+    setUserDatas(VerifiedProjects);
     setShowEditModal(true);
     if (user) {
       setLoggedStaffData(user);
@@ -142,7 +142,7 @@ const ProjectVerification = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Job Verification</h5>
+              <h5 className="heading_color">Billing</h5>
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -154,7 +154,7 @@ const ProjectVerification = ({
                 onChange={(e) => onFolderChange(e)}
               />
             </div>
-            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            {/* <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="projectStatusData"
                 options={projectStatusOpt}
@@ -163,8 +163,8 @@ const ProjectVerification = ({
                 placeholder="Select"
                 onChange={(e) => onProjectStatusChange(e)}
               />
-            </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            </div> */}
+            {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <input
                 type="date"
                 placeholder="dd/mm/yyyy"
@@ -176,8 +176,8 @@ const ProjectVerification = ({
                   width: "75%",
                 }}
               />
-            </div>
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            </div> */}
+            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -196,6 +196,7 @@ const ProjectVerification = ({
                   >
                     <thead>
                       <tr>
+                        <th style={{ width: "1%" }}></th>
                         {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
@@ -207,34 +208,20 @@ const ProjectVerification = ({
                         <th style={{ width: "6%" }}>Folder </th>
                         <th style={{ width: "25%" }}>Project Name</th>
                         <th style={{ width: "5%" }}>Project Date</th>
-                        <th style={{ width: "2%" }}>Priority</th>
-                        <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "2%" }}>Qty</th>
-                        <th style={{ width: "5%" }}>Status</th>
-                        {/* SLAP UserGroupRights */}
-                        {(user.userGroupName &&
-                          user.userGroupName === "Administrator") ||
-                        user.userGroupName === "Super Admin" ||
-                        user.userGroupName === "Clarical Admins" ||
-                        user.userGroupName === "Quality Controller" ? (
-                          <th style={{ width: "5%" }}>OP</th>
-                        ) : (
-                          <></>
-                        )}
                       </tr>
                     </thead>
                     <tbody>
-                      {unVerifiedProjects &&
-                        unVerifiedProjects.map((unVerifiedProjects, idx) => {
+                      {VerifiedProjects &&
+                        VerifiedProjects.map((VerifiedProjects, idx) => {
                           var projectDate = "";
-                          if (unVerifiedProjects.projectDate) {
-                            var ED =
-                              unVerifiedProjects.projectDate.split(/\D/g);
+                          if (VerifiedProjects.projectDate) {
+                            var ED = VerifiedProjects.projectDate.split(/\D/g);
                             projectDate = [ED[2], ED[1], ED[0]].join("-");
                           }
 
-                          projectQty += unVerifiedProjects.projectQuantity;
-                          let statusType = unVerifiedProjects.projectStatusType;
+                          projectQty += VerifiedProjects.projectQuantity;
+                          let statusType = VerifiedProjects.projectStatusType;
                           if (statusType === "Downloading") downloadingQty += 1;
                           if (statusType === "Working") WorkingQty += 1;
                           if (statusType === "Pending") PendingQty += 1;
@@ -244,52 +231,30 @@ const ProjectVerification = ({
 
                           return (
                             <tr key={idx}>
+                              <td>
+                                <input type="checkbox" id="Unconfirmed" />
+                              </td>
                               {/* SLAP UserGroupRights */}
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
                               user.userGroupName === "Super Admin" ? (
-                                <td>{unVerifiedProjects.clientName}</td>
+                                <td>{VerifiedProjects.clientName}</td>
                               ) : (
                                 <></>
                               )}
-                              <td>{unVerifiedProjects.clientFolderName}</td>
+                              <td>{VerifiedProjects.clientFolderName}</td>
                               <td>
-                                <label>{unVerifiedProjects.projectName}</label>
+                                <label>{VerifiedProjects.projectName}</label>
                               </td>
                               <td>{projectDate}</td>
-                              <td>{unVerifiedProjects.projectPriority}</td>
-                              <td>{unVerifiedProjects.projectDeadline}</td>
+
                               <td>
-                                {unVerifiedProjects.projectQuantity}&nbsp;
-                                {unVerifiedProjects.projectUnconfirmed ===
+                                {VerifiedProjects.projectQuantity}&nbsp;
+                                {VerifiedProjects.projectUnconfirmed ===
                                   true && (
                                   <span style={{ color: "red" }}>*</span>
                                 )}
                               </td>
-                              <td>
-                                <label>
-                                  {unVerifiedProjects.projectStatusType}
-                                </label>
-                              </td>
-                              {/* SLAP UserGroupRights */}
-                              {(user.userGroupName &&
-                                user.userGroupName === "Administrator") ||
-                              user.userGroupName === "Super Admin" ||
-                              user.userGroupName === "Clarical Admins" ||
-                              user.userGroupName === "Quality Controller" ? (
-                                <td>
-                                  <button
-                                    className="btn btn_green_bg"
-                                    onClick={() =>
-                                      onClickVerify(unVerifiedProjects, idx)
-                                    }
-                                  >
-                                    Verify
-                                  </button>
-                                </td>
-                              ) : (
-                                <></>
-                              )}
                             </tr>
                           );
                         })}
@@ -311,7 +276,7 @@ const ProjectVerification = ({
             <label>Uploading: {UploadingQty}&emsp;</label> */}
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            Projects:{unVerifiedProjects.length}
+            Projects:{VerifiedProjects.length}
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             Quantity:{projectQty}
@@ -354,11 +319,11 @@ const ProjectVerification = ({
   );
 };
 
-ProjectVerification.propTypes = {
+Billing.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
-  getverificationProjectDeatils: PropTypes.func.isRequired,
+  getverifiedProjectDeatils: PropTypes.func.isRequired,
   getAllchanges: PropTypes.func.isRequired,
   getVerificationFolder: PropTypes.func.isRequired,
 };
@@ -370,9 +335,9 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getAllchanges,
-  getverificationProjectDeatils,
+  getverifiedProjectDeatils,
   getAllProjectStatusVerification,
   getUpdatedProjectStaus,
   // getVerificationClients,
   getVerificationFolder,
-})(ProjectVerification);
+})(Billing);

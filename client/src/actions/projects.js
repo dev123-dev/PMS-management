@@ -11,6 +11,7 @@ import {
   GET_ALL_CHANGES,
   GET_LATEST_CHANGES,
   UNVERIFIED_PROJECTS,
+  VERIFIED_PROJECTS,
   ALL_STATUS_VERIFICATION,
   AMENDMENT_PROJECTS,
   AMENDMENT_HISTORY_PROJECTS,
@@ -368,6 +369,21 @@ export const getverificationProjectDeatils =
       console.log(err);
     }
   };
+
+export const getverifiedProjectDeatils = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/projects/get-verified-project-details",
+      finalData
+    );
+    dispatch({
+      type: VERIFIED_PROJECTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const getAllchanges = (finalData) => async (dispatch) => {
   try {

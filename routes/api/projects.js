@@ -576,6 +576,99 @@ router.post("/get-verification-project-details", async (req, res) => {
   }
 });
 
+router.post("/get-verified-project-details", async (req, res) => {
+  const { clientId, statusId, dateVal, folder } = req.body;
+  let query = {};
+  if (dateVal) {
+    if (folder) {
+      if (statusId) {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { clientFolderName: { $eq: folder } },
+            { projectStatusId: { $eq: statusId } },
+            { projectDate: { $eq: dateVal } },
+          ],
+        };
+      } else {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { clientFolderName: { $eq: folder } },
+            { projectDate: { $eq: dateVal } },
+          ],
+        };
+      }
+    } else {
+      if (statusId) {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { projectStatusId: { $eq: statusId } },
+            { projectDate: { $eq: dateVal } },
+          ],
+        };
+      } else {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { projectDate: { $eq: dateVal } },
+          ],
+        };
+      }
+    }
+  } else {
+    if (folder) {
+      if (statusId) {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { clientFolderName: { $eq: folder } },
+            { projectStatusId: { $eq: statusId } },
+          ],
+        };
+      } else {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { clientFolderName: { $eq: folder } },
+          ],
+        };
+      }
+    } else {
+      if (statusId) {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { projectStatusId: { $eq: statusId } },
+          ],
+        };
+      } else {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+          ],
+        };
+      }
+    }
+  }
+
+  try {
+    const getVerificationProjectDetails = await Project.find(query);
+    res.json(getVerificationProjectDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 router.post("/get-all-changes", async (req, res) => {
   const { projectId } = req.body;
   try {

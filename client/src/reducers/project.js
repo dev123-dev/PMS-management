@@ -6,6 +6,7 @@ import {
   GET_ALL_CHANGES,
   GET_LATEST_CHANGES,
   UNVERIFIED_PROJECTS,
+  VERIFIED_PROJECTS,
   ALL_STATUS_VERIFICATION,
   AMENDMENT_PROJECTS,
   AMENDMENT_HISTORY_PROJECTS,
@@ -73,6 +74,13 @@ const projects = (state = initialState, action) => {
         ...state,
         unVerifiedProjects: payload,
       };
+
+    case VERIFIED_PROJECTS:
+      return {
+        ...state,
+        VerifiedProjects: payload,
+      };
+
     case ALL_STATUS_VERIFICATION:
       return {
         ...state,
