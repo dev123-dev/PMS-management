@@ -169,6 +169,7 @@ const ProjectSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  billingData: [],
 });
 
 module.exports = project = mongoose.model("project", ProjectSchema);

@@ -276,7 +276,7 @@ const Billing = ({
             <label>Uploading: {UploadingQty}&emsp;</label> */}
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            Projects:{VerifiedProjects.length}
+            {/* Projects:{VerifiedProjects.length} */}
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             Quantity:{projectQty}

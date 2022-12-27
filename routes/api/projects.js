@@ -153,6 +153,7 @@ router.post("/verify-project", async (req, res) => {
           projectVerificationStatus: "Verified",
           projectVerifiedById: data.projectVerifiedById,
           projectVerifiedDateTime: Date.now(),
+          billingData: data.billingData,
         },
       }
     );

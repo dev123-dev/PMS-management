@@ -5,15 +5,12 @@ import Spinner from "../layout/Spinner";
 import { VerifyProject } from "../../actions/projects";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { Link } from "react-router-dom";
 const VerificationModal = ({
   auth: { isAuthenticated, user, users, loading },
   allVerifydata,
-  onDeactiveModalChange,
-  onEditModalChange,
-  VerifyProject,
-  loggedStaff,
   searchData,
+  VerifyProject,
+  onEditModalChange,
 }) => {
   //formData
 
@@ -60,7 +57,7 @@ const VerificationModal = ({
       recordId: allVerifydata ? allVerifydata._id : "",
       projectVerifiedById: user._id,
       searchData: searchData,
-      AddedDetails: AddedDetails,
+      billingData: AddedDetails,
     };
     VerifyProject(finalData);
     onEditModalChange(true);
