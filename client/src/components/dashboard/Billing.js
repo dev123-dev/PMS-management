@@ -10,9 +10,9 @@ import {
   getAllProjectStatusVerification,
 } from "../../actions/projects";
 import { getVerificationFolder } from "../../actions/client";
-// getVerificationClients,
 import { getAllchanges, getUpdatedProjectStaus } from "../../actions/projects";
 import { w3cwebsocket } from "websocket";
+import BillingBreakup from "./billingBreakup";
 //client in websocket
 //SLAP IP
 const client = new w3cwebsocket("ws://192.168.6.159:8000");
@@ -21,11 +21,9 @@ const Billing = ({
   auth: { isAuthenticated, user, users },
   project: { VerifiedProjects, allStatusVerification },
   client: { activeVerfificationFolders },
-  // activeVerfificationClients
   getverifiedProjectDeatils,
   getAllProjectStatusVerification,
   getUpdatedProjectStaus,
-  // getVerificationClients,
   getVerificationFolder,
 }) => {
   useEffect(() => {
@@ -45,9 +43,6 @@ const Billing = ({
   useEffect(() => {
     getVerificationFolder();
   }, [getVerificationFolder]);
-  // useEffect(() => {
-  //   getVerificationClients();
-  // }, [getVerificationClients]);
 
   const [folderData, setClientData] = useState("");
   const [projectStatusData, setProjectStatusData] = useState("");
@@ -67,16 +62,6 @@ const Billing = ({
     let selDateData = {
       folder: e.value,
       statusId: projectStatusData.value,
-      dateVal: singledate,
-    };
-    setSearchData(selDateData);
-    getverifiedProjectDeatils(selDateData);
-  };
-  const onProjectStatusChange = (e) => {
-    setProjectStatusData(e);
-    let selDateData = {
-      folder: folderData.value,
-      statusId: e.value,
       dateVal: singledate,
     };
     setSearchData(selDateData);
@@ -127,13 +112,23 @@ const Billing = ({
       setLoggedStaffData(user);
     }
   };
-  let projectQty = 0,
-    downloadingQty = 0,
-    WorkingQty = 0,
-    PendingQty = 0,
-    QCPendingQty = 0,
-    QCEstimateQty = 0,
-    UploadingQty = 0;
+
+  const [showAllChangeModal, setshowModal] = useState(false);
+  const handleModalClose = () => setshowModal(false);
+
+  const onModalChange = (e) => {
+    if (e) {
+      handleModalClose();
+    }
+  };
+
+  const [userDatas3, setUserDatas3] = useState(null);
+  const handleBilling = (VerifiedProjects) => {
+    setshowModal(true);
+    setUserDatas3(VerifiedProjects);
+  };
+
+  let projectQty = 0;
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -154,16 +149,7 @@ const Billing = ({
                 onChange={(e) => onFolderChange(e)}
               />
             </div>
-            {/* <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
-                name="projectStatusData"
-                options={projectStatusOpt}
-                value={projectStatusData}
-                isSearchable={true}
-                placeholder="Select"
-                onChange={(e) => onProjectStatusChange(e)}
-              />
-            </div> */}
+
             {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <input
                 type="date"
@@ -220,15 +206,6 @@ const Billing = ({
                             projectDate = [ED[2], ED[1], ED[0]].join("-");
                           }
 
-                          projectQty += VerifiedProjects.projectQuantity;
-                          let statusType = VerifiedProjects.projectStatusType;
-                          if (statusType === "Downloading") downloadingQty += 1;
-                          if (statusType === "Working") WorkingQty += 1;
-                          if (statusType === "Pending") PendingQty += 1;
-                          if (statusType === "QC Pending") QCPendingQty += 1;
-                          if (statusType === "QC Estimate") QCEstimateQty += 1;
-                          if (statusType === "Uploading") UploadingQty += 1;
-
                           return (
                             <tr key={idx}>
                               <td>
@@ -245,6 +222,15 @@ const Billing = ({
                               <td>{VerifiedProjects.clientFolderName}</td>
                               <td>
                                 <label>{VerifiedProjects.projectName}</label>
+                                <img
+                                  className="img_icon_size log float-left "
+                                  onClick={() =>
+                                    handleBilling(VerifiedProjects)
+                                  }
+                                  src={require("../../static/images/colortheme.png")}
+                                  alt="Billing Breakup"
+                                  title="Last change"
+                                />
                               </td>
                               <td>{projectDate}</td>
 
@@ -267,17 +253,6 @@ const Billing = ({
         </section>
 
         <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
-          <div className="col-lg-10 col-md-6 col-sm-6 col-12">
-            {/* <label>Downloading:{downloadingQty} &emsp;</label>
-            <label>Working : {WorkingQty}&emsp;</label>
-            <label>Pending : {PendingQty}&emsp;</label>
-            <label>QC Pending: {QCPendingQty}&emsp;</label>
-            <label>QC Estimate : {QCEstimateQty}&emsp;</label>
-            <label>Uploading: {UploadingQty}&emsp;</label> */}
-          </div>
-          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            {/* Projects:{VerifiedProjects.length} */}
-          </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             Quantity:{projectQty}
           </div>
@@ -313,6 +288,33 @@ const Billing = ({
             loggedStaff={loggedStaffData}
             searchData={searchData}
           />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showAllChangeModal}
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Billing Breakup</h3>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handleModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <BillingBreakup onModalChange={onModalChange} billing={userDatas3} />
         </Modal.Body>
       </Modal>
     </Fragment>
