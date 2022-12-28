@@ -206,6 +206,7 @@ const Billing = ({
                             projectDate = [ED[2], ED[1], ED[0]].join("-");
                           }
 
+                          projectQty += VerifiedProjects.projectQuantity;
                           return (
                             <tr key={idx}>
                               <td>
