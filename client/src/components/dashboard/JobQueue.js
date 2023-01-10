@@ -576,24 +576,24 @@ const JobQueue = ({
                         user.userGroupName === "Super Admin" ||
                         user.userGroupName === "Clarical Admins" ? (
                           <>
-                            <th style={{ width: "10%" }}>Client Name</th>
+                            <th style={{ width: "8%" }}>Client Name</th>
                             <th style={{ width: "6%" }}>Staff Name</th>
                           </>
                         ) : (
                           <></>
                         )}
 
-                        <th style={{ width: "6%" }}>Folder </th>
+                        <th style={{ width: "4%" }}>Folder </th>
                         <th style={{ width: "6%" }}>Path</th>
                         <th style={{ width: "1%" }}></th>
                         <th style={{ width: "20%" }}>Project Name</th>
 
                         <th style={{ width: "12%" }}>Queue Duration</th>
-                        <th style={{ width: "10%" }}>Estimated Time</th>
+                        <th style={{ width: "6%" }}>Estimated Time</th>
                         <th style={{ width: "10%" }}>Job Time</th>
                         <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "3%" }}>Qty</th>
-                        <th style={{ width: "8%" }}>Output Format</th>
+                        <th style={{ width: "5%" }}>Output Format</th>
                         <th style={{ width: "13%" }}>Status</th>
                         {/* <th style={{ width: "2%" }}>Target</th> */}
                         {/* <th style={{ width: "5%" }}>Latest Change</th>
