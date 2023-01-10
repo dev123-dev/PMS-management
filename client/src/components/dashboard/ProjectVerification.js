@@ -62,8 +62,6 @@ const ProjectVerification = ({
     })
   );
 
-  console.log("unVerifiedProjects", unVerifiedProjects);
-
   const onFolderChange = (e) => {
     setClientData(e);
     let selDateData = {

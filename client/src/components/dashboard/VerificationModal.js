@@ -32,8 +32,8 @@ const VerificationModal = ({
         ? allVerifydata.projectQuantity
         : "",
     clientCurrency:
-      allVerifydata && allVerifydata.clientCurrency
-        ? allVerifydata.clientCurrency
+      allVerifydata && allVerifydata.output.clientCurrency
+        ? allVerifydata.output.clientCurrency
         : "",
 
     isSubmitted: false,
