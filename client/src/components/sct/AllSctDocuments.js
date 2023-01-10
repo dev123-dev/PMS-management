@@ -164,6 +164,17 @@ const AllSctDocuments = ({
     uploadAgreement(finalData);
     onUploadAgreementChange(true);
   };
+
+  /* to take confirmation for letter head print or normal print */
+  const [showQuotationLetterHeadModal, setShowQuotationLetterHeadModal] =
+    useState(false);
+  const handleQuotationLetterHeadModalClose = () =>
+    setShowQuotationLetterHeadModal(false);
+
+  const onQuotationLetterHeadBtnClick = () => {
+    setShowQuotationLetterHeadModal(true);
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -228,12 +239,10 @@ const AllSctDocuments = ({
                   {selectedSctClient &&
                   selectedSctClient.quotationGenerated === 1 ? (
                     <div style={{ marginTop: "-32px" }}>
-                      <Link
-                        onClick={() => onClickQuotation(selectedSctClient)}
-                        to={{
-                          pathname: "/print-pdf",
-                        }}
-                        target="_blank"
+                      <button
+                        onClick={() =>
+                          onQuotationLetterHeadBtnClick(selectedSctClient)
+                        }
                       >
                         <img
                           className="img_icon_size log float-right"
@@ -241,7 +250,7 @@ const AllSctDocuments = ({
                           alt="Print Quatation"
                           style={{ margin: "5px" }}
                         />
-                      </Link>
+                      </button>
                     </div>
                   ) : (
                     <Link to="#"></Link>
@@ -525,6 +534,67 @@ const AllSctDocuments = ({
         <Modal.Body>
           <input type="file" onChange={onAgreementFileChange} />
           <button onClick={onAgreementFileUpload}>Upload!</button>
+        </Modal.Body>
+      </Modal>
+
+      {/* to take confirmation for letter head print or normal print */}
+      <Modal
+        show={showQuotationLetterHeadModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">
+              Quotation Format Selection
+            </h3>
+          </div>
+          <div className="col-lg-1">
+            <button
+              onClick={handleQuotationLetterHeadModalClose}
+              className="close"
+            >
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="row">
+            <div className="col-lg-12 col-md-12">
+              {" "}
+              {/* <h4>Select below link</h4> */}
+            </div>
+            <div className="col-lg-6 col-md-6">
+              <Link
+                onClick={() => onClickQuotation(selectedSctClient)}
+                to={{
+                  pathname: "/print-leterHead-Quotation-pdf",
+                }}
+                target="_blank"
+              >
+                Letter Head Format Quatation
+              </Link>
+            </div>
+
+            <div className="col-lg-6 col-md-6">
+              <Link
+                onClick={() => onClickQuotation(selectedSctClient)}
+                to={{
+                  pathname: "/print-Normal-Quotation-pdf",
+                }}
+                target="_blank"
+              >
+                System Generated Quatation
+              </Link>
+            </div>
+          </div>
         </Modal.Body>
       </Modal>
     </Fragment>
