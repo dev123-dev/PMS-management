@@ -7,6 +7,7 @@ const Project = require("../../models/Project");
 const ProjectStatus = require("../../models/ProjectStatus");
 const ProjectTrack = require("../../models/ProjectTrack");
 const ClientDetails = require("../../models/Client");
+const DctClientDetails = require("../../models/dct/dctClients");
 const AmendmentHistory = require("../../models/AmendmentHistory");
 
 //ADD
@@ -569,7 +570,20 @@ router.post("/get-verification-project-details", async (req, res) => {
   }
 
   try {
-    const getVerificationProjectDetails = await Project.find(query);
+    // const getVerificationProjectDetails = await Project.find(query);
+    const getVerificationProjectDetails = await Project.aggregate([
+      {
+        $lookup: {
+          from: "dctclients",
+          localField: "clientId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $unwind: "$output" },
+      { $match: query },
+      // { $sort: { "output._id": 1 } },
+    ]);
     res.json(getVerificationProjectDetails);
   } catch (err) {
     console.error(err.message);
