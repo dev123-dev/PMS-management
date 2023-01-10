@@ -298,17 +298,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       </Link>
 
                       <ul className="dropdown-menu second-level-menu ">
-                        {(user &&
-                          user.userGroupName &&
-                          user.userGroupName === "Administrator") ||
-                        user.userGroupName === "Super Admin" ||
-                        user.userGroupName === "Clarical Admins" ? (
-                          <li>
-                            <Link to="/all-clients">All Clients</Link>
-                          </li>
-                        ) : (
-                          <></>
-                        )}
+                        {/* <li>
+                          <Link to="/all-clients">All Clients</Link>
+                        </li> */}
                         {(user &&
                           user.userGroupName &&
                           user.userGroupName === "Administrator") ||
@@ -399,9 +391,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                         <li>
                           <Link to="/all-feedback">All Feedback</Link>
                         </li>
-                        <li>
+                        {/* <li>
                           <Link to="/client-report">Client Report</Link>
-                        </li>
+                        </li> */}
                         <li>
                           <Link to="#" onClick={() => handleLogoutModalShow()}>
                             Logout

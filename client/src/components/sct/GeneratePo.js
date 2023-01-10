@@ -193,7 +193,7 @@ const GeneratePo = ({
         itemName: itemName,
         itemPrice: itemPrice,
         itemOty: itemOty,
-        itemTotal: itemOty * itemPrice,
+        itemTotal: Math.round(itemOty * itemPrice),
         itemDesc: itemDesc,
       };
       setFormDatas({
@@ -469,7 +469,7 @@ const GeneratePo = ({
                 <input
                   type="Number"
                   name="itemTotal"
-                  value={itemOty * itemPrice}
+                  value={Math.round(itemOty * itemPrice)}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
                   onKeyDown={(e) =>

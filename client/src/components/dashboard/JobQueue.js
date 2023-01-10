@@ -575,11 +575,14 @@ const JobQueue = ({
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ||
                         user.userGroupName === "Clarical Admins" ? (
-                          <th style={{ width: "10%" }}>Client Name</th>
+                          <>
+                            <th style={{ width: "10%" }}>Client Name</th>
+                            <th style={{ width: "6%" }}>Staff Name</th>
+                          </>
                         ) : (
                           <></>
                         )}
-                        <th style={{ width: "6%" }}>Staff Name</th>
+
                         <th style={{ width: "6%" }}>Folder </th>
                         <th style={{ width: "6%" }}>Path</th>
                         <th style={{ width: "1%" }}></th>
@@ -592,7 +595,7 @@ const JobQueue = ({
                         <th style={{ width: "3%" }}>Qty</th>
                         <th style={{ width: "8%" }}>Output Format</th>
                         <th style={{ width: "13%" }}>Status</th>
-                        <th style={{ width: "2%" }}>Target</th>
+                        {/* <th style={{ width: "2%" }}>Target</th> */}
                         {/* <th style={{ width: "5%" }}>Latest Change</th>
                         <th style={{ width: "5%" }}>Job Notes</th> */}
                         {/* SLAP UserGroupRights */}
@@ -655,11 +658,14 @@ const JobQueue = ({
                                 user.userGroupName === "Administrator") ||
                               user.userGroupName === "Super Admin" ||
                               user.userGroupName === "Clarical Admins" ? (
-                                <td>{jobQueueProjects.clientName}</td>
+                                <>
+                                  <td>{jobQueueProjects.clientName}</td>
+                                  <td>{jobQueueProjects.staffName}</td>
+                                </>
                               ) : (
                                 <></>
                               )}
-                              <td>{jobQueueProjects.staffName}</td>
+
                               <td>
                                 <b>{jobQueueProjects.clientFolderName}</b>
                               </td>
@@ -841,7 +847,7 @@ const JobQueue = ({
                                 </Link>
                               </td> */}
                               {/* SLAP UserGroupRights */}
-                              <td>
+                              {/* <td>
                                 <Link
                                   to={{
                                     pathname: "/add-daily-target",
@@ -857,7 +863,7 @@ const JobQueue = ({
                                     title="Add Daily Target"
                                   />
                                 </Link>
-                              </td>
+                              </td> */}
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
                               user.userGroupName === "Super Admin" ||

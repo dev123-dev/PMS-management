@@ -710,8 +710,12 @@ const DailyJobSheet = ({
                         {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
-                        user.userGroupName === "Super Admin" ? (
-                          <th style={{ width: "10%" }}>Client Name</th>
+                        user.userGroupName === "Super Admin" ||
+                        user.userGroupName === "Clarical Admins" ? (
+                          <>
+                            <th style={{ width: "10%" }}>Client Name</th>
+                            <th style={{ width: "6%" }}>Staff Name</th>
+                          </>
                         ) : (
                           <></>
                         )}
@@ -791,8 +795,12 @@ const DailyJobSheet = ({
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
-                                user.userGroupName === "Super Admin" ? (
-                                  <td>{dailyJobsheetProjects.clientName}</td>
+                                user.userGroupName === "Super Admin" ||
+                                user.userGroupName === "Clarical Admins" ? (
+                                  <>
+                                    <td>{dailyJobsheetProjects.clientName}</td>
+                                    <td>{dailyJobsheetProjects.staffName}</td>
+                                  </>
                                 ) : (
                                   <></>
                                 )}
