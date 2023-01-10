@@ -459,7 +459,7 @@ const AddDctClients = ({
       const finalData = {
         companyName: companyName.trim(),
         website: website?.trim(),
-        clientName: clientName.trim(),
+        clientName: clientName.trim().toLocaleUpperCase(),
         clientCompanyFounderName: clientCompanyFounderName?.trim(),
         emailId: emailId?.trim(),
         clientEmail: clientEmail?.trim(),
