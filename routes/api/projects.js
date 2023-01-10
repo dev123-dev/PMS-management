@@ -661,7 +661,12 @@ router.post("/get-verified-project-details", async (req, res) => {
       }
     }
   }
-
+  if (clientId) {
+    query = {
+      ...query,
+      clientId: clientId,
+    };
+  }
   try {
     const getVerificationProjectDetails = await Project.find(query);
     res.json(getVerificationProjectDetails);

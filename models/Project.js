@@ -11,6 +11,9 @@ const ProjectSchema = new mongoose.Schema({
   clientId: {
     type: ObjectId,
   },
+  oldClientId: {
+    type: ObjectId,
+  },
   clientName: {
     type: String,
   },
@@ -170,6 +173,9 @@ const ProjectSchema = new mongoose.Schema({
     default: 0,
   },
   billingData: [],
+  oldClientFolderName: {
+    type: String,
+  },
 });
 
 module.exports = project = mongoose.model("project", ProjectSchema);

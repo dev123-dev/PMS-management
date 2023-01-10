@@ -327,7 +327,7 @@ const AddProject = ({
         staffName: staffName,
         staffId: staffId,
         //   projectTime: projectTime,
-        projectDate: clientTime,
+        projectDate: startprojectDate,
         projectTime: projectEnteredTime,
         //  projectDate: todayDateymd,
         clientTime: clientTime,

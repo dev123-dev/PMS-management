@@ -82,7 +82,7 @@ const DailyJobSheet = ({
   }, []);
 
   const [selDateDataVal, setSelDateDataVal] = useState();
-  // getDailyJobsheetProjectDeatils(selDateDataVal);
+  getDailyJobsheetProjectDeatils(selDateDataVal);
 
   const [projectData, setprojectData] = useState("");
   const [folderId, setfolderId] = useState("");
@@ -209,7 +209,8 @@ const DailyJobSheet = ({
       dailyJobsheetData.projectDate,
       dailyJobsheetData.projectQuantity,
       "",
-      dailyJobsheetData.projectNotes,
+      dailyJobsheetData.projectNotes.replaceAll("\n", " ").replaceAll(",", " "),
+      "\n",
       // dailyJobsheetData.clientFolderName,
       // dailyJobsheetData.projectDeadline,
       // dailyJobsheetData.projectEnteredByName,

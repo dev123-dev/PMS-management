@@ -134,7 +134,7 @@ router.post("/get-active-client-filter", async (req, res) => {
   let query = {};
   if (clientTypeinfo) {
     query = {
-      clientStatus: {
+      dctClientStatus: {
         $eq: "Active",
       },
       clientType: {
@@ -143,7 +143,7 @@ router.post("/get-active-client-filter", async (req, res) => {
     };
   } else {
     query = {
-      clientStatus: {
+      dctClientStatus: {
         $eq: "Active",
       },
       clientType: {
@@ -152,7 +152,7 @@ router.post("/get-active-client-filter", async (req, res) => {
     };
   }
   try {
-    const getActiveClientFilterDetails = await ClientDetails.find(query);
+    const getActiveClientFilterDetails = await DctClients.find(query);
     res.json(getActiveClientFilterDetails);
   } catch (err) {
     console.error(err.message);
@@ -353,6 +353,30 @@ router.post("/get-verification-folder", async (req, res) => {
       },
     ]);
     res.json(getVerfFolderDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-billing-client", async (req, res) => {
+  let query = {
+    projectStatus: "Active",
+    projectVerificationStatus: "Verified",
+  };
+  try {
+    const getBillingClientDetails = await Project.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$clientId",
+          clientName: { $first: "$clientName" },
+        },
+      },
+    ]);
+    res.json(getBillingClientDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
