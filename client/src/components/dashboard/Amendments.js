@@ -147,7 +147,7 @@ const Amendments = ({
                   >
                     <thead>
                       <tr>
-                        <th style={{ width: "10%" }}>Client Name</th>
+                        {/* <th style={{ width: "10%" }}>Client Name</th> */}
                         <th style={{ width: "6%" }}>Folder </th>
                         <th style={{ width: "25%" }}>Project Name</th>
                         <th style={{ width: "13%" }}>Status</th>
@@ -166,7 +166,7 @@ const Amendments = ({
                                 onClickHandler(amendmentProjects, idx)
                               }
                             >
-                              <td>{amendmentProjects.output[0].clientName}</td>
+                              {/* <td>{amendmentProjects.output[0].clientName}</td> */}
                               <td>
                                 <b>
                                   {amendmentProjects.output[0].clientFolderName}
