@@ -447,6 +447,90 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
   }
 });
 
+router.post("/get-daily-jobsheet-excel-details", async (req, res) => {
+  const { selDate, fromdate, todate, dateType, clientId, folderId } = req.body;
+  // console.log("selDate", selDate);
+  let query = {};
+  if (dateType === "Multi Date") {
+    if (folderId) {
+      query = {
+        projectStatus: "Active",
+        projectDate: {
+          $gte: fromdate,
+          $lte: todate,
+        },
+        clientFolderName: folderId,
+      };
+    } else {
+      query = {
+        projectStatus: "Active",
+        projectDate: {
+          $gte: fromdate,
+          $lte: todate,
+        },
+      };
+    }
+  } else if (dateType === "Single Date") {
+    if (selDate) selDateVal = selDate;
+    else selDateVal = new Date().toISOString().split("T")[0];
+
+    if (folderId) {
+      query = {
+        projectStatus: "Active",
+        projectDate: selDateVal,
+        clientFolderName: folderId,
+      };
+    } else {
+      query = {
+        projectStatus: "Active",
+        projectDate: selDateVal,
+      };
+    }
+  } else {
+    if (folderId) {
+      query = {
+        projectStatus: "Active",
+        projectDate: new Date().toISOString().split("T")[0],
+        clientFolderName: folderId,
+      };
+    } else {
+      query = {
+        projectStatus: "Active",
+        projectDate: new Date().toISOString().split("T")[0],
+      };
+    }
+  }
+  query = {
+    ...query,
+    // projectBelongsToId: null,
+  };
+  // get-dailyjobsheet-client
+  try {
+    // const getDailyJobSheetDetails = await Project.find(query);
+    // console.log(query);
+    const getDailyJobSheetExcelExport = await Project.aggregate([
+      {
+        $lookup: {
+          from: "projectstatuses",
+          localField: "projectStatusId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $unwind: "$output" },
+      { $match: query },
+      // { $sort: { projectDate: 1 } },
+    ]);
+    res.json(getDailyJobSheetExcelExport);
+    // console.log(getDailyJobSheetExcelExport);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// get-daily-jobsheet-project-details
+
 router.get("/get-project-status-verification", async (req, res) => {
   const { clientId } = req.body;
   let query = {};
