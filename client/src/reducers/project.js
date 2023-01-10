@@ -6,12 +6,15 @@ import {
   GET_ALL_CHANGES,
   GET_LATEST_CHANGES,
   UNVERIFIED_PROJECTS,
+  VERIFIED_PROJECTS,
   ALL_STATUS_VERIFICATION,
   AMENDMENT_PROJECTS,
   AMENDMENT_HISTORY_PROJECTS,
   AMENDMENT_LAST_HISTORY_PROJECTS,
   AMENDMENT_LAST_COUNTER,
   SELECTED_CLIENT_DATA,
+  CLIENTS_REPORT_DATA,
+  CLIENT_JOB_SUMMARY,
 } from "../actions/types";
 
 const initialState = {
@@ -27,6 +30,8 @@ const initialState = {
   amendentLastHistory: [],
   amendentLastCounter: [],
   selectedClientData: [],
+  clientsReportData: [],
+  clientJobSummary: [],
 };
 
 const projects = (state = initialState, action) => {
@@ -69,6 +74,13 @@ const projects = (state = initialState, action) => {
         ...state,
         unVerifiedProjects: payload,
       };
+
+    case VERIFIED_PROJECTS:
+      return {
+        ...state,
+        VerifiedProjects: payload,
+      };
+
     case ALL_STATUS_VERIFICATION:
       return {
         ...state,
@@ -99,7 +111,16 @@ const projects = (state = initialState, action) => {
         ...state,
         selectedClientData: payload,
       };
-
+    case CLIENTS_REPORT_DATA:
+      return {
+        ...state,
+        clientsReportData: payload,
+      };
+    case CLIENT_JOB_SUMMARY:
+      return {
+        ...state,
+        clientJobSummary: payload,
+      };
     default:
       return state;
   }

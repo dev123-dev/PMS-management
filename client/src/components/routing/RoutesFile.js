@@ -14,6 +14,7 @@ import ChangeProjectLifeCycle from "../dashboard/ChangeProjectLifeCycle";
 import AllLatestChange from "../dashboard/AllLatestChange";
 import Chat from "../../pages/Chat";
 import ProjectVerification from "../dashboard/ProjectVerification";
+import Billing from "../dashboard/Billing";
 
 // staff
 import AddEmployeeDetails from "../staffs/AddEmployeeDetails";
@@ -93,13 +94,17 @@ import SctInvoicePdfPrint from "../sct/SctInvoicePdfPrint";
 import GenerateAgreement from "../sct/GenerateAgreement";
 import TransferSctLeads from "../sct/TransferSctLeads";
 import SctDailyReport from "../sct/SctDailyReport";
+import ClientReport from "../Reports/ClientReport";
+import AddDailyTarget from "../dashboard/AddDailyTarget";
+import ProjectSummary from "../dashboard/ProjectSummary";
+import AdditionalAddProject from "../dashboard/AdditionalAddProject";
 const RoutesFile = () => {
   return (
     <section>
       <Switch>
+        <PrivateRoute exact path="/client-report" component={ClientReport} />
         <PrivateRoute exact path="/daily-job-sheet" component={DailyJobSheet} />
         <PrivateRoute exact path="/chat" component={Chat} />
-        <PrivateRoute exact path="/job-queue" component={JobQueue} />
         <PrivateRoute exact path="/job-queue" component={JobQueue} />
         <PrivateRoute exact path="/all-prospects" component={AllProspects} />
         <PrivateRoute exact path="/all-followup" component={Allfollowup} />
@@ -107,6 +112,23 @@ const RoutesFile = () => {
           exact
           path="/sct-daily-report"
           component={SctDailyReport}
+        />
+        <PrivateRoute exact path="/billing" component={Billing} />
+
+        <PrivateRoute
+          exact
+          path="/add-daily-target"
+          component={AddDailyTarget}
+        />
+        <PrivateRoute
+          exact
+          path="/project-summary"
+          component={ProjectSummary}
+        />
+        <PrivateRoute
+          exact
+          path="/additional-add-project"
+          component={AdditionalAddProject}
         />
         <PrivateRoute
           exact

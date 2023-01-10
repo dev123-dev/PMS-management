@@ -2,11 +2,13 @@ import {
   ALL_CLIENTS,
   ACTIVE_CLIENTS,
   ACTIVE_CLIENT_FILTER,
+  CLIENT_FILTER,
   ACTIVE_STAFF_FILTER,
   // ALL_DJS_CLIENTS,
   ALL_DJS_FOLDER,
   // ALL_VERF_CLIENTS,
   ALL_VERF_FOLDER,
+  ACTIVE_REPORT_CLIENTS,
 } from "../actions/types";
 
 const initialState = {
@@ -14,10 +16,12 @@ const initialState = {
   activeClient: [],
   activeClientFilter: [],
   activeStaffFilter: [],
+  allfilterClients: [],
   // activeDailyJobSheetClients: [],
   activeDailyJobSheetFolder: [],
   // activeVerfificationClients: [],
   activeVerfificationFolders: [],
+  activeReportClients: [],
 };
 
 const client = (state = initialState, action) => {
@@ -38,6 +42,13 @@ const client = (state = initialState, action) => {
         ...state,
         activeClientFilter: payload,
       };
+
+    case CLIENT_FILTER:
+      return {
+        ...state,
+        allfilterClients: payload,
+      };
+
     case ACTIVE_STAFF_FILTER:
       return {
         ...state,
@@ -63,6 +74,11 @@ const client = (state = initialState, action) => {
       return {
         ...state,
         activeVerfificationFolders: payload,
+      };
+    case ACTIVE_REPORT_CLIENTS:
+      return {
+        ...state,
+        activeReportClients: payload,
       };
     default:
       return state;

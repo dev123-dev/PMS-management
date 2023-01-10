@@ -488,7 +488,6 @@ const AddDctClients = ({
         dctClientAssignedToName: empName,
         dctClientEnteredDateTime: new Date().toLocaleString("en-GB"),
       };
-      console.log(finalData);
       addDctClientDetails(finalData);
       setFormData({
         ...formData,
@@ -1000,7 +999,7 @@ const AddDctClients = ({
                       </div>
 
                       <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                        <label className="label-control">Region* :</label>
+                        <label className="label-control">Region :</label>
                         <Select
                           name="countryName"
                           options={allstaffcountry}

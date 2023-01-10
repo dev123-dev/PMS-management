@@ -885,20 +885,24 @@ router.post("/get-all-demos", auth, async (req, res) => {
         "clientDetails.stateId": mongoose.Types.ObjectId(stateId),
         clientId: mongoose.Types.ObjectId(clientId),
         demoDate: demoDate,
+        demoEnteredById,
       };
     else
       query = {
         "clientDetails.stateId": mongoose.Types.ObjectId(stateId),
         demoDate: demoDate,
+        demoEnteredById,
       };
   } else if (clientId) {
     query = {
       clientId: mongoose.Types.ObjectId(clientId),
       demoDate: demoDate,
+      demoEnteredById,
     };
   } else if (demoDate) {
     query = {
       demoDate: demoDate,
+      demoEnteredById,
     };
   }
 

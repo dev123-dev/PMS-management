@@ -1,20 +1,52 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
+import Select from "react-select";
 import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
 import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
+import JobHistory from "./JobHistory";
 import AllProjectsummaryHistory from "./AllProjectsummaryHistory";
-import { getAllchanges } from "../../actions/projects";
+import { allUsersRoute, host, sendMessageRoute } from "../../utils/APIRoutes";
+import ChangeProjectLifeCycle from "./ChangeProjectLifeCycle";
+import {
+  getAllchanges,
+  getLatestChanges,
+  AddProjectTrack,
+} from "../../actions/projects";
+import { w3cwebsocket } from "websocket";
+import { io } from "socket.io-client";
+
+//client in websocket
+//SLAP IP
+const client = new w3cwebsocket("ws://192.168.6.159:8000");
 const ProjectSummary = ({
   auth: { isAuthenticated, user, users },
+  project: { clientJobSummary, allProjectStatus },
   getAllchanges,
+  getLatestChanges,
+  AddProjectTrack,
 }) => {
-  const data = useHistory().location.data.jobsheetdata;
+  const socket = useRef();
+  const data = useHistory().location.data;
+
+  const [contacts, setContacts] = useState([]);
+  useEffect(async () => {
+    const data = await axios.get(`${allUsersRoute}/${user._id}`);
+    setContacts(data.data);
+  }, []);
+  useEffect(() => {
+    if (user) {
+      socket.current = io(host);
+      socket.current.emit("add-user", user._id);
+    }
+  }, []);
+
   //formData
   const [formData, setFormData] = useState({
-    projectId: data && data.projectId ? data.projectId : "",
+    projectId: data && data._id ? data._id : "",
     clientName: data && data.clientName ? data.clientName : "",
     projectName: data && data.projectName ? data.projectName : "",
     projectQuantity: data && data.projectQuantity ? data.projectQuantity : "",
@@ -23,8 +55,6 @@ const ProjectSummary = ({
     projectNotes: data && data.projectNotes ? data.projectNotes : "",
     isSubmitted: false,
   });
-  console.log("data", data);
-  // console.log("projectId", projectId);
 
   const {
     clientName,
@@ -33,6 +63,7 @@ const ProjectSummary = ({
     clientFolderName,
     projectNotes,
     isSubmitted,
+    projectId,
   } = formData;
   const [showAllChangeModal, setshowAllChangeModal] = useState(false);
   const handleAllChangeModalClose = () => setshowAllChangeModal(false);
@@ -48,11 +79,169 @@ const ProjectSummary = ({
     const finalData = {
       projectId: data._id,
     };
-
     getAllchanges(finalData);
     setshowAllChangeModal(true);
     setUserDatas3(data);
   };
+  // Modal
+  const projectStatusOpt = [];
+  allProjectStatus.map((projStatusData) =>
+    projectStatusOpt.push({
+      projectStatusCategory: projStatusData.projectStatusCategory,
+      label: projStatusData.projectStatusType,
+      value: projStatusData._id,
+    })
+  );
+
+  let AIOpt = projectStatusOpt.filter(
+    (projectStatusOpt) =>
+      projectStatusOpt.projectStatusCategory === "Additional Instruction"
+  );
+
+  let AmendOpt = projectStatusOpt.filter(
+    (projectStatusOpt) => projectStatusOpt.projectStatusCategory === "Amend"
+  );
+  let NormalOpt = projectStatusOpt.filter(
+    (projectStatusOpt) =>
+      projectStatusOpt.projectStatusCategory !== "Amend" &&
+      projectStatusOpt.projectStatusCategory !== "Additional Instruction"
+  );
+
+  let allAI = [],
+    allAmend = [];
+  allProjectStatus.map((aps) => {
+    if (aps.projectStatusCategory === "Additional Instruction")
+      allAI.push(aps.projectStatusType);
+    else if (aps.projectStatusCategory === "Amend")
+      allAmend.push(aps.projectStatusType);
+  });
+
+  const [showhistoryModal, setshowhistoryModal] = useState(false);
+  const handlehistoryModalClose = () => setshowhistoryModal(false);
+  const onhistoryModalChange = (e) => {
+    if (e) {
+      handlehistoryModalClose();
+    }
+  };
+
+  const [userDatas1, setUserDatas1] = useState(null);
+  const onhistory = (clientJobSummary, idx) => {
+    const finalData = {
+      projectId: clientJobSummary._id,
+    };
+    localStorage.removeItem("getLatestChangesDetails");
+
+    getLatestChanges(finalData);
+    setshowhistoryModal(true);
+    setUserDatas1(clientJobSummary);
+  };
+
+  const [statusChangeValue, setStatusChange] = useState("");
+  const [statusValue, setStatusValue] = useState("");
+  const onSliderChange = (jobQueueProjects) => async (e) => {
+    if (
+      e.label === "Downloaded" ||
+      e.label === "Uploading" ||
+      e.label === "Uploaded" ||
+      e.label === "QC DONE" ||
+      e.label === "Amend_Uploaded"
+    ) {
+      setStatusValue(e);
+      let finalData = {
+        projectTrackStatusId: e.value,
+        projectStatusType: e.label,
+        projectId: jobQueueProjects._id,
+        projectStatusChangedbyName: user.empFullName,
+        projectTrackDateTime: new Date().toLocaleString("en-GB"),
+        projectStatusChangedById: user._id,
+        mainProjectId: projectId,
+      };
+
+      AddProjectTrack(finalData);
+      client.send(
+        JSON.stringify({
+          type: "message",
+          msg: "/JobQueue",
+        })
+      );
+      const data = await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      );
+      let msg = "";
+      if (e.label === "Downloaded") {
+        msg =
+          jobQueueProjects.clientFolderName +
+          " - " +
+          jobQueueProjects.projectName +
+          " - " +
+          jobQueueProjects.projectQuantity +
+          " images downloaded. Please have a look.";
+      } else if (e.label === "QC DONE") {
+        msg =
+          jobQueueProjects.clientFolderName +
+          " - " +
+          jobQueueProjects.projectName +
+          " - " +
+          jobQueueProjects.projectQuantity +
+          " images QC DONE. Please upload.";
+      }
+      if (msg !== "") {
+        for (let i = 0; i < contacts.length; i++) {
+          socket.current.emit("send-msg", {
+            to: contacts[i]._id,
+            from: data._id,
+            msg,
+          });
+          await axios.post(sendMessageRoute, {
+            from: data._id,
+            to: contacts[i]._id,
+            message: msg,
+          });
+        }
+      }
+    } else if (e.label === "Amend_Uploaded") {
+      setStatusValue(e);
+      let finalData = {
+        projectTrackStatusId: e.value,
+        projectStatusType: e.label,
+        projectId: jobQueueProjects._id,
+        projectStatusChangedbyName: user.empFullName,
+        projectStatusChangedById: user._id,
+        amendmentCounter: "1",
+        mainProjectId: projectId,
+        projectTrackDateTime: new Date().toLocaleString("en-GB"),
+      };
+
+      AddProjectTrack(finalData);
+      client.send(
+        JSON.stringify({
+          type: "message",
+          msg: "/JobQueue",
+        })
+      );
+    } else {
+      setStatusValue(e);
+      let newStatusData = {
+        statusId: e.value,
+        value: e.label,
+        projectId: jobQueueProjects._id,
+        jobQueueProjects: jobQueueProjects,
+      };
+      setStatusChange(newStatusData);
+      setShowProjectCycleModal(true);
+    }
+  };
+
+  // On change ProjectCycle
+  const [showProjectCycleModal, setShowProjectCycleModal] = useState(false);
+  const handleProjectCycleModalClose = () => setShowProjectCycleModal(false);
+
+  const onProjectCycleModalChange = (e) => {
+    if (e) {
+      handleProjectCycleModalClose();
+    }
+  };
+
   if (!data) {
     return <Redirect to="/daily-job-sheet" />;
   }
@@ -77,7 +266,6 @@ const ProjectSummary = ({
 
               <button
                 className="btn btn_green_bg float-right"
-                // onClick={() => handleGoToAllLatestChange(jobQueueProjects)}
                 onClick={() => handleGoToAllLatestChange(data)}
               >
                 History
@@ -154,38 +342,79 @@ const ProjectSummary = ({
                   >
                     <thead>
                       <tr>
-                        <th>SL.NO</th>
-
-                        <th>Qty </th>
+                        <th>Sl</th>
+                        <th>Qty</th>
                         <th>Type</th>
                         <th>Deadline</th>
-                        <th>Pending qty</th>
-                        <th>Status</th>
+                        <th>Pending Qty</th>
+                        <th style={{ width: "25%" }}>Status</th>
                       </tr>
                     </thead>
-                    {/* <tbody>
-                      {unVerifiedProjects &&
-                        unVerifiedProjects.map((unVerifiedProjects, idx) => {
+                    <tbody>
+                      {clientJobSummary &&
+                        clientJobSummary.map((clientJobSummary, idx) => {
+                          let PST = clientJobSummary.projectStatusType;
                           return (
                             <tr key={idx}>
-                              <td>{unVerifiedProjects.clientFolderName}</td>
+                              <td>{idx + 1}</td>
+                              <td>{clientJobSummary.projectQuantity}</td>
+                              <td>{clientJobSummary.projectPriority}</td>
+                              <td>{clientJobSummary.projectDeadline}</td>
+                              <td></td>
                               <td>
-                                <label>{unVerifiedProjects.projectName}</label>
-                              </td>
+                                {/* SLAP UserGroupRights */}
+                                {(user.userGroupName &&
+                                  user.userGroupName === "Administrator") ||
+                                user.userGroupName === "Super Admin" ||
+                                user.userGroupName === "Clarical Admins" ||
+                                user.userGroupName === "Quality Controller" ||
+                                user.userGroupName === "Distributors" ||
+                                user.userGroupName === "Marketing" ? (
+                                  <>
+                                    <img
+                                      className="img_icon_size log float-left mt-2"
+                                      onClick={() =>
+                                        onhistory(clientJobSummary, idx)
+                                      }
+                                      src={require("../../static/images/colortheme.png")}
+                                      alt="Last change"
+                                      title="Last change"
+                                    />
 
-                              <td>{unVerifiedProjects.projectPriority}</td>
-                              <td>{unVerifiedProjects.projectPriority}</td>
-                              <td>{unVerifiedProjects.projectDeadline}</td>
-
-                              <td>
-                                <label>
-                                  {unVerifiedProjects.projectStatusType}
-                                </label>
+                                    <Select
+                                      className="ml-4"
+                                      name="projectStatusData"
+                                      value={{
+                                        label:
+                                          clientJobSummary.projectStatusType,
+                                        value: clientJobSummary.projectStatusId,
+                                      }}
+                                      options={
+                                        allAI.includes(PST)
+                                          ? AIOpt
+                                          : allAmend.includes(PST)
+                                          ? AmendOpt
+                                          : NormalOpt
+                                      }
+                                      isSearchable={true}
+                                      placeholder="Select"
+                                      onChange={onSliderChange(
+                                        clientJobSummary
+                                      )}
+                                    />
+                                  </>
+                                ) : (
+                                  <>
+                                    <label>
+                                      {clientJobSummary.projectStatusType}
+                                    </label>
+                                  </>
+                                )}
                               </td>
                             </tr>
                           );
                         })}
-                    </tbody> */}
+                    </tbody>
                   </table>
                 </div>
               </section>
@@ -223,6 +452,70 @@ const ProjectSummary = ({
           />
         </Modal.Body>
       </Modal>
+      <Modal
+        show={showhistoryModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h3 className="modal-title text-center">Latest Changes </h3>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <button onClick={handlehistoryModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <JobHistory
+            onhistoryModalChange={onhistoryModalChange}
+            allProjectdata={userDatas1}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showProjectCycleModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <center>
+              <h3 className="modal-title text-center">Project Life Cycle</h3>
+            </center>
+          </div>
+          <div className="col-lg-">
+            <button onClick={handleProjectCycleModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <ChangeProjectLifeCycle
+            onProjectCycleModalChange={onProjectCycleModalChange}
+            ProjectCycledata={statusChangeValue}
+            contacts={contacts}
+            socket={socket}
+            mainProjectId={projectId}
+          />
+        </Modal.Body>
+      </Modal>
     </Fragment>
   );
 };
@@ -233,6 +526,11 @@ ProjectSummary.propTypes = {
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  project: state.project,
 });
 
-export default connect(mapStateToProps, { getAllchanges })(ProjectSummary);
+export default connect(mapStateToProps, {
+  getAllchanges,
+  getLatestChanges,
+  AddProjectTrack,
+})(ProjectSummary);

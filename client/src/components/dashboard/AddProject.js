@@ -4,7 +4,10 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
-import { getActiveClientsFilter } from "../../actions/client";
+import {
+  getActiveClientsFilter,
+  getActiveStaffFilter,
+} from "../../actions/client";
 import { getAllProjectStatus, addProject } from "../../actions/projects";
 import { Redirect } from "react-router-dom";
 const clientTypeVal = [
@@ -20,12 +23,13 @@ const priorityVal = [
 
 const AddProject = ({
   auth: { isAuthenticated, user, users, loading },
+
   settings: { paymentMode },
-  client: { activeClientFilter },
+  client: { activeClientFilter, activeStaffFilter },
   project: { allProjectStatus },
   getActiveClientsFilter,
+  getActiveStaffFilter,
   getAllProjectStatus,
-  onAddModalChange,
   addProject,
 }) => {
   useEffect(() => {
@@ -34,6 +38,55 @@ const AddProject = ({
   useEffect(() => {
     getActiveClientsFilter();
   }, [getActiveClientsFilter]);
+  useEffect(() => {
+    getActiveStaffFilter();
+  }, [getActiveStaffFilter]);
+
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+
+  var todayDateymd = yyyy + "-" + mm + "-" + dd;
+
+  //formData
+  const [formData, setFormData] = useState({
+    clientType: clientTypeVal[0],
+    clientName: "",
+    projectName: "",
+    qty: "",
+    outputformat: "",
+    priority: "",
+    deadline: "",
+    projectStatus: "",
+    projectDate: "",
+    // projectTime: "",
+    clientDate: "",
+    clientTime: "",
+    Instructions: "",
+    inputpath: "",
+    isSubmitted: false,
+  });
+
+  const {
+    inputpath,
+    projectName,
+    qty,
+    outputformat,
+    priority,
+    deadline,
+    // projectTime,
+    clientTime,
+    Instructions,
+    clientType,
+    isSubmitted,
+  } = formData;
 
   const activeClientsOpt = [];
   activeClientFilter.map((clientsData) =>
@@ -56,8 +109,7 @@ const AddProject = ({
   );
   const [clientData, setClientData] = useState("");
   const [clientId, setClientId] = useState("");
-  // const [clientName, setClientName] = useState("");
-  const [clientBelongsTo, setBelongsToVal] = useState("");
+  // const [clientBelongsTo, setBelongsToVal] = useState("");
   const [clientFolderName, setFolderNameVal] = useState("");
 
   const onClientChange = (e) => {
@@ -68,16 +120,29 @@ const AddProject = ({
       clientnameIdErrorStyle: { color: "#000" },
     });
     //Required Validation ends
-
+    if (e) {
+      setFormData({
+        ...formData,
+        clientId: clientId,
+      });
+      let clientVal = {
+        clientId: e.clientId,
+      };
+      getActiveStaffFilter(clientVal);
+    }
     setClientData(e);
     setClientId(e.clientId);
-    setBelongsToVal(e.belongsTo);
+    // setBelongsToVal(e.belongsTo);
+
     setFolderNameVal(e.folderName);
   };
 
   const [projectStatusData, setProjectStatusData] = useState(
     projectStatusOpt[1]
   );
+
+  const [projectStatusId, setprojectStatusId] = useState("");
+  const [projectStatusType, setprojectStatusType] = useState("");
   const onProjectStatusChange = (e) => {
     //Required Validation starts
     setError({
@@ -87,40 +152,14 @@ const AddProject = ({
     });
     //Required Validation ends
     setProjectStatusData(e);
+    var projectStatusId = "";
+    var projectStatusType = "";
+
+    projectStatusId = e.projStatusId;
+    projectStatusType = e.value;
+    setprojectStatusId(projectStatusId);
+    setprojectStatusType(projectStatusType);
   };
-
-  //formData
-  const [formData, setFormData] = useState({
-    clientType: clientTypeVal[0],
-    clientName: "",
-    projectName: "",
-    qty: "",
-    outputformat: "",
-    priority: "",
-    deadline: "",
-    projectStatus: "",
-    projectDate: "",
-    projectTime: "",
-    clientDate: "",
-    clientTime: "",
-    Instructions: "",
-    inputpath: "",
-    isSubmitted: false,
-  });
-
-  const {
-    inputpath,
-    projectName,
-    qty,
-    outputformat,
-    priority,
-    deadline,
-    projectTime,
-    clientTime,
-    Instructions,
-    clientType,
-    isSubmitted,
-  } = formData;
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -145,7 +184,7 @@ const AddProject = ({
       getActiveClientsFilter(clientTypeVal);
     }
     setClientData("");
-    setBelongsToVal("");
+    // setBelongsToVal("");
     setFolderNameVal("");
   };
 
@@ -180,13 +219,48 @@ const AddProject = ({
     setIsChecked(!isChecked);
   };
 
+  const allstaffs = [];
+  activeStaffFilter[0] &&
+    activeStaffFilter[0].staffs.map((staff) =>
+      allstaffs.push({
+        sId: staff._id,
+        label: staff.staffName,
+        value: staff.staffName,
+      })
+    );
+
+  const [staff, getstaffData] = useState("");
+
+  const [staffId, setstaffID] = useState("");
+  const [staffName, setstaffName] = useState("");
+
+  const onStaffChange = (e) => {
+    //Required Validation starts
+    // setError({
+    //   ...error,
+    //   StateIdChecker: true,
+    //   StateErrorStyle: { color: "#000" },
+    // });
+    //Required Validation end
+
+    var staffId = "";
+    var staffName = "";
+    getstaffData(e);
+
+    staffId = e.sId;
+    staffName = e.value;
+
+    setstaffID(staffId);
+    setstaffName(staffName);
+  };
+
   //Required Validation Starts
   const [error, setError] = useState({
     clientnameIdChecker: false,
     clientnameIdErrorStyle: {},
 
-    ClientIdChecker: true,
-    ClientErrorStyle: {},
+    // ClientIdChecker: true,
+    // ClientErrorStyle: {},
     projectstatusChecker: true,
     projectstatusErrorStyle: {},
   });
@@ -201,13 +275,13 @@ const AddProject = ({
   } = error;
 
   const checkErrors = () => {
-    if (!ClientIdChecker) {
-      setError({
-        ...error,
-        ClientErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+    // if (!ClientIdChecker) {
+    //   setError({
+    //     ...error,
+    //     ClientErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
 
     if (!clientnameIdChecker) {
       setError({
@@ -227,6 +301,10 @@ const AddProject = ({
 
     return true;
   };
+  const date = new Date();
+  const projectEnteredTime =
+    date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (checkErrors()) {
@@ -234,26 +312,31 @@ const AddProject = ({
         projectName: projectName?.trim(),
         clientId: clientId,
         clientName: clientData.value,
-        parentClientId: clientData.belongsToId,
-        parentClientName: clientBelongsTo,
+        // parentClientId: clientData.belongsToId,
+        //  parentClientName: clientBelongsTo,
         inputpath: inputpath?.trim(),
         clientFolderName: clientData.folderName,
         projectPriority: priority.value,
         projectNotes: Instructions?.trim(),
         projectDeadline: deadline?.trim(),
-        projectStatusType: projectStatusData.value,
-        projectStatusId: projectStatusData.projStatusId,
+        projectStatusType: projectStatusData.value || projectStatusType,
+        projectStatusId: projectStatusData.projStatusId || projectStatusId,
         projectQuantity: qty,
         projectUnconfirmed: isChecked,
         clientTypeVal: clientType.value,
-        projectTime: projectTime,
+        staffName: staffName,
+        staffId: staffId,
+        //   projectTime: projectTime,
         projectDate: startprojectDate,
+        projectTime: projectEnteredTime,
+        //  projectDate: todayDateymd,
         clientTime: clientTime,
         outputformat: outputformat?.trim(),
         clientDate: startclientDate,
         projectEnteredById: user._id,
         projectEnteredByName: user.empFullName,
       };
+
       addProject(finalData);
       setFormData({
         ...formData,
@@ -277,16 +360,15 @@ const AddProject = ({
           </div>
           <section className="sub_reg">
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12">
                 <div className="row card-new  py-3">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Client Info</h5>
                   </div>
 
                   <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control" style={ClientErrorStyle}>
-                      Client Type* :
-                    </label>
+                    <label>Client Type* :</label>
+                    {/* style={ClientErrorStyle} */}
                     <Select
                       name="clientType"
                       isSearchable={true}
@@ -297,12 +379,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label
-                      className="label-control"
-                      style={clientnameIdErrorStyle}
-                    >
-                      Client Name* :
-                    </label>
+                    <label style={clientnameIdErrorStyle}>Client Name* :</label>
                     <Select
                       name="clientData"
                       isSearchable={true}
@@ -313,6 +390,17 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label>Staff Name* :</label>
+                    <Select
+                      name="stateName"
+                      options={allstaffs}
+                      isSearchable={true}
+                      value={staff}
+                      placeholder="Select Staff"
+                      onChange={(e) => onStaffChange(e)}
+                    />
+                  </div>
+                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Belongs to :</label>
                     <input
                       type="text"
@@ -322,11 +410,9 @@ const AddProject = ({
                       onChange={(e) => onInputChange(e)}
                       disabled
                     />
-                  </div>
+                  </div> */}
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">
-                      Client folder Name :
-                    </label>
+                    <label>Client folder Name :</label>
                     <input
                       type="text"
                       name="clientFolderName"
@@ -339,14 +425,14 @@ const AddProject = ({
                 </div>
               </div>
 
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
                 <div className="row card-new  py-3">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h5>Project Dates</h5>
+                    <h5>Date Info</h5>
                   </div>
 
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Project Date* :</label>
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <label>Project Date* :</label>
                     <br />
                     <input
                       type="date"
@@ -361,7 +447,7 @@ const AddProject = ({
                       required
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Project Time* :</label>
                     <br />
                     <input
@@ -374,9 +460,9 @@ const AddProject = ({
                       onChange={(e) => onInputChange(e)}
                       // required
                     />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client Date* :</label>
+                  </div> */}
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <label>Client Date* :</label>
                     <br />
                     <input
                       type="date"
@@ -388,11 +474,14 @@ const AddProject = ({
                       style={{
                         width: "75%",
                       }}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                       required
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client Time :</label>
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <label>Client Time :</label>
                     <input
                       type="time"
                       name="clientTime"
@@ -404,16 +493,27 @@ const AddProject = ({
                       // required
                     />
                   </div>
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <label className="label-control colorRed">
+                      * Client Date & Client Time is Mail Date & Mail Time.
+                      <br />* Before 2:00 PM Project Date should be previous
+                      Date. After 2:00 PM Project Date should be Today’s Date
+                    </label>
+                  </div>
                 </div>
               </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new  py-3">
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+                <div className="row card-new">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Project Info</h5>
                   </div>
 
                   <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Project Name* :</label>
+                    <label
+                    //  className="label-control"
+                    >
+                      Project Name* :
+                    </label>
                     <input
                       type="text"
                       name="projectName"
@@ -457,7 +557,7 @@ const AddProject = ({
                       onChange={handleOnChange}
                     />
                   </div>
-                  <div className="col-lg-5 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-5 col-md-6 col-sm-6 col-12 py-1">
                     <label className="label-control">Priority :</label>
                     <Select
                       name="priority"
@@ -471,11 +571,14 @@ const AddProject = ({
                 </div>
               </div>
 
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new  py-3">
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
+                <div className="row card-new">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h5>Other Info</h5>
+                  </div>
                   <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label
-                      className="label-control"
+                      // className="label-control"
                       style={projectstatusErrorStyle}
                     >
                       Project Status* :
@@ -490,7 +593,11 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Deadline :</label>
+                    <label
+                    //  className="label-control"
+                    >
+                      Deadline :
+                    </label>
                     <input
                       type="text"
                       name="deadline"
@@ -501,7 +608,11 @@ const AddProject = ({
                   </div>
 
                   <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Output Format :</label>
+                    <label
+                    // className="label-control"
+                    >
+                      Output Format :
+                    </label>
                     <input
                       type="text"
                       name="outputformat"
@@ -511,7 +622,7 @@ const AddProject = ({
                     />
                   </div>
 
-                  <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
+                  <div className="col-lg-12 col-md-11 col-sm-12 col-12 py-2">
                     <label className="label-control">
                       Project Instructions* :
                     </label>
@@ -578,6 +689,7 @@ AddProject.propTypes = {
   client: PropTypes.object.isRequired,
   getAllProjectStatus: PropTypes.func.isRequired,
   getActiveClientsFilter: PropTypes.func.isRequired,
+  getActiveStaffFilter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -590,5 +702,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getAllProjectStatus,
   getActiveClientsFilter,
+  getActiveStaffFilter,
   addProject,
 })(AddProject);

@@ -707,7 +707,7 @@ const AddSctLeads = ({
                     <label
                     // className="label-control"
                     >
-                      Company Name* :
+                      Company Name :
                     </label>
                     <input
                       type="text"
@@ -717,7 +717,7 @@ const AddSctLeads = ({
                       style={companyNameInptErrStyle}
                       onChange={(e) => onleadCheckNew(e)}
                       // onChange={(e) => onInputChange(e)}
-                      required
+                      // required
                     />
                     {companyNameValChecker && (
                       <Fragment>

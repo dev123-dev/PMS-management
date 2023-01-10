@@ -16,6 +16,7 @@ import {
   AddProjectTrack,
   getUpdatedProjectStausForDailyJobSheet,
   updateMsgSent,
+  getSummary,
 } from "../../actions/projects";
 
 import {
@@ -29,9 +30,10 @@ import { CSVLink } from "react-csv";
 // CSVDownload
 import DeactiveProject from "./DeactiveProject";
 import { io } from "socket.io-client";
+import AdditionalAddProject from "./AdditionalAddProject";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.159:8000");
+const client = new w3cwebsocket("ws://159:8000");
 
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
@@ -45,15 +47,8 @@ const DailyJobSheet = ({
   // getDailyjobSheetClients,
   getDailyjobSheetFolder,
   updateMsgSent,
+  getSummary,
 }) => {
-  let passwrdTooltip = {
-    marginLeft: "-16em",
-    position: "absolute",
-    marginTop: "1.5em",
-    pointerEvents: "none",
-    zIndex: "999",
-    width: "300px",
-  };
   const socket = useRef();
   useEffect(() => {
     client.onopen = () => {
@@ -66,16 +61,13 @@ const DailyJobSheet = ({
   }, []);
   useEffect(() => {
     getDailyJobsheetProjectDeatils();
-  }, [getDailyJobsheetProjectDeatils]);
+  }, []);
   useEffect(() => {
     getAllProjectStatus();
-  }, [getAllProjectStatus]);
-  // useEffect(() => {
-  //   getDailyjobSheetClients();
-  // }, [getDailyjobSheetClients]);
+  }, []);
   useEffect(() => {
     getDailyjobSheetFolder();
-  }, [getDailyjobSheetFolder]);
+  }, []);
 
   const [contacts, setContacts] = useState([]);
   useEffect(async () => {
@@ -179,13 +171,16 @@ const DailyJobSheet = ({
   ];
 
   // Modal
-  const projectStatusOpt = [];
-  allProjectStatus.map((projStatusData) =>
-    projectStatusOpt.push({
-      label: projStatusData.projectStatusType,
-      value: projStatusData._id,
-    })
-  );
+  const projectStatusOpt = [
+    { value: "New Amend", label: "New Amend" },
+    { value: "New AI", label: "New AI" },
+  ];
+  // allProjectStatus.map((projStatusData) =>
+  //   projectStatusOpt.push({
+  //     label: projStatusData.projectStatusType,
+  //     value: projStatusData._id,
+  //   })
+  // );
   const csvData = [
     [
       "Client Name",
@@ -214,7 +209,8 @@ const DailyJobSheet = ({
       dailyJobsheetData.projectDate,
       dailyJobsheetData.projectQuantity,
       "",
-      dailyJobsheetData.projectNotes.replaceAll("\n", " "),
+      dailyJobsheetData.projectNotes.replaceAll("\n", " ").replaceAll(",", " "),
+      "\n",
       // dailyJobsheetData.clientFolderName,
       // dailyJobsheetData.projectDeadline,
       // dailyJobsheetData.projectEnteredByName,
@@ -229,6 +225,7 @@ const DailyJobSheet = ({
   const [formData, setFormData] = useState({
     radioselect: "",
     Dateselectmode: DateMethods[0],
+    projectStatusData: "",
     isSubmitted: false,
   });
   const [statusChangeValue, setStatusChange] = useState();
@@ -245,76 +242,76 @@ const DailyJobSheet = ({
   // };
 
   const onSliderChange = (dailyJobsheetProjects) => async (e) => {
-    if (
-      e.label === "Downloaded" ||
-      e.label === "Uploaded" ||
-      e.label === "Uploading" ||
-      e.label === "Amend_Uploaded" ||
-      e.label === "QC DONE"
-    ) {
-      let finalData = {
-        projectTrackStatusId: e.value,
-        projectStatusType: e.label,
-        projectId: dailyJobsheetProjects._id,
-        projectTrackDateTime: new Date().toLocaleString("en-GB"),
-        projectStatusChangedbyName: user.empFullName,
-        projectStatusChangedById: user._id,
-      };
+    // if (
+    //   e.label === "Downloaded" ||
+    //   e.label === "Uploaded" ||
+    //   e.label === "Uploading" ||
+    //   e.label === "Amend_Uploaded" ||
+    //   e.label === "QC DONE"
+    // ) {
+    //   let finalData = {
+    //     projectTrackStatusId: e.value,
+    //     projectStatusType: e.label,
+    //     projectId: dailyJobsheetProjects._id,
+    //     projectTrackDateTime: new Date().toLocaleString("en-GB"),
+    //     projectStatusChangedbyName: user.empFullName,
+    //     projectStatusChangedById: user._id,
+    //   };
 
-      AddProjectTrack(finalData);
-      client.send(
-        JSON.stringify({
-          type: "message",
-          msg: "/JobQueue",
-        })
-      );
-      const data = await JSON.parse(
-        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-      );
-      let msg = "";
-      if (e.label === "Downloaded") {
-        msg =
-          dailyJobsheetProjects.clientFolderName +
-          " - " +
-          dailyJobsheetProjects.projectName +
-          " - " +
-          dailyJobsheetProjects.projectQuantity +
-          " images downloaded. Please have a look.";
-      } else if (e.label === "QC DONE") {
-        msg =
-          dailyJobsheetProjects.clientFolderName +
-          " - " +
-          dailyJobsheetProjects.projectName +
-          " - " +
-          dailyJobsheetProjects.projectQuantity +
-          " images QC DONE. Please upload.";
-      }
-      if (msg !== "") {
-        for (let i = 0; i < contacts.length; i++) {
-          socket.current.emit("send-msg", {
-            to: contacts[i]._id,
-            from: data._id,
-            msg,
-          });
-          await axios.post(sendMessageRoute, {
-            from: data._id,
-            to: contacts[i]._id,
-            message: msg,
-          });
-        }
-      }
-      // setStatusChange(finalData);
-      // setShowProjectCycleModal(false);
-    } else {
-      let newStatusData = {
-        statusId: e.value,
-        value: e.label,
-        projectId: dailyJobsheetProjects._id,
-        jobQueueProjects: dailyJobsheetProjects,
-      };
-      setStatusChange(newStatusData);
-      setShowProjectCycleModal(true);
-    }
+    //   AddProjectTrack(finalData);
+    //   client.send(
+    //     JSON.stringify({
+    //       type: "message",
+    //       msg: "/JobQueue",
+    //     })
+    //   );
+    //   const data = await JSON.parse(
+    //     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    //   );
+    //   let msg = "";
+    //   if (e.label === "Downloaded") {
+    //     msg =
+    //       dailyJobsheetProjects.clientFolderName +
+    //       " - " +
+    //       dailyJobsheetProjects.projectName +
+    //       " - " +
+    //       dailyJobsheetProjects.projectQuantity +
+    //       " images downloaded. Please have a look.";
+    //   } else if (e.label === "QC DONE") {
+    //     msg =
+    //       dailyJobsheetProjects.clientFolderName +
+    //       " - " +
+    //       dailyJobsheetProjects.projectName +
+    //       " - " +
+    //       dailyJobsheetProjects.projectQuantity +
+    //       " images QC DONE. Please upload.";
+    //   }
+    //   if (msg !== "") {
+    //     for (let i = 0; i < contacts.length; i++) {
+    //       socket.current.emit("send-msg", {
+    //         to: contacts[i]._id,
+    //         from: data._id,
+    //         msg,
+    //       });
+    //       await axios.post(sendMessageRoute, {
+    //         from: data._id,
+    //         to: contacts[i]._id,
+    //         message: msg,
+    //       });
+    //     }
+    //   }
+
+    // } else {
+    let newStatusData = {
+      statusId: e.value,
+      value: e.label,
+      projectId: dailyJobsheetProjects._id,
+      jobQueueProjects: dailyJobsheetProjects,
+    };
+
+    setStatusChange(newStatusData);
+    setShowProjectCycleModal(true);
+    // }
   };
   const onRadioProjCatTypeChange = (e) => {
     // if (e.target.value === "student") {
@@ -334,24 +331,6 @@ const DailyJobSheet = ({
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
 
-  const onClickReset = () => {
-    getDailyJobsheetProjectDeatils("");
-    setFormData({
-      Dateselectmode: DateMethods[0],
-    });
-    // getDailyjobSheetClients("");
-    getDailyjobSheetFolder("");
-    setSelDateDataVal("");
-    setprojectData("");
-    setsingledate(new Date().toISOString().split("T")[0]);
-    setSelectedDate(new Date().toISOString().split("T")[0]);
-    setShowHide({
-      ...showHide,
-      showdateSection: false,
-      showdateSection1: true,
-    });
-  };
-
   const onEditModalChange = (e) => {
     if (e) {
       handleEditModalClose();
@@ -363,7 +342,7 @@ const DailyJobSheet = ({
     setUserDatas(dailyJobsheetProjects);
   };
 
-  const { radioselect, Dateselectmode } = formData;
+  const { radioselect, Dateselectmode, projectStatusData } = formData;
   const onstatuscategrorySelect = (statuscategrory) => {
     if (statuscategrory === "Normal") {
       setFormData({
@@ -432,12 +411,17 @@ const DailyJobSheet = ({
   );
   //
   const onDateChange2 = (e) => {
-    setprojectData("");
+    // setprojectData("");
     setsingledate(e.target.value);
-  };
-  const [todate, settodate] = useState("");
-  const onDateChange1 = (e) => {
-    settodate(e.target.value);
+    let selDateData = {
+      selDate: e.target.value,
+      dateType: "Single Date",
+      folderId: projectData.folderId,
+    };
+
+    setSelDateDataVal(selDateData);
+    getDailyJobsheetProjectDeatils(selDateData);
+    getDailyjobSheetFolder(selDateData);
   };
 
   const [fromdate, setfromdate] = useState("");
@@ -445,30 +429,44 @@ const DailyJobSheet = ({
     setfromdate(e.target.value);
   };
 
-  const onSearch = (e) => {
-    let selDateData = {
-      selDate: singledate,
-      dateType: "Single Date",
-      folderId: projectData.folderId,
-    };
-    setSelDateDataVal(selDateData);
-    getDailyJobsheetProjectDeatils(selDateData);
-    // getDailyjobSheetClients(selDateData);
-    getDailyjobSheetFolder(selDateData);
-  };
+  const [todate, settodate] = useState("");
+  const onDateChange1 = (e) => {
+    settodate(e.target.value);
 
-  const onSearchmultidate = (e) => {
     let selDateData = {
       fromdate: fromdate,
-      todate: todate,
+      todate: e.target.value,
       dateType: "Multi Date",
       folderId: projectData.folderId,
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
-    // getDailyjobSheetClients(selDateData);
     getDailyjobSheetFolder(selDateData);
   };
+
+  // const onSearch = (e) => {
+  //   let selDateData = {
+  //     selDate: singledate,
+  //     dateType: "Single Date",
+  //     folderId: projectData.folderId,
+  //   };
+
+  //   setSelDateDataVal(selDateData);
+  //   getDailyJobsheetProjectDeatils(selDateData);
+  //   getDailyjobSheetFolder(selDateData);
+  // };
+
+  // const onSearchmultidate = (e) => {
+  //   let selDateData = {
+  //     fromdate: fromdate,
+  //     todate: todate,
+  //     dateType: "Multi Date",
+  //     folderId: projectData.folderId,
+  //   };
+  //   setSelDateDataVal(selDateData);
+  //   getDailyJobsheetProjectDeatils(selDateData);
+  //   getDailyjobSheetFolder(selDateData);
+  // };
   const [showAllChangeModal, setshowAllChangeModal] = useState(false);
   const handleAllChangeModalClose = () => setshowAllChangeModal(false);
 
@@ -527,6 +525,31 @@ const DailyJobSheet = ({
     }
   };
 
+  const handleGetJobSummary = (data) => {
+    const finalData = {
+      projectId: data._id,
+    };
+    getSummary(finalData);
+  };
+
+  const onClickReset = () => {
+    getDailyJobsheetProjectDeatils("");
+    setFormData({
+      Dateselectmode: DateMethods[0],
+    });
+    // getDailyjobSheetClients("");
+    getDailyjobSheetFolder("");
+    setSelDateDataVal("");
+    setprojectData("");
+    setsingledate(new Date().toISOString().split("T")[0]);
+    setSelectedDate(new Date().toISOString().split("T")[0]);
+    setShowHide({
+      ...showHide,
+      showdateSection: false,
+      showdateSection1: true,
+    });
+  };
+
   const fileName = [clientName1 ? clientName1 : "Client Report"];
 
   return !isAuthenticated || !user || !users ? (
@@ -539,6 +562,7 @@ const DailyJobSheet = ({
             <div className="col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Daily Job Sheet</h5>
             </div>
+
             <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
               <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-2">
                 {/* SLAP UserGroupRights */}
@@ -562,27 +586,6 @@ const DailyJobSheet = ({
                   <></>
                 )}
               </div>
-              <div
-                className="col-lg-1 col-md-4 col-sm-4 col-12  mr-5 cstm-hint"
-                id="pass_admin_help"
-              >
-                <img
-                  src={require("../../static/images/help1.png")}
-                  alt="help"
-                  id="img_tool_admin"
-                  className="pass_admin_help_icon_question mr-5"
-                  style={{
-                    cursor: "pointer",
-                  }}
-                />
-                <div
-                  id="tooltipPassAdmin"
-                  className="syle-hint mr-5"
-                  style={passwrdTooltip}
-                  data-hint="Date Filter based on Project Date.Queue duration based on client
-                time"
-                ></div>
-              </div>
               {showdateSection && (
                 <>
                   <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -595,6 +598,9 @@ const DailyJobSheet = ({
                       onChange={(e) => onDateChange(e)}
                       style={{
                         width: "110%",
+                      }}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
                       }}
                       required
                     />
@@ -610,10 +616,13 @@ const DailyJobSheet = ({
                       style={{
                         width: "110%",
                       }}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                       required
                     />
                   </div>
-                  <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-3">
+                  {/* <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-3">
                     <img
                       className="img_icon_size log"
                       onClick={() => onSearchmultidate()}
@@ -621,7 +630,7 @@ const DailyJobSheet = ({
                       alt="Search_Icon"
                       title="Search_Icon"
                     />
-                  </div>
+                  </div> */}
                 </>
               )}
               {showdateSection1 && (
@@ -637,10 +646,13 @@ const DailyJobSheet = ({
                       style={{
                         width: "100%",
                       }}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                       required
                     />
                   </div>
-                  <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-3">
+                  {/* <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-3">
                     <img
                       className="img_icon_size log"
                       onClick={() => onSearch()}
@@ -648,7 +660,7 @@ const DailyJobSheet = ({
                       alt="Search_Icon"
                       title="Search_Icon"
                     />
-                  </div>
+                  </div> */}
                 </>
               )}
               <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
@@ -666,7 +678,11 @@ const DailyJobSheet = ({
             {/* <CSVDownload data={dailyJobsheetProjects} target="_blank" />; */}
 
             <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
-              <CSVLink data={csvData} filename={fileName}>
+              <CSVLink
+                className="secondlinebreak"
+                data={csvData}
+                filename={fileName}
+              >
                 <button className="btn btn_green_bg float-right">Export</button>
               </CSVLink>
               <button
@@ -700,9 +716,9 @@ const DailyJobSheet = ({
                           <></>
                         )}
                         <th style={{ width: "5%" }}>Folder</th>
-                        <th style={{ width: "1%" }}></th>
                         <th style={{ width: "15%" }}>Project Name</th>
-                        <th style={{ width: "12%" }}>Queue Duration</th>
+                        <th style={{ width: "5%" }}>History</th>
+                        {/* <th style={{ width: "12%" }}>Queue Duration</th> */}
                         <th style={{ width: "10%" }}>Estimated Time</th>
                         <th style={{ width: "10%" }}>Job Time</th>
                         {/* <th style={{ width: "2%" }}>Priority</th> */}
@@ -801,18 +817,6 @@ const DailyJobSheet = ({
                                         alt="Last change"
                                         title="Last change"
                                       />
-                                    </>
-                                  ) : (
-                                    <></>
-                                  )}
-                                </td>
-                                <td>
-                                  {/* SLAP UserGroupRights */}
-                                  {(user.userGroupName &&
-                                    user.userGroupName === "Administrator") ||
-                                  user.userGroupName === "Super Admin" ||
-                                  user.userGroupName === "Clarical Admins" ? (
-                                    <>
                                       <Link
                                         className="float-left ml-3 aTagActiveRemoveClrBlk"
                                         to="#"
@@ -834,6 +838,24 @@ const DailyJobSheet = ({
                                   )}
                                 </td>
                                 <td>
+                                  <center>
+                                    <Link
+                                      className="btn btn_green_bg"
+                                      onClick={() =>
+                                        handleGetJobSummary(
+                                          dailyJobsheetProjects
+                                        )
+                                      }
+                                      to={{
+                                        pathname: "/project-summary",
+                                        data: dailyJobsheetProjects,
+                                      }}
+                                    >
+                                      View
+                                    </Link>
+                                  </center>
+                                </td>
+                                {/* <td>
                                   {
                                     dhm(
                                       dailyJobsheetProjects.clientDate +
@@ -841,7 +863,7 @@ const DailyJobSheet = ({
                                         dailyJobsheetProjects.clientTime
                                     )[0]
                                   }
-                                </td>
+                                </td> */}
                                 <td>
                                   {dailyJobsheetProjects.ptEstimatedTime &&
                                     estimatedTimeVal[0] +
@@ -892,10 +914,20 @@ const DailyJobSheet = ({
                                       <Select
                                         className="ml-4"
                                         styles={{
+                                          placeholder: (defaultStyles) => {
+                                            //for placeholder color "select"
+                                            return {
+                                              ...defaultStyles,
+                                              color: "#ffffff",
+                                            };
+                                          },
                                           control: (base) => ({
+                                            //for background
                                             ...base,
+                                            color: "#fff",
                                             background: "#456792",
                                           }),
+
                                           singleValue: (base) => ({
                                             ...base,
                                             color: "#fff",
@@ -906,12 +938,13 @@ const DailyJobSheet = ({
                                           }),
                                         }}
                                         name="projectStatusData"
-                                        value={{
-                                          label:
-                                            dailyJobsheetProjects.projectStatusType,
-                                          value:
-                                            dailyJobsheetProjects.projectStatusId,
-                                        }}
+                                        // value={{
+                                        //   label:
+                                        //     dailyJobsheetProjects.projectStatusType,
+                                        //   value:
+                                        //     dailyJobsheetProjects.projectStatusId,
+                                        // }}
+                                        value={projectStatusData}
                                         options={projectStatusOpt}
                                         isSearchable={true}
                                         placeholder="Select"
@@ -1018,13 +1051,13 @@ const DailyJobSheet = ({
           show={showProjectCycleModal}
           backdrop="static"
           keyboard={false}
-          size="md"
+          size="xl"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
           <Modal.Header>
             <div className="col-lg-10">
-              <h3 className="modal-title text-center">Project Life Cycle</h3>
+              <h3 className="modal-title text-center">Add Project Details</h3>
             </div>
             <div className="col-lg-1">
               <button onClick={handleProjectCycleModalClose} className="close">
@@ -1037,11 +1070,11 @@ const DailyJobSheet = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            <ChangeProjectLifeCycle
+            <AdditionalAddProject
               onProjectCycleModalChange={onProjectCycleModalChange}
               ProjectCycledata={statusChangeValue}
-              contacts={contacts}
-              socket={socket}
+              // contacts={contacts}
+              // socket={socket}
             />
           </Modal.Body>
         </Modal>
@@ -1221,4 +1254,5 @@ export default connect(mapStateToProps, {
   // getDailyjobSheetClients,
   getDailyjobSheetFolder,
   updateMsgSent,
+  getSummary,
 })(DailyJobSheet);

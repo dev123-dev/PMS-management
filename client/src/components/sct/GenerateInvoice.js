@@ -35,7 +35,8 @@ const GenerateInvoice = ({
       sctDataVal && sctDataVal.sctClientAddress
         ? sctDataVal.sctClientAddress
         : "",
-
+    // sctEmailId:
+    //   sctDataVal && sctDataVal.sctEmailId ? sctDataVal.sctEmailId : "",
     sctCompanyName:
       sctDataVal && sctDataVal.sctCompanyName ? sctDataVal.sctCompanyName : "",
     sctClientAssignedToName:
@@ -49,6 +50,7 @@ const GenerateInvoice = ({
     modeOfPayment: "",
     invoiceNo: "",
     invoiceDate: "",
+    EmailId: "",
     isSubmitted: false,
   });
 
@@ -59,6 +61,7 @@ const GenerateInvoice = ({
     sctClientAssignedToName,
     sctClientAddress,
     modeOfPayment,
+    EmailId,
     isSubmitted,
   } = formData;
 
@@ -91,6 +94,8 @@ const GenerateInvoice = ({
       companyaddress: company.companyAddress,
       companyType: company.companyType,
       companyid: company._id,
+      abbreviation: company.abbreviation,
+      invoiceNoCounter: company.invoiceNoCounter,
       label: company.companyName,
       value: company.companyName,
       bank: company.bank,
@@ -100,7 +105,8 @@ const GenerateInvoice = ({
   const [company, getcompanyData] = useState("");
   const [companyid, setcompanyId] = useState("");
   const [companyname, setcompanyname] = useState("");
-
+  const [abbreviation, setabbreviation] = useState("");
+  const [invoiceNoCounter, setinvoiceNoCounter] = useState("");
   const [bankList, setBankList] = useState();
 
   let allcompanyBank = [];
@@ -127,7 +133,26 @@ const GenerateInvoice = ({
     setcompanyaddressData(e.companyaddress);
     setBankList(e.bank);
     getSelectedBank("");
+    setinvoiceNoCounter(e.invoiceNoCounter);
+    setabbreviation(e.abbreviation);
   };
+
+  // if (invoiceNoCounter) {
+  var fiscalyearstart = "",
+    fiscalyearend = "";
+  var today = new Date();
+  if (today.getMonth() + 1 <= 3) {
+    fiscalyearstart = today.getFullYear() - 1;
+    fiscalyearend = today.getFullYear();
+  } else {
+    fiscalyearstart = today.getFullYear();
+    fiscalyearend = today.getFullYear() + 1;
+  }
+  var counter = invoiceNoCounter ? invoiceNoCounter : 0;
+  counter = counter + 1;
+  // }
+  var currentInvoiceNo =
+    abbreviation + "/" + fiscalyearstart + "-" + fiscalyearend + "/" + counter;
 
   const [selectedBank, getSelectedBank] = useState();
   bankList &&
@@ -238,20 +263,8 @@ const GenerateInvoice = ({
     desc: "",
   });
 
-  const {
-    itemName,
-    GST,
-    rate,
-    qty,
-    amt,
-    CGST,
-    SGST,
-    IGST,
-    totalAmt,
-    discount,
-    grandTotal,
-    desc,
-  } = addData;
+  const { itemName, GST, rate, qty, CGST, SGST, IGST, discount, desc } =
+    addData;
 
   const [AddedDetails, AddDetails] = useState([]);
 
@@ -268,24 +281,26 @@ const GenerateInvoice = ({
         GST: GST,
         rate: rate,
         qty: qty,
-        amt: qty * rate,
+        amt: Math.round(qty * rate),
         SGST: SGST,
         CGST: CGST,
         IGST: IGST,
-        totalAmt:
+        totalAmt: Math.round(
           Number(qty * rate) +
-          (Number(qty * rate) * Number(GST)) / 100 +
-          (Number(qty * rate) * Number(SGST)) / 100 +
-          (Number(qty * rate) * Number(CGST)) / 100 +
-          (Number(qty * rate) * Number(IGST)) / 100,
+            (Number(qty * rate) * Number(GST)) / 100 +
+            (Number(qty * rate) * Number(SGST)) / 100 +
+            (Number(qty * rate) * Number(CGST)) / 100 +
+            (Number(qty * rate) * Number(IGST)) / 100
+        ),
         discount: discount,
-        grandTotal:
+        grandTotal: Math.round(
           Number(qty * rate) +
-          (Number(qty * rate) * Number(GST)) / 100 +
-          (Number(qty * rate) * Number(SGST)) / 100 +
-          (Number(qty * rate) * Number(CGST)) / 100 +
-          (Number(qty * rate) * Number(IGST)) / 100 -
-          Number(discount),
+            (Number(qty * rate) * Number(GST)) / 100 +
+            (Number(qty * rate) * Number(SGST)) / 100 +
+            (Number(qty * rate) * Number(CGST)) / 100 +
+            (Number(qty * rate) * Number(IGST)) / 100 -
+            Number(discount)
+        ),
         desc: desc,
       };
       setFormDatas({
@@ -339,6 +354,7 @@ const GenerateInvoice = ({
           selectedBank && selectedBank.bankData ? selectedBank.bankData : null,
         invoiceEnteredById: user._id,
         invoiceEnteredByDateTime: new Date().toLocaleString("en-GB"),
+        EmailId: EmailId,
       };
       saveInvoice(finalData);
       setFormData({
@@ -358,10 +374,6 @@ const GenerateInvoice = ({
   const onInputChange1 = (e) => {
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
-
-  // if (isSubmitted) {
-  //   return <Redirect to="/all-clients" />;
-  // }
 
   if (!data) {
     return <Redirect to="/all-sct-documents" />;
@@ -396,10 +408,11 @@ const GenerateInvoice = ({
                 <input
                   type="text"
                   name="invoiceNo"
-                  value={invoiceNo}
+                  value={abbreviation ? currentInvoiceNo : ""}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                   required
+                  disabled
                 />
               </div>
               <div className="col-lg-4 col-md-6 col-sm-6 col-12 py-2">
@@ -426,6 +439,16 @@ const GenerateInvoice = ({
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                   disabled
+                />
+              </div>
+              <div className="col-lg-5 col-md-6 col-sm-6 col-12 py-1">
+                <label>Email :</label>
+                <input
+                  type="text"
+                  name="EmailId"
+                  value={EmailId}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
                 />
               </div>
               <br />
@@ -565,7 +588,7 @@ const GenerateInvoice = ({
                 <input
                   type="Number"
                   name="amt"
-                  value={qty * rate}
+                  value={Math.round(qty * rate)}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
                   onKeyDown={(e) =>
@@ -639,13 +662,13 @@ const GenerateInvoice = ({
                     <input
                       type="text"
                       name="totalAmt"
-                      value={
+                      value={Math.round(
                         Number(qty * rate) +
-                        (Number(qty * rate) * Number(GST)) / 100 +
-                        (Number(qty * rate) * Number(SGST)) / 100 +
-                        (Number(qty * rate) * Number(CGST)) / 100 +
-                        (Number(qty * rate) * Number(IGST)) / 100
-                      }
+                          (Number(qty * rate) * Number(GST)) / 100 +
+                          (Number(qty * rate) * Number(SGST)) / 100 +
+                          (Number(qty * rate) * Number(CGST)) / 100 +
+                          (Number(qty * rate) * Number(IGST)) / 100
+                      )}
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
                       disabled
@@ -672,14 +695,14 @@ const GenerateInvoice = ({
                 <input
                   type="text"
                   name="grandTotal"
-                  value={
+                  value={Math.round(
                     Number(qty * rate) +
-                    (Number(qty * rate) * Number(GST)) / 100 +
-                    (Number(qty * rate) * Number(SGST)) / 100 +
-                    (Number(qty * rate) * Number(CGST)) / 100 +
-                    (Number(qty * rate) * Number(IGST)) / 100 -
-                    Number(discount)
-                  }
+                      (Number(qty * rate) * Number(GST)) / 100 +
+                      (Number(qty * rate) * Number(SGST)) / 100 +
+                      (Number(qty * rate) * Number(CGST)) / 100 +
+                      (Number(qty * rate) * Number(IGST)) / 100 -
+                      Number(discount)
+                  )}
                   className="form-control"
                   onChange={(e) => onInputChange1(e)}
                 />

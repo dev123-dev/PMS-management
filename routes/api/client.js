@@ -160,6 +160,22 @@ router.post("/get-active-client-filter", async (req, res) => {
   }
 });
 
+router.post("/get-client-filter", async (req, res) => {
+  query = {
+    dctClientStatus: {
+      $eq: "Active",
+    },
+  };
+
+  try {
+    const getClientFilterDetails = await DctClients.find(query);
+    res.json(getClientFilterDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 router.post("/get-active-staff-filter", async (req, res) => {
   const { clientId } = req.body;
   let query = {};
@@ -337,6 +353,65 @@ router.post("/get-verification-folder", async (req, res) => {
       },
     ]);
     res.json(getVerfFolderDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-billing-client", async (req, res) => {
+  let query = {
+    projectStatus: "Active",
+    projectVerificationStatus: "Verified",
+  };
+  try {
+    const getBillingClientDetails = await Project.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$clientId",
+          clientName: { $first: "$clientName" },
+        },
+      },
+    ]);
+    res.json(getBillingClientDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-Report-clients", async (req, res) => {
+  const { clientType } = req.body;
+  let query = {};
+  if (clientType) {
+    query = { clientType: clientType };
+  }
+  try {
+    const getProjectClients = await ClientDetails.find(query);
+    res.json(getProjectClients);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-filter-dctclient-details", async (req, res) => {
+  const { clientId } = req.body;
+  let query = {};
+  if (clientId) {
+    query = {
+      _id: {
+        $eq: clientId,
+      },
+    };
+  }
+
+  try {
+    const allclientDetails = await DctClients.find(query);
+    res.json(allclientDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

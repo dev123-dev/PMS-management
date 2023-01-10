@@ -102,7 +102,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
-                {/* <NavItem>
+                <NavItem>
                   {!loading &&
                   isAuthenticated &&
                   user &&
@@ -113,12 +113,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       to="/all-Amendments"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      Amendments
+                      AM/AI
                     </NavLink>
                   ) : (
                     <NavItem></NavItem>
                   )}
-                </NavItem> */}
+                </NavItem>
                 <NavItem>
                   {!loading &&
                   isAuthenticated &&
@@ -131,6 +131,23 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       Job Verification
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
+                <NavItem>
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
+                    <NavLink
+                      to="/billing"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Billing
                     </NavLink>
                   ) : (
                     <NavItem></NavItem>
@@ -315,7 +332,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                           user.userGroupName &&
                           user.userGroupName === "Administrator") ||
                         user.userGroupName === "Super Admin" ||
-                        user.userGroupName === "Marketing" ? (
+                        user.userGroupName === "Marketing" ||
+                        user.userGroupName === "Clarical Admins" ? (
                           <>
                             <li>
                               <Link to="/all-dct-client">All Dct Clients</Link>
@@ -380,6 +398,9 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                         </li>
                         <li>
                           <Link to="/all-feedback">All Feedback</Link>
+                        </li>
+                        <li>
+                          <Link to="/client-report">Client Report</Link>
                         </li>
                         <li>
                           <Link to="#" onClick={() => handleLogoutModalShow()}>

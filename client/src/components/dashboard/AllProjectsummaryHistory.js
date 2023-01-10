@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import { getAllchanges } from "../../actions/projects";
-const AllLatestChange = ({
+const AllProjectsummaryHistory = ({
   auth: { isAuthenticated, user, users },
   project: { getAllChangesData },
   AllChangedata,
@@ -65,7 +65,7 @@ const AllLatestChange = ({
   );
 };
 
-AllLatestChange.propTypes = {
+AllProjectsummaryHistory.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
   getAllchanges: PropTypes.func.isRequired,
@@ -76,4 +76,6 @@ const mapStateToProps = (state) => ({
   settings: state.settings,
 });
 
-export default connect(mapStateToProps, { getAllchanges })(AllLatestChange);
+export default connect(mapStateToProps, { getAllchanges })(
+  AllProjectsummaryHistory
+);

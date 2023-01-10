@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 const SctClientCallHistory = ({
   auth: { isAuthenticated, user, users, loading },
   sct: { sctcallHistory },
-  onClientCallHistoryModalChange,
 }) => {
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -20,7 +19,8 @@ const SctClientCallHistory = ({
           <thead>
             <tr>
               <th style={{ width: "10%" }}>Staff Name </th>
-              <th style={{ width: "5%" }}>Call Date</th>
+              <th style={{ width: "6%" }}>Call Taken Date</th>
+              <th style={{ width: "6%" }}>Next Call Date</th>
               <th style={{ width: "5%" }}>Status</th>
               <th style={{ width: "5%" }}>Category</th>
               <th style={{ width: "30%" }}>Notes</th>
@@ -35,6 +35,11 @@ const SctClientCallHistory = ({
                   var ED = sctcallHistory.sctCallDate.split(/\D/g);
                   sctCallDate = [ED[2], ED[1], ED[0]].join("-");
                 }
+                var sctCallTakenDate = "";
+                if (sctcallHistory.sctCallTakenDate) {
+                  var ED1 = sctcallHistory.sctCallTakenDate.split(/\D/g);
+                  sctCallTakenDate = [ED1[2], ED1[1], ED1[0]].join("-");
+                }
                 if (sctcallHistory.sctCallCategory === "F") {
                   var sctCallCategory = "Followup";
                 } else if (sctcallHistory.sctCallCategory === "P") {
@@ -47,6 +52,7 @@ const SctClientCallHistory = ({
                 return (
                   <tr key={idx}>
                     <td>{sctcallHistory.sctCallToStaffName}</td>
+                    <td>{sctCallTakenDate}</td>
                     <td>{sctCallDate}</td>
                     <td>{sctcallHistory.sctCallStatus}</td>
                     <td>{sctCallCategory}</td>

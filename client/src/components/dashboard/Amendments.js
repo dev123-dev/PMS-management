@@ -4,20 +4,17 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { Link } from "react-router-dom";
 import {
   getAmendmentProjectDeatils,
-  AddAmendmentHistory,
   getLastAmendmentHistoryDeatils,
   updateProjectTrack,
 } from "../../actions/projects";
 import AmendLastDiscussion from "./AmendLastDiscussion";
 import AmendAddDiscussion from "./AmendAddDiscussion";
-
 import AmendHistory from "./AmendHistory";
 const Amendments = ({
   auth: { isAuthenticated, user, users },
-  project: { amendentHistory, amendentLastHistory, amendmentProjects },
+  project: { amendmentProjects },
   getAmendmentProjectDeatils,
   getLastAmendmentHistoryDeatils,
 }) => {
@@ -35,6 +32,11 @@ const Amendments = ({
     { value: "UnResolved", label: "UnResolved" },
   ];
   const { projectStatusCategory } = formData;
+  const [showHide2, setShowHide2] = useState({
+    showonclickSection: false,
+  });
+
+  const { showonclickSection } = showHide2;
 
   const onStatuscatChange = (e) => {
     if (e) {
@@ -61,6 +63,7 @@ const Amendments = ({
   const [ProjRestore, setProjRestore] = useState();
 
   const onClickHandler = (amendmentProjects, idx) => {
+    setcolorData(idx);
     localStorage.removeItem("getLastAmendmentDetails");
     setProjLastchnage(null);
     setProjRestore(amendmentProjects);
@@ -75,6 +78,10 @@ const Amendments = ({
       ...showHide,
       showhistory_submitSection: true,
     });
+    setShowHide2({
+      ...showHide2,
+      showonclickSection: true,
+    });
   };
 
   const [showHide, setShowHide] = useState({
@@ -83,7 +90,7 @@ const Amendments = ({
   const [showHide1, setShowHide1] = useState({
     showunresolvedSection: true,
   });
-
+  const [colorData, setcolorData] = useState();
   const { showhistory_submitSection } = showHide;
   const { showunresolvedSection } = showHide1;
 
@@ -104,8 +111,10 @@ const Amendments = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Amendments</h5>
+            <div className=" col-lg-3 col-md-11 col-sm-10 col-10">
+              <h5 className="heading_color">
+                Amendments / Additional Instruction
+              </h5>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -133,7 +142,7 @@ const Amendments = ({
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
-                    className="table table-bordered table-striped table-hover smll_row"
+                    className="table table-bordered table-striped hoverrow smll_row"
                     id="datatable2"
                   >
                     <thead>
@@ -150,28 +159,20 @@ const Amendments = ({
                           return (
                             <tr
                               key={idx}
+                              className={
+                                colorData === idx ? "seletedrowcolorchange" : ""
+                              }
                               onClick={() =>
                                 onClickHandler(amendmentProjects, idx)
                               }
                             >
-                              <td>
-                                {/* <Link
-                                  className="float-left ml-3"
-                                  to="#"
-                                  onClick={() =>
-                                    onClickHandler(amendmentProjects, idx)
-                                  }
-                                > */}
-                                {amendmentProjects.output[0].clientName}
-                                {/* </Link> */}
-                              </td>
+                              <td>{amendmentProjects.output[0].clientName}</td>
                               <td>
                                 <b>
                                   {amendmentProjects.output[0].clientFolderName}
                                 </b>
                               </td>
                               <td>{amendmentProjects.output[0].projectName}</td>
-
                               <td>
                                 {amendmentProjects.output[0].projectStatusType}
                               </td>
@@ -187,7 +188,9 @@ const Amendments = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePart2divHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Amendment</label>
-                  <AmendAddDiscussion ProjRestoreVal={ProjRestore} />
+                  {showonclickSection && (
+                    <AmendAddDiscussion ProjRestoreVal={ProjRestore} />
+                  )}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePart2divHeight">
@@ -195,11 +198,13 @@ const Amendments = ({
                   <label className="sidePartHeading ">
                     Amendment Last Discussion
                   </label>
-                  <AmendLastDiscussion
-                    ProjLastchnageVal={ProjLastchnage}
-                    ProjRestoreVal={ProjRestore}
-                    setProjLastchnageFunc={setProjLastchnage}
-                  />
+                  {showonclickSection && (
+                    <AmendLastDiscussion
+                      ProjLastchnageVal={ProjLastchnage}
+                      ProjRestoreVal={ProjRestore}
+                      setProjLastchnageFunc={setProjLastchnage}
+                    />
+                  )}
                 </div>
               </div>
 
@@ -336,7 +341,6 @@ Amendments.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
   getAmendmentProjectDeatils: PropTypes.func.isRequired,
-  AddAmendmentHistory: PropTypes.func.isRequired,
   getLastAmendmentHistoryDeatils: PropTypes.func.isRequired,
   updateProjectTrack: PropTypes.func.isRequired,
 };
@@ -348,7 +352,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getAmendmentProjectDeatils,
-  AddAmendmentHistory,
   getLastAmendmentHistoryDeatils,
   updateProjectTrack,
 })(Amendments);

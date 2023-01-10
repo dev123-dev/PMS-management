@@ -100,6 +100,8 @@ router.post("/edit-project", async (req, res) => {
           projectNotes: data.projectNotes,
           projectDeadline: data.projectDeadline,
           projectQuantity: data.projectQuantity,
+          staffName: data.staffName,
+          staffId: data.staffId,
           clientTypeVal: data.clientTypeVal,
           projectTime: data.projectTime,
           projectDate: data.projectDate,
@@ -151,6 +153,7 @@ router.post("/verify-project", async (req, res) => {
           projectVerificationStatus: "Verified",
           projectVerifiedById: data.projectVerifiedById,
           projectVerifiedDateTime: Date.now(),
+          billingData: data.billingData,
         },
       }
     );
@@ -370,22 +373,16 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
   if (dateType === "Multi Date") {
     if (folderId) {
       query = {
-        projectStatus: {
-          $eq: "Active",
-        },
+        projectStatus: "Active",
         projectDate: {
           $gte: fromdate,
           $lte: todate,
         },
-        clientFolderName: {
-          $eq: folderId,
-        },
+        clientFolderName: folderId,
       };
     } else {
       query = {
-        projectStatus: {
-          $eq: "Active",
-        },
+        projectStatus: "Active",
         projectDate: {
           $gte: fromdate,
           $lte: todate,
@@ -398,50 +395,34 @@ router.post("/get-daily-jobsheet-project-details", async (req, res) => {
 
     if (folderId) {
       query = {
-        projectStatus: {
-          $eq: "Active",
-        },
-        projectDate: {
-          $eq: selDateVal,
-        },
-        clientFolderName: {
-          $eq: folderId,
-        },
+        projectStatus: "Active",
+        projectDate: selDateVal,
+        clientFolderName: folderId,
       };
     } else {
       query = {
-        projectStatus: {
-          $eq: "Active",
-        },
-        projectDate: {
-          $eq: selDateVal,
-        },
+        projectStatus: "Active",
+        projectDate: selDateVal,
       };
     }
   } else {
     if (folderId) {
       query = {
-        projectStatus: {
-          $eq: "Active",
-        },
-        projectDate: {
-          $eq: new Date().toISOString().split("T")[0],
-        },
-        clientFolderName: {
-          $eq: folderId,
-        },
+        projectStatus: "Active",
+        projectDate: new Date().toISOString().split("T")[0],
+        clientFolderName: folderId,
       };
     } else {
       query = {
-        projectStatus: {
-          $eq: "Active",
-        },
-        projectDate: {
-          $eq: new Date().toISOString().split("T")[0],
-        },
+        projectStatus: "Active",
+        projectDate: new Date().toISOString().split("T")[0],
       };
     }
   }
+  query = {
+    ...query,
+    projectBelongsToId: null,
+  };
   // get-dailyjobsheet-client
   try {
     // const getDailyJobSheetDetails = await Project.find(query);
@@ -596,6 +577,104 @@ router.post("/get-verification-project-details", async (req, res) => {
   }
 });
 
+router.post("/get-verified-project-details", async (req, res) => {
+  const { clientId, statusId, dateVal, folder } = req.body;
+  let query = {};
+  if (dateVal) {
+    if (folder) {
+      if (statusId) {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { clientFolderName: { $eq: folder } },
+            { projectStatusId: { $eq: statusId } },
+            { projectDate: { $eq: dateVal } },
+          ],
+        };
+      } else {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { clientFolderName: { $eq: folder } },
+            { projectDate: { $eq: dateVal } },
+          ],
+        };
+      }
+    } else {
+      if (statusId) {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { projectStatusId: { $eq: statusId } },
+            { projectDate: { $eq: dateVal } },
+          ],
+        };
+      } else {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { projectDate: { $eq: dateVal } },
+          ],
+        };
+      }
+    }
+  } else {
+    if (folder) {
+      if (statusId) {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { clientFolderName: { $eq: folder } },
+            { projectStatusId: { $eq: statusId } },
+          ],
+        };
+      } else {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { clientFolderName: { $eq: folder } },
+          ],
+        };
+      }
+    } else {
+      if (statusId) {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+            { projectStatusId: { $eq: statusId } },
+          ],
+        };
+      } else {
+        query = {
+          $and: [
+            { projectVerificationStatus: { $eq: "Verified" } },
+            { projectStatus: { $eq: "Active" } },
+          ],
+        };
+      }
+    }
+  }
+  if (clientId) {
+    query = {
+      ...query,
+      clientId: clientId,
+    };
+  }
+  try {
+    const getVerificationProjectDetails = await Project.find(query);
+    res.json(getVerificationProjectDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 router.post("/get-all-changes", async (req, res) => {
   const { projectId } = req.body;
   try {
@@ -611,9 +690,18 @@ router.post("/get-all-changes", async (req, res) => {
       // { $unwind: "$output" },
       {
         $match: {
-          "output._id": {
-            $eq: mongoose.Types.ObjectId(projectId),
-          },
+          $or: [
+            {
+              "output._id": {
+                $eq: mongoose.Types.ObjectId(projectId),
+              },
+            },
+            {
+              "output.projectBelongsToId": {
+                $eq: mongoose.Types.ObjectId(projectId),
+              },
+            },
+          ],
         },
       },
     ]);
@@ -660,21 +748,27 @@ router.post("/get-amendment-project-details", async (req, res) => {
   let query = {};
   if (setTypeData) {
     query = {
-      projectStatusType: {
-        $eq: "Amendment",
-      },
-      amendmentType: {
-        $eq: setTypeData,
-      },
+      $or: [
+        {
+          projectStatusType: "Amendment",
+        },
+        {
+          projectStatusType: "Additional_Instruction",
+        },
+      ],
+      amendmentType: setTypeData,
     };
   } else {
     query = {
-      projectStatusType: {
-        $eq: "Amendment",
-      },
-      amendmentType: {
-        $eq: "UnResolved",
-      },
+      $or: [
+        {
+          projectStatusType: "Amendment",
+        },
+        {
+          projectStatusType: "Additional_Instruction",
+        },
+      ],
+      amendmentType: "UnResolved",
     };
   }
   try {
@@ -795,6 +889,97 @@ router.post("/update-amendment-type-status", async (req, res) => {
     res.json(updateProjectStatus);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/get-clients-report", async (req, res) => {
+  const { selectedY, clientId, clientType } = req.body;
+  let query = {};
+  if (selectedY) {
+    query = { projectDate: { $regex: new RegExp("^" + selectedY, "i") } };
+  } else {
+    query = {
+      projectDate: { $regex: new RegExp("^" + new Date().getFullYear(), "i") },
+    };
+  }
+  if (clientId) {
+    query = { ...query, clientId: mongoose.Types.ObjectId(clientId) };
+  }
+
+  if (clientType) {
+    query = { ...query, "output.clientType": clientType };
+  }
+  try {
+    const getClientReport = await Project.aggregate([
+      {
+        $lookup: {
+          from: "clients",
+          localField: "clientId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $unwind: "$output" },
+      { $match: query },
+      {
+        $group: {
+          _id: {
+            clientId: "$clientId",
+            month: {
+              $month: {
+                $dateFromString: { dateString: "$projectDate" },
+              },
+            },
+          },
+          clientName: { $first: "$clientName" },
+          count: { $sum: "$projectQuantity" },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          count: 1,
+          clientId: "$_id.clientId",
+          month_year: { $concat: ["m", { $toString: "$_id.month" }] },
+          clientName: 1,
+        },
+      },
+      {
+        $group: {
+          _id: "$clientId",
+          clientName: { $first: "$clientName" },
+          data: { $push: { k: "$month_year", v: "$count" } },
+        },
+      },
+      {
+        $project: {
+          clientId: "$_id",
+          data: { $arrayToObject: "$data" },
+          clientName: 1,
+          _id: 0,
+        },
+      },
+      { $sort: { clientId: 1 } },
+    ]);
+    res.json(getClientReport);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/get-summary", async (req, res) => {
+  const { projectId } = req.body;
+  try {
+    if (projectId) {
+      const getProjectSummary = await Project.find({
+        $or: [{ projectBelongsToId: projectId }, { _id: projectId }],
+      });
+      res.json(getProjectSummary);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
   }
 });
 

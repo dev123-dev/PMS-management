@@ -10,7 +10,7 @@ const LoginHistory = require("../../models/LoginHistory");
 var nodemailer = require("nodemailer");
 const { networkInterfaces } = require("os");
 const nets = networkInterfaces();
-
+const Company = require("../../models/settings/company");
 const {
   SERVER_ERROR,
   USERNAME_REQUIRED_INVALID,
@@ -92,10 +92,10 @@ router.post(
       //     }
       //   }
       // }
-      // var today = new Date();
-      // var dd = today.getDate();
-      // var mm = today.getMonth() + 1;
-      // var yyyy = today.getFullYear();
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth() + 1;
+      var yyyy = today.getFullYear();
       // if (dd < 10) {
       //   dd = "0" + dd;
       // }
@@ -111,6 +111,27 @@ router.post(
       // };
       // let LoginHistorySave = new LoginHistory(loginData);
       // await LoginHistorySave.save();
+      if (mm == 4 && dd < 5) {
+        await Company.updateMany(
+          { counterCheck: 0 },
+          {
+            $set: {
+              quotationNoCounter: 0,
+              invoiceNoCounter: 0,
+              counterCheck: 1,
+            },
+          }
+        );
+      } else if (mm == 4 && dd > 5 && dd < 10) {
+        await Company.updateMany(
+          { counterCheck: 1 },
+          {
+            $set: {
+              counterCheck: 0,
+            },
+          }
+        );
+      }
     } catch (err) {
       console.error(err.message);
       res.status(STATUS_CODE_500).json({ errors: [{ msg: "Server Error" }] });

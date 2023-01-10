@@ -11,7 +11,16 @@ const ProjectSchema = new mongoose.Schema({
   clientId: {
     type: ObjectId,
   },
+  oldClientId: {
+    type: ObjectId,
+  },
   clientName: {
+    type: String,
+  },
+  staffId: {
+    type: ObjectId,
+  },
+  staffName: {
     type: String,
   },
   parentClientId: {
@@ -162,6 +171,10 @@ const ProjectSchema = new mongoose.Schema({
   timeOutMsgSent: {
     type: Number,
     default: 0,
+  },
+  billingData: [],
+  oldClientFolderName: {
+    type: String,
   },
 });
 

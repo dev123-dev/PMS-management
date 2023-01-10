@@ -6,6 +6,7 @@ import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import Select from "react-select";
+import FileBase64 from "react-file-base64";
 const AddCompany = ({
   auth: { isAuthenticated, user, users, loading },
   // onAddModalChange,
@@ -27,10 +28,14 @@ const AddCompany = ({
     companyPanNo: "",
     companyRegisterNo: "",
     companyTradeLicenseNo: "",
+    abbreviation: "",
+    quotationNoCounter: "",
+    invoiceNoCounter: "",
     companyDescription: "",
     companyAddress: "",
     companyShortForm: "",
     companyType: "",
+    companyLogo: "",
     isSubmitted: false,
   });
 
@@ -43,10 +48,14 @@ const AddCompany = ({
     companyPanNo,
     companyRegisterNo,
     companyTradeLicenseNo,
+    invoiceNoCounter,
+    abbreviation,
+    quotationNoCounter,
     companyDescription,
     companyAddress,
     companyShortForm,
     companyType,
+    companyLogo,
     isSubmitted,
   } = formData;
   //Required Validation Starts
@@ -144,7 +153,7 @@ const AddCompany = ({
   const onInputChange1 = (e) => {
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
-  console.log(user);
+
   //Required Validation ends
   const onSubmit = (e) => {
     e.preventDefault();
@@ -158,11 +167,15 @@ const AddCompany = ({
         companyPanNo: companyPanNo?.trim(),
         companyRegisterNo: companyRegisterNo?.trim(),
         companyTradeLicenseNo: companyTradeLicenseNo?.trim(),
+        abbreviation: abbreviation,
+        quotationNoCounter: quotationNoCounter,
+        invoiceNoCounter: invoiceNoCounter,
         companyDescription: companyDescription?.trim(),
         companyAddress: companyAddress?.trim(),
         companyType: companyType.value ? companyType : bankTypeVal[0].value,
         companyShortForm: companyShortForm?.trim(),
         bank: AddedDetails,
+        companyLogo: companyLogo,
         departmentEnteredById: user._id,
         companyEnteredByName: user.empFullName,
       };
@@ -329,6 +342,59 @@ const AddCompany = ({
                   onChange={(e) => onInputChange(e)}
                 ></textarea>
               </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Abbreviation :</label>
+                <input
+                  type="text"
+                  name="abbreviation"
+                  value={abbreviation}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Quotation No Counter :</label>
+                <input
+                  type="text"
+                  name="quotationNoCounter"
+                  value={quotationNoCounter}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control">Invoice No Counter :</label>
+                <input
+                  type="text"
+                  name="invoiceNoCounter"
+                  value={invoiceNoCounter}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+
+              <div className="row col-lg-12 col-md-12 col-sm-12 col-12 py-3">
+                <label className="label-control">Company Logo :</label>
+
+                <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
+                  <FileBase64
+                    type="file"
+                    multiple={false}
+                    onDone={({ base64 }) =>
+                      setFormData({
+                        ...formData,
+                        companyLogo: base64,
+                      })
+                    }
+                  />
+
+                  <img
+                    className="log_size"
+                    alt="Preview"
+                    src={`${companyLogo}`}
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
@@ -380,9 +446,8 @@ const AddCompany = ({
                   onChange={(e) => onInputChange1(e)}
                 />
               </div>
-
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                <label className="label-control">Default :</label>
+                <label className="label-control">Default Bank :</label>
                 <input
                   type="checkbox"
                   id="default"
@@ -390,6 +455,7 @@ const AddCompany = ({
                   onChange={handleOnChange}
                 />
               </div>
+
               <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                 <button
                   variant="success"

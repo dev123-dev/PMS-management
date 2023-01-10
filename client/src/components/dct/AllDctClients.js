@@ -3,17 +3,31 @@ import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import Select from "react-select";
 import Spinner from "../layout/Spinner";
 import { getAllDctClient } from "../../actions/dct";
+import {
+  getClientsFilter,
+  getFilterDCTClientDetails,
+} from "../../actions/client";
 import DeactiveDctClient from "./DeactiveDctClient";
 const AllDctClients = ({
   auth: { isAuthenticated, user, users },
-  dct: { allDctClients, allDctClientsDD },
+  dct: { allDctClients },
+  client: { allfilterClients },
+  getClientsFilter,
+  getFilterDCTClientDetails,
   getAllDctClient,
 }) => {
   useEffect(() => {
     getAllDctClient();
   }, [getAllDctClient]);
+  useEffect(() => {
+    getClientsFilter();
+  }, [getClientsFilter]);
+  useEffect(() => {
+    getFilterDCTClientDetails();
+  }, [getFilterDCTClientDetails]);
 
   const [showDeactiveModal, setShowDeactiveModal] = useState(false);
   const handleDeactiveModalClose = () => setShowDeactiveModal(false);
@@ -28,6 +42,32 @@ const AllDctClients = ({
     setShowDeactiveModal(true);
     setUserDatadeactive(allDctClients);
   };
+
+  const activeClientsOpt = [];
+  allfilterClients.map((clientsData) =>
+    activeClientsOpt.push({
+      clientId: clientsData._id,
+      label: clientsData.clientName,
+      value: clientsData.clientName,
+    })
+  );
+  const [clientData, setClientData] = useState("");
+  const [clientId, setClientId] = useState("");
+
+  const onClientChange = (e) => {
+    setClientData(e);
+    const finalData = {
+      clientId: e.clientId,
+    };
+
+    getFilterDCTClientDetails(finalData);
+  };
+
+  const onClickReset = () => {
+    getFilterDCTClientDetails("");
+    setClientData("");
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -35,16 +75,32 @@ const AllDctClients = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className=" col-lg-6 col-md-11 col-sm-10 col-10">
+            <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All DCT Client Details </h5>
             </div>
-            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-3">
+              <Select
+                name="clientData"
+                isSearchable={true}
+                value={clientData}
+                options={activeClientsOpt}
+                placeholder="Select"
+                onChange={(e) => onClientChange(e)}
+              />
+            </div>
+            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-3">
               <Link
                 className="btn btn_green_bg float-right"
                 to="/add-dct-client"
               >
                 Add client
               </Link>
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickReset()}
+              >
+                Refresh
+              </button>
             </div>
           </div>
 
@@ -61,7 +117,6 @@ const AllDctClients = ({
                         <th>Sl No.</th>
                         <th>Company Name</th>
                         <th>Client Name</th>
-
                         <th>Folder Name</th>
                         <th>Email</th>
                         <th>Contact 1 </th>
@@ -179,10 +234,16 @@ const AllDctClients = ({
 
 AllDctClients.propTypes = {
   auth: PropTypes.object.isRequired,
+  getClientsFilter: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   dct: state.dct,
+  client: state.client,
 });
 
-export default connect(mapStateToProps, { getAllDctClient })(AllDctClients);
+export default connect(mapStateToProps, {
+  getAllDctClient,
+  getClientsFilter,
+  getFilterDCTClientDetails,
+})(AllDctClients);

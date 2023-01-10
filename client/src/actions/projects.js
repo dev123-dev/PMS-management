@@ -11,12 +11,15 @@ import {
   GET_ALL_CHANGES,
   GET_LATEST_CHANGES,
   UNVERIFIED_PROJECTS,
+  VERIFIED_PROJECTS,
   ALL_STATUS_VERIFICATION,
   AMENDMENT_PROJECTS,
   AMENDMENT_HISTORY_PROJECTS,
   AMENDMENT_LAST_HISTORY_PROJECTS,
   AMENDMENT_LAST_COUNTER,
   SELECTED_CLIENT_DATA,
+  CLIENTS_REPORT_DATA,
+  CLIENT_JOB_SUMMARY,
 } from "./types";
 
 const config = {
@@ -87,6 +90,7 @@ export const AddProjectTrack = (finalData) => async (dispatch) => {
     await axios.post("/api/projects/add-project-track", finalData, config);
     dispatch(getJobQueueProjectDeatils());
     dispatch(getDailyJobsheetProjectDeatils());
+    dispatch(getSummary({ projectId: finalData.mainProjectId }));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -366,6 +370,21 @@ export const getverificationProjectDeatils =
     }
   };
 
+export const getverifiedProjectDeatils = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/projects/get-verified-project-details",
+      finalData
+    );
+    dispatch({
+      type: VERIFIED_PROJECTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getAllchanges = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/projects/get-all-changes", finalData);
@@ -516,6 +535,7 @@ export const updateProjectTrack = (finalData) => async (dispatch) => {
     });
     await axios.post("/api/projects/update-amendment-type-status", finalData);
     // dispatch(getAllProjectStatus());
+    dispatch(getAmendmentProjectDeatils());
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -523,5 +543,29 @@ export const updateProjectTrack = (finalData) => async (dispatch) => {
     dispatch({
       type: AUTH_ERROR,
     });
+  }
+};
+
+export const getClientsReport = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/projects/get-clients-report", finalData);
+    dispatch({
+      type: CLIENTS_REPORT_DATA,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getSummary = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/projects/get-summary", finalData);
+    dispatch({
+      type: CLIENT_JOB_SUMMARY,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
   }
 };
