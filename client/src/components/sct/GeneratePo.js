@@ -7,7 +7,6 @@ import Spinner from "../layout/Spinner";
 import { getALLCompanyDetails } from "../../actions/settings";
 import { savePurchaseOrder } from "../../actions/sct";
 import { Redirect } from "react-router-dom";
-import SctQuotationpdfprint from "./SctQuotationpdfprint";
 import AllDesignation from "../department/AllDesignation";
 
 const GeneratePo = ({

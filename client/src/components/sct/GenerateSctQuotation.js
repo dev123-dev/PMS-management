@@ -901,7 +901,7 @@ const GenerateSctQuotation = ({
                       className="btn sub_form btn_continue blackbrd  Save float-right"
                       style={{ backgroundColor: "#007bff", color: "white" }}
                       to={{
-                        pathname: "/print-pdf",
+                        pathname: "/print-Normal-Quotation-pdf",
                         data: {
                           data,
                           quotationData: finalDataVal,
