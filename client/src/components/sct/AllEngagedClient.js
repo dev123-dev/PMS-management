@@ -476,7 +476,7 @@ const AllEngagedClient = ({
                                         onClickQuotation(sctClients)
                                       }
                                       to={{
-                                        pathname: "/print-pdf",
+                                        pathname: "/print-Normal-Quotation-pdf",
                                         data: {
                                           data: sctClients,
                                           quotationData:

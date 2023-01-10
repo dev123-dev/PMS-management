@@ -10,10 +10,11 @@ import {
   View,
   StyleSheet,
   PDFViewer,
+  Image,
 } from "@react-pdf/renderer";
 import { ToWords } from "to-words";
 const toWords = new ToWords();
-const SctQuotationpdfprint = ({
+const SctNormalQuotationpdfprint = ({
   auth: { isAuthenticated, user, users, loading },
 }) => {
   const data = useHistory().location.data;
@@ -62,6 +63,8 @@ const SctQuotationpdfprint = ({
   var ED = quotationDataLS.quotationDate.split(/\D/g);
   quotationDate1 = [ED[2], ED[1], ED[0]].join("-");
 
+  const borderColor = "#3778C2";
+
   // const [startquotationDate, setquotationDate] = useState(quotationDate);
   const styles = StyleSheet.create({
     section: {
@@ -86,7 +89,6 @@ const SctQuotationpdfprint = ({
     },
 
     row: {
-      // display: "flex",
       flexDirection: "row",
       borderTop: "1px solid #EEE",
       paddingTop: 8,
@@ -123,18 +125,40 @@ const SctQuotationpdfprint = ({
     row8: {
       width: "17%",
     },
-    // space: {
-    //   height: "2px",
-    // },
+
+    letterHeader: {
+      margin: "10px",
+      backgroundColor: "#456792",
+    },
+    letterFooter: {
+      height: "20px",
+      margin: "10px",
+      backgroundColor: "#456792",
+      position: "relative",
+      bottom: "50",
+      left: "0",
+    },
+
+    headingQuo: {
+      color: "#456792",
+      fontWeight: "bold",
+      fontSize: "18px",
+      left: "43%",
+    },
+
+    logo: {
+      width: 150,
+      height: 50,
+      left: 0,
+      marginLeft: 10,
+      marginRight: "auto",
+    },
   });
 
   let totSubTot = 0;
   quotationDataLS &&
     quotationDataLS.item.map((row, i) => (totSubTot += Number(row.grandTotal)));
 
-  // if (!data || data === undefined) {
-  //   return <Redirect to="/all-engaged-clients" />;
-  // }
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -146,8 +170,14 @@ const SctQuotationpdfprint = ({
         <Document>
           {/*render a single page*/}
           <Page size="A4" style={styles.page}>
-            <View style={styles.section}>
-              <Text>Quotation</Text>
+            <View style={styles.letterHeader}>
+              <Image
+                style={styles.logo}
+                src={require("../../static/images/pmLogo_wh.png")}
+              />
+            </View>
+            <View>
+              <Text style={styles.headingQuo}>Quotation</Text>
             </View>
             <View style={styles.section}>
               <Text>Quotation No #:{quotationNo}</Text>
@@ -158,7 +188,6 @@ const SctQuotationpdfprint = ({
               <View style={[styles.row]}>
                 <Text
                   style={{
-                    // border: "1 px solid black",
                     width: "600px",
                     height: "100%",
                   }}
@@ -183,25 +212,6 @@ const SctQuotationpdfprint = ({
                 </Text>
               </View>
             </View>
-
-            {/* <View style={(styles.table, styles.section)}>
-            <View style={[styles.row]}>
-              <Text
-                style={{
-                  width: "600px",
-                }}
-              >
-                Country of Supply:
-              </Text>
-              <Text
-                style={{
-                  width: "600px",
-                }}
-              >
-                Place of Supply:
-              </Text>
-            </View>
-          </View> */}
 
             <View style={(styles.table, styles.section)}>
               <View style={[styles.row, styles.bold, styles.header]}>
@@ -244,7 +254,7 @@ const SctQuotationpdfprint = ({
             <View
               style={{
                 position: "absolute",
-                bottom: "20",
+                bottom: "30",
                 left: "0",
                 padding: "10",
               }}
@@ -252,20 +262,15 @@ const SctQuotationpdfprint = ({
               <Text>Terms and Condition: </Text>
               <Text> 1. Applicable taxes will be extra.</Text>
               <Text> 2. Work will resume after full payment.</Text>
-            </View>
-
-            <View
-              style={{
-                position: "absolute",
-                bottom: "0",
-                left: "0",
-                padding: "10",
-              }}
-            >
-              <Text>
+              <Text
+                style={{
+                  paddingBottom: "10",
+                }}
+              >
                 For any enquiry, reach out via email at joel@pinnaclemedia.in,
                 call on +91 99162 13542{" "}
               </Text>
+              {/* <View style={styles.letterFooter}>.</View> */}
             </View>
           </Page>
         </Document>
@@ -274,7 +279,7 @@ const SctQuotationpdfprint = ({
   );
 };
 
-SctQuotationpdfprint.propTypes = {
+SctNormalQuotationpdfprint.propTypes = {
   auth: PropTypes.object.isRequired,
 };
 
@@ -282,4 +287,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(SctQuotationpdfprint);
+export default connect(mapStateToProps, {})(SctNormalQuotationpdfprint);

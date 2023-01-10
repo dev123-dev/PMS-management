@@ -84,7 +84,8 @@ import SctCallsHistory from "../sct/SctCallsHistory";
 import AllEngagedClient from "../sct/AllEngagedClient";
 import GenerateSctQuotation from "../sct/GenerateSctQuotation";
 import GenerateInvoiceEngagedClient from "../sct/GenerateInvoiceEngagedClient";
-import SctQuotationpdfprint from "../sct/SctQuotationpdfprint";
+import SctNormalQuotationpdfprint from "../sct/SctNormalQuotationpdfprint";
+import SctLetterHeadQuotationpdfprint from "../sct/SctLetterHeadQuotationpdfprint";
 import AllSctRegularClients from "../sct/AllSctRegularClients";
 import GeneratePo from "../sct/GeneratePo";
 import SctPopdfPrint from "../sct/SctPopdfPrint";
@@ -202,8 +203,13 @@ const RoutesFile = () => {
         />
         <PrivateRoute
           exact
-          path="/print-pdf"
-          component={SctQuotationpdfprint}
+          path="/print-leterHead-Quotation-pdf"
+          component={SctLetterHeadQuotationpdfprint}
+        />
+        <PrivateRoute
+          exact
+          path="/print-Normal-Quotation-pdf"
+          component={SctNormalQuotationpdfprint}
         />
         <PrivateRoute exact path="/print-PO-pdf" component={SctPopdfPrint} />
         <PrivateRoute
