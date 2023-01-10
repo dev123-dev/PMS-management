@@ -8,6 +8,7 @@ import {
   ACTIVE_PROJECT_STATUS,
   JOB_QUEUE_PROJECTS,
   DAILY_JOBSHEET_PROJECTS,
+  DAILY_JOBSHEET_EXCEL_EXPORT,
   GET_ALL_CHANGES,
   GET_LATEST_CHANGES,
   UNVERIFIED_PROJECTS,
@@ -353,6 +354,27 @@ export const getDailyJobsheetProjectDeatils =
       // dispatch(getDailyJobsheetProjectDeatils(selDateData));
     }
   };
+
+export const getDailyJobSheetExcelExport =
+  (selDateData) => async (dispatch) => {
+    try {
+      const res = await axios.post(
+        "/api/projects/get-daily-jobsheet-excel-details",
+        selDateData
+      );
+      dispatch({
+        type: DAILY_JOBSHEET_EXCEL_EXPORT,
+        payload: res.data,
+      });
+    } catch (err) {
+      // dispatch({
+      //   type: AUTH_ERROR,
+      // });
+      console.log(err);
+      // dispatch(getDailyJobsheetProjectDeatils(selDateData));
+    }
+  };
+
 //verifivation
 export const getverificationProjectDeatils =
   (finalData) => async (dispatch) => {
