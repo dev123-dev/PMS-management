@@ -663,26 +663,15 @@ router.post("/get-verification-project-details", async (req, res) => {
     const getVerificationProjectDetails = await Project.aggregate([
       {
         $lookup: {
-<<<<<<< HEAD
-          from: "projectstatuses",
-          localField: "projectStatusId",
-=======
           from: "dctclients",
           localField: "clientId",
->>>>>>> 723f7ea77e16f3094d6db7ac93f07017a2c47737
           foreignField: "_id",
           as: "output",
         },
       },
       { $unwind: "$output" },
-<<<<<<< HEAD
-      {
-        $match: query,
-      },
-=======
       { $match: query },
       // { $sort: { "output._id": 1 } },
->>>>>>> 723f7ea77e16f3094d6db7ac93f07017a2c47737
     ]);
     res.json(getVerificationProjectDetails);
   } catch (err) {
