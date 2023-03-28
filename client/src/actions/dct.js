@@ -359,7 +359,7 @@ export const deactivateDctClient = (finalData) => async (dispatch) => {
 
 export const refreshLead = (finalData) => async (dispatch) => {
   try {
-    if (finalData.filterData) {
+    if (finalData.filterData && finalData.filterData.dctLeadCategory) {
       dispatch(getDctLeadDetails(finalData.filterData));
       dispatch(getDctLeadDetailsDD(finalData.filterData));
     }
@@ -736,6 +736,19 @@ export const getAllDctLeadToday = (filterData) => async (dispatch) => {
       type: ALL_DCT_LEAD_ENTRY_TODAY,
       payload: res.data.allDctLeadEnteredToday,
     });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const addImportDctLeadData = (changeData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/dct/add-import-dct-lead-data",
+      changeData
+    );
   } catch (err) {
     dispatch({
       type: ERROR,
