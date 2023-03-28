@@ -12,6 +12,7 @@ import axios from "axios";
 import { allUsersRoute, host, sendMessageRoute } from "../../utils/APIRoutes";
 import {
   getDailyJobsheetProjectDeatils,
+  getDailyJobSheetExcelExport,
   getAllProjectStatus,
   AddProjectTrack,
   getUpdatedProjectStausForDailyJobSheet,
@@ -37,10 +38,15 @@ const client = new w3cwebsocket("ws://159:8000");
 
 const DailyJobSheet = ({
   auth: { isAuthenticated, user, users },
-  project: { dailyJobsheetProjects, allProjectStatus },
+  project: {
+    dailyJobsheetProjects,
+    allProjectStatus,
+    dailyJobsheetexcelExport,
+  },
   client: { activeDailyJobSheetFolder },
   // activeDailyJobSheetClients
   getDailyJobsheetProjectDeatils,
+  getDailyJobSheetExcelExport,
   AddProjectTrack,
   getAllProjectStatus,
   getUpdatedProjectStausForDailyJobSheet,
@@ -62,6 +68,9 @@ const DailyJobSheet = ({
   useEffect(() => {
     getDailyJobsheetProjectDeatils();
   }, []);
+  // useEffect(() => {
+  //   getDailyJobSheetExcelExport();
+  // }, []);
   useEffect(() => {
     getAllProjectStatus();
   }, []);
@@ -82,8 +91,8 @@ const DailyJobSheet = ({
   }, []);
 
   const [selDateDataVal, setSelDateDataVal] = useState();
-  getDailyJobsheetProjectDeatils(selDateDataVal);
-
+  // getDailyJobsheetProjectDeatils(selDateDataVal);
+  // getDailyJobSheetExcelExport(selDateDataVal);
   const [projectData, setprojectData] = useState("");
   const [folderId, setfolderId] = useState("");
   const [clientName1, setClientName] = useState("");
@@ -97,6 +106,7 @@ const DailyJobSheet = ({
         value: folderData.clientFolderName,
       })
     );
+
   const onProjectChange = (e) => {
     setprojectData(e);
     setfolderId(e.folderId);
@@ -114,6 +124,7 @@ const DailyJobSheet = ({
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
+    getDailyJobSheetExcelExport(selDateData);
   };
 
   function dhm(pDateTime) {
@@ -189,38 +200,44 @@ const DailyJobSheet = ({
       "Project Date ",
       "Qty",
       "Price",
+      "Project Status",
       "Notes",
+
       // "Folder Name",
       // "Project Deadline",
       // "Entered By",
       // "Client Date Time",
-      // "Project Status",
+
       // "Client Type",
       // "Project Working Status",
       // "projectPriority",
     ],
   ];
 
-  dailyJobsheetProjects.map((dailyJobsheetData) =>
-    csvData.push([
-      dailyJobsheetData.clientName,
-      dailyJobsheetData.clientFolderName,
-      dailyJobsheetData.projectName,
-      dailyJobsheetData.projectDate,
-      dailyJobsheetData.projectQuantity,
-      "",
-      dailyJobsheetData.projectNotes.replaceAll("\n", " ").replaceAll(",", " "),
-      "\n",
-      // dailyJobsheetData.clientFolderName,
-      // dailyJobsheetData.projectDeadline,
-      // dailyJobsheetData.projectEnteredByName,
-      // dailyJobsheetData.clientDate + " : " + dailyJobsheetData.clientTime,
-      // dailyJobsheetData.projectStatus,
-      // dailyJobsheetData.clientTypeVal,
-      // dailyJobsheetData.projectStatusType,
-      // dailyJobsheetData.projectPriority,
-    ])
-  );
+  dailyJobsheetexcelExport &&
+    dailyJobsheetexcelExport.map((dailyJobsheetData) =>
+      csvData.push([
+        dailyJobsheetData.clientName,
+        dailyJobsheetData.clientFolderName,
+        dailyJobsheetData.projectName,
+        dailyJobsheetData.projectDate,
+        dailyJobsheetData.projectQuantity,
+        "",
+        dailyJobsheetData.projectStatusType,
+        dailyJobsheetData.projectNotes
+          .replaceAll("\n", " ")
+          .replaceAll(",", " "),
+        "\n",
+
+        // dailyJobsheetData.clientFolderName,
+        // dailyJobsheetData.projectDeadline,
+        // dailyJobsheetData.projectEnteredByName,
+        // dailyJobsheetData.clientDate + " : " + dailyJobsheetData.clientTime,
+        // dailyJobsheetData.clientTypeVal,
+        // dailyJobsheetData.projectStatusType,
+        // dailyJobsheetData.projectPriority,
+      ])
+    );
 
   const [formData, setFormData] = useState({
     radioselect: "",
@@ -421,6 +438,7 @@ const DailyJobSheet = ({
 
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
+    getDailyJobSheetExcelExport(selDateData);
     getDailyjobSheetFolder(selDateData);
   };
 
@@ -441,6 +459,7 @@ const DailyJobSheet = ({
     };
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
+    getDailyJobSheetExcelExport(selDateData);
     getDailyjobSheetFolder(selDateData);
   };
 
@@ -534,6 +553,7 @@ const DailyJobSheet = ({
 
   const onClickReset = () => {
     getDailyJobsheetProjectDeatils("");
+    getDailyJobSheetExcelExport("");
     setFormData({
       Dateselectmode: DateMethods[0],
     });
@@ -1245,6 +1265,7 @@ DailyJobSheet.propTypes = {
   project: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
   getDailyJobsheetProjectDeatils: PropTypes.func.isRequired,
+  getDailyJobSheetExcelExport: PropTypes.func.isRequired,
   AddProjectTrack: PropTypes.func.isRequired,
   getUpdatedProjectStausForDailyJobSheet: PropTypes.func.isRequired,
 };
@@ -1256,6 +1277,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getDailyJobsheetProjectDeatils,
+  getDailyJobSheetExcelExport,
   AddProjectTrack,
   getAllProjectStatus,
   getUpdatedProjectStausForDailyJobSheet,

@@ -3,6 +3,7 @@ import {
   ALL_FOLDER_NAMES,
   JOB_QUEUE_PROJECTS,
   DAILY_JOBSHEET_PROJECTS,
+  DAILY_JOBSHEET_EXCEL_EXPORT,
   GET_ALL_CHANGES,
   GET_LATEST_CHANGES,
   UNVERIFIED_PROJECTS,
@@ -58,6 +59,11 @@ const projects = (state = initialState, action) => {
       return {
         ...state,
         dailyJobsheetProjects: payload,
+      };
+    case DAILY_JOBSHEET_EXCEL_EXPORT:
+      return {
+        ...state,
+        dailyJobsheetexcelExport: payload,
       };
     case GET_ALL_CHANGES:
       return {

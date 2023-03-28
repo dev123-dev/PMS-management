@@ -31,12 +31,21 @@ const VerificationModal = ({
       allVerifydata && allVerifydata.projectName
         ? allVerifydata.projectQuantity
         : "",
+    clientCurrency:
+      allVerifydata && allVerifydata.output.clientCurrency
+        ? allVerifydata.output.clientCurrency
+        : "",
 
     isSubmitted: false,
   });
 
-  const { projectName, clientName, clientFolderName, projectQuantity } =
-    formData;
+  const {
+    projectName,
+    clientName,
+    clientFolderName,
+    projectQuantity,
+    clientCurrency,
+  } = formData;
   const [error1, setError1] = useState({
     nametypeIdChecker: false,
     nametypeIdErrorStyle: {},
@@ -152,6 +161,11 @@ const VerificationModal = ({
                     <div className="col-lg-8 col-md-12 col-sm-12 col-12">
                       <label className="label-control">
                         Folder Name : {clientFolderName}
+                      </label>
+                    </div>
+                    <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+                      <label className="label-control">
+                        Client Currency : {clientCurrency}
                       </label>
                     </div>
 
