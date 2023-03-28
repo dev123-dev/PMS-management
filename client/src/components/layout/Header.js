@@ -108,7 +108,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   user &&
                   ((user.userGroupName &&
                     user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
+                    user.userGroupName === "Super Admin" ||
+                    user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/all-Amendments"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
