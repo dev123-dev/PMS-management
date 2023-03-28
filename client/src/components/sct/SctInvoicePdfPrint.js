@@ -12,14 +12,16 @@ import {
   StyleSheet,
   PDFViewer,
 } from "@react-pdf/renderer";
+import { getSelectedClient } from "../../actions/sct";
 const toWords = new ToWords();
 
 const SctInvoicePdfPrint = ({
-  auth: { isAuthenticated, user, users, loading },
+  auth: { isAuthenticated, user, users },
+  getSelectedClient,
 }) => {
   const data = useHistory().location.data;
   let invoicePrintLS = JSON.parse(localStorage.getItem("invoicePrintLS"));
-
+  let sctSelClient = JSON.parse(localStorage.getItem("sctSelClient"));
   //formData
 
   const [formData, setFormData] = useState({
@@ -34,6 +36,9 @@ const SctInvoicePdfPrint = ({
     workDesc: "",
     amount: "",
     quotationDate: "",
+    sctClientGstNo: "",
+    sctClientPanNo: "",
+    clientLoad: false,
   });
 
   const {
@@ -47,6 +52,9 @@ const SctInvoicePdfPrint = ({
     accountNo,
     companyAddress,
     modeOfPayment,
+    sctClientGstNo,
+    sctClientPanNo,
+    clientLoad,
   } = formData;
 
   if (invoicePrintLS && invoicePrintLS.invoiceNo && !invoiceNo) {
@@ -72,6 +80,20 @@ const SctInvoicePdfPrint = ({
       modeOfPayment: invoicePrintLS.modeOfPayment
         ? invoicePrintLS.modeOfPayment
         : "",
+    });
+    getSelectedClient({ clientId: invoicePrintLS.clientId });
+  }
+
+  if (sctSelClient && !clientLoad) {
+    setFormData({
+      ...formData,
+      sctClientGstNo: sctSelClient.sctClientGstNo
+        ? sctSelClient.sctClientGstNo
+        : "",
+      sctClientPanNo: sctSelClient.sctClientPanNo
+        ? sctSelClient.sctClientPanNo
+        : "",
+      clientLoad: true,
     });
   }
 
@@ -197,6 +219,9 @@ const SctInvoicePdfPrint = ({
                   To:{"\n"}
                   {forName} {"\n"}
                   {forAddress}
+                  {"\n"}
+                  {sctClientGstNo && "GSTIN : " + sctClientGstNo} {"\n"}
+                  {sctClientPanNo && "PAN NO : " + sctClientPanNo}
                 </Text>
               </View>
             </View>
@@ -245,7 +270,7 @@ const SctInvoicePdfPrint = ({
                 <Text>Ac No : {accountNo} </Text>
                 <Text>Bank Name : {bankName} </Text>
                 <Text>IFSC Code: {IFSCCode} </Text>
-                <Text>Properitorship's PAN : {amount} </Text>
+                {/* <Text>Properitorship's PAN : {amount} </Text> */}
               </View>
             </View>
 
@@ -295,4 +320,6 @@ const mapStateToProps = (state) => ({
   sct: state.sct,
 });
 
-export default connect(mapStateToProps, {})(SctInvoicePdfPrint);
+export default connect(mapStateToProps, { getSelectedClient })(
+  SctInvoicePdfPrint
+);

@@ -16,6 +16,8 @@ const Invoice = require("../../models/sct/invoice");
 const Agreement = require("../../models/sct/agreement");
 const multer = require("multer");
 const csvtojson = require("csvtojson");
+const Project = require("../../models/Project");
+const Company = require("../../models/settings/company");
 
 var storage = multer.diskStorage({
   destination: "./client/src/static/files",
@@ -134,7 +136,18 @@ router.post("/add-quotation", async (req, res) => {
               forName: data.forName,
               forAddress: data.forAddress,
               item: data.item,
+              clientFromEmailId: data.clientFromEmailId,
+              clientFromPhone: data.clientFromPhone,
+              insideState: data.insideState,
             },
+          },
+        }
+      );
+      const updateQuotationCounter = await Company.updateOne(
+        { _id: data.companyId },
+        {
+          $set: {
+            quotationNoCounter: data.counter,
           },
         }
       );
@@ -158,6 +171,9 @@ router.post("/add-quotation", async (req, res) => {
             "quotation.$.forName": data.forName,
             "quotation.$.forAddress": data.forAddress,
             "quotation.$.item": data.item,
+            "quotation.$.clientFromEmailId": data.clientFromEmailId,
+            "quotation.$.clientFromPhone": data.clientFromPhone,
+            "quotation.$.insideState": data.insideState,
           },
         }
       );
@@ -1575,6 +1591,8 @@ router.post("/edit-sct-Clients", async (req, res) => {
           sctClientAssignedToName: data.sctClientAssignedToName,
           sctClientEditedById: data.sctClientEditedById,
           sctClientEditedDateTime: data.sctClientEditedDateTime,
+          sctClientGstNo: data.sctClientGstNo,
+          sctClientPanNo: data.sctClientPanNo,
         },
       }
     );
@@ -1785,7 +1803,7 @@ router.post("/sct-transfer-lead", async (req, res) => {
 });
 
 router.post("/add-import-sct-lead-data", async (req, res) => {
-  let filePath = "D:/PMSExcelImport/";
+  let filePath = "C:/PMSExcelImport/";
   let data = req.body;
   let pathName = filePath + data.filePathName;
   csvtojson()

@@ -338,7 +338,7 @@ const GenerateInvoice = ({
       const finalData = {
         clientId: sctDataVal ? sctDataVal._id : "",
         clientName: sctCompanyName,
-        invoiceNo: invoiceNo,
+        invoiceNo: currentInvoiceNo,
         invoiceDate: startinvoiceDate,
         clientFromId: sctClientAssignedToId,
         clientFrom: sctClientAssignedToName,

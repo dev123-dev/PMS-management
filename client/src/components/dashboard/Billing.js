@@ -4,113 +4,54 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Select from "react-select";
 import Spinner from "../layout/Spinner";
-import VerificationModal from "./VerificationModal";
-import {
-  getverifiedProjectDeatils,
-  getAllProjectStatusVerification,
-} from "../../actions/projects";
-import { getVerificationFolder } from "../../actions/client";
-import { getAllchanges, getUpdatedProjectStaus } from "../../actions/projects";
-import { w3cwebsocket } from "websocket";
+import { getverifiedProjectDeatils } from "../../actions/projects";
+import { getBillingClient } from "../../actions/client";
 import BillingBreakup from "./billingBreakup";
-//client in websocket
-//SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.159:8000");
 
 const Billing = ({
   auth: { isAuthenticated, user, users },
-  project: { VerifiedProjects, allStatusVerification },
-  client: { activeVerfificationFolders },
+  project: { VerifiedProjects },
+  client: { allBillingClient },
   getverifiedProjectDeatils,
-  getAllProjectStatusVerification,
-  getUpdatedProjectStaus,
-  getVerificationFolder,
+  getBillingClient,
 }) => {
-  useEffect(() => {
-    client.onopen = () => {
-      console.log("webSocket client connected");
-    };
-    client.onmessage = (message) => {
-      getUpdatedProjectStaus();
-    };
-  }, []);
   useEffect(() => {
     getverifiedProjectDeatils();
   }, [getverifiedProjectDeatils]);
   useEffect(() => {
-    getAllProjectStatusVerification();
-  }, [getAllProjectStatusVerification]);
-  useEffect(() => {
-    getVerificationFolder();
-  }, [getVerificationFolder]);
+    getBillingClient();
+  }, [getBillingClient]);
 
-  const [folderData, setClientData] = useState("");
-  const [projectStatusData, setProjectStatusData] = useState("");
-  const [singledate, setsingledate] = useState("");
-  const [searchData, setSearchData] = useState("");
+  const [clientData, setClientData] = useState("");
 
-  const activeFolderOpt = [];
-  activeVerfificationFolders.map((folderData) =>
-    activeFolderOpt.push({
-      label: folderData.clientFolderName,
-      value: folderData.clientFolderName,
+  const billingClientOpt = [];
+  allBillingClient.map((clientData) =>
+    billingClientOpt.push({
+      label: clientData.clientName,
+      value: clientData._id,
     })
   );
 
-  const onFolderChange = (e) => {
+  const onClientChange = (e) => {
     setClientData(e);
     let selDateData = {
-      folder: e.value,
-      statusId: projectStatusData.value,
-      dateVal: singledate,
+      clientId: e.value,
     };
-    setSearchData(selDateData);
     getverifiedProjectDeatils(selDateData);
   };
 
   // Modal
-  const projectStatusOpt = [];
-  allStatusVerification.map((projStatusData) =>
-    projectStatusOpt.push({
-      label: projStatusData.projectStatusType,
-      value: projStatusData._id,
-    })
-  );
+  // const monthOpt = [];
+  // allStatusVerification.map((projStatusData) =>
+  //   projectStatusOpt.push({
+  //     label: projStatusData.projectStatusType,
+  //     value: projStatusData._id,
+  //   })
+  // );
 
-  const onDateChange2 = (e) => {
-    setsingledate(e.target.value);
-    let selDateData = {
-      folder: folderData.value,
-      statusId: projectStatusData.value,
-      dateVal: e.target.value,
-    };
-    setSearchData(selDateData);
-    getverifiedProjectDeatils(selDateData);
-  };
-
-  const [showEditModal, setShowEditModal] = useState(false);
-  const handleEditModalClose = () => setShowEditModal(false);
-  const onEditModalChange = (e) => {
-    if (e) {
-      handleEditModalClose();
-    }
-  };
   const onClickReset = () => {
     getverifiedProjectDeatils("");
-    setSearchData("");
-    setProjectStatusData("");
     setClientData("");
-    setsingledate("");
-  };
-
-  const [loggedStaffData, setLoggedStaffData] = useState(null);
-  const [userDatas, setUserDatas] = useState(null);
-  const onClickVerify = (VerifiedProjects, idx) => {
-    setUserDatas(VerifiedProjects);
-    setShowEditModal(true);
-    if (user) {
-      setLoggedStaffData(user);
-    }
   };
 
   const [showAllChangeModal, setshowModal] = useState(false);
@@ -128,6 +69,32 @@ const Billing = ({
     setUserDatas3(VerifiedProjects);
   };
 
+  const onBillSubmit = () => {
+    let finalData = {
+      billingList: AddedBillDetails,
+    };
+    console.log(finalData);
+  };
+
+  //start
+  const [AddedBillDetails, AddBillDetails] = useState([]);
+  const onCheckSelect = (e, VerifiedProjects) => {
+    if (e.target.checked) {
+      const addDataTransfer = {
+        billProjectId: VerifiedProjects._id,
+      };
+      let temp = [];
+      temp.push(...AddedBillDetails, addDataTransfer);
+      AddBillDetails(temp);
+    } else {
+      const removeList = AddedBillDetails.filter(
+        (AddedBillDetails) =>
+          AddedBillDetails.billProjectId !== VerifiedProjects._id
+      );
+      AddBillDetails(removeList);
+    }
+  };
+
   let projectQty = 0;
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -141,34 +108,26 @@ const Billing = ({
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
-                name="folderData"
+                name="clientData"
                 isSearchable={true}
-                value={folderData}
-                options={activeFolderOpt}
-                placeholder="Select"
-                onChange={(e) => onFolderChange(e)}
+                value={clientData}
+                options={billingClientOpt}
+                placeholder="Client"
+                onChange={(e) => onClientChange(e)}
               />
             </div>
-
-            {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <input
-                type="date"
-                placeholder="dd/mm/yyyy"
-                className="form-control cpp-input datevalidation"
-                name="singledate"
-                value={singledate}
-                onChange={(e) => onDateChange2(e)}
-                style={{
-                  width: "75%",
-                }}
-              />
-            </div> */}
             <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
               >
                 Refresh
+              </button>
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onBillSubmit()}
+              >
+                Bill
               </button>
             </div>
           </div>
@@ -192,6 +151,7 @@ const Billing = ({
                           <></>
                         )}
                         <th style={{ width: "6%" }}>Folder </th>
+                        <th style={{ width: "6%" }}>Staff Name </th>
                         <th style={{ width: "25%" }}>Project Name</th>
                         <th style={{ width: "5%" }}>Project Date</th>
                         <th style={{ width: "2%" }}>Qty</th>
@@ -210,7 +170,13 @@ const Billing = ({
                           return (
                             <tr key={idx}>
                               <td>
-                                <input type="checkbox" id="Unconfirmed" />
+                                <input
+                                  type="checkbox"
+                                  id="checkVal"
+                                  onChange={(e) =>
+                                    onCheckSelect(e, VerifiedProjects)
+                                  }
+                                />
                               </td>
                               {/* SLAP UserGroupRights */}
                               {(user.userGroupName &&
@@ -221,6 +187,7 @@ const Billing = ({
                                 <></>
                               )}
                               <td>{VerifiedProjects.clientFolderName}</td>
+                              <td>{VerifiedProjects.staffName}</td>
                               <td>
                                 <label>{VerifiedProjects.projectName}</label>
                                 <img
@@ -261,38 +228,6 @@ const Billing = ({
       </div>
 
       <Modal
-        show={showEditModal}
-        backdrop="static"
-        keyboard={false}
-        size="xl"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header>
-          <div className="col-lg-10">
-            <h3 className="modal-title text-center">Verification Project</h3>
-          </div>
-          <div className="col-lg-1">
-            <button onClick={handleEditModalClose} className="close">
-              <img
-                src={require("../../static/images/close.png")}
-                alt="X"
-                style={{ height: "20px", width: "20px" }}
-              />
-            </button>
-          </div>
-        </Modal.Header>
-        <Modal.Body>
-          <VerificationModal
-            onEditModalChange={onEditModalChange}
-            allVerifydata={userDatas}
-            loggedStaff={loggedStaffData}
-            searchData={searchData}
-          />
-        </Modal.Body>
-      </Modal>
-
-      <Modal
         show={showAllChangeModal}
         backdrop="static"
         keyboard={false}
@@ -326,9 +261,6 @@ Billing.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
-  getverifiedProjectDeatils: PropTypes.func.isRequired,
-  getAllchanges: PropTypes.func.isRequired,
-  getVerificationFolder: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -337,10 +269,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getAllchanges,
   getverifiedProjectDeatils,
-  getAllProjectStatusVerification,
-  getUpdatedProjectStaus,
-  // getVerificationClients,
-  getVerificationFolder,
+  getBillingClient,
 })(Billing);

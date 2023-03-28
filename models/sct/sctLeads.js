@@ -83,6 +83,12 @@ const SctLeadsSchema = new mongoose.Schema({
   sctLeadEnteredDate: {
     type: String,
   },
+  sctLeadAssignedToId: {
+    type: ObjectId,
+  },
+  sctLeadAssignedToName: {
+    type: String,
+  },
   sctLeadEditedById: {
     type: ObjectId,
   },
@@ -107,12 +113,7 @@ const SctLeadsSchema = new mongoose.Schema({
   sctLeadDeactiveReason: {
     type: String,
   },
-  sctLeadAssignedToId: {
-    type: ObjectId,
-  },
-  sctLeadAssignedToName: {
-    type: String,
-  },
+
   sctCallSchedule: {
     type: String, //Morning or afternoon
   },

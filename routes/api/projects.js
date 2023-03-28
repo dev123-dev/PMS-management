@@ -567,9 +567,28 @@ router.post("/get-verification-project-details", async (req, res) => {
       }
     }
   }
+  query = {
+    ...query,
+    "output.projectStatusCategory": { $ne: "Amend" },
+    "output.projectStatusCategory": { $ne: "Don't Work" },
+  };
 
   try {
-    const getVerificationProjectDetails = await Project.find(query);
+    // const getVerificationProjectDetails = await Project.find(query);
+    const getVerificationProjectDetails = await Project.aggregate([
+      {
+        $lookup: {
+          from: "projectstatuses",
+          localField: "projectStatusId",
+          foreignField: "_id",
+          as: "output",
+        },
+      },
+      { $unwind: "$output" },
+      {
+        $match: query,
+      },
+    ]);
     res.json(getVerificationProjectDetails);
   } catch (err) {
     console.error(err.message);

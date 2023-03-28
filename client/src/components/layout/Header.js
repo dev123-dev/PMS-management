@@ -160,7 +160,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   user.userGroupName === "Administrator") ||
                   user.userGroupName === "Super Admin" ||
                   user.userGroupName === "Dct Marketing" ||
-                  user.userGroupName === "Marketing") ? (
+                  user.userGroupName === "Marketing" ||
+                  user.empCtAccess === "All") ? (
                   <Dropdown title="DCT">
                     <NavLink
                       to="/all-leads"

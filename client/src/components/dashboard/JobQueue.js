@@ -81,7 +81,7 @@ const JobQueue = ({
 
   console.log("jobQueueProjects", jobQueueProjects);
   const [filterData, setFilterData] = useState("");
-  getJobQueueProjectDeatils(filterData);
+  // getJobQueueProjectDeatils(filterData);
 
   // const [sliderValue, setSliderValue] = useState([]);
   const StatusCategory = [

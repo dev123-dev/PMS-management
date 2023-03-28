@@ -83,6 +83,14 @@ const EditSctClients = ({
       alleditClientdata && alleditClientdata.sctBillingEmail
         ? alleditClientdata.sctBillingEmail
         : "",
+    sctClientGstNo:
+      alleditClientdata && alleditClientdata.sctClientGstNo
+        ? alleditClientdata.sctClientGstNo
+        : "",
+    sctClientPanNo:
+      alleditClientdata && alleditClientdata.sctClientPanNo
+        ? alleditClientdata.sctClientPanNo
+        : "",
   });
 
   const {
@@ -95,6 +103,8 @@ const EditSctClients = ({
     sctClientName,
     sctClientAddress,
     sctClientImportantPoints,
+    sctClientGstNo,
+    sctClientPanNo,
   } = formData;
 
   const allcountry = [];
@@ -378,6 +388,8 @@ const EditSctClients = ({
       sctClientAssignedToName: empName,
       sctClientEditedById: user._id,
       sctClientEditedDateTime: new Date().toLocaleString("en-GB"),
+      sctClientGstNo: sctClientGstNo,
+      sctClientPanNo: sctClientPanNo,
       filterData: filterData,
     };
 
@@ -698,6 +710,26 @@ const EditSctClients = ({
                     onChange={(e) => onInputChange(e)}
                   ></textarea>
                   <br />
+                </div>
+                <div className="col-lg-2 col-md-6 col-sm-6 col-12 pb-2">
+                  <label className="label-control">Client GST No:</label>
+                  <input
+                    type="text"
+                    name="sctClientGstNo"
+                    value={sctClientGstNo}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
+                </div>
+                <div className="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <label className="label-control">Client PAN No:</label>
+                  <input
+                    type="text"
+                    name="sctClientPanNo"
+                    value={sctClientPanNo}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                  />
                 </div>
               </div>
             </div>

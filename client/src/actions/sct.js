@@ -925,7 +925,7 @@ export const getSelectedClient = (finalData) => async (dispatch) => {
       type: GET_SELECTED_CLIENT,
       payload: res.data,
     });
-    // localStorage.setItem("sctClientData", JSON.stringify(res.data));
+    localStorage.setItem("sctSelClient", JSON.stringify(res.data));
   } catch (err) {
     dispatch({
       type: ERROR,

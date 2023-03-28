@@ -10,6 +10,7 @@ import {
   getAllDctLead,
   getAllDctLeadDD,
   getLastmessage,
+  addImportDctLeadData,
 } from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
@@ -23,6 +24,7 @@ const AllLeads = ({
   dct: { getAllLeads, getAllLeadsDD, getAllLeadsEmp },
   regions: { activeCountry },
   getAllDctLead,
+  addImportDctLeadData,
   getActiveCountry,
   getAllDctLeadDD,
   getLastmessage,
@@ -220,6 +222,35 @@ const AllLeads = ({
     setcolorData("");
   };
 
+  const [showPathSettingModal, setShowPathModal] = useState(false);
+  const handleShowPathModalClose = () => setShowPathModal(false);
+  const onClickImport = () => {
+    setShowPathModal(true);
+  };
+
+  const [formData, setFormData] = useState({
+    batchCsvPath: "",
+    isSubmitted: false,
+  });
+
+  const { batchCsvPath } = formData;
+
+  const handleFile = (e) => {
+    setFormData({
+      ...formData,
+      batchCsvPath: e.target.files[0].name,
+    });
+  };
+
+  const onFileUpload = (e) => {
+    e.preventDefault();
+    const finalData = {
+      filePathName: batchCsvPath,
+    };
+    addImportDctLeadData(finalData);
+    handleShowPathModalClose();
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -330,6 +361,14 @@ const AllLeads = ({
             </div>
 
             <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+              {user.userGroupName && user.userGroupName === "Super Admin" && (
+                <button
+                  className="btn btn_green_bg float-right"
+                  onClick={() => onClickImport()}
+                >
+                  Import
+                </button>
+              )}
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -541,6 +580,48 @@ const AllLeads = ({
           />
         </Modal.Body>
       </Modal>
+      <Modal
+        show={showPathSettingModal}
+        backdrop="static"
+        keyboard={false}
+        size="m"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Import DCT Leads</h3>
+          </div>
+          <div className="col-lg-2">
+            <button onClick={handleShowPathModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <form className="row" onSubmit={(e) => onFileUpload(e)}>
+          <Modal.Body>
+            <input
+              type="file"
+              accept=".csv"
+              id="photo"
+              className="visually-hidden"
+              onChange={handleFile}
+              required
+            />
+
+            <input
+              type="submit"
+              name="Submit"
+              value="Submit"
+              className="btn sub_form btn_continue blackbrd Save float-right"
+            />
+          </Modal.Body>
+        </form>
+      </Modal>
     </Fragment>
   );
 };
@@ -562,4 +643,5 @@ export default connect(mapStateToProps, {
   getAllDctLeadDD,
   getActiveCountry,
   getLastmessage,
+  addImportDctLeadData,
 })(AllLeads);

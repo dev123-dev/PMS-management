@@ -273,9 +273,8 @@ const AllSctLeads = ({
   });
 
   const { batchCsvPath } = formData;
-  const { showBatchSection } = showHide;
 
-  const handleImg = (e) => {
+  const handleFile = (e) => {
     setFormData({
       ...formData,
       batchCsvPath: e.target.files[0].name,
@@ -635,7 +634,7 @@ const AllSctLeads = ({
               accept=".csv"
               id="photo"
               className="visually-hidden"
-              onChange={handleImg}
+              onChange={handleFile}
               required
             />
 

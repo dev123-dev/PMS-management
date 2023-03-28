@@ -226,6 +226,12 @@ const SctClientsSchema = new mongoose.Schema({
       clientFrom: {
         type: String,
       },
+      clientFromEmailId: {
+        type: String,
+      },
+      clientFromPhone: {
+        type: String,
+      },
       companyId: {
         type: ObjectId,
       },
@@ -249,7 +255,13 @@ const SctClientsSchema = new mongoose.Schema({
           GST: {
             type: String,
           },
+          GSTPer: {
+            type: String,
+          },
           rate: {
+            type: Number,
+          },
+          baseRate: {
             type: Number,
           },
           qty: {
@@ -288,6 +300,9 @@ const SctClientsSchema = new mongoose.Schema({
           },
         },
       ],
+      insideState: {
+        type: Boolean,
+      },
       quotationEnteredById: {
         type: ObjectId,
       },
@@ -297,5 +312,11 @@ const SctClientsSchema = new mongoose.Schema({
       },
     },
   ],
+  sctClientGstNo: {
+    type: String,
+  },
+  sctClientPanNo: {
+    type: String,
+  },
 });
 module.exports = sctClients = mongoose.model("sctClients", SctClientsSchema);

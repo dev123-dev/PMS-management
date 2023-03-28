@@ -6,7 +6,7 @@ const DctLeads = require("../../models/dct/dctLeads");
 const DctCalls = require("../../models/dct/dctCalls");
 const DctClients = require("../../models/dct/dctClients");
 const EmployeeDetails = require("../../models/EmpDetails");
-
+const csvtojson = require("csvtojson");
 //ADD
 router.post("/add-dct-Leads", async (req, res) => {
   let data = req.body;
@@ -1104,6 +1104,24 @@ router.post("/get-all-today-dct-lead-entered", auth, async (req, res) => {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
   }
+});
+
+router.post("/add-import-dct-lead-data", async (req, res) => {
+  let filePath = "C:/PMSExcelImport/";
+  let data = req.body;
+  let pathName = filePath + data.filePathName;
+  csvtojson()
+    .fromFile(pathName)
+    .then((csvData) => {
+      DctLeads.insertMany(csvData)
+        .then(function () {
+          console.log("Data inserted");
+          res.json({ success: "success" });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
 });
 
 module.exports = router;

@@ -11,7 +11,6 @@ import { Redirect } from "react-router-dom";
 const GenerateSctQuotation = ({
   auth: { isAuthenticated, user, users, loading },
   settings: { allCompanyDetails },
-  sct: { activeClient },
   saveQuotation,
   getALLCompanyDetails,
 }) => {
@@ -23,13 +22,11 @@ const GenerateSctQuotation = ({
   }, [getALLCompanyDetails]);
 
   //formData
-
   const [formData, setFormData] = useState({
     sctClientAddress:
       sctDataVal && sctDataVal.sctClientAddress
         ? sctDataVal.sctClientAddress
         : "",
-
     sctCompanyName:
       sctDataVal && sctDataVal.sctCompanyName ? sctDataVal.sctCompanyName : "",
     sctClientAssignedToName:
@@ -40,19 +37,19 @@ const GenerateSctQuotation = ({
       sctDataVal && sctDataVal.sctClientAssignedToId
         ? sctDataVal.sctClientAssignedToId
         : "",
-    EmailId: "",
-    quotationNo: "",
+    clientFromEmailId: "",
+    clientFromPhone: "",
     quotationDate: "",
     isSubmitted: false,
   });
 
   const {
-    quotationNo,
     sctClientAssignedToId,
     sctCompanyName,
     sctClientAssignedToName,
     sctClientAddress,
-    EmailId,
+    clientFromEmailId,
+    clientFromPhone,
     isSubmitted,
   } = formData;
 
@@ -71,20 +68,36 @@ const GenerateSctQuotation = ({
       companyaddress: company.companyAddress,
       companyType: company.companyType,
       companyid: company._id,
-      abbreviation: company.abbreviation,
+      abbreviation: company.abbreviation ? company.abbreviation : "",
       quotationNoCounter: company.quotationNoCounter,
       label: company.companyName,
       value: company.companyName,
     })
   );
-  const [companyaddress, setcompanyaddressData] = useState("");
+  var currentQuotationNo = "",
+    counter = "";
+  var fiscalyearstart = "",
+    fiscalyearend = "";
 
+  const [quotNumber, setQuotNumber] = useState("");
+  const [quotLoad, setQuotLoad] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleOnChange = () => {
+    let change = !isChecked;
+    setIsChecked(change);
+    setFormDatas({
+      ...addData,
+      CGST: change ? GST / 2 : "",
+      SGST: change ? GST / 2 : "",
+      IGST: !change ? GST : "",
+    });
+  };
+
+  const [companyaddress, setcompanyaddressData] = useState("");
   const [company, getcompanyData] = useState("");
   const [companyid, setcompanyId] = useState("");
   const [companyname, setcompanyname] = useState("");
-  const [companyType, setcompanyType] = useState("");
-  const [abbreviation, setabbreviation] = useState("");
-  const [quotationNoCounter, setquotationNoCounter] = useState("");
   const onCompanyChange = (e) => {
     // //Required Validation starts
     setError({
@@ -104,54 +117,33 @@ const GenerateSctQuotation = ({
         showGSTSection: true,
       });
     }
-
-    var companyid = "";
-    var companyname = "";
-    var companyaddress = "";
-    var quotationNoCounter = "";
-    var abbreviation = "";
     getcompanyData(e);
-    companyid = e.companyid;
-    companyname = e.value;
-    companyaddress = e.companyaddress;
-    quotationNoCounter = e.quotationNoCounter;
-    abbreviation = e.abbreviation;
-    setcompanyId(companyid);
-    setcompanyname(companyname);
-    setcompanyaddressData(companyaddress);
-    setquotationNoCounter(quotationNoCounter);
-    setabbreviation(abbreviation);
+    setcompanyId(e.companyid ? e.companyid : "");
+    setcompanyname(e.value ? e.value : "");
+    setcompanyaddressData(e.companyaddress ? e.companyaddress : "");
+
+    var today = new Date();
+    if (today.getMonth() + 1 <= 3) {
+      fiscalyearstart = today.getFullYear() - 1;
+      fiscalyearend = today.getFullYear();
+    } else {
+      fiscalyearstart = today.getFullYear();
+      fiscalyearend = today.getFullYear() + 1;
+    }
+
+    var counter = e.quotationNoCounter ? e.quotationNoCounter : 0;
+    counter = counter + 1;
+    currentQuotationNo =
+      e.abbreviation +
+      "/" +
+      fiscalyearstart +
+      "-" +
+      fiscalyearend +
+      "/" +
+      counter;
+    setQuotNumber(currentQuotationNo);
   };
 
-  // if (quotationNoCounter) {
-  var fiscalyearstart = "",
-    fiscalyearend = "";
-  var today = new Date();
-  if (today.getMonth() + 1 <= 3) {
-    fiscalyearstart = today.getFullYear() - 1;
-    fiscalyearend = today.getFullYear();
-  } else {
-    fiscalyearstart = today.getFullYear();
-    fiscalyearend = today.getFullYear() + 1;
-  }
-  var counter = quotationNoCounter ? quotationNoCounter : 0;
-  counter = counter + 1;
-  //   var new_str = name.substr(-2);
-  //   var NewCode = Number(new_str) + 1;
-  //   var str = name.slice(0, -2);
-
-  //   if (NewCode > 99) {
-  //     new_str = name.substr(-3);
-  //     str = name.slice(0, -3);
-  //   }
-  //   if (NewCode > 999) {
-  //     new_str = name.substr(-4);
-  //     str = name.slice(0, -4);
-  //   }
-  // }
-  var currentQuotationNo =
-    abbreviation + "/" + fiscalyearstart + "-" + fiscalyearend + "/" + counter;
-  //Required Validation Starts
   const [error, setError] = useState({
     FrmCmpnyErrorStyle: {},
     FrmCmpnyIdChecker: false,
@@ -176,13 +168,45 @@ const GenerateSctQuotation = ({
     setquotationDate(e.target.value);
   };
 
+  if (
+    sctDataVal &&
+    sctDataVal.quotationGenerated === 1 &&
+    sctDataVal.quotation &&
+    sctDataVal.quotation[0] &&
+    !quotLoad &&
+    allcompanydata
+  ) {
+    let quot = sctDataVal.quotation[0];
+    setQuotNumber(quot.quotationNo);
+    let quotComp = quot
+      ? allcompanydata &&
+        allcompanydata.filter((x) => x.companyid === quot.companyId)[0]
+      : "";
+    getcompanyData(quotComp);
+    setcompanyId(quotComp.companyid ? quotComp.companyid : "");
+    setcompanyname(quotComp.value ? quotComp.value : "");
+    setcompanyaddressData(
+      quotComp.companyaddress ? quotComp.companyaddress : ""
+    );
+    setIsChecked(quot.insideState ? quot.insideState : false);
+    setError({
+      ...error,
+      FrmCmpnyIdChecker: true,
+    });
+    setQuotLoad(true);
+    setFormData({
+      ...formData,
+      clientFromEmailId: quot.clientFromEmailId,
+      clientFromPhone: quot.clientFromPhone,
+    });
+  }
+
   //add staff start
   const [addData, setFormDatas] = useState({
     itemName: "",
     GST: "",
     rate: "",
     qty: 1,
-    amt: "",
     CGST: "",
     SGST: "",
     IGST: "",
@@ -192,120 +216,100 @@ const GenerateSctQuotation = ({
     desc: "",
   });
 
-  const {
-    itemName,
-    GST,
-    rate,
-    qty,
-    amt,
-    CGST,
-    SGST,
-    IGST,
-    totalAmt,
-    discount,
-    grandTotal,
-    desc,
-  } = addData;
+  const { itemName, GST, rate, qty, CGST, SGST, IGST, discount, desc } =
+    addData;
 
   const [AddedDetails, AddDetails] = useState([]);
-  const [amount, setAmount] = useState();
 
   const onAdd = (e) => {
-    const staffList = AddedDetails.filter(
-      (AddDetails) => AddDetails.itemName === itemName
-    );
-
-    e.preventDefault();
-    if (staffList.length === 0) {
-      // if (checkErrorscontact()) {
-      const addData = {
-        itemName: itemName,
-        GST: GST,
-        rate: rate,
-        baseRate: (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2),
-        qty: qty,
-        amt: Math.round(
-          qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
-        ),
-        SGST: SGST,
-        CGST: CGST,
-        IGST: IGST,
-        totalAmt: Math.round(
-          Number(
-            qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
-          ) +
-            (Number(
-              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
-            ) *
-              Number(GST)) /
-              100 +
-            (Number(
-              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
-            ) *
-              Number(SGST)) /
-              100 +
-            (Number(
-              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
-            ) *
-              Number(CGST)) /
-              100 +
-            (Number(
-              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
-            ) *
-              Number(IGST)) /
+    if (itemName) {
+      const staffList = AddedDetails.filter(
+        (AddDetails) => AddDetails.itemName === itemName
+      );
+      e.preventDefault();
+      if (staffList.length === 0) {
+        // if (checkErrorscontact()) {
+        const addData = {
+          itemName: itemName,
+          GST: Math.round(
+            (qty *
+              (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2) *
+              GST) /
               100
-        ),
-        discount: discount,
-        grandTotal: Math.round(
-          Number(
+          ),
+          GSTPer: GST,
+          rate: rate,
+          baseRate: (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(
+            2
+          ),
+          qty: qty,
+          amt: Math.round(
             qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
-          ) +
-            (Number(
+          ),
+          SGST: Math.round(
+            (qty *
+              (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2) *
+              SGST) /
+              100
+          ),
+          CGST: Math.round(
+            (qty *
+              (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2) *
+              CGST) /
+              100
+          ),
+          IGST: Math.round(
+            (qty *
+              (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2) *
+              IGST) /
+              100
+          ),
+          totalAmt: Math.round(
+            Number(
               qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
-            ) *
-              Number(GST)) /
-              100 +
-            (Number(
+            ) +
+              (Number(
+                qty *
+                  (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
+              ) *
+                Number(GST)) /
+                100
+          ),
+          discount: discount,
+          grandTotal: Math.round(
+            Number(
               qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
-            ) *
-              Number(SGST)) /
-              100 +
-            (Number(
-              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
-            ) *
-              Number(CGST)) /
-              100 +
-            (Number(
-              qty * (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
-            ) *
-              Number(IGST)) /
-              100 -
-            Number(discount)
-        ),
-        desc: desc,
-      };
-      setFormDatas({
-        ...addData,
-        itemName: "",
-        GST: "",
-        rate: "",
-        baseRate: "",
-        qty: "",
-        amt: "",
-        CGST: "",
-        SGST: "",
-        IGST: "",
-        totalAmt: "",
-        discount: "",
-        grandTotal: "",
-        desc: "",
-      });
-      // setstaffCountryCode("");
-      // getstaffcountryData("");
-      let temp = [];
-      temp.push(...AddedDetails, addData);
-      AddDetails(temp);
-      // }
+            ) +
+              (Number(
+                qty *
+                  (rate / parseFloat("1." + ("0" + GST).slice(-2))).toFixed(2)
+              ) *
+                Number(GST)) /
+                100 -
+              Number(discount)
+          ),
+          desc: desc,
+        };
+        setFormDatas({
+          ...addData,
+          itemName: "",
+          GST: "",
+          rate: "",
+          baseRate: "",
+          qty: "",
+          CGST: "",
+          SGST: "",
+          IGST: "",
+          totalAmt: "",
+          discount: "",
+          grandTotal: "",
+          desc: "",
+        });
+        let temp = [];
+        temp.push(...AddedDetails, addData);
+        AddDetails(temp);
+        // }
+      }
     }
   };
   const onRemoveChange = (itemName) => {
@@ -341,8 +345,9 @@ const GenerateSctQuotation = ({
         quotationGenerated: sctDataVal ? sctDataVal.quotationGenerated : "",
         quotation: sctDataVal ? sctDataVal.quotation : null,
         clientName: sctCompanyName,
-        EmailId: EmailId,
-        quotationNo: quotationNo,
+        clientFromEmailId: clientFromEmailId,
+        clientFromPhone: clientFromPhone,
+        quotationNo: quotNumber ? quotNumber : "",
         quotationDate: startquotationDate,
         clientFromId: sctClientAssignedToId,
         clientFrom: sctClientAssignedToName,
@@ -356,6 +361,8 @@ const GenerateSctQuotation = ({
         quotationEnteredByDateTime: new Date().toLocaleString("en-GB"),
         billingStatusCategory: billingStatusCategory,
         billingStatus: billingStatus,
+        counter: counter,
+        insideState: isChecked,
       };
       saveQuotation(finalData);
       localStorage.setItem("quotationDataLS", JSON.stringify(finalData));
@@ -365,7 +372,6 @@ const GenerateSctQuotation = ({
         sctClientAssignedToName: "",
         sctCompanyName: "",
         sctClientAddress: "",
-        quotationNo: "",
         companyName: "",
         companyaddress: "",
         startquotationDate: "",
@@ -376,6 +382,17 @@ const GenerateSctQuotation = ({
 
   const onInputChange1 = (e) => {
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
+  };
+
+  const onGstChange = (e) => {
+    if (e.target.name === "GST") {
+      setFormDatas({
+        ...addData,
+        CGST: isChecked ? GST / 2 : "",
+        SGST: isChecked ? GST / 2 : "",
+        IGST: !isChecked ? GST : "",
+      });
+    }
   };
 
   if (!data) {
@@ -390,7 +407,10 @@ const GenerateSctQuotation = ({
         <form className="row" onSubmit={(e) => onSubmit(e)}>
           <div className="row col-lg-12 col-md-11 col-sm-12 col-12">
             <div className=" col-lg-4 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color"> Quotation </h5>
+              <h5 className="heading_color">
+                {" "}
+                {sctDataVal.quotationGenerated && "Revised "}Quotation{" "}
+              </h5>
             </div>
 
             <div className="col-lg-8 col-md-11 col-sm-12 col-12 py-2">
@@ -411,7 +431,7 @@ const GenerateSctQuotation = ({
                 <input
                   type="text"
                   name="quotationNo"
-                  value={abbreviation ? currentQuotationNo : ""}
+                  value={quotNumber ? quotNumber : ""}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
                   required
@@ -446,13 +466,25 @@ const GenerateSctQuotation = ({
                 />
               </div>
               <div className="col-lg-5 col-md-6 col-sm-6 col-12 py-2">
-                <label>Email :</label>
+                <label>Contact Email :</label>
                 <input
                   type="text"
-                  name="EmailId"
-                  value={EmailId}
+                  name="clientFromEmailId"
+                  value={clientFromEmailId}
                   className="form-control"
                   onChange={(e) => onInputChange(e)}
+                  required
+                />
+              </div>
+              <div className="col-lg-5 col-md-6 col-sm-6 col-12 py-2">
+                <label>Contact Phone :</label>
+                <input
+                  type="text"
+                  name="clientFromPhone"
+                  value={clientFromPhone}
+                  className="form-control"
+                  onChange={(e) => onInputChange(e)}
+                  required
                 />
               </div>
 
@@ -519,6 +551,16 @@ const GenerateSctQuotation = ({
                     required
                     disabled
                   ></textarea>
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12 pb-3"></div>
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12 pb-3">
+                  Inside Karnataka{" "}
+                  <input
+                    type="checkbox"
+                    id="insideState"
+                    checked={isChecked}
+                    onChange={handleOnChange}
+                  />
                 </div>
               </div>
             </div>
@@ -606,22 +648,19 @@ const GenerateSctQuotation = ({
               {showGSTSection && (
                 <>
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">GST :</label>
+                    <label className="label-control">GST % :</label>
                     <input
                       type="Number"
                       name="GST"
                       value={GST}
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
+                      onKeyUp={(e) => onGstChange(e)}
                     />
                   </div>
 
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">CGST :</label>
+                    <label className="label-control">CGST % :</label>
                     <input
                       type="Number"
                       name="CGST"
@@ -632,11 +671,12 @@ const GenerateSctQuotation = ({
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
                       }
+                      disabled
                     />
                   </div>
 
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12 ">
-                    <label className="label-control">SGST :</label>
+                    <label className="label-control">SGST % :</label>
                     <input
                       type="Number"
                       name="SGST"
@@ -647,10 +687,11 @@ const GenerateSctQuotation = ({
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
                       }
+                      disabled
                     />
                   </div>
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12 ">
-                    <label className="label-control">IGST :</label>
+                    <label className="label-control">IGST % :</label>
                     <input
                       type="Number"
                       name="IGST"
@@ -661,6 +702,7 @@ const GenerateSctQuotation = ({
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
                       }
+                      disabled
                     />
                   </div>
 
@@ -683,30 +725,6 @@ const GenerateSctQuotation = ({
                               ).toFixed(2)
                           ) *
                             Number(GST)) /
-                            100 +
-                          (Number(
-                            qty *
-                              (
-                                rate / parseFloat("1." + ("0" + GST).slice(-2))
-                              ).toFixed(2)
-                          ) *
-                            Number(SGST)) /
-                            100 +
-                          (Number(
-                            qty *
-                              (
-                                rate / parseFloat("1." + ("0" + GST).slice(-2))
-                              ).toFixed(2)
-                          ) *
-                            Number(CGST)) /
-                            100 +
-                          (Number(
-                            qty *
-                              (
-                                rate / parseFloat("1." + ("0" + GST).slice(-2))
-                              ).toFixed(2)
-                          ) *
-                            Number(IGST)) /
                             100
                       )}
                       className="form-control"
@@ -749,30 +767,6 @@ const GenerateSctQuotation = ({
                           ).toFixed(2)
                       ) *
                         Number(GST)) /
-                        100 +
-                      (Number(
-                        qty *
-                          (
-                            rate / parseFloat("1." + ("0" + GST).slice(-2))
-                          ).toFixed(2)
-                      ) *
-                        Number(SGST)) /
-                        100 +
-                      (Number(
-                        qty *
-                          (
-                            rate / parseFloat("1." + ("0" + GST).slice(-2))
-                          ).toFixed(2)
-                      ) *
-                        Number(CGST)) /
-                        100 +
-                      (Number(
-                        qty *
-                          (
-                            rate / parseFloat("1." + ("0" + GST).slice(-2))
-                          ).toFixed(2)
-                      ) *
-                        Number(IGST)) /
                         100 -
                       Number(discount)
                   )}
