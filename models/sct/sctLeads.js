@@ -64,6 +64,9 @@ const SctLeadsSchema = new mongoose.Schema({
   sctLeadCategoryStatus: {
     type: String, //(FL,VM,CB,DND,NI)
   },
+  sctLeadsCategory: {
+    type: String, //Hot,Cool,Normal
+  },
   sctCallDate: {
     type: String,
   },

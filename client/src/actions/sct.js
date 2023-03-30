@@ -583,6 +583,23 @@ export const addDemo = (demoData) => async (dispatch) => {
   }
 };
 
+export const updateDemo = (demoData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/sct/update-demo", demoData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+    dispatch(getALLDemos());
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 export const editSctProject = (finalData) => async (dispatch) => {
   try {
     dispatch({

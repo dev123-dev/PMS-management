@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import Spinner from "../layout/Spinner";
 import { getALLDemos, demoTaken } from "../../actions/sct";
+import ResheduleDemo from "./ResheduleDemo";
+import DemoSchedulesModal from "./DemoSchedulesModal";
 const AllDemos = ({
   auth: { isAuthenticated, user, users },
   sct: { allDemos, demoStates, demoLeads },
@@ -193,6 +195,33 @@ const AllDemos = ({
     });
   };
 
+  const [showDemoScheduleModal, setShowDemoScheduleModal] = useState(false);
+  const handleDemoScheduleModalClose = () => setShowDemoScheduleModal(false);
+
+  const onDemoScheduleModalChange = (e) => {
+    if (e) {
+      handleDemoScheduleModalClose();
+    }
+  };
+  const onCheckSchedule = () => {
+    setShowDemoScheduleModal(true);
+  };
+
+  const onResheduleModalChange = (e) => {
+    if (e) {
+      handleResheduleModalClose();
+    }
+  };
+
+  const [showResheduleModal, setShowResheduleModal] = useState(false);
+  const handleResheduleModalClose = () => setShowResheduleModal(false);
+  const [resheduleData, setResheduleData] = useState(null);
+
+  const onClickReshedule = (allDemos, idx) => {
+    setShowResheduleModal(true);
+    setResheduleData(allDemos);
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -263,7 +292,6 @@ const AllDemos = ({
                 </div>
               </>
             )}
-
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="stateName"
@@ -284,7 +312,16 @@ const AllDemos = ({
                 onChange={(e) => onClientChange(e)}
               />
             </div>
-            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2">
+            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2 ml-5">
+              <input
+                type="submit"
+                name="submit"
+                value="Schedules"
+                onClick={() => onCheckSchedule()}
+                className="btn btn_green_bg float-right"
+              />
+            </div>
+            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -303,8 +340,8 @@ const AllDemos = ({
                   >
                     <thead>
                       <tr>
-                        <th>Company Name</th>
-                        <th>Client </th>
+                        <th style={{ width: "7%" }}>Company Name</th>
+                        <th style={{ width: "7%" }}>Client </th>
                         <th style={{ width: "7%" }}>Demo Date</th>
                         <th style={{ width: "15%" }}>Email Id </th>
                         <th style={{ width: "8%" }}>Contact No </th>
@@ -353,7 +390,6 @@ const AllDemos = ({
                                     >
                                       Taken
                                     </button>
-
                                     <button
                                       className="btn btn_green_bg"
                                       onClick={() =>
@@ -361,6 +397,14 @@ const AllDemos = ({
                                       }
                                     >
                                       Not Taken
+                                    </button>
+                                    <button
+                                      className="btn btn_green_bg"
+                                      onClick={() =>
+                                        onClickReshedule(allDemos, idx)
+                                      }
+                                    >
+                                      Reshedule
                                     </button>
                                   </>
                                 )}
@@ -379,6 +423,68 @@ const AllDemos = ({
               <label>No of Demos : {allDemos && allDemos.length}</label>
             </div>
           </div>
+          <Modal
+            show={showDemoScheduleModal}
+            backdrop="static"
+            keyboard={false}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+          >
+            <Modal.Header>
+              <div className="col-lg-10">
+                <h3 className="modal-title text-center">Demo Schedules</h3>
+              </div>
+              <div className="col-lg-1">
+                <button
+                  onClick={handleDemoScheduleModalClose}
+                  className="close"
+                >
+                  <img
+                    src={require("../../static/images/close.png")}
+                    alt="X"
+                    style={{ height: "20px", width: "20px" }}
+                  />
+                </button>
+              </div>
+            </Modal.Header>
+            <Modal.Body>
+              <DemoSchedulesModal
+                onDemoScheduleModalChange={onDemoScheduleModalChange}
+              />
+            </Modal.Body>
+          </Modal>
+          <Modal
+            show={showResheduleModal}
+            backdrop="static"
+            keyboard={false}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+          >
+            <Modal.Header>
+              <div className="col-lg-10">
+                <h3 className="modal-title text-center">
+                  Reshedule Demo Details{" "}
+                </h3>
+              </div>
+              <div className="col-lg-2">
+                <button onClick={handleResheduleModalClose} className="close">
+                  <img
+                    src={require("../../static/images/close.png")}
+                    alt="X"
+                    style={{ height: "20px", width: "20px" }}
+                  />
+                </button>
+              </div>
+            </Modal.Header>
+            <Modal.Body>
+              <ResheduleDemo
+                allDemos={resheduleData}
+                onResheduleModalChange={onResheduleModalChange}
+              />
+            </Modal.Body>
+          </Modal>
         </section>
       </div>
 

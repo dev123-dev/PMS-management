@@ -362,13 +362,14 @@ const AllSctRegularClients = ({
                     <thead>
                       <tr>
                         {/* <th style={{ width: "3%" }}>Sl.No</th> */}
-                        <th style={{ width: "15%" }}>Company </th>
-                        <th style={{ width: "15%" }}>Website </th>
-                        <th style={{ width: "13%" }}>Email</th>
+                        {/* <th style={{ width: "15%" }}>Website </th>
+                        <th style={{ width: "13%" }}>Email</th> */}
+                        <th style={{ width: "10%" }}>Company </th>
                         <th style={{ width: "8%" }}>Region</th>
-                        <th style={{ width: "13%" }}>Contact</th>
+                        <th style={{ width: "8%" }}>Contact</th>
+                        <th style={{ width: "8%" }}>Contact 2</th>
                         <th style={{ width: "8%" }}>Call Date</th>
-                        <th style={{ width: "8%" }}>Call Date</th>
+                        <th style={{ width: "8%" }}>Call Time</th>
                         <th style={{ width: "5%" }}>Op</th>
                         <th style={{ width: "4%" }}>Docs</th>
                       </tr>
@@ -391,7 +392,7 @@ const AllSctRegularClients = ({
                             >
                               {/* <td>{idx + 1}</td> */}
                               <td>{sctClients.sctCompanyName}</td>
-                              <td>
+                              {/* <td>
                                 {" "}
                                 <a
                                   href={sctClients.sctWebsite}
@@ -401,7 +402,7 @@ const AllSctRegularClients = ({
                                   {sctClients.sctWebsite}
                                 </a>
                               </td>
-                              <td>{sctClients.sctEmailId}</td>
+                              <td>{sctClients.sctEmailId}</td> */}
                               <td>{sctClients.countryName}</td>
                               <td>
                                 {sctClients.sctcountryCode
@@ -409,6 +410,14 @@ const AllSctRegularClients = ({
                                   : ""}
                                 &nbsp;
                                 {sctClients.sctPhone1}
+                              </td>
+                              <td>
+                                {sctClients.sctPhone2 &&
+                                sctClients.sctcountryCode
+                                  ? "+" + sctClients.sctcountryCode
+                                  : ""}
+                                &nbsp;
+                                {sctClients.sctPhone2}
                               </td>
                               <td>{sctCallDate}</td>
                               <td>{sctClients.sctCallTime}</td>

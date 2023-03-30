@@ -24,6 +24,14 @@ const AllStatuschange = ({
   useEffect(() => {
     getStaffsData(staffFilter);
   }, [leadDataVal]);
+  //Category
+
+  let CategoryMethods = [
+    { value: "Hot", label: "Hot" },
+    { value: "Normal", label: "Normal" },
+    { value: "Cool", label: "Cool" },
+  ];
+
   let StatusMethods = [
     { value: "VoiceMail", label: "Voice Mail" },
     { value: "CallBack", label: "Call Back" },
@@ -55,11 +63,12 @@ const AllStatuschange = ({
   //formData
   const [formData, setFormData] = useState({
     callStatus: "",
+    dctLeadsCategory: "",
     labeldata: "",
     callNote: "",
     isSubmitted: false,
   });
-  const { callNote, callStatus } = formData;
+  const { callNote, callStatus, dctLeadsCategory } = formData;
   //For setting mindate as todays date
   var today = new Date();
   var dd = today.getDate();
@@ -166,9 +175,10 @@ const AllStatuschange = ({
 
   const [showHide, setShowHide] = useState({
     showdateselectionSection: true,
+    showLeadCategory: false,
   });
 
-  const { showdateselectionSection } = showHide;
+  const { showdateselectionSection, showLeadCategory } = showHide;
 
   const onStatusTypeChange = (e) => {
     //Required Validation starts
@@ -194,6 +204,7 @@ const AllStatuschange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showLeadCategory: false,
       });
     } else if (e.value === "NI") {
       setFormData({
@@ -204,6 +215,7 @@ const AllStatuschange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showLeadCategory: false,
       });
     } else if (e.value === "CallBack") {
       setFormData({
@@ -214,6 +226,7 @@ const AllStatuschange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showLeadCategory: true,
       });
     } else if (e.value === "VoiceMail") {
       setFormData({
@@ -224,6 +237,7 @@ const AllStatuschange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showLeadCategory: false,
       });
     } else if (e.value === "FollowUp") {
       setFormData({
@@ -234,6 +248,7 @@ const AllStatuschange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showLeadCategory: false,
       });
     } else {
       setFormData({
@@ -244,12 +259,22 @@ const AllStatuschange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: false,
+        showLeadCategory: false,
       });
     }
   };
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onLeadCategoryChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        dctLeadsCategory: e,
+      });
+    }
   };
 
   const onSubmit = (e) => {
@@ -284,6 +309,7 @@ const AllStatuschange = ({
         callFromName: user.userName,
         callCategory: callCategoryVal,
         callStatus: callStatus.value,
+        dctLeadsCategory: dctLeadsCategory ? dctLeadsCategory.value : "",
         callDate: startStatusDate || todayDateymd,
         callNote: callNote?.trim(),
         callComeFrom: callComeFromVal,
@@ -300,6 +326,7 @@ const AllStatuschange = ({
       setFormData({
         ...formData,
         callStatus: "",
+        dctLeadsCategory: "",
         callDate: "",
         callNote: "",
         isSubmitted: true,
@@ -378,6 +405,19 @@ const AllStatuschange = ({
               </>
             )}
           </div>
+          {showLeadCategory && (
+            <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
+              <label className="label-control">Category :</label>
+              <Select
+                name="dctLeadsCategory"
+                options={CategoryMethods}
+                isSearchable={true}
+                value={dctLeadsCategory}
+                placeholder="Select Category"
+                onChange={(e) => onLeadCategoryChange(e)}
+              />
+            </div>
+          )}
           <div className="col-lg-8 col-md-12 col-sm-12 col-12 ">
             <label className="label-control"> Notes :</label>
             <textarea

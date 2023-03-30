@@ -29,6 +29,9 @@ const DctCallsSchema = new mongoose.Schema({
   callStatus: {
     type: String,
   },
+  dctLeadsCategory: {
+    type: String, //Hot,Cool,Normal
+  },
   callDate: {
     type: String, //Next call Date
   },

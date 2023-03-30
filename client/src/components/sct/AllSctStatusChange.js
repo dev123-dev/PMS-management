@@ -44,6 +44,7 @@ const AllSctStatusChange = ({
     { value: "CallBack", label: "Call Back" },
     { value: "DND", label: "DND" },
     { value: "NI", label: "NI" },
+    { value: "WrongNumber", label: "WrongNumber" },
     { value: "FollowUp", label: "Follow Up" },
     { value: "Demo", label: "Demo" },
     { value: "AdditionalDemo", label: "Additional Demo" },
@@ -90,9 +91,18 @@ const AllSctStatusChange = ({
   }
   //STATUS END
 
+  //Category
+
+  let CategoryMethods = [
+    { value: "Hot", label: "Hot" },
+    { value: "Normal", label: "Normal" },
+    { value: "Cool", label: "Cool" },
+  ];
+
   //formData
   const [formData, setFormData] = useState({
     sctCallStatus: "",
+    sctLeadsCategory: "",
     labeldata: "",
     sctCallNote: "",
     toTime: "",
@@ -104,6 +114,7 @@ const AllSctStatusChange = ({
   const {
     sctCallNote,
     sctCallStatus,
+    sctLeadsCategory,
     toTime,
     fromTime,
     sctCallTime,
@@ -216,9 +227,14 @@ const AllSctStatusChange = ({
   const [showHide, setShowHide] = useState({
     showdateselectionSection: true,
     showdemoselectionSection: false,
+    showLeadCategory: false,
   });
 
-  const { showdateselectionSection, showdemoselectionSection } = showHide;
+  const {
+    showdateselectionSection,
+    showdemoselectionSection,
+    showLeadCategory,
+  } = showHide;
 
   const onStatusTypeChange = (e) => {
     setError({
@@ -242,6 +258,7 @@ const AllSctStatusChange = ({
         ...showHide,
         showdateselectionSection: true,
         showdemoselectionSection: false,
+        showLeadCategory: false,
       });
     } else if (e.value === "NI") {
       setFormData({
@@ -253,6 +270,7 @@ const AllSctStatusChange = ({
         ...showHide,
         showdateselectionSection: true,
         showdemoselectionSection: false,
+        showLeadCategory: false,
       });
     } else if (e.value === "CallBack") {
       setFormData({
@@ -264,6 +282,7 @@ const AllSctStatusChange = ({
         ...showHide,
         showdateselectionSection: true,
         showdemoselectionSection: false,
+        showLeadCategory: true,
       });
     } else if (e.value === "VoiceMail") {
       setFormData({
@@ -275,6 +294,7 @@ const AllSctStatusChange = ({
         ...showHide,
         showdateselectionSection: true,
         showdemoselectionSection: false,
+        showLeadCategory: false,
       });
     } else if (e.value === "FollowUp") {
       setFormData({
@@ -286,6 +306,7 @@ const AllSctStatusChange = ({
         ...showHide,
         showdateselectionSection: true,
         showdemoselectionSection: false,
+        showLeadCategory: false,
       });
     } else if (e.value === "RegularClient" || e.value === "EngagedClient") {
       setFormData({
@@ -297,6 +318,7 @@ const AllSctStatusChange = ({
         ...showHide,
         showdateselectionSection: false,
         showdemoselectionSection: false,
+        showLeadCategory: false,
       });
     } else {
       setFormData({
@@ -308,6 +330,16 @@ const AllSctStatusChange = ({
         ...showHide,
         showdemoselectionSection: true,
         showdateselectionSection: false,
+        showLeadCategory: false,
+      });
+    }
+  };
+
+  const onLeadCategoryChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        sctLeadsCategory: e,
       });
     }
   };
@@ -354,6 +386,7 @@ const AllSctStatusChange = ({
         sctCallFromName: user.userName,
         sctCallCategory: callCategoryVal,
         sctCallStatus: sctCallStatus.value,
+        sctLeadsCategory: sctLeadsCategory ? sctLeadsCategory.value : "",
         sctcallToNumber: staffsNumber ? staffsNumber : phone1,
         // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
         sctCallDate: startStatusDate || demoDate || todayDateymd,
@@ -366,7 +399,6 @@ const AllSctStatusChange = ({
         filterData: filterData,
         page: page,
       };
-
       if (from === "EngagedClient" || from === "RegularClient") {
         addSctClientCalls(finalData);
       } else {
@@ -444,6 +476,7 @@ const AllSctStatusChange = ({
       setFormData({
         ...formData,
         sctCallStatus: "",
+        sctLeadsCategory: "",
         sctCallDate: "",
         sctCallNote: "",
         isSubmitted: true,
@@ -510,6 +543,19 @@ const AllSctStatusChange = ({
                   width: "100%",
                 }}
                 required
+              />
+            </div>
+          )}
+          {showLeadCategory && (
+            <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
+              <label className="label-control">Category :</label>
+              <Select
+                name="sctLeadsCategory"
+                options={CategoryMethods}
+                isSearchable={true}
+                value={sctLeadsCategory}
+                placeholder="Select Category"
+                onChange={(e) => onLeadCategoryChange(e)}
               />
             </div>
           )}

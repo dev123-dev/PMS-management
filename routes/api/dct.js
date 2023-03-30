@@ -290,6 +290,7 @@ router.post("/update-dct-leads-status", async (req, res) => {
         $set: {
           dctLeadCategory: data.callCategory,
           dctLeadCategoryStatus: data.callStatus,
+          dctLeadsCategory: data.dctLeadsCategory,
           dctCallDate: data.callDate,
         },
       }
@@ -403,7 +404,8 @@ router.post("/deactivate-dct-client", async (req, res) => {
 //LEAD
 //FOLLOWUP,PROSPECTS
 router.post("/get-dct-Leads", auth, async (req, res) => {
-  let { countryId, clientsId, dctLeadCategory, assignedTo } = req.body;
+  let { countryId, clientsId, dctLeadCategory, assignedTo, dctLeadsCategory } =
+    req.body;
 
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
@@ -462,6 +464,12 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
         dctLeadAssignedToId,
       };
     }
+  }
+  if (dctLeadsCategory) {
+    query = {
+      ...query,
+      dctLeadsCategory: dctLeadsCategory,
+    };
   }
 
   try {

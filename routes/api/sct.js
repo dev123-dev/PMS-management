@@ -448,6 +448,7 @@ router.post("/update-sct-leads-status", async (req, res) => {
         $set: {
           sctLeadCategory: data.sctCallCategory,
           sctLeadCategoryStatus: data.sctCallStatus,
+          sctLeadsCategory: data.sctLeadsCategory,
           sctCallDate: data.sctCallDate,
           sctCallTime: data.sctCallTime,
         },
@@ -490,8 +491,8 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
     sctLeadCategory,
     assignedTo,
     projectsId,
+    sctLeadsCategory,
   } = req.body;
-
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -520,6 +521,12 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
     query = {
       ...query,
       projectsId: mongoose.Types.ObjectId(projectsId),
+    };
+  }
+  if (sctLeadsCategory) {
+    query = {
+      ...query,
+      sctLeadsCategory: sctLeadsCategory,
     };
   }
 
@@ -605,7 +612,6 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
       projectsId: mongoose.Types.ObjectId(projectsId),
     };
   }
-
   try {
     let getSctLeadsDetails = (getSctLeadsEmp = []);
     if (projectsId) {
@@ -613,6 +619,8 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
         getSctLeadsDetails = await SctLeads.find(query, {
           _id: 1,
           sctCompanyName: 1,
+          sctClientName: 1,
+          sctPhone1: 1,
         }).sort({
           _id: -1,
         });
@@ -633,7 +641,6 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
         });
       }
     }
-
     res.json({ result1: getSctLeadsDetails, result2: getSctLeadsEmp });
   } catch (err) {
     console.error(err.message);
@@ -849,7 +856,6 @@ router.post("/get-selected-project", async (req, res) => {
 
 router.post("/add-demo", async (req, res) => {
   let data = req.body;
-
   try {
     let SctDemoDetails = new Demo(data);
     output = await SctDemoDetails.save();
@@ -857,6 +863,25 @@ router.post("/add-demo", async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/update-demo", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDemo = await Demo.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          demoDate: data.newDemoDate,
+          fromTime: data.fromTime,
+          toTime: data.toTime,
+        },
+      }
+    );
+    res.json(updateDemo);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
 

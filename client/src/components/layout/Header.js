@@ -18,7 +18,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   //client in websocket
   //SLAP IP
 
-  const client = new w3cwebsocket("ws://192.168.6.159:8000");
+  const client = new w3cwebsocket("ws://192.168.6.38:8000");
   const LogoutModalClose = () => {
     handleLogoutModalClose();
     logout();
@@ -177,6 +177,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       <Dropdown.Item>All Prospects</Dropdown.Item>
                     </NavLink>
                     <NavLink
+                      to="/all-dct-potentials"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>All Potentials</Dropdown.Item>
+                    </NavLink>
+                    <NavLink
                       to="/all-followup"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
@@ -237,6 +243,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       <Dropdown.Item>All Prospects</Dropdown.Item>
+                    </NavLink>
+                    <NavLink
+                      to="/all-sct-potentals"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>All Potentials</Dropdown.Item>
                     </NavLink>
                     <NavLink
                       to="/all-sct-followup"

@@ -33,19 +33,19 @@ const AllSctLeads = ({
 }) => {
   useEffect(() => {
     getAllSctLead();
-  }, []);
+  }, [getAllSctLead]);
   useEffect(() => {
     getAllSctLeadDD();
-  }, []);
+  }, [getAllSctLeadDD]);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
-  }, []);
+  }, [getActiveCountry]);
   useEffect(() => {
     getActiveState({ countryBelongsTo: "SCT" });
-  }, []);
+  }, [getActiveState]);
   useEffect(() => {
     getProjectList({});
-  }, []);
+  }, [getProjectList]);
 
   const [filterData, setFilterData] = useState();
 
@@ -109,6 +109,9 @@ const AllSctLeads = ({
 
   const handledivModalClose = () => setShowHide(false);
 
+  const [country, getcountryData] = useState();
+  const [countryId, getcountryIdData] = useState(null);
+
   const allcountry = [];
   activeCountry.map((country) =>
     allcountry.push({
@@ -118,25 +121,22 @@ const AllSctLeads = ({
     })
   );
 
-  const [country, getcountryData] = useState();
-  const [countryId, getcountryIdData] = useState(null);
-
-  const oncountryChange = (e) => {
-    getcountryData(e);
-    getclientsData("");
-    getempData("");
-    getcountryIdData(e.countryId);
-    let searchData = {
-      projectsId: projectsId,
-      countryId: e.countryId,
-      stateId: stateId,
-      clientsId: clientsId,
-      assignedTo: empId,
-    };
-    getAllSctLead(searchData);
-    getAllSctLeadDD(searchData);
-    setFilterData(searchData);
-  };
+  // const oncountryChange = (e) => {
+  //   getcountryData(e);
+  //   getclientsData("");
+  //   getempData("");
+  //   getcountryIdData(e.countryId);
+  //   let searchData = {
+  //     projectsId: projectsId,
+  //     countryId: e.countryId,
+  //     stateId: stateId,
+  //     clientsId: clientsId,
+  //     assignedTo: empId,
+  //   };
+  //   getAllSctLead(searchData);
+  //   getAllSctLeadDD(searchData);
+  //   setFilterData(searchData);
+  // };
 
   const allprojects = [];
   projectList &&
@@ -155,6 +155,8 @@ const AllSctLeads = ({
   const onprojectsChange = (e) => {
     getprojectsData(e);
     getclientsData("");
+    getClientsNameData("");
+    getClientsPhoneData("");
     getempData("");
     setprojectsID(e.projectsId);
     let searchData = {
@@ -184,6 +186,10 @@ const AllSctLeads = ({
     getStateData(e);
     getclientsData("");
     getclientsIdData("");
+    getClientsNameData("");
+    getClientsNameIdData("");
+    getClientsPhoneData("");
+    getClientsNameIdData("");
     getempData("");
     setempID("");
     setStateID(e.stateId);
@@ -208,8 +214,66 @@ const AllSctLeads = ({
   const [clients, getclientsData] = useState();
   const [clientsId, getclientsIdData] = useState();
   const onclientsChange = (e) => {
+    getClientsNameData("");
+    getClientsPhoneData("");
     getclientsData(e);
     getclientsIdData(e.clientsId);
+    setempID("");
+    let searchData = {
+      projectsId: projectsId,
+      countryId: countryId,
+      stateId: stateId,
+      clientsId: e.clientsId,
+    };
+    getAllSctLead(searchData);
+    setFilterData(searchData);
+  };
+
+  const allClientName = [];
+  getAllSctLeadsDD &&
+    getAllSctLeadsDD.map((clients) =>
+      allClientName.push({
+        clientsId: clients._id,
+        label: clients.sctClientName,
+        value: clients.sctClientName,
+      })
+    );
+
+  const [clientsName, getClientsNameData] = useState();
+  const [clientsNameId, getClientsNameIdData] = useState();
+
+  const onClientNameChange = (e) => {
+    getclientsData("");
+    getClientsPhoneData("");
+    getClientsNameData(e);
+    getClientsNameIdData(e.clientsId);
+    setempID("");
+    let searchData = {
+      projectsId: projectsId,
+      countryId: countryId,
+      stateId: stateId,
+      clientsId: e.clientsId,
+    };
+    getAllSctLead(searchData);
+    setFilterData(searchData);
+  };
+
+  const allClientPhone = [];
+  getAllSctLeadsDD &&
+    getAllSctLeadsDD.map((clients) =>
+      allClientPhone.push({
+        clientsId: clients._id,
+        label: clients.sctPhone1,
+        value: clients.sctPhone1,
+      })
+    );
+  const [clientsPhone, getClientsPhoneData] = useState();
+  const [clientsPhoneId, getClientsPhoneIdData] = useState();
+  const onClientPhoneChange = (e) => {
+    getclientsData("");
+    getClientsNameData("");
+    getClientsPhoneData(e);
+    getClientsPhoneIdData(e.clientsId);
     setempID("");
     let searchData = {
       projectsId: projectsId,
@@ -248,12 +312,16 @@ const AllSctLeads = ({
   };
 
   const onClickReset = () => {
+    getAllSctLead();
     getcountryData("");
     getcountryIdData("");
     getclientsData("");
+    getClientsNameData("");
+    getClientsPhoneData("");
     getempData("");
-    getAllSctLead();
     getAllSctLeadDD();
+    setprojectsID("");
+    setStateID("");
     setFilterData();
     ondivcloseChange(true);
     setcolorData("");
@@ -316,7 +384,7 @@ const AllSctLeads = ({
                 options={allprojects}
                 isSearchable={true}
                 value={projects}
-                placeholder="Select Projects"
+                placeholder="Projects"
                 onChange={(e) => onprojectsChange(e)}
                 theme={(theme) => ({
                   ...theme,
@@ -330,13 +398,13 @@ const AllSctLeads = ({
                 })}
               />
             </div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="stateName"
                 options={allstates}
                 isSearchable={true}
                 value={state}
-                placeholder="Select State"
+                placeholder="State"
                 onChange={(e) => onStateChange(e)}
               />
             </div>
@@ -346,11 +414,31 @@ const AllSctLeads = ({
                 options={allclient}
                 isSearchable={true}
                 value={clients}
-                placeholder="Select Lead"
+                placeholder="Lead"
                 onChange={(e) => onclientsChange(e)}
               />
             </div>
-            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+              <Select
+                name="clientName"
+                options={allClientName}
+                isSearchable={true}
+                value={clientsName}
+                placeholder="Client"
+                onChange={(e) => onClientNameChange(e)}
+              />
+            </div>
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+              <Select
+                name="clientPhone"
+                options={allClientPhone}
+                isSearchable={true}
+                value={clientsPhone}
+                placeholder="Phone"
+                onChange={(e) => onClientPhoneChange(e)}
+              />
+            </div>
+            <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
               user.userGroupName === "Super Admin" ||
               user.empCtAccess === "All" ? (
@@ -360,7 +448,7 @@ const AllSctLeads = ({
                     options={allemp}
                     isSearchable={true}
                     value={emp}
-                    placeholder="Select Emp"
+                    placeholder="Employee"
                     onChange={(e) => onempChange(e)}
                   />
                 </>
@@ -399,16 +487,17 @@ const AllSctLeads = ({
                     <thead>
                       <tr>
                         {/* <th style={{ width: "3%" }}>Sl.No</th> */}
-                        <th style={{ width: "10%" }}>Company </th>
-                        <th style={{ width: "10%" }}>Website </th>
-                        <th style={{ width: "10%" }}>Email</th>
+                        {/* <th style={{ width: "10%" }}>Website </th> */}
+                        {/* <th style={{ width: "10%" }}>Email</th> */}
                         {/* <th style={{ width: "8%" }}>Region</th> */}
+                        {/* <th style={{ width: "8%" }}>Call Time</th> */}
+                        <th style={{ width: "10%" }}>Company </th>
                         <th style={{ width: "8%" }}>State</th>
                         <th style={{ width: "8%" }}>Contact</th>
+                        <th style={{ width: "8%" }}>Contact 2</th>
                         <th style={{ width: "15%" }}>Call Date & Time</th>
-                        {/* <th style={{ width: "8%" }}>Call Time</th> */}
                         <th style={{ width: "2%" }}>Notes</th>
-                        <th>Entered By</th>
+                        <th style={{ width: "8%" }}>Entered By</th>
                         <th style={{ width: "5%" }}>Op</th>
                       </tr>
                     </thead>
@@ -431,8 +520,7 @@ const AllSctLeads = ({
                               }
                             >
                               {/* <td>{idx + 1}</td> */}
-                              <td>{getAllSctLeads.sctCompanyName}</td>
-                              <td>
+                              {/* <td>
                                 <a
                                   href={getAllSctLeads.sctWebsite}
                                   target="_blank"
@@ -440,9 +528,11 @@ const AllSctLeads = ({
                                 >
                                   {getAllSctLeads.sctWebsite}
                                 </a>
-                              </td>
-                              <td>{getAllSctLeads.sctEmailId}</td>
+                              </td> */}
+                              {/* <td>{getAllSctLeads.sctEmailId}</td> */}
                               {/* <td>{getAllSctLeads.countryName}</td> */}
+                              {/* <td>{getAllSctLeads.sctCallTime}</td> */}
+                              <td>{getAllSctLeads.sctCompanyName}</td>
                               <td>{getAllSctLeads.stateName}</td>
                               <td>
                                 {getAllSctLeads.sctcountryCode
@@ -452,12 +542,18 @@ const AllSctLeads = ({
                                 {getAllSctLeads.sctPhone1}
                               </td>
                               <td>
+                                {getAllSctLeads.sctPhone2 &&
+                                getAllSctLeads.sctcountryCode
+                                  ? "+" + getAllSctLeads.sctcountryCode
+                                  : ""}
+                                &nbsp;
+                                {getAllSctLeads.sctPhone2}
+                              </td>
+                              <td>
                                 {sctCallDate}&nbsp;{getAllSctLeads.sctCallTime}
                               </td>
-                              {/* <td>{getAllSctLeads.sctCallTime}</td> */}
                               <td>{getAllSctLeads.sctNotes}</td>
                               <td>{getAllSctLeads.sctLeadEnteredByName}</td>
-
                               <td>
                                 <img
                                   className="img_icon_size log"

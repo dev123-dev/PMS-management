@@ -32,7 +32,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.159:8000");
+const client = new w3cwebsocket("ws://192.168.6.38:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -224,7 +224,6 @@ const JobQueue = ({
         projectTrackDateTime: new Date().toLocaleString("en-GB"),
         projectStatusChangedById: user._id,
       };
-
       AddProjectTrack(finalData);
       client.send(
         JSON.stringify({
@@ -299,6 +298,7 @@ const JobQueue = ({
       setStatusChange(newStatusData);
       setShowProjectCycleModal(true);
     }
+    getAllFolder();
   };
 
   let projectQty = 0,

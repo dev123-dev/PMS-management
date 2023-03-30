@@ -382,11 +382,12 @@ const AllEngagedClient = ({
                     <thead>
                       <tr>
                         {/* <th style={{ width: "3%" }}>Sl.No</th> */}
-                        <th style={{ width: "15%" }}>Company </th>
-                        <th style={{ width: "15%" }}>Website </th>
-                        <th style={{ width: "13%" }}>Email</th>
+                        {/* <th style={{ width: "15%" }}>Website </th>
+                        <th style={{ width: "13%" }}>Email</th> */}
+                        <th style={{ width: "10%" }}>Company </th>
                         <th style={{ width: "8%" }}>Region</th>
-                        <th style={{ width: "13%" }}>Contact</th>
+                        <th style={{ width: "8%" }}>Contact</th>
+                        <th style={{ width: "8%" }}>Contact 2</th>
                         <th style={{ width: "8%" }}>Call Date</th>
                         <th style={{ width: "8%" }}>Call Time</th>
                         <th style={{ width: "7%" }}>Print</th>
@@ -419,7 +420,7 @@ const AllEngagedClient = ({
                               >
                                 {sctClients.sctCompanyName}
                               </td>
-                              <td>
+                              {/* <td>
                                 {" "}
                                 <Link
                                   onClick={() =>
@@ -441,7 +442,7 @@ const AllEngagedClient = ({
                                   </a>
                                 </Link>
                               </td>
-                              <td>{sctClients.sctEmailId}</td>
+                              <td>{sctClients.sctEmailId}</td> */}
                               <td>{sctClients.countryName}</td>
                               <td>
                                 {sctClients.sctcountryCode
@@ -449,6 +450,14 @@ const AllEngagedClient = ({
                                   : ""}
                                 &nbsp;
                                 {sctClients.sctPhone1}
+                              </td>
+                              <td>
+                                {sctClients.sctPhone2 &&
+                                sctClients.sctcountryCode
+                                  ? "+" + sctClients.sctcountryCode
+                                  : ""}
+                                &nbsp;
+                                {sctClients.sctPhone2}
                               </td>
                               <td>{sctCallDate}</td>
                               <td>{sctClients.sctCallTime}</td>

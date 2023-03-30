@@ -343,16 +343,17 @@ const AllSctProspects = ({
                     <thead>
                       <tr>
                         {/* <th style={{ width: "3%" }}>Sl.No</th> */}
-                        <th style={{ width: "15%" }}>Company </th>
-                        <th style={{ width: "8%" }}>Website </th>
-                        <th style={{ width: "8%" }}>Email</th>
+                        {/* <th style={{ width: "8%" }}>Website </th>
+                        <th style={{ width: "8%" }}>Email</th> */}
                         {/* <th style={{ width: "8%" }}>Region</th> */}
+                        {/* <th style={{ width: "8%" }}>Call Time</th> */}
+                        <th style={{ width: "10%" }}>Company </th>
                         <th style={{ width: "8%" }}>State</th>
                         <th style={{ width: "8%" }}>Contact</th>
+                        <th style={{ width: "8%" }}>Contact 2</th>
                         <th style={{ width: "15%" }}>Call Date & Time</th>
-                        {/* <th style={{ width: "8%" }}>Call Time</th> */}
                         <th style={{ width: "2%" }}>Notes</th>
-                        <th>Entered By</th>
+                        <th style={{ width: "8%" }}>Entered By</th>
                         <th style={{ width: "5%" }}>Op</th>
                       </tr>
                     </thead>
@@ -373,8 +374,7 @@ const AllSctProspects = ({
                               onClick={() => onClickHandler(allSctLeads, idx)}
                             >
                               {/* <td>{idx + 1}</td> */}
-                              <td>{allSctLeads.sctCompanyName}</td>
-                              <td>
+                              {/* <td>
                                 {" "}
                                 <a
                                   href={allSctLeads.sctWebsite}
@@ -384,8 +384,10 @@ const AllSctProspects = ({
                                   {allSctLeads.sctWebsite}
                                 </a>
                               </td>
-                              <td>{allSctLeads.sctEmailId}</td>
+                              <td>{allSctLeads.sctEmailId}</td> */}
                               {/* <td>{allSctLeads.countryName}</td> */}
+                              {/* <td>{allSctLeads.sctCallTime}</td> */}
+                              <td>{allSctLeads.sctCompanyName}</td>
                               <td>{allSctLeads.stateName}</td>
                               <td>
                                 {allSctLeads.sctcountryCode
@@ -395,11 +397,18 @@ const AllSctProspects = ({
                                 {allSctLeads.sctPhone1}
                               </td>
                               <td>
+                                {allSctLeads.sctPhone2 &&
+                                allSctLeads.sctcountryCode
+                                  ? "+" + allSctLeads.sctcountryCode
+                                  : ""}
+                                &nbsp;
+                                {allSctLeads.sctPhone2}
+                              </td>
+                              <td>
                                 {" "}
                                 {sctCallDate}&nbsp;{allSctLeads.sctCallTime}
                               </td>
 
-                              {/* <td>{allSctLeads.sctCallTime}</td> */}
                               <td>{allSctLeads.sctNotes}</td>
                               <td>{allSctLeads.sctLeadEnteredByName}</td>
                               <td>

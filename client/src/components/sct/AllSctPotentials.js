@@ -18,8 +18,8 @@ import AllSctStatusChange from "./AllSctStatusChange";
 
 import { getActiveCountry, getActiveState } from "../../actions/regions";
 
-const AllSctFollowup = ({
-  auth: { isAuthenticated, user, users },
+const AllSctPotentials = ({
+  auth: { isAuthenticated, user, users, loading },
   sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp, projectList },
   regions: { activeCountry, activeState },
   getSctLeadDetails,
@@ -41,10 +41,17 @@ const AllSctFollowup = ({
   useEffect(() => {
     getActiveState({ countryBelongsTo: "SCT" });
   }, []);
+
   useEffect(() => {
-    getProjectList({});
+    getProjectList({ countryBelongsTo: "SCT" });
   }, []);
-  const [filterData, setFilterData] = useState({ sctLeadCategory: "F" });
+
+  let CategoryMethods = [
+    { value: "Hot", label: "Hot" },
+    { value: "Normal", label: "Normal" },
+    { value: "Cool", label: "Cool" },
+  ];
+  const [filterData, setFilterData] = useState({ sctLeadCategory: "P" });
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -123,9 +130,9 @@ const AllSctFollowup = ({
     getclientsData("");
     getempData("");
     getcountryIdData(e.countryId);
-    getSctLeadDetails({ countryId: e.countryId, sctLeadCategory: "F" });
-    getSctLeadDetailsDD({ countryId: e.countryId, sctLeadCategory: "F" });
-    setFilterData({ countryId: e.countryId, sctLeadCategory: "F" });
+    getSctLeadDetails({ countryId: e.countryId, sctLeadCategory: "P" });
+    getSctLeadDetailsDD({ countryId: e.countryId, sctLeadCategory: "P" });
+    setFilterData({ countryId: e.countryId, sctLeadCategory: "P" });
   };
 
   const allprojects = [];
@@ -133,7 +140,6 @@ const AllSctFollowup = ({
     projectList.map((projects) =>
       allprojects.push({
         projectsId: projects._id,
-
         label: projects.sctProjectName,
         value: projects.sctProjectName,
       })
@@ -141,15 +147,15 @@ const AllSctFollowup = ({
 
   const [projects, getprojectsData] = useState();
   const [projectsId, setprojectsID] = useState();
-  const [projectsName, setprojectsName] = useState();
   const onprojectsChange = (e) => {
+    getLeadCategoryData("");
     getprojectsData(e);
     getclientsData("");
     getempData("");
     setprojectsID(e.projectsId);
     let searchData = {
       projectsId: e.projectsId,
-      sctLeadCategory: "F",
+      sctLeadCategory: "P",
     };
     getSctLeadDetails(searchData);
     getSctLeadDetailsDD(searchData);
@@ -167,9 +173,9 @@ const AllSctFollowup = ({
 
   const [state, getStateData] = useState("");
   const [stateId, setStateID] = useState("");
-  const [stateName, setStateName] = useState("");
 
   const onStateChange = (e) => {
+    getLeadCategoryData("");
     getStateData(e);
     getclientsData("");
     getempData("");
@@ -177,31 +183,51 @@ const AllSctFollowup = ({
     let searchData = {
       projectsId: projectsId,
       stateId: e.stateId,
-      sctLeadCategory: "F",
+      sctLeadCategory: "P",
     };
     getSctLeadDetails(searchData);
     getSctLeadDetailsDD(searchData);
     setFilterData(searchData);
   };
-
-  const allclient = [];
-  allSctLeadsDD.map((clients) =>
-    allclient.push({
-      clientsId: clients._id,
-      label: clients.sctCompanyName,
-      value: clients.sctCompanyName,
-    })
-  );
+  //   const allclient = [];
+  //   //   console.log(allSctLeadsDD);
+  //   allSctLeadsDD.map((clients) =>
+  //     allclient.push({
+  //       clientsId: clients._id,
+  //       label: clients.sctCompanyName,
+  //       value: clients.sctCompanyName,
+  //     })
+  //   );
+  const [leadCategory, getLeadCategoryData] = useState();
+  //   const [clientsId, getclientsIdData] = useState();
+  const onLeadCategoryChange = (e) => {
+    getcountryData("");
+    getcountryIdData("");
+    getclientsData("");
+    getempData("");
+    getLeadCategoryData(e);
+    if (e) {
+      let searchData = {
+        projectsId: projectsId,
+        stateId: stateId,
+        sctLeadsCategory: e.value,
+        sctLeadCategory: "P",
+      };
+      //   console.log(searchData);
+      getSctLeadDetails(searchData);
+      setFilterData(searchData);
+    }
+  };
   const [clients, getclientsData] = useState();
   const [clientsId, getclientsIdData] = useState();
   const onclientsChange = (e) => {
-    getclientsData(e);
-    getclientsIdData(e.clientsId);
+    // getclientsData(e);
+    // getclientsIdData(e.clientsId);
     let searchData = {
       projectsId: projectsId,
       stateId: stateId,
       clientsId: e.clientsId,
-      sctLeadCategory: "F",
+      sctLeadCategory: "P",
     };
     getSctLeadDetails(searchData);
     setFilterData(searchData);
@@ -220,14 +246,14 @@ const AllSctFollowup = ({
   const [empId, setempID] = useState();
   const onempChange = (e) => {
     getempData(e);
+    setempID(e.empId);
     let searchData = {
       projectsId: projectsId,
       stateId: stateId,
       clientsId: clientsId,
-      sctLeadCategory: "F",
+      sctLeadCategory: "P",
       assignedTo: e.empId,
     };
-    setempID(e.empId);
     getSctLeadDetails(searchData);
     getSctLeadDetailsDD(searchData);
     setFilterData(searchData);
@@ -244,6 +270,7 @@ const AllSctFollowup = ({
     ondivcloseChange(true);
     setcolorData("");
     getprojectsData("");
+    getLeadCategoryData("");
     getStateData("");
   };
 
@@ -255,18 +282,8 @@ const AllSctFollowup = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Followup</h5>
+              <h5 className="heading_color">All Sct Potentials</h5>
             </div>
-            {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
-                name="countryName"
-                options={allcountry}
-                isSearchable={true}
-                value={country}
-                placeholder="Select Region"
-                onChange={(e) => oncountryChange(e)}
-              />
-            </div> */}
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="sctProjectName"
@@ -299,12 +316,12 @@ const AllSctFollowup = ({
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
-                name="companyName"
-                options={allclient}
+                name="sctLeadsCategory"
+                options={CategoryMethods}
                 isSearchable={true}
-                value={clients}
-                placeholder="Select Lead"
-                onChange={(e) => onclientsChange(e)}
+                value={leadCategory}
+                placeholder="Select Leads Category"
+                onChange={(e) => onLeadCategoryChange(e)}
               />
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -345,16 +362,18 @@ const AllSctFollowup = ({
                   >
                     <thead>
                       <tr>
-                        <th style={{ width: "3%" }}>Sl.No</th>
+                        {/* <th style={{ width: "3%" }}>Sl.No</th> */}
+                        {/* <th style={{ width: "8%" }}>Website </th>
+                        <th style={{ width: "8%" }}>Email</th> */}
+                        {/* <th style={{ width: "8%" }}>Region</th> */}
+                        {/* <th style={{ width: "8%" }}>Call Time</th> */}
                         <th style={{ width: "10%" }}>Company </th>
-                        {/* <th style={{ width: "10%" }}>Website </th>
-                        <th style={{ width: "10%" }}>Email</th> */}
-                        <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "8%" }}>State</th>
                         <th style={{ width: "8%" }}>Contact</th>
                         <th style={{ width: "8%" }}>Contact 2</th>
-                        <th style={{ width: "8%" }}>Call Date</th>
-                        <th style={{ width: "8%" }}>Call Time</th>
+                        <th style={{ width: "15%" }}>Call Date & Time</th>
+                        <th style={{ width: "2%" }}>Notes</th>
+                        <th style={{ width: "8%" }}>Entered By</th>
                         <th style={{ width: "5%" }}>Op</th>
                       </tr>
                     </thead>
@@ -374,8 +393,8 @@ const AllSctFollowup = ({
                               }
                               onClick={() => onClickHandler(allSctLeads, idx)}
                             >
-                              <td>{idx + 1}</td>
-                              <td>{allSctLeads.sctCompanyName}</td>
+                              {/* <td>{idx + 1}</td> */}
+                              {/* <td>{allSctLeads.countryName}</td> */}
                               {/* <td>
                                 {" "}
                                 <a
@@ -387,7 +406,9 @@ const AllSctFollowup = ({
                                 </a>
                               </td>
                               <td>{allSctLeads.sctEmailId}</td> */}
-                              <td>{allSctLeads.countryName}</td>
+                              {/* <td>{allSctLeads.sctCallTime}</td> */}
+                              <td>{allSctLeads.sctCompanyName}</td>
+
                               <td>{allSctLeads.stateName}</td>
                               <td>
                                 {allSctLeads.sctcountryCode
@@ -404,8 +425,13 @@ const AllSctFollowup = ({
                                 &nbsp;
                                 {allSctLeads.sctPhone2}
                               </td>
-                              <td>{sctCallDate}</td>
-                              <td>{allSctLeads.sctCallTime}</td>
+                              <td>
+                                {" "}
+                                {sctCallDate}&nbsp;{allSctLeads.sctCallTime}
+                              </td>
+
+                              <td>{allSctLeads.sctNotes}</td>
+                              <td>{allSctLeads.sctLeadEnteredByName}</td>
                               <td>
                                 <img
                                   className="img_icon_size log"
@@ -447,7 +473,7 @@ const AllSctFollowup = ({
                     from="lead"
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
-                    page="AllSctFollowup"
+                    page="AllSctProspects"
                   />
                 </div>
               </div>
@@ -463,7 +489,7 @@ const AllSctFollowup = ({
                       ondivcloseChange={ondivcloseChange}
                       from={leadData.sctLeadCategory}
                       filterData={filterData}
-                      page="AllSctFollowup"
+                      page="AllSctProspects"
                     />
                   )}
                 </div>
@@ -549,11 +575,12 @@ const AllSctFollowup = ({
           />
         </Modal.Body>
       </Modal>
+      {loading && <Spinner />}
     </Fragment>
   );
 };
 
-AllSctFollowup.propTypes = {
+AllSctPotentials.propTypes = {
   auth: PropTypes.object.isRequired,
   sct: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
@@ -569,7 +596,7 @@ export default connect(mapStateToProps, {
   getSctLeadDetails,
   getSctLeadDetailsDD,
   getActiveCountry,
-  getActiveState,
   getSctLastmessage,
+  getActiveState,
   getProjectList,
-})(AllSctFollowup);
+})(AllSctPotentials);
