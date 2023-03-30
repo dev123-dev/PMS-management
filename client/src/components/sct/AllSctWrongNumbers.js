@@ -15,10 +15,9 @@ import DeactiveSctLead from "./DeactiveSctLead";
 import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
-
 import { getActiveCountry, getActiveState } from "../../actions/regions";
-
-const AllSctPotentials = ({
+import { CSVLink } from "react-csv";
+const AllSctWrongNumbers = ({
   auth: { isAuthenticated, user, users, loading },
   sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp, projectList },
   regions: { activeCountry, activeState },
@@ -31,26 +30,21 @@ const AllSctPotentials = ({
 }) => {
   useEffect(() => {
     getSctLeadDetails();
-  }, []);
+  }, [getSctLeadDetails]);
   useEffect(() => {
     getSctLeadDetailsDD();
-  }, []);
+  }, [getSctLeadDetailsDD]);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
-  }, []);
+  }, [getActiveCountry]);
   useEffect(() => {
     getActiveState({ countryBelongsTo: "SCT" });
-  }, []);
+  }, [getActiveState]);
 
   useEffect(() => {
     getProjectList({ countryBelongsTo: "SCT" });
-  }, []);
+  }, [getProjectList]);
 
-  let CategoryMethods = [
-    { value: "Hot", label: "Hot" },
-    { value: "Normal", label: "Normal" },
-    { value: "Cool", label: "Cool" },
-  ];
   const [filterData, setFilterData] = useState({ sctLeadCategory: "P" });
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -107,33 +101,10 @@ const AllSctPotentials = ({
   const ondivcloseChange = (e) => {
     if (e) {
       handledivModalClose();
-      // setcolorData("");
     }
   };
 
   const handledivModalClose = () => setShowHide(false);
-
-  const allcountry = [];
-  activeCountry.map((country) =>
-    allcountry.push({
-      countryId: country._id,
-      label: country.countryName,
-      value: country.countryName,
-    })
-  );
-
-  const [country, getcountryData] = useState();
-  const [countryId, getcountryIdData] = useState(null);
-
-  const oncountryChange = (e) => {
-    getcountryData(e);
-    getclientsData("");
-    getempData("");
-    getcountryIdData(e.countryId);
-    getSctLeadDetails({ countryId: e.countryId, sctLeadCategory: "P" });
-    getSctLeadDetailsDD({ countryId: e.countryId, sctLeadCategory: "P" });
-    setFilterData({ countryId: e.countryId, sctLeadCategory: "P" });
-  };
 
   const allprojects = [];
   projectList &&
@@ -148,109 +119,11 @@ const AllSctPotentials = ({
   const [projects, getprojectsData] = useState();
   const [projectsId, setprojectsID] = useState();
   const onprojectsChange = (e) => {
-    getLeadCategoryData("");
     getprojectsData(e);
-    getclientsData("");
-    getempData("");
     setprojectsID(e.projectsId);
     let searchData = {
       projectsId: e.projectsId,
-      sctLeadCategory: "P",
-    };
-    getSctLeadDetails(searchData);
-    getSctLeadDetailsDD(searchData);
-    setFilterData(searchData);
-  };
-
-  const allstates = [];
-  activeState.map((state) =>
-    allstates.push({
-      stateId: state._id,
-      label: state.stateName,
-      value: state.stateName,
-    })
-  );
-
-  const [state, getStateData] = useState("");
-  const [stateId, setStateID] = useState("");
-
-  const onStateChange = (e) => {
-    getLeadCategoryData("");
-    getStateData(e);
-    getclientsData("");
-    getempData("");
-    setStateID(e.stateId);
-    let searchData = {
-      projectsId: projectsId,
-      stateId: e.stateId,
-      sctLeadCategory: "P",
-    };
-    getSctLeadDetails(searchData);
-    getSctLeadDetailsDD(searchData);
-    setFilterData(searchData);
-  };
-  //   const allclient = [];
-  //   //   console.log(allSctLeadsDD);
-  //   allSctLeadsDD.map((clients) =>
-  //     allclient.push({
-  //       clientsId: clients._id,
-  //       label: clients.sctCompanyName,
-  //       value: clients.sctCompanyName,
-  //     })
-  //   );
-  const [leadCategory, getLeadCategoryData] = useState();
-  //   const [clientsId, getclientsIdData] = useState();
-  const onLeadCategoryChange = (e) => {
-    getcountryData("");
-    getcountryIdData("");
-    getclientsData("");
-    getempData("");
-    getLeadCategoryData(e);
-    if (e) {
-      let searchData = {
-        projectsId: projectsId,
-        sctLeadsCategory: e.value,
-        sctLeadCategory: "P",
-      };
-      getSctLeadDetails(searchData);
-      setFilterData(searchData);
-    }
-  };
-  const [clients, getclientsData] = useState();
-  const [clientsId, getclientsIdData] = useState();
-  const onclientsChange = (e) => {
-    // getclientsData(e);
-    // getclientsIdData(e.clientsId);
-    let searchData = {
-      projectsId: projectsId,
-      stateId: stateId,
-      clientsId: e.clientsId,
-      sctLeadCategory: "P",
-    };
-    getSctLeadDetails(searchData);
-    setFilterData(searchData);
-  };
-
-  const allemp = [{ empId: null, label: "All", value: null }];
-  allSctLeadsEmp.map((emp) =>
-    allemp.push({
-      empId: emp._id,
-      label: emp.sctLeadAssignedToName,
-      value: emp.sctLeadAssignedToName,
-    })
-  );
-
-  const [emp, getempData] = useState();
-  const [empId, setempID] = useState();
-  const onempChange = (e) => {
-    getempData(e);
-    setempID(e.empId);
-    let searchData = {
-      projectsId: projectsId,
-      stateId: stateId,
-      clientsId: clientsId,
-      sctLeadCategory: "P",
-      assignedTo: e.empId,
+      sctLeadCategory: "W",
     };
     getSctLeadDetails(searchData);
     getSctLeadDetailsDD(searchData);
@@ -258,20 +131,40 @@ const AllSctPotentials = ({
   };
 
   const onClickReset = () => {
-    getcountryData("");
-    getcountryIdData("");
-    getclientsData("");
-    getempData("");
     getSctLeadDetails();
     getSctLeadDetailsDD();
     setFilterData();
     ondivcloseChange(true);
     setcolorData("");
     getprojectsData("");
-    getLeadCategoryData("");
-    getStateData("");
   };
 
+  const csvData = [
+    [
+      "Leads of",
+      "Company",
+      "Client Name",
+      "Country",
+      "State",
+      "Contact",
+      "Contact2",
+    ],
+  ];
+  allSctLeads &&
+    allSctLeads.map((allLeadsData) =>
+      csvData.push([
+        allLeadsData.projectsName,
+        allLeadsData.sctCompanyName,
+        allLeadsData.sctClientName,
+        allLeadsData.countryName,
+        allLeadsData.stateName,
+        allLeadsData.sctPhone1,
+        allLeadsData.sctPhone2,
+        "\n",
+      ])
+    );
+
+  const fileName = ["SCT Wrong Number Reports"];
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -280,7 +173,7 @@ const AllSctPotentials = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Sct Potentials</h5>
+              <h5 className="heading_color">All Sct Wrong Numbers</h5>
             </div>
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
@@ -302,46 +195,15 @@ const AllSctPotentials = ({
                 })}
               />
             </div>
-            {/* <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
-              <Select
-                name="stateName"
-                options={allstates}
-                isSearchable={true}
-                value={state}
-                placeholder="Select State"
-                onChange={(e) => onStateChange(e)}
-              />
-            </div> */}
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
-                name="sctLeadsCategory"
-                options={CategoryMethods}
-                isSearchable={true}
-                value={leadCategory}
-                placeholder="Select Leads Category"
-                onChange={(e) => onLeadCategoryChange(e)}
-              />
-            </div>
-            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              {(user.userGroupName && user.userGroupName === "Administrator") ||
-              user.userGroupName === "Super Admin" ||
-              user.empCtAccess === "All" ? (
-                <>
-                  <Select
-                    name="empFullName"
-                    options={allemp}
-                    isSearchable={true}
-                    value={emp}
-                    placeholder="Select Emp"
-                    onChange={(e) => onempChange(e)}
-                  />
-                </>
-              ) : (
-                <></>
-              )}
-            </div>
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-2">
+            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2">
+              <CSVLink
+                className="secondlinebreak"
+                data={csvData}
+                filename={fileName}
+              >
+                <button className="btn btn_green_bg float-right">Export</button>
+              </CSVLink>
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -360,11 +222,6 @@ const AllSctPotentials = ({
                   >
                     <thead>
                       <tr>
-                        {/* <th style={{ width: "3%" }}>Sl.No</th> */}
-                        {/* <th style={{ width: "8%" }}>Website </th>
-                        <th style={{ width: "8%" }}>Email</th> */}
-                        {/* <th style={{ width: "8%" }}>Region</th> */}
-                        {/* <th style={{ width: "8%" }}>Call Time</th> */}
                         <th style={{ width: "10%" }}>Company </th>
                         <th style={{ width: "8%" }}>State</th>
                         <th style={{ width: "8%" }}>Contact</th>
@@ -391,20 +248,6 @@ const AllSctPotentials = ({
                               }
                               onClick={() => onClickHandler(allSctLeads, idx)}
                             >
-                              {/* <td>{idx + 1}</td> */}
-                              {/* <td>{allSctLeads.countryName}</td> */}
-                              {/* <td>
-                                {" "}
-                                <a
-                                  href={allSctLeads.sctWebsite}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  {allSctLeads.sctWebsite}
-                                </a>
-                              </td>
-                              <td>{allSctLeads.sctEmailId}</td> */}
-                              {/* <td>{allSctLeads.sctCallTime}</td> */}
                               <td>{allSctLeads.sctCompanyName}</td>
 
                               <td>{allSctLeads.stateName}</td>
@@ -578,7 +421,7 @@ const AllSctPotentials = ({
   );
 };
 
-AllSctPotentials.propTypes = {
+AllSctWrongNumbers.propTypes = {
   auth: PropTypes.object.isRequired,
   sct: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
@@ -597,4 +440,4 @@ export default connect(mapStateToProps, {
   getSctLastmessage,
   getActiveState,
   getProjectList,
-})(AllSctPotentials);
+})(AllSctWrongNumbers);

@@ -507,6 +507,8 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
   let catCondition = [];
   if (sctLeadCategory == "P" || sctLeadCategory == "NL") {
     catCondition = [{ sctLeadCategory: "P" }, { sctLeadCategory: "NL" }];
+  } else if (sctLeadCategory == "W") {
+    catCondition = [{ sctLeadCategory: "W" }, { sctLeadCategory: "W" }];
   } else if (sctLeadCategory == "F") {
     catCondition = [{ sctLeadCategory: "F" }, { sctLeadCategory: "F" }];
   }
@@ -542,7 +544,6 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
       _id: mongoose.Types.ObjectId(clientsId),
     };
   }
-
   try {
     let getSctLeadsDetails = (getSctLeadsEmp = []);
     if (sctLeadCategory) {

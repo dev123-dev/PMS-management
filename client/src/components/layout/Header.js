@@ -201,6 +201,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       <Dropdown.Item>Regular Client Followup</Dropdown.Item>
                     </NavLink>
                     <NavLink
+                      to="/all-dct-wrong-numbers"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>All Wrong Numbers</Dropdown.Item>
+                    </NavLink>
+                    <NavLink
                       to="/dct-calls"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
@@ -273,6 +279,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       <Dropdown.Item>All Demo</Dropdown.Item>
+                    </NavLink>
+                    <NavLink
+                      to="/all-wrong-numbers"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>All Wrong Numbers</Dropdown.Item>
                     </NavLink>
                     <NavLink
                       to="/sct-calls"

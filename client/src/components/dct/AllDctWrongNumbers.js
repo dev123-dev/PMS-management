@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { Link } from "react-router-dom";
 import Clock from "react-live-clock";
 import {
   getDctLeadDetails,
@@ -17,8 +16,8 @@ import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
 import { getActiveCountry } from "../../actions/regions";
-
-const AllDctPotentials = ({
+import { CSVLink } from "react-csv";
+const AllDctWrongNumbers = ({
   auth: { isAuthenticated, user, users },
   dct: { allLeads, allLeadsDD, allLeadsEmp },
   regions: { activeCountry },
@@ -28,7 +27,7 @@ const AllDctPotentials = ({
   getLastmessage,
 }) => {
   useEffect(() => {
-    getDctLeadDetails({ dctLeadCategory: "P" });
+    getDctLeadDetails({ dctLeadCategory: "W" });
   }, []);
   useEffect(() => {
     getDctLeadDetailsDD({ dctLeadCategory: "P" });
@@ -37,12 +36,6 @@ const AllDctPotentials = ({
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
   //formData
-
-  let CategoryMethods = [
-    { value: "Hot", label: "Hot" },
-    { value: "Normal", label: "Normal" },
-    { value: "Cool", label: "Cool" },
-  ];
   const [showHide1, setShowHide1] = useState({
     showUSSection: false,
     showAUDSection: false,
@@ -127,7 +120,6 @@ const AllDctPotentials = ({
 
   //to hide and unide the timezones according to region selected
   const oncountryChange = (e) => {
-    getLeadCategoryData("");
     if (e.value === "US") {
       setShowHide1({
         ...showHide1,
@@ -158,104 +150,48 @@ const AllDctPotentials = ({
       });
     }
     getcountryData(e);
-    getclientsData("");
-    getempData("");
     getcountryIdData(e.countryId);
-    getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "P" });
-    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "P" });
-    setFilterData({ countryId: e.countryId, dctLeadCategory: "P" });
-  };
-
-  const allclient = [];
-  allLeadsDD.map((clients) =>
-    allclient.push({
-      clientsId: clients._id,
-      label: clients.companyName,
-      value: clients.companyName,
-    })
-  );
-  const [clients, getclientsData] = useState();
-  const onclientsChange = (e) => {
-    getLeadCategoryData("");
-    getclientsData(e);
-    getDctLeadDetails({
-      countryId: countryId,
-      clientsId: e.clientsId,
-      dctLeadCategory: "P",
-    });
-    setFilterData({
-      countryId: countryId,
-      clientsId: e.clientsId,
-      dctLeadCategory: "P",
-    });
-  };
-  const [leadCategory, getLeadCategoryData] = useState();
-  const onLeadCategoryChange = (e) => {
-    getclientsData("");
-    getempData("");
-    getLeadCategoryData(e);
-    getDctLeadDetails({
-      countryId: countryId,
-      clientsId: e.clientsId,
-      dctLeadsCategory: e.value,
-      dctLeadCategory: "P",
-    });
-    setFilterData({
-      countryId: countryId,
-      clientsId: e.clientsId,
-      dctLeadsCategory: e.value,
-      dctLeadCategory: "P",
-    });
-  };
-
-  const allemp = [{ empId: null, label: "All", value: null }];
-  allLeadsEmp.map((emp) =>
-    allemp.push({
-      empId: emp._id,
-      label: emp.dctLeadAssignedToName,
-      value: emp.dctLeadAssignedToName,
-    })
-  );
-
-  const [emp, getempData] = useState();
-  const [empId, setempID] = useState();
-  const onempChange = (e) => {
-    getempData(e);
-    setempID(e.empId);
-    getDctLeadDetails({
-      countryId: countryId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      dctLeadCategory: "P",
-    });
-    getDctLeadDetailsDD({
-      countryId: countryId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      dctLeadCategory: "P",
-      emp: true,
-    });
-    setFilterData({
-      countryId: countryId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      dctLeadCategory: "P",
-    });
+    getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "W" });
+    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "W" });
+    setFilterData({ countryId: e.countryId, dctLeadCategory: "W" });
   };
 
   const onClickReset = () => {
     getcountryData("");
     getcountryIdData("");
-    getclientsData("");
-    getempData("");
-    getDctLeadDetails({ dctLeadCategory: "P" });
-    getDctLeadDetailsDD({ dctLeadCategory: "P" });
-    setFilterData({ dctLeadCategory: "P" });
+    getDctLeadDetails({ dctLeadCategory: "W" });
+    getDctLeadDetailsDD({ dctLeadCategory: "W" });
+    setFilterData({ dctLeadCategory: "W" });
     ondivcloseChange(true);
-    getLeadCategoryData("");
     setcolorData("");
   };
+  const csvData = [
+    [
+      "Company",
+      "Website",
+      "Client Name",
+      "Email",
+      "Region",
+      "Contact",
+      "Contact2",
+    ],
+  ];
 
+  allLeads &&
+    allLeads.map((allLeadsData) =>
+      csvData.push([
+        allLeadsData.companyName,
+        allLeadsData.website,
+        allLeadsData.clientName,
+        allLeadsData.emailId,
+        allLeadsData.countryName,
+        allLeadsData.phone1,
+        allLeadsData.phone2,
+        "\n",
+      ])
+    );
+
+  const fileName = ["DCT Wrong Number Reports"];
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -324,7 +260,7 @@ const AllDctPotentials = ({
             </div>
 
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Potentials</h5>
+              <h5 className="heading_color">All Wrong Numbers</h5>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -337,47 +273,15 @@ const AllDctPotentials = ({
                 required
               />
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
-                name="companyName"
-                options={allclient}
-                isSearchable={true}
-                value={clients}
-                placeholder="Select Lead"
-                onChange={(e) => onclientsChange(e)}
-                required
-              />
-            </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
-                name="dctLeadsCategory"
-                options={CategoryMethods}
-                isSearchable={true}
-                value={leadCategory}
-                placeholder="Select Leads Category"
-                onChange={(e) => onLeadCategoryChange(e)}
-              />
-            </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              {(user.userGroupName && user.userGroupName === "Administrator") ||
-              user.userGroupName === "Super Admin" ||
-              user.empCtAccess === "All" ? (
-                // <div className=" col-lg-4 col-md-11 col-sm-10 col-10 py-2">
-                <Select
-                  name="empFullName"
-                  options={allemp}
-                  isSearchable={true}
-                  value={emp}
-                  placeholder="Select Emp"
-                  onChange={(e) => onempChange(e)}
-                />
-              ) : (
-                // </div>
-                <></>
-              )}
-            </div>
 
-            <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-3">
+              <CSVLink
+                className="secondlinebreak"
+                data={csvData}
+                filename={fileName}
+              >
+                <button className="btn btn_green_bg float-right">Export</button>
+              </CSVLink>
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -595,7 +499,7 @@ const AllDctPotentials = ({
   );
 };
 
-AllDctPotentials.propTypes = {
+AllDctWrongNumbers.propTypes = {
   auth: PropTypes.object.isRequired,
   dct: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
@@ -611,4 +515,4 @@ export default connect(mapStateToProps, {
   getDctLeadDetailsDD,
   getActiveCountry,
   getLastmessage,
-})(AllDctPotentials);
+})(AllDctWrongNumbers);

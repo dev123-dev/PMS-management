@@ -284,6 +284,18 @@ const AllSctStatusChange = ({
         showdemoselectionSection: false,
         showLeadCategory: true,
       });
+    } else if (e.value === "WrongNumber") {
+      setFormData({
+        ...formData,
+        sctCallStatus: e,
+      });
+      setStatusDate("");
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: true,
+        showdemoselectionSection: false,
+        showLeadCategory: false,
+      });
     } else if (e.value === "VoiceMail") {
       setFormData({
         ...formData,
@@ -361,6 +373,10 @@ const AllSctStatusChange = ({
 
     if (sctCallStatus.value === "FollowUp") {
       callCategoryVal = "F";
+    } else if (sctCallStatus.value === "CallBack") {
+      callCategoryVal = "P";
+    } else if (sctCallStatus.value === "WrongNumber") {
+      callCategoryVal = "W";
     } else if (sctCallStatus.value === "EngagedClient") {
       callCategoryVal = "EC";
       clientTypeVal = "Engaged";
@@ -436,7 +452,7 @@ const AllSctStatusChange = ({
       if (
         (sctCallStatus.value === "EngagedClient" ||
           sctCallStatus.value === "RegularClient") &&
-        leadDataVal.sctClientCategory != "EC"
+        leadDataVal.sctClientCategory !== "EC"
       ) {
         const transferData = {
           sctCompanyName: leadDataVal.sctCompanyName,

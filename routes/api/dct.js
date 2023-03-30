@@ -424,6 +424,8 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
   let catCondition = [];
   if (dctLeadCategory == "P" || dctLeadCategory == "NL") {
     catCondition = [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }];
+  } else if (dctLeadCategory == "W") {
+    catCondition = [{ dctLeadCategory: "W" }, { dctLeadCategory: "W" }];
   } else if (dctLeadCategory == "F") {
     catCondition = [{ dctLeadCategory: "F" }, { dctLeadCategory: "F" }];
   }
@@ -471,7 +473,6 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
       dctLeadsCategory: dctLeadsCategory,
     };
   }
-
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
       dctCallDate: -1,

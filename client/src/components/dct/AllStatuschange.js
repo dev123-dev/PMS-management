@@ -37,6 +37,7 @@ const AllStatuschange = ({
     { value: "CallBack", label: "Call Back" },
     { value: "DND", label: "DND" },
     { value: "NI", label: "NI" },
+    { value: "WrongNumber", label: "WrongNumber" },
     { value: "FollowUp", label: "Follow Up" },
     { value: "TestClient", label: "Test Client" },
     { value: "RegularClient", label: "Regular Client" },
@@ -228,6 +229,17 @@ const AllStatuschange = ({
         showdateselectionSection: true,
         showLeadCategory: true,
       });
+    } else if (e.value === "WrongNumber") {
+      setFormData({
+        ...formData,
+        callStatus: e,
+      });
+      setStatusDate("");
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: true,
+        showLeadCategory: false,
+      });
     } else if (e.value === "VoiceMail") {
       setFormData({
         ...formData,
@@ -282,9 +294,12 @@ const AllStatuschange = ({
     let callComeFromVal = "Lead";
     if (from === "TestClient" || from === "RegularClient")
       callComeFromVal = "Client";
-
     if (callStatus.value === "FollowUp") {
       callCategoryVal = "F";
+    } else if (callStatus.value === "WrongNumber") {
+      callCategoryVal = "W";
+    } else if (callStatus.value === "CallBack") {
+      callCategoryVal = "P";
     } else if (callStatus.value === "TestClient") {
       callCategoryVal = "TC";
     } else if (callStatus.value === "RegularClient") {
