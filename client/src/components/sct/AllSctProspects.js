@@ -456,10 +456,10 @@ const AllSctProspects = ({
                   />
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "33vh" }}
+                  style={{ height: "37vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
@@ -473,10 +473,10 @@ const AllSctProspects = ({
                   )}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "23vh" }}
+                  style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
                     Last Message Details

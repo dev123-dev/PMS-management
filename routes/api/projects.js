@@ -540,6 +540,8 @@ router.get("/get-project-status-verification", async (req, res) => {
         { projectVerificationStatus: { $ne: "Verified" } },
         { projectStatus: { $eq: "Active" } },
         { clientId: { $eq: clientId } },
+        { "output1.projectStatusCategory": { $ne: "Amend" } },
+        { "output1.projectStatusCategory": { $ne: "Dont Work" } },
       ],
     };
   } else {
@@ -547,11 +549,22 @@ router.get("/get-project-status-verification", async (req, res) => {
       $and: [
         { projectVerificationStatus: { $ne: "Verified" } },
         { projectStatus: { $eq: "Active" } },
+        { "output1.projectStatusCategory": { $ne: "Amend" } },
+        { "output1.projectStatusCategory": { $ne: "Dont Work" } },
       ],
     };
   }
   try {
     const allProjectStatusVerf = await Project.aggregate([
+      {
+        $lookup: {
+          from: "projectstatuses",
+          localField: "projectStatusId",
+          foreignField: "_id",
+          as: "output1",
+        },
+      },
+      { $unwind: "$output1" },
       {
         $match: query,
       },
@@ -581,6 +594,8 @@ router.post("/get-verification-project-details", async (req, res) => {
             { clientFolderName: { $eq: folder } },
             { projectStatusId: { $eq: statusId } },
             { projectDate: { $eq: dateVal } },
+            { "output1.projectStatusCategory": { $ne: "Amend" } },
+            { "output1.projectStatusCategory": { $ne: "Dont Work" } },
           ],
         };
       } else {
@@ -590,6 +605,8 @@ router.post("/get-verification-project-details", async (req, res) => {
             { projectStatus: { $eq: "Active" } },
             { clientFolderName: { $eq: folder } },
             { projectDate: { $eq: dateVal } },
+            { "output1.projectStatusCategory": { $ne: "Amend" } },
+            { "output1.projectStatusCategory": { $ne: "Dont Work" } },
           ],
         };
       }
@@ -601,6 +618,8 @@ router.post("/get-verification-project-details", async (req, res) => {
             { projectStatus: { $eq: "Active" } },
             { projectStatusId: { $eq: statusId } },
             { projectDate: { $eq: dateVal } },
+            { "output1.projectStatusCategory": { $ne: "Amend" } },
+            { "output1.projectStatusCategory": { $ne: "Dont Work" } },
           ],
         };
       } else {
@@ -609,6 +628,8 @@ router.post("/get-verification-project-details", async (req, res) => {
             { projectVerificationStatus: { $ne: "Verified" } },
             { projectStatus: { $eq: "Active" } },
             { projectDate: { $eq: dateVal } },
+            { "output1.projectStatusCategory": { $ne: "Amend" } },
+            { "output1.projectStatusCategory": { $ne: "Dont Work" } },
           ],
         };
       }
@@ -622,6 +643,8 @@ router.post("/get-verification-project-details", async (req, res) => {
             { projectStatus: { $eq: "Active" } },
             { clientFolderName: { $eq: folder } },
             { projectStatusId: { $eq: statusId } },
+            { "output1.projectStatusCategory": { $ne: "Amend" } },
+            { "output1.projectStatusCategory": { $ne: "Dont Work" } },
           ],
         };
       } else {
@@ -630,6 +653,8 @@ router.post("/get-verification-project-details", async (req, res) => {
             { projectVerificationStatus: { $ne: "Verified" } },
             { projectStatus: { $eq: "Active" } },
             { clientFolderName: { $eq: folder } },
+            { "output1.projectStatusCategory": { $ne: "Amend" } },
+            { "output1.projectStatusCategory": { $ne: "Dont Work" } },
           ],
         };
       }
@@ -640,6 +665,8 @@ router.post("/get-verification-project-details", async (req, res) => {
             { projectVerificationStatus: { $ne: "Verified" } },
             { projectStatus: { $eq: "Active" } },
             { projectStatusId: { $eq: statusId } },
+            { "output1.projectStatusCategory": { $ne: "Amend" } },
+            { "output1.projectStatusCategory": { $ne: "Dont Work" } },
           ],
         };
       } else {
@@ -647,16 +674,13 @@ router.post("/get-verification-project-details", async (req, res) => {
           $and: [
             { projectVerificationStatus: { $ne: "Verified" } },
             { projectStatus: { $eq: "Active" } },
+            { "output1.projectStatusCategory": { $ne: "Amend" } },
+            { "output1.projectStatusCategory": { $ne: "Dont Work" } },
           ],
         };
       }
     }
   }
-  query = {
-    ...query,
-    "output.projectStatusCategory": { $ne: "Amend" },
-    "output.projectStatusCategory": { $ne: "Don't Work" },
-  };
 
   try {
     // const getVerificationProjectDetails = await Project.find(query);
@@ -670,6 +694,15 @@ router.post("/get-verification-project-details", async (req, res) => {
         },
       },
       { $unwind: "$output" },
+      {
+        $lookup: {
+          from: "projectstatuses",
+          localField: "projectStatusId",
+          foreignField: "_id",
+          as: "output1",
+        },
+      },
+      { $unwind: "$output1" },
       { $match: query },
       // { $sort: { "output._id": 1 } },
     ]);

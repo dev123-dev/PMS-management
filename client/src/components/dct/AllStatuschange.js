@@ -358,7 +358,7 @@ const AllStatuschange = ({
     <Fragment>
       <form className="row" onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadstatus">
-          <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
+          <div className="col-lg-4 col-md-12 col-sm-12 col-12 headingTop">
             <label className="label-control" style={statusmodeIdErrorStyle}>
               Status :
             </label>
@@ -367,7 +367,7 @@ const AllStatuschange = ({
               options={StatusMethods}
               isSearchable={false}
               value={callStatus}
-              placeholder="Select Status"
+              placeholder="Select"
               onChange={(e) => onStatusTypeChange(e)}
               theme={(theme) => ({
                 ...theme,
@@ -382,7 +382,7 @@ const AllStatuschange = ({
             />
           </div>
 
-          <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
+          <div className="col-lg-4 col-md-12 col-sm-12 col-12 headingTop">
             <label className="label-control" style={stafftypeIdErrorStyle}>
               Staff :
             </label>
@@ -392,12 +392,12 @@ const AllStatuschange = ({
               options={allStaff}
               isSearchable={true}
               value={staffs}
-              placeholder="Select Staff"
+              placeholder="Select"
               onChange={(e) => onStaffChange(e)}
               required
             />
           </div>
-          <div className=" col-lg-4 col-md-12 col-sm-12 col-12 ">
+          <div className=" col-lg-4 col-md-12 col-sm-12 col-12 headingTop ">
             {showdateselectionSection && (
               <>
                 <label className="label-control">
@@ -421,51 +421,89 @@ const AllStatuschange = ({
             )}
           </div>
           {showLeadCategory && (
-            <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
+            <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTop">
               <label className="label-control">Category :</label>
               <Select
                 name="dctLeadsCategory"
                 options={CategoryMethods}
                 isSearchable={true}
                 value={dctLeadsCategory}
-                placeholder="Select Category"
+                placeholder="Select"
                 onChange={(e) => onLeadCategoryChange(e)}
               />
             </div>
           )}
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12 ">
-            <label className="label-control"> Notes :</label>
-            <textarea
-              name="callNote"
-              id="callNote"
-              className="textarea form-control"
-              rows="3"
-              placeholder="Notes"
-              style={{ width: "100%" }}
-              value={callNote}
-              onChange={(e) => onInputChange(e)}
-              required
-            ></textarea>
-          </div>
-
-          <div className="col-lg-4 col-md-12 col-sm-12 col-12 mt-5">
-            <br />
-            {loading ? (
-              <button
-                className="btn sub_form btn_continue blackbrd Save float-right"
-                disabled
-              >
-                Loading...
-              </button>
-            ) : (
-              <input
-                type="submit"
-                name="Submit"
-                value="Submit"
-                className="btn sub_form btn_continue blackbrd Save float-right"
-              />
-            )}
-          </div>
+          {showLeadCategory && showLeadCategory ? (
+            <div className="col-lg-5 col-md-12 col-sm-12 col-12 notesTop">
+              <label className="label-control"> Notes :</label>
+              <textarea
+                name="callNote"
+                id="callNote"
+                className="textarea "
+                rows="4"
+                cols="5"
+                placeholder="Notes"
+                style={{ width: "100%" }}
+                value={callNote}
+                onChange={(e) => onInputChange(e)}
+                required
+              ></textarea>
+            </div>
+          ) : (
+            <div className="col-lg-8 col-md-12 col-sm-12 col-12 notesTop">
+              <label className="label-control"> Notes :</label>
+              <textarea
+                name="callNote"
+                id="callNote"
+                className="textarea "
+                rows="3"
+                placeholder="Notes"
+                style={{ width: "100%" }}
+                value={callNote}
+                onChange={(e) => onInputChange(e)}
+                required
+              ></textarea>
+            </div>
+          )}
+          {showLeadCategory && showLeadCategory ? (
+            <div className="col-lg-3 col-md-12 col-sm-12 col-12 mt-5">
+              <br />
+              {loading ? (
+                <button
+                  className="btn sub_form btn_continue blackbrd Save float-right submitTop"
+                  disabled
+                >
+                  Loading...
+                </button>
+              ) : (
+                <input
+                  type="submit"
+                  name="Submit"
+                  value="Submit"
+                  className="btn sub_form btn_continue blackbrd Save float-right submitTop"
+                />
+              )}
+            </div>
+          ) : (
+            <div className="col-lg-4 col-md-12 col-sm-12 col-12 mt-5">
+              <br />
+              {loading ? (
+                <button
+                  className="btn sub_form btn_continue blackbrd Save float-right submitTop"
+                  disabled
+                >
+                  Loading...
+                </button>
+              ) : (
+                <input
+                  type="submit"
+                  name="Submit"
+                  value="Submit"
+                  className="btn sub_form btn_continue blackbrd Save float-right submitTop"
+                />
+              )}
+            </div>
+          )}
         </div>
       </form>
     </Fragment>

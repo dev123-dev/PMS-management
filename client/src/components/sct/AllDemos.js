@@ -221,7 +221,6 @@ const AllDemos = ({
     setShowResheduleModal(true);
     setResheduleData(allDemos);
   };
-
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -342,10 +341,11 @@ const AllDemos = ({
                       <tr>
                         <th style={{ width: "7%" }}>Company Name</th>
                         <th style={{ width: "7%" }}>Client </th>
-                        <th style={{ width: "7%" }}>Demo Date</th>
-                        <th style={{ width: "15%" }}>Email Id </th>
+                        <th style={{ width: "5%" }}>Demo Date</th>
+                        <th style={{ width: "10%" }}>Email Id </th>
                         <th style={{ width: "8%" }}>Contact No </th>
-                        <th style={{ width: "8%" }}>Demo time </th>
+                        <th style={{ width: "5%" }}>State </th>
+                        <th style={{ width: "5%" }}>Demo time </th>
                         <th style={{ width: "14%" }}>Demo Status</th>
                       </tr>
                     </thead>
@@ -373,6 +373,10 @@ const AllDemos = ({
                               <td>
                                 {allDemos.clientDetails &&
                                   allDemos.clientDetails.sctPhone1}
+                              </td>
+                              <td>
+                                {allDemos.clientDetails &&
+                                  allDemos.clientDetails.stateName}
                               </td>
                               <td>
                                 {allDemos.fromTime} to {allDemos.toTime}

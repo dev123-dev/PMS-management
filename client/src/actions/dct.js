@@ -28,6 +28,8 @@ import {
   DCT_CALLS_CLIENT_COUNT,
   DCT_CALLS_COUNT,
   ALL_DCT_LEAD_ENTRY_TODAY,
+  GET_ALL_LEADS_ENTERED_BY,
+  GET_LEADS_ENTERED_BY,
 } from "./types";
 
 const config = {
@@ -431,6 +433,10 @@ export const getDctLeadDetailsDD = (finalData) => async (dispatch) => {
         payload: res.data.result2,
       });
     }
+    dispatch({
+      type: GET_LEADS_ENTERED_BY,
+      payload: res.data.result3,
+    });
   } catch (err) {
     dispatch({
       type: ERROR,
@@ -473,6 +479,10 @@ export const getAllDctLeadDD = (finalData) => async (dispatch) => {
         payload: res.data.result2,
       });
     }
+    dispatch({
+      type: GET_ALL_LEADS_ENTERED_BY,
+      payload: res.data.result3,
+    });
   } catch (err) {
     dispatch({
       type: ERROR,

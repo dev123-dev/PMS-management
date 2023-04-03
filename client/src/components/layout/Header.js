@@ -293,12 +293,17 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       <Dropdown.Item>Sct Calls History</Dropdown.Item>
                     </NavLink>
 
-                    <NavLink
-                      to="/transfer-sct-leads"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      <Dropdown.Item>Transfer Sct Leads</Dropdown.Item>
-                    </NavLink>
+                    {user && user.empCtAccess === "All" && (
+                      <NavLink
+                        to="/transfer-sct-leads"
+                        activeStyle={{
+                          color: "#ffd037",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <Dropdown.Item>Transfer Sct Leads</Dropdown.Item>
+                      </NavLink>
+                    )}
                     <NavLink
                       to="/sct-daily-report"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}

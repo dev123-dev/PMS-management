@@ -197,7 +197,7 @@ export const editSctLeadDetails = (finalData) => async (dispatch) => {
     });
     await axios.post("/api/sct/edit-sct-Leads", finalData, config);
     dispatch(refreshLead(finalData));
-    dispatch(getAllSctLead());
+    dispatch(getAllSctLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -975,13 +975,13 @@ export const uploadAgreement = (finalData) => async (dispatch) => {
 export const getSctStaffsData = (finalData) => async (dispatch) => {
   try {
     let res = [];
-    if (finalData.staffFrom == "lead") {
+    if (finalData.staffFrom === "lead") {
       res = await axios.post(
         "/api/sct/get-lead-staffs-data",
         finalData,
         config
       );
-    } else if (finalData.staffFrom == "client") {
+    } else if (finalData.staffFrom === "client") {
       res = await axios.post(
         "/api/sct/get-client-staffs-data",
         finalData,

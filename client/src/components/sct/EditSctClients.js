@@ -248,7 +248,9 @@ const EditSctClients = ({
   const [stateId, setStateID] = useState(
     alleditClientdata && alleditClientdata.stateId
   );
-  const [stateName, setStateName] = useState("");
+  const [stateName, setStateName] = useState(
+    alleditClientdata && alleditClientdata.stateName
+  );
 
   const onStateChange = (e) => {
     // getdistrictData("");

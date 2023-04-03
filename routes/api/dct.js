@@ -404,8 +404,14 @@ router.post("/deactivate-dct-client", async (req, res) => {
 //LEAD
 //FOLLOWUP,PROSPECTS
 router.post("/get-dct-Leads", auth, async (req, res) => {
-  let { countryId, clientsId, dctLeadCategory, assignedTo, dctLeadsCategory } =
-    req.body;
+  let {
+    countryId,
+    clientsId,
+    dctLeadCategory,
+    assignedTo,
+    dctLeadsCategory,
+    enteredBy,
+  } = req.body;
 
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
@@ -473,6 +479,13 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
       dctLeadsCategory: dctLeadsCategory,
     };
   }
+
+  if (enteredBy) {
+    query = {
+      ...query,
+      dctLeadEnteredByName: enteredBy,
+    };
+  }
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
       dctCallDate: -1,
@@ -489,7 +502,24 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
         },
       },
     ]).sort({ _id: 1 });
-    res.json({ result1: getDctLeadsDetails, result2: getDctLeadsEmp });
+    const getDctLeadsEmp1 = await DctLeads.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$dctLeadEnteredById",
+          dctLeadEnteredByName: { $first: "$dctLeadEnteredByName" },
+        },
+      },
+    ]).sort({ _id: 1 });
+    const resName = getDctLeadsEmp1.map((e) => e.dctLeadEnteredByName);
+    const resFinal = resName.filter((item, i, ar) => ar.indexOf(item) === i);
+    res.json({
+      result1: getDctLeadsDetails,
+      result2: getDctLeadsEmp,
+      result3: resFinal,
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -497,7 +527,7 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
 });
 //ALL LEADS
 router.post("/get-all-dct-Leads", auth, async (req, res) => {
-  let { countryId, clientsId, assignedTo } = req.body;
+  let { countryId, clientsId, assignedTo, enteredBy } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -511,7 +541,6 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
       dctLeadAssignedToId = { $ne: null };
     }
   }
-
   let query = {};
   if (countryId) {
     if (clientsId) {
@@ -559,6 +588,12 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
     }
   }
 
+  if (enteredBy) {
+    query = {
+      ...query,
+      dctLeadEnteredByName: enteredBy,
+    };
+  }
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
       _id: -1,
@@ -574,7 +609,24 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
         },
       },
     ]).sort({ _id: 1 });
-    res.json({ result1: getDctLeadsDetails, result2: getDctLeadsEmp });
+    const getDctLeadsEmp1 = await DctLeads.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$dctLeadEnteredById",
+          dctLeadEnteredByName: { $first: "$dctLeadEnteredByName" },
+        },
+      },
+    ]).sort({ _id: 1 });
+    const resName = getDctLeadsEmp1.map((e) => e.dctLeadEnteredByName);
+    const resFinal = resName.filter((item, i, ar) => ar.indexOf(item) === i);
+    res.json({
+      result1: getDctLeadsDetails,
+      result2: getDctLeadsEmp,
+      result3: resFinal,
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

@@ -400,7 +400,7 @@ const AllDctWrongNumbers = ({
                   />
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
                   style={{ height: "30vh" }}
@@ -415,7 +415,7 @@ const AllDctWrongNumbers = ({
                   )}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
                   style={{ height: "23vh" }}

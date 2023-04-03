@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Clock from "react-live-clock";
 import {
   getDctLeadDetails,
@@ -20,7 +20,7 @@ import { getActiveCountry } from "../../actions/regions";
 
 const AllProspects = ({
   auth: { isAuthenticated, user, users },
-  dct: { allLeads, allLeadsDD, allLeadsEmp },
+  dct: { allLeads, allLeadsDD, allLeadsEmp, allLeadsEnterdBy },
   regions: { activeCountry },
   getDctLeadDetails,
   getActiveCountry,
@@ -29,13 +29,13 @@ const AllProspects = ({
 }) => {
   useEffect(() => {
     getDctLeadDetails({ dctLeadCategory: "P" });
-  }, []);
+  }, [getDctLeadDetails]);
   useEffect(() => {
     getDctLeadDetailsDD({ dctLeadCategory: "P" });
-  }, []);
+  }, [getDctLeadDetailsDD]);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
-  }, []);
+  }, [getActiveCountry]);
   //formData
 
   const [showHide1, setShowHide1] = useState({
@@ -122,6 +122,7 @@ const AllProspects = ({
 
   //to hide and unide the timezones according to region selected
   const oncountryChange = (e) => {
+    getEnterByData("");
     if (e.value === "US") {
       setShowHide1({
         ...showHide1,
@@ -195,6 +196,7 @@ const AllProspects = ({
   const [emp, getempData] = useState();
   const [empId, setempID] = useState();
   const onempChange = (e) => {
+    getEnterByData("");
     getempData(e);
     setempID(e.empId);
     getDctLeadDetails({
@@ -218,10 +220,38 @@ const AllProspects = ({
     });
   };
 
+  const allEnteredBy = [{ label: "All", value: null }];
+  allLeadsEnterdBy.map((enterdBy) =>
+    allEnteredBy.push({
+      label: enterdBy,
+      value: enterdBy,
+    })
+  );
+  const [enterBy, getEnterByData] = useState();
+  const onEnteredByChange = (e) => {
+    getEnterByData(e);
+    getDctLeadDetails({
+      countryId: countryId,
+      clientsId: clients ? clients.clientsId : null,
+      assignedTo: empId,
+      dctLeadCategory: "P",
+      enteredBy: e.value,
+    });
+    setFilterData({
+      countryId: countryId,
+      clientsId: clients ? clients.clientsId : null,
+      assignedTo: empId,
+      enteredBy: e.value,
+      dctLeadCategory: "P",
+    });
+  };
+
   const onClickReset = () => {
     getcountryData("");
     getcountryIdData("");
     getclientsData("");
+    getEnterByData("");
+    setShowHide1(false);
     getempData("");
     getDctLeadDetails({ dctLeadCategory: "P" });
     getDctLeadDetailsDD({ dctLeadCategory: "P" });
@@ -297,8 +327,8 @@ const AllProspects = ({
               )}
             </div>
 
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Prospects</h5>
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
+              <h4 className="heading_color">All Prospects</h4>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -340,8 +370,25 @@ const AllProspects = ({
                 <></>
               )}
             </div>
-
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+              {(user.userGroupName && user.userGroupName === "Administrator") ||
+              user.userGroupName === "Super Admin" ||
+              user.empCtAccess === "All" ? (
+                <>
+                  <Select
+                    name="enteredByFullName"
+                    options={allEnteredBy}
+                    isSearchable={true}
+                    value={enterBy}
+                    placeholder="Select EnteredBy"
+                    onChange={(e) => onEnteredByChange(e)}
+                  />
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -362,11 +409,11 @@ const AllProspects = ({
                       <tr>
                         <th style={{ width: "3%" }}>Sl.No</th>
                         <th style={{ width: "15%" }}>Company </th>
-                        <th style={{ width: "15%" }}>Website </th>
-                        <th style={{ width: "13%" }}>Email</th>
+                        <th style={{ width: "14%" }}>Website </th>
+                        <th style={{ width: "11%" }}>Email</th>
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
-                        <th style={{ width: "8%" }}>Call Date</th>
+                        <th style={{ width: "10%" }}>Call Date</th>
                         <th style={{ width: "5%" }}>Op</th>
                       </tr>
                     </thead>
@@ -460,10 +507,10 @@ const AllProspects = ({
                   />
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "30vh" }}
+                  style={{ height: "33vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
@@ -475,10 +522,10 @@ const AllProspects = ({
                   )}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "23vh" }}
+                  style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
                     Last Message Details

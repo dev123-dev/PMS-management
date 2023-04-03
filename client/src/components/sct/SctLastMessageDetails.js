@@ -46,11 +46,11 @@ const SctLastMessageDetails = ({
       <div className="row col-lg-12 col-md-11 col-sm-10 col-10 fixTableHeadhistory">
         <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
           <label>
-            Staff Name : {sctLastMsg && sctLastMsg.sctCallToStaffName}
+            St. Name : {sctLastMsg && sctLastMsg.sctCallToStaffName}
           </label>
         </div>
         <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
-          <label>Call Date : {sctCallDate} </label>
+          <label>Cl Date : {sctCallDate} </label>
         </div>
         <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
           <label>Status : {sctLastMsg && sctLastMsg.sctCallStatus}</label>
