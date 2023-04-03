@@ -24,11 +24,20 @@ const AllStatuschange = ({
   useEffect(() => {
     getStaffsData(staffFilter);
   }, [leadDataVal]);
+  //Category
+
+  let CategoryMethods = [
+    { value: "Hot", label: "Hot" },
+    { value: "Normal", label: "Normal" },
+    { value: "Cool", label: "Cool" },
+  ];
+
   let StatusMethods = [
     { value: "VoiceMail", label: "Voice Mail" },
     { value: "CallBack", label: "Call Back" },
     { value: "DND", label: "DND" },
     { value: "NI", label: "NI" },
+    { value: "WrongNumber", label: "WrongNumber" },
     { value: "FollowUp", label: "Follow Up" },
     { value: "TestClient", label: "Test Client" },
     { value: "RegularClient", label: "Regular Client" },
@@ -55,11 +64,12 @@ const AllStatuschange = ({
   //formData
   const [formData, setFormData] = useState({
     callStatus: "",
+    dctLeadsCategory: "",
     labeldata: "",
     callNote: "",
     isSubmitted: false,
   });
-  const { callNote, callStatus } = formData;
+  const { callNote, callStatus, dctLeadsCategory } = formData;
   //For setting mindate as todays date
   var today = new Date();
   var dd = today.getDate();
@@ -166,9 +176,10 @@ const AllStatuschange = ({
 
   const [showHide, setShowHide] = useState({
     showdateselectionSection: true,
+    showLeadCategory: false,
   });
 
-  const { showdateselectionSection } = showHide;
+  const { showdateselectionSection, showLeadCategory } = showHide;
 
   const onStatusTypeChange = (e) => {
     //Required Validation starts
@@ -194,6 +205,7 @@ const AllStatuschange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showLeadCategory: false,
       });
     } else if (e.value === "NI") {
       setFormData({
@@ -204,6 +216,7 @@ const AllStatuschange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showLeadCategory: false,
       });
     } else if (e.value === "CallBack") {
       setFormData({
@@ -214,6 +227,18 @@ const AllStatuschange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showLeadCategory: true,
+      });
+    } else if (e.value === "WrongNumber") {
+      setFormData({
+        ...formData,
+        callStatus: e,
+      });
+      setStatusDate("");
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: true,
+        showLeadCategory: false,
       });
     } else if (e.value === "VoiceMail") {
       setFormData({
@@ -224,6 +249,7 @@ const AllStatuschange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showLeadCategory: false,
       });
     } else if (e.value === "FollowUp") {
       setFormData({
@@ -234,6 +260,7 @@ const AllStatuschange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
+        showLeadCategory: false,
       });
     } else {
       setFormData({
@@ -244,6 +271,7 @@ const AllStatuschange = ({
       setShowHide({
         ...showHide,
         showdateselectionSection: false,
+        showLeadCategory: false,
       });
     }
   };
@@ -252,14 +280,26 @@ const AllStatuschange = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const onLeadCategoryChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        dctLeadsCategory: e,
+      });
+    }
+  };
+
   const onSubmit = (e) => {
     let callCategoryVal = null;
     let callComeFromVal = "Lead";
     if (from === "TestClient" || from === "RegularClient")
       callComeFromVal = "Client";
-
     if (callStatus.value === "FollowUp") {
       callCategoryVal = "F";
+    } else if (callStatus.value === "WrongNumber") {
+      callCategoryVal = "W";
+    } else if (callStatus.value === "CallBack") {
+      callCategoryVal = "P";
     } else if (callStatus.value === "TestClient") {
       callCategoryVal = "TC";
     } else if (callStatus.value === "RegularClient") {
@@ -284,6 +324,7 @@ const AllStatuschange = ({
         callFromName: user.userName,
         callCategory: callCategoryVal,
         callStatus: callStatus.value,
+        dctLeadsCategory: dctLeadsCategory ? dctLeadsCategory.value : "",
         callDate: startStatusDate || todayDateymd,
         callNote: callNote?.trim(),
         callComeFrom: callComeFromVal,
@@ -300,6 +341,7 @@ const AllStatuschange = ({
       setFormData({
         ...formData,
         callStatus: "",
+        dctLeadsCategory: "",
         callDate: "",
         callNote: "",
         isSubmitted: true,
@@ -316,7 +358,7 @@ const AllStatuschange = ({
     <Fragment>
       <form className="row" onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadstatus">
-          <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
+          <div className="col-lg-4 col-md-12 col-sm-12 col-12 headingTop">
             <label className="label-control" style={statusmodeIdErrorStyle}>
               Status :
             </label>
@@ -325,7 +367,7 @@ const AllStatuschange = ({
               options={StatusMethods}
               isSearchable={false}
               value={callStatus}
-              placeholder="Select Status"
+              placeholder="Select"
               onChange={(e) => onStatusTypeChange(e)}
               theme={(theme) => ({
                 ...theme,
@@ -340,7 +382,7 @@ const AllStatuschange = ({
             />
           </div>
 
-          <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
+          <div className="col-lg-4 col-md-12 col-sm-12 col-12 headingTop">
             <label className="label-control" style={stafftypeIdErrorStyle}>
               Staff :
             </label>
@@ -350,12 +392,12 @@ const AllStatuschange = ({
               options={allStaff}
               isSearchable={true}
               value={staffs}
-              placeholder="Select Staff"
+              placeholder="Select"
               onChange={(e) => onStaffChange(e)}
               required
             />
           </div>
-          <div className=" col-lg-4 col-md-12 col-sm-12 col-12 ">
+          <div className=" col-lg-4 col-md-12 col-sm-12 col-12 headingTop ">
             {showdateselectionSection && (
               <>
                 <label className="label-control">
@@ -378,39 +420,90 @@ const AllStatuschange = ({
               </>
             )}
           </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12 ">
-            <label className="label-control"> Notes :</label>
-            <textarea
-              name="callNote"
-              id="callNote"
-              className="textarea form-control"
-              rows="3"
-              placeholder="Notes"
-              style={{ width: "100%" }}
-              value={callNote}
-              onChange={(e) => onInputChange(e)}
-              required
-            ></textarea>
-          </div>
-
-          <div className="col-lg-4 col-md-12 col-sm-12 col-12 mt-5">
-            <br />
-            {loading ? (
-              <button
-                className="btn sub_form btn_continue blackbrd Save float-right"
-                disabled
-              >
-                Loading...
-              </button>
-            ) : (
-              <input
-                type="submit"
-                name="Submit"
-                value="Submit"
-                className="btn sub_form btn_continue blackbrd Save float-right"
+          {showLeadCategory && (
+            <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTop">
+              <label className="label-control">Category :</label>
+              <Select
+                name="dctLeadsCategory"
+                options={CategoryMethods}
+                isSearchable={true}
+                value={dctLeadsCategory}
+                placeholder="Select"
+                onChange={(e) => onLeadCategoryChange(e)}
               />
-            )}
-          </div>
+            </div>
+          )}
+          {showLeadCategory && showLeadCategory ? (
+            <div className="col-lg-5 col-md-12 col-sm-12 col-12 notesTop">
+              <label className="label-control"> Notes :</label>
+              <textarea
+                name="callNote"
+                id="callNote"
+                className="textarea "
+                rows="4"
+                cols="5"
+                placeholder="Notes"
+                style={{ width: "100%" }}
+                value={callNote}
+                onChange={(e) => onInputChange(e)}
+                required
+              ></textarea>
+            </div>
+          ) : (
+            <div className="col-lg-8 col-md-12 col-sm-12 col-12 notesTop">
+              <label className="label-control"> Notes :</label>
+              <textarea
+                name="callNote"
+                id="callNote"
+                className="textarea "
+                rows="3"
+                placeholder="Notes"
+                style={{ width: "100%" }}
+                value={callNote}
+                onChange={(e) => onInputChange(e)}
+                required
+              ></textarea>
+            </div>
+          )}
+          {showLeadCategory && showLeadCategory ? (
+            <div className="col-lg-3 col-md-12 col-sm-12 col-12 mt-5">
+              <br />
+              {loading ? (
+                <button
+                  className="btn sub_form btn_continue blackbrd Save float-right submitTop"
+                  disabled
+                >
+                  Loading...
+                </button>
+              ) : (
+                <input
+                  type="submit"
+                  name="Submit"
+                  value="Submit"
+                  className="btn sub_form btn_continue blackbrd Save float-right submitTop"
+                />
+              )}
+            </div>
+          ) : (
+            <div className="col-lg-4 col-md-12 col-sm-12 col-12 mt-5">
+              <br />
+              {loading ? (
+                <button
+                  className="btn sub_form btn_continue blackbrd Save float-right submitTop"
+                  disabled
+                >
+                  Loading...
+                </button>
+              ) : (
+                <input
+                  type="submit"
+                  name="Submit"
+                  value="Submit"
+                  className="btn sub_form btn_continue blackbrd Save float-right submitTop"
+                />
+              )}
+            </div>
+          )}
         </div>
       </form>
     </Fragment>

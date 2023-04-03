@@ -23,6 +23,8 @@ import {
   DCT_CALLS_CLIENT_COUNT,
   DCT_CALLS_COUNT,
   ALL_DCT_LEAD_ENTRY_TODAY,
+  GET_ALL_LEADS_ENTERED_BY,
+  GET_LEADS_ENTERED_BY,
 } from "../actions/types";
 
 const initialState = {
@@ -50,6 +52,8 @@ const initialState = {
   dctCallsClientCount: [],
   dctCallsCount: [],
   allDctLeadEnteredToday: [],
+  getAllLeadsEnterdBy: [],
+  allLeadsEnterdBy: [],
 };
 
 const dct = (state = initialState, action) => {
@@ -129,6 +133,17 @@ const dct = (state = initialState, action) => {
       return {
         ...state,
         getAllLeadsEmp: payload,
+      };
+    case GET_LEADS_ENTERED_BY:
+      return {
+        ...state,
+        allLeadsEnterdBy: payload,
+      };
+
+    case GET_ALL_LEADS_ENTERED_BY:
+      return {
+        ...state,
+        getAllLeadsEnterdBy: payload,
       };
     case ALL_DCT_CLIENTS_EMP:
       return {

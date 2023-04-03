@@ -56,12 +56,7 @@ const SctClientCallHistory = ({
                     <td>{sctCallDate}</td>
                     <td>{sctcallHistory.sctCallStatus}</td>
                     <td>{sctCallCategory}</td>
-                    <td>
-                      <Link to="#" title={sctcallHistory.sctCallNote}>
-                        {sctcallHistory.sctCallNote}
-                      </Link>
-                    </td>
-
+                    <td>{sctcallHistory.sctCallNote}</td>
                     <td>{sctcallHistory.sctCallFromName}</td>
                   </tr>
                 );

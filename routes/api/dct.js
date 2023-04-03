@@ -6,7 +6,7 @@ const DctLeads = require("../../models/dct/dctLeads");
 const DctCalls = require("../../models/dct/dctCalls");
 const DctClients = require("../../models/dct/dctClients");
 const EmployeeDetails = require("../../models/EmpDetails");
-
+const csvtojson = require("csvtojson");
 //ADD
 router.post("/add-dct-Leads", async (req, res) => {
   let data = req.body;
@@ -290,6 +290,7 @@ router.post("/update-dct-leads-status", async (req, res) => {
         $set: {
           dctLeadCategory: data.callCategory,
           dctLeadCategoryStatus: data.callStatus,
+          dctLeadsCategory: data.dctLeadsCategory,
           dctCallDate: data.callDate,
         },
       }
@@ -403,7 +404,14 @@ router.post("/deactivate-dct-client", async (req, res) => {
 //LEAD
 //FOLLOWUP,PROSPECTS
 router.post("/get-dct-Leads", auth, async (req, res) => {
-  let { countryId, clientsId, dctLeadCategory, assignedTo } = req.body;
+  let {
+    countryId,
+    clientsId,
+    dctLeadCategory,
+    assignedTo,
+    dctLeadsCategory,
+    enteredBy,
+  } = req.body;
 
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
@@ -422,6 +430,8 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
   let catCondition = [];
   if (dctLeadCategory == "P" || dctLeadCategory == "NL") {
     catCondition = [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }];
+  } else if (dctLeadCategory == "W") {
+    catCondition = [{ dctLeadCategory: "W" }, { dctLeadCategory: "W" }];
   } else if (dctLeadCategory == "F") {
     catCondition = [{ dctLeadCategory: "F" }, { dctLeadCategory: "F" }];
   }
@@ -463,7 +473,19 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
       };
     }
   }
+  if (dctLeadsCategory) {
+    query = {
+      ...query,
+      dctLeadsCategory: dctLeadsCategory,
+    };
+  }
 
+  if (enteredBy) {
+    query = {
+      ...query,
+      dctLeadEnteredByName: enteredBy,
+    };
+  }
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
       dctCallDate: -1,
@@ -480,7 +502,24 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
         },
       },
     ]).sort({ _id: 1 });
-    res.json({ result1: getDctLeadsDetails, result2: getDctLeadsEmp });
+    const getDctLeadsEmp1 = await DctLeads.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$dctLeadEnteredById",
+          dctLeadEnteredByName: { $first: "$dctLeadEnteredByName" },
+        },
+      },
+    ]).sort({ _id: 1 });
+    const resName = getDctLeadsEmp1.map((e) => e.dctLeadEnteredByName);
+    const resFinal = resName.filter((item, i, ar) => ar.indexOf(item) === i);
+    res.json({
+      result1: getDctLeadsDetails,
+      result2: getDctLeadsEmp,
+      result3: resFinal,
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -488,7 +527,7 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
 });
 //ALL LEADS
 router.post("/get-all-dct-Leads", auth, async (req, res) => {
-  let { countryId, clientsId, assignedTo } = req.body;
+  let { countryId, clientsId, assignedTo, enteredBy } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -502,7 +541,6 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
       dctLeadAssignedToId = { $ne: null };
     }
   }
-
   let query = {};
   if (countryId) {
     if (clientsId) {
@@ -550,6 +588,12 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
     }
   }
 
+  if (enteredBy) {
+    query = {
+      ...query,
+      dctLeadEnteredByName: enteredBy,
+    };
+  }
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
       _id: -1,
@@ -565,7 +609,24 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
         },
       },
     ]).sort({ _id: 1 });
-    res.json({ result1: getDctLeadsDetails, result2: getDctLeadsEmp });
+    const getDctLeadsEmp1 = await DctLeads.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$dctLeadEnteredById",
+          dctLeadEnteredByName: { $first: "$dctLeadEnteredByName" },
+        },
+      },
+    ]).sort({ _id: 1 });
+    const resName = getDctLeadsEmp1.map((e) => e.dctLeadEnteredByName);
+    const resFinal = resName.filter((item, i, ar) => ar.indexOf(item) === i);
+    res.json({
+      result1: getDctLeadsDetails,
+      result2: getDctLeadsEmp,
+      result3: resFinal,
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -1104,6 +1165,24 @@ router.post("/get-all-today-dct-lead-entered", auth, async (req, res) => {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
   }
+});
+
+router.post("/add-import-dct-lead-data", async (req, res) => {
+  let filePath = "C:/PMSExcelImport/";
+  let data = req.body;
+  let pathName = filePath + data.filePathName;
+  csvtojson()
+    .fromFile(pathName)
+    .then((csvData) => {
+      DctLeads.insertMany(csvData)
+        .then(function () {
+          console.log("Data inserted");
+          res.json({ success: "success" });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
 });
 
 module.exports = router;

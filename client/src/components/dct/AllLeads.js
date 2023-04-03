@@ -10,6 +10,7 @@ import {
   getAllDctLead,
   getAllDctLeadDD,
   getLastmessage,
+  addImportDctLeadData,
 } from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
@@ -20,23 +21,23 @@ import { getActiveCountry } from "../../actions/regions";
 
 const AllLeads = ({
   auth: { isAuthenticated, user, users },
-  dct: { getAllLeads, getAllLeadsDD, getAllLeadsEmp },
+  dct: { getAllLeads, getAllLeadsDD, getAllLeadsEmp, getAllLeadsEnterdBy },
   regions: { activeCountry },
   getAllDctLead,
+  addImportDctLeadData,
   getActiveCountry,
   getAllDctLeadDD,
   getLastmessage,
 }) => {
   useEffect(() => {
     getAllDctLead();
-  }, []);
+  }, [getAllDctLead]);
   useEffect(() => {
     getAllDctLeadDD();
-  }, []);
+  }, [getAllDctLeadDD]);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
-  }, []);
-
+  }, [getActiveCountry]);
   const [showHide1, setShowHide1] = useState({
     showUSSection: false,
     showAUDSection: false,
@@ -117,6 +118,7 @@ const AllLeads = ({
   const [countryId, getcountryIdData] = useState(null);
 
   const oncountryChange = (e) => {
+    getEnterByData("");
     if (e.value === "US") {
       setShowHide1({
         ...showHide1,
@@ -165,6 +167,7 @@ const AllLeads = ({
   );
   const [clients, getclientsData] = useState();
   const onclientsChange = (e) => {
+    getEnterByData("");
     getclientsData(e);
     getAllDctLead({
       countryId: countryId,
@@ -188,6 +191,7 @@ const AllLeads = ({
   const [emp, getempData] = useState();
   const [empId, setempID] = useState();
   const onempChange = (e) => {
+    getEnterByData("");
     getempData(e);
     setempID(e.empId);
     getAllDctLead({
@@ -208,16 +212,72 @@ const AllLeads = ({
     });
   };
 
+  const allEnteredBy = [{ label: "All", value: null }];
+  getAllLeadsEnterdBy.map((enterdBy) =>
+    allEnteredBy.push({
+      label: enterdBy,
+      value: enterdBy,
+    })
+  );
+  // console.log(allEnteredBy);
+  const [enterBy, getEnterByData] = useState();
+  const onEnteredByChange = (e) => {
+    getEnterByData(e);
+    getAllDctLead({
+      countryId: countryId,
+      clientsId: clients ? clients.clientsId : null,
+      assignedTo: empId,
+      enteredBy: e.value,
+    });
+    setFilterData({
+      countryId: countryId,
+      clientsId: clients ? clients.clientsId : null,
+      assignedTo: empId,
+      enteredBy: e.value,
+    });
+  };
+
   const onClickReset = () => {
     getcountryData("");
     getcountryIdData("");
     getclientsData("");
+    getEnterByData("");
     getempData("");
     getAllDctLead();
     getAllDctLeadDD();
     setFilterData();
+    setShowHide1(false);
     ondivcloseChange(true);
     setcolorData("");
+  };
+
+  const [showPathSettingModal, setShowPathModal] = useState(false);
+  const handleShowPathModalClose = () => setShowPathModal(false);
+  const onClickImport = () => {
+    setShowPathModal(true);
+  };
+
+  const [formData, setFormData] = useState({
+    batchCsvPath: "",
+    isSubmitted: false,
+  });
+
+  const { batchCsvPath } = formData;
+
+  const handleFile = (e) => {
+    setFormData({
+      ...formData,
+      batchCsvPath: e.target.files[0].name,
+    });
+  };
+
+  const onFileUpload = (e) => {
+    e.preventDefault();
+    const finalData = {
+      filePathName: batchCsvPath,
+    };
+    addImportDctLeadData(finalData);
+    handleShowPathModalClose();
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -286,8 +346,8 @@ const AllLeads = ({
                 </h6>
               )}
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Leads</h5>
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
+              <h4 className="heading_color">All Leads</h4>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -328,15 +388,41 @@ const AllLeads = ({
                 <></>
               )}
             </div>
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+              {(user.userGroupName && user.userGroupName === "Administrator") ||
+              user.userGroupName === "Super Admin" ||
+              user.empCtAccess === "All" ? (
+                <>
+                  <Select
+                    name="enteredByFullName"
+                    options={allEnteredBy}
+                    isSearchable={true}
+                    value={enterBy}
+                    placeholder="Select EnteredBy"
+                    onChange={(e) => onEnteredByChange(e)}
+                  />
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2">
+              {user.userGroupName && user.userGroupName === "Super Admin" && (
+                <button
+                  className="btn btn_green_bg "
+                  onClick={() => onClickImport()}
+                >
+                  Import
+                </button>
+              )}
               <button
-                className="btn btn_green_bg float-right"
+                className="btn btn_green_bg "
                 onClick={() => onClickReset()}
               >
                 Refresh
               </button>
-              <Link className="btn btn_green_bg float-right" to="/add-lead">
+              <Link className="btn btn_green_bg " to="/add-lead">
                 Add Lead
               </Link>
             </div>
@@ -353,11 +439,11 @@ const AllLeads = ({
                       <tr>
                         <th style={{ width: "3%" }}>Sl.No</th>
                         <th style={{ width: "15%" }}>Company </th>
-                        <th style={{ width: "15%" }}>Website </th>
-                        <th style={{ width: "13%" }}>Email</th>
+                        <th style={{ width: "14%" }}>Website </th>
+                        <th style={{ width: "11%" }}>Email</th>
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
-                        <th style={{ width: "8%" }}>Call Date</th>
+                        <th style={{ width: "10%" }}>Call Date</th>
                         <th style={{ width: "5%" }}>Op</th>
                       </tr>
                     </thead>
@@ -444,10 +530,10 @@ const AllLeads = ({
                   {/* )} */}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "30vh" }}
+                  style={{ height: "33vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
@@ -460,10 +546,10 @@ const AllLeads = ({
                   )}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "23vh" }}
+                  style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
                     Last Message Details
@@ -541,6 +627,48 @@ const AllLeads = ({
           />
         </Modal.Body>
       </Modal>
+      <Modal
+        show={showPathSettingModal}
+        backdrop="static"
+        keyboard={false}
+        size="m"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Import DCT Leads</h3>
+          </div>
+          <div className="col-lg-2">
+            <button onClick={handleShowPathModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <form className="row" onSubmit={(e) => onFileUpload(e)}>
+          <Modal.Body>
+            <input
+              type="file"
+              accept=".csv"
+              id="photo"
+              className="visually-hidden"
+              onChange={handleFile}
+              required
+            />
+
+            <input
+              type="submit"
+              name="Submit"
+              value="Submit"
+              className="btn sub_form btn_continue blackbrd Save float-right"
+            />
+          </Modal.Body>
+        </form>
+      </Modal>
     </Fragment>
   );
 };
@@ -562,4 +690,5 @@ export default connect(mapStateToProps, {
   getAllDctLeadDD,
   getActiveCountry,
   getLastmessage,
+  addImportDctLeadData,
 })(AllLeads);

@@ -243,7 +243,9 @@ const EditSctLead = ({
   const [stateId, setStateID] = useState(
     alleditLeaddata && alleditLeaddata.stateId
   );
-  const [stateName, setStateName] = useState("");
+  const [stateName, setStateName] = useState(
+    alleditLeaddata && alleditLeaddata.stateName
+  );
 
   const onStateChange = (e) => {
     // getdistrictData("");

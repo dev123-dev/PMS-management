@@ -57,6 +57,8 @@ import AllDctClients from "../dct/AllDctClients";
 import AddDctClients from "../dct/AddDctClients";
 import AllLeads from "../dct/AllLeads";
 import AllProspects from "../dct/AllProspects";
+import AllDctPotentials from "../dct/AllDctPotentials";
+import AllDctWrongNumbers from "../dct/AllDctWrongNumbers";
 import Allfollowup from "../dct/Allfollowup";
 import TestClientFollowup from "../dct/TestClientFollowup";
 import RegularClientFollowup from "../dct/RegularClientFollowup";
@@ -77,6 +79,8 @@ import AllArea from "../region/AllArea";
 import AllSctLeads from "../sct/AllSctLeads";
 import AddSctLeads from "../sct/AddSctLeads";
 import AllSctProspects from "../sct/AllSctProspects";
+import AllSctPotentials from "../sct/AllSctPotentials";
+import AllSctWrongNumbers from "../sct/AllSctWrongNumbers";
 import AllSctFollowup from "../sct/AllSctFollowup";
 import AllSctProjects from "../sct/AllSctProjects";
 import AllDemos from "../sct/AllDemos";
@@ -108,6 +112,16 @@ const RoutesFile = () => {
         <PrivateRoute exact path="/chat" component={Chat} />
         <PrivateRoute exact path="/job-queue" component={JobQueue} />
         <PrivateRoute exact path="/all-prospects" component={AllProspects} />
+        <PrivateRoute
+          exact
+          path="/all-dct-wrong-numbers"
+          component={AllDctWrongNumbers}
+        />
+        <PrivateRoute
+          exact
+          path="/all-dct-potentials"
+          component={AllDctPotentials}
+        />
         <PrivateRoute exact path="/all-followup" component={Allfollowup} />
         <PrivateRoute
           exact
@@ -173,6 +187,16 @@ const RoutesFile = () => {
           exact
           path="/all-sct-prospects"
           component={AllSctProspects}
+        />
+        <PrivateRoute
+          exact
+          path="/all-sct-potentals"
+          component={AllSctPotentials}
+        />
+        <PrivateRoute
+          exact
+          path="/all-wrong-numbers"
+          component={AllSctWrongNumbers}
         />
         <PrivateRoute
           exact

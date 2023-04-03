@@ -144,7 +144,10 @@ const ProjectSummary = ({
       e.label === "Uploading" ||
       e.label === "Uploaded" ||
       e.label === "QC DONE" ||
-      e.label === "Amend_Uploaded"
+      e.label === "Amend_Uploading" ||
+      e.label === "Amend_Uploaded" ||
+      e.label === "AI_Uploading" ||
+      e.label === "AI_Uploaded"
     ) {
       setStatusValue(e);
       let finalData = {

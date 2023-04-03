@@ -150,7 +150,7 @@ const SctDailyReport = ({
             </div>
             {showdateSection && (
               <>
-                <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
                   <input
                     type="date"
                     placeholder="dd/mm/yyyy"
@@ -167,7 +167,7 @@ const SctDailyReport = ({
                     required
                   />
                 </div>
-                <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
                   <input
                     type="date"
                     placeholder="dd/mm/yyyy"

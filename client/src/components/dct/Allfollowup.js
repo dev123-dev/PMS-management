@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Clock from "react-live-clock";
 import {
   getDctLeadDetails,
@@ -20,7 +20,7 @@ import { getActiveCountry } from "../../actions/regions";
 
 const Allfollowup = ({
   auth: { isAuthenticated, user, users },
-  dct: { allLeads, allLeadsDD, allLeadsEmp },
+  dct: { allLeads, allLeadsDD, allLeadsEmp, allLeadsEnterdBy },
   regions: { activeCountry },
   getDctLeadDetails,
   getActiveCountry,
@@ -29,13 +29,13 @@ const Allfollowup = ({
 }) => {
   useEffect(() => {
     getDctLeadDetails({ dctLeadCategory: "F" });
-  }, []);
+  }, [getDctLeadDetails]);
   useEffect(() => {
     getDctLeadDetailsDD({ dctLeadCategory: "F" });
-  }, []);
+  }, [getDctLeadDetailsDD]);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
-  }, []);
+  }, [getActiveCountry]);
 
   const [showHide1, setShowHide1] = useState({
     showUSSection: false,
@@ -141,6 +141,7 @@ const Allfollowup = ({
     getcountryData(e);
     getclientsData("");
     getempData("");
+    getEnterByData("");
     getcountryIdData(e.countryId);
     getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "F" });
     getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "F" });
@@ -207,12 +208,40 @@ const Allfollowup = ({
       dctLeadCategory: "F",
     });
   };
+  const allEnteredBy = [{ label: "All", value: null }];
+  allLeadsEnterdBy.map((enterdBy) =>
+    allEnteredBy.push({
+      label: enterdBy,
+      value: enterdBy,
+    })
+  );
+  // console.log(allEnteredBy);
+  const [enterBy, getEnterByData] = useState();
+  const onEnteredByChange = (e) => {
+    getEnterByData(e);
+    getDctLeadDetails({
+      countryId: countryId,
+      clientsId: clients ? clients.clientsId : null,
+      assignedTo: empId,
+      dctLeadCategory: "F",
+      enteredBy: e.value,
+    });
+    setFilterData({
+      countryId: countryId,
+      clientsId: clients ? clients.clientsId : null,
+      assignedTo: empId,
+      enteredBy: e.value,
+      dctLeadCategory: "F",
+    });
+  };
 
   const onClickReset = () => {
     getcountryData("");
     getcountryIdData("");
     getclientsData("");
     getempData("");
+    getEnterByData("");
+    setShowHide1(false);
     getDctLeadDetails({ dctLeadCategory: "F" });
     getDctLeadDetailsDD({ dctLeadCategory: "F" });
     setFilterData({ dctLeadCategory: "F" });
@@ -285,7 +314,7 @@ const Allfollowup = ({
                 </h6>
               )}
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All FollowUp</h5>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -329,8 +358,26 @@ const Allfollowup = ({
                 <></>
               )}
             </div>
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+              {(user.userGroupName && user.userGroupName === "Administrator") ||
+              user.userGroupName === "Super Admin" ||
+              user.empCtAccess === "All" ? (
+                <>
+                  <Select
+                    name="enteredByFullName"
+                    options={allEnteredBy}
+                    isSearchable={true}
+                    value={enterBy}
+                    placeholder="Select EnteredBy"
+                    onChange={(e) => onEnteredByChange(e)}
+                  />
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-3">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -452,10 +499,10 @@ const Allfollowup = ({
                   {/* )} */}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding ">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "30vh" }}
+                  style={{ height: "33vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
@@ -468,10 +515,10 @@ const Allfollowup = ({
                   )}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "23vh" }}
+                  style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
                     Last Message Details

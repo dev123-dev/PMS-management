@@ -32,7 +32,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.159:8000");
+const client = new w3cwebsocket("ws://192.168.6.38:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -81,7 +81,7 @@ const JobQueue = ({
 
   console.log("jobQueueProjects", jobQueueProjects);
   const [filterData, setFilterData] = useState("");
-  getJobQueueProjectDeatils(filterData);
+  // getJobQueueProjectDeatils(filterData);
 
   // const [sliderValue, setSliderValue] = useState([]);
   const StatusCategory = [
@@ -213,7 +213,10 @@ const JobQueue = ({
       e.label === "Uploading" ||
       e.label === "Uploaded" ||
       e.label === "QC DONE" ||
-      e.label === "Amend_Uploaded"
+      e.label === "Amend_Uploading" ||
+      e.label === "Amend_Uploaded" ||
+      e.label === "AI_Uploading" ||
+      e.label === "AI_Uploaded"
     ) {
       setStatusValue(e);
       let finalData = {
@@ -224,7 +227,6 @@ const JobQueue = ({
         projectTrackDateTime: new Date().toLocaleString("en-GB"),
         projectStatusChangedById: user._id,
       };
-
       AddProjectTrack(finalData);
       client.send(
         JSON.stringify({
@@ -299,6 +301,7 @@ const JobQueue = ({
       setStatusChange(newStatusData);
       setShowProjectCycleModal(true);
     }
+    getAllFolder();
   };
 
   let projectQty = 0,
@@ -537,9 +540,17 @@ const JobQueue = ({
             </div>
 
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
-              <CSVLink data={csvData} filename={fileName}>
-                <button className="btn btn_green_bg float-right">Export</button>
-              </CSVLink>
+              {(user.userGroupName && user.userGroupName === "Administrator") ||
+              user.userGroupName === "Super Admin" ||
+              user.userGroupName === "Clarical Admins" ? (
+                <CSVLink data={csvData} filename={fileName}>
+                  <button className="btn btn_green_bg float-right">
+                    Export
+                  </button>
+                </CSVLink>
+              ) : (
+                <></>
+              )}
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}

@@ -18,7 +18,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   //client in websocket
   //SLAP IP
 
-  const client = new w3cwebsocket("ws://192.168.6.159:8000");
+  const client = new w3cwebsocket("ws://192.168.6.38:8000");
   const LogoutModalClose = () => {
     handleLogoutModalClose();
     logout();
@@ -108,7 +108,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   user &&
                   ((user.userGroupName &&
                     user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
+                    user.userGroupName === "Super Admin" ||
+                    user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/all-Amendments"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -160,7 +161,8 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   user.userGroupName === "Administrator") ||
                   user.userGroupName === "Super Admin" ||
                   user.userGroupName === "Dct Marketing" ||
-                  user.userGroupName === "Marketing") ? (
+                  user.userGroupName === "Marketing" ||
+                  user.empCtAccess === "All") ? (
                   <Dropdown title="DCT">
                     <NavLink
                       to="/all-leads"
@@ -173,6 +175,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       <Dropdown.Item>All Prospects</Dropdown.Item>
+                    </NavLink>
+                    <NavLink
+                      to="/all-dct-potentials"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>All Potentials</Dropdown.Item>
                     </NavLink>
                     <NavLink
                       to="/all-followup"
@@ -191,6 +199,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       <Dropdown.Item>Regular Client Followup</Dropdown.Item>
+                    </NavLink>
+                    <NavLink
+                      to="/all-dct-wrong-numbers"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>All Wrong Numbers</Dropdown.Item>
                     </NavLink>
                     <NavLink
                       to="/dct-calls"
@@ -237,6 +251,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       <Dropdown.Item>All Prospects</Dropdown.Item>
                     </NavLink>
                     <NavLink
+                      to="/all-sct-potentals"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>All Potentials</Dropdown.Item>
+                    </NavLink>
+                    <NavLink
                       to="/all-sct-followup"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
@@ -261,18 +281,29 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       <Dropdown.Item>All Demo</Dropdown.Item>
                     </NavLink>
                     <NavLink
+                      to="/all-wrong-numbers"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>All Wrong Numbers</Dropdown.Item>
+                    </NavLink>
+                    <NavLink
                       to="/sct-calls"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       <Dropdown.Item>Sct Calls History</Dropdown.Item>
                     </NavLink>
 
-                    <NavLink
-                      to="/transfer-sct-leads"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      <Dropdown.Item>Transfer Sct Leads</Dropdown.Item>
-                    </NavLink>
+                    {user && user.empCtAccess === "All" && (
+                      <NavLink
+                        to="/transfer-sct-leads"
+                        activeStyle={{
+                          color: "#ffd037",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <Dropdown.Item>Transfer Sct Leads</Dropdown.Item>
+                      </NavLink>
+                    )}
                     <NavLink
                       to="/sct-daily-report"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}

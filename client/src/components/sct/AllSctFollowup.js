@@ -346,14 +346,15 @@ const AllSctFollowup = ({
                     <thead>
                       <tr>
                         <th style={{ width: "3%" }}>Sl.No</th>
-                        <th style={{ width: "15%" }}>Company </th>
-                        <th style={{ width: "10%" }}>Website </th>
-                        <th style={{ width: "10%" }}>Email</th>
+                        <th style={{ width: "10%" }}>Company </th>
+                        {/* <th style={{ width: "10%" }}>Website </th>
+                        <th style={{ width: "10%" }}>Email</th> */}
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "8%" }}>State</th>
                         <th style={{ width: "8%" }}>Contact</th>
+                        <th style={{ width: "8%" }}>Contact 2</th>
                         <th style={{ width: "8%" }}>Call Date</th>
-                        <th style={{ width: "8%" }}>Call Date</th>
+                        <th style={{ width: "8%" }}>Call Time</th>
                         <th style={{ width: "5%" }}>Op</th>
                       </tr>
                     </thead>
@@ -375,7 +376,7 @@ const AllSctFollowup = ({
                             >
                               <td>{idx + 1}</td>
                               <td>{allSctLeads.sctCompanyName}</td>
-                              <td>
+                              {/* <td>
                                 {" "}
                                 <a
                                   href={allSctLeads.sctWebsite}
@@ -385,7 +386,7 @@ const AllSctFollowup = ({
                                   {allSctLeads.sctWebsite}
                                 </a>
                               </td>
-                              <td>{allSctLeads.sctEmailId}</td>
+                              <td>{allSctLeads.sctEmailId}</td> */}
                               <td>{allSctLeads.countryName}</td>
                               <td>{allSctLeads.stateName}</td>
                               <td>
@@ -394,6 +395,14 @@ const AllSctFollowup = ({
                                   : ""}
                                 &nbsp;
                                 {allSctLeads.sctPhone1}
+                              </td>
+                              <td>
+                                {allSctLeads.sctPhone2 &&
+                                allSctLeads.sctcountryCode
+                                  ? "+" + allSctLeads.sctcountryCode
+                                  : ""}
+                                &nbsp;
+                                {allSctLeads.sctPhone2}
                               </td>
                               <td>{sctCallDate}</td>
                               <td>{allSctLeads.sctCallTime}</td>
@@ -442,10 +451,10 @@ const AllSctFollowup = ({
                   />
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "33vh" }}
+                  style={{ height: "37vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
@@ -459,10 +468,10 @@ const AllSctFollowup = ({
                   )}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "23vh" }}
+                  style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
                     Last Message Details

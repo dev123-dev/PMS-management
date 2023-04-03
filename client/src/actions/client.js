@@ -14,6 +14,7 @@ import {
   ACTIVE_REPORT_CLIENTS,
   ALL_DCT_CLIENTS,
   CLIENT_FILTER,
+  ALL_BILLING_CLIENT,
 } from "./types";
 
 const config = {
@@ -235,6 +236,20 @@ export const getVerificationFolder = (selDateData) => async (dispatch) => {
     );
     dispatch({
       type: ALL_VERF_FOLDER,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getBillingClient = (selDateData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/client/get-billing-client", selDateData);
+    dispatch({
+      type: ALL_BILLING_CLIENT,
       payload: res.data,
     });
   } catch (err) {

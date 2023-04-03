@@ -424,7 +424,7 @@ export const restoreProjectData = (finalData) => async (dispatch) => {
 export const getALLCompanyDetails = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/settings/get-all-company-details");
-    // localStorage.setItem("allDesignationData", JSON.stringify(res.data));
+    localStorage.setItem("allCompanyData", JSON.stringify(res.data));
     dispatch({
       type: ALL_COMPANY_DETAILS,
       payload: res.data,

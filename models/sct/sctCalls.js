@@ -29,6 +29,9 @@ const SctCallsSchema = new mongoose.Schema({
   sctCallStatus: {
     type: String,
   },
+  sctLeadsCategory: {
+    type: String, //Hot,Cool,Normal
+  },
   sctCallDate: {
     type: String,
   },

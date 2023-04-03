@@ -18,7 +18,7 @@ import AllSctStatusChange from "./AllSctStatusChange";
 
 import { getActiveCountry, getActiveState } from "../../actions/regions";
 
-const AllSctProspects = ({
+const AllSctPotentials = ({
   auth: { isAuthenticated, user, users, loading },
   sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp, projectList },
   regions: { activeCountry, activeState },
@@ -45,6 +45,12 @@ const AllSctProspects = ({
   useEffect(() => {
     getProjectList({ countryBelongsTo: "SCT" });
   }, []);
+
+  let CategoryMethods = [
+    { value: "Hot", label: "Hot" },
+    { value: "Normal", label: "Normal" },
+    { value: "Cool", label: "Cool" },
+  ];
   const [filterData, setFilterData] = useState({ sctLeadCategory: "P" });
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -142,6 +148,7 @@ const AllSctProspects = ({
   const [projects, getprojectsData] = useState();
   const [projectsId, setprojectsID] = useState();
   const onprojectsChange = (e) => {
+    getLeadCategoryData("");
     getprojectsData(e);
     getclientsData("");
     getempData("");
@@ -168,6 +175,7 @@ const AllSctProspects = ({
   const [stateId, setStateID] = useState("");
 
   const onStateChange = (e) => {
+    getLeadCategoryData("");
     getStateData(e);
     getclientsData("");
     getempData("");
@@ -181,19 +189,38 @@ const AllSctProspects = ({
     getSctLeadDetailsDD(searchData);
     setFilterData(searchData);
   };
-  const allclient = [];
-  allSctLeadsDD.map((clients) =>
-    allclient.push({
-      clientsId: clients._id,
-      label: clients.sctCompanyName,
-      value: clients.sctCompanyName,
-    })
-  );
+  //   const allclient = [];
+  //   //   console.log(allSctLeadsDD);
+  //   allSctLeadsDD.map((clients) =>
+  //     allclient.push({
+  //       clientsId: clients._id,
+  //       label: clients.sctCompanyName,
+  //       value: clients.sctCompanyName,
+  //     })
+  //   );
+  const [leadCategory, getLeadCategoryData] = useState();
+  //   const [clientsId, getclientsIdData] = useState();
+  const onLeadCategoryChange = (e) => {
+    getcountryData("");
+    getcountryIdData("");
+    getclientsData("");
+    getempData("");
+    getLeadCategoryData(e);
+    if (e) {
+      let searchData = {
+        projectsId: projectsId,
+        sctLeadsCategory: e.value,
+        sctLeadCategory: "P",
+      };
+      getSctLeadDetails(searchData);
+      setFilterData(searchData);
+    }
+  };
   const [clients, getclientsData] = useState();
   const [clientsId, getclientsIdData] = useState();
   const onclientsChange = (e) => {
-    getclientsData(e);
-    getclientsIdData(e.clientsId);
+    // getclientsData(e);
+    // getclientsIdData(e.clientsId);
     let searchData = {
       projectsId: projectsId,
       stateId: stateId,
@@ -241,6 +268,7 @@ const AllSctProspects = ({
     ondivcloseChange(true);
     setcolorData("");
     getprojectsData("");
+    getLeadCategoryData("");
     getStateData("");
   };
 
@@ -252,18 +280,8 @@ const AllSctProspects = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Sct Prospects</h5>
+              <h5 className="heading_color">All Sct Potentials</h5>
             </div>
-            {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
-                name="countryName"
-                options={allcountry}
-                isSearchable={true}
-                value={country}
-                placeholder="Select Region"
-                onChange={(e) => oncountryChange(e)}
-              />
-            </div> */}
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="sctProjectName"
@@ -284,7 +302,7 @@ const AllSctProspects = ({
                 })}
               />
             </div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+            {/* <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="stateName"
                 options={allstates}
@@ -293,15 +311,15 @@ const AllSctProspects = ({
                 placeholder="Select State"
                 onChange={(e) => onStateChange(e)}
               />
-            </div>
+            </div> */}
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
-                name="companyName"
-                options={allclient}
+                name="sctLeadsCategory"
+                options={CategoryMethods}
                 isSearchable={true}
-                value={clients}
-                placeholder="Select Lead"
-                onChange={(e) => onclientsChange(e)}
+                value={leadCategory}
+                placeholder="Select Leads Category"
+                onChange={(e) => onLeadCategoryChange(e)}
               />
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -323,7 +341,7 @@ const AllSctProspects = ({
               )}
             </div>
 
-            <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-2">
+            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -374,6 +392,7 @@ const AllSctProspects = ({
                               onClick={() => onClickHandler(allSctLeads, idx)}
                             >
                               {/* <td>{idx + 1}</td> */}
+                              {/* <td>{allSctLeads.countryName}</td> */}
                               {/* <td>
                                 {" "}
                                 <a
@@ -385,9 +404,9 @@ const AllSctProspects = ({
                                 </a>
                               </td>
                               <td>{allSctLeads.sctEmailId}</td> */}
-                              {/* <td>{allSctLeads.countryName}</td> */}
                               {/* <td>{allSctLeads.sctCallTime}</td> */}
                               <td>{allSctLeads.sctCompanyName}</td>
+
                               <td>{allSctLeads.stateName}</td>
                               <td>
                                 {allSctLeads.sctcountryCode
@@ -559,7 +578,7 @@ const AllSctProspects = ({
   );
 };
 
-AllSctProspects.propTypes = {
+AllSctPotentials.propTypes = {
   auth: PropTypes.object.isRequired,
   sct: PropTypes.object.isRequired,
   regions: PropTypes.object.isRequired,
@@ -578,4 +597,4 @@ export default connect(mapStateToProps, {
   getSctLastmessage,
   getActiveState,
   getProjectList,
-})(AllSctProspects);
+})(AllSctPotentials);

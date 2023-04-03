@@ -197,7 +197,7 @@ export const editSctLeadDetails = (finalData) => async (dispatch) => {
     });
     await axios.post("/api/sct/edit-sct-Leads", finalData, config);
     dispatch(refreshLead(finalData));
-    dispatch(getAllSctLead());
+    dispatch(getAllSctLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -583,6 +583,23 @@ export const addDemo = (demoData) => async (dispatch) => {
   }
 };
 
+export const updateDemo = (demoData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/sct/update-demo", demoData, config);
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+    dispatch(getALLDemos());
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 export const editSctProject = (finalData) => async (dispatch) => {
   try {
     dispatch({
@@ -925,7 +942,7 @@ export const getSelectedClient = (finalData) => async (dispatch) => {
       type: GET_SELECTED_CLIENT,
       payload: res.data,
     });
-    // localStorage.setItem("sctClientData", JSON.stringify(res.data));
+    localStorage.setItem("sctSelClient", JSON.stringify(res.data));
   } catch (err) {
     dispatch({
       type: ERROR,
@@ -958,13 +975,13 @@ export const uploadAgreement = (finalData) => async (dispatch) => {
 export const getSctStaffsData = (finalData) => async (dispatch) => {
   try {
     let res = [];
-    if (finalData.staffFrom == "lead") {
+    if (finalData.staffFrom === "lead") {
       res = await axios.post(
         "/api/sct/get-lead-staffs-data",
         finalData,
         config
       );
-    } else if (finalData.staffFrom == "client") {
+    } else if (finalData.staffFrom === "client") {
       res = await axios.post(
         "/api/sct/get-client-staffs-data",
         finalData,

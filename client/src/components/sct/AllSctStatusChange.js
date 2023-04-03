@@ -44,6 +44,7 @@ const AllSctStatusChange = ({
     { value: "CallBack", label: "Call Back" },
     { value: "DND", label: "DND" },
     { value: "NI", label: "NI" },
+    { value: "WrongNumber", label: "WrongNumber" },
     { value: "FollowUp", label: "Follow Up" },
     { value: "Demo", label: "Demo" },
     { value: "AdditionalDemo", label: "Additional Demo" },
@@ -90,9 +91,18 @@ const AllSctStatusChange = ({
   }
   //STATUS END
 
+  //Category
+
+  let CategoryMethods = [
+    { value: "Hot", label: "Hot" },
+    { value: "Normal", label: "Normal" },
+    { value: "Cool", label: "Cool" },
+  ];
+
   //formData
   const [formData, setFormData] = useState({
     sctCallStatus: "",
+    sctLeadsCategory: "",
     labeldata: "",
     sctCallNote: "",
     toTime: "",
@@ -104,6 +114,7 @@ const AllSctStatusChange = ({
   const {
     sctCallNote,
     sctCallStatus,
+    sctLeadsCategory,
     toTime,
     fromTime,
     sctCallTime,
@@ -216,9 +227,14 @@ const AllSctStatusChange = ({
   const [showHide, setShowHide] = useState({
     showdateselectionSection: true,
     showdemoselectionSection: false,
+    showLeadCategory: false,
   });
 
-  const { showdateselectionSection, showdemoselectionSection } = showHide;
+  const {
+    showdateselectionSection,
+    showdemoselectionSection,
+    showLeadCategory,
+  } = showHide;
 
   const onStatusTypeChange = (e) => {
     setError({
@@ -242,6 +258,7 @@ const AllSctStatusChange = ({
         ...showHide,
         showdateselectionSection: true,
         showdemoselectionSection: false,
+        showLeadCategory: false,
       });
     } else if (e.value === "NI") {
       setFormData({
@@ -253,6 +270,7 @@ const AllSctStatusChange = ({
         ...showHide,
         showdateselectionSection: true,
         showdemoselectionSection: false,
+        showLeadCategory: false,
       });
     } else if (e.value === "CallBack") {
       setFormData({
@@ -264,6 +282,19 @@ const AllSctStatusChange = ({
         ...showHide,
         showdateselectionSection: true,
         showdemoselectionSection: false,
+        showLeadCategory: true,
+      });
+    } else if (e.value === "WrongNumber") {
+      setFormData({
+        ...formData,
+        sctCallStatus: e,
+      });
+      setStatusDate("");
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: true,
+        showdemoselectionSection: false,
+        showLeadCategory: false,
       });
     } else if (e.value === "VoiceMail") {
       setFormData({
@@ -275,6 +306,7 @@ const AllSctStatusChange = ({
         ...showHide,
         showdateselectionSection: true,
         showdemoselectionSection: false,
+        showLeadCategory: false,
       });
     } else if (e.value === "FollowUp") {
       setFormData({
@@ -286,6 +318,7 @@ const AllSctStatusChange = ({
         ...showHide,
         showdateselectionSection: true,
         showdemoselectionSection: false,
+        showLeadCategory: false,
       });
     } else if (e.value === "RegularClient" || e.value === "EngagedClient") {
       setFormData({
@@ -297,6 +330,7 @@ const AllSctStatusChange = ({
         ...showHide,
         showdateselectionSection: false,
         showdemoselectionSection: false,
+        showLeadCategory: false,
       });
     } else {
       setFormData({
@@ -308,6 +342,16 @@ const AllSctStatusChange = ({
         ...showHide,
         showdemoselectionSection: true,
         showdateselectionSection: false,
+        showLeadCategory: false,
+      });
+    }
+  };
+
+  const onLeadCategoryChange = (e) => {
+    if (e) {
+      setFormData({
+        ...formData,
+        sctLeadsCategory: e,
       });
     }
   };
@@ -329,6 +373,10 @@ const AllSctStatusChange = ({
 
     if (sctCallStatus.value === "FollowUp") {
       callCategoryVal = "F";
+    } else if (sctCallStatus.value === "CallBack") {
+      callCategoryVal = "P";
+    } else if (sctCallStatus.value === "WrongNumber") {
+      callCategoryVal = "W";
     } else if (sctCallStatus.value === "EngagedClient") {
       callCategoryVal = "EC";
       clientTypeVal = "Engaged";
@@ -354,6 +402,7 @@ const AllSctStatusChange = ({
         sctCallFromName: user.userName,
         sctCallCategory: callCategoryVal,
         sctCallStatus: sctCallStatus.value,
+        sctLeadsCategory: sctLeadsCategory ? sctLeadsCategory.value : "",
         sctcallToNumber: staffsNumber ? staffsNumber : phone1,
         // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
         sctCallDate: startStatusDate || demoDate || todayDateymd,
@@ -366,7 +415,6 @@ const AllSctStatusChange = ({
         filterData: filterData,
         page: page,
       };
-
       if (from === "EngagedClient" || from === "RegularClient") {
         addSctClientCalls(finalData);
       } else {
@@ -404,7 +452,7 @@ const AllSctStatusChange = ({
       if (
         (sctCallStatus.value === "EngagedClient" ||
           sctCallStatus.value === "RegularClient") &&
-        leadDataVal.sctClientCategory != "EC"
+        leadDataVal.sctClientCategory !== "EC"
       ) {
         const transferData = {
           sctCompanyName: leadDataVal.sctCompanyName,
@@ -444,6 +492,7 @@ const AllSctStatusChange = ({
       setFormData({
         ...formData,
         sctCallStatus: "",
+        sctLeadsCategory: "",
         sctCallDate: "",
         sctCallNote: "",
         isSubmitted: true,
@@ -460,14 +509,14 @@ const AllSctStatusChange = ({
     <Fragment>
       <form className="row" onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadstatus">
-          <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
+          <div className="col-lg-4 col-md-12 col-sm-12 col-12  ">
             <label style={statusmodeIdErrorStyle}>Status* :</label>
             <Select
               name="sctCallStatus"
               options={StatusMethods}
               isSearchable={false}
               value={sctCallStatus}
-              placeholder="Select Status"
+              placeholder="Select "
               onChange={(e) => onStatusTypeChange(e)}
               theme={(theme) => ({
                 ...theme,
@@ -490,7 +539,7 @@ const AllSctStatusChange = ({
               options={allStaff}
               isSearchable={true}
               value={sctStaffs}
-              placeholder="Select Staff"
+              placeholder="Select "
               onChange={(e) => onStaffChange(e)}
               required
             />
@@ -510,6 +559,19 @@ const AllSctStatusChange = ({
                   width: "100%",
                 }}
                 required
+              />
+            </div>
+          )}
+          {showLeadCategory && (
+            <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
+              <label className="label-control">Category :</label>
+              <Select
+                name="sctLeadsCategory"
+                options={CategoryMethods}
+                isSearchable={true}
+                value={sctLeadsCategory}
+                placeholder="Select "
+                onChange={(e) => onLeadCategoryChange(e)}
               />
             </div>
           )}
@@ -576,7 +638,7 @@ const AllSctStatusChange = ({
               </div>
             </>
           )}
-          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12 notesTopSCT">
             <label className="label-control">Call Time* :</label>
             <br />
             <input
@@ -590,39 +652,76 @@ const AllSctStatusChange = ({
               // required
             />
           </div>
-          <div className="col-lg-8 col-md-12 col-sm-12 col-12 ">
-            <label className="label-control"> Notes* :</label>
-            <textarea
-              name="sctCallNote"
-              id="sctCallNote"
-              className="textarea form-control"
-              rows="3"
-              placeholder="Notes"
-              style={{ width: "100%" }}
-              value={sctCallNote}
-              onChange={(e) => onInputChange(e)}
-              required
-            ></textarea>
-          </div>
-
-          <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
-            <br />
-            {loading ? (
-              <button
-                className="btn sub_form btn_continue blackbrd Save float-right"
-                disabled
-              >
-                Loading...
-              </button>
-            ) : (
-              <input
-                type="submit"
-                name="Submit"
-                value="Submit"
-                className="btn sub_form btn_continue blackbrd Save float-right"
-              />
-            )}
-          </div>
+          {showLeadCategory && showLeadCategory ? (
+            <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
+              <label className="label-control"> Notes* :</label>
+              <textarea
+                name="sctCallNote"
+                id="sctCallNote"
+                className="textarea form-control"
+                rows="3"
+                placeholder="Notes"
+                style={{ width: "100%" }}
+                value={sctCallNote}
+                onChange={(e) => onInputChange(e)}
+                required
+              ></textarea>
+            </div>
+          ) : (
+            <div className="col-lg-8 col-md-12 col-sm-12 col-12 notesTopSCT">
+              <label className="label-control"> Notes* :</label>
+              <textarea
+                name="sctCallNote"
+                id="sctCallNote"
+                className="textarea form-control"
+                rows="3"
+                placeholder="Notes"
+                style={{ width: "100%" }}
+                value={sctCallNote}
+                onChange={(e) => onInputChange(e)}
+                required
+              ></textarea>
+            </div>
+          )}
+          {showLeadCategory && showLeadCategory ? (
+            <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+              <br />
+              {loading ? (
+                <button
+                  className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
+                  disabled
+                >
+                  Loading...
+                </button>
+              ) : (
+                <input
+                  type="submit"
+                  name="Submit"
+                  value="Submit"
+                  className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
+                />
+              )}
+            </div>
+          ) : (
+            <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+              <br />
+              {loading ? (
+                <button
+                  className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
+                  disabled
+                >
+                  Loading...
+                </button>
+              ) : (
+                <input
+                  type="submit"
+                  name="Submit"
+                  value="Submit"
+                  className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
+                />
+              )}
+            </div>
+          )}
         </div>
       </form>
       <Modal

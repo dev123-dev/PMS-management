@@ -740,6 +740,7 @@ const DailyJobSheet = ({
                           <></>
                         )}
                         <th style={{ width: "5%" }}>Folder</th>
+                        <th></th>
                         <th style={{ width: "15%" }}>Project Name</th>
                         <th style={{ width: "5%" }}>History</th>
                         {/* <th style={{ width: "12%" }}>Queue Duration</th> */}
@@ -827,13 +828,14 @@ const DailyJobSheet = ({
                                 <td>
                                   {dailyJobsheetProjects.clientFolderName}
                                 </td>
-                                <td>
-                                  {/* SLAP UserGroupRights */}
-                                  {(user.userGroupName &&
-                                    user.userGroupName === "Administrator") ||
-                                  user.userGroupName === "Super Admin" ||
-                                  user.userGroupName === "Clarical Admins" ? (
-                                    <>
+                                {/* <td> */}
+                                {/* SLAP UserGroupRights */}
+                                {(user.userGroupName &&
+                                  user.userGroupName === "Administrator") ||
+                                user.userGroupName === "Super Admin" ||
+                                user.userGroupName === "Clarical Admins" ? (
+                                  <>
+                                    <td>
                                       <img
                                         className="img_icon_size log float-left "
                                         onClick={() =>
@@ -845,6 +847,8 @@ const DailyJobSheet = ({
                                         alt="Last change"
                                         title="Last change"
                                       />
+                                    </td>
+                                    <td>
                                       <Link
                                         className="float-left ml-3 aTagActiveRemoveClrBlk"
                                         to="#"
@@ -854,17 +858,21 @@ const DailyJobSheet = ({
                                       >
                                         {dailyJobsheetProjects.projectName}
                                       </Link>
-                                    </>
-                                  ) : (
-                                    <>
+                                    </td>
+                                  </>
+                                ) : (
+                                  <>
+                                    <td></td>
+                                    <td>
                                       <label>
                                         <b>
                                           {dailyJobsheetProjects.projectName}
                                         </b>
                                       </label>
-                                    </>
-                                  )}
-                                </td>
+                                    </td>
+                                  </>
+                                )}
+                                {/* </td> */}
                                 <td>
                                   <center>
                                     <Link

@@ -310,7 +310,7 @@ const TransferDctLeads = ({
                   />
                 </div>
 
-                <div className="col-md-10 col-lg-6 col-sm-12 col-12 mt-4">
+                <div className="col-md-10 col-lg-6 col-sm-12 col-12 transferTop">
                   <input
                     type="submit"
                     name="Submit"

@@ -16,6 +16,8 @@ const Invoice = require("../../models/sct/invoice");
 const Agreement = require("../../models/sct/agreement");
 const multer = require("multer");
 const csvtojson = require("csvtojson");
+const Project = require("../../models/Project");
+const Company = require("../../models/settings/company");
 
 var storage = multer.diskStorage({
   destination: "./client/src/static/files",
@@ -134,7 +136,18 @@ router.post("/add-quotation", async (req, res) => {
               forName: data.forName,
               forAddress: data.forAddress,
               item: data.item,
+              clientFromEmailId: data.clientFromEmailId,
+              clientFromPhone: data.clientFromPhone,
+              insideState: data.insideState,
             },
+          },
+        }
+      );
+      const updateQuotationCounter = await Company.updateOne(
+        { _id: data.companyId },
+        {
+          $set: {
+            quotationNoCounter: data.counter,
           },
         }
       );
@@ -158,6 +171,9 @@ router.post("/add-quotation", async (req, res) => {
             "quotation.$.forName": data.forName,
             "quotation.$.forAddress": data.forAddress,
             "quotation.$.item": data.item,
+            "quotation.$.clientFromEmailId": data.clientFromEmailId,
+            "quotation.$.clientFromPhone": data.clientFromPhone,
+            "quotation.$.insideState": data.insideState,
           },
         }
       );
@@ -432,6 +448,7 @@ router.post("/update-sct-leads-status", async (req, res) => {
         $set: {
           sctLeadCategory: data.sctCallCategory,
           sctLeadCategoryStatus: data.sctCallStatus,
+          sctLeadsCategory: data.sctLeadsCategory,
           sctCallDate: data.sctCallDate,
           sctCallTime: data.sctCallTime,
         },
@@ -474,8 +491,8 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
     sctLeadCategory,
     assignedTo,
     projectsId,
+    sctLeadsCategory,
   } = req.body;
-
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -490,6 +507,8 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
   let catCondition = [];
   if (sctLeadCategory == "P" || sctLeadCategory == "NL") {
     catCondition = [{ sctLeadCategory: "P" }, { sctLeadCategory: "NL" }];
+  } else if (sctLeadCategory == "W") {
+    catCondition = [{ sctLeadCategory: "W" }, { sctLeadCategory: "W" }];
   } else if (sctLeadCategory == "F") {
     catCondition = [{ sctLeadCategory: "F" }, { sctLeadCategory: "F" }];
   }
@@ -506,6 +525,12 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
       projectsId: mongoose.Types.ObjectId(projectsId),
     };
   }
+  if (sctLeadsCategory) {
+    query = {
+      ...query,
+      sctLeadsCategory: sctLeadsCategory,
+    };
+  }
 
   if (stateId) {
     query = {
@@ -519,7 +544,6 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
       _id: mongoose.Types.ObjectId(clientsId),
     };
   }
-
   try {
     let getSctLeadsDetails = (getSctLeadsEmp = []);
     if (sctLeadCategory) {
@@ -589,7 +613,6 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
       projectsId: mongoose.Types.ObjectId(projectsId),
     };
   }
-
   try {
     let getSctLeadsDetails = (getSctLeadsEmp = []);
     if (projectsId) {
@@ -597,6 +620,8 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
         getSctLeadsDetails = await SctLeads.find(query, {
           _id: 1,
           sctCompanyName: 1,
+          sctClientName: 1,
+          sctPhone1: 1,
         }).sort({
           _id: -1,
         });
@@ -617,7 +642,6 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
         });
       }
     }
-
     res.json({ result1: getSctLeadsDetails, result2: getSctLeadsEmp });
   } catch (err) {
     console.error(err.message);
@@ -833,7 +857,6 @@ router.post("/get-selected-project", async (req, res) => {
 
 router.post("/add-demo", async (req, res) => {
   let data = req.body;
-
   try {
     let SctDemoDetails = new Demo(data);
     output = await SctDemoDetails.save();
@@ -841,6 +864,25 @@ router.post("/add-demo", async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/update-demo", async (req, res) => {
+  try {
+    let data = req.body;
+    const updateDemo = await Demo.updateOne(
+      { _id: data.recordId },
+      {
+        $set: {
+          demoDate: data.newDemoDate,
+          fromTime: data.fromTime,
+          toTime: data.toTime,
+        },
+      }
+    );
+    res.json(updateDemo);
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
 
@@ -1575,6 +1617,8 @@ router.post("/edit-sct-Clients", async (req, res) => {
           sctClientAssignedToName: data.sctClientAssignedToName,
           sctClientEditedById: data.sctClientEditedById,
           sctClientEditedDateTime: data.sctClientEditedDateTime,
+          sctClientGstNo: data.sctClientGstNo,
+          sctClientPanNo: data.sctClientPanNo,
         },
       }
     );
@@ -1785,7 +1829,7 @@ router.post("/sct-transfer-lead", async (req, res) => {
 });
 
 router.post("/add-import-sct-lead-data", async (req, res) => {
-  let filePath = "D:/PMSExcelImport/";
+  let filePath = "C:/PMSExcelImport/";
   let data = req.body;
   let pathName = filePath + data.filePathName;
   csvtojson()

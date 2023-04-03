@@ -52,6 +52,9 @@ const DctLeadsSchema = new mongoose.Schema({
   dctLeadCategoryStatus: {
     type: String, //(FL,VM,CB,DND,NI)
   },
+  dctLeadsCategory: {
+    type: String, //Hot,Cool,Normal
+  },
   dctCallDate: {
     type: String,
   },

@@ -382,11 +382,12 @@ const AllEngagedClient = ({
                     <thead>
                       <tr>
                         {/* <th style={{ width: "3%" }}>Sl.No</th> */}
-                        <th style={{ width: "15%" }}>Company </th>
-                        <th style={{ width: "15%" }}>Website </th>
-                        <th style={{ width: "13%" }}>Email</th>
+                        {/* <th style={{ width: "15%" }}>Website </th>
+                        <th style={{ width: "13%" }}>Email</th> */}
+                        <th style={{ width: "10%" }}>Company </th>
                         <th style={{ width: "8%" }}>Region</th>
-                        <th style={{ width: "13%" }}>Contact</th>
+                        <th style={{ width: "8%" }}>Contact</th>
+                        <th style={{ width: "8%" }}>Contact 2</th>
                         <th style={{ width: "8%" }}>Call Date</th>
                         <th style={{ width: "8%" }}>Call Time</th>
                         <th style={{ width: "7%" }}>Print</th>
@@ -419,7 +420,7 @@ const AllEngagedClient = ({
                               >
                                 {sctClients.sctCompanyName}
                               </td>
-                              <td>
+                              {/* <td>
                                 {" "}
                                 <Link
                                   onClick={() =>
@@ -441,7 +442,7 @@ const AllEngagedClient = ({
                                   </a>
                                 </Link>
                               </td>
-                              <td>{sctClients.sctEmailId}</td>
+                              <td>{sctClients.sctEmailId}</td> */}
                               <td>{sctClients.countryName}</td>
                               <td>
                                 {sctClients.sctcountryCode
@@ -449,6 +450,14 @@ const AllEngagedClient = ({
                                   : ""}
                                 &nbsp;
                                 {sctClients.sctPhone1}
+                              </td>
+                              <td>
+                                {sctClients.sctPhone2 &&
+                                sctClients.sctcountryCode
+                                  ? "+" + sctClients.sctcountryCode
+                                  : ""}
+                                &nbsp;
+                                {sctClients.sctPhone2}
                               </td>
                               <td>{sctCallDate}</td>
                               <td>{sctClients.sctCallTime}</td>
@@ -605,10 +614,10 @@ const AllEngagedClient = ({
                   />
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "33vh" }}
+                  style={{ height: "37vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
@@ -622,10 +631,10 @@ const AllEngagedClient = ({
                   )}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "23vh" }}
+                  style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
                     Last Message Details

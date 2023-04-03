@@ -64,6 +64,9 @@ const SctLeadsSchema = new mongoose.Schema({
   sctLeadCategoryStatus: {
     type: String, //(FL,VM,CB,DND,NI)
   },
+  sctLeadsCategory: {
+    type: String, //Hot,Cool,Normal
+  },
   sctCallDate: {
     type: String,
   },
@@ -81,6 +84,12 @@ const SctLeadsSchema = new mongoose.Schema({
     // default: new Date().toLocaleString("en-GB"),
   },
   sctLeadEnteredDate: {
+    type: String,
+  },
+  sctLeadAssignedToId: {
+    type: ObjectId,
+  },
+  sctLeadAssignedToName: {
     type: String,
   },
   sctLeadEditedById: {
@@ -107,12 +116,7 @@ const SctLeadsSchema = new mongoose.Schema({
   sctLeadDeactiveReason: {
     type: String,
   },
-  sctLeadAssignedToId: {
-    type: ObjectId,
-  },
-  sctLeadAssignedToName: {
-    type: String,
-  },
+
   sctCallSchedule: {
     type: String, //Morning or afternoon
   },

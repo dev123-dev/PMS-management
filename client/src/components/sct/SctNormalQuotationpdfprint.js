@@ -19,6 +19,7 @@ const SctNormalQuotationpdfprint = ({
 }) => {
   const data = useHistory().location.data;
   let quotationDataLS = JSON.parse(localStorage.getItem("quotationDataLS"));
+  let allCompanyData = JSON.parse(localStorage.getItem("allCompanyData"));
   //formData
 
   const [formData, setFormData] = useState({
@@ -28,6 +29,11 @@ const SctNormalQuotationpdfprint = ({
     forAddress: "",
     quotationNo: "",
     quotationDate: "",
+    clientFromEmailId: "",
+    clientFromPhone: "",
+    GSTNo: "",
+    PAN: "",
+    insideState: false,
   });
 
   const {
@@ -37,9 +43,19 @@ const SctNormalQuotationpdfprint = ({
     forName,
     forAddress,
     companyAddress,
+    clientFromEmailId,
+    clientFromPhone,
+    GSTNo,
+    PAN,
+    insideState,
   } = formData;
 
+  let compData = "";
   if (quotationDataLS && quotationDataLS.companyAddress && !companyAddress) {
+    compData = allCompanyData.filter(
+      (allCompanyData) => allCompanyData._id === quotationDataLS.companyId
+    )[0];
+
     setFormData({
       ...formData,
       companyAddress: quotationDataLS.companyAddress
@@ -56,8 +72,18 @@ const SctNormalQuotationpdfprint = ({
       quotationDate: quotationDataLS.quotationDate
         ? quotationDataLS.quotationDate
         : "",
+      clientFromEmailId: quotationDataLS.clientFromEmailId
+        ? quotationDataLS.clientFromEmailId
+        : "",
+      clientFromPhone: quotationDataLS.clientFromPhone
+        ? quotationDataLS.clientFromPhone
+        : "",
+      GSTNo: compData && compData.companyGSTIn ? compData.companyGSTIn : "",
+      PAN: compData && compData.companyPanNo ? compData.companyPanNo : "",
+      insideState: quotationDataLS.insideState,
     });
   }
+
   var quotationDate1 = "";
 
   var ED = quotationDataLS.quotationDate.split(/\D/g);
@@ -102,7 +128,7 @@ const SctNormalQuotationpdfprint = ({
     },
     // So Declarative and unDRY 👌
     row1: {
-      width: "17%",
+      width: "25%",
     },
     row2: {
       width: "15%",
@@ -196,6 +222,10 @@ const SctNormalQuotationpdfprint = ({
                   {companyName}
                   {"\n"}
                   {companyAddress}
+                  {"\n"}
+                  {GSTNo && " GSTIN :" + GSTNo}
+                  {"\n"}
+                  {PAN && "PAN :" + PAN}
                 </Text>
 
                 <Text
@@ -220,8 +250,15 @@ const SctNormalQuotationpdfprint = ({
                 <Text style={styles.row3}>Qty</Text>
                 <Text style={styles.row4}>Rate</Text>
                 <Text style={styles.row5}>Amount</Text>
-                <Text style={styles.row6}>CGST</Text>
-                <Text style={styles.row7}>SGST</Text>
+                {insideState ? (
+                  <>
+                    <Text style={styles.row6}>CGST</Text>
+                    <Text style={styles.row7}>SGST</Text>
+                  </>
+                ) : (
+                  <Text style={styles.row7}>IGST</Text>
+                )}
+
                 <Text style={styles.row8}>Total</Text>
                 <Text style={styles.row8}>Discount</Text>
                 <Text style={styles.row8}>Grand Total</Text>
@@ -230,12 +267,18 @@ const SctNormalQuotationpdfprint = ({
                 quotationDataLS.item.map((row, i) => (
                   <View key={i} style={styles.row} wrap={false}>
                     <Text style={styles.row1}>{row.itemName}</Text>
-                    <Text style={styles.row2}>{row.GST}</Text>
+                    <Text style={styles.row2}>{row.GSTPer}</Text>
                     <Text style={styles.row3}>{row.qty}</Text>
-                    <Text style={styles.row4}>{row.rate}</Text>
-                    <Text style={styles.row5}>{row.Amount}</Text>
-                    <Text style={styles.row6}>{row.CGST}</Text>
-                    <Text style={styles.row6}>{row.SGST}</Text>
+                    <Text style={styles.row4}>{row.baseRate}</Text>
+                    <Text style={styles.row5}>{row.amt}</Text>
+                    {insideState ? (
+                      <>
+                        <Text style={styles.row6}>{row.CGST}</Text>
+                        <Text style={styles.row6}>{row.SGST}</Text>
+                      </>
+                    ) : (
+                      <Text style={styles.row6}>{row.IGST}</Text>
+                    )}
                     <Text style={styles.row6}>{row.totalAmt}</Text>
                     <Text style={styles.row6}>{row.discount}</Text>
                     <Text style={styles.row6}>{row.grandTotal}</Text>
@@ -267,8 +310,12 @@ const SctNormalQuotationpdfprint = ({
                   paddingBottom: "10",
                 }}
               >
-                For any enquiry, reach out via email at joel@pinnaclemedia.in,
-                call on +91 99162 13542{" "}
+                For any enquiry, reach out via email at{" "}
+                {clientFromEmailId
+                  ? clientFromEmailId
+                  : "joel@pinnaclemedia.in"}
+                , call on{" "}
+                {clientFromPhone ? clientFromPhone : "+91 99162 13542"}{" "}
               </Text>
               {/* <View style={styles.letterFooter}>.</View> */}
             </View>

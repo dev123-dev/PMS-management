@@ -9,6 +9,7 @@ import {
   // ALL_VERF_CLIENTS,
   ALL_VERF_FOLDER,
   ACTIVE_REPORT_CLIENTS,
+  ALL_BILLING_CLIENT,
 } from "../actions/types";
 
 const initialState = {
@@ -22,6 +23,7 @@ const initialState = {
   // activeVerfificationClients: [],
   activeVerfificationFolders: [],
   activeReportClients: [],
+  allBillingClient: [],
 };
 
 const client = (state = initialState, action) => {
@@ -74,6 +76,11 @@ const client = (state = initialState, action) => {
       return {
         ...state,
         activeVerfificationFolders: payload,
+      };
+    case ALL_BILLING_CLIENT:
+      return {
+        ...state,
+        allBillingClient: payload,
       };
     case ACTIVE_REPORT_CLIENTS:
       return {
