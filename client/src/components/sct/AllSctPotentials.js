@@ -383,72 +383,76 @@ const AllSctPotentials = ({
                             var ED = allSctLeads.sctCallDate.split(/\D/g);
                             sctCallDate = [ED[2], ED[1], ED[0]].join("-");
                           }
-                          return (
-                            <tr
-                              key={idx}
-                              className={
-                                colorData === idx ? "seletedrowcolorchange" : ""
-                              }
-                              onClick={() => onClickHandler(allSctLeads, idx)}
-                            >
-                              {/* <td>{idx + 1}</td> */}
-                              {/* <td>{allSctLeads.countryName}</td> */}
-                              {/* <td>
-                                {" "}
-                                <a
-                                  href={allSctLeads.sctWebsite}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  {allSctLeads.sctWebsite}
-                                </a>
-                              </td>
-                              <td>{allSctLeads.sctEmailId}</td> */}
-                              {/* <td>{allSctLeads.sctCallTime}</td> */}
-                              <td>{allSctLeads.sctCompanyName}</td>
+                          if (allSctLeads.sctLeadsCategory !== "") {
+                            return (
+                              <tr
+                                key={idx}
+                                className={
+                                  colorData === idx
+                                    ? "seletedrowcolorchange"
+                                    : ""
+                                }
+                                onClick={() => onClickHandler(allSctLeads, idx)}
+                              >
+                                {/* <td>{idx + 1}</td> */}
+                                {/* <td>{allSctLeads.countryName}</td> */}
+                                {/* <td>
+                                  {" "}
+                                  <a
+                                    href={allSctLeads.sctWebsite}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {allSctLeads.sctWebsite}
+                                  </a>
+                                </td>
+                                <td>{allSctLeads.sctEmailId}</td> */}
+                                {/* <td>{allSctLeads.sctCallTime}</td> */}
+                                <td>{allSctLeads.sctCompanyName}</td>
 
-                              <td>{allSctLeads.stateName}</td>
-                              <td>
-                                {allSctLeads.sctcountryCode
-                                  ? "+" + allSctLeads.sctcountryCode
-                                  : ""}
-                                &nbsp;
-                                {allSctLeads.sctPhone1}
-                              </td>
-                              <td>
-                                {allSctLeads.sctPhone2 &&
-                                allSctLeads.sctcountryCode
-                                  ? "+" + allSctLeads.sctcountryCode
-                                  : ""}
-                                &nbsp;
-                                {allSctLeads.sctPhone2}
-                              </td>
-                              <td>
-                                {" "}
-                                {sctCallDate}&nbsp;{allSctLeads.sctCallTime}
-                              </td>
+                                <td>{allSctLeads.stateName}</td>
+                                <td>
+                                  {allSctLeads.sctcountryCode
+                                    ? "+" + allSctLeads.sctcountryCode
+                                    : ""}
+                                  &nbsp;
+                                  {allSctLeads.sctPhone1}
+                                </td>
+                                <td>
+                                  {allSctLeads.sctPhone2 &&
+                                  allSctLeads.sctcountryCode
+                                    ? "+" + allSctLeads.sctcountryCode
+                                    : ""}
+                                  &nbsp;
+                                  {allSctLeads.sctPhone2}
+                                </td>
+                                <td>
+                                  {" "}
+                                  {sctCallDate}&nbsp;{allSctLeads.sctCallTime}
+                                </td>
 
-                              <td>{allSctLeads.sctNotes}</td>
-                              <td>{allSctLeads.sctLeadEnteredByName}</td>
-                              <td>
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() => onDeactive(allSctLeads, idx)}
-                                  src={require("../../static/images/delete.png")}
-                                  alt="Delete Project"
-                                  title="Delete Project"
-                                />{" "}
-                                &emsp;
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() => onUpdate(allSctLeads, idx)}
-                                  src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
-                                />
-                              </td>
-                            </tr>
-                          );
+                                <td>{allSctLeads.sctNotes}</td>
+                                <td>{allSctLeads.sctLeadEnteredByName}</td>
+                                <td>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onDeactive(allSctLeads, idx)}
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Delete Project"
+                                    title="Delete Project"
+                                  />{" "}
+                                  &emsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allSctLeads, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </td>
+                              </tr>
+                            );
+                          }
                         })}
                     </tbody>
                   </table>
