@@ -370,12 +370,13 @@ const AllSctStatusChange = ({
 
     if (from === "EngagedClient" || from === "RegularClient")
       callComeFromVal = "Client";
-
     if (sctCallStatus.value === "FollowUp") {
       callCategoryVal = "F";
-    } else if (sctCallStatus.value === "CallBack") {
-      callCategoryVal = "P";
-    } else if (sctCallStatus.value === "WrongNumber") {
+    }
+    // else if (sctCallStatus.value === "CallBack") {
+    //   callCategoryVal = "P";
+    // }
+    else if (sctCallStatus.value === "WrongNumber") {
       callCategoryVal = "W";
     } else if (sctCallStatus.value === "EngagedClient") {
       callCategoryVal = "EC";
@@ -415,6 +416,7 @@ const AllSctStatusChange = ({
         filterData: filterData,
         page: page,
       };
+      // console.log("finalData", finalData);
       if (from === "EngagedClient" || from === "RegularClient") {
         addSctClientCalls(finalData);
       } else {
