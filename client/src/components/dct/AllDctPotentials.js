@@ -462,63 +462,67 @@ const AllDctPotentials = ({
                             var ED = allLeads.dctCallDate.split(/\D/g);
                             callDates = [ED[2], ED[1], ED[0]].join("-");
                           }
-                          return (
-                            <tr
-                              key={idx}
-                              className={
-                                colorData === idx ? "seletedrowcolorchange" : ""
-                              }
-                              onClick={() => onClickHandler(allLeads, idx)}
-                            >
-                              <td>{idx + 1}</td>
-                              <td>
-                                {/* <Link
+                          if (allLeads.dctLeadsCategory !== "") {
+                            return (
+                              <tr
+                                key={idx}
+                                className={
+                                  colorData === idx
+                                    ? "seletedrowcolorchange"
+                                    : ""
+                                }
+                                onClick={() => onClickHandler(allLeads, idx)}
+                              >
+                                <td>{idx + 1}</td>
+                                <td>
+                                  {/* <Link
                                   className="float-left ml-1"
                                   to="#"
                                   // onClick={() => onClickHandler(allLeads, idx)}
                                 > */}
-                                {allLeads.companyName}
-                                {/* </Link> */}
-                              </td>
-                              <td>
-                                {" "}
-                                <a
-                                  href={allLeads.website}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  {allLeads.website}
-                                </a>
-                              </td>
-                              <td>{allLeads.emailId}</td>
-                              <td>{allLeads.countryName}</td>
-                              <td>
-                                {allLeads.countryCode
-                                  ? "+" + allLeads.countryCode
-                                  : ""}
-                                &nbsp;
-                                {allLeads.phone1}
-                              </td>
-                              <td>{callDates}</td>
-                              <td>
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() => onDeactive(allLeads, idx)}
-                                  src={require("../../static/images/delete.png")}
-                                  alt="Delete Project"
-                                  title="Delete Project"
-                                />{" "}
-                                &emsp;
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() => onUpdate(allLeads, idx)}
-                                  src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
-                                />
-                              </td>
-                            </tr>
-                          );
+                                  {allLeads.companyName}
+                                  {/* </Link> */}
+                                </td>
+                                <td>
+                                  {" "}
+                                  <a
+                                    href={allLeads.website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {allLeads.website}
+                                  </a>
+                                </td>
+                                <td>{allLeads.emailId}</td>
+                                <td>{allLeads.countryName}</td>
+                                <td>
+                                  {allLeads.countryCode
+                                    ? "+" + allLeads.countryCode
+                                    : ""}
+                                  &nbsp;
+                                  {allLeads.phone1}
+                                </td>
+                                <td>{callDates}</td>
+                                <td>
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onDeactive(allLeads, idx)}
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Delete Project"
+                                    title="Delete Project"
+                                  />{" "}
+                                  &emsp;
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdate(allLeads, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />
+                                </td>
+                              </tr>
+                            );
+                          }
                         })}
                     </tbody>
                   </table>
