@@ -322,6 +322,7 @@ const AddLead = ({
         countryCode: countrycode,
         dctLeadStatus: "Active",
         dctLeadCategory: "NL",
+        dctLeadsCategory: "",
         dctCallDate: new Date().toISOString().split("T")[0],
         services: ServicesDetails,
         staffs: AddedDetails,

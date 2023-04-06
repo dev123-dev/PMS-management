@@ -524,6 +524,7 @@ const AddSctLeads = ({
         projectsName: projects.value ? projects.value : null,
         sctLeadStatus: "Active",
         sctLeadCategory: "NL",
+        sctLeadsCategory: "",
         sctCallDate: new Date().toISOString().split("T")[0],
         sctStaffs: AddedDetails,
         sctLeadEnteredById: user._id,
