@@ -528,11 +528,16 @@ const AllDctPotentials = ({
                   </table>
                 </div>
                 <div className="row">
-                  <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
-                    <label>
-                      No of Prospects : {allLeads && allLeads.length}
-                    </label>
-                  </div>
+                  {allLeads &&
+                    allLeads.map((allLeads) => {
+                      if (allLeads.dctLeadsCategory !== "") {
+                        <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
+                          <label>
+                            No of Prospects : {allLeads && allLeads.length}
+                          </label>
+                        </div>;
+                      }
+                    })}
                 </div>
               </section>
             </div>
