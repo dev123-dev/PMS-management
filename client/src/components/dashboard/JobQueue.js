@@ -52,10 +52,11 @@ const JobQueue = ({
     client.onopen = () => {
       console.log("webSocket client connected");
     };
-    // client.onmessage = (message) => {
-    //   getUpdatedProjectStaus();
-    //   // getUpdatedProjectStausForDailyJobSheet();
-    // };
+    client.onmessage = (message) => {
+      getUpdatedProjectStaus();
+      window.location.reload();
+      // getUpdatedProjectStausForDailyJobSheet();
+    };
   }, []);
   useEffect(() => {
     getJobQueueProjectDeatils();
@@ -514,7 +515,10 @@ const JobQueue = ({
     <Fragment>
       <div className="container container_align ">
         <section className="sub_reg">
-          <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
+          <div
+            className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding"
+            //  style={{ postion: "fixed" }}
+          >
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Job Queue</h5>
             </div>
@@ -574,10 +578,11 @@ const JobQueue = ({
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
-                <div className=" body-inner no-padding table-responsive fixTableHead">
+                <div className=" body-inner no-padding table-responsive ">
                   <table
-                    className="table table-bordered table-striped table-hover smll_row"
+                    className="table table-bordered table-striped table-hover smll_row "
                     id="datatable2"
+                    // style={{ marginBottom: "200px" }}
                   >
                     <thead>
                       <tr>
@@ -793,6 +798,7 @@ const JobQueue = ({
 
                                     <Select
                                       className="ml-4"
+                                      menuPlacement="auto"
                                       styles={{
                                         control: (base) => ({
                                           ...base,
@@ -927,7 +933,7 @@ const JobQueue = ({
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
             <Link
               to="#"
-              className="btnLink"
+              className="btnLinkjob"
               onClick={() => onstatusTypeSelect("Downloading")}
             >
               Downloading:{downloadingQty}
@@ -935,7 +941,7 @@ const JobQueue = ({
             &emsp;
             <Link
               to="#"
-              className="btnLink"
+              className="btnLinkjob"
               onClick={() => onstatusTypeSelect("Working")}
             >
               Working : {WorkingQty}
@@ -943,7 +949,7 @@ const JobQueue = ({
             &emsp;
             <Link
               to="#"
-              className="btnLink"
+              className="btnLinkjob"
               onClick={() => onstatusTypeSelect("Pending")}
             >
               Pending : {PendingQty}
@@ -951,7 +957,7 @@ const JobQueue = ({
             &emsp;
             <Link
               to="#"
-              className="btnLink"
+              className="btnLinkjob"
               onClick={() => onstatusTypeSelect("QC Pending")}
             >
               QC Pending: {QCPendingQty}
@@ -959,7 +965,7 @@ const JobQueue = ({
             &emsp;
             <Link
               to="#"
-              className="btnLink"
+              className="btnLinkjob"
               onClick={() => onstatusTypeSelect("QC Estimate")}
             >
               QC Estimate : {QCEstimateQty}
@@ -967,7 +973,7 @@ const JobQueue = ({
             &emsp;
             <Link
               to="#"
-              className="btnLink"
+              className="btnLinkjob"
               onClick={() => onstatusTypeSelect("Uploading")}
             >
               Uploading: {UploadingQty}

@@ -271,6 +271,11 @@ const AllSctPotentials = ({
     getLeadCategoryData("");
     getStateData("");
   };
+  let count = 0;
+  if (allSctLeads.sctLeadsCategory !== "") {
+    count = allSctLeads.length;
+  }
+  console.log("count", count);
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -459,9 +464,7 @@ const AllSctPotentials = ({
                 </div>
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
-                    <label>
-                      No of Leads : {allSctLeads && allSctLeads.length}
-                    </label>
+                    <label>No of Leads : {count}</label>
                   </div>
                 </div>
               </section>

@@ -99,26 +99,60 @@ const AddProject = ({
       value: clientsData.clientName,
     })
   );
+  const Activestaff = activeClientFilter
+    .map((ele) =>
+      ele.staffs.map((ele1) => {
+        return {
+          ...ele1,
+          clientName: ele.clientName,
+          clientId: ele._id,
+          clientFolderName: ele.clientFolderName,
+        };
+      })
+    )
+    .flat(1);
+  //.flat(1);
+
+  const selectStaff = Activestaff.map((ele) => {
+    return {
+      sId: ele._id,
+      label: ele.staffName,
+      value: ele.staffName,
+      clientId: ele._id,
+      clientName: ele.clientName,
+      clientFolderName: ele.clientFolderName,
+    };
+  });
+  // console.log("228", activeClientFilter[3]);
   const projectStatusOpt = [];
-  allProjectStatus.map((projStatusData) =>
-    projectStatusOpt.push({
-      projStatusId: projStatusData._id,
-      label: projStatusData.projectStatusType,
-      value: projStatusData.projectStatusType,
-    })
+  // console.log(projectStatusOpt[1], "projectStatusOpt[1]");
+  // console.log(projectStatusOpt, "projectStatusOpt");
+  let activeProjectStatus = JSON.parse(
+    localStorage.getItem("activeProjectStatus")
   );
+  // console.log(activeProjectStatus);
+  activeProjectStatus &&
+    activeProjectStatus.map((projStatusData) =>
+      projectStatusOpt.push({
+        projStatusId: projStatusData._id,
+        label: projStatusData.projectStatusType,
+        value: projStatusData.projectStatusType,
+      })
+    );
+
   const [clientData, setClientData] = useState("");
   const [clientId, setClientId] = useState("");
+
   // const [clientBelongsTo, setBelongsToVal] = useState("");
   const [clientFolderName, setFolderNameVal] = useState("");
 
   const onClientChange = (e) => {
     //Required Validation starts
-    setError({
-      ...error,
-      clientnameIdChecker: true,
-      clientnameIdErrorStyle: { color: "#000" },
-    });
+    // setError({
+    //   ...error,
+    //   clientnameIdChecker: true,
+    //   clientnameIdErrorStyle: { color: "#000" },
+    // });
     //Required Validation ends
     if (e) {
       setFormData({
@@ -234,13 +268,22 @@ const AddProject = ({
   const [staffId, setstaffID] = useState("");
   const [staffName, setstaffName] = useState("");
 
+  const [ActiveClientId, setActiveClientId] = useState(null);
+  const [ActiveClientName, setActiveClientName] = useState("");
+  const [ActiveClientFolder, setActiveClientfolder] = useState("");
   const onStaffChange = (e) => {
-    //Required Validation starts
-    // setError({
-    //   ...error,
-    //   StateIdChecker: true,
-    //   StateErrorStyle: { color: "#000" },
-    // });
+    //console.log(e);
+
+    setError({
+      ...error,
+      staffNameIdChecker: true,
+      staffNameIdErrorStyle: { color: "#000" },
+    });
+
+    setActiveClientId(e.clientId);
+    setActiveClientName(e.clientName);
+    setActiveClientfolder(e.clientFolderName);
+
     //Required Validation end
 
     var staffId = "";
@@ -253,21 +296,22 @@ const AddProject = ({
     setstaffID(staffId);
     setstaffName(staffName);
   };
-
   //Required Validation Starts
   const [error, setError] = useState({
-    clientnameIdChecker: false,
-    clientnameIdErrorStyle: {},
-
+    // clientnameIdChecker: false,
+    // clientnameIdErrorStyle: {},
+    staffNameIdChecker: false,
+    staffNameIdErrorStyle: {},
     // ClientIdChecker: true,
     // ClientErrorStyle: {},
     projectstatusChecker: true,
     projectstatusErrorStyle: {},
   });
   const {
-    clientnameIdChecker,
-    clientnameIdErrorStyle,
-
+    // clientnameIdChecker,
+    // clientnameIdErrorStyle,
+    staffNameIdChecker,
+    staffNameIdErrorStyle,
     ClientIdChecker,
     ClientErrorStyle,
     projectstatusChecker,
@@ -283,10 +327,18 @@ const AddProject = ({
     //   return false;
     // }
 
-    if (!clientnameIdChecker) {
+    // if (!clientnameIdChecker) {
+    //   setError({
+    //     ...error,
+    //     clientnameIdErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
+
+    if (!staffNameIdChecker) {
       setError({
         ...error,
-        clientnameIdErrorStyle: { color: "#F00" },
+        staffNameIdErrorStyle: { color: "#F00" },
       });
       return false;
     }
@@ -310,13 +362,16 @@ const AddProject = ({
     if (checkErrors()) {
       const finalData = {
         projectName: projectName?.trim(),
-        clientId: clientId,
-        clientName: clientData.value,
+        clientId: ActiveClientId, //clientId,
+        clientName: ActiveClientName, //clientData.value, //
+        clientFolderName: ActiveClientFolder, //ActiveClientFolder
+        staffName: staffName,
+        staffId: staffId,
         // parentClientId: clientData.belongsToId,
         //  parentClientName: clientBelongsTo,
         inputpath: inputpath?.trim(),
-        clientFolderName: clientData.folderName,
-        projectPriority: priority.value,
+
+        projectPriority: priority.value || "",
         projectNotes: Instructions?.trim(),
         projectDeadline: deadline?.trim(),
         projectStatusType: projectStatusData.value || projectStatusType,
@@ -324,8 +379,7 @@ const AddProject = ({
         projectQuantity: qty,
         projectUnconfirmed: isChecked,
         clientTypeVal: clientType.value,
-        staffName: staffName,
-        staffId: staffId,
+
         //   projectTime: projectTime,
         projectDate: startprojectDate,
         projectTime: projectEnteredTime,
@@ -336,7 +390,7 @@ const AddProject = ({
         projectEnteredById: user._id,
         projectEnteredByName: user.empFullName,
       };
-
+      // console.log("finalData", finalData);
       addProject(finalData);
       setFormData({
         ...formData,
@@ -344,6 +398,7 @@ const AddProject = ({
       });
     }
   };
+
   if (isSubmitted) {
     return <Redirect to="/job-queue" />;
   }
@@ -360,14 +415,20 @@ const AddProject = ({
           </div>
           <section className="sub_reg">
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-                <div className="row card-new  py-3">
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
+                {/* Client INFO */}
+                <div
+                  className="row card-new mb-3"
+                  style={{ paddingBottom: "62px" }}
+                >
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 pb-3">
                     <h5>Client Info</h5>
                   </div>
 
                   <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
-                    <label>Client Type* :</label>
+                    <label>
+                      Client Type<i className="text-danger">*</i> :
+                    </label>
                     {/* style={ClientErrorStyle} */}
                     <Select
                       name="clientType"
@@ -379,27 +440,48 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label style={clientnameIdErrorStyle}>Client Name* :</label>
-                    <Select
-                      name="clientData"
-                      isSearchable={true}
-                      value={clientData}
-                      options={activeClientsOpt}
-                      placeholder="Select"
-                      onChange={(e) => onClientChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label>Staff Name* :</label>
-                    <Select
+                    <label style={staffNameIdErrorStyle}>
+                      Staff Name<i className="text-danger">*</i> :
+                    </label>
+                    {/* <Select selectStaff
                       name="stateName"
                       options={allstaffs}
                       isSearchable={true}
                       value={staff}
                       placeholder="Select Staff"
                       onChange={(e) => onStaffChange(e)}
+                    /> */}
+                    <Select
+                      name="stateName"
+                      options={selectStaff}
+                      isSearchable={true}
+                      value={staff}
+                      placeholder="Select Staff"
+                      onChange={(e) => onStaffChange(e)}
                     />
                   </div>
+
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label>Client Name:</label>
+                    {/* style={clientnameIdErrorStyle} */}
+                    <input
+                      type="text"
+                      name="ActiveClientName"
+                      value={ActiveClientName}
+                      className="form-control"
+                      // onChange={(e) => onInputChange(e)}
+                      disabled
+                    />
+                    {/* <Select
+                      name="clientData"
+                      isSearchable={true}
+                      value={clientData}
+                      options={activeClientsOpt}
+                      placeholder="Select"
+                      onChange={(e) => onClientChange(e)}
+                    /> */}
+                  </div>
+
                   {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Belongs to :</label>
                     <input
@@ -411,108 +493,32 @@ const AddProject = ({
                       disabled
                     />
                   </div> */}
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12 pb-5">
                     <label>Client folder Name :</label>
                     <input
                       type="text"
                       name="clientFolderName"
-                      value={clientFolderName}
+                      value={ActiveClientFolder}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                       disabled
                     />
                   </div>
                 </div>
+                {/* END */}
               </div>
-
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
-                <div className="row card-new  py-3">
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h5>Date Info</h5>
-                  </div>
-
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label>Project Date* :</label>
-                    <br />
-                    <input
-                      type="date"
-                      placeholder="dd/mm/yyyy"
-                      className="form-control cpp-input datevalidation"
-                      name="projectDate"
-                      value={startprojectDate}
-                      onChange={(e) => onDateChange(e)}
-                      style={{
-                        width: "75%",
-                      }}
-                      required
-                    />
-                  </div>
-                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Project Time* :</label>
-                    <br />
-                    <input
-                      type="time"
-                      className="form-control"
-                      name="projectTime"
-                      value={projectTime}
-                      min="00:00"
-                      max="24:00"
-                      onChange={(e) => onInputChange(e)}
-                      // required
-                    />
-                  </div> */}
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label>Client Date* :</label>
-                    <br />
-                    <input
-                      type="date"
-                      placeholder="dd/mm/yyyy"
-                      className="form-control cpp-input datevalidation"
-                      name="clientDate"
-                      value={startclientDate}
-                      onChange={(e) => onDateChange1(e)}
-                      style={{
-                        width: "75%",
-                      }}
-                      onKeyDown={(e) => {
-                        e.preventDefault();
-                      }}
-                      required
-                    />
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label>Client Time :</label>
-                    <input
-                      type="time"
-                      name="clientTime"
-                      value={clientTime}
-                      className="form-control"
-                      min="00:00"
-                      max="24:00"
-                      onChange={(e) => onInputChange(e)}
-                      // required
-                    />
-                  </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <label className="label-control colorRed">
-                      * Client Date & Client Time is Mail Date & Mail Time.
-                      <br />* Before 2:00 PM Project Date should be previous
-                      Date. After 2:00 PM Project Date should be Today’s Date
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-                <div className="row card-new">
+                {/* project INFO */}
+                <div className="row card-new mb-1 pb-1">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Project Info</h5>
                   </div>
 
-                  <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+                  <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                     <label
                     //  className="label-control"
                     >
-                      Project Name* :
+                      Project Name<i className="text-danger">*</i> :
                     </label>
                     <input
                       type="text"
@@ -524,18 +530,19 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Input* :</label>
+                    <label className="label-control">Input :</label>
                     <input
                       type="text"
                       name="inputpath"
                       value={inputpath}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
-                      required
                     />
                   </div>
                   <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Qty* :</label>
+                    <label className="label-control">
+                      Qty<i className="text-danger">*</i> :
+                    </label>
                     <input
                       type="Number"
                       name="qty"
@@ -570,9 +577,91 @@ const AddProject = ({
                   </div>
                 </div>
               </div>
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+                {/* date info */}
+                <div className="row card-new pb-5">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 pb-1">
+                    <h5>Date Info</h5>
+                  </div>
 
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label>
+                      Project Date<i className="text-danger">*</i>:
+                    </label>
+                    <br />
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="projectDate"
+                      value={startprojectDate}
+                      onChange={(e) => onDateChange(e)}
+                      style={{
+                        width: "75%",
+                      }}
+                      required
+                    />
+                  </div>
+                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Project Time* :</label>
+                    <br />
+                    <input
+                      type="time"
+                      className="form-control"
+                      name="projectTime"
+                      value={projectTime}
+                      min="00:00"
+                      max="24:00"
+                      onChange={(e) => onInputChange(e)}
+                      // required
+                    />
+                  </div> */}
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label>
+                      Client Date<i className="text-danger">*</i>:
+                    </label>
+                    <br />
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="clientDate"
+                      value={startclientDate}
+                      onChange={(e) => onDateChange1(e)}
+                      style={{
+                        width: "75%",
+                      }}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label>Client Time :</label>
+                    <input
+                      type="time"
+                      name="clientTime"
+                      value={clientTime}
+                      className="form-control"
+                      min="00:00"
+                      max="24:00"
+                      onChange={(e) => onInputChange(e)}
+                      // required
+                    />
+                  </div>
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 mt-5">
+                    <label className="label-control colorRed">
+                      * Client Date & Client Time is Mail Date & Mail Time.
+                      <br />* Before 2:00 PM Project Date should be previous
+                      Date. After 2:00 PM Project Date should be Today’s Date
+                    </label>
+                  </div>
+                </div>
+              </div>
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
-                <div className="row card-new">
+                {/* Other Info */}
+                <div className="row card-new mt-1">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Other Info</h5>
                   </div>
@@ -581,7 +670,7 @@ const AddProject = ({
                       // className="label-control"
                       style={projectstatusErrorStyle}
                     >
-                      Project Status* :
+                      Project Status<i className="text-danger">*</i> :
                     </label>
                     <Select
                       name="projectStatusData"
@@ -624,7 +713,7 @@ const AddProject = ({
 
                   <div className="col-lg-12 col-md-11 col-sm-12 col-12 py-2">
                     <label className="label-control">
-                      Project Instructions* :
+                      Project Instructions<i className="text-danger">*</i> :
                     </label>
                     <textarea
                       name="Instructions"
