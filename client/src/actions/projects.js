@@ -261,6 +261,7 @@ export const getUpdatedProjectStausForDailyJobSheet =
 export const getAllProjectStatus = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/projects/get-all-project-status");
+    localStorage.setItem("activeProjectStatus", JSON.stringify(res.data));
     dispatch({
       type: ALL_PROJECT_STATUS,
       payload: res.data,
