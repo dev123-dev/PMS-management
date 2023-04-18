@@ -100,13 +100,19 @@ const AddProject = ({
     })
   );
   const projectStatusOpt = [];
-  allProjectStatus.map((projStatusData) =>
-    projectStatusOpt.push({
-      projStatusId: projStatusData._id,
-      label: projStatusData.projectStatusType,
-      value: projStatusData.projectStatusType,
-    })
+  // console.log(projectStatusOpt[1], "projectStatusOpt[1]");
+  // console.log(projectStatusOpt, "projectStatusOpt");
+  let activeProjectStatus = JSON.parse(
+    localStorage.getItem("activeProjectStatus")
   );
+  activeProjectStatus &&
+    activeProjectStatus.map((projStatusData) =>
+      projectStatusOpt.push({
+        projStatusId: projStatusData._id,
+        label: projStatusData.projectStatusType,
+        value: projStatusData.projectStatusType,
+      })
+    );
   const [clientData, setClientData] = useState("");
   const [clientId, setClientId] = useState("");
   // const [clientBelongsTo, setBelongsToVal] = useState("");
@@ -241,6 +247,12 @@ const AddProject = ({
     //   StateIdChecker: true,
     //   StateErrorStyle: { color: "#000" },
     // });
+
+    setError({
+      ...error,
+      staffNameIdChecker: true,
+      staffNameIdErrorStyle: { color: "#000" },
+    });
     //Required Validation end
 
     var staffId = "";
@@ -258,7 +270,8 @@ const AddProject = ({
   const [error, setError] = useState({
     clientnameIdChecker: false,
     clientnameIdErrorStyle: {},
-
+    staffNameIdChecker: false,
+    staffNameIdErrorStyle: {},
     // ClientIdChecker: true,
     // ClientErrorStyle: {},
     projectstatusChecker: true,
@@ -267,7 +280,8 @@ const AddProject = ({
   const {
     clientnameIdChecker,
     clientnameIdErrorStyle,
-
+    staffNameIdChecker,
+    staffNameIdErrorStyle,
     ClientIdChecker,
     ClientErrorStyle,
     projectstatusChecker,
@@ -287,6 +301,14 @@ const AddProject = ({
       setError({
         ...error,
         clientnameIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+
+    if (!staffNameIdChecker) {
+      setError({
+        ...error,
+        staffNameIdErrorStyle: { color: "#F00" },
       });
       return false;
     }
@@ -336,7 +358,7 @@ const AddProject = ({
         projectEnteredById: user._id,
         projectEnteredByName: user.empFullName,
       };
-
+      // console.log(finalData);
       addProject(finalData);
       setFormData({
         ...formData,
@@ -390,7 +412,7 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label>Staff Name* :</label>
+                    <label style={staffNameIdErrorStyle}>Staff Name* :</label>
                     <Select
                       name="stateName"
                       options={allstaffs}
@@ -524,14 +546,13 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Input* :</label>
+                    <label className="label-control">Input :</label>
                     <input
                       type="text"
                       name="inputpath"
                       value={inputpath}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
-                      required
                     />
                   </div>
                   <div className="col-lg-4 col-md-6 col-sm-6 col-12">
