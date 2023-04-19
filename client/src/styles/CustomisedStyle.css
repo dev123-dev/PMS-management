@@ -34,11 +34,24 @@
 
 .btnLink:hover {
   text-decoration: underline;
-  color: #456792;
+   color: #456792;
   background-color: transparent;
   border: 0px solid white;
 }
 
+
+.btnLinkjob,
+.btnLinkjob:active {
+  background-color: transparent;
+  border: 0px solid transparent;
+}
+
+.btnLinkjob:hover {
+  text-decoration: underline;
+  color: #ffffff;
+  background-color: transparent;
+  border: 0px solid white;
+}
 .btn {
   display: inline-block;
   padding: 6px 12px;
@@ -608,10 +621,12 @@ p {
 }
 .bottmAlgmnt{
   position: fixed;
-  bottom: 30px;
+  bottom: 0px;
   left: 0;
-  padding: 5px 5px;
+  padding: 3px 3px;
   z-index: 999;
+  background-color: #456792;
+  color: white;
 }
 
 .doted_hr {

@@ -49,10 +49,10 @@ const App = () => {
               </Switch>
             </div>
           </div>
-          <footer className="footer">
+          {/* <footer className="footer">
             <Footer />
             <br />
-          </footer>
+          </footer> */}
         </Fragment>
       </Router>
     </Provider>
