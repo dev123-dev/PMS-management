@@ -166,6 +166,29 @@ const EditProject = ({
       })
     );
 
+  const Activestaff = activeClientFilter
+    .map((ele) =>
+      ele.staffs.map((ele1) => {
+        return {
+          ...ele1,
+          clientName: ele.clientName,
+          clientId: ele._id,
+          clientFolderName: ele.clientFolderName,
+        };
+      })
+    )
+    .flat(1);
+  const selectStaff = Activestaff.map((ele) => {
+    return {
+      sId: ele._id,
+      label: ele.staffName,
+      value: ele.staffName,
+      clientId: ele._id,
+      clientName: ele.clientName,
+      clientFolderName: ele.clientFolderName,
+    };
+  });
+
   const [clientData, setClientData] = useState("");
   if (
     clientData === "" &&
@@ -268,39 +291,65 @@ const EditProject = ({
       : ""
   );
 
-  const allstaffs = [];
-  activeStaffFilter[0] &&
-    activeStaffFilter[0].staffs.map((staff) =>
-      allstaffs.push({
-        sId: staff._id,
-        label: staff.staffName,
-        value: staff.staffName,
-      })
-    );
+  // const allstaffs = [];
+  // activeStaffFilter[0] &&
+  //   activeStaffFilter[0].staffs.map((staff) =>
+  //     allstaffs.push({
+  //       sId: staff._id,
+  //       label: staff.staffName,
+  //       value: staff.staffName,
+  //     })
+  //   );
 
-  const [staff, getstaffData] = useState(
-    allProjectdata && allProjectdata
-      ? allstaffs &&
-          allstaffs.filter((x) => x.sId === allProjectdata.staffId)[0]
-      : ""
-  );
+  const allstaffs =
+    activeStaffFilter[0] &&
+    activeStaffFilter[0].staffs.map((staff) => ({
+      sId: staff._id,
+      label: staff.staffName,
+      value: staff.staffName,
+    }));
+
+  //console.log("na", allProjectdata.staffName);
+
+  // const [staff, getstaffData] = useState(
+  //   allProjectdata && allProjectdata
+  //     ? allstaffs &&
+  //         allstaffs.filter((x) => x.sId === allProjectdata.staffId)[0]
+  //     : ""
+  // );
+  const [staff, getstaffData] = useState({
+    label: allProjectdata && allProjectdata.staffName,
+    value: allProjectdata && allProjectdata.staffName,
+  });
 
   const [staffId, setstaffID] = useState(
     allProjectdata && allProjectdata.staffId
   );
+
+  // const [staffName, setstaffName] = useState(
+  //   allProjectdata && allProjectdata.staffName
+  // );
+  const [ActiveClientId, setActiveClientId] = useState(null);
   const [staffName, setstaffName] = useState(
     allProjectdata && allProjectdata.staffName
   );
 
-  const onStaffChange = (e) => {
-    //Required Validation starts
-    // setError({
-    //   ...error,
-    //   StateIdChecker: true,
-    //   StateErrorStyle: { color: "#000" },
-    // });
-    //Required Validation end
+  const [ActiveClientName, setActiveClientName] = useState(
+    allProjectdata && allProjectdata.clientName ? allProjectdata.clientName : ""
+  );
 
+  const [ActiveClientFolder, setActiveClientfolder] = useState(
+    allProjectdata && allProjectdata.clientFolderName
+      ? allProjectdata.clientFolderName
+      : ""
+  );
+  const onStaffChange = (e) => {
+    setActiveClientId(e.clientId);
+    setActiveClientName(e.clientName);
+    setActiveClientName(e.clientName);
+
+    // console.log(e, "E");
+    setActiveClientfolder(e.clientFolderName);
     var staffId = "";
     var staffName = "";
     getstaffData(e);
@@ -354,13 +403,14 @@ const EditProject = ({
       const finalData = {
         recordId: allProjectdata ? allProjectdata._id : "",
         projectName: projectName?.trim(),
-        clientId: clientId,
+        clientId: ActiveClientId, //clientId,
+        clientName: ActiveClientName, //clientData.value, //
         inputpath: inputpath?.trim(),
-        clientName: clientData[0] ? clientData[0].value : clientData.value,
-        parentClientId: clientBelongsToId ? clientBelongsToId : null,
-        parentClientName: clientBelongsTo ? clientBelongsTo : null,
-        clientFolderName: clientFolderName,
-        projectPriority: priority.value,
+        // clientName: clientData[0] ? clientData[0].value : clientData.value,
+        // parentClientId: clientBelongsToId ? clientBelongsToId : null,
+        // parentClientName: clientBelongsTo ? clientBelongsTo : null,
+        clientFolderName: ActiveClientFolder,
+        projectPriority: priority.value || "",
         staffName: staffName,
         staffId: staffId,
         projectNotes: Instructions?.trim(),
@@ -375,8 +425,9 @@ const EditProject = ({
         clientDate: startclientDate,
         projectEditedById: user._id,
       };
-      EditProjectData(finalData);
-      onEditModalChange(true);
+      console.log("final Data", finalData);
+      // EditProjectData(finalData);
+      //onEditModalChange(true);
     }
   };
 
@@ -392,12 +443,15 @@ const EditProject = ({
           user.userGroupName === "Clarical Admins" ? (
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new  py-3">
+                <div
+                  className="row card-new "
+                  style={{ paddingBottom: "120px" }}
+                >
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Client Info</h5>
                   </div>
 
-                  <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
+                  <div className="col-lg-6 col-md-11 col-sm-12 col-12">
                     <label>Client Type* :</label>
                     <Select
                       name="clientType"
@@ -408,28 +462,40 @@ const EditProject = ({
                       onChange={(e) => onClientTypeChange(e)}
                     />
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label style={clientnameIdErrorStyle}>Client Name* :</label>
-                    <Select
-                      name="clientData"
-                      value={clientData}
-                      options={activeClientsOpt}
-                      isSearchable={true}
-                      placeholder="Select"
-                      onChange={(e) => onClientChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div
+                    className="col-lg-6 col-md-6 col-sm-6 col-12"
+                    style={{ postion: "Relative", top: "-29px" }}
+                  >
                     <label className="label-control">Staff Name* :</label>
                     <Select
                       name="stateName"
-                      options={allstaffs}
+                      options={selectStaff}
                       isSearchable={true}
                       value={staff}
                       placeholder="Select Staff"
                       onChange={(e) => onStaffChange(e)}
                     />
                   </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label style={clientnameIdErrorStyle}>Client Name* :</label>
+                    {/* <Select
+                      name="clientData"
+                      value={clientData}
+                      options={activeClientsOpt}
+                      isSearchable={true}
+                      placeholder="Select"
+                      onChange={(e) => onClientChange(e)}
+                    /> */}
+                    <input
+                      type="text"
+                      name="clientFolderName"
+                      value={ActiveClientName}
+                      className="form-control"
+                      //onChange={(e) => onInputChange(e)}
+                      disabled
+                    />
+                  </div>
+
                   {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Belongs to :</label>
                     <input
@@ -441,14 +507,17 @@ const EditProject = ({
                       disabled
                     />
                   </div> */}
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div
+                    className="col-lg-6 col-md-6 col-sm-6 col-12"
+                    style={{ postion: "Relative", top: "-25px" }}
+                  >
                     <label className="label-control">
                       Client folder Name :
                     </label>
                     <input
                       type="text"
-                      name="clientFolderName"
-                      value={clientFolderName}
+                      name="ActiveClientFolder"
+                      value={ActiveClientFolder}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                       disabled
@@ -458,6 +527,74 @@ const EditProject = ({
               </div>
 
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                {/* // prj Info */}
+
+                <div className="row card-new  py-2">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-1">
+                    <h5>Project Info</h5>
+                  </div>
+
+                  <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+                    <label>Project Name* :</label>
+                    <input
+                      type="text"
+                      name="projectName"
+                      value={projectName}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Input :</label>
+                    <input
+                      type="text"
+                      name="inputpath"
+                      value={inputpath}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                    />
+                  </div>
+                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Qty* :</label>
+
+                    <input
+                      type="Number"
+                      name="qty"
+                      value={qty}
+                      className="form-control"
+                      onChange={(e) => onInputChange(e)}
+                      onKeyDown={(e) =>
+                        (e.keyCode === 69 || e.keyCode === 190) &&
+                        e.preventDefault()
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Unconfirmed :</label>
+                    <input
+                      type="checkbox"
+                      id="Unconfirmed"
+                      checked={isChecked}
+                      onChange={handleOnChange}
+                    />
+                  </div>
+                  <div className="col-lg-5 col-md-6 col-sm-6 col-12 pb-4">
+                    <label className="label-control">Priority :</label>
+                    <Select
+                      name="priority"
+                      options={priorityVal}
+                      value={priority}
+                      isSearchable={true}
+                      placeholder="Select"
+                      onChange={(e) => priorityToChange(e)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                {/* // prj DAte */}
                 <div className="row card-new  py-3">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Project Dates</h5>
@@ -520,72 +657,6 @@ const EditProject = ({
                       max="23:00"
                       onChange={(e) => onInputChange(e)}
                       // required
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new  py-3">
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h5>Project Info</h5>
-                  </div>
-
-                  <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-                    <label>Project Name* :</label>
-                    <input
-                      type="text"
-                      name="projectName"
-                      value={projectName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                      required
-                    />
-                  </div>
-                  <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Input* :</label>
-                    <input
-                      type="text"
-                      name="inputpath"
-                      value={inputpath}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                      required
-                    />
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Qty* :</label>
-
-                    <input
-                      type="Number"
-                      name="qty"
-                      value={qty}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
-                      required
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Unconfirmed :</label>
-                    <input
-                      type="checkbox"
-                      id="Unconfirmed"
-                      checked={isChecked}
-                      onChange={handleOnChange}
-                    />
-                  </div>
-                  <div className="col-lg-5 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Priority :</label>
-                    <Select
-                      name="priority"
-                      options={priorityVal}
-                      value={priority}
-                      isSearchable={true}
-                      placeholder="Select"
-                      onChange={(e) => priorityToChange(e)}
                     />
                   </div>
                 </div>

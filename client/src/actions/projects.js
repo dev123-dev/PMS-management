@@ -296,6 +296,7 @@ export const getAllFolder = () => async (dispatch) => {
       type: ALL_FOLDER_NAMES,
       payload: res.data,
     });
+    localStorage.setItem("AllFolderNme", JSON.stringify(res.data));
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,

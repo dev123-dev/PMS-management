@@ -31,7 +31,7 @@ const server = app.listen(process.env.PORT, () =>
 //SLAP IP
 const io = socket(server, {
   cors: {
-    origin: "http://192.168.6.128:2001",
+    origin: "*", //"http://192.168.6.38:2001",
     credentials: true,
   },
 });

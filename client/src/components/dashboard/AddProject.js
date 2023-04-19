@@ -10,6 +10,7 @@ import {
 } from "../../actions/client";
 import { getAllProjectStatus, addProject } from "../../actions/projects";
 import { Redirect } from "react-router-dom";
+import DatePicker from "react-datepicker";
 const clientTypeVal = [
   { value: "Regular", label: "Regular Client" },
   { value: "Test", label: "Test Client" },
@@ -238,13 +239,47 @@ const AddProject = ({
     }
   };
   const [startprojectDate, setprojectDate] = useState("");
+  const [startprojectShow, setprojectShow] = useState("");
+
   const onDateChange = (e) => {
-    setprojectDate(e.target.value);
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
+    setprojectDate(clientEndDate);
+    var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    setprojectShow(clientEndDate);
   };
 
   const [startclientDate, setclientDate] = useState("");
+  const [startclientShow, SetstartclientShow] = useState("");
+
   const onDateChange1 = (e) => {
-    setclientDate(e.target.value);
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
+    setclientDate(clientEndDate);
+    var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    SetstartclientShow(clientEndDate);
   };
 
   const [isChecked, setIsChecked] = useState(false);
@@ -390,7 +425,7 @@ const AddProject = ({
         projectEnteredById: user._id,
         projectEnteredByName: user.empFullName,
       };
-      // console.log("finalData", finalData);
+      //console.log("finalData", finalData);
       addProject(finalData);
       setFormData({
         ...formData,
@@ -589,7 +624,13 @@ const AddProject = ({
                       Project Date<i className="text-danger">*</i>:
                     </label>
                     <br />
-                    <input
+                    <DatePicker
+                      label="Controlled picker"
+                      value={startprojectShow}
+                      placeholderText="dd-mm-yyyy"
+                      onChange={(newValue) => onDateChange(newValue)}
+                    />
+                    {/* <input
                       type="date"
                       placeholder="dd/mm/yyyy"
                       className="form-control cpp-input datevalidation"
@@ -600,7 +641,7 @@ const AddProject = ({
                         width: "75%",
                       }}
                       required
-                    />
+                    /> */}
                   </div>
                   {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Project Time* :</label>
@@ -621,7 +662,14 @@ const AddProject = ({
                       Client Date<i className="text-danger">*</i>:
                     </label>
                     <br />
-                    <input
+
+                    <DatePicker
+                      label="Controlled picker"
+                      value={startclientShow}
+                      placeholderText="dd-mm-yyyy"
+                      onChange={(newValue) => onDateChange1(newValue)}
+                    />
+                    {/* <input
                       type="date"
                       placeholder="dd/mm/yyyy"
                       className="form-control cpp-input datevalidation"
@@ -635,7 +683,7 @@ const AddProject = ({
                         e.preventDefault();
                       }}
                       required
-                    />
+                    /> */}
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label>Client Time :</label>
