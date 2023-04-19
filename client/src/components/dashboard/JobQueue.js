@@ -32,7 +32,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.38:8000");
+const client = new w3cwebsocket("ws://192.168.6.159:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -54,13 +54,10 @@ const JobQueue = ({
     };
     client.onmessage = (message) => {
       getUpdatedProjectStaus();
-      //window.location.reload();
+      // window.location.reload();
       // getUpdatedProjectStausForDailyJobSheet();
     };
   }, []);
-
-  useEffect(() => {}, [jobQueueProjects]);
-
   useEffect(() => {
     getJobQueueProjectDeatils();
   }, []);
@@ -82,13 +79,9 @@ const JobQueue = ({
       socket.current.emit("add-user", user._id);
     }
   }, []);
-  const LocalallFolderName = JSON.parse(localStorage.getItem("AllFolderNme"));
 
-  // console.log("LocalallFolderName", LocalallFolderName);
-  //console.log("NOTLocalallFolderName", allFolderName);
-  // allFolderName
-  //console.log("jobQueueProjects", jobQueueProjects);
-  const [filterData, setFilterData] = useState([]);
+  console.log("jobQueueProjects", jobQueueProjects);
+  const [filterData, setFilterData] = useState("");
   // getJobQueueProjectDeatils(filterData);
 
   // const [sliderValue, setSliderValue] = useState([]);
@@ -98,7 +91,6 @@ const JobQueue = ({
     { value: "Dont Work", label: "Dont Work" },
     { value: "Additional Instruction", label: "Additional Instruction" },
   ];
-
   function dhm(pDateTime) {
     let pStartDate = new Date(pDateTime);
     let pEndDate = new Date();
@@ -151,48 +143,16 @@ const JobQueue = ({
   const [clientId, setClientId] = useState("");
   const [clientFolderName, setClientName] = useState("");
 
-  //var activeClientsOpt = [];
-  //pushed data
-  // allFolderName &&
-  //   allFolderName.map((clientsData) =>
-  //     activeClientsOpt.push({
-  //       label: clientsData._id,
-  //       value: clientsData._id,
-  //     })
-  //   );
-
-  //using reducer value
-  // var activeClientsOpt =
-  //   allFolderName &&
-  //   allFolderName.map((clientsData) => ({
-  //     label: clientsData._id,
-  //     value: clientsData._id,
-  //   }));
-
-  //using local strg
-  var activeClientsOpt =
-    LocalallFolderName &&
-    LocalallFolderName.map((clientsData) => ({
-      label: clientsData._id,
-      value: clientsData._id,
-    }));
-
-  //LocalallFolderName;
-
-  const [activeClientsOptDrop, setActiveClientsOptDrop] =
-    useState(activeClientsOpt);
-
-  const onClientChange = (e) => {
-    //activeClientsOpt
-    //console.log("B filter", activeClientsOptDrop);
-
-    let filterdactiveClientsOpt = activeClientsOpt.filter(
-      (ele) => ele.label !== e.label
+  const activeClientsOpt = [];
+  allFolderName &&
+    allFolderName.map((clientsData) =>
+      activeClientsOpt.push({
+        label: clientsData._id,
+        value: clientsData._id,
+      })
     );
 
-    // console.log("one", e);
-    setActiveClientsOptDrop([e, ...filterdactiveClientsOpt]);
-
+  const onClientChange = (e) => {
     setClientData(e);
     const finalData = {
       folderNameSearch: e.value,
@@ -206,7 +166,7 @@ const JobQueue = ({
     setFilterData(finalData);
     getJobQueueProjectDeatils(finalData);
   };
-  //console.log("A Filter", activeClientsOptDrop);
+
   // Modal
   let projectStatusOpt = [];
   allProjectStatus.map((projStatusData) =>
@@ -362,7 +322,6 @@ const JobQueue = ({
     }
   };
   const [userDatas, setUserDatas] = useState(null);
-
   const onUpdate = (jobQueueProjects, idx) => {
     localStorage.removeItem("activeClientData");
     setShowEditModal(true);
@@ -439,7 +398,6 @@ const JobQueue = ({
   //   getAllchanges(finalData);
   //   setSubmitted(true);
   // };
-
   const [userDatadeactive, setUserDatadeactive] = useState(null);
   const onDeactive = (jobQueueProjects, idx) => {
     setShowDeactiveModal(true);
@@ -569,8 +527,7 @@ const JobQueue = ({
                 name="clientData"
                 isSearchable={true}
                 value={clientData}
-                //options={activeClientsOpt}
-                options={activeClientsOptDrop}
+                options={activeClientsOpt}
                 placeholder="Select Folder"
                 onChange={(e) => onClientChange(e)}
               />
