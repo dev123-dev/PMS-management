@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import DatePicker from "react-datepicker";
 import {
   getActiveClientsFilter,
   getActiveStaffFilter,
@@ -134,6 +135,7 @@ const EditProject = ({
     qty,
     priority,
     inputpath,
+
     deadline,
     projectTime,
     outputformat,
@@ -275,7 +277,91 @@ const EditProject = ({
     setBelongsToVal("");
     setFolderNameVal("");
   };
+  const [startprojectDate, setprojectDate] = useState(
+    allProjectdata && allProjectdata.projectDate
+      ? allProjectdata.projectDate
+      : ""
+  );
+  var newDate1 = startprojectDate;
 
+  var calDate1 = new Date(newDate1);
+  var dd = calDate1.getDate();
+  var mm = calDate1.getMonth() + 1;
+  var yyyy = calDate1.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+  // var clientdate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+  var projectEndDate = dd + "-" + mm + "-" + yyyy;
+  // SetstartclientShow(clientEndDate);
+  // var clientdate1 =
+
+  const [startprojectShow, setprojectShow] = useState(projectEndDate);
+
+  const onDateChange = (e) => {
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
+    setprojectDate(clientEndDate);
+    var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    setprojectShow(clientEndDate);
+  };
+
+  const [startclientDate, setclientDate] = useState(
+    allProjectdata && allProjectdata.clientDate ? allProjectdata.clientDate : ""
+  );
+  var newDate = startclientDate;
+
+  var calDate = new Date(newDate);
+  var dd1 = calDate.getDate();
+  var mm2 = calDate.getMonth() + 1;
+  var yyyy1 = calDate.getFullYear();
+  if (dd1 < 10) {
+    dd1 = "0" + dd1;
+  }
+
+  if (mm2 < 10) {
+    mm2 = "0" + mm2;
+  }
+  // var clientdate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+  var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+  // SetstartclientShow(clientEndDate);
+  // var clientdate1 =
+
+  const [startclientShow, SetstartclientShow] = useState(clientEndDate);
+
+  const onDateChange1 = (e) => {
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
+    setclientDate(clientEndDate);
+    var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    SetstartclientShow(clientEndDate);
+  };
   const priorityToChange = (e) => {
     if (e) {
       setFormData({
@@ -285,11 +371,11 @@ const EditProject = ({
     }
   };
 
-  const [startprojectDate, setprojectDate] = useState(
-    allProjectdata && allProjectdata.projectDate
-      ? allProjectdata.projectDate
-      : ""
-  );
+  // const [startprojectDate, setprojectDate] = useState(
+  //   allProjectdata && allProjectdata.projectDate
+  //     ? allProjectdata.projectDate
+  //     : ""
+  // );
 
   // const allstaffs = [];
   // activeStaffFilter[0] &&
@@ -361,16 +447,16 @@ const EditProject = ({
     setstaffName(staffName);
   };
 
-  const onDateChange = (e) => {
-    setprojectDate(e.target.value);
-  };
+  // const onDateChange = (e) => {
+  //   setprojectDate(e.target.value);
+  // };
 
-  const [startclientDate, setclientDate] = useState(
-    allProjectdata && allProjectdata.clientDate ? allProjectdata.clientDate : ""
-  );
-  const onDateChange1 = (e) => {
-    setclientDate(e.target.value);
-  };
+  // const [startclientDate, setclientDate] = useState(
+  //   allProjectdata && allProjectdata.clientDate ? allProjectdata.clientDate : ""
+  // );
+  // const onDateChange1 = (e) => {
+  //   setclientDate(e.target.value);
+  // };
   const [isChecked, setIsChecked] = useState(
     allProjectdata && allProjectdata.projectUnconfirmed
       ? allProjectdata.projectUnconfirmed
@@ -425,9 +511,9 @@ const EditProject = ({
         clientDate: startclientDate,
         projectEditedById: user._id,
       };
-      console.log("final Data", finalData);
-      // EditProjectData(finalData);
-      //onEditModalChange(true);
+
+      EditProjectData(finalData);
+      onEditModalChange(true);
     }
   };
 
@@ -603,7 +689,7 @@ const EditProject = ({
                   <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label>Project Date* :</label>
                     <br />
-                    <input
+                    {/* <input
                       type="date"
                       placeholder="dd/mm/yyyy"
                       className="form-control cpp-input datevalidation"
@@ -613,6 +699,13 @@ const EditProject = ({
                       style={{
                         width: "100%",
                       }}
+                      required
+                    /> */}
+                    <DatePicker
+                      label="Controlled picker"
+                      value={startprojectShow}
+                      placeholderText="dd-mm-yyyy"
+                      onChange={(newValue) => onDateChange(newValue)}
                       required
                     />
                   </div>
@@ -633,7 +726,7 @@ const EditProject = ({
                   <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label>Client Date* :</label>
                     <br />
-                    <input
+                    {/* <input
                       type="date"
                       placeholder="dd/mm/yyyy"
                       className="form-control cpp-input datevalidation"
@@ -643,6 +736,13 @@ const EditProject = ({
                       style={{
                         width: "100%",
                       }}
+                      required
+                    /> */}
+                    <DatePicker
+                      label="Controlled picker"
+                      value={startclientShow}
+                      placeholderText="dd-mm-yyyy"
+                      onChange={(newValue) => onDateChange1(newValue)}
                       required
                     />
                   </div>
@@ -659,11 +759,18 @@ const EditProject = ({
                       // required
                     />
                   </div>
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+                    <label className="label-control colorRed">
+                      * Client Date & Client Time is Mail Date & Mail Time.
+                      <br />* Before 2:00 PM Project Date should be previous
+                      Date. After 2:00 PM Project Date should be Today’s Date
+                    </label>
+                  </div>
                 </div>
               </div>
 
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new  py-3">
+                <div className="row card-new  py-4">
                   {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                         <label
                           className="label-control"

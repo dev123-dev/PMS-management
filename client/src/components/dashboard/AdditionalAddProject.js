@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import DatePicker from "react-datepicker";
 import {
   getActiveClientsFilter,
   getActiveStaffFilter,
@@ -15,6 +16,10 @@ const priorityVal = [
   { value: "Low", label: "Low" },
   { value: "Mid", label: "Mid" },
   { value: "High", label: "High" },
+];
+const clientTypeVal = [
+  { value: "Regular", label: "Regular Client" },
+  { value: "Test", label: "Test Client" },
 ];
 
 const AdditionalAddProject = ({
@@ -80,6 +85,11 @@ const AdditionalAddProject = ({
       ProjectCycledata && ProjectCycledata.jobQueueProjects.clientId
         ? ProjectCycledata.jobQueueProjects.clientId
         : "",
+    clientType:
+      ProjectCycledata && ProjectCycledata.jobQueueProjects.clientTypeVal
+        ? ProjectCycledata.jobQueueProjects.clientTypeVal
+        : "",
+
     clientTypeVal:
       ProjectCycledata && ProjectCycledata.jobQueueProjects.clientTypeVal
         ? ProjectCycledata.jobQueueProjects.clientTypeVal
@@ -87,6 +97,14 @@ const AdditionalAddProject = ({
     projectId:
       ProjectCycledata && ProjectCycledata.projectId
         ? ProjectCycledata.projectId
+        : "",
+    staffId:
+      ProjectCycledata && ProjectCycledata.jobQueueProjects.staffId
+        ? ProjectCycledata.jobQueueProjects.staffId
+        : "",
+    staffName:
+      ProjectCycledata && ProjectCycledata.jobQueueProjects.staffName
+        ? ProjectCycledata.jobQueueProjects.staffName
         : "",
 
     qty: "",
@@ -109,6 +127,7 @@ const AdditionalAddProject = ({
     clientTypeVal,
     inputpath,
     clientName,
+    clientType,
     clientFolderName,
     projectName,
     qty,
@@ -117,6 +136,9 @@ const AdditionalAddProject = ({
     deadline,
     // projectTime,
     clientTime,
+    staffId,
+    staffName,
+
     Instructions,
     isSubmitted,
   } = formData;
@@ -237,21 +259,74 @@ const AdditionalAddProject = ({
       });
     }
   };
-  const [startprojectDate, setprojectDate] = useState("");
+  // const [startprojectDate, setprojectDate] = useState("");
 
-  const onDateChange = (e) => {
-    setprojectDate(e.target.value);
-  };
+  // const onDateChange = (e) => {
+  //   setprojectDate(e.target.value);
+  // };
 
-  const [startclientDate, setclientDate] = useState("");
-  const onDateChange1 = (e) => {
-    setclientDate(e.target.value);
-  };
+  // const [startclientDate, setclientDate] = useState("");
+  // const onDateChange1 = (e) => {
+  //   setclientDate(e.target.value);
+  // };
 
   const [isChecked, setIsChecked] = useState(false);
 
   const handleOnChange = () => {
     setIsChecked(!isChecked);
+  };
+  const [startprojectDate, setprojectDate] = useState("");
+  const [startprojectShow, setprojectShow] = useState("");
+
+  const onDateChange = (e) => {
+    setError({
+      ...error,
+      projectdateChecker: true,
+      projectdateErrorStyle: { color: "#000" },
+    });
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
+    setprojectDate(clientEndDate);
+    var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    setprojectShow(clientEndDate);
+  };
+
+  const [startclientDate, setclientDate] = useState("");
+  const [startclientShow, SetstartclientShow] = useState("");
+
+  const onDateChange1 = (e) => {
+    setError({
+      ...error,
+      clientdateChecker: true,
+      clientdateErrorStyle: { color: "#000" },
+    });
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
+    setclientDate(clientEndDate);
+    var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    SetstartclientShow(clientEndDate);
   };
 
   // const allstaffs = [];
@@ -289,96 +364,124 @@ const AdditionalAddProject = ({
   //   setstaffName(staffName);
   // };
 
-  //Required Validation Starts
-  // const [error, setError] = useState({
-  //   clientnameIdChecker: false,
-  //   clientnameIdErrorStyle: {},
+  // Required Validation Starts
+  const [error, setError] = useState({
+    // clientnameIdChecker: false,
+    // clientnameIdErrorStyle: {},
 
-  //   ClientIdChecker: true,
-  //   ClientErrorStyle: {},
-  //   projectstatusChecker: true,
-  //   projectstatusErrorStyle: {},
-  // });
-  // const {
-  //   clientnameIdChecker,
-  //   clientnameIdErrorStyle,
+    // ClientIdChecker: true,
+    // ClientErrorStyle: {},
+    // projectstatusChecker: true,
+    // projectstatusErrorStyle: {},
+    projectdateChecker: false,
+    projectdateErrorStyle: {},
 
-  //   ClientIdChecker,
-  //   ClientErrorStyle,
-  //   projectstatusChecker,
-  //   projectstatusErrorStyle,
-  // } = error;
+    clientdateChecker: false,
+    clientdateErrorStyle: {},
+  });
+  const {
+    projectdateChecker,
+    projectdateErrorStyle,
+    clientdateChecker,
 
-  // const checkErrors = () => {
-  //   if (!ClientIdChecker) {
-  //     setError({
-  //       ...error,
-  //       ClientErrorStyle: { color: "#F00" },
-  //     });
-  //     return false;
-  //   }
+    clientdateErrorStyle,
+    clientnameIdChecker,
+    clientnameIdErrorStyle,
 
-  //   if (!clientnameIdChecker) {
-  //     setError({
-  //       ...error,
-  //       clientnameIdErrorStyle: { color: "#F00" },
-  //     });
-  //     return false;
-  //   }
+    ClientIdChecker,
+    ClientErrorStyle,
+    projectstatusChecker,
+    projectstatusErrorStyle,
+  } = error;
 
-  //   if (!projectstatusChecker) {
-  //     setError({
-  //       ...error,
-  //       projectstatusErrorStyle: { color: "#F00" },
-  //     });
-  //     return false;
-  //   }
+  const checkErrors = () => {
+    // if (!ClientIdChecker) {
+    //   setError({
+    //     ...error,
+    //     ClientErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
 
-  //   return true;
-  // };
+    // if (!clientnameIdChecker) {
+    //   setError({
+    //     ...error,
+    //     clientnameIdErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
+
+    // if (!projectstatusChecker) {
+    //   setError({
+    //     ...error,
+    //     projectstatusErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
+    if (!projectdateChecker) {
+      setError({
+        ...error,
+        projectdateErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!clientdateChecker) {
+      setError({
+        ...error,
+        clientdateErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    return true;
+  };
   const date = new Date();
   const projectEnteredTime =
     date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
-    const finalData = {
-      projectName: projectName,
-      clientId: clientId,
-      clientName: clientName,
-      projectBelongsToId: projectId,
-      // parentClientId: clientData.belongsToId,
-      //  parentClientName: clientBelongsTo,
-      inputpath: inputpath?.trim(),
-      clientFolderName: clientFolderName,
-      projectPriority: priority.value,
-      projectNotes: Instructions?.trim(),
-      projectDeadline: deadline?.trim(),
-      projectStatusType: projectStatusData.value,
-      projectStatusId: projectStatusData.projStatusId,
-      projectQuantity: qty,
-      projectUnconfirmed: isChecked,
-      clientTypeVal: clientTypeVal,
-      //   projectTime: projectTime,
-      projectDate: startprojectDate,
-      projectTime: projectEnteredTime,
-      //  projectDate: todayDateymd,
-      clientTime: clientTime,
-      outputformat: outputformat?.trim(),
-      clientDate: startclientDate,
-      projectEnteredById: user._id,
-      projectEnteredByName: user.empFullName,
-    };
+    if (checkErrors()) {
+      const finalData = {
+        projectName: projectName,
+        clientId: clientId,
+        clientName: clientName,
+        projectBelongsToId: projectId,
+        // parentClientId: clientData.belongsToId,
+        //  parentClientName: clientBelongsTo,
+        inputpath: inputpath?.trim(),
+        clientFolderName: clientFolderName,
+        projectPriority: priority.value,
+        projectNotes: Instructions?.trim(),
+        projectDeadline: deadline?.trim(),
+        projectStatusType: projectStatusData.value,
+        projectStatusId: projectStatusData.projStatusId,
+        projectQuantity: qty,
+        projectUnconfirmed: isChecked,
+        clientTypeVal: clientTypeVal,
+        staffId: staffId,
+        staffName: staffName,
+        //   projectTime: projectTime,
+        projectDate: startprojectDate,
+        projectTime: projectEnteredTime,
+        //  projectDate: todayDateymd,
+        clientTime: clientTime,
+        outputformat: outputformat?.trim(),
+        clientDate: startclientDate,
+        projectEnteredById: user._id,
+        projectEnteredByName: user.empFullName,
+      };
 
-    addProject(finalData);
-    onProjectCycleModalChange(true);
-    // setFormData({
-    //   ...formData,
-    //   isSubmitted: true,
-    // });
-    // }
+      addProject(finalData);
+      onProjectCycleModalChange(true);
+
+      // setFormData({
+      //   ...formData,
+      //   isSubmitted: true,
+      // });
+      // }
+    }
   };
+
   if (isSubmitted) {
     return <Redirect to="/daily-job-sheet" />;
   }
@@ -394,7 +497,7 @@ const AdditionalAddProject = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
             <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-              <div className="row card-new  py-3">
+              <div className="row card-new  py-5">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                   <h5>Client Info</h5>
                 </div>
@@ -410,6 +513,86 @@ const AdditionalAddProject = ({
                     onChange={(e) => onClientTypeChange(e)}
                   />
                 </div> */}
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <label
+                  // style={clientnameIdErrorStyle}
+                  >
+                    Client Type* :
+                  </label>
+                  <input
+                    type="text"
+                    name="clientName"
+                    value={clientType}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                    disabled
+                  />
+                  {/* <div className="col-lg-6 col-md-11 col-sm-12 col-12 ">
+                  <label>
+                    Client Type<i className="text-danger">*</i> :
+                  </label> */}
+                  {/* style={ClientErrorStyle} */}
+                  {/* <Select
+                    name="clientType"
+                    isSearchable={true}
+                    options={clientTypeVal}
+                    value={clientType || clientTypeVal[0]}
+                    placeholder="Select"
+                    //onChange={(e) => onClientTypeChange(e)}
+                  /> */}
+                </div>
+                {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12"> */}
+                {/* <label style={staffNameIdErrorStyle}> */}
+                {/* <label>
+                    Staff Name<i className="text-danger">*</i> :
+                  </label> */}
+                {/* <Select selectStaff
+                      name="stateName"
+                      options={allstaffs}
+                      isSearchable={true}
+                      value={staff}
+                      placeholder="Select Staff"
+                      onChange={(e) => onStaffChange(e)}
+                    /> */}
+                {/* <Select
+                    name="stateName"
+                    // options={selectStaff}
+
+                    isSearchable={true}
+                    // value={staff}
+                    placeholder="Select Staff"
+                    // onChange={(e) => onStaffChange(e)}
+                  /> */}
+                <br />
+                {/* </div> */}
+                <br />
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <label
+                  // style={clientnameIdErrorStyle}
+                  >
+                    Staff Name* :
+                  </label>
+                  <input
+                    type="text"
+                    name="StaffName"
+                    value={staffName}
+                    className="form-control"
+                    onChange={(e) => onInputChange(e)}
+                    disabled
+                  />
+
+                  <br />
+
+                  {/* <Select
+                    name="clientData"
+                    isSearchable={true}
+                    value={clientData}
+                    options={activeClientsOpt}
+                    placeholder="Select"
+                    onChange={(e) => onClientChange(e)}
+                  /> */}
+                </div>
+
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <label
                   // style={clientnameIdErrorStyle}
@@ -468,79 +651,8 @@ const AdditionalAddProject = ({
                 </div>
               </div>
             </div>
-
-            <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
-              <div className="row card-new  py-3">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                  <h5>Date Info</h5>
-                </div>
-
-                <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                  <label>Project Date* :</label>
-                  <br />
-                  <input
-                    type="date"
-                    placeholder="dd/mm/yyyy"
-                    className="form-control cpp-input datevalidation"
-                    name="projectDate"
-                    value={startprojectDate}
-                    onChange={(e) => onDateChange(e)}
-                    style={{
-                      width: "75%",
-                    }}
-                    required
-                  />
-                </div>
-                {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Project Time* :</label>
-                    <br />
-                    <input
-                      type="time"
-                      className="form-control"
-                      name="projectTime"
-                      value={projectTime}
-                      min="00:00"
-                      max="24:00"
-                      onChange={(e) => onInputChange(e)}
-                      // required
-                    />
-                  </div> */}
-                <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                  <label>Client Date* :</label>
-                  <br />
-                  <input
-                    type="date"
-                    placeholder="dd/mm/yyyy"
-                    className="form-control cpp-input datevalidation"
-                    name="clientDate"
-                    value={startclientDate}
-                    onChange={(e) => onDateChange1(e)}
-                    style={{
-                      width: "75%",
-                    }}
-                    onKeyDown={(e) => {
-                      e.preventDefault();
-                    }}
-                    required
-                  />
-                </div>
-                <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                  <label>Client Time :</label>
-                  <input
-                    type="time"
-                    name="clientTime"
-                    value={clientTime}
-                    className="form-control"
-                    min="00:00"
-                    max="24:00"
-                    onChange={(e) => onInputChange(e)}
-                    // required
-                  />
-                </div>
-              </div>
-            </div>
             <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-              <div className="row card-new">
+              <div className="row card-new ">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                   <h5>Project Info</h5>
                 </div>
@@ -561,14 +673,13 @@ const AdditionalAddProject = ({
                   />
                 </div>
                 <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Input* :</label>
+                  <label className="label-control">Input :</label>
                   <input
                     type="text"
                     name="inputpath"
                     value={inputpath}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
-                    required
                   />
                 </div>
                 <div className="col-lg-4 col-md-6 col-sm-6 col-12">
@@ -604,6 +715,96 @@ const AdditionalAddProject = ({
                     placeholder="Select"
                     onChange={(e) => priorityToChange(e)}
                   />
+                </div>
+              </div>
+            </div>
+
+            <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
+              <div className="row card-new  py-2">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <h5>Date Info</h5>
+                </div>
+
+                <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <label style={projectdateErrorStyle}>Project Date* :</label>
+                  <br />
+                  {/* <input
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
+                    name="projectDate"
+                    value={startprojectDate}
+                    onChange={(e) => onDateChange(e)}
+                    style={{
+                      width: "75%",
+                    }}
+                    required
+                  /> */}
+                  <DatePicker
+                    label="Controlled picker"
+                    value={startprojectShow}
+                    placeholderText="dd-mm-yyyy"
+                    onChange={(newValue) => onDateChange(newValue)}
+                  />
+                </div>
+                {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label className="label-control">Project Time* :</label>
+                    <br />
+                    <input
+                      type="time"
+                      className="form-control"
+                      name="projectTime"
+                      value={projectTime}
+                      min="00:00"
+                      max="24:00"
+                      onChange={(e) => onInputChange(e)}
+                      // required
+                    />
+                  </div> */}
+                <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <label style={clientdateErrorStyle}>Client Date* :</label>
+                  <br />
+                  {/* <input
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
+                    name="clientDate"
+                    value={startclientDate}
+                    onChange={(e) => onDateChange1(e)}
+                    style={{
+                      width: "75%",
+                    }}
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
+                    required
+                  /> */}
+                  <DatePicker
+                    label="Controlled picker"
+                    value={startclientShow}
+                    placeholderText="dd-mm-yyyy"
+                    onChange={(newValue) => onDateChange1(newValue)}
+                  />
+                </div>
+                <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <label>Client Time :</label>
+                  <input
+                    type="time"
+                    name="clientTime"
+                    value={clientTime}
+                    className="form-control"
+                    min="00:00"
+                    max="24:00"
+                    onChange={(e) => onInputChange(e)}
+                    // required
+                  />
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-12 mt-5">
+                  <label className="label-control colorRed">
+                    * Client Date & Client Time is Mail Date & Mail Time.
+                    <br />* Before 2:00 PM Project Date should be previous Date.
+                    After 2:00 PM Project Date should be Today’s Date
+                  </label>
                 </div>
               </div>
             </div>

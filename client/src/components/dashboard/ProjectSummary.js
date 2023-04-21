@@ -21,7 +21,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.159:8000");
+const client = new w3cwebsocket("ws://192.168.6.38:8000");
 const ProjectSummary = ({
   auth: { isAuthenticated, user, users },
   project: { clientJobSummary, allProjectStatus },
@@ -347,7 +347,7 @@ const ProjectSummary = ({
                       <tr>
                         <th>Sl</th>
                         <th>Qty</th>
-                        <th>Type</th>
+                        <th>Priority Type</th>
                         <th>Deadline</th>
                         <th>Pending Qty</th>
                         <th style={{ width: "25%" }}>Status</th>

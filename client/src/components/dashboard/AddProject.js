@@ -242,6 +242,12 @@ const AddProject = ({
   const [startprojectShow, setprojectShow] = useState("");
 
   const onDateChange = (e) => {
+    setError({
+      ...error,
+      projectdateChecker: true,
+      projectdateErrorStyle: { color: "#000" },
+    });
+
     var newDate = e;
     var calDate = new Date(newDate);
     var dd1 = calDate.getDate();
@@ -264,6 +270,11 @@ const AddProject = ({
   const [startclientShow, SetstartclientShow] = useState("");
 
   const onDateChange1 = (e) => {
+    setError({
+      ...error,
+      clientdateChecker: true,
+      clientdateErrorStyle: { color: "#000" },
+    });
     var newDate = e;
     var calDate = new Date(newDate);
     var dd1 = calDate.getDate();
@@ -297,6 +308,42 @@ const AddProject = ({
         value: staff.staffName,
       })
     );
+  // //validation for select project date
+  // const [errors, setErrors] = useState({
+  //   projectdateChecker: false,
+  //   projectdateErrorStyle: {},
+  // });
+  // const { projectdateChecker, projectdateErrorStyle } = errors;
+
+  // const checkError = () => {
+  //   if (!projectdateChecker) {
+  //     setErrors({
+  //       ...errors,
+  //       projectdateErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
+
+  //   return true;
+  // };
+  // //validation for select client date
+  // const [errors1, setErrors1] = useState({
+  //   clientdateChecker: false,
+  //   clientdateErrorStyle: {},
+  // });
+  // const { clientdateChecker, clientdateErrorStyle } = errors1;
+
+  // const checkError1 = () => {
+  //   if (!clientdateChecker) {
+  //     setErrors({
+  //       ...errors,
+  //       clientdateErrorStyle: { color: "#F00" },
+  //     });
+  //     return false;
+  //   }
+
+  //   return true;
+  // };
 
   const [staff, getstaffData] = useState("");
 
@@ -341,13 +388,23 @@ const AddProject = ({
     // ClientErrorStyle: {},
     projectstatusChecker: true,
     projectstatusErrorStyle: {},
+
+    projectdateChecker: false,
+    projectdateErrorStyle: {},
+
+    clientdateChecker: false,
+    clientdateErrorStyle: {},
   });
   const {
     // clientnameIdChecker,
     // clientnameIdErrorStyle,
     staffNameIdChecker,
     staffNameIdErrorStyle,
-    ClientIdChecker,
+    projectdateChecker,
+    projectdateErrorStyle,
+    clientdateChecker,
+
+    clientdateErrorStyle,
     ClientErrorStyle,
     projectstatusChecker,
     projectstatusErrorStyle,
@@ -382,6 +439,20 @@ const AddProject = ({
       setError({
         ...error,
         projectstatusErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!projectdateChecker) {
+      setError({
+        ...error,
+        projectdateErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!clientdateChecker) {
+      setError({
+        ...error,
+        clientdateErrorStyle: { color: "#F00" },
       });
       return false;
     }
@@ -620,7 +691,7 @@ const AddProject = ({
                   </div>
 
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label>
+                    <label style={projectdateErrorStyle}>
                       Project Date<i className="text-danger">*</i>:
                     </label>
                     <br />
@@ -658,7 +729,7 @@ const AddProject = ({
                     />
                   </div> */}
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label>
+                    <label style={clientdateErrorStyle}>
                       Client Date<i className="text-danger">*</i>:
                     </label>
                     <br />
