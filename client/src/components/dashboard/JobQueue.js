@@ -32,7 +32,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.38:8000");
+const client = new w3cwebsocket("ws://192.168.6.40:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -62,9 +62,8 @@ const JobQueue = ({
       // window.location.reload();
       // getUpdatedProjectStausForDailyJobSheet();
     };
-    console.log("REfreshed", clientData);
   }, [clientData]);
-  console.log(" pidai", clientData);
+
   useEffect(() => {
     getJobQueueProjectDeatils();
   }, []);
@@ -87,7 +86,6 @@ const JobQueue = ({
     }
   }, []);
 
-  //console.log("jobQueueProjects", jobQueueProjects);
   const [filterData, setFilterData] = useState("");
   // getJobQueueProjectDeatils(filterData);
 
@@ -164,7 +162,7 @@ const JobQueue = ({
       folderNameSearch: e.value,
       statusCategory: statusData.value,
     };
-    console.log("finnal", finalData);
+
     var clientFolderName = "";
     clientFolderName = e.value;
     setClientName(clientFolderName);
@@ -313,7 +311,7 @@ const JobQueue = ({
     const finalData = {
       folderNameSearch: clientFolderName,
     };
-    console.log("sl", finalData);
+
     if (clientData) {
       // getJobQueueProjectDeatils(finalData);
     }
@@ -506,6 +504,7 @@ const JobQueue = ({
     csvData.push([
       JobqueuesheetData.clientName,
       JobqueuesheetData.clientFolderName,
+      JobqueuesheetData.staffName,
       JobqueuesheetData.projectName,
       JobqueuesheetData.projectDate,
       JobqueuesheetData.projectStatusType,
@@ -645,7 +644,6 @@ const JobQueue = ({
                     <tbody>
                       {jobQueueProjects &&
                         jobQueueProjects.map((jobQueueProjects, idx) => {
-                          console.log("hi");
                           let PST = jobQueueProjects.projectStatusType;
                           projectQty += jobQueueProjects.projectQuantity;
                           let statusType = jobQueueProjects.projectStatusType;
@@ -682,12 +680,7 @@ const JobQueue = ({
                             //   timeOutMsg(jobQueueProjects);
                             // }
                           }
-                          console.log(
-                            "gg",
-                            clientFolderName,
-                            jobQueueProjects &&
-                              jobQueueProjects.clientFolderName
-                          );
+
                           if (clientFolderName === "") {
                             return (
                               <tr key={idx}>
@@ -1223,7 +1216,7 @@ const JobQueue = ({
               className="btnLinkjob"
               onClick={() => onstatusTypeSelect("Downloading")}
             >
-              Downloading:{downloadingQty}
+              <span className="footerfont"> Downloading:{downloadingQty}</span>
             </Link>
             &emsp;
             <Link
@@ -1231,7 +1224,7 @@ const JobQueue = ({
               className="btnLinkjob"
               onClick={() => onstatusTypeSelect("Working")}
             >
-              Working : {WorkingQty}
+              <span className="footerfont"> Working : {WorkingQty}</span>
             </Link>
             &emsp;
             <Link
@@ -1239,7 +1232,7 @@ const JobQueue = ({
               className="btnLinkjob"
               onClick={() => onstatusTypeSelect("Pending")}
             >
-              Pending : {PendingQty}
+              <span className="footerfont"> Pending : {PendingQty}</span>
             </Link>
             &emsp;
             <Link
@@ -1247,7 +1240,7 @@ const JobQueue = ({
               className="btnLinkjob"
               onClick={() => onstatusTypeSelect("QC Pending")}
             >
-              QC Pending: {QCPendingQty}
+              <span className="footerfont">QC Pending: {QCPendingQty}</span>
             </Link>
             &emsp;
             <Link
@@ -1255,7 +1248,7 @@ const JobQueue = ({
               className="btnLinkjob"
               onClick={() => onstatusTypeSelect("QC Estimate")}
             >
-              QC Estimate : {QCEstimateQty}
+              <span className="footerfont"> QC Estimate : {QCEstimateQty}</span>
             </Link>
             &emsp;
             <Link
@@ -1263,14 +1256,20 @@ const JobQueue = ({
               className="btnLinkjob"
               onClick={() => onstatusTypeSelect("Uploading")}
             >
-              Uploading: {UploadingQty}
+              <span className="footerfont"> Uploading: {UploadingQty}</span>
             </Link>
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            Projects:{jobQueueProjects.length}
+            <span className="footerfont">
+              Projects:
+              {jobQueueProjects.length}
+            </span>
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            Quantity:{projectQty}
+            <span className="footerfont">
+              Quantity:
+              {projectQty}
+            </span>
           </div>
         </div>
 

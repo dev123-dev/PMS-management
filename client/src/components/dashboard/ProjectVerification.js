@@ -15,7 +15,7 @@ import { getAllchanges, getUpdatedProjectStaus } from "../../actions/projects";
 import { w3cwebsocket } from "websocket";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.159:8000");
+const client = new w3cwebsocket("ws://192.168.6.40:8000");
 
 const ProjectVerification = ({
   auth: { isAuthenticated, user, users },
@@ -311,10 +311,13 @@ const ProjectVerification = ({
             <label>Uploading: {UploadingQty}&emsp;</label> */}
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            Projects:{unVerifiedProjects.length}
+            <span className="footerfont">
+              {" "}
+              Projects:{unVerifiedProjects.length}
+            </span>
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            Quantity:{projectQty}
+            <span className="footerfont">Quantity:{projectQty}</span>
           </div>
         </div>
       </div>

@@ -8,6 +8,8 @@ import ChangeProjectLifeCycle from "./ChangeProjectLifeCycle";
 import Spinner from "../layout/Spinner";
 import EditProject from "./EditProject";
 import JobHistory from "./JobHistory";
+import DatePicker from "react-datepicker";
+
 import axios from "axios";
 import { allUsersRoute, host, sendMessageRoute } from "../../utils/APIRoutes";
 import {
@@ -426,12 +428,31 @@ const DailyJobSheet = ({
   const [singledate, setsingledate] = useState(
     new Date().toISOString().split("T")[0]
   );
+  const [singledateshow, setsingledateshow] = useState("");
+
   //
   const onDateChange2 = (e) => {
     // setprojectData("");
-    setsingledate(e.target.value);
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
+    setsingledate(clientEndDate);
+    var clientDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    setsingledateshow(clientDate);
+
+    // setsingledate(e.target.value);
     let selDateData = {
-      selDate: e.target.value,
+      selDate: clientEndDate,
       dateType: "Single Date",
       folderId: projectData.folderId,
     };
@@ -443,20 +464,57 @@ const DailyJobSheet = ({
   };
 
   const [fromdate, setfromdate] = useState("");
+  const [fromdateshow, setfromdateshow] = useState("");
   const onDateChange = (e) => {
-    setfromdate(e.target.value);
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
+    setfromdate(clientEndDate);
+    console.log("from date", clientEndDate);
+    var clientDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    setfromdateshow(clientDate);
+    //setfromdate(e.target.value);
   };
 
   const [todate, settodate] = useState("");
+  const [todateshow, settodateshow] = useState("");
   const onDateChange1 = (e) => {
-    settodate(e.target.value);
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
+    settodate(clientEndDate);
+    console.log("to date", clientEndDate);
+    var clientDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    settodateshow(clientDate);
+    //settodate(e.target.value);
 
     let selDateData = {
       fromdate: fromdate,
-      todate: e.target.value,
+      todate: clientEndDate,
       dateType: "Multi Date",
       folderId: projectData.folderId,
     };
+    console.log(selDateData);
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
     getDailyJobSheetExcelExport(selDateData);
@@ -569,7 +627,7 @@ const DailyJobSheet = ({
       showdateSection1: true,
     });
   };
-
+  console.log("op", dailyJobsheetProjects);
   const fileName = [clientName1 ? clientName1 : "Client Report"];
 
   return !isAuthenticated || !user || !users ? (
@@ -608,8 +666,18 @@ const DailyJobSheet = ({
               </div>
               {showdateSection && (
                 <>
-                  <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-                    <input
+                  <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2 ">
+                    <DatePicker
+                      label="Controlled picker"
+                      value={fromdateshow}
+                      placeholderText="dd-mm-yyyy"
+                      className="form-control "
+                      style={{
+                        width: "100%",
+                      }}
+                      onChange={(newValue) => onDateChange(newValue)}
+                    />
+                    {/* <input
                       type="date"
                       placeholder="dd/mm/yyyy"
                       className="form-control cpp-input datevalidation"
@@ -623,10 +691,20 @@ const DailyJobSheet = ({
                         e.preventDefault();
                       }}
                       required
-                    />
+                    /> */}
                   </div>
-                  <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-                    <input
+                  <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2 ">
+                    <DatePicker
+                      label="Controlled picker"
+                      value={todateshow}
+                      placeholderText="dd-mm-yyyy"
+                      className="form-control "
+                      style={{
+                        width: "100%",
+                      }}
+                      onChange={(newValue) => onDateChange1(newValue)}
+                    />
+                    {/* <input
                       type="date"
                       placeholder="dd/mm/yyyy"
                       className="form-control cpp-input datevalidation"
@@ -640,7 +718,7 @@ const DailyJobSheet = ({
                         e.preventDefault();
                       }}
                       required
-                    />
+                    /> */}
                   </div>
                   {/* <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-3">
                     <img
@@ -655,8 +733,18 @@ const DailyJobSheet = ({
               )}
               {showdateSection1 && (
                 <>
-                  <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
-                    <input
+                  <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2  ">
+                    <DatePicker
+                      label="Controlled picker"
+                      value={singledateshow}
+                      placeholderText="dd-mm-yyyy"
+                      className="form-control "
+                      style={{
+                        width: "100%",
+                      }}
+                      onChange={(newValue) => onDateChange2(newValue)}
+                    />
+                    {/* <input
                       type="date"
                       placeholder="dd/mm/yyyy"
                       className="form-control cpp-input datevalidation"
@@ -670,7 +758,7 @@ const DailyJobSheet = ({
                         e.preventDefault();
                       }}
                       required
-                    />
+                    /> */}
                   </div>
                   {/* <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-3">
                     <img
@@ -1079,7 +1167,7 @@ const DailyJobSheet = ({
           </div>
           <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
             {/* Clients:{clients}&nbsp; */}
-            Quantity:{projectQty}
+            <span className="footerfont">Quantity:{projectQty}</span>
           </div>
         </div>
 
