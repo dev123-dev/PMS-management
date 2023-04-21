@@ -1167,7 +1167,7 @@ const DailyJobSheet = ({
           </div>
           <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
             {/* Clients:{clients}&nbsp; */}
-            Quantity:{projectQty}
+            <span className="footerfont">Quantity:{projectQty}</span>
           </div>
         </div>
 
