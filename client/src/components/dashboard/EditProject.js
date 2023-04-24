@@ -415,7 +415,9 @@ const EditProject = ({
   // const [staffName, setstaffName] = useState(
   //   allProjectdata && allProjectdata.staffName
   // );
-  const [ActiveClientId, setActiveClientId] = useState(null);
+  const [ActiveClientId, setActiveClientId] = useState(
+    allProjectdata && allProjectdata.clientId ? allProjectdata.clientId : ""
+  );
   const [staffName, setstaffName] = useState(
     allProjectdata && allProjectdata.staffName
   );
@@ -511,7 +513,7 @@ const EditProject = ({
         clientDate: startclientDate,
         projectEditedById: user._id,
       };
-
+      console.log(finalData);
       EditProjectData(finalData);
       onEditModalChange(true);
     }
