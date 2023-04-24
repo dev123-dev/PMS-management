@@ -32,7 +32,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.40:8000");
+const client = new w3cwebsocket("ws://192.168.6.38:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -323,7 +323,8 @@ const JobQueue = ({
     PendingQty = 0,
     QCPendingQty = 0,
     QCEstimateQty = 0,
-    UploadingQty = 0;
+    UploadingQty = 0,
+    QCDoneQty = 0;
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -653,6 +654,7 @@ const JobQueue = ({
                           if (statusType === "QC Pending") QCPendingQty += 1;
                           if (statusType === "QC Estimate") QCEstimateQty += 1;
                           if (statusType === "Uploading") UploadingQty += 1;
+                          if (statusType === "QC DONE") QCDoneQty += 1;
                           let estimatedTimeVal = "",
                             jobTime = "",
                             timeOut = false;
@@ -1216,7 +1218,10 @@ const JobQueue = ({
               className="btnLinkjob"
               onClick={() => onstatusTypeSelect("Downloading")}
             >
-              <span className="footerfont"> Downloading:{downloadingQty}</span>
+              <span className="footerfont">
+                {" "}
+                Downloading : {downloadingQty}
+              </span>
             </Link>
             &emsp;
             <Link
@@ -1240,7 +1245,7 @@ const JobQueue = ({
               className="btnLinkjob"
               onClick={() => onstatusTypeSelect("QC Pending")}
             >
-              <span className="footerfont">QC Pending: {QCPendingQty}</span>
+              <span className="footerfont">QC Pending : {QCPendingQty}</span>
             </Link>
             &emsp;
             <Link
@@ -1256,20 +1261,24 @@ const JobQueue = ({
               className="btnLinkjob"
               onClick={() => onstatusTypeSelect("Uploading")}
             >
-              <span className="footerfont"> Uploading: {UploadingQty}</span>
+              <span className="footerfont"> Uploading : {UploadingQty}</span>
+            </Link>
+            &emsp;
+            <Link
+              to="#"
+              className="btnLinkjob"
+              onClick={() => onstatusTypeSelect("QC DONE")}
+            >
+              <span className="footerfont"> QC Done : {QCDoneQty}</span>
             </Link>
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             <span className="footerfont">
-              Projects:
-              {jobQueueProjects.length}
+              Projects : {jobQueueProjects.length}
             </span>
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            <span className="footerfont">
-              Quantity:
-              {projectQty}
-            </span>
+            <span className="footerfont">Quantity : {projectQty}</span>
           </div>
         </div>
 
