@@ -656,7 +656,7 @@ const DailyJobSheet = ({
                       isSearchable={true}
                       // defaultValue={DateMethods[0]}
                       value={Dateselectmode}
-                      placeholder="Select"
+                      placeholder="Select "
                       onChange={(e) => onDateModeChange(e)}
                     />
                   </>
@@ -777,7 +777,7 @@ const DailyJobSheet = ({
                   isSearchable={true}
                   value={projectData}
                   options={activeFolderOpt}
-                  placeholder="Select"
+                  placeholder="Select Folder"
                   onChange={(e) => onProjectChange(e)}
                 />
               </div>
