@@ -116,7 +116,7 @@ const AllSctStatusChange = ({
   const {
     sctCallNote,
     sctCallStatus,
-    sctLeadsCategory,
+
     toTime,
 
     salesValue,
@@ -242,6 +242,7 @@ const AllSctStatusChange = ({
   } = showHide;
 
   const [showstatus, setstatus] = useState("");
+  const [sctLeadsCategory, setsctLeadsCategory] = useState("");
 
   const onStatusTypeChange = (e) => {
     if (e.value === "CallBack") {
@@ -250,6 +251,7 @@ const AllSctStatusChange = ({
         ...formData,
         sctCallStatus: e,
       });
+      setsctLeadsCategory("");
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
@@ -376,12 +378,7 @@ const AllSctStatusChange = ({
   };
 
   const onLeadCategoryChange = (e) => {
-    if (e) {
-      setFormData({
-        ...formData,
-        sctLeadsCategory: e,
-      });
-    }
+    setsctLeadsCategory(e);
   };
   const [demoDate, setdemoDate] = useState("");
   const onDateChange1 = (e) => {
@@ -480,9 +477,9 @@ const AllSctStatusChange = ({
       };
       console.log("finalData", finalData);
       if (from === "EngagedClient" || from === "RegularClient") {
-        addSctClientCalls(finalData);
+        //addSctClientCalls(finalData);
       } else {
-        addSctCalls(finalData);
+        //addSctCalls(finalData);
       }
 
       if (
@@ -749,7 +746,7 @@ const AllSctStatusChange = ({
             </div>
           )}
 
-          {showstatus === "true" ? (
+          {showstatus === "true" && sctLeadsCategory ? (
             <>
               {" "}
               <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
