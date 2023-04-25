@@ -835,9 +835,15 @@ label {
   height:26vh;
 }
 .fixTableHead {
-  overflow-y: auto;
-  height:77.5vh;/*77.5*/
+   overflow-y: auto;
+  height:77.5vh;
+  
+
 }
+
+
+
+
 .fixTableHeadCT{
   overflow-y: auto;
   height:74.5vh;
@@ -2126,7 +2132,6 @@ padding: 0.15rem !important;
   padding: 12px 15px !important;
 }
 
-
 .rs-dropdown-toggle-caret {
  /* margin-left: 10px !important; */
  /* padding: 13px 15px !important; */
@@ -2146,7 +2151,6 @@ padding: 0.15rem !important;
   --rs-text-link-hover: #fff !important;
   text-decoration: none !important;
 }
-
 /*close*/
 
 /*to Remove border for sct and dct dropdownmenu*/
@@ -2154,13 +2158,11 @@ button:focus,button:active {
   outline: none !important;
   
 }
-/*end*/
-  
+/*end*/ 
 
 /* to remove underline in notes */
 .linkoflastmesge{text-decoration: none !important;}
 /*end*/
- 
 
 /*for date field same as dropdown*/
 .datevalidation{
@@ -2218,4 +2220,8 @@ font-weight: 600;
 
 .transferTop{
   margin-top: 30px;
+}
+.footerfont{
+  font-size: 16px;
+  font-weight: bold;
 }

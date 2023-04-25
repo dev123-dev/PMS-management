@@ -61,8 +61,11 @@ const auth = (state = initialState, action) => {
     case LOGIN_FAIL:
     case AUTH_ERROR:
     case LOGOUT:
+      const a = JSON.parse(localStorage.getItem("AllFolderName"));
+      // console.log("auth", a);
       localStorage.removeItem("token");
       localStorage.clear();
+      localStorage.setItem("AllFolderName", JSON.stringify(a));
       return {
         ...state,
         user: null,
