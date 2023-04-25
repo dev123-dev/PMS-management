@@ -755,6 +755,7 @@ router.post("/get-sct-last-message", async (req, res) => {
 
 router.post("/add-sct-calls", async (req, res) => {
   let data = req.body;
+
   try {
     let AddSctCallsDetails = new SctCalls(data);
     output = await AddSctCallsDetails.save();

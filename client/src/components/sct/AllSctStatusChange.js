@@ -118,7 +118,7 @@ const AllSctStatusChange = ({
     sctCallStatus,
     sctLeadsCategory,
     toTime,
-    expectedMonth,
+
     salesValue,
     fromTime,
     sctCallTime,
@@ -387,6 +387,37 @@ const AllSctStatusChange = ({
   const onDateChange1 = (e) => {
     setdemoDate(e.target.value);
   };
+  const MonthYear = [
+    { label: "January", value: 1 },
+    { label: "Febrery", value: 2 },
+    { label: "March", value: 3 },
+    { label: "April", value: 4 },
+    { label: "May", value: 5 },
+    { label: "June", value: 6 },
+    { label: "July", value: 7 },
+    { label: "August", value: 8 },
+    { label: "Septmber", value: 9 },
+    { label: "October", value: 10 },
+    { label: "November", value: 11 },
+    { label: "December", value: 12 },
+  ];
+  const [MonthAndYear, setMonthYear] = useState("");
+  const [expectedMonth, SetexpectedMonth] = useState("");
+  const onDateChange2 = (e) => {
+    SetexpectedMonth(e.target.value);
+    const new_date = new Date(e.target.value);
+    const year = new_date.getFullYear();
+    console.log(year);
+    let new_month = new_date.getMonth() + 1;
+    const month = MonthYear.filter((ele) => {
+      if (ele.value === new_month) {
+        return ele.label;
+      }
+    });
+    let final_data = month[0].label + "-" + year;
+    setMonthYear(final_data);
+  };
+
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -435,9 +466,10 @@ const AllSctStatusChange = ({
         sctcallToNumber: staffsNumber ? staffsNumber : phone1,
         // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
         sctCallDate: startStatusDate || demoDate || todayDateymd,
-        expectedMonth: expectedMonth,
+        sctExpectedMonth: expectedMonth,
+        sctExpectedMonthYear: MonthAndYear,
         sctCallTime: sctCallTime,
-        salesValue: salesValue,
+        sctCallSalesValue: salesValue,
         sctCallNote: sctCallNote?.trim(),
         sctCallComeFrom: callComeFromVal,
         sctCallTakenDate: new Date().toISOString().split("T")[0],
@@ -519,7 +551,7 @@ const AllSctStatusChange = ({
           sctStaffs: leadDataVal.sctStaffs,
         };
 
-        addSctClientDetails(transferData);
+        // addSctClientDetails(transferData);
       }
       setFormData({
         ...formData,
@@ -730,7 +762,7 @@ const AllSctStatusChange = ({
                   min={todaydate}
                   name="expectedMonth"
                   value={expectedMonth}
-                  onChange={(e) => onInputChange(e)}
+                  onChange={(e) => onDateChange2(e)}
                   style={{
                     width: "100%",
                   }}
