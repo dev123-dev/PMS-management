@@ -32,7 +32,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.38:8000");
+const client = new w3cwebsocket("ws://192.168.6.39:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -147,32 +147,32 @@ const JobQueue = ({
   const [clientId, setClientId] = useState("");
   const [clientFolderName, setClientName] = useState("");
 
-  //const activeClientsOpt = [];
-  // allFolderName &&
-  //   allFolderName.map((clientsData) =>
-  //     activeClientsOpt.push({
-  //       label: clientsData._id,
-  //       value: clientsData._id,
-  //     })
-  //   );
-
-  const LocalallFolderName = JSON.parse(localStorage.getItem("AllFolderName"));
-  //console.log(LocalallFolderName);
-
-  const [activeClientsOpt, setactiveClientsOpt1] = useState(
-    LocalallFolderName &&
-      LocalallFolderName.map((clientsData) => ({
-        label: clientsData && clientsData._id,
-        value: clientsData && clientsData._id,
-      }))
-  );
-
-  const onClientChange = (e) => {
-    const getAllButSelected = activeClientsOpt.filter(
-      (ele) => ele.label !== e.label
+  const activeClientsOpt = [];
+  allFolderName &&
+    allFolderName.map((clientsData) =>
+      activeClientsOpt.push({
+        label: clientsData._id,
+        value: clientsData._id,
+      })
     );
 
-    setactiveClientsOpt1([e, ...getAllButSelected]);
+  // const LocalallFolderName = JSON.parse(localStorage.getItem("AllFolderName"));
+  // //console.log(LocalallFolderName);
+
+  // const [activeClientsOpt, setactiveClientsOpt1] = useState(
+  //   LocalallFolderName &&
+  //     LocalallFolderName.map((clientsData) => ({
+  //       label: clientsData && clientsData._id,
+  //       value: clientsData && clientsData._id,
+  //     }))
+  // );
+
+  const onClientChange = (e) => {
+    // const getAllButSelected = activeClientsOpt.filter(
+    //   (ele) => ele.label !== e.label
+    // );
+
+    // setactiveClientsOpt1([e, ...getAllButSelected]);
 
     setClientData(e);
     const finalData = {
@@ -517,6 +517,7 @@ const JobQueue = ({
     [
       "Client Name",
       "Folder Name",
+      "Staff Name",
       "Project Name",
       "Project Date ",
       "Status",
