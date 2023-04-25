@@ -310,6 +310,12 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     >
                       <Dropdown.Item> Sct Daily Report</Dropdown.Item>
                     </NavLink>
+                    <NavLink
+                      to="/sct-call-report"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>Call Report</Dropdown.Item>
+                    </NavLink>
                   </Dropdown>
                 ) : (
                   <></>

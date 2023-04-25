@@ -103,6 +103,7 @@ import ClientReport from "../Reports/ClientReport";
 import AddDailyTarget from "../dashboard/AddDailyTarget";
 import ProjectSummary from "../dashboard/ProjectSummary";
 import AdditionalAddProject from "../dashboard/AdditionalAddProject";
+import CallReport from "../sct/CallReport";
 const RoutesFile = () => {
   return (
     <section>
@@ -128,6 +129,7 @@ const RoutesFile = () => {
           path="/sct-daily-report"
           component={SctDailyReport}
         />
+        <PrivateRoute exact path="/sct-call-report" component={CallReport} />
         <PrivateRoute exact path="/billing" component={Billing} />
 
         <PrivateRoute

@@ -2224,4 +2224,10 @@ font-weight: 600;
 .footerfont{
   font-size: 16px;
   font-weight: bold;
+  color:white;
 }
+
+.dctassigned{
+ padding-bottom: 30px;
+}
+
