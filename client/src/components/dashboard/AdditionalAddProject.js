@@ -474,10 +474,10 @@ const AdditionalAddProject = ({
       addProject(finalData);
       onProjectCycleModalChange(true);
 
-      // setFormData({
-      //   ...formData,
-      //   isSubmitted: true,
-      // });
+      setFormData({
+        ...formData,
+        isSubmitted: true,
+      });
       // }
     }
   };
@@ -911,7 +911,7 @@ const AdditionalAddProject = ({
               )}
               <Link
                 className="btn sub_form btn_continue blackbrd float-right"
-                to="/job-queue"
+                to="/daily-job-sheet"
               >
                 Cancel
               </Link>

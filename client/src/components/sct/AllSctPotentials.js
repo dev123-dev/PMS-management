@@ -271,11 +271,14 @@ const AllSctPotentials = ({
     getLeadCategoryData("");
     getStateData("");
   };
-  let count = 0;
-  if (allSctLeads.sctLeadsCategory !== "") {
-    count = allSctLeads.length;
-  }
-  console.log("count", count);
+
+  const [count, setCount] = useState(0);
+
+  // let count = 0;
+  // if (allSctLeads.sctLeadsCategory !== "") {
+  //   count = allSctLeads.length;
+  // }
+  // console.log("count", count);
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -389,6 +392,7 @@ const AllSctPotentials = ({
                             sctCallDate = [ED[2], ED[1], ED[0]].join("-");
                           }
                           if (allSctLeads.sctLeadsCategory !== "") {
+                            setCount(idx + 1);
                             return (
                               <tr
                                 key={idx}

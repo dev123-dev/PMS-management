@@ -32,7 +32,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.38:8000");
+const client = new w3cwebsocket("ws://192.168.6.39:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -48,7 +48,7 @@ const JobQueue = ({
   updateMsgSent,
 }) => {
   const socket = useRef();
-  const activeClientsOpt = [];
+  //const activeClientsOpt = [];
   const [clientData, setClientData] = useState("");
   useEffect(() => {
     client.onopen = () => {
@@ -147,7 +147,7 @@ const JobQueue = ({
   const [clientId, setClientId] = useState("");
   const [clientFolderName, setClientName] = useState("");
 
-  //const activeClientsOpt = [];
+  const activeClientsOpt = [];
   allFolderName &&
     allFolderName.map((clientsData) =>
       activeClientsOpt.push({
@@ -156,7 +156,24 @@ const JobQueue = ({
       })
     );
 
+  // const LocalallFolderName = JSON.parse(localStorage.getItem("AllFolderName"));
+  // //console.log(LocalallFolderName);
+
+  // const [activeClientsOpt, setactiveClientsOpt1] = useState(
+  //   LocalallFolderName &&
+  //     LocalallFolderName.map((clientsData) => ({
+  //       label: clientsData && clientsData._id,
+  //       value: clientsData && clientsData._id,
+  //     }))
+  // );
+
   const onClientChange = (e) => {
+    // const getAllButSelected = activeClientsOpt.filter(
+    //   (ele) => ele.label !== e.label
+    // );
+
+    // setactiveClientsOpt1([e, ...getAllButSelected]);
+
     setClientData(e);
     const finalData = {
       folderNameSearch: e.value,
@@ -171,6 +188,22 @@ const JobQueue = ({
     //cvonsole.log(e)
     getJobQueueProjectDeatils(finalData);
   };
+
+  // const onClientChange = (e) => {
+  //   setClientData(e);
+  //   const finalData = {
+  //     folderNameSearch: e.value,
+  //     statusCategory: statusData.value,
+  //   };
+
+  //   var clientFolderName = "";
+  //   clientFolderName = e.value;
+  //   setClientName(clientFolderName);
+
+  //   setFilterData(finalData);
+  //   //cvonsole.log(e)
+  //   getJobQueueProjectDeatils(finalData);
+  // };
 
   // Modal
   let projectStatusOpt = [];
@@ -484,6 +517,7 @@ const JobQueue = ({
     [
       "Client Name",
       "Folder Name",
+      "Staff Name",
       "Project Name",
       "Project Date ",
       "Status",
@@ -593,7 +627,7 @@ const JobQueue = ({
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
-                <div className=" body-inner no-padding table-responsive ">
+                <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
                     className="table table-bordered table-striped table-hover smll_row "
                     id="datatable2"
@@ -644,10 +678,10 @@ const JobQueue = ({
                     </thead>
                     <tbody>
                       {jobQueueProjects &&
-                        jobQueueProjects.map((jobQueueProjects, idx) => {
-                          let PST = jobQueueProjects.projectStatusType;
-                          projectQty += jobQueueProjects.projectQuantity;
-                          let statusType = jobQueueProjects.projectStatusType;
+                        jobQueueProjects.map((JobQueueProject, idx) => {
+                          let PST = JobQueueProject.projectStatusType;
+                          projectQty += JobQueueProject.projectQuantity;
+                          let statusType = JobQueueProject.projectStatusType;
                           if (statusType === "Downloading") downloadingQty += 1;
                           if (statusType === "Working") WorkingQty += 1;
                           if (statusType === "Pending") PendingQty += 1;
@@ -658,10 +692,10 @@ const JobQueue = ({
                           let estimatedTimeVal = "",
                             jobTime = "",
                             timeOut = false;
-                          if (jobQueueProjects.ptEstimatedTime) {
+                          if (JobQueueProject.ptEstimatedTime) {
                             estimatedTimeVal =
-                              jobQueueProjects.ptEstimatedTime.split(":");
-                            jobTime = dhm(jobQueueProjects.ptEstimatedDateTime);
+                              JobQueueProject.ptEstimatedTime.split(":");
+                            jobTime = dhm(JobQueueProject.ptEstimatedDateTime);
                             if (
                               Number(jobTime[1]) >=
                               Number(
@@ -677,9 +711,9 @@ const JobQueue = ({
                             //   ) -
                             //     Number(jobTime[1]) ===
                             //     5 &&
-                            //   jobQueueProjects.timeOutMsgSent === 0
+                            //   JobQueueProject.timeOutMsgSent === 0
                             // ) {
-                            //   timeOutMsg(jobQueueProjects);
+                            //   timeOutMsg(JobQueueProject);
                             // }
                           }
 
@@ -692,20 +726,20 @@ const JobQueue = ({
                                 user.userGroupName === "Super Admin" ||
                                 user.userGroupName === "Clarical Admins" ? (
                                   <>
-                                    <td>{jobQueueProjects.clientName}</td>
-                                    <td>{jobQueueProjects.staffName}</td>
+                                    <td>{JobQueueProject.clientName}</td>
+                                    <td>{JobQueueProject.staffName}</td>
                                   </>
                                 ) : (
                                   <></>
                                 )}
 
                                 <td>
-                                  <b>{jobQueueProjects.clientFolderName}</b>
+                                  <b>{JobQueueProject.clientFolderName}</b>
                                 </td>
                                 <td
                                 // onClick={() => {
                                 //   navigator.clipboard.writeText(
-                                //     jobQueueProjects.inputpath
+                                //     JobQueueProject.inputpath
                                 //   );
                                 // }}
                                 >
@@ -713,7 +747,7 @@ const JobQueue = ({
                                     className="btn btn_green_bg "
                                     onClick={() => {
                                       navigator.clipboard.writeText(
-                                        jobQueueProjects.inputpath
+                                        JobQueueProject.inputpath
                                       );
                                       window.alert("Path Copied");
                                     }}
@@ -732,7 +766,7 @@ const JobQueue = ({
                                         className="img_icon_size log float-left "
                                         onClick={() =>
                                           handleGoToAllLatestChange(
-                                            jobQueueProjects
+                                            JobQueueProject
                                           )
                                         }
                                         src={require("../../static/images/colortheme.png")}
@@ -750,23 +784,23 @@ const JobQueue = ({
                                     className="float-left ml-3 aTagActiveRemoveClrBlk"
                                     to="#"
                                     onClick={() =>
-                                      onnotes(jobQueueProjects, idx)
+                                      onnotes(JobQueueProject, idx)
                                     }
                                   >
-                                    {jobQueueProjects.projectName}
+                                    {JobQueueProject.projectName}
                                   </Link>
                                 </td>
                                 <td>
                                   {
                                     dhm(
-                                      jobQueueProjects.clientDate +
+                                      JobQueueProject.clientDate +
                                         ", " +
-                                        jobQueueProjects.clientTime
+                                        JobQueueProject.clientTime
                                     )[0]
                                   }
                                 </td>
                                 <td>
-                                  {jobQueueProjects.ptEstimatedTime &&
+                                  {JobQueueProject.ptEstimatedTime &&
                                     estimatedTimeVal[0] +
                                       " hr : " +
                                       estimatedTimeVal[1] +
@@ -775,92 +809,176 @@ const JobQueue = ({
                                 <td>
                                   {timeOut ? (
                                     <span style={{ color: "red" }}>
-                                      {jobQueueProjects.ptEstimatedDateTime &&
+                                      {JobQueueProject.ptEstimatedDateTime &&
                                         jobTime[0]}
                                     </span>
                                   ) : (
                                     <span>
-                                      {jobQueueProjects.ptEstimatedDateTime &&
+                                      {JobQueueProject.ptEstimatedDateTime &&
                                         jobTime[0]}
                                     </span>
                                   )}
                                 </td>
 
-                                <td>{jobQueueProjects.projectDeadline}</td>
+                                <td>{JobQueueProject.projectDeadline}</td>
                                 <td>
-                                  {jobQueueProjects.projectQuantity}&nbsp;
-                                  {jobQueueProjects.projectUnconfirmed ===
+                                  {JobQueueProject.projectQuantity}&nbsp;
+                                  {JobQueueProject.projectUnconfirmed ===
                                     true && (
                                     <span style={{ color: "red" }}>*</span>
                                   )}
                                 </td>
-                                <td>{jobQueueProjects.outputformat}</td>
-                                <td>
-                                  {/* SLAP UserGroupRights */}
-                                  {(user.userGroupName &&
-                                    user.userGroupName === "Administrator") ||
-                                  user.userGroupName === "Super Admin" ||
-                                  user.userGroupName === "Clarical Admins" ||
-                                  user.userGroupName === "Quality Controller" ||
-                                  user.userGroupName === "Distributors" ||
-                                  user.userGroupName === "Marketing" ? (
-                                    <>
-                                      <img
-                                        className="img_icon_size log float-left mt-2"
-                                        onClick={() =>
-                                          onhistory(jobQueueProjects, idx)
-                                        }
-                                        src={require("../../static/images/colortheme.png")}
-                                        alt="Last change"
-                                        title="Last change"
-                                      />
+                                <td>{JobQueueProject.outputformat}</td>
 
-                                      <Select
-                                        className="ml-4"
-                                        menuPlacement="auto"
-                                        styles={{
-                                          control: (base) => ({
-                                            ...base,
-                                            background: "#456792",
-                                          }),
-                                          singleValue: (base) => ({
-                                            ...base,
-                                            color: "#fff",
-                                          }),
-                                          input: (base) => ({
-                                            ...base,
-                                            color: "#fff",
-                                          }),
-                                        }}
-                                        name="projectStatusData"
-                                        value={{
-                                          label:
-                                            jobQueueProjects.projectStatusType,
-                                          value:
-                                            jobQueueProjects.projectStatusId,
-                                        }}
-                                        options={
-                                          allAI.includes(PST)
-                                            ? AIOpt
-                                            : allAmend.includes(PST)
-                                            ? AmendOpt
-                                            : NormalOpt
-                                        }
-                                        isSearchable={true}
-                                        placeholder="Select"
-                                        onChange={onSliderChange(
-                                          jobQueueProjects
-                                        )}
-                                      />
+                                <td>
+                                  {idx === jobQueueProjects.length - 1 ||
+                                  idx === jobQueueProjects.length - 2 ||
+                                  idx === jobQueueProjects.length - 3 ||
+                                  idx === jobQueueProjects.length - 4 ||
+                                  idx === jobQueueProjects.length - 5 ||
+                                  idx === jobQueueProjects.length - 6 ? (
+                                    <>
+                                      {/* SLAP UserGroupRights */}
+                                      {(user.userGroupName &&
+                                        user.userGroupName ===
+                                          "Administrator") ||
+                                      user.userGroupName === "Super Admin" ||
+                                      user.userGroupName ===
+                                        "Clarical Admins" ||
+                                      user.userGroupName ===
+                                        "Quality Controller" ||
+                                      user.userGroupName === "Distributors" ||
+                                      user.userGroupName === "Marketing" ? (
+                                        <>
+                                          <img
+                                            className="img_icon_size log float-left mt-2"
+                                            onClick={() =>
+                                              onhistory(JobQueueProject, idx)
+                                            }
+                                            src={require("../../static/images/colortheme.png")}
+                                            alt="Last change"
+                                            title="Last change"
+                                          />
+
+                                          <Select
+                                            className="ml-4"
+                                            menuPlacement="top"
+                                            styles={{
+                                              control: (base) => ({
+                                                ...base,
+                                                background: "#456792",
+                                              }),
+                                              singleValue: (base) => ({
+                                                ...base,
+                                                color: "#fff",
+                                              }),
+                                              input: (base) => ({
+                                                ...base,
+                                                color: "#fff",
+                                              }),
+                                            }}
+                                            name="projectStatusData"
+                                            value={{
+                                              label:
+                                                JobQueueProject.projectStatusType,
+                                              value:
+                                                JobQueueProject.projectStatusId,
+                                            }}
+                                            options={
+                                              allAI.includes(PST)
+                                                ? AIOpt
+                                                : allAmend.includes(PST)
+                                                ? AmendOpt
+                                                : NormalOpt
+                                            }
+                                            isSearchable={true}
+                                            placeholder="Select"
+                                            onChange={onSliderChange(
+                                              JobQueueProject
+                                            )}
+                                          />
+                                        </>
+                                      ) : (
+                                        <>
+                                          <label>
+                                            {JobQueueProject.projectStatusType}
+                                          </label>
+                                        </>
+                                      )}
                                     </>
                                   ) : (
                                     <>
-                                      <label>
-                                        {jobQueueProjects.projectStatusType}
-                                      </label>
+                                      {/* SLAP UserGroupRights */}
+                                      {(user.userGroupName &&
+                                        user.userGroupName ===
+                                          "Administrator") ||
+                                      user.userGroupName === "Super Admin" ||
+                                      user.userGroupName ===
+                                        "Clarical Admins" ||
+                                      user.userGroupName ===
+                                        "Quality Controller" ||
+                                      user.userGroupName === "Distributors" ||
+                                      user.userGroupName === "Marketing" ? (
+                                        <>
+                                          <img
+                                            className="img_icon_size log float-left mt-2"
+                                            onClick={() =>
+                                              onhistory(JobQueueProject, idx)
+                                            }
+                                            src={require("../../static/images/colortheme.png")}
+                                            alt="Last change"
+                                            title="Last change"
+                                          />
+
+                                          <Select
+                                            className="ml-4"
+                                            menuPlacement="auto"
+                                            styles={{
+                                              control: (base) => ({
+                                                ...base,
+                                                background: "#456792",
+                                              }),
+                                              singleValue: (base) => ({
+                                                ...base,
+                                                color: "#fff",
+                                              }),
+                                              input: (base) => ({
+                                                ...base,
+                                                color: "#fff",
+                                              }),
+                                            }}
+                                            name="projectStatusData"
+                                            value={{
+                                              label:
+                                                JobQueueProject.projectStatusType,
+                                              value:
+                                                JobQueueProject.projectStatusId,
+                                            }}
+                                            options={
+                                              allAI.includes(PST)
+                                                ? AIOpt
+                                                : allAmend.includes(PST)
+                                                ? AmendOpt
+                                                : NormalOpt
+                                            }
+                                            isSearchable={true}
+                                            placeholder="Select"
+                                            onChange={onSliderChange(
+                                              JobQueueProject
+                                            )}
+                                          />
+                                        </>
+                                      ) : (
+                                        <>
+                                          <label>
+                                            {JobQueueProject.projectStatusType}
+                                          </label>
+                                        </>
+                                      )}
                                     </>
                                   )}
                                 </td>
+
                                 {/* <td>
         {" "}
         <Link
@@ -915,7 +1033,7 @@ const JobQueue = ({
                                       <img
                                         className="img_icon_size log"
                                         onClick={() =>
-                                          onDeactive(jobQueueProjects, idx)
+                                          onDeactive(JobQueueProject, idx)
                                         }
                                         src={require("../../static/images/delete.png")}
                                         alt="Delete Project"
@@ -927,7 +1045,7 @@ const JobQueue = ({
                                     <img
                                       className="img_icon_size log ml-2"
                                       onClick={() =>
-                                        onUpdate(jobQueueProjects, idx)
+                                        onUpdate(JobQueueProject, idx)
                                       }
                                       src={require("../../static/images/edit_icon.png")}
                                       alt="Edit"
@@ -943,7 +1061,7 @@ const JobQueue = ({
                           }
                           if (
                             clientFolderName ===
-                            jobQueueProjects.clientFolderName
+                            JobQueueProject.clientFolderName
                           ) {
                             return (
                               <tr key={idx}>
@@ -953,15 +1071,15 @@ const JobQueue = ({
                                 user.userGroupName === "Super Admin" ||
                                 user.userGroupName === "Clarical Admins" ? (
                                   <>
-                                    <td>{jobQueueProjects.clientName}</td>
-                                    <td>{jobQueueProjects.staffName}</td>
+                                    <td>{JobQueueProject.clientName}</td>
+                                    <td>{JobQueueProject.staffName}</td>
                                   </>
                                 ) : (
                                   <></>
                                 )}
 
                                 <td>
-                                  <b>{jobQueueProjects.clientFolderName}</b>
+                                  <b>{JobQueueProject.clientFolderName}</b>
                                 </td>
                                 <td
                                 // onClick={() => {
@@ -974,7 +1092,7 @@ const JobQueue = ({
                                     className="btn btn_green_bg "
                                     onClick={() => {
                                       navigator.clipboard.writeText(
-                                        jobQueueProjects.inputpath
+                                        JobQueueProject.inputpath
                                       );
                                       window.alert("Path Copied");
                                     }}
@@ -993,7 +1111,7 @@ const JobQueue = ({
                                         className="img_icon_size log float-left "
                                         onClick={() =>
                                           handleGoToAllLatestChange(
-                                            jobQueueProjects
+                                            JobQueueProject
                                           )
                                         }
                                         src={require("../../static/images/colortheme.png")}
@@ -1011,23 +1129,23 @@ const JobQueue = ({
                                     className="float-left ml-3 aTagActiveRemoveClrBlk"
                                     to="#"
                                     onClick={() =>
-                                      onnotes(jobQueueProjects, idx)
+                                      onnotes(JobQueueProject, idx)
                                     }
                                   >
-                                    {jobQueueProjects.projectName}
+                                    {JobQueueProject.projectName}
                                   </Link>
                                 </td>
                                 <td>
                                   {
                                     dhm(
-                                      jobQueueProjects.clientDate +
+                                      JobQueueProject.clientDate +
                                         ", " +
-                                        jobQueueProjects.clientTime
+                                        JobQueueProject.clientTime
                                     )[0]
                                   }
                                 </td>
                                 <td>
-                                  {jobQueueProjects.ptEstimatedTime &&
+                                  {JobQueueProject.ptEstimatedTime &&
                                     estimatedTimeVal[0] +
                                       " hr : " +
                                       estimatedTimeVal[1] +
@@ -1036,89 +1154,173 @@ const JobQueue = ({
                                 <td>
                                   {timeOut ? (
                                     <span style={{ color: "red" }}>
-                                      {jobQueueProjects.ptEstimatedDateTime &&
+                                      {JobQueueProject.ptEstimatedDateTime &&
                                         jobTime[0]}
                                     </span>
                                   ) : (
                                     <span>
-                                      {jobQueueProjects.ptEstimatedDateTime &&
+                                      {JobQueueProject.ptEstimatedDateTime &&
                                         jobTime[0]}
                                     </span>
                                   )}
                                 </td>
 
-                                <td>{jobQueueProjects.projectDeadline}</td>
+                                <td>{JobQueueProject.projectDeadline}</td>
                                 <td>
-                                  {jobQueueProjects.projectQuantity}&nbsp;
-                                  {jobQueueProjects.projectUnconfirmed ===
+                                  {JobQueueProject.projectQuantity}&nbsp;
+                                  {JobQueueProject.projectUnconfirmed ===
                                     true && (
                                     <span style={{ color: "red" }}>*</span>
                                   )}
                                 </td>
-                                <td>{jobQueueProjects.outputformat}</td>
+                                <td>{JobQueueProject.outputformat}</td>
                                 <td>
-                                  {/* SLAP UserGroupRights */}
-                                  {(user.userGroupName &&
-                                    user.userGroupName === "Administrator") ||
-                                  user.userGroupName === "Super Admin" ||
-                                  user.userGroupName === "Clarical Admins" ||
-                                  user.userGroupName === "Quality Controller" ||
-                                  user.userGroupName === "Distributors" ||
-                                  user.userGroupName === "Marketing" ? (
+                                  {jobQueueProjects.length > 4 &&
+                                  (idx === jobQueueProjects.length - 1 ||
+                                    idx === jobQueueProjects.length - 2 ||
+                                    idx === jobQueueProjects.length - 3 ||
+                                    idx === jobQueueProjects.length - 4 ||
+                                    idx === jobQueueProjects.length - 5 ||
+                                    idx === jobQueueProjects.length - 6) ? (
                                     <>
-                                      <img
-                                        className="img_icon_size log float-left mt-2"
-                                        onClick={() =>
-                                          onhistory(jobQueueProjects, idx)
-                                        }
-                                        src={require("../../static/images/colortheme.png")}
-                                        alt="Last change"
-                                        title="Last change"
-                                      />
+                                      {/* SLAP UserGroupRights */}
+                                      {(user.userGroupName &&
+                                        user.userGroupName ===
+                                          "Administrator") ||
+                                      user.userGroupName === "Super Admin" ||
+                                      user.userGroupName ===
+                                        "Clarical Admins" ||
+                                      user.userGroupName ===
+                                        "Quality Controller" ||
+                                      user.userGroupName === "Distributors" ||
+                                      user.userGroupName === "Marketing" ? (
+                                        <>
+                                          <img
+                                            className="img_icon_size log float-left mt-2"
+                                            onClick={() =>
+                                              onhistory(JobQueueProject, idx)
+                                            }
+                                            src={require("../../static/images/colortheme.png")}
+                                            alt="Last change"
+                                            title="Last change"
+                                          />
 
-                                      <Select
-                                        className="ml-4"
-                                        menuPlacement="auto"
-                                        styles={{
-                                          control: (base) => ({
-                                            ...base,
-                                            background: "#456792",
-                                          }),
-                                          singleValue: (base) => ({
-                                            ...base,
-                                            color: "#fff",
-                                          }),
-                                          input: (base) => ({
-                                            ...base,
-                                            color: "#fff",
-                                          }),
-                                        }}
-                                        name="projectStatusData"
-                                        value={{
-                                          label:
-                                            jobQueueProjects.projectStatusType,
-                                          value:
-                                            jobQueueProjects.projectStatusId,
-                                        }}
-                                        options={
-                                          allAI.includes(PST)
-                                            ? AIOpt
-                                            : allAmend.includes(PST)
-                                            ? AmendOpt
-                                            : NormalOpt
-                                        }
-                                        isSearchable={true}
-                                        placeholder="Select"
-                                        onChange={onSliderChange(
-                                          jobQueueProjects
-                                        )}
-                                      />
+                                          <Select
+                                            className="ml-4"
+                                            menuPlacement="top"
+                                            styles={{
+                                              control: (base) => ({
+                                                ...base,
+                                                background: "#456792",
+                                              }),
+                                              singleValue: (base) => ({
+                                                ...base,
+                                                color: "#fff",
+                                              }),
+                                              input: (base) => ({
+                                                ...base,
+                                                color: "#fff",
+                                              }),
+                                            }}
+                                            name="projectStatusData"
+                                            value={{
+                                              label:
+                                                JobQueueProject.projectStatusType,
+                                              value:
+                                                JobQueueProject.projectStatusId,
+                                            }}
+                                            options={
+                                              allAI.includes(PST)
+                                                ? AIOpt
+                                                : allAmend.includes(PST)
+                                                ? AmendOpt
+                                                : NormalOpt
+                                            }
+                                            isSearchable={true}
+                                            placeholder="Select"
+                                            onChange={onSliderChange(
+                                              JobQueueProject
+                                            )}
+                                          />
+                                        </>
+                                      ) : (
+                                        <>
+                                          <label>
+                                            {JobQueueProject.projectStatusType}
+                                          </label>
+                                        </>
+                                      )}
                                     </>
                                   ) : (
                                     <>
-                                      <label>
-                                        {jobQueueProjects.projectStatusType}
-                                      </label>
+                                      {" "}
+                                      {/* SLAP UserGroupRights */}
+                                      {(user.userGroupName &&
+                                        user.userGroupName ===
+                                          "Administrator") ||
+                                      user.userGroupName === "Super Admin" ||
+                                      user.userGroupName ===
+                                        "Clarical Admins" ||
+                                      user.userGroupName ===
+                                        "Quality Controller" ||
+                                      user.userGroupName === "Distributors" ||
+                                      user.userGroupName === "Marketing" ? (
+                                        <>
+                                          <img
+                                            className="img_icon_size log float-left mt-2"
+                                            onClick={() =>
+                                              onhistory(JobQueueProject, idx)
+                                            }
+                                            src={require("../../static/images/colortheme.png")}
+                                            alt="Last change"
+                                            title="Last change"
+                                          />
+
+                                          <Select
+                                            className="ml-4"
+                                            menuPlacement="auto"
+                                            styles={{
+                                              control: (base) => ({
+                                                ...base,
+                                                background: "#456792",
+                                              }),
+                                              singleValue: (base) => ({
+                                                ...base,
+                                                color: "#fff",
+                                              }),
+                                              input: (base) => ({
+                                                ...base,
+                                                color: "#fff",
+                                              }),
+                                            }}
+                                            name="projectStatusData"
+                                            value={{
+                                              label:
+                                                JobQueueProject.projectStatusType,
+                                              value:
+                                                JobQueueProject.projectStatusId,
+                                            }}
+                                            options={
+                                              allAI.includes(PST)
+                                                ? AIOpt
+                                                : allAmend.includes(PST)
+                                                ? AmendOpt
+                                                : NormalOpt
+                                            }
+                                            isSearchable={true}
+                                            placeholder="Select"
+                                            onChange={onSliderChange(
+                                              JobQueueProject
+                                            )}
+                                          />
+                                        </>
+                                      ) : (
+                                        <>
+                                          <label>
+                                            {JobQueueProject.projectStatusType}
+                                          </label>
+                                        </>
+                                      )}
                                     </>
                                   )}
                                 </td>
@@ -1176,7 +1378,7 @@ const JobQueue = ({
                                       <img
                                         className="img_icon_size log"
                                         onClick={() =>
-                                          onDeactive(jobQueueProjects, idx)
+                                          onDeactive(JobQueueProject, idx)
                                         }
                                         src={require("../../static/images/delete.png")}
                                         alt="Delete Project"
@@ -1188,7 +1390,7 @@ const JobQueue = ({
                                     <img
                                       className="img_icon_size log ml-2"
                                       onClick={() =>
-                                        onUpdate(jobQueueProjects, idx)
+                                        onUpdate(JobQueueProject, idx)
                                       }
                                       src={require("../../static/images/edit_icon.png")}
                                       alt="Edit"
