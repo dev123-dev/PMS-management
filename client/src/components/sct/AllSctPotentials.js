@@ -271,7 +271,7 @@ const AllSctPotentials = ({
     getLeadCategoryData("");
     getStateData("");
   };
-
+  //comment
   const [count, setCount] = useState(0);
 
   // let count = 0;
