@@ -517,6 +517,7 @@ const JobQueue = ({
     [
       "Client Name",
       "Folder Name",
+      "Staff Name",
       "Project Name",
       "Project Date ",
       "Status",
