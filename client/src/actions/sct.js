@@ -34,6 +34,7 @@ import {
   ALL_SCT_ASSIGNED_LEAD_DETAILS,
   SCT_CALLS_COUNT,
   ALL_LEAD_ENTRY_TODAY,
+  ALL_SCT_SALES_VALUES,
   SCT_CALLS_CLIENT_COUNT,
 } from "./types";
 
@@ -754,6 +755,25 @@ export const getDemoSchedules = (searchData) => async (dispatch) => {
     const res = await axios.post("/api/sct/get-demo-schedules", searchData);
     dispatch({
       type: SCHEDULED_DEMOS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllSct = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-all-sct-details-salesvalue",
+      finalData,
+      config
+    );
+    console.log("action", res.data);
+    dispatch({
+      type: ALL_SCT_SALES_VALUES,
       payload: res.data,
     });
   } catch (err) {

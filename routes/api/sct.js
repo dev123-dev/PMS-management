@@ -1470,12 +1470,17 @@ router.post("/get-all-sct-calls-emp", auth, async (req, res) => {
   }
 });
 
+//sct all clients count and list start
+
 router.post("/get-all-sct-calls-count", auth, async (req, res) => {
   let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
+
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
+
   var dateVal = new Date().toISOString().split("T")[0];
+
   if (selDate) dateVal = selDate;
   let sctCallFromId = "",
     query = {};
@@ -1562,6 +1567,108 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+//sct all clients count and list end
+
+//sct call with client sales value start
+
+router.post("/get-all-sct-details-salesvalue", auth, async (req, res) => {
+  let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  var dateVal = new Date().toISOString().split("T")[0];
+
+  if (selDate) dateVal = selDate;
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+  if (dateType === "Multi Date") {
+    query = {
+      sctCallFromId,
+      sctCallTakenDate: {
+        $gte: fromdate,
+        $lte: todate,
+      },
+    };
+  } else {
+    query = {
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  }
+
+  try {
+    const getAllSctCallsCount = await SctCalls.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$sctCallFromId",
+          sctCallFromName: { $first: "$sctCallFromName" },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    let getAllSctCalls = [];
+    if (userInfo.empCtAccess === "All") {
+      getAllSctCalls = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: {
+              sctCallFromId: "$sctCallFromId",
+              sctCallToId: "$sctCallToId",
+            },
+            sctCallFromId: { $first: "$sctCallFromId" },
+            sctCallFromName: { $first: "$sctCallFromName" },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $group: {
+            _id: "$sctCallFromId",
+            sctCallFromName: { $first: "$sctCallFromName" },
+            countClient: { $sum: 1 },
+            countCall: { $sum: "$count" },
+            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+          },
+        },
+      ]);
+    } else {
+      getAllSctCalls = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: "$sctCallToId",
+            sctCallFromName: { $first: "$sctCallFromName" },
+            sctCallSalesValue: { $first: "$sctCallSalesValue" },
+          },
+        },
+      ]);
+    }
+    console.log("getAllsctCallClientd", getAllSctCalls);
+    res.json({
+      getAllSctCallsCount: getAllSctCallsCount,
+      getAllSctCallsClient: getAllSctCalls,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+//sct call with client sales value end
 
 router.post("/check-demo", async (req, res) => {
   const { demoUserId } = req.body;

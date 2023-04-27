@@ -29,6 +29,7 @@ import {
   ALL_SCT_ASSIGNED_LEAD_DETAILS,
   SCT_CALLS_COUNT,
   ALL_LEAD_ENTRY_TODAY,
+  ALL_SCT_SALES_VALUES,
   SCT_CALLS_CLIENT_COUNT,
 } from "../actions/types";
 
@@ -229,6 +230,11 @@ const sct = (state = initialState, action) => {
       return {
         ...state,
         allSctEmpAssignedLeadData: payload,
+      };
+    case ALL_SCT_SALES_VALUES:
+      return {
+        ...state,
+        allsctsalesvalues: payload,
       };
 
     default:

@@ -2,40 +2,54 @@ import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import {
-  getAllSctCallCount,
-  getALLDemosReport,
-  getAllLeadToday,
-} from "../../actions/sct";
+import { getAllSct /*getALLDemos, getAllLead*/ } from "../../actions/sct";
 import Select from "react-select";
 const CallReport = ({
   auth: { isAuthenticated, user },
   sct: {
-    sctCallsCount,
-    allDemos,
-    allDemosTaken,
-    allDemosAddedToday,
-    allLeadEnteredToday,
+    allsctsalesvalues,
+    // allDemos,
+    // allDemosTaken,
+    // allDemosAddedToday,
+    // allLeadEnteredToday,
   },
-  getALLDemosReport,
-  getAllLeadToday,
-  getAllSctCallCount,
+  getALLDemos,
+  getAllLead,
+  getAllSct,
 }) => {
+  // useEffect(() => {
+  //  getAllLead();
+  // }, [getAllLead]);
   useEffect(() => {
-    getAllLeadToday();
-  }, [getAllLeadToday]);
-  useEffect(() => {
-    getAllSctCallCount();
-  }, [getAllSctCallCount]);
-  useEffect(() => {
-    getALLDemosReport();
-  }, [getALLDemosReport]);
-
+    getAllSct();
+  }, [getAllSct]);
+  //useEffect(() => {
+  //   getALLDemos();
+  // }, [getALLDemos]);
   const DateMethods = [
     { value: "Single Date", label: "Single Date" },
     { value: "Multi Date", label: "Multi Date" },
   ];
 
+  const PipeLineTotal = [];
+  const PipeLineSaleTotal = [];
+  let grandTotal = 0;
+  let PipeLineSALEetotal = 0;
+
+  let total =
+    allsctsalesvalues &&
+    allsctsalesvalues.getAllSctCallsClient &&
+    allsctsalesvalues.getAllSctCallsClient.reduce(
+      (acu, cur) => (acu += cur.countClient),
+      0
+    );
+  let total2 =
+    allsctsalesvalues &&
+    allsctsalesvalues.getAllSctCallsClient &&
+    allsctsalesvalues.getAllSctCallsClient.reduce(
+      (acu, cur) => (acu += cur.sctCallSalesValue),
+      0
+    );
   const [showHide, setShowHide] = useState({
     showdateSection: false,
     showdateSection1: true,
@@ -89,9 +103,9 @@ const CallReport = ({
     };
 
     // setSelDateDataVal(selDateData);
-    getAllSctCallCount(finalData);
-    getAllLeadToday(finalData);
-    getALLDemosReport(finalData);
+    getAllSct(finalData);
+    // getAllLead(finalData);
+    // getALLDemos(finalData);
     // getDailyjobSheetFolder(selDateData);
   };
 
@@ -111,21 +125,21 @@ const CallReport = ({
       // folderId: projectData.folderId,
     };
     // setSelDateDataVal(selDateData);
-    getAllSctCallCount(finalData);
-    getAllLeadToday(finalData);
-    getALLDemosReport(finalData);
+    getAllSct(finalData);
+    // getAllLead(finalData);
+    // getALLDemos(finalData);
     // getDailyjobSheetFolder(selDateData);
   };
 
   const alldemosentered = [];
-  allLeadEnteredToday &&
-    allLeadEnteredToday.map((demos) =>
-      alldemosentered.push({
-        demosId: demos._id,
-        label: demos.empFullName,
-        value: demos.empFullName,
-      })
-    );
+  // allLeadEnteredToday &&
+  //   allLeadEnteredToday.map((demos) =>
+  //     alldemosentered.push({
+  //       demosId: demos._id,
+  //       label: demos.empFullName,
+  //       value: demos.empFullName,
+  //     })
+  //   );
 
   return !isAuthenticated || !user ? (
     <Spinner />
@@ -220,7 +234,7 @@ const CallReport = ({
                         <h3>Potential Clients</h3>
                         <h3>
                           Clients :{" "}
-                          {sctCallsCount &&
+                          {/* {sctCallsCount &&
                             sctCallsCount.getAllSctCallsClient &&
                             sctCallsCount.getAllSctCallsClient.length}
                         </h3>
@@ -229,7 +243,7 @@ const CallReport = ({
                           {sctCallsCount &&
                             sctCallsCount.getAllSctCallsCount &&
                             sctCallsCount.getAllSctCallsCount[0] &&
-                            sctCallsCount.getAllSctCallsCount[0].count}
+                            sctCallsCount.getAllSctCallsCount[0].count} */}
                         </h3>
                       </center>
                     </div>
@@ -243,20 +257,20 @@ const CallReport = ({
                         <h3>Follow Up Clients</h3>
                         <h3>
                           Follow Up Clients :{" "}
-                          {allLeadEnteredToday && allLeadEnteredToday.length}
+                          {/* {allLeadEnteredToday && allLeadEnteredToday.length} */}
                         </h3>
                       </center>
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
                     <div className="card card-content ">
-                      <center>
+                      {/* <center>
                         <h3>Pipeline Clients</h3>
                         <h3>Demo Scheduled :{allDemos && allDemos.length}</h3>
                         <h3>
                           Demo Taken : {allDemosTaken && allDemosTaken.length}
                         </h3>
-                      </center>
+                      </center> */}
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
@@ -267,7 +281,7 @@ const CallReport = ({
                       <center>
                         <h3>
                           Overall Summary:{" "}
-                          {allDemosAddedToday && allDemosAddedToday.length}
+                          {/* {allDemosAddedToday && allDemosAddedToday.length} */}
                         </h3>
                       </center>
                     </div>
@@ -298,20 +312,34 @@ const CallReport = ({
                             </tr>
                           </thead>
                           <tbody>
-                            {sctCallsCount &&
-                              sctCallsCount.getAllSctCallsClient &&
-                              sctCallsCount.getAllSctCallsClient.map(
+                            {allsctsalesvalues &&
+                              allsctsalesvalues.getAllSctCallsClient &&
+                              allsctsalesvalues.getAllSctCallsClient.map(
                                 (call, idx) => {
                                   return (
                                     <tr key={idx}>
                                       <td>{idx + 1}</td>
                                       <td>{call.sctCallFromName}</td>
-                                      <td>{call.countCall}</td>
                                       <td>{call.countClient}</td>
+                                      <td>{call.sctCallSalesValue}</td>
                                     </tr>
                                   );
                                 }
                               )}
+                          </tbody>
+                          <tbody>
+                            {allsctsalesvalues &&
+                            allsctsalesvalues.getAllSctCallsClient.length !==
+                              0 ? (
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td>{total}</td>
+                                <td>{total2}</td>
+                              </tr>
+                            ) : (
+                              <></>
+                            )}
                           </tbody>
                         </table>
                       </div>
@@ -341,16 +369,34 @@ const CallReport = ({
                             </tr>
                           </thead>
                           <tbody>
-                            {allLeadEnteredToday &&
-                              allLeadEnteredToday.map((today, idx) => {
-                                return (
-                                  <tr key={idx}>
-                                    <td>{idx + 1}</td>
-                                    <td>{today.sctLeadEnteredByName}</td>
-                                    <td>{today.count}</td>
-                                  </tr>
-                                );
-                              })}
+                            {allsctsalesvalues &&
+                              allsctsalesvalues.getAllSctCallsClient &&
+                              allsctsalesvalues.getAllSctCallsClient.map(
+                                (today, idx) => {
+                                  return (
+                                    <tr key={idx}>
+                                      <td>{idx + 1}</td>
+                                      <td>{today.sctCallFromName}</td>
+                                      <td>{today.countClient}</td>
+                                      <td>{today.sctCallSalesValue}</td>
+                                    </tr>
+                                  );
+                                }
+                              )}
+                          </tbody>
+                          <tbody>
+                            {allsctsalesvalues &&
+                            allsctsalesvalues.getAllSctCallsClient.length !==
+                              0 ? (
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td>{total}</td>
+                                <td>{total2}</td>
+                              </tr>
+                            ) : (
+                              <></>
+                            )}
                           </tbody>
                         </table>
                       </div>
@@ -375,24 +421,54 @@ const CallReport = ({
                             </tr>
                           </thead>
                           <tbody>
-                            {allDemos &&
-                              allDemos.map((allDemos, idx) => {
-                                let takenCount = 0;
-                                allDemosTaken &&
-                                  allDemosTaken.map((allDemosTaken, idx) => {
-                                    if (allDemosTaken._id === allDemos._id) {
-                                      takenCount = allDemosTaken.count;
-                                    }
-                                  });
-                                return (
-                                  <tr key={idx}>
-                                    <td>{idx + 1}</td>
-                                    <td>{allDemos.empName}</td>
-                                    <td>{allDemos.count}</td>
-                                    <td>{takenCount}</td>
-                                  </tr>
-                                );
-                              })}
+                            {allsctsalesvalues &&
+                              allsctsalesvalues.getAllSctCallsClient &&
+                              allsctsalesvalues.getAllSctCallsClient.map(
+                                (today, idx) => {
+                                  let total =
+                                    today.countClient + today.countClient;
+                                  grandTotal =
+                                    Number(grandTotal) + Number(total);
+                                  PipeLineTotal.push(Number(grandTotal));
+                                  let totSale =
+                                    today.sctCallSalesValue +
+                                    today.sctCallSalesValue;
+                                  PipeLineSALEetotal =
+                                    Number(PipeLineSALEetotal) +
+                                    Number(totSale);
+                                  PipeLineSaleTotal.push(PipeLineSALEetotal);
+                                  return (
+                                    <tr key={idx}>
+                                      <td>{idx + 1}</td>
+                                      <td>{today.sctCallFromName}</td>
+                                      <td>{total}</td>
+                                      <td>{totSale}</td>
+                                    </tr>
+                                  );
+                                }
+                              )}
+                          </tbody>
+                          <tbody>
+                            {allsctsalesvalues &&
+                            allsctsalesvalues.getAllSctCallsClient.length !==
+                              0 ? (
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                  {PipeLineTotal[PipeLineTotal.length - 1]}
+                                </td>
+                                <td>
+                                  {
+                                    PipeLineSaleTotal[
+                                      PipeLineSaleTotal.length - 1
+                                    ]
+                                  }
+                                </td>
+                              </tr>
+                            ) : (
+                              <></>
+                            )}
                           </tbody>
                         </table>
                       </div>
@@ -422,7 +498,7 @@ const CallReport = ({
                               <th>Sales Value</th>
                             </tr>
                           </thead>
-                          <tbody>
+                          {/* <tbody>
                             {allDemosAddedToday &&
                               allDemosAddedToday.map((today, idx) => {
                                 return (
@@ -433,7 +509,7 @@ const CallReport = ({
                                   </tr>
                                 );
                               })}
-                          </tbody>
+                          </tbody> */}
                         </table>
                       </div>
                     </div>
@@ -460,7 +536,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getAllLeadToday,
-  getAllSctCallCount,
-  getALLDemosReport,
+  // getAllLead,
+  getAllSct,
+  // getALLDemos,
 })(CallReport);
