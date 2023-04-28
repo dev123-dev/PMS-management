@@ -2,54 +2,40 @@ import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getAllSct /*getALLDemos, getAllLead*/ } from "../../actions/sct";
+import {
+  getAllSctCallCount1,
+  getALLDemosReport,
+  getAllLeadToday,
+} from "../../actions/sct";
 import Select from "react-select";
-const CallReport = ({
+const SctDailyReport = ({
   auth: { isAuthenticated, user },
   sct: {
-    allsctsalesvalues,
-    // allDemos,
-    // allDemosTaken,
-    // allDemosAddedToday,
-    // allLeadEnteredToday,
+    sctCallsCount1,
+    allDemos,
+    allDemosTaken,
+    allDemosAddedToday,
+    allLeadEnteredToday,
   },
-  getALLDemos,
-  getAllLead,
-  getAllSct,
+  getALLDemosReport,
+  getAllLeadToday,
+  getAllSctCallCount1,
 }) => {
-  // useEffect(() => {
-  //  getAllLead();
-  // }, [getAllLead]);
   useEffect(() => {
-    getAllSct();
-  }, [getAllSct]);
-  //useEffect(() => {
-  //   getALLDemos();
-  // }, [getALLDemos]);
+    getAllLeadToday();
+  }, [getAllLeadToday]);
+  useEffect(() => {
+    getAllSctCallCount1();
+  }, [getAllSctCallCount1]);
+  useEffect(() => {
+    getALLDemosReport();
+  }, [getALLDemosReport]);
+
   const DateMethods = [
     { value: "Single Date", label: "Single Date" },
     { value: "Multi Date", label: "Multi Date" },
   ];
 
-  const PipeLineTotal = [];
-  const PipeLineSaleTotal = [];
-  let grandTotal = 0;
-  let PipeLineSALEetotal = 0;
-
-  let total =
-    allsctsalesvalues &&
-    allsctsalesvalues.getAllSctCallsClient &&
-    allsctsalesvalues.getAllSctCallsClient.reduce(
-      (acu, cur) => (acu += cur.countClient),
-      0
-    );
-  let total2 =
-    allsctsalesvalues &&
-    allsctsalesvalues.getAllSctCallsClient &&
-    allsctsalesvalues.getAllSctCallsClient.reduce(
-      (acu, cur) => (acu += cur.sctCallSalesValue),
-      0
-    );
   const [showHide, setShowHide] = useState({
     showdateSection: false,
     showdateSection1: true,
@@ -103,9 +89,9 @@ const CallReport = ({
     };
 
     // setSelDateDataVal(selDateData);
-    getAllSct(finalData);
-    // getAllLead(finalData);
-    // getALLDemos(finalData);
+    getAllSctCallCount1(finalData);
+    getAllLeadToday(finalData);
+    getALLDemosReport(finalData);
     // getDailyjobSheetFolder(selDateData);
   };
 
@@ -125,21 +111,21 @@ const CallReport = ({
       // folderId: projectData.folderId,
     };
     // setSelDateDataVal(selDateData);
-    getAllSct(finalData);
-    // getAllLead(finalData);
-    // getALLDemos(finalData);
+    getAllSctCallCount1(finalData);
+    getAllLeadToday(finalData);
+    getALLDemosReport(finalData);
     // getDailyjobSheetFolder(selDateData);
   };
 
   const alldemosentered = [];
-  // allLeadEnteredToday &&
-  //   allLeadEnteredToday.map((demos) =>
-  //     alldemosentered.push({
-  //       demosId: demos._id,
-  //       label: demos.empFullName,
-  //       value: demos.empFullName,
-  //     })
-  //   );
+  allLeadEnteredToday &&
+    allLeadEnteredToday.map((demos) =>
+      alldemosentered.push({
+        demosId: demos._id,
+        label: demos.empFullName,
+        value: demos.empFullName,
+      })
+    );
 
   return !isAuthenticated || !user ? (
     <Spinner />
@@ -148,8 +134,9 @@ const CallReport = ({
       <div className="container container_align">
         <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
           <div className="col-lg-11 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">Sct Call Report </h2>
+            <h2 className="heading_color">CALL Report </h2>
           </div>
+
           <div className="row col-lg-12 col-md-6 col-sm-12 col-12 no_padding">
             <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-2">
               <Select
@@ -234,16 +221,16 @@ const CallReport = ({
                         <h3>Potential Clients</h3>
                         <h3>
                           Clients :{" "}
-                          {/* {sctCallsCount &&
-                            sctCallsCount.getAllSctCallsClient &&
-                            sctCallsCount.getAllSctCallsClient.length}
+                          {sctCallsCount1 &&
+                            sctCallsCount1.getAllSctCallsClient &&
+                            sctCallsCount1.getAllSctCallsClient.length}
                         </h3>
                         <h3>
                           Calls :{" "}
-                          {sctCallsCount &&
-                            sctCallsCount.getAllSctCallsCount &&
-                            sctCallsCount.getAllSctCallsCount[0] &&
-                            sctCallsCount.getAllSctCallsCount[0].count} */}
+                          {sctCallsCount1 &&
+                            sctCallsCount1.getAllSctCallsCount &&
+                            sctCallsCount1.getAllSctCallsCount[0] &&
+                            sctCallsCount1.getAllSctCallsCount[0].count}
                         </h3>
                       </center>
                     </div>
@@ -254,23 +241,23 @@ const CallReport = ({
                       style={{ height: "100%" }}
                     >
                       <center>
-                        <h3>Follow Up Clients</h3>
+                        <h3>LEADS</h3>
                         <h3>
-                          Follow Up Clients :{" "}
-                          {/* {allLeadEnteredToday && allLeadEnteredToday.length} */}
+                          Today's Lead Entry :{" "}
+                          {allLeadEnteredToday && allLeadEnteredToday.length}
                         </h3>
                       </center>
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
                     <div className="card card-content ">
-                      {/* <center>
-                        <h3>Pipeline Clients</h3>
+                      <center>
+                        <h3>DEMOS</h3>
                         <h3>Demo Scheduled :{allDemos && allDemos.length}</h3>
                         <h3>
                           Demo Taken : {allDemosTaken && allDemosTaken.length}
                         </h3>
-                      </center> */}
+                      </center>
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
@@ -280,8 +267,8 @@ const CallReport = ({
                     >
                       <center>
                         <h3>
-                          Overall Summary:{" "}
-                          {/* {allDemosAddedToday && allDemosAddedToday.length} */}
+                          Demos Scheduled Today :{" "}
+                          {allDemosAddedToday && allDemosAddedToday.length}
                         </h3>
                       </center>
                     </div>
@@ -296,7 +283,7 @@ const CallReport = ({
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
                     <div className="card card-content ">
                       <center>
-                        <h3>Potential Clients</h3>
+                        <h3>Potential client</h3>
                       </center>
                       <div style={{ padding: "0 15px 0 15px" }}>
                         <table
@@ -307,15 +294,16 @@ const CallReport = ({
                             <tr>
                               <th width="15px">No.</th>
                               <th>Name</th>
-                              <th>No of Clients</th>
-                              <th>Sales value</th>
+                              <th>Client</th>
+                              <th>sales Value</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {allsctsalesvalues &&
-                              allsctsalesvalues.getAllSctCallsClient &&
-                              allsctsalesvalues.getAllSctCallsClient.map(
+                            {sctCallsCount1 &&
+                              sctCallsCount1.getAllSctCallsClient &&
+                              sctCallsCount1.getAllSctCallsClient.map(
                                 (call, idx) => {
+                                  console.log("ok", call);
                                   return (
                                     <tr key={idx}>
                                       <td>{idx + 1}</td>
@@ -327,20 +315,6 @@ const CallReport = ({
                                 }
                               )}
                           </tbody>
-                          <tbody>
-                            {allsctsalesvalues &&
-                            allsctsalesvalues.getAllSctCallsClient.length !==
-                              0 ? (
-                              <tr>
-                                <td></td>
-                                <td></td>
-                                <td>{total}</td>
-                                <td>{total2}</td>
-                              </tr>
-                            ) : (
-                              <></>
-                            )}
-                          </tbody>
                         </table>
                       </div>
                     </div>
@@ -351,7 +325,7 @@ const CallReport = ({
                       style={{ height: "100%" }}
                     >
                       <center>
-                        <h3>Follow Up Clients</h3>
+                        <h3>Follow Up Client </h3>
                       </center>
 
                       {/*className="table-responsive fixTableHead" */}
@@ -364,39 +338,20 @@ const CallReport = ({
                             <tr>
                               <th width="15px">No.</th>
                               <th>Name</th>
-                              <th>No of Clients</th>
-                              <th>Sales Value</th>
+                              <th>Count</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {allsctsalesvalues &&
-                              allsctsalesvalues.getAllSctCallsClient &&
-                              allsctsalesvalues.getAllSctCallsClient.map(
-                                (today, idx) => {
-                                  return (
-                                    <tr key={idx}>
-                                      <td>{idx + 1}</td>
-                                      <td>{today.sctCallFromName}</td>
-                                      <td>{today.countClient}</td>
-                                      <td>{today.sctCallSalesValue}</td>
-                                    </tr>
-                                  );
-                                }
-                              )}
-                          </tbody>
-                          <tbody>
-                            {allsctsalesvalues &&
-                            allsctsalesvalues.getAllSctCallsClient.length !==
-                              0 ? (
-                              <tr>
-                                <td></td>
-                                <td></td>
-                                <td>{total}</td>
-                                <td>{total2}</td>
-                              </tr>
-                            ) : (
-                              <></>
-                            )}
+                            {allLeadEnteredToday &&
+                              allLeadEnteredToday.map((today, idx) => {
+                                return (
+                                  <tr key={idx}>
+                                    <td>{idx + 1}</td>
+                                    <td>{today.sctLeadEnteredByName}</td>
+                                    <td>{today.count}</td>
+                                  </tr>
+                                );
+                              })}
                           </tbody>
                         </table>
                       </div>
@@ -405,7 +360,7 @@ const CallReport = ({
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
                     <div className="card card-content ">
                       <center>
-                        <h3>Pipeline Clients</h3>
+                        <h3>Pipe Line</h3>
                       </center>
                       <div style={{ padding: "0 15px 0 15px" }}>
                         <table
@@ -416,59 +371,29 @@ const CallReport = ({
                             <tr>
                               <th width="15px">No.</th>
                               <th>Name</th>
-                              <th>No of Clients</th>
-                              <th>Sales Value</th>
+                              <th>Scheduled</th>
+                              <th>Taken</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {allsctsalesvalues &&
-                              allsctsalesvalues.getAllSctCallsClient &&
-                              allsctsalesvalues.getAllSctCallsClient.map(
-                                (today, idx) => {
-                                  let total =
-                                    today.countClient + today.countClient;
-                                  grandTotal =
-                                    Number(grandTotal) + Number(total);
-                                  PipeLineTotal.push(Number(grandTotal));
-                                  let totSale =
-                                    today.sctCallSalesValue +
-                                    today.sctCallSalesValue;
-                                  PipeLineSALEetotal =
-                                    Number(PipeLineSALEetotal) +
-                                    Number(totSale);
-                                  PipeLineSaleTotal.push(PipeLineSALEetotal);
-                                  return (
-                                    <tr key={idx}>
-                                      <td>{idx + 1}</td>
-                                      <td>{today.sctCallFromName}</td>
-                                      <td>{total}</td>
-                                      <td>{totSale}</td>
-                                    </tr>
-                                  );
-                                }
-                              )}
-                          </tbody>
-                          <tbody>
-                            {allsctsalesvalues &&
-                            allsctsalesvalues.getAllSctCallsClient.length !==
-                              0 ? (
-                              <tr>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                  {PipeLineTotal[PipeLineTotal.length - 1]}
-                                </td>
-                                <td>
-                                  {
-                                    PipeLineSaleTotal[
-                                      PipeLineSaleTotal.length - 1
-                                    ]
-                                  }
-                                </td>
-                              </tr>
-                            ) : (
-                              <></>
-                            )}
+                            {allDemos &&
+                              allDemos.map((allDemos, idx) => {
+                                let takenCount = 0;
+                                allDemosTaken &&
+                                  allDemosTaken.map((allDemosTaken, idx) => {
+                                    if (allDemosTaken._id === allDemos._id) {
+                                      takenCount = allDemosTaken.count;
+                                    }
+                                  });
+                                return (
+                                  <tr key={idx}>
+                                    <td>{idx + 1}</td>
+                                    <td>{allDemos.empName}</td>
+                                    <td>{allDemos.count}</td>
+                                    <td>{takenCount}</td>
+                                  </tr>
+                                );
+                              })}
                           </tbody>
                         </table>
                       </div>
@@ -481,7 +406,7 @@ const CallReport = ({
                     >
                       <center>
                         <h3>
-                          Overall Summary
+                          Demos Scheduled Today
                           {/* {allDemosAddedToday && allDemosAddedToday.length} */}
                         </h3>
                       </center>
@@ -494,11 +419,10 @@ const CallReport = ({
                             <tr>
                               <th width="15px">No.</th>
                               <th>Name</th>
-                              <th>No of Clients</th>
-                              <th>Sales Value</th>
+                              <th>Count</th>
                             </tr>
                           </thead>
-                          {/* <tbody>
+                          <tbody>
                             {allDemosAddedToday &&
                               allDemosAddedToday.map((today, idx) => {
                                 return (
@@ -509,7 +433,7 @@ const CallReport = ({
                                   </tr>
                                 );
                               })}
-                          </tbody> */}
+                          </tbody>
                         </table>
                       </div>
                     </div>
@@ -524,7 +448,7 @@ const CallReport = ({
   );
 };
 
-CallReport.propTypes = {
+SctDailyReport.propTypes = {
   auth: PropTypes.object.isRequired,
   sct: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
@@ -536,7 +460,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  // getAllLead,
-  getAllSct,
-  // getALLDemos,
-})(CallReport);
+  getAllLeadToday,
+  getAllSctCallCount1,
+  getALLDemosReport,
+})(SctDailyReport);

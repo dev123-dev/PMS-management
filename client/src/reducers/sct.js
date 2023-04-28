@@ -118,6 +118,11 @@ const sct = (state = initialState, action) => {
         ...state,
         sctCallsCount: payload,
       };
+    case "SCT_CALLS_COUNT1":
+      return {
+        ...state,
+        sctCallsCount1: payload,
+      };
     case ALL_LEAD_ENTRY_TODAY:
       return {
         ...state,

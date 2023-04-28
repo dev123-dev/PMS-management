@@ -18,6 +18,7 @@ const multer = require("multer");
 const csvtojson = require("csvtojson");
 const Project = require("../../models/Project");
 const Company = require("../../models/settings/company");
+const sctCalls = require("../../models/sct/sctCalls");
 
 var storage = multer.diskStorage({
   destination: "./client/src/static/files",
@@ -1541,6 +1542,7 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
             sctCallFromName: { $first: "$sctCallFromName" },
             countClient: { $sum: 1 },
             countCall: { $sum: "$count" },
+            sctLeadsCategory: { $first: "$sctLeadsCategory" },
           },
         },
       ]);
@@ -1554,7 +1556,11 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
             _id: "$sctCallToId",
             sctCallFromName: { $first: "$sctCallFromName" },
             countClient: { $sum: 1 },
+            sctLeadsCategory: { $first: "$sctLeadsCategory" },
           },
+        },
+        {
+          $project: {},
         },
       ]);
     }
@@ -1572,7 +1578,7 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
 
 //sct call with client sales value start
 
-router.post("/get-all-sct-details-salesvalue", auth, async (req, res) => {
+router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
   let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
@@ -1598,11 +1604,12 @@ router.post("/get-all-sct-details-salesvalue", auth, async (req, res) => {
     };
   } else {
     query = {
+      sctLeadsCategory: { $ne: "" },
       sctCallTakenDate: dateVal,
       sctCallFromId,
     };
   }
-
+  console.log(query);
   try {
     const getAllSctCallsCount = await SctCalls.aggregate([
       {
@@ -1631,6 +1638,7 @@ router.post("/get-all-sct-details-salesvalue", auth, async (req, res) => {
             sctCallFromId: { $first: "$sctCallFromId" },
             sctCallFromName: { $first: "$sctCallFromName" },
             count: { $sum: 1 },
+            count1: { $sum: "$sctCallSalesValue" },
           },
         },
         {
@@ -1639,7 +1647,7 @@ router.post("/get-all-sct-details-salesvalue", auth, async (req, res) => {
             sctCallFromName: { $first: "$sctCallFromName" },
             countClient: { $sum: 1 },
             countCall: { $sum: "$count" },
-            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+            sctCallSalesValue: { $sum: "$count1" },
           },
         },
       ]);
@@ -1652,12 +1660,12 @@ router.post("/get-all-sct-details-salesvalue", auth, async (req, res) => {
           $group: {
             _id: "$sctCallToId",
             sctCallFromName: { $first: "$sctCallFromName" },
-            sctCallSalesValue: { $first: "$sctCallSalesValue" },
+            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
           },
         },
       ]);
     }
-    console.log("getAllsctCallClientd", getAllSctCalls);
+    //console.log("getAllsctCallClientd", getAllSctCalls);
     res.json({
       getAllSctCallsCount: getAllSctCallsCount,
       getAllSctCallsClient: getAllSctCalls,
@@ -1669,6 +1677,64 @@ router.post("/get-all-sct-details-salesvalue", auth, async (req, res) => {
 });
 
 //sct call with client sales value end
+
+// router.post("/get-all-sct-details-overaAllSummary", auth, async (req, res) => {
+//   let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
+//   const userInfo = await EmployeeDetails.findById(req.user.id).select(
+//     "-password"
+//   );
+//   var dateVal = new Date().toISOString().split("T")[0];
+//   if (selDate) dateVal = selDate;
+//   let sctCallFromId = "",
+//     query = {};
+
+//   if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+//   else {
+//     if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+//     else sctCallFromId = { $ne: null };
+//   }
+//   if (dateType === "Multi Date") {
+//     query = {
+//       sctCallFromId,
+//       sctCallTakenDate: {
+//         $gte: fromdate,
+//         $lte: todate,
+//       },
+//     };
+//   } else {
+//     query = {
+//       sctCallTakenDate: dateVal,
+//       sctCallFromId,
+//     };
+//   }
+
+//   // try {
+//   //   const summaryData = await sctCalls.aggregate([
+//   //     {
+//   //       $match: query,
+//   //     },
+//   //     {
+//   //       $group: {
+//   //         _id: "$sctCallFromId",
+//   //         sctCallDate: { $sum: 1 },
+//   //       },
+//   //     },
+
+//   //     {
+//   //       $project: {
+//   //         sctCallSalesValue: "$sctCallSalesValue",
+//   //         sctCallDate : "$sctCallDate"
+//   //       },
+//   //     },
+//   //   ]);
+//   //   console.log("xxx", summaryData);
+//   // } catch (error) {
+//   //   console.log(error.message);
+//   // }
+// });
+//Sct client over all summary start
+
+//sct client over all summary end
 
 router.post("/check-demo", async (req, res) => {
   const { demoUserId } = req.body;

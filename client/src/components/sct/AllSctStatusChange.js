@@ -54,12 +54,14 @@ const AllSctStatusChange = ({
   ];
 
   if (from === "FollowUp" || from === "F") {
+    //ShowCategory("false");
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
         StatusMethods.value !== "FollowUp" &&
         StatusMethods.value !== "TrainingDemo"
     );
   } else if (from === "EngagedClient") {
+    // ShowCategory("true");
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
         StatusMethods.value !== "EngagedClient" &&
@@ -90,7 +92,7 @@ const AllSctStatusChange = ({
     );
   }
   //STATUS END
-
+  console.log("staffFilter", staffFilter);
   //Category
 
   let CategoryMethods = [
@@ -246,7 +248,7 @@ const AllSctStatusChange = ({
 
   const onStatusTypeChange = (e) => {
     if (e.value === "CallBack") {
-      setstatus("true");
+      setstatus("CallBack");
       setFormData({
         ...formData,
         sctCallStatus: e,
@@ -338,6 +340,8 @@ const AllSctStatusChange = ({
           showLeadCategory: false,
         });
       } else if (e.value === "FollowUp") {
+        setstatus("FollowUp");
+
         setFormData({
           ...formData,
           sctCallStatus: e,
@@ -475,11 +479,11 @@ const AllSctStatusChange = ({
         filterData: filterData,
         page: page,
       };
-      console.log("finalData", finalData);
+      //console.log("finalData", finalData);
       if (from === "EngagedClient" || from === "RegularClient") {
-        //addSctClientCalls(finalData);
+        addSctClientCalls(finalData);
       } else {
-        //addSctCalls(finalData);
+        addSctCalls(finalData);
       }
 
       if (
@@ -548,7 +552,7 @@ const AllSctStatusChange = ({
           sctStaffs: leadDataVal.sctStaffs,
         };
 
-        // addSctClientDetails(transferData);
+        addSctClientDetails(transferData);
       }
       setFormData({
         ...formData,
@@ -563,7 +567,7 @@ const AllSctStatusChange = ({
       getstaffsData("");
     }
   };
-  console.log("sctLeadsCategory", sctLeadsCategory);
+  // console.log("sctLeadsCategory", sctLeadsCategory);
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -624,7 +628,7 @@ const AllSctStatusChange = ({
               />
             </div>
           )}
-          {showLeadCategory && (
+          {showLeadCategory && staffFilter.staffFrom !== "F" ? (
             <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
               <label className="label-control">Category :</label>
               <Select
@@ -636,6 +640,8 @@ const AllSctStatusChange = ({
                 onChange={(e) => onLeadCategoryChange(e)}
               />
             </div>
+          ) : (
+            <></>
           )}
 
           {showdemoselectionSection && (
@@ -746,7 +752,9 @@ const AllSctStatusChange = ({
             </div>
           )}
 
-          {showstatus === "true" && sctLeadsCategory ? (
+          {showstatus === "FollowUp" ||
+          showstatus === "CallBack" ||
+          (staffFilter.staffFrom === "F" && sctLeadsCategory) ? (
             <>
               {" "}
               <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
