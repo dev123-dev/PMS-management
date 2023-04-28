@@ -5,25 +5,52 @@ import Spinner from "../layout/Spinner";
 import {
   getAllSctCallCount1,
   getALLDemosReport,
-  getAllLeadToday,
+  getAllFollowUp,
 } from "../../actions/sct";
 import Select from "react-select";
 const SctDailyReport = ({
   auth: { isAuthenticated, user },
   sct: {
     sctCallsCount1,
-    allDemos,
-    allDemosTaken,
-    allDemosAddedToday,
-    allLeadEnteredToday,
+    allFollowUp,
+    // allDemosTaken,
+    // allDemosAddedToday,
+    // allLeadEnteredToday,
   },
   getALLDemosReport,
-  getAllLeadToday,
+  getAllFollowUp,
   getAllSctCallCount1,
 }) => {
+  // console.log("allFollowUp", allFollowUp);
+  // console.log("sctCallsCount1", sctCallsCount1);
+
+  const [PotentialClient, SetPotentialClient] = useState([
+    sctCallsCount1 && sctCallsCount1.getAllSctCallsClient,
+  ]);
+  const [FollowUpClient, SetFollowUpClient] = useState([
+    allFollowUp && allFollowUp.getAllSctCallsClient,
+  ]);
+  let TotalClient = 0;
+  let TotalSalesValue = 0;
+  let Name = "";
+  let len =
+    PotentialClient.length > FollowUpClient.length
+      ? PotentialClient
+      : FollowUpClient;
+  for (let i = 0; i < len; i++) {
+    if (FollowUpClient[i]._id.includes(PotentialClient[i]._id)) {
+      Name = PotentialClient[i].sctCallFromName;
+      TotalClient =
+        PotentialClient[i].countClient + FollowUpClient[i].countClient;
+      TotalSalesValue =
+        PotentialClient[i].sctCallSalesValue +
+        FollowUpClient[i].sctCallSalesValue;
+    }
+  }
+
   useEffect(() => {
-    getAllLeadToday();
-  }, [getAllLeadToday]);
+    getAllFollowUp();
+  }, [getAllFollowUp]);
   useEffect(() => {
     getAllSctCallCount1();
   }, [getAllSctCallCount1]);
@@ -90,7 +117,7 @@ const SctDailyReport = ({
 
     // setSelDateDataVal(selDateData);
     getAllSctCallCount1(finalData);
-    getAllLeadToday(finalData);
+    getAllFollowUp(finalData);
     getALLDemosReport(finalData);
     // getDailyjobSheetFolder(selDateData);
   };
@@ -112,21 +139,20 @@ const SctDailyReport = ({
     };
     // setSelDateDataVal(selDateData);
     getAllSctCallCount1(finalData);
-    getAllLeadToday(finalData);
+    getAllFollowUp(finalData);
     getALLDemosReport(finalData);
     // getDailyjobSheetFolder(selDateData);
   };
 
-  const alldemosentered = [];
-  allLeadEnteredToday &&
-    allLeadEnteredToday.map((demos) =>
-      alldemosentered.push({
-        demosId: demos._id,
-        label: demos.empFullName,
-        value: demos.empFullName,
-      })
-    );
-
+  // const alldemosentered = [];
+  // allLeadEnteredToday &&
+  //   allLeadEnteredToday.map((demos) =>
+  //     alldemosentered.push({
+  //       demosId: demos._id,
+  //       label: demos.empFullName,
+  //       value: demos.empFullName,
+  //     })
+  //   );
   return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
@@ -243,8 +269,8 @@ const SctDailyReport = ({
                       <center>
                         <h3>LEADS</h3>
                         <h3>
-                          Today's Lead Entry :{" "}
-                          {allLeadEnteredToday && allLeadEnteredToday.length}
+                          {/* Today's Lead Entry :{" "}
+                          {allLeadEnteredToday && allLeadEnteredToday.length} */}
                         </h3>
                       </center>
                     </div>
@@ -253,9 +279,9 @@ const SctDailyReport = ({
                     <div className="card card-content ">
                       <center>
                         <h3>DEMOS</h3>
-                        <h3>Demo Scheduled :{allDemos && allDemos.length}</h3>
+                        {/* <h3>Demo Scheduled :{allDemos && allDemos.length}</h3> */}
                         <h3>
-                          Demo Taken : {allDemosTaken && allDemosTaken.length}
+                          {/* Demo Taken : {allDemosTaken && allDemosTaken.length} */}
                         </h3>
                       </center>
                     </div>
@@ -267,8 +293,8 @@ const SctDailyReport = ({
                     >
                       <center>
                         <h3>
-                          Demos Scheduled Today :{" "}
-                          {allDemosAddedToday && allDemosAddedToday.length}
+                          {/* Demos Scheduled Today :{" "}
+                          {allDemosAddedToday && allDemosAddedToday.length} */}
                         </h3>
                       </center>
                     </div>
@@ -338,20 +364,25 @@ const SctDailyReport = ({
                             <tr>
                               <th width="15px">No.</th>
                               <th>Name</th>
-                              <th>Count</th>
+                              <th>Client Count</th>
+                              <th>Sales Value</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {allLeadEnteredToday &&
-                              allLeadEnteredToday.map((today, idx) => {
-                                return (
-                                  <tr key={idx}>
-                                    <td>{idx + 1}</td>
-                                    <td>{today.sctLeadEnteredByName}</td>
-                                    <td>{today.count}</td>
-                                  </tr>
-                                );
-                              })}
+                            {allFollowUp &&
+                              allFollowUp.getAllSctCallsClient &&
+                              allFollowUp.getAllSctCallsClient.map(
+                                (today, idx) => {
+                                  return (
+                                    <tr key={idx}>
+                                      <td>{idx + 1}</td>
+                                      <td>{today.sctCallFromName}</td>
+                                      <td>{today.countClient}</td>
+                                      <td>{today.sctCallSalesValue}</td>
+                                    </tr>
+                                  );
+                                }
+                              )}
                           </tbody>
                         </table>
                       </div>
@@ -369,31 +400,15 @@ const SctDailyReport = ({
                         >
                           <thead>
                             <tr>
-                              <th width="15px">No.</th>
                               <th>Name</th>
-                              <th>Scheduled</th>
-                              <th>Taken</th>
+                              <th>No.of.Clients</th>
+                              <th>Total Sales</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {allDemos &&
-                              allDemos.map((allDemos, idx) => {
-                                let takenCount = 0;
-                                allDemosTaken &&
-                                  allDemosTaken.map((allDemosTaken, idx) => {
-                                    if (allDemosTaken._id === allDemos._id) {
-                                      takenCount = allDemosTaken.count;
-                                    }
-                                  });
-                                return (
-                                  <tr key={idx}>
-                                    <td>{idx + 1}</td>
-                                    <td>{allDemos.empName}</td>
-                                    <td>{allDemos.count}</td>
-                                    <td>{takenCount}</td>
-                                  </tr>
-                                );
-                              })}
+                            <td>{Name}</td>
+                            <td>{TotalClient}</td>
+                            <td>{TotalSalesValue}</td>
                           </tbody>
                         </table>
                       </div>
@@ -406,7 +421,7 @@ const SctDailyReport = ({
                     >
                       <center>
                         <h3>
-                          Demos Scheduled Today
+                          Over All Summary
                           {/* {allDemosAddedToday && allDemosAddedToday.length} */}
                         </h3>
                       </center>
@@ -422,7 +437,7 @@ const SctDailyReport = ({
                               <th>Count</th>
                             </tr>
                           </thead>
-                          <tbody>
+                          {/* <tbody>
                             {allDemosAddedToday &&
                               allDemosAddedToday.map((today, idx) => {
                                 return (
@@ -433,7 +448,7 @@ const SctDailyReport = ({
                                   </tr>
                                 );
                               })}
-                          </tbody>
+                          </tbody> */}
                         </table>
                       </div>
                     </div>
@@ -460,7 +475,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getAllLeadToday,
+  getAllFollowUp,
   getAllSctCallCount1,
   getALLDemosReport,
 })(SctDailyReport);

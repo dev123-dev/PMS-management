@@ -35,6 +35,7 @@ import {
   SCT_CALLS_COUNT,
   ALL_LEAD_ENTRY_TODAY,
   ALL_SCT_SALES_VALUES,
+  SCT_CALLS_FOLLOWUP,
   SCT_CALLS_CLIENT_COUNT,
 } from "./types";
 
@@ -858,6 +859,24 @@ export const getAllSctCallCount1 = (finalData) => async (dispatch) => {
     );
     dispatch({
       type: "SCT_CALLS_COUNT1",
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllFollowUp = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-all-sct-FollowUp",
+      finalData,
+      config
+    );
+    dispatch({
+      type: SCT_CALLS_FOLLOWUP,
       payload: res.data,
     });
   } catch (err) {

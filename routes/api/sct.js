@@ -1609,7 +1609,7 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
       sctCallFromId,
     };
   }
-  console.log(query);
+  //console.log(query);
   try {
     const getAllSctCallsCount = await SctCalls.aggregate([
       {
@@ -1735,6 +1735,109 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
 //Sct client over all summary start
 
 //sct client over all summary end
+
+//followup start
+
+router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
+  let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
+
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  var dateVal = new Date().toISOString().split("T")[0];
+
+  if (selDate) dateVal = selDate;
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+  if (dateType === "Multi Date") {
+    query = {
+      sctCallFromId,
+      sctCallTakenDate: {
+        $gte: fromdate,
+        $lte: todate,
+      },
+    };
+  } else {
+    query = {
+      sctCallCategory: { $eq: "F" },
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  }
+  //console.log("followup page", query);
+  try {
+    const getAllSctCallsCount = await SctCalls.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$sctCallFromId",
+          sctCallFromName: { $first: "$sctCallFromName" },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    let getAllSctCalls = [];
+    if (userInfo.empCtAccess === "All") {
+      getAllSctCalls = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: {
+              sctCallFromId: "$sctCallFromId",
+              sctCallToId: "$sctCallToId",
+            },
+            sctCallFromId: { $first: "$sctCallFromId" },
+            sctCallFromName: { $first: "$sctCallFromName" },
+            count: { $sum: 1 },
+            count1: { $sum: "$sctCallSalesValue" },
+          },
+        },
+        {
+          $group: {
+            _id: "$sctCallFromId",
+            sctCallFromName: { $first: "$sctCallFromName" },
+            countClient: { $sum: 1 },
+            countCall: { $sum: "$count" },
+            sctCallSalesValue: { $sum: "$count1" },
+          },
+        },
+      ]);
+    } else {
+      getAllSctCalls = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: "$sctCallToId",
+            sctCallFromName: { $first: "$sctCallFromName" },
+            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+          },
+        },
+      ]);
+    }
+    console.log("getAllsctCallClientd", getAllSctCalls);
+    res.json({
+      getAllSctCallsCount: getAllSctCallsCount,
+      getAllSctCallsClient: getAllSctCalls,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+//followup end
 
 router.post("/check-demo", async (req, res) => {
   const { demoUserId } = req.body;

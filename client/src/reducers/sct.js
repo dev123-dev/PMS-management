@@ -31,6 +31,7 @@ import {
   ALL_LEAD_ENTRY_TODAY,
   ALL_SCT_SALES_VALUES,
   SCT_CALLS_CLIENT_COUNT,
+  SCT_CALLS_FOLLOWUP,
 } from "../actions/types";
 
 const initialState = {
@@ -43,6 +44,7 @@ const initialState = {
   getAllSctLeadsEmp: [],
 
   sctLastMsg: [],
+  allFollowUp: [],
   allSctProject: [],
   projectList: [],
   sctcallHistory: [],
@@ -81,6 +83,11 @@ const sct = (state = initialState, action) => {
       return {
         ...state,
         allSctLeadsDD: payload,
+      };
+    case SCT_CALLS_FOLLOWUP:
+      return {
+        ...state,
+        allFollowUp: payload,
       };
     case ALL_SCT_LEADS_EMP:
       return {
