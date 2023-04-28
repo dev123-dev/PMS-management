@@ -771,7 +771,6 @@ export const getAllSct = (finalData) => async (dispatch) => {
       finalData,
       config
     );
-    console.log("action", res.data);
     dispatch({
       type: ALL_SCT_SALES_VALUES,
       payload: res.data,
@@ -780,6 +779,19 @@ export const getAllSct = (finalData) => async (dispatch) => {
     dispatch({
       type: ERROR,
     });
+  }
+};
+
+export const getALLSummary = (finaldata) => async (dispatch) => {
+  console.log("inside action", finaldata);
+  try {
+    const res = await axios.post(
+      "/api/sct/get-all-sct-details-overaAllSummary",
+      finaldata,
+      config
+    );
+  } catch (error) {
+    console.log(error.message);
   }
 };
 
@@ -828,6 +840,24 @@ export const getAllSctCallCount = (finalData) => async (dispatch) => {
     );
     dispatch({
       type: SCT_CALLS_COUNT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllSctCallCount1 = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-all-sct-calls-count-1",
+      finalData,
+      config
+    );
+    dispatch({
+      type: "SCT_CALLS_COUNT1",
       payload: res.data,
     });
   } catch (err) {
