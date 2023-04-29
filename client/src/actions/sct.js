@@ -36,6 +36,7 @@ import {
   ALL_LEAD_ENTRY_TODAY,
   ALL_SCT_SALES_VALUES,
   SCT_CALLS_FOLLOWUP,
+  ALL_SUMMARY,
   SCT_CALLS_CLIENT_COUNT,
 } from "./types";
 
@@ -698,6 +699,32 @@ export const getALLDemosReport =
     }
   };
 
+export const getOverAllSummary = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-over-all-summary",
+
+      finalData
+    );
+    dispatch({
+      type: ALL_SUMMARY,
+      payload: res.data,
+    });
+    // dispatch({
+    //   type: ALL_DEMOS_TAKEN,
+    //   payload: res.data.allDemosTaken,
+    // });
+    // dispatch({
+    //   type: ALL_DEMOS_TODAY_ADDED,
+    //   payload: res.data.allDemosAddedToday,
+    // });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 export const getAllSctCallClientCount = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post(
@@ -857,6 +884,7 @@ export const getAllSctCallCount1 = (finalData) => async (dispatch) => {
       finalData,
       config
     );
+    localStorage.setItem("getAllSctCallCount1", JSON.stringify(res.data));
     dispatch({
       type: "SCT_CALLS_COUNT1",
       payload: res.data,
@@ -875,6 +903,7 @@ export const getAllFollowUp = (finalData) => async (dispatch) => {
       finalData,
       config
     );
+    localStorage.setItem("allfollowup", JSON.stringify(res.data));
     dispatch({
       type: SCT_CALLS_FOLLOWUP,
       payload: res.data,

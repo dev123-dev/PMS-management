@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import {
   getAllSctCallCount1,
-  getALLDemosReport,
+  getOverAllSummary,
   getAllFollowUp,
 } from "../../actions/sct";
 import Select from "react-select";
@@ -13,50 +13,89 @@ const SctDailyReport = ({
   sct: {
     sctCallsCount1,
     allFollowUp,
+    allSummary,
     // allDemosTaken,
     // allDemosAddedToday,
     // allLeadEnteredToday,
   },
-  getALLDemosReport,
+  getOverAllSummary,
   getAllFollowUp,
   getAllSctCallCount1,
 }) => {
   // console.log("allFollowUp", allFollowUp);
   // console.log("sctCallsCount1", sctCallsCount1);
 
-  const [PotentialClient, SetPotentialClient] = useState([
-    sctCallsCount1 && sctCallsCount1.getAllSctCallsClient,
-  ]);
-  const [FollowUpClient, SetFollowUpClient] = useState([
-    allFollowUp && allFollowUp.getAllSctCallsClient,
-  ]);
-  let TotalClient = 0;
-  let TotalSalesValue = 0;
-  let Name = "";
-  let len =
-    PotentialClient.length > FollowUpClient.length
-      ? PotentialClient
-      : FollowUpClient;
-  for (let i = 0; i < len; i++) {
-    if (FollowUpClient[i]._id.includes(PotentialClient[i]._id)) {
-      Name = PotentialClient[i].sctCallFromName;
-      TotalClient =
-        PotentialClient[i].countClient + FollowUpClient[i].countClient;
-      TotalSalesValue =
-        PotentialClient[i].sctCallSalesValue +
-        FollowUpClient[i].sctCallSalesValue;
+  ////////////////////////
+  //let PipeLineData = [];
+  // const [PipeLineData, setPipeLineData] = useState([]);
+  //getAllSctCallCount1
+  /////////////////
+
+  const localAllSctCallCount1 = JSON.parse(
+    localStorage.getItem("getAllSctCallCount1")
+  );
+
+  const localAllFollowUp = JSON.parse(localStorage.getItem("allfollowup"));
+
+  let PipeLineData = [];
+  const PotentialClient =
+    localAllSctCallCount1 && localAllSctCallCount1.getAllSctCallsClient;
+
+  const FollowUpClient =
+    localAllFollowUp && localAllFollowUp.getAllSctCallsClient;
+  let big;
+  let small;
+
+  if (PotentialClient.length > FollowUpClient.length) {
+    big = PotentialClient;
+    small = FollowUpClient;
+  } else {
+    big = FollowUpClient;
+    small = PotentialClient;
+  }
+
+  let res = [];
+  let PotentialTot = [];
+
+  let res1 = [];
+
+  for (let i = 0; i < big.length; i++) {
+    for (let j = 0; j < small.length; j++) {
+      if (PotentialClient[i]._id === FollowUpClient[j]._id) {
+        let tot =
+          Number(PotentialClient[i].countClient) +
+          Number(FollowUpClient[j].countClient);
+        let sales =
+          Number(PotentialClient[i].sctCallSalesValue) +
+          Number(FollowUpClient[j].sctCallSalesValue);
+        res.push({
+          _id: PotentialClient[i]._id,
+          sctCallFromName: PotentialClient[i].sctCallFromName,
+          countClient: tot,
+          sctCallSalesValue: sales,
+        });
+      }
     }
   }
+  PotentialTot = PotentialClient.filter((objA) => {
+    return !FollowUpClient.some((objB) => objA._id === objB._id);
+  });
+
+  PipeLineData = [...PotentialTot, ...res];
+
+  // setPipeLineData([...PotentialTot, ...res]);
 
   useEffect(() => {
     getAllFollowUp();
   }, [getAllFollowUp]);
+
   useEffect(() => {
     getAllSctCallCount1();
   }, [getAllSctCallCount1]);
+
   useEffect(() => {
-    getALLDemosReport();
-  }, [getALLDemosReport]);
+    getOverAllSummary();
+  }, [getOverAllSummary]);
 
   const DateMethods = [
     { value: "Single Date", label: "Single Date" },
@@ -107,10 +146,34 @@ const SctDailyReport = ({
   );
   //
   const onDateChange2 = (e) => {
-    // setprojectData("");
-    setsingledate(e.target.value);
+    const MonthYear = [
+      { label: "January", value: 1 },
+      { label: "Febrery", value: 2 },
+      { label: "March", value: 3 },
+      { label: "April", value: 4 },
+      { label: "May", value: 5 },
+      { label: "June", value: 6 },
+      { label: "July", value: 7 },
+      { label: "August", value: 8 },
+      { label: "Septmber", value: 9 },
+      { label: "October", value: 10 },
+      { label: "November", value: 11 },
+      { label: "December", value: 12 },
+    ];
+    let new_date = new Date(e.target.value);
+    let month = new_date.getMonth() + 1;
+    let year = new_date.getFullYear();
+
+    let finaldata = MonthYear.filter((ele) => {
+      if (ele.value === month) {
+        return ele.label;
+      }
+    });
+    let new_year = finaldata[0].label + "-" + year;
+    console.log("new year", new_year);
+    setsingledate(new_year);
     let finalData = {
-      selDate: e.target.value,
+      selDate: new_year,
       dateType: "Single Date",
       // folderId: projectData.folderId,
     };
@@ -118,18 +181,64 @@ const SctDailyReport = ({
     // setSelDateDataVal(selDateData);
     getAllSctCallCount1(finalData);
     getAllFollowUp(finalData);
-    getALLDemosReport(finalData);
+    getOverAllSummary(finalData);
     // getDailyjobSheetFolder(selDateData);
   };
 
   const [fromdate, setfromdate] = useState("");
   const onDateChange = (e) => {
-    setfromdate(e.target.value);
+    const MonthYear = [
+      { label: "January", value: 1 },
+      { label: "Febrery", value: 2 },
+      { label: "March", value: 3 },
+      { label: "April", value: 4 },
+      { label: "May", value: 5 },
+      { label: "June", value: 6 },
+      { label: "July", value: 7 },
+      { label: "August", value: 8 },
+      { label: "Septmber", value: 9 },
+      { label: "October", value: 10 },
+      { label: "November", value: 11 },
+      { label: "December", value: 12 },
+    ];
+    let new_date = new Date(e.target.value);
+    let month = new_date.getMonth() + 1;
+    let year = new_date.getFullYear();
+    let finaldata = MonthYear.filter((ele) => {
+      if (ele.value === month) {
+        return ele.label;
+      }
+    });
+    let From_new_year = finaldata[0].label + "-" + year;
+    setfromdate(From_new_year);
   };
 
   const [todate, settodate] = useState("");
   const onDateChange1 = (e) => {
-    settodate(e.target.value);
+    const MonthYear = [
+      { label: "January", value: 1 },
+      { label: "Febrery", value: 2 },
+      { label: "March", value: 3 },
+      { label: "April", value: 4 },
+      { label: "May", value: 5 },
+      { label: "June", value: 6 },
+      { label: "July", value: 7 },
+      { label: "August", value: 8 },
+      { label: "Septmber", value: 9 },
+      { label: "October", value: 10 },
+      { label: "November", value: 11 },
+      { label: "December", value: 12 },
+    ];
+    let new_date = new Date(e.target.value);
+    let month = new_date.getMonth() + 1;
+    let year = new_date.getFullYear();
+    let finaldata = MonthYear.filter((ele) => {
+      if (ele.value === month) {
+        return ele.label;
+      }
+    });
+    let To_new_year = finaldata[0].label + "-" + year;
+    settodate(To_new_year);
 
     let finalData = {
       fromdate: fromdate,
@@ -140,7 +249,7 @@ const SctDailyReport = ({
     // setSelDateDataVal(selDateData);
     getAllSctCallCount1(finalData);
     getAllFollowUp(finalData);
-    getALLDemosReport(finalData);
+    getOverAllSummary(finalData);
     // getDailyjobSheetFolder(selDateData);
   };
 
@@ -153,6 +262,19 @@ const SctDailyReport = ({
   //       value: demos.empFullName,
   //     })
   //   );
+  let month = "";
+  let count =
+    allSummary &&
+    allSummary.getAllSctCallsClient &&
+    allSummary.getAllSctCallsClient.length;
+  let salesv = 0;
+  allSummary &&
+    allSummary.getAllSctCallsClient &&
+    allSummary.getAllSctCallsClient.filter((ele) => {
+      month = ele.sctExpectedMonthYear;
+
+      salesv += ele.sctCallSalesValue;
+    });
   return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
@@ -329,7 +451,6 @@ const SctDailyReport = ({
                               sctCallsCount1.getAllSctCallsClient &&
                               sctCallsCount1.getAllSctCallsClient.map(
                                 (call, idx) => {
-                                  console.log("ok", call);
                                   return (
                                     <tr key={idx}>
                                       <td>{idx + 1}</td>
@@ -401,14 +522,21 @@ const SctDailyReport = ({
                           <thead>
                             <tr>
                               <th>Name</th>
-                              <th>No.of.Clients</th>
+                              <th>Count</th>
                               <th>Total Sales</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <td>{Name}</td>
-                            <td>{TotalClient}</td>
-                            <td>{TotalSalesValue}</td>
+                            {PipeLineData &&
+                              PipeLineData.map((ele) => {
+                                return (
+                                  <tr>
+                                    <td>{ele.sctCallFromName}</td>
+                                    <td>{ele.countClient}</td>
+                                    <td>{ele.sctCallSalesValue}</td>
+                                  </tr>
+                                );
+                              })}
                           </tbody>
                         </table>
                       </div>
@@ -432,23 +560,18 @@ const SctDailyReport = ({
                         >
                           <thead>
                             <tr>
-                              <th width="15px">No.</th>
-                              <th>Name</th>
+                              <th>Month</th>
                               <th>Count</th>
+                              <th>Sales</th>
                             </tr>
                           </thead>
-                          {/* <tbody>
-                            {allDemosAddedToday &&
-                              allDemosAddedToday.map((today, idx) => {
-                                return (
-                                  <tr key={idx}>
-                                    <td>{idx + 1}</td>
-                                    <td>{today.empName}</td>
-                                    <td>{today.count}</td>
-                                  </tr>
-                                );
-                              })}
-                          </tbody> */}
+                          <tbody>
+                            <tr>
+                              <td>{month}</td>
+                              <td>{count}</td>
+                              <td>{salesv}</td>
+                            </tr>
+                          </tbody>
                         </table>
                       </div>
                     </div>
@@ -477,5 +600,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getAllFollowUp,
   getAllSctCallCount1,
-  getALLDemosReport,
+  getOverAllSummary,
 })(SctDailyReport);

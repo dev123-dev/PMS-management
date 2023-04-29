@@ -12,6 +12,7 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 
 export const ALL_USERS = "ALL_USERS";
 export const CHANGE_PWD_FAIL = "CHANGE_PWD_FAIL";
+export const ALL_SUMMARY = "ALL_SUMMARY";
 
 export const MONTH_EXP_CNT = "MONTH_EXP_CNT";
 export const YEAR_EXP_CNT = "YEAR_EXP_CNT";
