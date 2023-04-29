@@ -46,7 +46,7 @@ const SctDailyReport = ({
   let big;
   let small;
 
-  if (PotentialClient.length > FollowUpClient.length) {
+  // if (PotentialClient.length > FollowUpClient.length) {
     big = PotentialClient;
     small = FollowUpClient;
   } else {
