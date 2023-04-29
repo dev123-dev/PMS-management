@@ -19,6 +19,7 @@ import {
   AMENDMENT_LAST_HISTORY_PROJECTS,
   AMENDMENT_LAST_COUNTER,
   SELECTED_CLIENT_DATA,
+  SELECTED_PROJECT_DATA,
   CLIENTS_REPORT_DATA,
   CLIENT_JOB_SUMMARY,
 } from "./types";
@@ -524,6 +525,22 @@ export const getSelectedClientDeatils = (finalData) => async (dispatch) => {
     );
     dispatch({
       type: SELECTED_CLIENT_DATA,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getSelectedprojectDeatils = (finalData) => async (dispatch) => {
+  console.log("finalData", finalData);
+  try {
+    const res = await axios.post(
+      "/api/projects/get-selected-project-details",
+      finalData
+    );
+    dispatch({
+      type: SELECTED_PROJECT_DATA,
       payload: res.data,
     });
   } catch (err) {
