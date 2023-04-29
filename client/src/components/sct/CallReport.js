@@ -8,7 +8,7 @@ import {
   getAllFollowUp,
 } from "../../actions/sct";
 import Select from "react-select";
-const SctDailyReport = ({
+const CallReport = ({
   auth: { isAuthenticated, user },
   sct: {
     sctCallsCount1,
@@ -46,7 +46,7 @@ const SctDailyReport = ({
   let big;
   let small;
 
-  // if (PotentialClient.length > FollowUpClient.length) {
+  if (PotentialClient.length > FollowUpClient.length) {
     big = PotentialClient;
     small = FollowUpClient;
   } else {
@@ -586,7 +586,7 @@ const SctDailyReport = ({
   );
 };
 
-SctDailyReport.propTypes = {
+CallReport.propTypes = {
   auth: PropTypes.object.isRequired,
   sct: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
@@ -601,4 +601,4 @@ export default connect(mapStateToProps, {
   getAllFollowUp,
   getAllSctCallCount1,
   getOverAllSummary,
-})(SctDailyReport);
+})(CallReport);
