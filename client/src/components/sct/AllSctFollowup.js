@@ -307,29 +307,29 @@ const AllSctFollowup = ({
     { label: "November", value: 11 },
     { label: "December", value: 12 },
   ];
-  const onDateChangesingle = (e) => {
-    var newDate = e;
-    var calDate = new Date(newDate);
-    var dd1 = calDate.getDate();
-    var mm2 = calDate.getMonth() + 1;
-    var yyyy1 = calDate.getFullYear();
+  // const onDateChangesingle = (e) => {
+  //   var newDate = e;
+  //   var calDate = new Date(newDate);
+  //   var dd1 = calDate.getDate();
+  //   var mm2 = calDate.getMonth() + 1;
+  //   var yyyy1 = calDate.getFullYear();
 
-    if (dd1 < 10) {
-      dd1 = "0" + dd1;
-    }
+  //   if (dd1 < 10) {
+  //     dd1 = "0" + dd1;
+  //   }
 
-    if (mm2 < 10) {
-      mm2 = "0" + mm2;
-    }
+  //   if (mm2 < 10) {
+  //     mm2 = "0" + mm2;
+  //   }
 
-    let finalDate = dd1 + "-" + mm2 + "-" + yyyy1;
-    let last_variable = yyyy1 + "-" + mm2 + "-" + dd1;
+  //   let finalDate = dd1 + "-" + mm2 + "-" + yyyy1;
+  //   let last_variable = yyyy1 + "-" + mm2 + "-" + dd1;
 
-    SetstartclientShow1(finalDate);
-    getSctLeadDetails({ MonthDate: last_variable });
+  //   SetstartclientShow1(finalDate);
+  //   getSctLeadDetails({ MonthDate: last_variable });
 
-    // add here
-  };
+  //   // add here
+  // };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -351,7 +351,7 @@ const AllSctFollowup = ({
                 onChange={(e) => oncountryChange(e)}
               />
             </div> */}
-            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+            {/* <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               <DatePicker
                 label="Controlled picker"
                 value={startclientShow1}
@@ -359,7 +359,7 @@ const AllSctFollowup = ({
                 placeholderText="dd-mm-yyyy"
                 onChange={(newValue) => onDateChangesingle(newValue)}
               />
-            </div>
+            </div> */}
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="sctProjectName"

@@ -351,40 +351,40 @@ const AllSctPotentials = ({
   );
   const [startclientShow1, SetstartclientShow1] = useState("");
 
-  const MonthYear = [
-    { label: "January", value: 1 },
-    { label: "Febrery", value: 2 },
-    { label: "March", value: 3 },
-    { label: "April", value: 4 },
-    { label: "May", value: 5 },
-    { label: "June", value: 6 },
-    { label: "July", value: 7 },
-    { label: "August", value: 8 },
-    { label: "Septmber", value: 9 },
-    { label: "October", value: 10 },
-    { label: "November", value: 11 },
-    { label: "December", value: 12 },
-  ];
-  const onDateChangesingle = (e) => {
-    var newDate = e;
-    var calDate = new Date(newDate);
-    var dd1 = calDate.getDate();
-    var mm2 = calDate.getMonth() + 1;
-    var yyyy1 = calDate.getFullYear();
-    if (dd1 < 10) {
-      dd1 = "0" + dd1;
-    }
+  // const MonthYear = [
+  //   { label: "January", value: 1 },
+  //   { label: "Febrery", value: 2 },
+  //   { label: "March", value: 3 },
+  //   { label: "April", value: 4 },
+  //   { label: "May", value: 5 },
+  //   { label: "June", value: 6 },
+  //   { label: "July", value: 7 },
+  //   { label: "August", value: 8 },
+  //   { label: "Septmber", value: 9 },
+  //   { label: "October", value: 10 },
+  //   { label: "November", value: 11 },
+  //   { label: "December", value: 12 },
+  // ];
+  // const onDateChangesingle = (e) => {
+  //   var newDate = e;
+  //   var calDate = new Date(newDate);
+  //   var dd1 = calDate.getDate();
+  //   var mm2 = calDate.getMonth() + 1;
+  //   var yyyy1 = calDate.getFullYear();
+  //   if (dd1 < 10) {
+  //     dd1 = "0" + dd1;
+  //   }
 
-    if (mm2 < 10) {
-      mm2 = "0" + mm2;
-    }
+  //   if (mm2 < 10) {
+  //     mm2 = "0" + mm2;
+  //   }
 
-    let finalDate = dd1 + "-" + mm2 + "-" + yyyy1;
-    SetstartclientShow1(finalDate);
-    let last_variable = yyyy1 + "-" + mm2 + "-" + dd1;
-    // console.log(last_variable, "last_variable");
-    getPotentialClients({ MonthDate: last_variable });
-  };
+  //   let finalDate = dd1 + "-" + mm2 + "-" + yyyy1;
+  //   SetstartclientShow1(finalDate);
+  //   let last_variable = yyyy1 + "-" + mm2 + "-" + dd1;
+  //   // console.log(last_variable, "last_variable");
+  //   getPotentialClients({ MonthDate: last_variable });
+  // };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -396,7 +396,7 @@ const AllSctPotentials = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Sct Potentials</h5>
             </div>
-            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+            {/* <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               <DatePicker
                 label="Controlled picker"
                 value={startclientShow1}
@@ -404,7 +404,7 @@ const AllSctPotentials = ({
                 placeholderText="dd-mm-yyyy"
                 onChange={(newValue) => onDateChangesingle(newValue)}
               />
-            </div>
+            </div> */}
             <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="sctProjectName"
