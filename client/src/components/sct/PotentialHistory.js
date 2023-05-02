@@ -112,6 +112,8 @@ const PotentialHistory = ({
     setfromdate(todayDateymd);
     getAllSctCall();
     getAllSctCallEmp();
+    getPotentialClients();
+    SetstartclientShow1("");
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
