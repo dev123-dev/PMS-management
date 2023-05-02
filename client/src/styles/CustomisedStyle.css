@@ -2115,6 +2115,7 @@ padding: 0.15rem !important;
 
 .seletedrowcolorchange, a:active{
   background-color: #91908f;
+  /* background-color: #d5cea7; */
   /* color: white; */
   color: #000;
 }
@@ -2226,8 +2227,19 @@ font-weight: 600;
   font-weight: bold;
   color:white;
 }
-
-.dctassigned{
- padding-bottom: 30px;
+.footerfont:hover{
+  font-size: 16px;
+  font-weight: bold;
+  color:#ffd037;
 }
+.callreport
+{
+color: #456792;
+font-weight: bold;
+}
+td{
+  text-align: center;
+}
+
+
 

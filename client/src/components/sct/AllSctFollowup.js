@@ -326,6 +326,7 @@ const AllSctFollowup = ({
     let last_variable = yyyy1 + "-" + mm2 + "-" + dd1;
 
     SetstartclientShow1(finalDate);
+    getSctLeadDetails({ MonthDate: last_variable });
 
     // add here
   };

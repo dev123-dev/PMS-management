@@ -292,6 +292,18 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     >
                       <Dropdown.Item>Sct Calls History</Dropdown.Item>
                     </NavLink>
+                    <NavLink
+                      to="/potential-history"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item> Potential History</Dropdown.Item>
+                    </NavLink>
+                    <NavLink
+                      to="/followup-history"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item> Followup History</Dropdown.Item>
+                    </NavLink>
 
                     {user && user.empCtAccess === "All" && (
                       <NavLink

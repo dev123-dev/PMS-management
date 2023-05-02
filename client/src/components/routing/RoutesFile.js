@@ -104,6 +104,9 @@ import AddDailyTarget from "../dashboard/AddDailyTarget";
 import ProjectSummary from "../dashboard/ProjectSummary";
 import AdditionalAddProject from "../dashboard/AdditionalAddProject";
 import CallReport from "../sct/CallReport";
+import PotentialHistory from "../sct/PotentialHistory";
+import FollowupHistory from "../sct/FollowupHistory";
+
 const RoutesFile = () => {
   return (
     <section>
@@ -210,6 +213,17 @@ const RoutesFile = () => {
           path="/all-sct-projects"
           component={AllSctProjects}
         />
+        <PrivateRoute
+          exact
+          path="/potential-history"
+          component={PotentialHistory}
+        />
+        <PrivateRoute
+          exact
+          path="/followup-history"
+          component={FollowupHistory}
+        />
+
         <PrivateRoute exact path="/sct-calls" component={SctCallsHistory} />
         <PrivateRoute
           exact

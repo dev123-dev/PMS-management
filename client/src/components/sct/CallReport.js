@@ -43,6 +43,7 @@ const CallReport = ({
 
   const FollowUpClient =
     localAllFollowUp && localAllFollowUp.getAllSctCallsClient;
+
   let big;
   let small;
 
@@ -276,7 +277,7 @@ const CallReport = ({
         salesv += ele.sctCallSalesValue;
       }
     });
-  console.log(allSummary);
+
   return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
@@ -368,7 +369,7 @@ const CallReport = ({
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
                     <div className="card card-content ">
                       <center>
-                        <h3>Potential Clients</h3>
+                        <h3 className="callreport">Potential Clients</h3>
                         <h3>
                           Clients :{" "}
                           {sctCallsCount1 &&
@@ -376,11 +377,11 @@ const CallReport = ({
                             sctCallsCount1.getAllSctCallsClient.length}
                         </h3>
                         <h3>
-                          Calls :{" "}
+                          Sales value :{" "}
                           {sctCallsCount1 &&
-                            sctCallsCount1.getAllSctCallsCount &&
-                            sctCallsCount1.getAllSctCallsCount[0] &&
-                            sctCallsCount1.getAllSctCallsCount[0].count}
+                            sctCallsCount1.getAllSctCallsClient[0] &&
+                            sctCallsCount1.getAllSctCallsClient[0]
+                              .sctCallSalesValue}
                         </h3>
                       </center>
                     </div>
@@ -391,10 +392,21 @@ const CallReport = ({
                       style={{ height: "100%" }}
                     >
                       <center>
-                        <h3>LEADS</h3>
+                        <h3 className="callreport">Follow Up Clients</h3>
                         <h3>
-                          {/* Today's Lead Entry :{" "}
-                          {allLeadEnteredToday && allLeadEnteredToday.length} */}
+                          <h3>
+                            Clients :{" "}
+                            {allFollowUp &&
+                              allFollowUp.getAllSctCallsClient &&
+                              allFollowUp.getAllSctCallsClient.length}
+                          </h3>
+                          <h3>
+                            Sales value :{" "}
+                            {allFollowUp &&
+                              allFollowUp.getAllSctCallsClient[0] &&
+                              allFollowUp.getAllSctCallsClient[0]
+                                .sctCallSalesValue}
+                          </h3>
                         </h3>
                       </center>
                     </div>
@@ -402,25 +414,62 @@ const CallReport = ({
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
                     <div className="card card-content ">
                       <center>
-                        <h3>DEMOS</h3>
-                        {/* <h3>Demo Scheduled :{allDemos && allDemos.length}</h3> */}
+                        <h3 className="callreport">Pipeline Clients</h3>
+                        <h3>Clients : {PipeLineData && PipeLineData.length}</h3>
                         <h3>
-                          {/* Demo Taken : {allDemosTaken && allDemosTaken.length} */}
+                          Sales value :{" "}
+                          {PipeLineData &&
+                            PipeLineData[0] &&
+                            PipeLineData[0].sctCallSalesValue}
                         </h3>
                       </center>
                     </div>
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
+                  {/* <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
                     <div
                       className="card card-content "
                       style={{ height: "100%" }}
                     >
                       <center>
                         <h3>
-                          {/* Demos Scheduled Today :{" "}
-                          {allDemosAddedToday && allDemosAddedToday.length} */}
+                          Demos Scheduled Today :{" "}
+                          {allDemosAddedToday && allDemosAddedToday.length}
                         </h3>
                       </center>
+                    </div>
+                  </div> */}
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
+                    <div
+                      className="card card-content "
+                      style={{ height: "100%" }}
+                    >
+                      <center>
+                        <h3 className="callreport">
+                          Over All Summary
+                          {/* {allDemosAddedToday && allDemosAddedToday.length} */}
+                        </h3>
+                      </center>
+                      <div style={{ padding: "0 15px 0 15px" }}>
+                        <table
+                          className="table table-bordered table-striped table-hover"
+                          id="datatable2"
+                        >
+                          <thead>
+                            <tr>
+                              <th>Month</th>
+                              <th>Client</th>
+                              <th>Sales</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>{month}</td>
+                              <td>{count}</td>
+                              <td>{salesv}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -487,7 +536,7 @@ const CallReport = ({
                             <tr>
                               <th width="15px">No.</th>
                               <th>Name</th>
-                              <th>Client Count</th>
+                              <th>Client </th>
                               <th>Sales Value</th>
                             </tr>
                           </thead>
@@ -524,7 +573,7 @@ const CallReport = ({
                           <thead>
                             <tr>
                               <th>Name</th>
-                              <th>Count</th>
+                              <th>Client</th>
                               <th>Total Sales</th>
                             </tr>
                           </thead>
@@ -563,8 +612,8 @@ const CallReport = ({
                           <thead>
                             <tr>
                               <th>Month</th>
-                              <th>Count</th>
-                              <th>Sales</th>
+                              <th>Client</th>
+                              <th>Total Sales</th>
                             </tr>
                           </thead>
                           <tbody>

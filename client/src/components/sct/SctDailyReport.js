@@ -128,8 +128,8 @@ const SctDailyReport = ({
         value: demos.empFullName,
       })
     );
-  const [startclientDate1, setclientDate1] = useState("");
-  const [startclientShow1, SetstartclientShow1] = useState("");
+  const [startSingleDate, setSingleDate] = useState("");
+  const [startSingleDateShow, SetstartSingleShow] = useState("");
   const onDateChangesingle = (e) => {
     var newDate = e;
     var calDate = new Date(newDate);
@@ -143,12 +143,12 @@ const SctDailyReport = ({
     if (mm2 < 10) {
       mm2 = "0" + mm2;
     }
-    var clientEndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
-    setclientDate1(clientEndDate1);
-    var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
-    SetstartclientShow1(clientEndDate);
+    var EndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+    setSingleDate(EndDate1);
+    var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    SetstartSingleShow(EndDate);
     let finalData = {
-      selDate: clientEndDate1,
+      selDate: EndDate1,
       dateType: "Single Date",
       // folderId: projectData.folderId,
     };
@@ -160,8 +160,8 @@ const SctDailyReport = ({
     //console.log("formData", formData.selDate);
     // getDailyjobSheetFolder(selDateData);
   };
-  const [startprojectDate, setprojectDate] = useState("");
-  const [startprojectShow, setprojectShow] = useState("");
+  const [startFromDate, setFromDate] = useState("");
+  const [startFromDateShow, setFromDateShow] = useState("");
 
   const onfromDateChange = (e) => {
     var newDate = e;
@@ -176,15 +176,15 @@ const SctDailyReport = ({
     if (mm2 < 10) {
       mm2 = "0" + mm2;
     }
-    var clientEndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
-    setprojectDate(clientEndDate1);
-    var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
-    setprojectShow(clientEndDate);
-    setfromdate(clientEndDate1);
+    var EndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+    setFromDate(EndDate1);
+    var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    setFromDateShow(EndDate);
+    setfromdate(EndDate1);
   };
 
-  const [startclientDate, setclientDate] = useState("");
-  const [startclientShow, SetstartclientShow] = useState("");
+  const [startToDate, setToDate] = useState("");
+  const [startcToDateShow, SetstartToDateShow] = useState("");
   const ontoDateChange = (e) => {
     // setError({
     //   ...error,
@@ -203,16 +203,16 @@ const SctDailyReport = ({
     if (mm2 < 10) {
       mm2 = "0" + mm2;
     }
-    var clientEndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
-    setclientDate(clientEndDate1);
-    var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
-    SetstartclientShow(clientEndDate);
+    var EndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+    setToDate(EndDate1);
+    var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    SetstartToDateShow(EndDate);
 
-    settodate(startprojectDate);
+    settodate(startFromDate);
 
     let finalData = {
       fromdate: fromdate,
-      todate: clientEndDate1,
+      todate: EndDate1,
       dateType: "Multi Date",
       // folderId: projectData.folderId,
     };
@@ -267,7 +267,7 @@ const SctDailyReport = ({
                   /> */}
                   <DatePicker
                     label="Controlled picker"
-                    value={startprojectShow}
+                    value={startFromDateShow}
                     className=" form-control"
                     placeholderText="dd-mm-yyyy"
                     onChange={(newValue) => onfromDateChange(newValue)}
@@ -291,7 +291,7 @@ const SctDailyReport = ({
                   /> */}
                   <DatePicker
                     label="Controlled picker"
-                    value={startclientShow}
+                    value={startcToDateShow}
                     className=" form-control"
                     placeholderText="dd-mm-yyyy"
                     onChange={(newValue) => ontoDateChange(newValue)}
@@ -319,7 +319,7 @@ const SctDailyReport = ({
                   /> */}
                   <DatePicker
                     label="Controlled picker"
-                    value={startclientShow1}
+                    value={startSingleDateShow}
                     className=" form-control"
                     placeholderText="dd-mm-yyyy"
                     onChange={(newValue) => onDateChangesingle(newValue)}
