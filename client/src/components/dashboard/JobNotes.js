@@ -17,7 +17,6 @@ const JobNotes = ({
   getSelectedClientDeatils,
   getSelectedprojectDeatils,
 }) => {
-  console.log("selectedClientData", selectedClientData);
   useEffect(() => {
     getSelectedClientDeatils({ clientId: allnotesdata.clientId });
   }, [getSelectedClientDeatils]);
@@ -166,7 +165,6 @@ const JobNotes = ({
             >
               <thead>
                 <tr>
-                  <th>sl.no</th>
                   <th>Date</th>
                   <th>Notes</th>
                 </tr>
@@ -180,7 +178,6 @@ const JobNotes = ({
                     ) {
                       return (
                         <tr key={idx}>
-                          <td>{idx + 1}</td>
                           <td>{getprojecthistory.projectEnteredDateTime}</td>
                           <td>{getprojecthistory.projectNotes}</td>
                         </tr>

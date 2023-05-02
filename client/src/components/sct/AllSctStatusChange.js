@@ -753,8 +753,8 @@ const AllSctStatusChange = ({
           )}
 
           {showstatus === "FollowUp" ||
-          showstatus === "CallBack" ||
-          (staffFilter.staffFrom === "F" && sctLeadsCategory) ? (
+          (showstatus === "CallBack" && sctLeadsCategory) ||
+          (staffFilter.staffFrom === "F" && showstatus === "CallBack") ? (
             <>
               {" "}
               <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
