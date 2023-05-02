@@ -32,6 +32,7 @@ import {
   ALL_SCT_SALES_VALUES,
   SCT_CALLS_CLIENT_COUNT,
   SCT_CALLS_FOLLOWUP,
+  MONTH_WISE_DATA,
   ALL_SUMMARY,
 } from "../actions/types";
 
@@ -66,6 +67,7 @@ const initialState = {
   sctLeadsList: [],
   selectedSctClient: null,
   selectedProject: [],
+  MonthWiseData: [],
   allSctEmpAssignedLeadData: [],
   sctCallsCount: [],
   allLeadEnteredToday: [],
@@ -84,6 +86,11 @@ const sct = (state = initialState, action) => {
       return {
         ...state,
         allSctLeadsDD: payload,
+      };
+    case MONTH_WISE_DATA:
+      return {
+        ...state,
+        MonthWiseData: payload,
       };
     case SCT_CALLS_FOLLOWUP:
       return {

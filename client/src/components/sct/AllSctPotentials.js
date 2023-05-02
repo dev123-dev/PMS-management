@@ -9,6 +9,7 @@ import {
   getSctLeadDetails,
   getSctLeadDetailsDD,
   getSctLastmessage,
+  getPotentialClients,
   getProjectList,
 } from "../../actions/sct";
 import EditSctLead from "./EditSctLead";
@@ -21,17 +22,26 @@ import { getActiveCountry, getActiveState } from "../../actions/regions";
 
 const AllSctPotentials = ({
   auth: { isAuthenticated, user, users, loading },
-  sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp, projectList },
+  sct: {
+    allSctLeads,
+    allSctLeadsDD,
+    allSctLeadsEmp,
+    projectList,
+    MonthWiseData,
+  },
   regions: { activeCountry, activeState },
   getSctLeadDetails,
+  getPotentialClients,
   getActiveCountry,
   getActiveState,
   getSctLeadDetailsDD,
   getSctLastmessage,
   getProjectList,
 }) => {
+  console.log("MonthWiseData", MonthWiseData);
   useEffect(() => {
     getSctLeadDetails();
+    getPotentialClients();
   }, []);
   useEffect(() => {
     getSctLeadDetailsDD();
@@ -336,8 +346,25 @@ const AllSctPotentials = ({
     setFilterData(searchData);
   };
 
-  const [startclientDate1, setclientDate1] = useState("");
+  const [startclientDate1, setclientDate1] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [startclientShow1, SetstartclientShow1] = useState("");
+
+  const MonthYear = [
+    { label: "January", value: 1 },
+    { label: "Febrery", value: 2 },
+    { label: "March", value: 3 },
+    { label: "April", value: 4 },
+    { label: "May", value: 5 },
+    { label: "June", value: 6 },
+    { label: "July", value: 7 },
+    { label: "August", value: 8 },
+    { label: "Septmber", value: 9 },
+    { label: "October", value: 10 },
+    { label: "November", value: 11 },
+    { label: "December", value: 12 },
+  ];
   const onDateChangesingle = (e) => {
     var newDate = e;
     var calDate = new Date(newDate);
@@ -351,10 +378,12 @@ const AllSctPotentials = ({
     if (mm2 < 10) {
       mm2 = "0" + mm2;
     }
-    var clientEndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
-    setclientDate1(clientEndDate1);
-    var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
-    SetstartclientShow1(clientEndDate);
+
+    let finalDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    SetstartclientShow1(finalDate);
+    let last_variable = yyyy1 + "-" + mm2 + "-" + dd1;
+    // console.log(last_variable, "last_variable");
+    getPotentialClients({ MonthDate: last_variable });
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -714,6 +743,7 @@ export default connect(mapStateToProps, {
   getSctLeadDetailsDD,
   getActiveCountry,
   getSctLastmessage,
+  getPotentialClients,
   getActiveState,
   getProjectList,
 })(AllSctPotentials);

@@ -26,6 +26,7 @@ const AllSctFollowup = ({
     allSctLeadsDD,
     allSctLeadsEmp,
     projectList,
+    MonthWiseData,
     getAllSctLeadsDD,
   },
   regions: { activeCountry, activeState },
@@ -36,6 +37,8 @@ const AllSctFollowup = ({
   getSctLastmessage,
   getProjectList,
 }) => {
+  console.log("MonthWiseData", MonthWiseData);
+
   useEffect(() => {
     getSctLeadDetails();
   }, []);
@@ -285,14 +288,32 @@ const AllSctFollowup = ({
     getprojectsData("");
     getStateData("");
   };
-  const [startclientDate1, setclientDate1] = useState("");
+  const [startclientDate1, setclientDate1] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [startclientShow1, SetstartclientShow1] = useState("");
+
+  const MonthYear = [
+    { label: "January", value: 1 },
+    { label: "Febrery", value: 2 },
+    { label: "March", value: 3 },
+    { label: "April", value: 4 },
+    { label: "May", value: 5 },
+    { label: "June", value: 6 },
+    { label: "July", value: 7 },
+    { label: "August", value: 8 },
+    { label: "Septmber", value: 9 },
+    { label: "October", value: 10 },
+    { label: "November", value: 11 },
+    { label: "December", value: 12 },
+  ];
   const onDateChangesingle = (e) => {
     var newDate = e;
     var calDate = new Date(newDate);
     var dd1 = calDate.getDate();
     var mm2 = calDate.getMonth() + 1;
     var yyyy1 = calDate.getFullYear();
+
     if (dd1 < 10) {
       dd1 = "0" + dd1;
     }
@@ -300,10 +321,13 @@ const AllSctFollowup = ({
     if (mm2 < 10) {
       mm2 = "0" + mm2;
     }
-    var clientEndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
-    setclientDate1(clientEndDate1);
-    var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
-    SetstartclientShow1(clientEndDate);
+
+    let finalDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    let last_variable = yyyy1 + "-" + mm2 + "-" + dd1;
+
+    SetstartclientShow1(finalDate);
+
+    // add here
   };
 
   return !isAuthenticated || !user || !users ? (

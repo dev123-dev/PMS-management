@@ -408,7 +408,7 @@ const AllSctStatusChange = ({
     SetexpectedMonth(e.target.value);
     const new_date = new Date(e.target.value);
     const year = new_date.getFullYear();
-    console.log(year);
+  
     let new_month = new_date.getMonth() + 1;
     const month = MonthYear.filter((ele) => {
       if (ele.value === new_month) {

@@ -492,8 +492,10 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
     sctLeadCategory,
     assignedTo,
     projectsId,
+    MonthDate,
     sctLeadsCategory,
   } = req.body;
+
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -545,6 +547,14 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
       _id: mongoose.Types.ObjectId(clientsId),
     };
   }
+  if (MonthDate) {
+    query = {
+      sctLeadAssignedToId,
+      sctLeadStatus: "Active",
+      sctCallDate: { $eq: MonthDate },
+    };
+  }
+  console.log(query);
   try {
     let getSctLeadsDetails = (getSctLeadsEmp = []);
     if (sctLeadCategory) {
@@ -564,7 +574,20 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
         },
       ]).sort({ _id: 1 });
     }
-    res.json({ result1: getSctLeadsDetails, result2: getSctLeadsEmp });
+    if (MonthDate) {
+      getSctLeadsDetails = await SctLeads.aggregate([
+        {
+          $match: query,
+        },
+      ]);
+    }
+
+    res.json({
+      result1: getSctLeadsDetails,
+      result2: getSctLeadsEmp,
+      // result3: sctPotential,
+    });
+    console.log("getSctLeadsDetails", getSctLeadsDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -1575,6 +1598,32 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
 });
 
 //sct all clients count and list end
+router.post("/get-sct-potential-clients", auth, async (req, res) => {
+  let { MonthDate } = req.body;
+
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+
+  var dateVal = new Date().toISOString().split("T")[0];
+
+  if (MonthDate) dateVal = MonthDate;
+  let sctCallFromId = "",
+    query = {};
+
+  try {
+    let data = await sctCalls.find({
+      sctCallTakenDate: MonthDate,
+    });
+    res.json(data);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+//get monthwise potential summary start
+
+////get monthwise potential summary start
 
 //summary data start
 router.post("/get-over-all-summary", auth, async (req, res) => {

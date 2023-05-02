@@ -37,6 +37,7 @@ import {
   ALL_SCT_SALES_VALUES,
   SCT_CALLS_FOLLOWUP,
   ALL_SUMMARY,
+  MONTH_WISE_DATA,
   SCT_CALLS_CLIENT_COUNT,
 } from "./types";
 
@@ -330,6 +331,32 @@ export const refreshLead = (finalData) => async (dispatch) => {
     });
   }
 };
+// getPotentialClients
+export const getPotentialClients = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    const res = await axios.post(
+      "/api/sct/get-sct-potential-clients",
+      finalData,
+      config
+    );
+
+    dispatch({
+      type: MONTH_WISE_DATA,
+      payload: res.data,
+    });
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 //**********************************SELECT**********************************
 //LEAD
 export const getSctLeadDetails = (finalData) => async (dispatch) => {
@@ -338,10 +365,15 @@ export const getSctLeadDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     const res = await axios.post("/api/sct/get-sct-Leads", finalData, config);
+    console.log(res);
     dispatch({
       type: ALL_SCT_LEADS,
       payload: res.data.result1,
     });
+    // dispatch({
+    //   type: MONTH_WISE_DATA,
+    //   payload: res.data.result3,
+    // });
     dispatch({
       type: SET_LOADING_FALSE,
     });
