@@ -56,6 +56,14 @@ const FollowupHistory = ({
     getAllSctCall({ selectedDate: fromdate, assignedTo: e.empId });
   };
 
+  let new_folloupdata = [];
+  MonthWiseData &&
+    MonthWiseData.map((ele) => {
+      if (ele.sctCallCategory === "F") {
+        new_folloupdata.push(ele);
+      }
+    });
+
   const [fromdate, setfromdate] = useState(todayDateymd);
   //   const onDateChange = (e) => {
   //     var newDate = e;
@@ -184,8 +192,8 @@ const FollowupHistory = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {MonthWiseData &&
-                        MonthWiseData.map((allSctCalls, idx) => {
+                      {new_folloupdata &&
+                        new_folloupdata.map((allSctCalls, idx) => {
                           var sctCallDate = "";
                           if (allSctCalls.sctCallDate) {
                             var ED = allSctCalls.sctCallDate.split(/\D/g);
@@ -198,22 +206,22 @@ const FollowupHistory = ({
                               "-"
                             );
                           }
-                          if (allSctCalls.sctCallCategory === "F") {
-                            return (
-                              <tr key={idx}>
-                                <td>{idx + 1}</td>
-                                <td>{allSctCalls.sctCallComeFrom}</td>
-                                <td>{allSctCalls.sctCallToName}</td>
-                                <td>{allSctCalls.sctcallToNumber}</td>
-                                <td>{allSctCalls.sctCallTime}</td>
-                                <td>{allSctCalls.sctCallDate}</td>
-                                <td>{allSctCalls.sctCallTakenDate}</td>
+                          // if (allSctCalls.sctCallCategory === "F") {
+                          return (
+                            <tr key={idx}>
+                              <td>{idx + 1}</td>
+                              <td>{allSctCalls.sctCallComeFrom}</td>
+                              <td>{allSctCalls.sctCallToName}</td>
+                              <td>{allSctCalls.sctcallToNumber}</td>
+                              <td>{allSctCalls.sctCallTime}</td>
+                              <td>{allSctCalls.sctCallDate}</td>
+                              <td>{allSctCalls.sctCallTakenDate}</td>
 
-                                <td>{allSctCalls.sctCallNote}</td>
-                                <td>{allSctCalls.sctCallSalesValue}</td>
-                              </tr>
-                            );
-                          }
+                              <td>{allSctCalls.sctCallNote}</td>
+                              <td>{allSctCalls.sctCallSalesValue}</td>
+                            </tr>
+                          );
+                          // }
                         })}
                     </tbody>
                   </table>
