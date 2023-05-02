@@ -15,6 +15,7 @@ import DeactiveSctLead from "./DeactiveSctLead";
 import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
+import DatePicker from "react-datepicker";
 
 import { getActiveCountry, getActiveState } from "../../actions/regions";
 
@@ -284,6 +285,26 @@ const AllSctFollowup = ({
     getprojectsData("");
     getStateData("");
   };
+  const [startclientDate1, setclientDate1] = useState("");
+  const [startclientShow1, SetstartclientShow1] = useState("");
+  const onDateChangesingle = (e) => {
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var clientEndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+    setclientDate1(clientEndDate1);
+    var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    SetstartclientShow1(clientEndDate);
+  };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -305,6 +326,15 @@ const AllSctFollowup = ({
                 onChange={(e) => oncountryChange(e)}
               />
             </div> */}
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+              <DatePicker
+                label="Controlled picker"
+                value={startclientShow1}
+                className=" form-control"
+                placeholderText="dd-mm-yyyy"
+                onChange={(newValue) => onDateChangesingle(newValue)}
+              />
+            </div>
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="sctProjectName"
@@ -325,13 +355,13 @@ const AllSctFollowup = ({
                 })}
               />
             </div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="stateName"
                 options={allstates}
                 isSearchable={true}
                 value={state}
-                placeholder="Select State"
+                placeholder="State"
                 onChange={(e) => onStateChange(e)}
               />
             </div>

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
+import DatePicker from "react-datepicker";
 import {
   getSctLeadDetails,
   getSctLeadDetailsDD,
@@ -275,6 +276,7 @@ const AllSctPotentials = ({
     getLeadCategoryData("");
     getStateData("");
   };
+
   //comment
   const [count, setCount] = useState(0);
 
@@ -334,6 +336,27 @@ const AllSctPotentials = ({
     setFilterData(searchData);
   };
 
+  const [startclientDate1, setclientDate1] = useState("");
+  const [startclientShow1, SetstartclientShow1] = useState("");
+  const onDateChangesingle = (e) => {
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var clientEndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+    setclientDate1(clientEndDate1);
+    var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    SetstartclientShow1(clientEndDate);
+  };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -343,6 +366,15 @@ const AllSctPotentials = ({
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Sct Potentials</h5>
+            </div>
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+              <DatePicker
+                label="Controlled picker"
+                value={startclientShow1}
+                className=" form-control"
+                placeholderText="dd-mm-yyyy"
+                onChange={(newValue) => onDateChangesingle(newValue)}
+              />
             </div>
             <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
               <Select
@@ -374,7 +406,7 @@ const AllSctPotentials = ({
                 onChange={(e) => onStateChange(e)}
               />
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="companyName"
                 options={allclient}
@@ -405,6 +437,7 @@ const AllSctPotentials = ({
                 onChange={(e) => onClientPhoneChange(e)}
               />
             </div>
+
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
               user.userGroupName === "Super Admin" ||
