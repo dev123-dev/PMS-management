@@ -146,6 +146,7 @@ const CallReport = ({
   );
   //
   const onDateChange2 = (e) => {
+    setSelectedDate(e.target.value);
     const MonthYear = [
       { label: "January", value: 1 },
       { label: "Febrery", value: 2 },
@@ -169,11 +170,11 @@ const CallReport = ({
         return ele.label;
       }
     });
+
     let new_year = finaldata[0].label + "-" + year;
-    console.log("new year", new_year);
     setsingledate(new_year);
     let finalData = {
-      selDate: new_year,
+      selDate: e.target.value,
       dateType: "Single Date",
       // folderId: projectData.folderId,
     };
@@ -263,18 +264,19 @@ const CallReport = ({
   //     })
   //   );
   let month = "";
-  let count =
-    allSummary &&
-    allSummary.getAllSctCallsClient &&
-    allSummary.getAllSctCallsClient.length;
+  let count = 0;
   let salesv = 0;
   allSummary &&
     allSummary.getAllSctCallsClient &&
     allSummary.getAllSctCallsClient.filter((ele) => {
-      month = ele.sctExpectedMonthYear;
+      if (ele.sctLeadsCategory !== "" || ele.sctCallCategory !== "") {
+        count += 1;
+        month = ele.sctExpectedMonthYear;
 
-      salesv += ele.sctCallSalesValue;
+        salesv += ele.sctCallSalesValue;
+      }
     });
+  console.log(allSummary);
   return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
@@ -343,7 +345,7 @@ const CallReport = ({
                     placeholder="dd/mm/yyyy"
                     className="form-control cpp-input datevalidation"
                     name="singledate"
-                    value={singledate}
+                    value={selectedDate}
                     onChange={(e) => onDateChange2(e)}
                     style={{
                       width: "100%",

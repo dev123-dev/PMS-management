@@ -1579,7 +1579,6 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
 //summary data start
 router.post("/get-over-all-summary", auth, async (req, res) => {
   let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
-  //console.log(selDate, dateType, fromdate, todate, assignedTo);
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -1658,6 +1657,7 @@ router.post("/get-over-all-summary", auth, async (req, res) => {
         {
           $project: {
             sctCallCategory: "$sctCallCategory",
+            sctLeadsCategory: "$sctLeadsCategory",
             sctExpectedMonthYear: "$sctExpectedMonthYear",
             sctCallFromId: "$sctCallFromId",
             sctCallFromName: "$sctCallFromName",
@@ -1757,7 +1757,7 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
       sctCallFromId,
     };
   }
-  //console.log(query);
+  console.log(query);
   try {
     const getAllSctCallsCount = await SctCalls.aggregate([
       {
@@ -1816,7 +1816,7 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
         },
       ]);
     }
-    // console.log("it is count 1", getAllSctCalls);
+    console.log("it is count 1", getAllSctCalls);
     res.json({
       getAllSctCallsCount: getAllSctCallsCount,
       getAllSctCallsClient: getAllSctCalls,
@@ -1828,64 +1828,6 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
 });
 
 //sct call with client sales value end
-
-// router.post("/get-all-sct-details-overaAllSummary", auth, async (req, res) => {
-//   let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
-//   const userInfo = await EmployeeDetails.findById(req.user.id).select(
-//     "-password"
-//   );
-//   var dateVal = new Date().toISOString().split("T")[0];
-//   if (selDate) dateVal = selDate;
-//   let sctCallFromId = "",
-//     query = {};
-
-//   if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
-//   else {
-//     if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
-//     else sctCallFromId = { $ne: null };
-//   }
-//   if (dateType === "Multi Date") {
-//     query = {
-//       sctCallFromId,
-//       sctCallTakenDate: {
-//         $gte: fromdate,
-//         $lte: todate,
-//       },
-//     };
-//   } else {
-//     query = {
-//       sctCallTakenDate: dateVal,
-//       sctCallFromId,
-//     };
-//   }
-
-//   // try {
-//   //   const summaryData = await sctCalls.aggregate([
-//   //     {
-//   //       $match: query,
-//   //     },
-//   //     {
-//   //       $group: {
-//   //         _id: "$sctCallFromId",
-//   //         sctCallDate: { $sum: 1 },
-//   //       },
-//   //     },
-
-//   //     {
-//   //       $project: {
-//   //         sctCallSalesValue: "$sctCallSalesValue",
-//   //         sctCallDate : "$sctCallDate"
-//   //       },
-//   //     },
-//   //   ]);
-//   //   console.log("xxx", summaryData);
-//   // } catch (error) {
-//   //   console.log(error.message);
-//   // }
-// });
-//Sct client over all summary start
-
-//sct client over all summary end
 
 //followup start
 
