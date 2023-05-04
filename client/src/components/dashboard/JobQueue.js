@@ -25,6 +25,7 @@ import {
   getUpdatedProjectStaus,
   // getUpdatedProjectStausForDailyJobSheet,
 } from "../../actions/projects";
+import { getAllFollowUp, getAllSctCallCount1 } from "../../actions/sct";
 import AllLatestChange from "./AllLatestChange";
 import { w3cwebsocket } from "websocket";
 import DeactiveProject from "./DeactiveProject";
@@ -44,12 +45,23 @@ const JobQueue = ({
   getAllFolder,
   getUpdatedProjectStaus,
   getLatestChanges,
+  getAllFollowUp,
+  getAllSctCallCount1,
   // getUpdatedProjectStausForDailyJobSheet,
   updateMsgSent,
 }) => {
   const socket = useRef();
   //const activeClientsOpt = [];
   const [clientData, setClientData] = useState("");
+  useEffect(() => {
+    getAllFollowUp();
+    // console.log("localgetAllSctCallCount1", localAllSctCallCount1);
+  }, []);
+
+  useEffect(() => {
+    getAllSctCallCount1();
+  }, []);
+
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -1681,6 +1693,7 @@ JobQueue.propTypes = {
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  sct: state.sct,
   project: state.project,
 });
 
@@ -1692,6 +1705,8 @@ export default connect(mapStateToProps, {
   getAllFolder,
   getUpdatedProjectStaus,
   getLatestChanges,
+  getAllFollowUp,
+  getAllSctCallCount1,
   // getUpdatedProjectStausForDailyJobSheet,
   updateMsgSent,
 })(JobQueue);
