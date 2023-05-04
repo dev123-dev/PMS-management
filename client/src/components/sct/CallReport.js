@@ -4,25 +4,26 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import {
   getAllSctCallCount1,
-  getOverAllSummary,
   getAllFollowUp,
+  getSummary,
 } from "../../actions/sct";
 import Select from "react-select";
+
 const CallReport = ({
   auth: { isAuthenticated, user },
   sct: {
     sctCallsCount1,
     allFollowUp,
-    allSummary,
+    onlySummary,
     // allDemosTaken,
     // allDemosAddedToday,
     // allLeadEnteredToday,
   },
-  getOverAllSummary,
+  getSummary,
   getAllFollowUp,
   getAllSctCallCount1,
 }) => {
-  // console.log("allFollowUp", allFollowUp);
+  console.log("onlySummary", onlySummary);
   // console.log("sctCallsCount1", sctCallsCount1);
 
   ////////////////////////
@@ -47,7 +48,7 @@ const CallReport = ({
   let big;
   let small;
 
-  if (PotentialClient.length > FollowUpClient.length) {
+  if (PotentialClient.length >= FollowUpClient.length) {
     big = PotentialClient;
     small = FollowUpClient;
   } else {
@@ -56,47 +57,85 @@ const CallReport = ({
   }
 
   let res = [];
-  let PotentialTot = [];
-
-  let res1 = [];
-
-  for (let i = 0; i < big.length; i++) {
-    for (let j = 0; j < small.length; j++) {
-      if (PotentialClient[i]._id === FollowUpClient[j]._id) {
-        let tot =
-          Number(PotentialClient[i].countClient) +
-          Number(FollowUpClient[j].countClient);
-        let sales =
-          Number(PotentialClient[i].sctCallSalesValue) +
-          Number(FollowUpClient[j].sctCallSalesValue);
-        res.push({
-          _id: PotentialClient[i]._id,
-          sctCallFromName: PotentialClient[i].sctCallFromName,
-          countClient: tot,
-          sctCallSalesValue: sales,
-        });
-      }
-    }
+  // console.log("XXX", sctCallsCount1, "YY", allFollowUp);
+  // console.log("small", small);
+  // console.log("big", big);
+  if (PotentialClient.length > 0) {
+    // for (let i = 0; i < big.length; i++) {
+    //   let PId = big && big[i]._id;
+    //   //console.log(PotentialClient[i]);
+    //   for (let j = 0; j < small.length; j++) {
+    //     let FId = small && small[j]._id;
+    //     if (PId === FId) {
+    //       let tot =
+    //         Number(PotentialClient[i] && PotentialClient[i].countClient) +
+    //         Number(FollowUpClient[i] && FollowUpClient[j].countClient);
+    //       let sales =
+    //         Number(PotentialClient[i] && PotentialClient[i].sctCallSalesValue) +
+    //         Number(FollowUpClient[i] && FollowUpClient[j].sctCallSalesValue);
+    //       res.push({
+    //         _id: PotentialClient[i] && PotentialClient[i]._id,
+    //         sctCallFromName:
+    //           PotentialClient[i] && PotentialClient[i].sctCallFromName,
+    //         countClient: tot,
+    //         sctCallSalesValue: sales,
+    //       });
+    //     }
+    //   }
+    // }
+    big.map((obj1) => {
+      small.some((obj2) => {
+        if (obj1._id === obj2._id) {
+          res.push({
+            ...obj1,
+            countClient: obj1.countClient + obj2.countClient,
+            sctCallSalesValue: obj1.sctCallSalesValue + obj2.sctCallSalesValue,
+            sctExpectedMonthYear: obj1.sctExpectedMonthYear,
+          });
+        }
+      });
+    });
   }
-  PotentialTot = PotentialClient.filter((objA) => {
-    return !FollowUpClient.some((objB) => objA._id === objB._id);
+
+  // PotentialTot = PotentialClient.filter((objA) => {
+  //   return !FollowUpClient.some((objB) => objA._id === objB._id);
+  // });
+
+  let resBigU = big.filter((obj1) => {
+    return !small.some((obj2) => obj1._id === obj2._id);
+  });
+  let resSmallU = small.filter((obj1) => {
+    return !big.some((obj2) => obj1._id === obj2._id);
   });
 
-  PipeLineData = [...PotentialTot, ...res];
+  // console.log("resSmallU", resSmallU, "res", res);
+  PipeLineData = [...res, ...resBigU, ...resSmallU];
+  console.log("PipeLineData", PipeLineData);
+  //console.log("pdata", PipeLineData);
+  let sumMonth = PipeLineData.filter(
+    (ele, i) => ele.sctExpectedMonthYear && ele.sctExpectedMonthYear != ""
+  );
+  console.log("Summm", sumMonth);
+
+  var totSales = 0;
+  var totClient = 0;
+  var sctExpectedMonthYear = "";
+  PipeLineData.map((ele) => {
+    totSales += ele.sctCallSalesValue;
+    totClient += ele.countClient;
+    sctExpectedMonthYear = ele.sctExpectedMonthYear;
+  });
 
   // setPipeLineData([...PotentialTot, ...res]);
-
   useEffect(() => {
     getAllFollowUp();
+    //console.log("1");
   }, [getAllFollowUp]);
 
   useEffect(() => {
     getAllSctCallCount1();
+    // console.log("2");
   }, [getAllSctCallCount1]);
-
-  useEffect(() => {
-    getOverAllSummary();
-  }, [getOverAllSummary]);
 
   const DateMethods = [
     { value: "Single Date", label: "Single Date" },
@@ -183,11 +222,12 @@ const CallReport = ({
     // setSelDateDataVal(selDateData);
     getAllSctCallCount1(finalData);
     getAllFollowUp(finalData);
-    getOverAllSummary(finalData);
-    // getDailyjobSheetFolder(selDateData);
+    getSummary(finalData);
   };
 
   const [fromdate, setfromdate] = useState("");
+  const [FromDateValue, setFromDateValue] = useState("");
+
   const onDateChange = (e) => {
     const MonthYear = [
       { label: "January", value: 1 },
@@ -204,6 +244,7 @@ const CallReport = ({
       { label: "December", value: 12 },
     ];
     let new_date = new Date(e.target.value);
+    setFromDateValue(e.target.value);
     let month = new_date.getMonth() + 1;
     let year = new_date.getFullYear();
     let finaldata = MonthYear.filter((ele) => {
@@ -216,6 +257,8 @@ const CallReport = ({
   };
 
   const [todate, settodate] = useState("");
+  const [ToDateValue, setToDateValue] = useState("");
+
   const onDateChange1 = (e) => {
     const MonthYear = [
       { label: "January", value: 1 },
@@ -232,6 +275,7 @@ const CallReport = ({
       { label: "December", value: 12 },
     ];
     let new_date = new Date(e.target.value);
+    setToDateValue(e.target.value);
     let month = new_date.getMonth() + 1;
     let year = new_date.getFullYear();
     let finaldata = MonthYear.filter((ele) => {
@@ -243,7 +287,7 @@ const CallReport = ({
     settodate(To_new_year);
 
     let finalData = {
-      fromdate: fromdate,
+      fromdate: FromDateValue,
       todate: e.target.value,
       dateType: "Multi Date",
       // folderId: projectData.folderId,
@@ -251,8 +295,7 @@ const CallReport = ({
     // setSelDateDataVal(selDateData);
     getAllSctCallCount1(finalData);
     getAllFollowUp(finalData);
-    getOverAllSummary(finalData);
-    // getDailyjobSheetFolder(selDateData);
+    getSummary(finalData);
   };
 
   // const alldemosentered = [];
@@ -264,19 +307,20 @@ const CallReport = ({
   //       value: demos.empFullName,
   //     })
   //   );
-  let month = "";
-  let count = 0;
-  let salesv = 0;
-  allSummary &&
-    allSummary.getAllSctCallsClient &&
-    allSummary.getAllSctCallsClient.filter((ele) => {
-      if (ele.sctLeadsCategory !== "" || ele.sctCallCategory !== "") {
-        count += 1;
-        month = ele.sctExpectedMonthYear;
 
-        salesv += ele.sctCallSalesValue;
-      }
-    });
+  let month = "";
+  // let count = 0;
+  // let salesv = 0;
+  // allSummary &&
+  //   allSummary.getAllSctCallsClient &&
+  //   allSummary.getAllSctCallsClient.filter((ele) => {
+  //     if (ele.sctLeadsCategory !== "" || ele.sctCallCategory !== "") {
+  //       count += 1;
+  //       month = ele.sctExpectedMonthYear;
+
+  //       salesv += ele.sctCallSalesValue;
+  //     }
+  //   });
 
   return !isAuthenticated || !user ? (
     <Spinner />
@@ -308,7 +352,7 @@ const CallReport = ({
                     placeholder="dd/mm/yyyy"
                     className="form-control cpp-input datevalidation"
                     name="fromdate"
-                    value={fromdate}
+                    value={FromDateValue}
                     onChange={(e) => onDateChange(e)}
                     style={{
                       width: "110%",
@@ -325,7 +369,7 @@ const CallReport = ({
                     placeholder="dd/mm/yyyy"
                     className="form-control cpp-input datevalidation"
                     name="todate"
-                    value={todate}
+                    value={ToDateValue}
                     onChange={(e) => onDateChange1(e)}
                     style={{
                       width: "110%",
@@ -463,9 +507,9 @@ const CallReport = ({
                           </thead>
                           <tbody>
                             <tr>
-                              <td>{month}</td>
+                              {/* <td>{month}</td>
                               <td>{count}</td>
-                              <td>{salesv}</td>
+                              <td>{salesv}</td> */}
                             </tr>
                           </tbody>
                         </table>
@@ -616,12 +660,24 @@ const CallReport = ({
                               <th>Total Sales</th>
                             </tr>
                           </thead>
-                          <tbody>
+                          {/* <tbody>
                             <tr>
-                              <td>{month}</td>
-                              <td>{count}</td>
-                              <td>{salesv}</td>
+                              <td>{sctExpectedMonthYear}</td>
+                              <td>{totClient}</td>
+                              <td>{totSales}</td>
                             </tr>
+                          </tbody> */}
+                          <tbody>
+                            {onlySummary &&
+                              onlySummary.map((ele) => {
+                                return (
+                                  <tr>
+                                    <td>{ele._id}</td>
+                                    <td>{ele.countClient}</td>
+                                    <td>{ele.sctCallSalesValue}</td>
+                                  </tr>
+                                );
+                              })}
                           </tbody>
                         </table>
                       </div>
@@ -651,5 +707,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getAllFollowUp,
   getAllSctCallCount1,
-  getOverAllSummary,
+  getSummary,
 })(CallReport);

@@ -39,6 +39,7 @@ import {
   ALL_SUMMARY,
   MONTH_WISE_DATA,
   SCT_CALLS_CLIENT_COUNT,
+  ONLY_SUMMARY,
 } from "./types";
 
 const config = {
@@ -731,6 +732,31 @@ export const getALLDemosReport =
     }
   };
 
+//get summary for callR3eport page start
+export const getSummary = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/sct/get-summary", finalData);
+    console.log("only summary in actoiojn", res.data);
+    dispatch({
+      type: ONLY_SUMMARY,
+      payload: res.data,
+    });
+    // dispatch({
+    //   type: ALL_DEMOS_TAKEN,
+    //   payload: res.data.allDemosTaken,
+    // });
+    // dispatch({
+    //   type: ALL_DEMOS_TODAY_ADDED,
+    //   payload: res.data.allDemosAddedToday,
+    // });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+//get summary for callReport page end
+
 export const getOverAllSummary = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post(
@@ -910,6 +936,7 @@ export const getAllSctCallCount = (finalData) => async (dispatch) => {
 };
 
 export const getAllSctCallCount1 = (finalData) => async (dispatch) => {
+  console.log("in action", finalData);
   try {
     const res = await axios.post(
       "/api/sct/get-all-sct-calls-count-1",

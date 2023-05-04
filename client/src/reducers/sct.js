@@ -34,6 +34,7 @@ import {
   SCT_CALLS_FOLLOWUP,
   MONTH_WISE_DATA,
   ALL_SUMMARY,
+  ONLY_SUMMARY,
 } from "../actions/types";
 
 const initialState = {
@@ -41,6 +42,7 @@ const initialState = {
   allSctLeadsDD: [],
   allSctLeadsEmp: [],
   allSummary: [],
+  onlySummary: [],
   getAllSctLeads: [],
   getAllSctLeadsDD: [],
   getAllSctLeadsEmp: [],
@@ -91,6 +93,11 @@ const sct = (state = initialState, action) => {
       return {
         ...state,
         MonthWiseData: payload,
+      };
+    case ONLY_SUMMARY:
+      return {
+        ...state,
+        onlySummary: payload,
       };
     case SCT_CALLS_FOLLOWUP:
       return {

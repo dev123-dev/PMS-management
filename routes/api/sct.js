@@ -1772,10 +1772,187 @@ router.post("/get-over-all-summary", auth, async (req, res) => {
 });
 //summary data end
 
+//summary for callReport start
+router.post("/get-summary", auth, async (req, res) => {
+  console.log("xxx", req.body);
+  let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+
+  var dateVal = new Date().toISOString().split("T")[0];
+
+  if (selDate) dateVal = selDate;
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+
+  if (dateType === "Multi Date") {
+    query = {
+      $and: [
+        //sctCallFromId,
+        {
+          $or: [
+            { sctCallCategory: { $eq: "F" } },
+            { sctCallCategory: { $eq: "P" } },
+          ],
+        },
+        {
+          sctCallTakenDate: {
+            $gte: fromdate,
+            $lte: todate,
+          },
+        },
+      ],
+    };
+  } else {
+    query = {
+      $and: [
+        // sctCallFromId,
+        {
+          $or: [
+            { sctCallCategory: { $eq: "F" } },
+            { sctCallCategory: { $eq: "P" } },
+          ],
+        },
+        {
+          sctCallTakenDate: dateVal,
+        },
+      ],
+    };
+  }
+  console.log(query);
+  try {
+    let getAllSctCalls = [];
+    if (userInfo.empCtAccess === "All") {
+      getAllSctCalls = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: "$sctExpectedMonthYear",
+            countClient: { $sum: 1 },
+            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+          },
+        },
+      ]);
+    } else {
+      getAllSctCalls = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: "$sctExpectedMonthYear",
+            countClient: { $sum: 1 },
+            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+          },
+        },
+      ]);
+    }
+    console.log("getAllSctCalls", getAllSctCalls);
+    res.json(getAllSctCalls);
+    // console.log("in summary page", getAllSctCalls);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+  // try {
+  //   const getAllSctCallsCount = await SctCalls.aggregate([
+  //     {
+  //       $match: query,
+  //     },
+  //     {
+  //       $group: {
+  //         _id: "$sctExpectedMonthYear",
+  //         sctCallFromName: { $first: "$sctCallFromName" },
+  //         count: { $sum: 1 },
+  //       },
+  //     },
+  //   ]);
+  //   let getAllSctCallsClient = [];
+  //   if (userInfo.empCtAccess === "All") {
+  //     getAllSctCallsClient = await SctCalls.aggregate([
+  //       {
+  //         $match: query,
+  //       },
+  //       {
+  //         $group: {
+  //           _id: "$sctExpectedMonthYear",
+  //           countClient: { $sum: "$countClient" },
+
+  //           //sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+  //           sctCallFromName: { $first: "$sctCallFromName" },
+  //           sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+  //         },
+  //       },
+  //       // {
+
+  //       // },
+  //       //   //   $group: {
+  //       //   //     _id: {
+  //       //   //       sctCallFromId: "$sctCallFromId",
+  //       //   //       sctCallToId: "$sctCallToId",
+  //       //   //     },
+  //       //   //     sctCallFromId: { $first: "$sctCallFromId" },
+  //       //   //     sctCallFromName: { $first: "$sctCallFromName" },
+  //       //   //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+  //       //   //     countClient: { $: "$countClient" },
+
+  //       //   //     count: { $sum: 1 },
+  //       //   //   },
+  //       //   // },
+  //       //   // {
+  //       //   //   $group: {
+  //       //   //     _id: "$sctCallFromId",
+  //       //   //     sctCallFromName: { $first: "$sctCallFromName" },
+  //       //   //     countClient: { $first: "$countClient" },
+  //       //   //     countCall: { $sum: "$count" },
+  //       //   //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+  //       //   //   },
+  //       //   // },
+  //       // },
+  //     ]);
+  //   } else {
+  //     getAllSctCallsClient = await SctCalls.aggregate([
+  //       {
+  //         $match: query,
+  //       },
+  //       {
+  //         $group: {
+  //           _id: "$sctExpectedMonthYear",
+  //           sctCallFromName: { $first: "$sctCallFromName" },
+  //           countClient: { $sum: "$countClient" },
+  //           sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+
+  //           // sctExpectedMonthYear: { $last: "$sctExpectedMonthYear" },
+  //         },
+  //       },
+  //     ]);
+  //   }
+  //   console.log("in onlysummary", getAllSctCallsClient);
+  //   res.json({
+  //     getAllSctCallsCount: getAllSctCallsCount,
+  //     getAllSctCallsClient: getAllSctCallsClient,
+  //   });
+  // } catch (err) {
+  //   console.error(err.message);
+  //   res.status(500).send("Internal Server Error.");
+  // }
+});
+//summary for callReport end
+
 //sct call with client sales value start
 
 router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
   let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
+  //console.log(req.body)
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -1806,7 +1983,7 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
       sctCallFromId,
     };
   }
-  console.log(query);
+  // console.log(query);
   try {
     const getAllSctCallsCount = await SctCalls.aggregate([
       {
@@ -1865,7 +2042,6 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
         },
       ]);
     }
-    console.log("it is count 1", getAllSctCalls);
     res.json({
       getAllSctCallsCount: getAllSctCallsCount,
       getAllSctCallsClient: getAllSctCalls,
@@ -1943,6 +2119,7 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
             sctCallFromName: { $first: "$sctCallFromName" },
             count: { $sum: 1 },
             count1: { $sum: "$sctCallSalesValue" },
+            sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
           },
         },
         {
@@ -1952,6 +2129,7 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
             countClient: { $sum: 1 },
             countCall: { $sum: "$count" },
             sctCallSalesValue: { $sum: "$count1" },
+            sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
           },
         },
       ]);
@@ -1965,6 +2143,7 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
             _id: "$sctCallToId",
             sctCallFromName: { $first: "$sctCallFromName" },
             sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+            sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
           },
         },
       ]);
