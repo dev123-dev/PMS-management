@@ -231,7 +231,7 @@ const FollowupHistory = ({
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
                     <label>
-                      No of Calls : {allSctCalls && allSctCalls.length}
+                      No of Calls : {new_folloupdata && new_folloupdata.length}
                     </label>
                   </div>
                 </div>

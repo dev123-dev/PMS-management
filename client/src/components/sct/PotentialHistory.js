@@ -2,6 +2,7 @@ import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import Select from "react-select";
 import {
   getAllSctCall,
   getAllSctCallEmp,
@@ -63,6 +64,11 @@ const PotentialHistory = ({
         new_potentialdata.push(ele);
       }
     });
+  const [showHide, setShowHide] = useState({
+    showdateSection: false,
+    showdateSection1: true,
+  });
+  const { showdateSection, showdateSection1 } = showHide;
 
   const [fromdate, setfromdate] = useState(todayDateymd);
   //   const onDateChange = (e) => {
@@ -106,6 +112,71 @@ const PotentialHistory = ({
     // console.log(last_variable, "last_variable");
     getPotentialClients({ MonthDate: last_variable });
   };
+  const [startFromDate, setFromDate] = useState("");
+  const [startFromDateShow, setFromDateShow] = useState("");
+
+  const onfromDateChange = (e) => {
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var EndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+    setFromDate(EndDate1);
+    var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    setFromDateShow(EndDate);
+    setfromdate(EndDate1);
+    console.log("EndDate", EndDate);
+  };
+  const [todate, settodate] = useState("");
+  const [startToDate, setToDate] = useState("");
+  const [startcToDateShow, SetstartToDateShow] = useState("");
+  const ontoDateChange = (e) => {
+    // setError({
+    //   ...error,
+    //   clientdateChecker: true,
+    //   clientdateErrorStyle: { color: "#000" },
+    // });
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var EndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+    setToDate(EndDate1);
+    var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    SetstartToDateShow(EndDate);
+
+    settodate(startFromDate);
+
+    let finalData = {
+      fromdate: fromdate,
+      todate: EndDate1,
+      dateType: "Multi Date",
+      // folderId: projectData.folderId,
+    };
+
+    // getAllSctCallCount(finalData);
+    // getAllLeadToday(finalData);
+    // getALLDemosReport(finalData);
+    // getDailyjobSheetFolder(selDateData);
+    //console.log("formData", formData);
+    console.log("ontodate", EndDate);
+  };
 
   const onClickReset = () => {
     getempData("");
@@ -114,6 +185,48 @@ const PotentialHistory = ({
     getAllSctCallEmp();
     getPotentialClients();
     SetstartclientShow1("");
+    SetstartToDateShow("");
+    setFromDateShow("");
+    SetstartclientShow1("");
+  };
+  const DateMethods = [
+    { value: "Single Date", label: "Single Date" },
+    { value: "Multi Date", label: "Multi Date" },
+  ];
+
+  // const [showHide, setShowHide] = useState({
+  //   showdateSection: false,
+  //   showdateSection1: true,
+  // });
+  // const { showdateSection, showdateSection1 } = showHide;
+
+  const [formData, setFormData] = useState({
+    Dateselectmode: DateMethods[0],
+
+    isSubmitted: false,
+  });
+  const { Dateselectmode } = formData;
+  const onDateModeChange = (e) => {
+    // setprojectData("");
+    if (e) {
+      setFormData({
+        ...formData,
+        Dateselectmode: e,
+      });
+    }
+    if (e.value === "Multi Date") {
+      setShowHide({
+        ...showHide,
+        showdateSection: true,
+        showdateSection1: false,
+      });
+    } else {
+      setShowHide({
+        ...showHide,
+        showdateSection: false,
+        showdateSection1: true,
+      });
+    }
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -125,19 +238,89 @@ const PotentialHistory = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Potential History </h5>
             </div>
-            <div className="col-lg-2 col-md-4 col-sm-4 col-12 py-2">
-              {/* <input
-                type="date"
-                placeholder="dd/mm/yyyy"
-                className="form-control cpp-input datevalidation"
-                name="fromdate"
-                value={fromdate}
-                onChange={(e) => onDateChange(e)}
-                style={{
-                  width: "100%",
-                }}
-                required
-              /> */}
+            <div className="row col-lg-12 col-md-6 col-sm-12 col-12 no_padding">
+              <div className="col-lg-2 col-md-4 col-sm-4 col-12 py-2">
+                <Select
+                  name="Dateselectmode"
+                  options={DateMethods}
+                  isSearchable={true}
+                  // defaultValue={DateMethods[0]}
+                  value={Dateselectmode}
+                  placeholder="Select"
+                  onChange={(e) => onDateModeChange(e)}
+                />
+              </div>
+
+              {showdateSection && (
+                <>
+                  <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                    <DatePicker
+                      label="Controlled picker"
+                      value={startFromDateShow}
+                      className=" form-control"
+                      placeholderText="dd-mm-yyyy"
+                      onChange={(newValue) => onfromDateChange(newValue)}
+                    />
+                  </div>
+                  <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                    <DatePicker
+                      label="Controlled picker"
+                      value={startcToDateShow}
+                      className=" form-control"
+                      placeholderText="dd-mm-yyyy"
+                      onChange={(newValue) => ontoDateChange(newValue)}
+                    />
+                  </div>
+                  <div className="col-lg-1 col-md-11 col-sm-12 col-11 py-2 ">
+                    <button
+                      className="btn btn_green_bg float-right"
+                      onClick={() => onClickReset()}
+                    >
+                      Refresh
+                    </button>
+                  </div>
+                </>
+              )}
+              {showdateSection1 && (
+                <>
+                  <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                    {/* <input
+                    type="date"
+                    placeholder="dd/mm/yyyy"
+                    className="form-control cpp-input datevalidation"
+                    name="singledate"
+                    value={singledate}
+                    onChange={(e) => onDateChange2(e)}
+                    style={{
+                      width: "100%",
+                    }}
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
+                    required
+                  /> */}
+                    <DatePicker
+                      label="Controlled picker"
+                      value={startclientShow1}
+                      className=" form-control"
+                      placeholderText="dd-mm-yyyy"
+                      onChange={(newValue) => onDateChangesingle(newValue)}
+                    />
+                  </div>
+                  <div className="col-lg-1 col-md-11 col-sm-12 col-11 py-2 ">
+                    <button
+                      className="btn btn_green_bg float-right"
+                      onClick={() => onClickReset()}
+                    >
+                      Refresh
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* <div className="col-lg-2 col-md-4 col-sm-4 col-12 py-2">
+            
               <DatePicker
                 label="Controlled picker"
                 value={startclientShow1}
@@ -145,7 +328,7 @@ const PotentialHistory = ({
                 placeholderText="dd-mm-yyyy"
                 onChange={(newValue) => onDateChangesingle(newValue)}
               />
-            </div>
+            </div> */}
             {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               {user.empCtAccess && user.empCtAccess === "All" ? (
                 <div className=" col-lg-4 col-md-11 col-sm-10 col-10 py-2">
@@ -162,14 +345,6 @@ const PotentialHistory = ({
                 <></>
               )}
             </div> */}
-            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2">
-              <button
-                className="btn btn_green_bg float-right"
-                onClick={() => onClickReset()}
-              >
-                Refresh
-              </button>
-            </div>
           </div>
 
           <div className="row">
@@ -231,7 +406,8 @@ const PotentialHistory = ({
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
                     <label>
-                      No of Calls : {allSctCalls && allSctCalls.length}
+                      No of Calls :{" "}
+                      {new_potentialdata && new_potentialdata.length}
                     </label>
                   </div>
                 </div>
