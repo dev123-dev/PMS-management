@@ -38,7 +38,6 @@ const AllSctPotentials = ({
   getSctLastmessage,
   getProjectList,
 }) => {
-  console.log("MonthWiseData", MonthWiseData);
   useEffect(() => {
     getSctLeadDetails();
     getPotentialClients();

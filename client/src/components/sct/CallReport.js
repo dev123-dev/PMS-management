@@ -328,7 +328,7 @@ const CallReport = ({
       <div className="container container_align">
         <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
           <div className="col-lg-11 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">CALL Report </h2>
+            <h2 className="heading_color">MIS Report </h2>
           </div>
 
           <div className="row col-lg-12 col-md-6 col-sm-12 col-12 no_padding">

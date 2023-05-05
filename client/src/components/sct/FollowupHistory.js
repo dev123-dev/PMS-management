@@ -363,7 +363,7 @@ const FollowupHistory = ({
                         <th style={{ width: "25%" }}>Call to name</th>
                         <th style={{ width: "6%" }}>Call to No</th>
                         <th style={{ width: "6%" }}>Call Time</th>
-                        <th style={{ width: "8%" }}>Call Date</th>
+                        <th style={{ width: "8%" }}>Expected Month</th>
                         <th style={{ width: "15%" }}>Call Taken date</th>
                         <th style={{ width: "15%" }}>Call Note</th>
                         <th style={{ width: "15%" }}>sales value</th>
@@ -395,7 +395,7 @@ const FollowupHistory = ({
                                 <td>{allSctCalls.sctCallToName}</td>
                                 <td>{allSctCalls.sctcallToNumber}</td>
                                 <td>{allSctCalls.sctCallTime}</td>
-                                <td>{sctCallDate}</td>
+                                <td>{allSctCalls.sctExpectedMonthYear}</td>
                                 <td>{sctCallTakenDate}</td>
 
                                 <td>{allSctCalls.sctCallNote}</td>
