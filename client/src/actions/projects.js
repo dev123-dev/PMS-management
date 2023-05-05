@@ -22,6 +22,7 @@ import {
   SELECTED_PROJECT_DATA,
   CLIENTS_REPORT_DATA,
   CLIENT_JOB_SUMMARY,
+  CLIENT_DATA,
 } from "./types";
 
 const config = {
@@ -518,7 +519,6 @@ export const getLastAmendmentHistoryDeatils =
   };
 
 export const getSelectedClientDeatils = (finalData) => async (dispatch) => {
-  console.log("finaldataaction", finalData);
   try {
     const res = await axios.post(
       "/api/projects/get-selected-client-details",
@@ -532,6 +532,22 @@ export const getSelectedClientDeatils = (finalData) => async (dispatch) => {
     console.log(err);
   }
 };
+export const getSelectedClientfolderDeatils =
+  (finalData) => async (dispatch) => {
+    console.log("finaldataaction", finalData);
+    try {
+      const res = await axios.post(
+        "/api/projects/get-selected-client-details",
+        finalData
+      );
+      dispatch({
+        type: CLIENT_DATA,
+        payload: res.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
 export const getSelectedprojectDeatils = (finalData) => async (dispatch) => {
   try {

@@ -810,6 +810,22 @@ export const getOverAllSummary = (finalData) => async (dispatch) => {
   }
 };
 
+//Year extract
+export const getYear = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/sct/get-Year", config);
+    localStorage.setItem("allfollowup", JSON.stringify(res.data));
+    // dispatch({
+    //   type: SCT_CALLS_FOLLOWUP,
+    //   payload: res.data,
+    // });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 export const getAllSctCallClientCount = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post(

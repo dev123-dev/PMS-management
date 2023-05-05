@@ -13,7 +13,7 @@ export const MONTH_WISE_DATA_FOLLOWUP = "MONTH_WISE_DATA_FOLLOWUP";
 export const ALL_USERS = "ALL_USERS";
 export const CHANGE_PWD_FAIL = "CHANGE_PWD_FAIL";
 export const ALL_SUMMARY = "ALL_SUMMARY";
-
+export const CLIENT_DATA = "CLIENT_DATA";
 export const MONTH_EXP_CNT = "MONTH_EXP_CNT";
 export const YEAR_EXP_CNT = "YEAR_EXP_CNT";
 export const EXP_REPORT = "EXP_REPORT";
