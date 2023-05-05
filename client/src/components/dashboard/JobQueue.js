@@ -51,7 +51,7 @@ const JobQueue = ({
   getLatestChanges,
   getAllFollowUp,
   getAllSctCallCount1,
-  getYear,
+  // getYear,
   // getUpdatedProjectStausForDailyJobSheet,
   updateMsgSent,
 }) => {
@@ -82,7 +82,7 @@ const JobQueue = ({
   }, [clientData]);
 
   //getYear
-  getYear();
+  // getYear();
 
   useEffect(() => {
     getJobQueueProjectDeatils();
@@ -1715,7 +1715,7 @@ export default connect(mapStateToProps, {
   getLatestChanges,
   getAllFollowUp,
   getAllSctCallCount1,
-  getYear,
+  // getYear,
   // getUpdatedProjectStausForDailyJobSheet,
   updateMsgSent,
 })(JobQueue);
