@@ -17,6 +17,7 @@ import {
   SELECTED_PROJECT_DATA,
   CLIENTS_REPORT_DATA,
   CLIENT_JOB_SUMMARY,
+  CLIENT_DATA,
 } from "../actions/types";
 
 const initialState = {
@@ -35,6 +36,7 @@ const initialState = {
   selectedProjectData: [],
   clientsReportData: [],
   clientJobSummary: [],
+  clientsData: [],
 };
 
 const projects = (state = initialState, action) => {
@@ -130,6 +132,12 @@ const projects = (state = initialState, action) => {
         ...state,
         clientsReportData: payload,
       };
+    case CLIENT_DATA:
+      return {
+        ...state,
+        clientsData: payload,
+      };
+
     case CLIENT_JOB_SUMMARY:
       return {
         ...state,

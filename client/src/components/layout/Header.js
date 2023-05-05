@@ -137,6 +137,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     <NavItem></NavItem>
                   )}
                 </NavItem>
+
                 <NavItem>
                   {!loading &&
                   isAuthenticated &&
@@ -292,18 +293,28 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                     >
                       <Dropdown.Item>Sct Calls History</Dropdown.Item>
                     </NavLink>
-                    <NavLink
-                      to="/potential-history"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      <Dropdown.Item> Potential History</Dropdown.Item>
-                    </NavLink>
-                    <NavLink
-                      to="/followup-history"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      <Dropdown.Item> Followup History</Dropdown.Item>
-                    </NavLink>
+                    {user && user.empCtAccess === "All" && (
+                      <NavLink
+                        to="/potential-history"
+                        activeStyle={{
+                          color: "#ffd037",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <Dropdown.Item> Potential History</Dropdown.Item>
+                      </NavLink>
+                    )}
+                    {user && user.empCtAccess === "All" && (
+                      <NavLink
+                        to="/followup-history"
+                        activeStyle={{
+                          color: "#ffd037",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <Dropdown.Item> Followup History</Dropdown.Item>
+                      </NavLink>
+                    )}
 
                     {user && user.empCtAccess === "All" && (
                       <NavLink
@@ -332,6 +343,23 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                 ) : (
                   <></>
                 )}
+                <Dropdown title="Reports">
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin") ? (
+                    <NavLink
+                      to="/client-report-detail"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>Client Report </Dropdown.Item>
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </Dropdown>
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>
@@ -488,7 +516,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
             </Navbar.Collapse>
           </Navbar>
         </Container>
-
+        {/* logout */}
         {/* Logout Modal */}
         <Modal
           show={showLogout}
