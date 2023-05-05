@@ -1659,7 +1659,7 @@ router.post("/get-sct-potential-clients", auth, async (req, res) => {
           ],
         },
         {
-          sctCallTakenDate: {
+          sctCallDate: {
             $gte: fromdate,
             $lte: todate,
           },
@@ -1678,7 +1678,7 @@ router.post("/get-sct-potential-clients", auth, async (req, res) => {
           ],
         },
         {
-          sctCallTakenDate: dateVal,
+          sctCallDate: dateVal,
         },
       ],
     };
@@ -1754,7 +1754,8 @@ router.post("/get-sct-FollowUp-clients", auth, async (req, res) => {
     query = {
       sctCallFromId,
       sctCallCategory: { $eq: "F" },
-      sctCallTakenDate: {
+
+      sctCallDate: {
         $gte: fromdate,
         $lte: todate,
       },
@@ -1763,7 +1764,7 @@ router.post("/get-sct-FollowUp-clients", auth, async (req, res) => {
     query = {
       sctCallCategory: { $eq: "F" },
 
-      sctCallTakenDate: dateVal,
+      sctCallDate: dateVal,
       sctCallFromId,
     };
   }
@@ -2176,7 +2177,6 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
       sctCallFromId,
     };
   }
-  // console.log(query);
   try {
     const getAllSctCallsCount = await SctCalls.aggregate([
       {
