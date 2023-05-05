@@ -25,11 +25,7 @@ import {
   getUpdatedProjectStaus,
   // getUpdatedProjectStausForDailyJobSheet,
 } from "../../actions/projects";
-import {
-  getAllFollowUp,
-  getAllSctCallCount1,
-  getYear,
-} from "../../actions/sct";
+import { getAllFollowUp, getAllSctCallCount1 } from "../../actions/sct";
 import AllLatestChange from "./AllLatestChange";
 import { w3cwebsocket } from "websocket";
 import DeactiveProject from "./DeactiveProject";
@@ -37,7 +33,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.38:8000");
+const client = new w3cwebsocket("ws://192.168.6.39:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -51,7 +47,6 @@ const JobQueue = ({
   getLatestChanges,
   getAllFollowUp,
   getAllSctCallCount1,
-  getYear,
   // getUpdatedProjectStausForDailyJobSheet,
   updateMsgSent,
 }) => {
@@ -80,9 +75,6 @@ const JobQueue = ({
       // getUpdatedProjectStausForDailyJobSheet();
     };
   }, [clientData]);
-
-  //getYear
-  getYear();
 
   useEffect(() => {
     getJobQueueProjectDeatils();
@@ -1715,7 +1707,7 @@ export default connect(mapStateToProps, {
   getLatestChanges,
   getAllFollowUp,
   getAllSctCallCount1,
-  getYear,
+
   // getUpdatedProjectStausForDailyJobSheet,
   updateMsgSent,
 })(JobQueue);
