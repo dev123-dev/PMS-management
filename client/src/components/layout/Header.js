@@ -343,23 +343,24 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                 ) : (
                   <></>
                 )}
-                <Dropdown title="Reports">
-                  {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
+
+                {!loading &&
+                isAuthenticated &&
+                user &&
+                ((user.userGroupName &&
+                  user.userGroupName === "Administrator") ||
+                  user.userGroupName === "Super Admin") ? (
+                  <Dropdown title="Reports">
                     <NavLink
                       to="/client-report-detail"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       <Dropdown.Item>Client Report </Dropdown.Item>
                     </NavLink>
-                  ) : (
-                    <NavItem></NavItem>
-                  )}
-                </Dropdown>
+                  </Dropdown>
+                ) : (
+                  <NavItem></NavItem>
+                )}
               </Nav>
               {!loading && isAuthenticated && user ? (
                 <Nav>
