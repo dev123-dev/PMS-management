@@ -46,7 +46,7 @@ const AllSctLeads = ({
   useEffect(() => {
     getProjectList({});
   }, [getProjectList]);
-
+  // comment
   const [filterData, setFilterData] = useState();
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -588,6 +588,7 @@ const AllSctLeads = ({
                 </div>
               </section>
             </div>
+
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 ">
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
