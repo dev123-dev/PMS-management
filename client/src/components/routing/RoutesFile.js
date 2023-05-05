@@ -106,6 +106,7 @@ import AdditionalAddProject from "../dashboard/AdditionalAddProject";
 import CallReport from "../sct/CallReport";
 import PotentialHistory from "../sct/PotentialHistory";
 import FollowupHistory from "../sct/FollowupHistory";
+import ClientReportDetails from "../dct/ClientReportDetails";
 
 const RoutesFile = () => {
   return (
@@ -293,6 +294,11 @@ const RoutesFile = () => {
           exact
           path="/job-verification"
           component={ProjectVerification}
+        />
+        <PrivateRoute
+          exact
+          path="/client-report-detail"
+          component={ClientReportDetails}
         />
         <PrivateRoute exact path="/add-project" component={AddProject} />
         <PrivateRoute
