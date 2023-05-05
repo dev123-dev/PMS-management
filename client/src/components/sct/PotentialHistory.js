@@ -59,7 +59,8 @@ const PotentialHistory = ({
 
   let new_potentialdata = [];
   MonthWiseData &&
-    MonthWiseData.map((ele) => {
+    MonthWiseData.getAllSctCallsClient &&
+    MonthWiseData.getAllSctCallsClient.map((ele) => {
       if (ele.sctCallCategory === "P") {
         new_potentialdata.push(ele);
       }
@@ -133,7 +134,6 @@ const PotentialHistory = ({
     var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
     setFromDateShow(EndDate);
     setfromdate(EndDate1);
-    console.log("EndDate", EndDate);
   };
   const [todate, settodate] = useState("");
   const [startToDate, setToDate] = useState("");
@@ -169,13 +169,13 @@ const PotentialHistory = ({
       dateType: "Multi Date",
       // folderId: projectData.folderId,
     };
+    getPotentialClients(finalData);
 
     // getAllSctCallCount(finalData);
     // getAllLeadToday(finalData);
     // getALLDemosReport(finalData);
     // getDailyjobSheetFolder(selDateData);
     //console.log("formData", formData);
-    console.log("ontodate", EndDate);
   };
 
   const onClickReset = () => {

@@ -1598,9 +1598,40 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
 });
 
 //sct all clients count and list end
-router.post("/get-sct-potential-clients", auth, async (req, res) => {
-  let { MonthDate } = req.body;
+// router.post("/get-sct-potential-clients", auth, async (req, res) => {
+//   console.log("reqbody", req.body);
+//   let { MonthDate, } = req.body;
 
+//   const userInfo = await EmployeeDetails.findById(req.user.id).select(
+//     "-password"
+//   );
+
+//   var dateVal = new Date().toISOString().split("T")[0];
+
+//   if (MonthDate) dateVal = MonthDate;
+//   let sctCallFromId = "",
+//     query = {};
+
+//   try {
+//     let data = await sctCalls.find({
+//       sctCallTakenDate: MonthDate,
+//     });
+//     res.json(data);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Internal Server Error.");
+//   }
+// });
+//get monthwise potential summary start
+
+////get monthwise potential summary start
+//--------------------------------------------------------------------------------------------------------------
+
+//sct call count
+router.post("/get-sct-potential-clients", auth, async (req, res) => {
+  console.log("req", req.body);
+  let { selDate, dateType, fromdate, todate, MonthDate, assignedTo } = req.body;
+  console;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -1611,19 +1642,178 @@ router.post("/get-sct-potential-clients", auth, async (req, res) => {
   let sctCallFromId = "",
     query = {};
 
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+
+  if (dateType === "Multi Date") {
+    query = {
+      $and: [
+        {
+          sctLeadsCategory: { $ne: "" },
+          $or: [
+            { sctCallCategory: { $eq: "F" } },
+            { sctCallCategory: { $eq: "P" } },
+          ],
+        },
+        {
+          sctCallTakenDate: {
+            $gte: fromdate,
+            $lte: todate,
+          },
+        },
+      ],
+    };
+  } else {
+    query = {
+      $and: [
+        {
+          sctLeadsCategory: { $ne: "" },
+
+          $or: [
+            { sctCallCategory: { $eq: "F" } },
+            { sctCallCategory: { $eq: "P" } },
+          ],
+        },
+        {
+          sctCallTakenDate: dateVal,
+        },
+      ],
+    };
+  }
   try {
-    let data = await sctCalls.find({
-      sctCallTakenDate: MonthDate,
+    let getAllSctCallsClient = [];
+    if (userInfo.empCtAccess === "All") {
+      getAllSctCallsClient = await SctCalls.find(query);
+      // {
+      //   $group: {
+      //     _id: {
+      //       sctCallFromId: "$sctCallFromId",
+      //       sctCallToId: "$sctCallToId",
+      //     },
+      //     sctCallFromId: { $first: "$sctCallFromId" },
+      //     sctCallFromName: { $first: "$sctCallFromName" },
+      //     count: { $sum: 1 },
+      //   },
+      // },
+      // {
+      //   $group: {
+      //     _id: "$sctCallFromId",
+      //     sctCallFromName: { $first: "$sctCallFromName" },
+      //     // countClient: { $sum: 1 },
+      //     // countCall: { $sum: "$count" },
+      //     // sctLeadsCategory: { $first: "$sctLeadsCategory" },
+      //   },
+      // },
+    } else {
+      getAllSctCallsClient = await SctCalls.find(query);
+
+      // {
+      //   $group: {
+      //     _id: "$sctCallToId",
+      //     sctCallFromName: { $first: "$sctCallFromName" },
+      //     // countClient: { $sum: 1 },
+      //     // sctLeadsCategory: { $first: "$sctLeadsCategory" },
+      //   },
+      // },
+    }
+    console.log("getAllSctCallsClient", getAllSctCallsClient);
+    res.json({
+      getAllSctCallsClient: getAllSctCallsClient,
     });
-    res.json(data);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
   }
 });
-//get monthwise potential summary start
 
-////get monthwise potential summary start
+//sct followup start
+router.post("/get-sct-FollowUp-clients", auth, async (req, res) => {
+  console.log("req", req.body);
+  let { selDate, dateType, fromdate, todate, MonthDate, assignedTo } = req.body;
+  console;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+
+  var dateVal = new Date().toISOString().split("T")[0];
+
+  if (MonthDate) dateVal = MonthDate;
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+
+  if (dateType === "Multi Date") {
+    query = {
+      sctCallFromId,
+      sctCallCategory: { $eq: "F" },
+      sctCallTakenDate: {
+        $gte: fromdate,
+        $lte: todate,
+      },
+    };
+  } else {
+    query = {
+      sctCallCategory: { $eq: "F" },
+
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  }
+  try {
+    let getAllSctCallsClient = [];
+    if (userInfo.empCtAccess === "All") {
+      getAllSctCallsClient = await SctCalls.find(query);
+      // {
+      //   $group: {
+      //     _id: {
+      //       sctCallFromId: "$sctCallFromId",
+      //       sctCallToId: "$sctCallToId",
+      //     },
+      //     sctCallFromId: { $first: "$sctCallFromId" },
+      //     sctCallFromName: { $first: "$sctCallFromName" },
+      //     count: { $sum: 1 },
+      //   },
+      // },
+      // {
+      //   $group: {
+      //     _id: "$sctCallFromId",
+      //     sctCallFromName: { $first: "$sctCallFromName" },
+      //     // countClient: { $sum: 1 },
+      //     // countCall: { $sum: "$count" },
+      //     // sctLeadsCategory: { $first: "$sctLeadsCategory" },
+      //   },
+      // },
+    } else {
+      getAllSctCallsClient = await SctCalls.find(query);
+
+      // {
+      //   $group: {
+      //     _id: "$sctCallToId",
+      //     sctCallFromName: { $first: "$sctCallFromName" },
+      //     // countClient: { $sum: 1 },
+      //     // sctLeadsCategory: { $first: "$sctLeadsCategory" },
+      //   },
+      // },
+    }
+    console.log("getAllSctCallsClient", getAllSctCallsClient);
+    res.json({
+      getAllSctCallsClient: getAllSctCallsClient,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+//sct followup end
 
 //summary data start
 router.post("/get-over-all-summary", auth, async (req, res) => {
@@ -1795,26 +1985,27 @@ router.post("/get-summary", auth, async (req, res) => {
   if (dateType === "Multi Date") {
     query = {
       $and: [
-        //sctCallFromId,
+        {
+          sctLeadsCategory: { $ne: "" },
+          sctCallTakenDate: {
+            $gte: fromdate,
+            $lte: todate,
+          },
+        },
         {
           $or: [
             { sctCallCategory: { $eq: "F" } },
             { sctCallCategory: { $eq: "P" } },
           ],
         },
-        {
-          sctCallTakenDate: {
-            $gte: fromdate,
-            $lte: todate,
-          },
-        },
       ],
     };
   } else {
     query = {
       $and: [
-        // sctCallFromId,
         {
+          sctLeadsCategory: { $ne: "" },
+
           $or: [
             { sctCallCategory: { $eq: "F" } },
             { sctCallCategory: { $eq: "P" } },
@@ -1858,7 +2049,6 @@ router.post("/get-summary", auth, async (req, res) => {
     }
     console.log("getAllSctCalls", getAllSctCalls);
     res.json(getAllSctCalls);
-    // console.log("in summary page", getAllSctCalls);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -1970,6 +2160,7 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
   if (dateType === "Multi Date") {
     query = {
       sctCallFromId,
+      sctCallCategory: { $eq: "P" },
       sctLeadsCategory: { $ne: "" },
       sctCallTakenDate: {
         $gte: fromdate,
@@ -1978,7 +2169,9 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
     };
   } else {
     query = {
+      sctCallCategory: { $eq: "P" },
       sctLeadsCategory: { $ne: "" },
+
       sctCallTakenDate: dateVal,
       sctCallFromId,
     };
@@ -2042,6 +2235,7 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
         },
       ]);
     }
+    console.log("getAllSctCalls", getAllSctCalls);
     res.json({
       getAllSctCallsCount: getAllSctCallsCount,
       getAllSctCallsClient: getAllSctCalls,

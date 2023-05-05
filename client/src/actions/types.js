@@ -9,7 +9,7 @@ export const REMOVE_ERROR = "REMOVE_ERROR";
 export const ONLY_SUMMARY = "ONLY_SUMMARY";
 export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
-
+export const MONTH_WISE_DATA_FOLLOWUP = "MONTH_WISE_DATA_FOLLOWUP";
 export const ALL_USERS = "ALL_USERS";
 export const CHANGE_PWD_FAIL = "CHANGE_PWD_FAIL";
 export const ALL_SUMMARY = "ALL_SUMMARY";

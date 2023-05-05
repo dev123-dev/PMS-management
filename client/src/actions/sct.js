@@ -40,6 +40,7 @@ import {
   MONTH_WISE_DATA,
   SCT_CALLS_CLIENT_COUNT,
   ONLY_SUMMARY,
+  MONTH_WISE_DATA_FOLLOWUP,
 } from "./types";
 
 const config = {
@@ -333,6 +334,7 @@ export const refreshLead = (finalData) => async (dispatch) => {
   }
 };
 // getPotentialClients
+
 export const getPotentialClients = (finalData) => async (dispatch) => {
   try {
     dispatch({
@@ -346,6 +348,31 @@ export const getPotentialClients = (finalData) => async (dispatch) => {
 
     dispatch({
       type: MONTH_WISE_DATA,
+      payload: res.data,
+    });
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getFollowUpClient = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    const res = await axios.post(
+      "/api/sct/get-sct-FollowUp-clients",
+      finalData,
+      config
+    );
+
+    dispatch({
+      type: MONTH_WISE_DATA_FOLLOWUP,
       payload: res.data,
     });
     dispatch({

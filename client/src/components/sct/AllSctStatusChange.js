@@ -30,6 +30,7 @@ const AllSctStatusChange = ({
   page,
   getSctStaffsData,
 }) => {
+  console.log("leadDataVal", leadDataVal);
   useEffect(() => {
     checkDemo({ demoUserId: leadDataVal._id });
   }, [leadDataVal, checkDemo]);
@@ -341,6 +342,7 @@ const AllSctStatusChange = ({
         });
       } else if (e.value === "FollowUp") {
         setstatus("FollowUp");
+        //setsctLeadsCategory("");
 
         setFormData({
           ...formData,
@@ -408,7 +410,7 @@ const AllSctStatusChange = ({
     SetexpectedMonth(e.target.value);
     const new_date = new Date(e.target.value);
     const year = new_date.getFullYear();
-  
+
     let new_month = new_date.getMonth() + 1;
     const month = MonthYear.filter((ele) => {
       if (ele.value === new_month) {
@@ -479,7 +481,7 @@ const AllSctStatusChange = ({
         filterData: filterData,
         page: page,
       };
-      //console.log("finalData", finalData);
+      console.log("finalData", finalData);
       if (from === "EngagedClient" || from === "RegularClient") {
         addSctClientCalls(finalData);
       } else {

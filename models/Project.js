@@ -125,7 +125,7 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
   },
   ptEstimatedDateTime: {
-    type: Date,
+    type: String,
   },
   projectEditedById: {
     type: ObjectId,

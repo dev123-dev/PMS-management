@@ -24,7 +24,7 @@ const CallReport = ({
   getAllSctCallCount1,
 }) => {
   console.log("onlySummary", onlySummary);
-  // console.log("sctCallsCount1", sctCallsCount1);
+  //console.log("sctCallsCount1", sctCallsCount1);
 
   ////////////////////////
   //let PipeLineData = [];
@@ -110,7 +110,7 @@ const CallReport = ({
 
   // console.log("resSmallU", resSmallU, "res", res);
   PipeLineData = [...res, ...resBigU, ...resSmallU];
-  console.log("PipeLineData", PipeLineData);
+  // console.log("PipeLineData", PipeLineData);
   //console.log("pdata", PipeLineData);
   let sumMonth = PipeLineData.filter(
     (ele, i) => ele.sctExpectedMonthYear && ele.sctExpectedMonthYear != ""
@@ -668,16 +668,11 @@ const CallReport = ({
                             </tr>
                           </tbody> */}
                           <tbody>
-                            {onlySummary &&
-                              onlySummary.map((ele) => {
-                                return (
-                                  <tr>
-                                    <td>{ele._id}</td>
-                                    <td>{ele.countClient}</td>
-                                    <td>{ele.sctCallSalesValue}</td>
-                                  </tr>
-                                );
-                              })}
+                            <tr>
+                              <td>{sctExpectedMonthYear}</td>
+                              <td>{totClient}</td>
+                              <td>{totSales}</td>
+                            </tr>
                           </tbody>
                         </table>
                       </div>
