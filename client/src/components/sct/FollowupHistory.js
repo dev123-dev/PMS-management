@@ -395,8 +395,8 @@ const FollowupHistory = ({
                                 <td>{allSctCalls.sctCallToName}</td>
                                 <td>{allSctCalls.sctcallToNumber}</td>
                                 <td>{allSctCalls.sctCallTime}</td>
-                                <td>{allSctCalls.sctCallDate}</td>
-                                <td>{allSctCalls.sctCallTakenDate}</td>
+                                <td>{sctCallDate}</td>
+                                <td>{sctCallTakenDate}</td>
 
                                 <td>{allSctCalls.sctCallNote}</td>
                                 <td>{allSctCalls.sctCallSalesValue}</td>

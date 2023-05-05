@@ -58,6 +58,7 @@ const AdditionalAddProject = ({
   // var todayDateymd = yyyy + "-" + mm + "-" + dd;
 
   //formData
+  //console.log("ProjectCycledata", ProjectCycledata);
   const [formData, setFormData] = useState({
     projectName:
       ProjectCycledata && ProjectCycledata.jobQueueProjects.projectName
@@ -106,13 +107,18 @@ const AdditionalAddProject = ({
       ProjectCycledata && ProjectCycledata.jobQueueProjects.staffName
         ? ProjectCycledata.jobQueueProjects.staffName
         : "",
+    projectDate:
+      ProjectCycledata && ProjectCycledata.jobQueueProjects.projectDate
+        ? ProjectCycledata.jobQueueProjects.projectDate
+        : "",
 
     qty: "",
+
     outputformat: "",
     priority: "",
     deadline: "",
     projectStatus: "",
-    projectDate: "",
+    //projectDate: "",
     // projectTime: "",
     clientDate: "",
     clientTime: "",
@@ -134,6 +140,7 @@ const AdditionalAddProject = ({
     outputformat,
     priority,
     deadline,
+    projectDate,
     // projectTime,
     clientTime,
     staffId,
@@ -178,6 +185,7 @@ const AdditionalAddProject = ({
       (projectStatusOpt) => projectStatusOpt.projectStatusCategory === "Amend"
     );
   }
+  const [showProjectCycleModal, setShowProjectCycleModal] = useState(false);
 
   // const [clientData, setClientData] = useState("");
   // const [clientId, setClientId] = useState("");
@@ -301,6 +309,19 @@ const AdditionalAddProject = ({
     var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
     setprojectShow(clientEndDate);
   };
+  var projdate = projectDate;
+  var calDate = new Date(projdate);
+  var dd1 = calDate.getDate();
+  var mm2 = calDate.getMonth() + 1;
+  var yyyy1 = calDate.getFullYear();
+  if (dd1 < 10) {
+    dd1 = "0" + dd1;
+  }
+
+  if (mm2 < 10) {
+    mm2 = "0" + mm2;
+  }
+  var projectdate = dd1 + "-" + mm2 + "-" + yyyy1;
 
   const [startclientDate, setclientDate] = useState("");
   const [startclientShow, SetstartclientShow] = useState("");
@@ -418,13 +439,14 @@ const AdditionalAddProject = ({
     //   });
     //   return false;
     // }
-    if (!projectdateChecker) {
-      setError({
-        ...error,
-        projectdateErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+    // if (!projectdateChecker) {
+    //   setError({
+    //     ...error,
+    //     projectdateErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
+
     if (!clientdateChecker) {
       setError({
         ...error,
@@ -437,6 +459,10 @@ const AdditionalAddProject = ({
   const date = new Date();
   const projectEnteredTime =
     date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+  const onClose = () => {
+    onProjectCycleModalChange(true);
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -461,7 +487,7 @@ const AdditionalAddProject = ({
         staffId: staffId,
         staffName: staffName,
         //   projectTime: projectTime,
-        projectDate: startprojectDate,
+        projectDate: projectDate,
         projectTime: projectEnteredTime,
         //  projectDate: todayDateymd,
         clientTime: clientTime,
@@ -670,6 +696,7 @@ const AdditionalAddProject = ({
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
                     required
+                    readOnly
                   />
                 </div>
                 <div className="col-lg-12 col-md-6 col-sm-6 col-12">
@@ -726,7 +753,7 @@ const AdditionalAddProject = ({
                 </div>
 
                 <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                  <label style={projectdateErrorStyle}>Project Date* :</label>
+                  <label>Project Date* :</label>
                   <br />
                   {/* <input
                     type="date"
@@ -742,9 +769,10 @@ const AdditionalAddProject = ({
                   /> */}
                   <DatePicker
                     label="Controlled picker"
-                    value={startprojectShow}
-                    placeholderText="dd-mm-yyyy"
-                    onChange={(newValue) => onDateChange(newValue)}
+                    value={projectdate}
+                    name="projectDate"
+                    //placeholderText="dd-mm-yyyy"
+                    //onChange={(newValue) => onDateChange(newValue)}
                   />
                 </div>
                 {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -911,7 +939,8 @@ const AdditionalAddProject = ({
               )}
               <Link
                 className="btn sub_form btn_continue blackbrd float-right"
-                to="/daily-job-sheet"
+                // to="/daily-job-sheet"
+                onClick={() => onClose()}
               >
                 Cancel
               </Link>

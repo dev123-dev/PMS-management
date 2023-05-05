@@ -9,9 +9,15 @@ import Spinner from "../layout/Spinner";
 import EditProject from "./EditProject";
 import JobHistory from "./JobHistory";
 import DatePicker from "react-datepicker";
+import Pagination from "../layout/Pagination";
 
 import axios from "axios";
-import { allUsersRoute, host, sendMessageRoute } from "../../utils/APIRoutes";
+import {
+  dailyJobsheetProjects,
+  allUsersRoute,
+  host,
+  sendMessageRoute,
+} from "../../utils/APIRoutes";
 import {
   getDailyJobsheetProjectDeatils,
   getDailyJobSheetExcelExport,
@@ -402,6 +408,7 @@ const DailyJobSheet = ({
 
   const [userDatas2, setUserDatas2] = useState(null);
   const onnotes = (dailyJobsheetProjects, idx) => {
+    console.log("dailyJobsheetProjects", dailyJobsheetProjects);
     setshownotesModal(true);
     setUserDatas2(dailyJobsheetProjects);
   };
@@ -617,8 +624,11 @@ const DailyJobSheet = ({
     });
     // getDailyjobSheetClients("");
     getDailyjobSheetFolder("");
+    setsingledateshow("");
     setSelDateDataVal("");
     setprojectData("");
+    setfromdate("");
+    setfromdateshow("");
     setsingledate(new Date().toISOString().split("T")[0]);
     setSelectedDate(new Date().toISOString().split("T")[0]);
     setShowHide({
@@ -627,9 +637,8 @@ const DailyJobSheet = ({
       showdateSection1: true,
     });
   };
-  console.log("op", dailyJobsheetProjects);
-  const fileName = [clientName1 ? clientName1 : "Client Report"];
 
+  const fileName = [clientName1 ? clientName1 : "Client Report"];
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -637,12 +646,12 @@ const DailyJobSheet = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className="col-lg-2 col-md-11 col-sm-10 col-10">
+            <div className="col-lg-1 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">Daily Job Sheet</h5>
             </div>
 
             <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
-              <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-2">
+              <div className="col-lg-4 col-md-4 col-sm-4 col-12 py-4">
                 {/* SLAP UserGroupRights */}
 
                 {(user.userGroupName &&
@@ -666,7 +675,7 @@ const DailyJobSheet = ({
               </div>
               {showdateSection && (
                 <>
-                  <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2 ">
+                  <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-4 ">
                     <DatePicker
                       label="Controlled picker"
                       value={fromdateshow}
@@ -693,7 +702,7 @@ const DailyJobSheet = ({
                       required
                     /> */}
                   </div>
-                  <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2 ">
+                  <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-4">
                     <DatePicker
                       label="Controlled picker"
                       value={todateshow}
@@ -733,7 +742,7 @@ const DailyJobSheet = ({
               )}
               {showdateSection1 && (
                 <>
-                  <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2  ">
+                  <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-4  ">
                     <DatePicker
                       label="Controlled picker"
                       value={singledateshow}
@@ -771,7 +780,7 @@ const DailyJobSheet = ({
                   </div> */}
                 </>
               )}
-              <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+              <div className="col-lg-4 col-md-11 col-sm-10 col-10 py-4">
                 <Select
                   name="projectData"
                   isSearchable={true}
@@ -785,7 +794,7 @@ const DailyJobSheet = ({
 
             {/* <CSVDownload data={dailyJobsheetProjects} target="_blank" />; */}
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-4">
               <CSVLink
                 className="secondlinebreak"
                 data={csvData}
@@ -1035,47 +1044,58 @@ const DailyJobSheet = ({
                                         alt="Last change"
                                         title="Last change"
                                       />
-                                      <Select
-                                        className="ml-4"
-                                        styles={{
-                                          placeholder: (defaultStyles) => {
-                                            //for placeholder color "select"
-                                            return {
-                                              ...defaultStyles,
-                                              color: "#ffffff",
-                                            };
-                                          },
-                                          control: (base) => ({
-                                            //for background
-                                            ...base,
-                                            color: "#fff",
-                                            background: "#456792",
-                                          }),
+                                      <div>
+                                        <Select
+                                          className="ml-4 "
+                                          menuPlacement="auto"
+                                          menuPosition="fixed"
+                                          styles={{
+                                            placeholder: (defaultStyles) => {
+                                              //for placeholder color "select"
+                                              return {
+                                                ...defaultStyles,
+                                                color: "#ffffff",
+                                              };
+                                            },
+                                            control: (base) => ({
+                                              //for background
+                                              ...base,
+                                              color: "#fff",
+                                              background: "#456792",
+                                            }),
 
-                                          singleValue: (base) => ({
-                                            ...base,
-                                            color: "#fff",
-                                          }),
-                                          input: (base) => ({
-                                            ...base,
-                                            color: "#fff",
-                                          }),
-                                        }}
-                                        name="projectStatusData"
-                                        // value={{
-                                        //   label:
-                                        //     dailyJobsheetProjects.projectStatusType,
-                                        //   value:
-                                        //     dailyJobsheetProjects.projectStatusId,
-                                        // }}
-                                        value={projectStatusData}
-                                        options={projectStatusOpt}
-                                        isSearchable={true}
-                                        placeholder="Select"
-                                        onChange={onSliderChange(
-                                          dailyJobsheetProjects
-                                        )}
-                                      />
+                                            singleValue: (base) => ({
+                                              ...base,
+                                              color: "#fff",
+                                            }),
+                                            input: (base) => ({
+                                              ...base,
+                                              color: "#fff",
+                                            }),
+                                            input: (baseStyles) => ({
+                                              ...baseStyles,
+                                              color: "transparent",
+                                            }),
+                                            // menu: (provided) => ({
+                                            //   ...provided,
+                                            // }),
+                                          }}
+                                          name="projectStatusData"
+                                          // value={{
+                                          //   label:
+                                          //     dailyJobsheetProjects.projectStatusType,
+                                          //   value:
+                                          //     dailyJobsheetProjects.projectStatusId,
+                                          // }}
+                                          value={projectStatusData}
+                                          options={projectStatusOpt}
+                                          isSearchable={true}
+                                          placeholder="Select"
+                                          onChange={onSliderChange(
+                                            dailyJobsheetProjects
+                                          )}
+                                        />
+                                      </div>
                                     </>
                                   ) : (
                                     <>
@@ -1165,7 +1185,12 @@ const DailyJobSheet = ({
             <label>QC Estimate : {QCEstimateQty}&emsp;</label>
             <label>Uploading: {UploadingQty}&emsp;</label> */}
           </div>
-          <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
+          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
+            <span className="footerfont">
+              Projects : {dailyJobsheetProjects.length}
+            </span>
+          </div>
+          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             {/* Clients:{clients}&nbsp; */}
             <span className="footerfont">Quantity:{projectQty}</span>
           </div>

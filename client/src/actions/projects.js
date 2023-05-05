@@ -518,6 +518,7 @@ export const getLastAmendmentHistoryDeatils =
   };
 
 export const getSelectedClientDeatils = (finalData) => async (dispatch) => {
+  console.log("finaldataaction", finalData);
   try {
     const res = await axios.post(
       "/api/projects/get-selected-client-details",
@@ -533,7 +534,6 @@ export const getSelectedClientDeatils = (finalData) => async (dispatch) => {
 };
 
 export const getSelectedprojectDeatils = (finalData) => async (dispatch) => {
-  console.log("finalData", finalData);
   try {
     const res = await axios.post(
       "/api/projects/get-selected-project-details",

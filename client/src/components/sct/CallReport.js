@@ -115,7 +115,6 @@ const CallReport = ({
   let sumMonth = PipeLineData.filter(
     (ele, i) => ele.sctExpectedMonthYear && ele.sctExpectedMonthYear != ""
   );
-  console.log("Summm", sumMonth);
 
   var totSales = 0;
   var totClient = 0;
@@ -414,7 +413,7 @@ const CallReport = ({
                     <div className="card card-content ">
                       <center>
                         <h3 className="callreport">Potential Clients</h3>
-                        <h3>
+                        {/* <h3>
                           Clients :{" "}
                           {sctCallsCount1 &&
                             sctCallsCount1.getAllSctCallsClient &&
@@ -426,7 +425,36 @@ const CallReport = ({
                             sctCallsCount1.getAllSctCallsClient[0] &&
                             sctCallsCount1.getAllSctCallsClient[0]
                               .sctCallSalesValue}
-                        </h3>
+                        </h3> */}
+                        <table
+                          className="table table-bordered table-striped table-hover"
+                          id="datatable2"
+                        >
+                          <thead>
+                            <tr>
+                              <th width="15px">No.</th>
+                              <th>Name</th>
+                              <th>Client</th>
+                              <th>sales Value</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {sctCallsCount1 &&
+                              sctCallsCount1.getAllSctCallsClient &&
+                              sctCallsCount1.getAllSctCallsClient.map(
+                                (call, idx) => {
+                                  return (
+                                    <tr key={idx}>
+                                      <td>{idx + 1}</td>
+                                      <td>{call.sctCallFromName}</td>
+                                      <td>{call.countClient}</td>
+                                      <td>{call.sctCallSalesValue}</td>
+                                    </tr>
+                                  );
+                                }
+                              )}
+                          </tbody>
+                        </table>
                       </center>
                     </div>
                   </div>
@@ -437,7 +465,7 @@ const CallReport = ({
                     >
                       <center>
                         <h3 className="callreport">Follow Up Clients</h3>
-                        <h3>
+                        {/* <h3>
                           <h3>
                             Clients :{" "}
                             {allFollowUp &&
@@ -451,7 +479,36 @@ const CallReport = ({
                               allFollowUp.getAllSctCallsClient[0]
                                 .sctCallSalesValue}
                           </h3>
-                        </h3>
+                        </h3> */}
+                        <table
+                          className="table table-bordered table-striped table-hover"
+                          id="datatable2"
+                        >
+                          <thead>
+                            <tr>
+                              <th width="15px">No.</th>
+                              <th>Name</th>
+                              <th>Client </th>
+                              <th>Sales Value</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {allFollowUp &&
+                              allFollowUp.getAllSctCallsClient &&
+                              allFollowUp.getAllSctCallsClient.map(
+                                (today, idx) => {
+                                  return (
+                                    <tr key={idx}>
+                                      <td>{idx + 1}</td>
+                                      <td>{today.sctCallFromName}</td>
+                                      <td>{today.countClient}</td>
+                                      <td>{today.sctCallSalesValue}</td>
+                                    </tr>
+                                  );
+                                }
+                              )}
+                          </tbody>
+                        </table>
                       </center>
                     </div>
                   </div>
@@ -459,29 +516,42 @@ const CallReport = ({
                     <div className="card card-content ">
                       <center>
                         <h3 className="callreport">Pipeline Clients</h3>
+                        {/* <h3 className="callreport">Pipeline Clients</h3>
                         <h3>Clients : {PipeLineData && PipeLineData.length}</h3>
                         <h3>
                           Sales value :{" "}
                           {PipeLineData &&
                             PipeLineData[0] &&
                             PipeLineData[0].sctCallSalesValue}
-                        </h3>
+                        </h3> */}
+                        <table
+                          className="table table-bordered table-striped table-hover"
+                          id="datatable2"
+                        >
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Client</th>
+                              <th>Total Sales</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {PipeLineData &&
+                              PipeLineData.map((ele) => {
+                                return (
+                                  <tr>
+                                    <td>{ele.sctCallFromName}</td>
+                                    <td>{ele.countClient}</td>
+                                    <td>{ele.sctCallSalesValue}</td>
+                                  </tr>
+                                );
+                              })}
+                          </tbody>
+                        </table>
                       </center>
                     </div>
                   </div>
-                  {/* <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
-                    <div
-                      className="card card-content "
-                      style={{ height: "100%" }}
-                    >
-                      <center>
-                        <h3>
-                          Demos Scheduled Today :{" "}
-                          {allDemosAddedToday && allDemosAddedToday.length}
-                        </h3>
-                      </center>
-                    </div>
-                  </div> */}
+
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
                     <div
                       className="card card-content "
@@ -506,11 +576,21 @@ const CallReport = ({
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              {/* <td>{month}</td>
-                              <td>{count}</td>
-                              <td>{salesv}</td> */}
-                            </tr>
+                            {/* <tr>
+                              <td>{sctExpectedMonthYear}</td>
+                              <td>{totClient}</td>
+                              <td>{totSales}</td>
+                            </tr> */}
+                            {onlySummary &&
+                              onlySummary.map((ele) => {
+                                return (
+                                  <tr>
+                                    <td>{ele._id}</td>
+                                    <td>{ele.countClient}</td>
+                                    <td>{ele.sctCallSalesValue}</td>
+                                  </tr>
+                                );
+                              })}
                           </tbody>
                         </table>
                       </div>
@@ -660,19 +740,18 @@ const CallReport = ({
                               <th>Total Sales</th>
                             </tr>
                           </thead>
-                          {/* <tbody>
-                            <tr>
-                              <td>{sctExpectedMonthYear}</td>
-                              <td>{totClient}</td>
-                              <td>{totSales}</td>
-                            </tr>
-                          </tbody> */}
+
                           <tbody>
-                            <tr>
-                              <td>{sctExpectedMonthYear}</td>
-                              <td>{totClient}</td>
-                              <td>{totSales}</td>
-                            </tr>
+                            {onlySummary &&
+                              onlySummary.map((ele) => {
+                                return (
+                                  <tr>
+                                    <td>{ele._id}</td>
+                                    <td>{ele.countClient}</td>
+                                    <td>{ele.sctCallSalesValue}</td>
+                                  </tr>
+                                );
+                              })}
                           </tbody>
                         </table>
                       </div>

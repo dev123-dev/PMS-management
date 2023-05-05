@@ -9,6 +9,7 @@ const ProjectTrack = require("../../models/ProjectTrack");
 const ClientDetails = require("../../models/Client");
 const DctClientDetails = require("../../models/dct/dctClients");
 const AmendmentHistory = require("../../models/AmendmentHistory");
+const dctClients = require("../../models/dct/dctClients");
 
 //ADD
 router.post("/add-project", async (req, res) => {
@@ -973,14 +974,28 @@ router.post("/get-last-amendment-histories", async (req, res) => {
   }
 });
 
+// router.post("/get-selected-client-details", async (req, res) => {
+//   const { clientId } = req.body;
+
+//   try {
+//     const getSelectedClientDetails = await Project.find({
+//       clientId: mongoose.Types.ObjectId(clientId),
+//     });
+//     res.json(getSelectedClientDetails);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Internal Server Error.");
+//   }
+// });
 router.post("/get-selected-client-details", async (req, res) => {
-  const { clientId } = req.body;
+  const { clientName } = req.body;
 
   try {
-    const getSelectedClientDetails = await Project.find({
-      clientId: mongoose.Types.ObjectId(clientId),
+    const getSelectedClientDetails = await dctClients.find({
+      clientName: clientName,
     });
     res.json(getSelectedClientDetails);
+    console.log("getSelectedClientDetails", getSelectedClientDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
