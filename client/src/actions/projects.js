@@ -19,8 +19,11 @@ import {
   AMENDMENT_LAST_HISTORY_PROJECTS,
   AMENDMENT_LAST_COUNTER,
   SELECTED_CLIENT_DATA,
+  SELECTED_PROJECT_DATA,
   CLIENTS_REPORT_DATA,
   CLIENT_JOB_SUMMARY,
+  CLIENT_DATA,
+  ALL_FOLDER,
 } from "./types";
 
 const config = {
@@ -304,6 +307,21 @@ export const getAllFolder = () => async (dispatch) => {
   }
 };
 
+export const getAllFolder1 = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/projects/get-all-folder");
+    dispatch({
+      type: ALL_FOLDER,
+      payload: res.data,
+    });
+    localStorage.setItem("AllFolderNme", JSON.stringify(res.data));
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
 export const getActiveProjectStatus = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/projects/get-active-project-status");
@@ -524,6 +542,37 @@ export const getSelectedClientDeatils = (finalData) => async (dispatch) => {
     );
     dispatch({
       type: SELECTED_CLIENT_DATA,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const getSelectedClientfolderDeatils =
+  (finalData) => async (dispatch) => {
+    console.log("finaldataaction", finalData);
+    try {
+      const res = await axios.post(
+        "/api/projects/get-selected-client-details",
+        finalData
+      );
+      dispatch({
+        type: CLIENT_DATA,
+        payload: res.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+export const getSelectedprojectDeatils = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/projects/get-selected-project-details",
+      finalData
+    );
+    dispatch({
+      type: SELECTED_PROJECT_DATA,
       payload: res.data,
     });
   } catch (err) {

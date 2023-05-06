@@ -29,19 +29,31 @@ import {
   ALL_SCT_ASSIGNED_LEAD_DETAILS,
   SCT_CALLS_COUNT,
   ALL_LEAD_ENTRY_TODAY,
+  ALL_SCT_SALES_VALUES,
   SCT_CALLS_CLIENT_COUNT,
+  SCT_CALLS_FOLLOWUP,
+  MONTH_WISE_DATA,
+  ALL_SUMMARY,
+  ONLY_SUMMARY,
+  MONTH_WISE_DATA_FOLLOWUP,
+  FINANCIAL_YEAR,
+  FY_CLIENT,
+  FY_CLIENT_MONTHWISE,
+  CLIENT_WISE,
 } from "../actions/types";
 
 const initialState = {
   allSctLeads: [],
   allSctLeadsDD: [],
   allSctLeadsEmp: [],
-
+  allSummary: [],
+  onlySummary: [],
   getAllSctLeads: [],
   getAllSctLeadsDD: [],
   getAllSctLeadsEmp: [],
-
+  financiaYEAR: [],
   sctLastMsg: [],
+  allFollowUp: [],
   allSctProject: [],
   projectList: [],
   sctcallHistory: [],
@@ -58,14 +70,19 @@ const initialState = {
   sctClientsDD: [],
   sctClientsEmp: [],
   poPrint: [],
+  FyClientMonthWiseReport: [],
   sctStaffData: [],
   sctLeadsList: [],
   selectedSctClient: null,
   selectedProject: [],
+  MonthWiseData: [],
+  follouphistory: [],
   allSctEmpAssignedLeadData: [],
   sctCallsCount: [],
   allLeadEnteredToday: [],
   sctCallsClientCount: [],
+  FYclient: [],
+  clientwise: [],
 };
 
 const sct = (state = initialState, action) => {
@@ -76,15 +93,62 @@ const sct = (state = initialState, action) => {
         ...state,
         allSctLeads: payload,
       };
+    case FY_CLIENT_MONTHWISE:
+      return {
+        ...state,
+        FyClientMonthWiseReport: payload,
+      };
+    case CLIENT_WISE:
+      return {
+        ...state,
+        clientwise: payload,
+      };
+
     case ALL_SCT_LEADS_DD:
       return {
         ...state,
         allSctLeadsDD: payload,
       };
+    case MONTH_WISE_DATA_FOLLOWUP:
+      return {
+        ...state,
+        follouphistory: payload,
+      };
+    case FINANCIAL_YEAR:
+      return {
+        ...state,
+        financiaYEAR: payload,
+      };
+    case FY_CLIENT:
+      return {
+        ...state,
+        FYclient: payload,
+      };
+
+    case MONTH_WISE_DATA:
+      return {
+        ...state,
+        MonthWiseData: payload,
+      };
+    case ONLY_SUMMARY:
+      return {
+        ...state,
+        onlySummary: payload,
+      };
+    case SCT_CALLS_FOLLOWUP:
+      return {
+        ...state,
+        allFollowUp: payload,
+      };
     case ALL_SCT_LEADS_EMP:
       return {
         ...state,
         allSctLeadsEmp: payload,
+      };
+    case ALL_SUMMARY:
+      return {
+        ...state,
+        allSummary: payload,
       };
     case GET_ALL_SCT_LEADS:
       return {
@@ -116,6 +180,11 @@ const sct = (state = initialState, action) => {
       return {
         ...state,
         sctCallsCount: payload,
+      };
+    case "SCT_CALLS_COUNT1":
+      return {
+        ...state,
+        sctCallsCount1: payload,
       };
     case ALL_LEAD_ENTRY_TODAY:
       return {
@@ -229,6 +298,11 @@ const sct = (state = initialState, action) => {
       return {
         ...state,
         allSctEmpAssignedLeadData: payload,
+      };
+    case ALL_SCT_SALES_VALUES:
+      return {
+        ...state,
+        allsctsalesvalues: payload,
       };
 
     default:

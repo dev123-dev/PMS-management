@@ -20,7 +20,14 @@ import { getActiveCountry, getActiveState } from "../../actions/regions";
 
 const AllSctProspects = ({
   auth: { isAuthenticated, user, users, loading },
-  sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp, projectList },
+  sct: {
+    allSctLeads,
+
+    allSctLeadsDD,
+    allSctLeadsEmp,
+    projectList,
+    getAllSctLeadsDD,
+  },
   regions: { activeCountry, activeState },
   getSctLeadDetails,
   getActiveCountry,
@@ -144,6 +151,7 @@ const AllSctProspects = ({
   const onprojectsChange = (e) => {
     getprojectsData(e);
     getclientsData("");
+    getClientsPhoneData("");
     getempData("");
     setprojectsID(e.projectsId);
     let searchData = {
@@ -170,6 +178,7 @@ const AllSctProspects = ({
   const onStateChange = (e) => {
     getStateData(e);
     getclientsData("");
+    getClientsPhoneData("");
     getempData("");
     setStateID(e.stateId);
     let searchData = {
@@ -193,6 +202,7 @@ const AllSctProspects = ({
   const [clientsId, getclientsIdData] = useState();
   const onclientsChange = (e) => {
     getclientsData(e);
+    getClientsPhoneData("");
     getclientsIdData(e.clientsId);
     let searchData = {
       projectsId: projectsId,
@@ -212,6 +222,34 @@ const AllSctProspects = ({
       value: emp.sctLeadAssignedToName,
     })
   );
+  console.log("getAllSctLeadsDD", getAllSctLeadsDD);
+  const allClientPhone = [];
+  allSctLeadsDD &&
+    allSctLeadsDD.map((clients) =>
+      allClientPhone.push({
+        clientsId: clients._id,
+        label: clients.sctPhone1,
+        value: clients.sctPhone1,
+      })
+    );
+  const [clientsPhone, getClientsPhoneData] = useState();
+  const [clientPhoneId, getClientsPhoneIdData] = useState();
+
+  const onClientPhoneChange = (e) => {
+    getClientsPhoneData(e);
+    getclientsData("");
+    getempData("");
+    getClientsPhoneIdData(e.clientsId);
+    setempID("");
+    let searchData = {
+      projectsId: projectsId,
+      stateId: stateId,
+      clientsId: e.clientsId,
+      sctLeadCategory: "P",
+    };
+    getSctLeadDetails(searchData);
+    setFilterData(searchData);
+  };
 
   const [emp, getempData] = useState();
   const [empId, setempID] = useState();
@@ -234,6 +272,7 @@ const AllSctProspects = ({
     getcountryData("");
     getcountryIdData("");
     getclientsData("");
+    getClientsPhoneData("");
     getempData("");
     getSctLeadDetails();
     getSctLeadDetailsDD();
@@ -304,6 +343,16 @@ const AllSctProspects = ({
                 onChange={(e) => onclientsChange(e)}
               />
             </div>
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+              <Select
+                name="clientPhone"
+                options={allClientPhone}
+                isSearchable={true}
+                value={clientsPhone}
+                placeholder="Phone"
+                onChange={(e) => onClientPhoneChange(e)}
+              />
+            </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
               user.userGroupName === "Super Admin" ||
@@ -323,7 +372,7 @@ const AllSctProspects = ({
               )}
             </div>
 
-            <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-2">
+            <div className="col-lg-1 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}

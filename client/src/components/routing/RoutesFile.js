@@ -103,6 +103,13 @@ import ClientReport from "../Reports/ClientReport";
 import AddDailyTarget from "../dashboard/AddDailyTarget";
 import ProjectSummary from "../dashboard/ProjectSummary";
 import AdditionalAddProject from "../dashboard/AdditionalAddProject";
+import CallReport from "../sct/CallReport";
+import PotentialHistory from "../sct/PotentialHistory";
+import FollowupHistory from "../sct/FollowupHistory";
+import ClientReportDetails from "../dct/ClientReportDetails";
+import ClientFYReport from "../dct/ClientFYReport";
+import ClientMonthReport from "../dct/ClientMonthReport";
+
 const RoutesFile = () => {
   return (
     <section>
@@ -128,6 +135,7 @@ const RoutesFile = () => {
           path="/sct-daily-report"
           component={SctDailyReport}
         />
+        <PrivateRoute exact path="/sct-call-report" component={CallReport} />
         <PrivateRoute exact path="/billing" component={Billing} />
 
         <PrivateRoute
@@ -208,6 +216,17 @@ const RoutesFile = () => {
           path="/all-sct-projects"
           component={AllSctProjects}
         />
+        <PrivateRoute
+          exact
+          path="/potential-history"
+          component={PotentialHistory}
+        />
+        <PrivateRoute
+          exact
+          path="/followup-history"
+          component={FollowupHistory}
+        />
+
         <PrivateRoute exact path="/sct-calls" component={SctCallsHistory} />
         <PrivateRoute
           exact
@@ -278,6 +297,22 @@ const RoutesFile = () => {
           path="/job-verification"
           component={ProjectVerification}
         />
+        <PrivateRoute
+          exact
+          path="/client-report-detail"
+          component={ClientReportDetails}
+        />
+        <PrivateRoute
+          exact
+          path="/client-month-report"
+          component={ClientMonthReport}
+        ></PrivateRoute>
+        <PrivateRoute
+          exact
+          path="/client-fy-report"
+          component={ClientFYReport}
+        />
+
         <PrivateRoute exact path="/add-project" component={AddProject} />
         <PrivateRoute
           exact

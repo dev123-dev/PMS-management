@@ -1,18 +1,20 @@
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
-
+export const FINANCIAL_YEAR = "FINANCIAL_YEAR";
+export const FY_CLIENT = "FY_CLIENT";
 export const USER_LOADED = "USER_LOADED";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const ERROR = "ERROR"; //For Any ERRORS in actions it's return error
 export const REMOVE_ERROR = "REMOVE_ERROR";
-
+export const ONLY_SUMMARY = "ONLY_SUMMARY";
 export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
-
+export const MONTH_WISE_DATA_FOLLOWUP = "MONTH_WISE_DATA_FOLLOWUP";
 export const ALL_USERS = "ALL_USERS";
 export const CHANGE_PWD_FAIL = "CHANGE_PWD_FAIL";
-
+export const ALL_SUMMARY = "ALL_SUMMARY";
+export const CLIENT_DATA = "CLIENT_DATA";
 export const MONTH_EXP_CNT = "MONTH_EXP_CNT";
 export const YEAR_EXP_CNT = "YEAR_EXP_CNT";
 export const EXP_REPORT = "EXP_REPORT";
@@ -24,7 +26,9 @@ export const OTP_SENT = "OTP_SENT";
 export const SET_LOADING_TRUE = "SET_LOADING_TRUE";
 export const SET_LOADING_FALSE = "SET_LOADING_FALSE";
 export const FINAL_DATA_REP = "FINAL_DATA_REP";
-
+export const FY_CLIENT_MONTHWISE = "FY_CLIENT_MONTHWISE";
+export const ALL_FOLDER = "ALL_FOLDER";
+export const CLIENT_WISE = "CLIENT_WISE";
 ///NEW
 export const PAYMENT_MODE = "PAYMENT_MODE";
 export const TEAM_NAME = "TEAM_NAME";
@@ -63,6 +67,7 @@ export const VERIFIED_PROJECTS = "VERIFIED_PROJECTS";
 // export const ALL_VERF_CLIENTS = "ALL_VERF_CLIENTS";
 export const ALL_VERF_FOLDER = "ALL_VERF_FOLDER";
 export const ALL_STAFF_NAMES = "ALL_STAFF_NAMES";
+export const SELECTED_PROJECT_DATA = "SELECTED_PROJECT_DATA";
 export const ALL_STATUS_VERIFICATION = "ALL_STATUS_VERIFICATION";
 export const ALL_FEEDBACK = "ALL_FEEDBACK";
 export const ALL_DELETED_PROJECTS = "ALL_DELETED_PROJECTS";
@@ -155,3 +160,6 @@ export const ALL_SCT_PROJECT = "ALL_SCT_PROJECT";
 export const SCT_PROJECT = "SCT_PROJECT";
 export const ALL_ASSIGNED_LEAD_DETAILS = "ALL_ASSIGNED_LEAD_DETAILS";
 export const ALL_DCT_STAFF_NAMES = "ALL_DCT_STAFF_NAMES";
+export const ALL_SCT_SALES_VALUES = "ALL_SCT_SALES_VALUES";
+export const SCT_CALLS_FOLLOWUP = "SCT_CALLS_FOLLOWUP";
+export const MONTH_WISE_DATA = "MONTH_WISE_DATA";

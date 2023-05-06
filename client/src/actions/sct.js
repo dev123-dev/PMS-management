@@ -34,7 +34,17 @@ import {
   ALL_SCT_ASSIGNED_LEAD_DETAILS,
   SCT_CALLS_COUNT,
   ALL_LEAD_ENTRY_TODAY,
+  ALL_SCT_SALES_VALUES,
+  SCT_CALLS_FOLLOWUP,
+  ALL_SUMMARY,
+  MONTH_WISE_DATA,
   SCT_CALLS_CLIENT_COUNT,
+  ONLY_SUMMARY,
+  MONTH_WISE_DATA_FOLLOWUP,
+  FINANCIAL_YEAR,
+  FY_CLIENT,
+  FY_CLIENT_MONTHWISE,
+  CLIENT_WISE,
 } from "./types";
 
 const config = {
@@ -327,6 +337,58 @@ export const refreshLead = (finalData) => async (dispatch) => {
     });
   }
 };
+// getPotentialClients
+
+export const getPotentialClients = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    const res = await axios.post(
+      "/api/sct/get-sct-potential-clients",
+      finalData,
+      config
+    );
+
+    dispatch({
+      type: MONTH_WISE_DATA,
+      payload: res.data,
+    });
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getFollowUpClient = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    const res = await axios.post(
+      "/api/sct/get-sct-FollowUp-clients",
+      finalData,
+      config
+    );
+
+    dispatch({
+      type: MONTH_WISE_DATA_FOLLOWUP,
+      payload: res.data,
+    });
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 //**********************************SELECT**********************************
 //LEAD
 export const getSctLeadDetails = (finalData) => async (dispatch) => {
@@ -335,10 +397,15 @@ export const getSctLeadDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     const res = await axios.post("/api/sct/get-sct-Leads", finalData, config);
+    console.log(res);
     dispatch({
       type: ALL_SCT_LEADS,
       payload: res.data.result1,
     });
+    // dispatch({
+    //   type: MONTH_WISE_DATA,
+    //   payload: res.data.result3,
+    // });
     dispatch({
       type: SET_LOADING_FALSE,
     });
@@ -696,6 +763,129 @@ export const getALLDemosReport =
     }
   };
 
+//get summary for callR3eport page start
+export const getSummary = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/sct/get-summary", finalData);
+    console.log("only summary in actoiojn", res.data);
+    dispatch({
+      type: ONLY_SUMMARY,
+      payload: res.data,
+    });
+    // dispatch({
+    //   type: ALL_DEMOS_TAKEN,
+    //   payload: res.data.allDemosTaken,
+    // });
+    // dispatch({
+    //   type: ALL_DEMOS_TODAY_ADDED,
+    //   payload: res.data.allDemosAddedToday,
+    // });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+//get summary for callReport page end
+
+export const getOverAllSummary = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-over-all-summary",
+
+      finalData
+    );
+    dispatch({
+      type: ALL_SUMMARY,
+      payload: res.data,
+    });
+    // dispatch({
+    //   type: ALL_DEMOS_TAKEN,
+    //   payload: res.data.allDemosTaken,
+    // });
+    // dispatch({
+    //   type: ALL_DEMOS_TODAY_ADDED,
+    //   payload: res.data.allDemosAddedToday,
+    // });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+//Year extract
+export const getYear = () => async (dispatch) => {
+  console.log("in action of get year");
+  try {
+    const res = await axios.get("/api/sct/get-Year", config);
+    localStorage.setItem("financialYear", JSON.stringify(res.data));
+    dispatch({
+      type: FINANCIAL_YEAR,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+//Year extract
+export const getFYclient = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/sct/get-FY-Client", finalData, config);
+    //localStorage.setItem("financialYear", JSON.stringify(res.data));
+    dispatch({
+      type: FY_CLIENT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+//get Month wise Client Report
+export const getMonthWiseClient = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-Month-wise-Report",
+      finalData,
+      config
+    );
+    //localStorage.setItem("financialYear", JSON.stringify(res.data));
+    dispatch({
+      type: FY_CLIENT_MONTHWISE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getClientDetails = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-client-report",
+      finalData,
+      config
+    );
+    //localStorage.setItem("financialYear", JSON.stringify(res.data));
+    dispatch({
+      type: CLIENT_WISE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 export const getAllSctCallClientCount = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post(
@@ -763,6 +953,37 @@ export const getDemoSchedules = (searchData) => async (dispatch) => {
   }
 };
 
+export const getAllSct = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-all-sct-details-salesvalue",
+      finalData,
+      config
+    );
+    dispatch({
+      type: ALL_SCT_SALES_VALUES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getALLSummary = (finaldata) => async (dispatch) => {
+  console.log("inside action", finaldata);
+  try {
+    const res = await axios.post(
+      "/api/sct/get-all-sct-details-overaAllSummary",
+      finaldata,
+      config
+    );
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const getAllSctCall = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post(
@@ -808,6 +1029,45 @@ export const getAllSctCallCount = (finalData) => async (dispatch) => {
     );
     dispatch({
       type: SCT_CALLS_COUNT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllSctCallCount1 = (finalData) => async (dispatch) => {
+  console.log("in action", finalData);
+  try {
+    const res = await axios.post(
+      "/api/sct/get-all-sct-calls-count-1",
+      finalData,
+      config
+    );
+    localStorage.setItem("getAllSctCallCount1", JSON.stringify(res.data));
+    dispatch({
+      type: "SCT_CALLS_COUNT1",
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getAllFollowUp = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-all-sct-FollowUp",
+      finalData,
+      config
+    );
+    localStorage.setItem("allfollowup", JSON.stringify(res.data));
+    dispatch({
+      type: SCT_CALLS_FOLLOWUP,
       payload: res.data,
     });
   } catch (err) {

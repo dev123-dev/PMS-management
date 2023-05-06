@@ -8,6 +8,7 @@ import {
   getAllLeadToday,
 } from "../../actions/sct";
 import Select from "react-select";
+import DatePicker from "react-datepicker";
 const SctDailyReport = ({
   auth: { isAuthenticated, user },
   sct: {
@@ -115,6 +116,7 @@ const SctDailyReport = ({
     getAllLeadToday(finalData);
     getALLDemosReport(finalData);
     // getDailyjobSheetFolder(selDateData);
+    console.log("FinalData", finalData);
   };
 
   const alldemosentered = [];
@@ -126,6 +128,102 @@ const SctDailyReport = ({
         value: demos.empFullName,
       })
     );
+  const [startSingleDate, setSingleDate] = useState("");
+  const [startSingleDateShow, SetstartSingleShow] = useState("");
+  const onDateChangesingle = (e) => {
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var EndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+    setSingleDate(EndDate1);
+    var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    SetstartSingleShow(EndDate);
+    let finalData = {
+      selDate: EndDate1,
+      dateType: "Single Date",
+      // folderId: projectData.folderId,
+    };
+
+    // setSelDateDataVal(selDateData);
+    getAllSctCallCount(finalData);
+    getAllLeadToday(finalData);
+    getALLDemosReport(finalData);
+    //console.log("formData", formData.selDate);
+    // getDailyjobSheetFolder(selDateData);
+  };
+  const [startFromDate, setFromDate] = useState("");
+  const [startFromDateShow, setFromDateShow] = useState("");
+
+  const onfromDateChange = (e) => {
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var EndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+    setFromDate(EndDate1);
+    var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    setFromDateShow(EndDate);
+    setfromdate(EndDate1);
+  };
+
+  const [startToDate, setToDate] = useState("");
+  const [startcToDateShow, SetstartToDateShow] = useState("");
+  const ontoDateChange = (e) => {
+    // setError({
+    //   ...error,
+    //   clientdateChecker: true,
+    //   clientdateErrorStyle: { color: "#000" },
+    // });
+    var newDate = e;
+    var calDate = new Date(newDate);
+    var dd1 = calDate.getDate();
+    var mm2 = calDate.getMonth() + 1;
+    var yyyy1 = calDate.getFullYear();
+    if (dd1 < 10) {
+      dd1 = "0" + dd1;
+    }
+
+    if (mm2 < 10) {
+      mm2 = "0" + mm2;
+    }
+    var EndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+    setToDate(EndDate1);
+    var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    SetstartToDateShow(EndDate);
+
+    settodate(startFromDate);
+
+    let finalData = {
+      fromdate: fromdate,
+      todate: EndDate1,
+      dateType: "Multi Date",
+      // folderId: projectData.folderId,
+    };
+    // setSelDateDataVal(selDateData);
+    getAllSctCallCount(finalData);
+    getAllLeadToday(finalData);
+    getALLDemosReport(finalData);
+    // getDailyjobSheetFolder(selDateData);
+    //console.log("formData", formData);
+    console.log("FinalData", finalData);
+  };
 
   return !isAuthenticated || !user ? (
     <Spinner />
@@ -148,10 +246,11 @@ const SctDailyReport = ({
                 onChange={(e) => onDateModeChange(e)}
               />
             </div>
+
             {showdateSection && (
               <>
                 <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
-                  <input
+                  {/* <input
                     type="date"
                     placeholder="dd/mm/yyyy"
                     className="form-control cpp-input datevalidation"
@@ -165,10 +264,17 @@ const SctDailyReport = ({
                       e.preventDefault();
                     }}
                     required
+                  /> */}
+                  <DatePicker
+                    label="Controlled picker"
+                    value={startFromDateShow}
+                    className=" form-control"
+                    placeholderText="dd-mm-yyyy"
+                    onChange={(newValue) => onfromDateChange(newValue)}
                   />
                 </div>
                 <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
-                  <input
+                  {/* <input
                     type="date"
                     placeholder="dd/mm/yyyy"
                     className="form-control cpp-input datevalidation"
@@ -182,6 +288,13 @@ const SctDailyReport = ({
                       e.preventDefault();
                     }}
                     required
+                  /> */}
+                  <DatePicker
+                    label="Controlled picker"
+                    value={startcToDateShow}
+                    className=" form-control"
+                    placeholderText="dd-mm-yyyy"
+                    onChange={(newValue) => ontoDateChange(newValue)}
                   />
                 </div>
               </>
@@ -189,7 +302,7 @@ const SctDailyReport = ({
             {showdateSection1 && (
               <>
                 <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
-                  <input
+                  {/* <input
                     type="date"
                     placeholder="dd/mm/yyyy"
                     className="form-control cpp-input datevalidation"
@@ -203,6 +316,13 @@ const SctDailyReport = ({
                       e.preventDefault();
                     }}
                     required
+                  /> */}
+                  <DatePicker
+                    label="Controlled picker"
+                    value={startSingleDateShow}
+                    className=" form-control"
+                    placeholderText="dd-mm-yyyy"
+                    onChange={(newValue) => onDateChangesingle(newValue)}
                   />
                 </div>
               </>

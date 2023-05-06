@@ -30,6 +30,7 @@ const AllSctStatusChange = ({
   page,
   getSctStaffsData,
 }) => {
+  console.log("leadDataVal", leadDataVal);
   useEffect(() => {
     checkDemo({ demoUserId: leadDataVal._id });
   }, [leadDataVal, checkDemo]);
@@ -54,12 +55,14 @@ const AllSctStatusChange = ({
   ];
 
   if (from === "FollowUp" || from === "F") {
+    //ShowCategory("false");
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
         StatusMethods.value !== "FollowUp" &&
         StatusMethods.value !== "TrainingDemo"
     );
   } else if (from === "EngagedClient") {
+    // ShowCategory("true");
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
         StatusMethods.value !== "EngagedClient" &&
@@ -90,7 +93,7 @@ const AllSctStatusChange = ({
     );
   }
   //STATUS END
-
+  console.log("staffFilter", staffFilter);
   //Category
 
   let CategoryMethods = [
@@ -106,6 +109,8 @@ const AllSctStatusChange = ({
     labeldata: "",
     sctCallNote: "",
     toTime: "",
+    expectedMonth: "",
+    salesValue: "",
     fromTime: "",
     sctCallTime: "",
     sctcallToNumber: "",
@@ -114,8 +119,10 @@ const AllSctStatusChange = ({
   const {
     sctCallNote,
     sctCallStatus,
-    sctLeadsCategory,
+
     toTime,
+
+    salesValue,
     fromTime,
     sctCallTime,
     sctcallToNumber,
@@ -156,6 +163,7 @@ const AllSctStatusChange = ({
   } = error;
 
   const checkErrors = () => {
+    console.log("statusmodeIdChecker", statusmodeIdChecker);
     if (!statusmodeIdChecker) {
       setError({
         ...error,
@@ -236,129 +244,183 @@ const AllSctStatusChange = ({
     showLeadCategory,
   } = showHide;
 
+  const [showstatus, setstatus] = useState("");
+  const [sctLeadsCategory, setsctLeadsCategory] = useState("");
+
   const onStatusTypeChange = (e) => {
-    setError({
-      ...error,
-      statusmodeIdChecker: true,
-      statusmodeIdErrorStyle: { color: "#000" },
-    });
-    if (e) {
+    if (e.value === "CallBack") {
+      setstatus("CallBack");
       setFormData({
         ...formData,
         sctCallStatus: e,
       });
-    }
-    if (e.value === "DND") {
-      setFormData({
-        ...formData,
-        sctCallStatus: e,
-      });
-      setStatusDate(nextmonth);
-      setShowHide({
-        ...showHide,
-        showdateselectionSection: true,
-        showdemoselectionSection: false,
-        showLeadCategory: false,
-      });
-    } else if (e.value === "NI") {
-      setFormData({
-        ...formData,
-        sctCallStatus: e,
-      });
-      setStatusDate(nextyear);
-      setShowHide({
-        ...showHide,
-        showdateselectionSection: true,
-        showdemoselectionSection: false,
-        showLeadCategory: false,
-      });
-    } else if (e.value === "CallBack") {
-      setFormData({
-        ...formData,
-        sctCallStatus: e,
-      });
-      setStatusDate("");
+      setsctLeadsCategory("");
       setShowHide({
         ...showHide,
         showdateselectionSection: true,
         showdemoselectionSection: false,
         showLeadCategory: true,
       });
-    } else if (e.value === "WrongNumber") {
-      setFormData({
-        ...formData,
-        sctCallStatus: e,
-      });
-      setStatusDate("");
-      setShowHide({
-        ...showHide,
-        showdateselectionSection: true,
-        showdemoselectionSection: false,
-        showLeadCategory: false,
-      });
-    } else if (e.value === "VoiceMail") {
-      setFormData({
-        ...formData,
-        sctCallStatus: e,
-      });
-      setStatusDate(nextday);
-      setShowHide({
-        ...showHide,
-        showdateselectionSection: true,
-        showdemoselectionSection: false,
-        showLeadCategory: false,
-      });
-    } else if (e.value === "FollowUp") {
-      setFormData({
-        ...formData,
-        sctCallStatus: e,
-      });
-      setStatusDate("");
-      setShowHide({
-        ...showHide,
-        showdateselectionSection: true,
-        showdemoselectionSection: false,
-        showLeadCategory: false,
-      });
-    } else if (e.value === "RegularClient" || e.value === "EngagedClient") {
-      setFormData({
-        ...formData,
-        sctCallStatus: e,
-      });
-      setStatusDate("");
-      setShowHide({
-        ...showHide,
-        showdateselectionSection: false,
-        showdemoselectionSection: false,
-        showLeadCategory: false,
+      setError({
+        ...error,
+        statusmodeIdChecker: true,
+        statusmodeIdErrorStyle: { color: "#000" },
       });
     } else {
-      setFormData({
-        ...formData,
-        sctCallStatus: e,
+      setstatus("false");
+
+      setError({
+        ...error,
+        statusmodeIdChecker: true,
+        statusmodeIdErrorStyle: { color: "#000" },
       });
-      setStatusDate("");
-      setShowHide({
-        ...showHide,
-        showdemoselectionSection: true,
-        showdateselectionSection: false,
-        showLeadCategory: false,
-      });
+      if (e) {
+        setFormData({
+          ...formData,
+          sctCallStatus: e,
+        });
+      }
+      if (e.value === "DND") {
+        setFormData({
+          ...formData,
+          sctCallStatus: e,
+        });
+        setStatusDate(nextmonth);
+        setShowHide({
+          ...showHide,
+          showdateselectionSection: true,
+          showdemoselectionSection: false,
+          showLeadCategory: false,
+        });
+      } else if (e.value === "NI") {
+        setFormData({
+          ...formData,
+          sctCallStatus: e,
+        });
+        setStatusDate(nextyear);
+        setShowHide({
+          ...showHide,
+          showdateselectionSection: true,
+          showdemoselectionSection: false,
+          showLeadCategory: false,
+        });
+      } else if (e.value === "CallBack") {
+        setFormData({
+          ...formData,
+          sctCallStatus: e,
+        });
+        setStatusDate("");
+        setShowHide({
+          ...showHide,
+          showdateselectionSection: true,
+          showdemoselectionSection: false,
+          showLeadCategory: true,
+        });
+      } else if (e.value === "WrongNumber") {
+        setFormData({
+          ...formData,
+          sctCallStatus: e,
+        });
+        setStatusDate("");
+        setShowHide({
+          ...showHide,
+          showdateselectionSection: true,
+          showdemoselectionSection: false,
+          showLeadCategory: false,
+        });
+      } else if (e.value === "VoiceMail") {
+        setFormData({
+          ...formData,
+          sctCallStatus: e,
+        });
+        setStatusDate(nextday);
+        setShowHide({
+          ...showHide,
+          showdateselectionSection: true,
+          showdemoselectionSection: false,
+          showLeadCategory: false,
+        });
+      } else if (e.value === "FollowUp") {
+        setstatus("FollowUp");
+        //setsctLeadsCategory("");
+
+        setFormData({
+          ...formData,
+          sctCallStatus: e,
+        });
+        setStatusDate("");
+        setShowHide({
+          ...showHide,
+          showdateselectionSection: true,
+          showdemoselectionSection: false,
+          showLeadCategory: false,
+        });
+      } else if (e.value === "RegularClient" || e.value === "EngagedClient") {
+        setFormData({
+          ...formData,
+          sctCallStatus: e,
+        });
+        setStatusDate("");
+        setShowHide({
+          ...showHide,
+          showdateselectionSection: false,
+          showdemoselectionSection: false,
+          showLeadCategory: false,
+        });
+      } else {
+        setFormData({
+          ...formData,
+          sctCallStatus: e,
+        });
+        setStatusDate("");
+        setShowHide({
+          ...showHide,
+          showdemoselectionSection: true,
+          showdateselectionSection: false,
+          showLeadCategory: false,
+        });
+      }
     }
   };
 
   const onLeadCategoryChange = (e) => {
-    if (e) {
-      setFormData({
-        ...formData,
-        sctLeadsCategory: e,
-      });
-    }
+    setsctLeadsCategory(e);
   };
   const [demoDate, setdemoDate] = useState("");
   const onDateChange1 = (e) => {
     setdemoDate(e.target.value);
   };
+  const MonthYear = [
+    { label: "January", value: 1 },
+    { label: "Febrery", value: 2 },
+    { label: "March", value: 3 },
+    { label: "April", value: 4 },
+    { label: "May", value: 5 },
+    { label: "June", value: 6 },
+    { label: "July", value: 7 },
+    { label: "August", value: 8 },
+    { label: "Septmber", value: 9 },
+    { label: "October", value: 10 },
+    { label: "November", value: 11 },
+    { label: "December", value: 12 },
+  ];
+  const [MonthAndYear, setMonthYear] = useState("");
+  const [expectedMonth, SetexpectedMonth] = useState("");
+  const onDateChange2 = (e) => {
+    SetexpectedMonth(e.target.value);
+    const new_date = new Date(e.target.value);
+    const year = new_date.getFullYear();
+
+    let new_month = new_date.getMonth() + 1;
+    const month = MonthYear.filter((ele) => {
+      if (ele.value === new_month) {
+        return ele.label;
+      }
+    });
+    let final_data = month[0].label + "-" + year;
+    setMonthYear(final_data);
+  };
+
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -407,7 +469,10 @@ const AllSctStatusChange = ({
         sctcallToNumber: staffsNumber ? staffsNumber : phone1,
         // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
         sctCallDate: startStatusDate || demoDate || todayDateymd,
+        sctExpectedMonth: expectedMonth,
+        sctExpectedMonthYear: MonthAndYear,
         sctCallTime: sctCallTime,
+        sctCallSalesValue: salesValue,
         sctCallNote: sctCallNote?.trim(),
         sctCallComeFrom: callComeFromVal,
         sctCallTakenDate: new Date().toISOString().split("T")[0],
@@ -416,7 +481,7 @@ const AllSctStatusChange = ({
         filterData: filterData,
         page: page,
       };
-      // console.log("finalData", finalData);
+      console.log("finalData", finalData);
       if (from === "EngagedClient" || from === "RegularClient") {
         addSctClientCalls(finalData);
       } else {
@@ -504,6 +569,7 @@ const AllSctStatusChange = ({
       getstaffsData("");
     }
   };
+  // console.log("sctLeadsCategory", sctLeadsCategory);
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -564,7 +630,7 @@ const AllSctStatusChange = ({
               />
             </div>
           )}
-          {showLeadCategory && (
+          {showLeadCategory && staffFilter.staffFrom !== "F" ? (
             <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
               <label className="label-control">Category :</label>
               <Select
@@ -576,6 +642,8 @@ const AllSctStatusChange = ({
                 onChange={(e) => onLeadCategoryChange(e)}
               />
             </div>
+          ) : (
+            <></>
           )}
 
           {showdemoselectionSection && (
@@ -685,6 +753,43 @@ const AllSctStatusChange = ({
               ></textarea>
             </div>
           )}
+
+          {showstatus === "FollowUp" ||
+          (showstatus === "CallBack" && sctLeadsCategory) ||
+          (staffFilter.staffFrom === "F" && showstatus === "CallBack") ? (
+            <>
+              {" "}
+              <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
+                <label className="label-control"> Expected Month :</label>
+
+                <input
+                  type="date"
+                  placeholder="dd/mm/yyyy"
+                  className="form-control cpp-input datevalidation"
+                  min={todaydate}
+                  name="expectedMonth"
+                  value={expectedMonth}
+                  onChange={(e) => onDateChange2(e)}
+                  style={{
+                    width: "100%",
+                  }}
+                />
+              </div>
+              <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
+                <label className="label-control"> Sales Value:</label>
+                <input
+                  type="text"
+                  className="form-control "
+                  name="salesValue"
+                  value={salesValue}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
+
           {showLeadCategory && showLeadCategory ? (
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
               <br />

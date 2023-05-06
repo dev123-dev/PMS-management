@@ -18,6 +18,7 @@ const multer = require("multer");
 const csvtojson = require("csvtojson");
 const Project = require("../../models/Project");
 const Company = require("../../models/settings/company");
+const sctCalls = require("../../models/sct/sctCalls");
 
 var storage = multer.diskStorage({
   destination: "./client/src/static/files",
@@ -491,8 +492,10 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
     sctLeadCategory,
     assignedTo,
     projectsId,
+    MonthDate,
     sctLeadsCategory,
   } = req.body;
+
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -544,6 +547,14 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
       _id: mongoose.Types.ObjectId(clientsId),
     };
   }
+  if (MonthDate) {
+    query = {
+      sctLeadAssignedToId,
+      sctLeadStatus: "Active",
+      sctCallDate: { $eq: MonthDate },
+    };
+  }
+  console.log(query);
   try {
     let getSctLeadsDetails = (getSctLeadsEmp = []);
     if (sctLeadCategory) {
@@ -563,7 +574,20 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
         },
       ]).sort({ _id: 1 });
     }
-    res.json({ result1: getSctLeadsDetails, result2: getSctLeadsEmp });
+    if (MonthDate) {
+      getSctLeadsDetails = await SctLeads.aggregate([
+        {
+          $match: query,
+        },
+      ]);
+    }
+
+    res.json({
+      result1: getSctLeadsDetails,
+      result2: getSctLeadsEmp,
+      // result3: sctPotential,
+    });
+    console.log("getSctLeadsDetails", getSctLeadsDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -755,6 +779,7 @@ router.post("/get-sct-last-message", async (req, res) => {
 
 router.post("/add-sct-calls", async (req, res) => {
   let data = req.body;
+
   try {
     let AddSctCallsDetails = new SctCalls(data);
     output = await AddSctCallsDetails.save();
@@ -1469,12 +1494,749 @@ router.post("/get-all-sct-calls-emp", auth, async (req, res) => {
   }
 });
 
-router.post("/get-all-sct-calls-count", auth, async (req, res) => {
-  let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
+//client report details page start
+router.post("/get-client-report-details", auth, async (req, res) => {
+  let { ClientFolderName, FromYear, ToYear, assignedTo } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+
+  if (YearWiseData) {
+    query = {
+      projectDate: {
+        $ne: null,
+        $ne: "",
+      },
+      clientFolderName: ClientFolderName,
+      projectDate: {
+        $gte: "",
+        $lte: "",
+      },
+    };
+  }
+
+  if (ClientId) {
+    query = {
+      projectDate: {
+        $ne: null,
+        $ne: "",
+      },
+      clientFolderName: ClientFolderName,
+      projectDate: {
+        $gte: "",
+        $lte: "",
+      },
+    };
+  }
+  try {
+    let ProjectDetails = [];
+
+    ProjectDetails = await Project.aggregate([
+      {
+        $match: {
+          query,
+        },
+      },
+      {
+        $addFields: {
+          projectDate: {
+            $toDate: "$projectDate",
+          },
+        },
+      },
+      {
+        $addFields: {
+          month: {
+            $month: "$projectDate",
+          },
+        },
+      },
+      {
+        $project: {
+          totProjQty: {
+            $sum: "$projectQuantity",
+          },
+        },
+      },
+    ]);
+  } catch (error) {
+    console.log(eror.message);
+  }
+});
+
+//client report detail page end
+
+//Financial year feteching code start
+router.get("/get-Year", auth, async (req, res) => {
+  let query = {
+    projectDate: {
+      $ne: null,
+      $ne: "",
+    },
+  };
+  try {
+    let financialYear = [];
+    financialYear = await Project.aggregate([
+      {
+        $match: query,
+      },
+      //2nd
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            projectDate: {
+              $toDate: "$projectDate",
+            },
+          },
+      },
+      //3rd adding new field financial year and extracting year
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            financialYear: {
+              $cond: [
+                {
+                  $gte: [
+                    {
+                      $month: "$projectDate",
+                    },
+
+                    ,
+                  ],
+                },
+                {
+                  $concat: [
+                    {
+                      $toString: {
+                        $year: "$projectDate",
+                      },
+                    },
+                    "-",
+                    {
+                      $toString: {
+                        $add: [
+                          {
+                            $year: "$projectDate",
+                          },
+                          1,
+                        ],
+                      },
+                    },
+                  ],
+                },
+                {
+                  $concat: [
+                    {
+                      $toString: {
+                        $subtract: [
+                          {
+                            $year: "$projectDate",
+                          },
+                          1,
+                        ],
+                      },
+                    },
+                    "-",
+                    {
+                      $toString: {
+                        $year: "$projectDate",
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+      },
+      //4th
+      {
+        $group:
+          /**
+           * _id: The id of the group.
+           * fieldN: The first field name.
+           */
+          {
+            _id: "$financialYear",
+            totQty: {
+              $sum: 1,
+            },
+          },
+      },
+      //5th
+      {
+        $sort:
+          /**
+           * specifications: The fields to
+           *   include or exclude.
+           */
+          {
+            _id: -1,
+          },
+      },
+      //6th
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            startDate: {
+              $concat: [
+                {
+                  $substr: ["$_id", 0, 4],
+                },
+                "-04-01",
+              ],
+            },
+            endDate: {
+              $concat: [
+                {
+                  $substr: ["$_id", 5, 4],
+                },
+                "-03-31",
+              ],
+            },
+          },
+      },
+    ]);
+    res.json(financialYear);
+  } catch (error) {
+    console.log(error.mesage);
+  }
+});
+//Financial year feteching code end
+
+//MOnth wise report start
+router.post("/get-Month-wise-Report", auth, async (req, res) => {
+  let { startDate, endDate, clientFolderName } = req.body;
+
+  console.log("data in month wise data", req.body);
+
+  try {
+    let MonthWiseData = await Project.aggregate([
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            projectDate: {
+              $ne: null,
+              $ne: "",
+            },
+          },
+      },
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            projectDate: {
+              $toDate: "$projectDate",
+            },
+          },
+      },
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            clientFolderName: {
+              $eq: clientFolderName,
+            },
+            projectDate: {
+              $gte: new Date(startDate),
+              $lte: new Date(endDate),
+            },
+          },
+      },
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            month: {
+              $month: "$projectDate",
+            },
+            year: {
+              $year: "$projectDate",
+            },
+          },
+      },
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            monthName: {
+              $switch: {
+                branches: [
+                  {
+                    case: {
+                      $eq: ["$month", 1],
+                    },
+                    then: {
+                      $concat: [
+                        "Jan",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 2],
+                    },
+                    then: {
+                      $concat: [
+                        "Feb",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 3],
+                    },
+                    then: {
+                      $concat: [
+                        "Mar",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 4],
+                    },
+                    then: {
+                      $concat: [
+                        "Apr",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 5],
+                    },
+                    then: {
+                      $concat: [
+                        "May",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 6],
+                    },
+                    then: {
+                      $concat: [
+                        "Jun",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 7],
+                    },
+                    then: {
+                      $concat: [
+                        "Jul",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 8],
+                    },
+                    then: {
+                      $concat: [
+                        "Aug",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 9],
+                    },
+                    then: {
+                      $concat: [
+                        "Sep",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 10],
+                    },
+                    then: {
+                      $concat: [
+                        "Oct",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 11],
+                    },
+                    then: {
+                      $concat: [
+                        "Nov",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 12],
+                    },
+                    then: {
+                      $concat: [
+                        "Dec",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                ],
+                default: "Invalid month",
+              },
+            },
+          },
+      },
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            monthOrdNo: {
+              $switch: {
+                branches: [
+                  {
+                    case: {
+                      $eq: ["$month", 4],
+                    },
+                    then: 1,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 5],
+                    },
+                    then: 2,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 6],
+                    },
+                    then: 3,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 7],
+                    },
+                    then: 4,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 8],
+                    },
+                    then: 5,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 9],
+                    },
+                    then: 6,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 10],
+                    },
+                    then: 7,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 11],
+                    },
+                    then: 8,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 12],
+                    },
+                    then: 9,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 1],
+                    },
+                    then: 10,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 2],
+                    },
+                    then: 11,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 3],
+                    },
+                    then: 12,
+                  },
+                ],
+                default: "Invalid no",
+              },
+            },
+          },
+      },
+      {
+        $group:
+          /**
+           * _id: The id of the group.
+           * fieldN: The first field name.
+           */
+          {
+            _id: "$monthName",
+            totProjQty: {
+              $sum: "$projectQuantity",
+            },
+            monthOrdNo: {
+              $first: "$monthOrdNo",
+            },
+            clientFolderName: { $first: "$clientFolderName" },
+          },
+      },
+      {
+        $sort:
+          /**
+           * Provide any number of field/order pairs.
+           */
+          {
+            monthOrdNo: 1,
+          },
+      },
+    ]);
+
+    res.json(MonthWiseData);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+//Month wise report end
+
+//Client details start
+router.post("/get-client-report", auth, async (req, res) => {
+  let { startDate, endDate, clientFolderName } = req.body;
+  // console.log("this is client wise data", data);
+
+  try {
+    let ProjectDetails = await Project.aggregate([
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            projectDate: {
+              $ne: null,
+              $ne: "",
+            },
+          },
+      },
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            projectDateObj: {
+              $toDate: "$projectDate",
+            },
+          },
+      },
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            clientFolderName: {
+              $eq: clientFolderName,
+            },
+            projectDateObj: {
+              $gte: new Date(startDate),
+              $lte: new Date(endDate),
+            },
+          },
+      },
+      {
+        $project:
+          /**
+           * specifications: The fields to
+           *   include or exclude.
+           */
+          {
+            projectDate: "$projectDate",
+            projectQty: "$projectQuantity",
+            projectName: "$projectName",
+          },
+      },
+      {
+        $sort:
+          /**
+           * Provide any number of field/order pairs.
+           */
+          {
+            _id: 1,
+          },
+      },
+    ]);
+    //console.log("xxxxxx", ProjectDetails);
+    res.json(ProjectDetails);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+//Client details end
+//Get Financial client Details start
+router.post("/get-FY-Client", auth, async (req, res) => {
+  let { data } = req.body;
+  let startDate;
+  let endDate;
+  let date = new Date();
+  if (data) {
+    startDate = data.startDate;
+    endDate = data.endDate;
+  } else {
+    startDate = date.getFullYear() + "-" + "04" + "-" + "01";
+    endDate = date.getFullYear() + 1 + "-" + "03" + "-" + "31";
+  }
+
+  try {
+    let projectDetails = await Project.aggregate([
+      {
+        $match: {
+          projectDate: {
+            $ne: null,
+            $ne: "",
+          },
+        },
+      },
+
+      {
+        $addFields: {
+          projectDate: {
+            $toDate: "$projectDate",
+          },
+        },
+      },
+      {
+        $match: {
+          projectDate: {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$clientFolderName",
+          totQty: {
+            $sum: 1,
+          },
+          clientFolderName: { $first: "$clientFolderName" },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ]);
+    res.json(projectDetails);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+//Get Financial Client Details end
+
+//sct all clients count and list start
+
+router.post("/get-all-sct-calls-count", auth, async (req, res) => {
+  let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
+
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+
   var dateVal = new Date().toISOString().split("T")[0];
+
   if (selDate) dateVal = selDate;
   let sctCallFromId = "",
     query = {};
@@ -1535,6 +2297,7 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
             sctCallFromName: { $first: "$sctCallFromName" },
             countClient: { $sum: 1 },
             countCall: { $sum: "$count" },
+            sctLeadsCategory: { $first: "$sctLeadsCategory" },
           },
         },
       ]);
@@ -1548,7 +2311,11 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
             _id: "$sctCallToId",
             sctCallFromName: { $first: "$sctCallFromName" },
             countClient: { $sum: 1 },
+            sctLeadsCategory: { $first: "$sctLeadsCategory" },
           },
+        },
+        {
+          $project: {},
         },
       ]);
     }
@@ -1561,6 +2328,768 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+////get monthwise potential summary start
+//--------------------------------------------------------------------------------------------------------------
+
+//sct call count
+router.post("/get-sct-potential-clients", auth, async (req, res) => {
+  console.log("req", req.body);
+  let { selDate, dateType, fromdate, todate, MonthDate, assignedTo } = req.body;
+  console;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+
+  var dateVal = new Date().toISOString().split("T")[0];
+
+  if (MonthDate) dateVal = MonthDate;
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+
+  if (dateType === "Multi Date") {
+    query = {
+      sctCallFromId,
+      sctCallCategory: { $eq: "P" },
+      sctLeadsCategory: { $ne: "" },
+      sctCallTakenDate: {
+        $gte: fromdate,
+        $lte: todate,
+      },
+    };
+  } else {
+    query = {
+      sctCallCategory: { $eq: "P" },
+      sctLeadsCategory: { $ne: "" },
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  }
+  try {
+    let getAllSctCallsClient = [];
+    if (userInfo.empCtAccess === "All") {
+      getAllSctCallsClient = await SctCalls.find(query);
+      // {
+      //   $group: {
+      //     _id: {
+      //       sctCallFromId: "$sctCallFromId",
+      //       sctCallToId: "$sctCallToId",
+      //     },
+      //     sctCallFromId: { $first: "$sctCallFromId" },
+      //     sctCallFromName: { $first: "$sctCallFromName" },
+      //     count: { $sum: 1 },
+      //   },
+      // },
+      // {
+      //   $group: {
+      //     _id: "$sctCallFromId",
+      //     sctCallFromName: { $first: "$sctCallFromName" },
+      //     // countClient: { $sum: 1 },
+      //     // countCall: { $sum: "$count" },
+      //     // sctLeadsCategory: { $first: "$sctLeadsCategory" },
+      //   },
+      // },
+    } else {
+      getAllSctCallsClient = await SctCalls.find(query);
+
+      // {
+      //   $group: {
+      //     _id: "$sctCallToId",
+      //     sctCallFromName: { $first: "$sctCallFromName" },
+      //     // countClient: { $sum: 1 },
+      //     // sctLeadsCategory: { $first: "$sctLeadsCategory" },
+      //   },
+      // },
+    }
+    console.log("getAllSctCallsClient", getAllSctCallsClient);
+    res.json({
+      getAllSctCallsClient: getAllSctCallsClient,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+//sct followup start
+router.post("/get-sct-FollowUp-clients", auth, async (req, res) => {
+  console.log("req", req.body);
+  let { selDate, dateType, fromdate, todate, MonthDate, assignedTo } = req.body;
+  console;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+
+  var dateVal = new Date().toISOString().split("T")[0];
+
+  if (MonthDate) dateVal = MonthDate;
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+
+  if (dateType === "Multi Date") {
+    query = {
+      sctCallFromId,
+      sctCallCategory: { $eq: "F" },
+      sctCallTakenDate: {
+        $gte: fromdate,
+        $lte: todate,
+      },
+    };
+  } else {
+    query = {
+      sctCallCategory: { $eq: "F" },
+
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  }
+  try {
+    let getAllSctCallsClient = [];
+    if (userInfo.empCtAccess === "All") {
+      getAllSctCallsClient = await SctCalls.find(query);
+      // {
+      //   $group: {
+      //     _id: {
+      //       sctCallFromId: "$sctCallFromId",
+      //       sctCallToId: "$sctCallToId",
+      //     },
+      //     sctCallFromId: { $first: "$sctCallFromId" },
+      //     sctCallFromName: { $first: "$sctCallFromName" },
+      //     count: { $sum: 1 },
+      //   },
+      // },
+      // {
+      //   $group: {
+      //     _id: "$sctCallFromId",
+      //     sctCallFromName: { $first: "$sctCallFromName" },
+      //     // countClient: { $sum: 1 },
+      //     // countCall: { $sum: "$count" },
+      //     // sctLeadsCategory: { $first: "$sctLeadsCategory" },
+      //   },
+      // },
+    } else {
+      getAllSctCallsClient = await SctCalls.find(query);
+
+      // {
+      //   $group: {
+      //     _id: "$sctCallToId",
+      //     sctCallFromName: { $first: "$sctCallFromName" },
+      //     // countClient: { $sum: 1 },
+      //     // sctLeadsCategory: { $first: "$sctLeadsCategory" },
+      //   },
+      // },
+    }
+    console.log("getAllSctCallsClient", getAllSctCallsClient);
+    res.json({
+      getAllSctCallsClient: getAllSctCallsClient,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+//sct followup end
+
+//summary data start
+router.post("/get-over-all-summary", auth, async (req, res) => {
+  let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+
+  var dateVal = new Date().toISOString().split("T")[0];
+
+  if (selDate) dateVal = selDate;
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+
+  if (dateType === "Multi Date") {
+    query = {
+      $and: [
+        // sctCallFromId,
+        {
+          $or: [
+            { sctCallCategory: { $eq: "F" } },
+            { sctCallCategory: { $eq: "P" } },
+          ],
+        },
+        {
+          sctCallTakenDate: {
+            $gte: fromdate,
+            $lte: todate,
+          },
+        },
+      ],
+
+      // sctCallCategory: {
+
+      // },
+    };
+  } else {
+    query = {
+      $and: [
+        //sctCallFromId,
+        {
+          $or: [
+            { sctCallCategory: { $eq: "F" } },
+            { sctCallCategory: { $eq: "P" } },
+          ],
+        },
+        {
+          sctCallTakenDate: dateVal,
+        },
+      ],
+
+      //sctCallFromId,
+    };
+  }
+  try {
+    const getAllSctCallsCount = await SctCalls.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$sctCallFromId",
+          sctCallFromName: { $first: "$sctCallFromName" },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    let getAllSctCallsClient = [];
+    if (userInfo.empCtAccess === "All") {
+      getAllSctCallsClient = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $project: {
+            sctCallCategory: "$sctCallCategory",
+            sctLeadsCategory: "$sctLeadsCategory",
+            sctExpectedMonthYear: "$sctExpectedMonthYear",
+            sctCallFromId: "$sctCallFromId",
+            sctCallFromName: "$sctCallFromName",
+            sctCallSalesValue: "$sctCallSalesValue",
+          },
+        },
+        // {
+        //   $group: {
+        //     _id: "$sctCallFromId",
+        //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+        //     sctCallFromName: { $first: "$sctCallFromName" },
+        //     sctCallSalesValue: { $first: "$sctCallSalesValue" },
+        //   },
+        // },
+        //   //   $group: {
+        //   //     _id: {
+        //   //       sctCallFromId: "$sctCallFromId",
+        //   //       sctCallToId: "$sctCallToId",
+        //   //     },
+        //   //     sctCallFromId: { $first: "$sctCallFromId" },
+        //   //     sctCallFromName: { $first: "$sctCallFromName" },
+        //   //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+        //   //     countClient: { $: "$countClient" },
+
+        //   //     count: { $sum: 1 },
+        //   //   },
+        //   // },
+        //   // {
+        //   //   $group: {
+        //   //     _id: "$sctCallFromId",
+        //   //     sctCallFromName: { $first: "$sctCallFromName" },
+        //   //     countClient: { $first: "$countClient" },
+        //   //     countCall: { $sum: "$count" },
+        //   //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+        //   //   },
+        //   // },
+        // },
+      ]);
+    } else {
+      getAllSctCallsClient = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        // {
+        //   $group: {
+        //     _id: "$sctCallToId",
+        //     sctCallFromName: { $first: "$sctCallFromName" },
+        //     countClient: { $first: "$countClient" },
+        //     sctExpectedMonthYear: { $last: "$sctExpectedMonthYear" },
+        //   },
+        // },
+      ]);
+    }
+    console.log("in summary", getAllSctCallsClient);
+    res.json({
+      getAllSctCallsCount: getAllSctCallsCount,
+      getAllSctCallsClient: getAllSctCallsClient,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+//summary data end
+
+//summary for callReport start
+router.post("/get-summary", auth, async (req, res) => {
+  let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+
+  var dateVal = new Date().toISOString().split("T")[0];
+
+  if (selDate) dateVal = selDate;
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+
+  if (dateType === "Multi Date") {
+    query = {
+      $and: [
+        {
+          sctCallFromId,
+          sctLeadsCategory: { $ne: "" },
+          sctExpectedMonthYear: { $ne: null },
+          sctCallTakenDate: {
+            $gte: fromdate,
+            $lte: todate,
+          },
+        },
+        {
+          $or: [
+            { sctCallCategory: { $eq: "F" } },
+            { sctCallCategory: { $eq: "P" } },
+          ],
+        },
+      ],
+    };
+  } else {
+    query = {
+      $and: [
+        {
+          sctCallFromId,
+          sctLeadsCategory: { $ne: "" },
+          sctExpectedMonthYear: { $ne: null },
+
+          $or: [
+            { sctCallCategory: { $eq: "F" } },
+            { sctCallCategory: { $eq: "P" } },
+          ],
+        },
+        {
+          sctCallTakenDate: dateVal,
+        },
+      ],
+    };
+  }
+  console.log(query);
+  try {
+    let getAllSctCalls = [];
+    if (userInfo.empCtAccess === "All") {
+      getAllSctCalls = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: "$sctExpectedMonthYear",
+            countClient: { $sum: 1 },
+            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+          },
+        },
+      ]);
+    } else {
+      getAllSctCalls = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: "$sctExpectedMonthYear",
+            countClient: { $sum: 1 },
+            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+          },
+        },
+      ]);
+    }
+    console.log("getAllsummary", getAllSctCalls);
+    res.json(getAllSctCalls);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+  // try {
+  //   const getAllSctCallsCount = await SctCalls.aggregate([
+  //     {
+  //       $match: query,
+  //     },
+  //     {
+  //       $group: {
+  //         _id: "$sctExpectedMonthYear",
+  //         sctCallFromName: { $first: "$sctCallFromName" },
+  //         count: { $sum: 1 },
+  //       },
+  //     },
+  //   ]);
+  //   let getAllSctCallsClient = [];
+  //   if (userInfo.empCtAccess === "All") {
+  //     getAllSctCallsClient = await SctCalls.aggregate([
+  //       {
+  //         $match: query,
+  //       },
+  //       {
+  //         $group: {
+  //           _id: "$sctExpectedMonthYear",
+  //           countClient: { $sum: "$countClient" },
+
+  //           //sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+  //           sctCallFromName: { $first: "$sctCallFromName" },
+  //           sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+  //         },
+  //       },
+  //       // {
+
+  //       // },
+  //       //   //   $group: {
+  //       //   //     _id: {
+  //       //   //       sctCallFromId: "$sctCallFromId",
+  //       //   //       sctCallToId: "$sctCallToId",
+  //       //   //     },
+  //       //   //     sctCallFromId: { $first: "$sctCallFromId" },
+  //       //   //     sctCallFromName: { $first: "$sctCallFromName" },
+  //       //   //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+  //       //   //     countClient: { $: "$countClient" },
+
+  //       //   //     count: { $sum: 1 },
+  //       //   //   },
+  //       //   // },
+  //       //   // {
+  //       //   //   $group: {
+  //       //   //     _id: "$sctCallFromId",
+  //       //   //     sctCallFromName: { $first: "$sctCallFromName" },
+  //       //   //     countClient: { $first: "$countClient" },
+  //       //   //     countCall: { $sum: "$count" },
+  //       //   //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+  //       //   //   },
+  //       //   // },
+  //       // },
+  //     ]);
+  //   } else {
+  //     getAllSctCallsClient = await SctCalls.aggregate([
+  //       {
+  //         $match: query,
+  //       },
+  //       {
+  //         $group: {
+  //           _id: "$sctExpectedMonthYear",
+  //           sctCallFromName: { $first: "$sctCallFromName" },
+  //           countClient: { $sum: "$countClient" },
+  //           sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+
+  //           // sctExpectedMonthYear: { $last: "$sctExpectedMonthYear" },
+  //         },
+  //       },
+  //     ]);
+  //   }
+  //   console.log("in onlysummary", getAllSctCallsClient);
+  //   res.json({
+  //     getAllSctCallsCount: getAllSctCallsCount,
+  //     getAllSctCallsClient: getAllSctCallsClient,
+  //   });
+  // } catch (err) {
+  //   console.error(err.message);
+  //   res.status(500).send("Internal Server Error.");
+  // }
+});
+//summary for callReport end
+
+//sct call with client sales value start
+router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
+  let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
+  //console.log(req.body)
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  var dateVal = new Date().toISOString().split("T")[0];
+
+  if (selDate) dateVal = selDate;
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+  if (dateType === "Multi Date") {
+    query = {
+      sctCallFromId,
+      sctCallCategory: { $eq: "P" },
+      sctLeadsCategory: { $ne: "" },
+      sctCallTakenDate: {
+        $gte: fromdate,
+        $lte: todate,
+      },
+    };
+  } else {
+    query = {
+      sctCallCategory: { $eq: "P" },
+      sctLeadsCategory: { $ne: "" },
+
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  }
+  try {
+    const getAllSctCallsCount = await SctCalls.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$sctCallFromId",
+          sctCallFromName: { $first: "$sctCallFromName" },
+          count: { $sum: 1 },
+        },
+      },
+    ]).sort({ sctCallFromName: 1 });
+    let getAllSctCalls = [];
+    if (userInfo.empCtAccess === "All") {
+      getAllSctCalls = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: {
+              sctCallFromId: "$sctCallFromId",
+              sctCallToId: "$sctCallToId",
+            },
+            sctCallFromId: { $first: "$sctCallFromId" },
+            sctCallFromName: { $first: "$sctCallFromName" },
+            count: { $sum: 1 },
+            count1: { $sum: "$sctCallSalesValue" },
+            sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+          },
+        },
+        {
+          $group: {
+            _id: "$sctCallFromId",
+            sctCallFromName: { $first: "$sctCallFromName" },
+            countClient: { $sum: 1 },
+            countCall: { $sum: "$count" },
+            sctCallSalesValue: { $sum: "$count1" },
+            sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+          },
+        },
+      ]).sort({ sctCallFromName: 1 });
+    } else {
+      getAllSctCalls = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        // {
+        //   $group: {
+        //     _id: "$sctCallToId",
+        //     sctCallFromName: { $first: "$sctCallFromName" },
+        //     countClient: { $sum: 1 },
+        //     sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+        //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+        //   },
+        // },
+        {
+          $group: {
+            _id: {
+              sctCallFromId: "$sctCallFromId",
+              sctCallToId: "$sctCallToId",
+            },
+            sctCallFromId: { $first: "$sctCallFromId" },
+            sctCallFromName: { $first: "$sctCallFromName" },
+            count: { $sum: 1 },
+            count1: { $sum: "$sctCallSalesValue" },
+            sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+          },
+        },
+        {
+          $group: {
+            _id: "$sctCallFromId",
+            sctCallFromName: { $first: "$sctCallFromName" },
+            countClient: { $sum: 1 },
+            countCall: { $sum: "$count" },
+            sctCallSalesValue: { $sum: "$count1" },
+            sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+          },
+        },
+      ]).sort({ sctCallFromName: 1 });
+    }
+    console.log("getAllSctCalls", getAllSctCalls);
+    res.json({
+      getAllSctCallsCount: getAllSctCallsCount,
+      getAllSctCallsClient: getAllSctCalls,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+//sct call with client sales value end
+
+//followup start
+
+router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
+  let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
+
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
+  var dateVal = new Date().toISOString().split("T")[0];
+
+  if (selDate) dateVal = selDate;
+  let sctCallFromId = "",
+    query = {};
+
+  if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
+  else {
+    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    else sctCallFromId = { $ne: null };
+  }
+  if (dateType === "Multi Date") {
+    query = {
+      sctCallFromId,
+      sctCallCategory: { $eq: "F" },
+      sctCallTakenDate: {
+        $gte: fromdate,
+        $lte: todate,
+      },
+    };
+  } else {
+    query = {
+      sctCallCategory: { $eq: "F" },
+      sctCallTakenDate: dateVal,
+      sctCallFromId,
+    };
+  }
+  //console.log("followup page", query);
+  try {
+    const getAllSctCallsCount = await SctCalls.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$sctCallFromId",
+          sctCallFromName: { $first: "$sctCallFromName" },
+          count: { $sum: 1 },
+        },
+      },
+    ]).sort({ sctCallFromName: 1 });
+    let getAllSctCalls = [];
+    if (userInfo.empCtAccess === "All") {
+      getAllSctCalls = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        {
+          $group: {
+            _id: {
+              sctCallFromId: "$sctCallFromId",
+              sctCallToId: "$sctCallToId",
+            },
+            sctCallFromId: { $first: "$sctCallFromId" },
+            sctCallFromName: { $first: "$sctCallFromName" },
+            count: { $sum: 1 },
+            count1: { $sum: "$sctCallSalesValue" },
+            sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+          },
+        },
+        {
+          $group: {
+            _id: "$sctCallFromId",
+            sctCallFromName: { $first: "$sctCallFromName" },
+            countClient: { $sum: 1 },
+            countCall: { $sum: "$count" },
+            sctCallSalesValue: { $sum: "$count1" },
+            sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+          },
+        },
+      ]).sort({ sctCallFromName: 1 });
+    } else {
+      getAllSctCalls = await SctCalls.aggregate([
+        {
+          $match: query,
+        },
+        // {
+        //   $group: {
+        //     _id: "$sctCallToId",
+        //     sctCallFromName: { $first: "$sctCallFromName" },
+        //     countClient: { $sum: 1 },
+        //     sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+        //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+        //   },
+        // },
+        {
+          $group: {
+            _id: {
+              sctCallFromId: "$sctCallFromId",
+              sctCallToId: "$sctCallToId",
+            },
+            sctCallFromId: { $first: "$sctCallFromId" },
+            sctCallFromName: { $first: "$sctCallFromName" },
+            count: { $sum: 1 },
+            count1: { $sum: "$sctCallSalesValue" },
+            sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+          },
+        },
+        {
+          $group: {
+            _id: "$sctCallFromId",
+            sctCallFromName: { $first: "$sctCallFromName" },
+            countClient: { $sum: 1 },
+            countCall: { $sum: "$count" },
+            sctCallSalesValue: { $sum: "$count1" },
+            sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+          },
+        },
+      ]).sort({ sctCallFromName: 1 });
+    }
+    // console.log("follow up", getAllSctCalls);
+    res.json({
+      getAllSctCallsCount: getAllSctCallsCount,
+      getAllSctCallsClient: getAllSctCalls,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+//followup end
 
 router.post("/check-demo", async (req, res) => {
   const { demoUserId } = req.body;

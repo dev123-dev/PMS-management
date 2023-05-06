@@ -41,6 +41,15 @@ const SctCallsSchema = new mongoose.Schema({
   sctCallNote: {
     type: String,
   },
+  sctExpectedMonth: {
+    type: String,
+  },
+  sctExpectedMonthYear: {
+    type: String,
+  },
+  sctCallSalesValue: {
+    type: Number,
+  },
   sctCallComeFrom: {
     type: String, //Leads or Clients
   },

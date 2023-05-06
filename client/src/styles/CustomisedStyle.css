@@ -628,6 +628,9 @@ p {
   background-color: #456792;
   color: white;
 }
+.botm{
+  z-index: 999;
+}
 
 .doted_hr {
   color: #929596;
@@ -836,14 +839,8 @@ label {
 }
 .fixTableHead {
    overflow-y: auto;
-  height:77.5vh;
-  
-
+  height:77vh;
 }
-
-
-
-
 .fixTableHeadCT{
   overflow-y: auto;
   height:74.5vh;
@@ -2114,7 +2111,9 @@ padding: 0.15rem !important;
 /* side partitions ends */
 
 .seletedrowcolorchange, a:active{
-  background-color: #91908f;
+  /* background-color: #91908f; */
+  background-color: #e2dfd3;
+  
   /* color: white; */
   color: #000;
 }
@@ -2224,4 +2223,21 @@ font-weight: 600;
 .footerfont{
   font-size: 16px;
   font-weight: bold;
+  color:white;
 }
+.footerfont:hover{
+  font-size: 16px;
+  font-weight: bold;
+  color:#ffd037;
+}
+.callreport
+{
+color: #456792;
+font-weight: bold;
+}
+td{
+  text-align: center;
+}
+
+
+

@@ -4,10 +4,12 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
+import DatePicker from "react-datepicker";
 import {
   getSctLeadDetails,
   getSctLeadDetailsDD,
   getSctLastmessage,
+  getPotentialClients,
   getProjectList,
 } from "../../actions/sct";
 import EditSctLead from "./EditSctLead";
@@ -20,9 +22,16 @@ import { getActiveCountry, getActiveState } from "../../actions/regions";
 
 const AllSctPotentials = ({
   auth: { isAuthenticated, user, users, loading },
-  sct: { allSctLeads, allSctLeadsDD, allSctLeadsEmp, projectList },
+  sct: {
+    allSctLeads,
+    allSctLeadsDD,
+    allSctLeadsEmp,
+    projectList,
+    MonthWiseData,
+  },
   regions: { activeCountry, activeState },
   getSctLeadDetails,
+  getPotentialClients,
   getActiveCountry,
   getActiveState,
   getSctLeadDetailsDD,
@@ -31,6 +40,7 @@ const AllSctPotentials = ({
 }) => {
   useEffect(() => {
     getSctLeadDetails();
+    getPotentialClients();
   }, []);
   useEffect(() => {
     getSctLeadDetailsDD();
@@ -150,6 +160,7 @@ const AllSctPotentials = ({
   const onprojectsChange = (e) => {
     getLeadCategoryData("");
     getprojectsData(e);
+    getClientsPhoneData("");
     getclientsData("");
     getempData("");
     setprojectsID(e.projectsId);
@@ -178,6 +189,7 @@ const AllSctPotentials = ({
     getLeadCategoryData("");
     getStateData(e);
     getclientsData("");
+    getClientsPhoneData("");
     getempData("");
     setStateID(e.stateId);
     let searchData = {
@@ -203,6 +215,7 @@ const AllSctPotentials = ({
   const onLeadCategoryChange = (e) => {
     getcountryData("");
     getcountryIdData("");
+    getClientsPhoneData("");
     getclientsData("");
     getempData("");
     getLeadCategoryData(e);
@@ -216,20 +229,20 @@ const AllSctPotentials = ({
       setFilterData(searchData);
     }
   };
-  const [clients, getclientsData] = useState();
-  const [clientsId, getclientsIdData] = useState();
-  const onclientsChange = (e) => {
-    // getclientsData(e);
-    // getclientsIdData(e.clientsId);
-    let searchData = {
-      projectsId: projectsId,
-      stateId: stateId,
-      clientsId: e.clientsId,
-      sctLeadCategory: "P",
-    };
-    getSctLeadDetails(searchData);
-    setFilterData(searchData);
-  };
+  // const [clients, getclientsData] = useState();
+  // const [clientsId, getclientsIdData] = useState();
+  // const onclientsChange = (e) => {
+  //   // getclientsData(e);
+  //   // getclientsIdData(e.clientsId);
+  //   let searchData = {
+  //     projectsId: projectsId,
+  //     stateId: stateId,
+  //     clientsId: e.clientsId,
+  //     sctLeadCategory: "P",
+  //   };
+  //   getSctLeadDetails(searchData);
+  //   setFilterData(searchData);
+  // };
 
   const allemp = [{ empId: null, label: "All", value: null }];
   allSctLeadsEmp.map((emp) =>
@@ -260,6 +273,7 @@ const AllSctPotentials = ({
   const onClickReset = () => {
     getcountryData("");
     getcountryIdData("");
+    getClientsPhoneData("");
     getclientsData("");
     getempData("");
     getSctLeadDetails();
@@ -271,11 +285,105 @@ const AllSctPotentials = ({
     getLeadCategoryData("");
     getStateData("");
   };
-  let count = 0;
-  if (allSctLeads.sctLeadsCategory !== "") {
-    count = allSctLeads.length;
-  }
-  console.log("count", count);
+
+  //comment
+  const [count, setCount] = useState(0);
+
+  // let count = 0;
+  // if (allSctLeads.sctLeadsCategory !== "") {
+  //   count = allSctLeads.length;
+  // }
+  // console.log("count", count);
+  const allclient = [];
+  allSctLeadsDD.map((clients) =>
+    allclient.push({
+      clientsId: clients._id,
+      label: clients.sctCompanyName,
+      value: clients.sctCompanyName,
+    })
+  );
+  const [clients, getclientsData] = useState();
+  const [clientsId, getclientsIdData] = useState();
+  const onclientsChange = (e) => {
+    getclientsData(e);
+    getClientsPhoneData("");
+    getclientsIdData(e.clientsId);
+    let searchData = {
+      projectsId: projectsId,
+      stateId: stateId,
+      clientsId: e.clientsId,
+      sctLeadCategory: "P",
+    };
+    getSctLeadDetails(searchData);
+    setFilterData(searchData);
+  };
+  const allClientPhone = [];
+  allSctLeadsDD &&
+    allSctLeadsDD.map((clients) =>
+      allClientPhone.push({
+        clientsId: clients._id,
+        label: clients.sctPhone1,
+        value: clients.sctPhone1,
+      })
+    );
+  const [clientsPhone, getClientsPhoneData] = useState();
+  const [clientPhoneId, getClientsPhoneIdData] = useState();
+
+  const onClientPhoneChange = (e) => {
+    getClientsPhoneData(e);
+    getclientsData("");
+    getempData("");
+    getClientsPhoneIdData(e.clientsId);
+    setempID("");
+    let searchData = {
+      projectsId: projectsId,
+      stateId: stateId,
+      clientsId: e.clientsId,
+      sctLeadCategory: "P",
+    };
+    getSctLeadDetails(searchData);
+    setFilterData(searchData);
+  };
+
+  const [startclientDate1, setclientDate1] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const [startclientShow1, SetstartclientShow1] = useState("");
+
+  // const MonthYear = [
+  //   { label: "January", value: 1 },
+  //   { label: "Febrery", value: 2 },
+  //   { label: "March", value: 3 },
+  //   { label: "April", value: 4 },
+  //   { label: "May", value: 5 },
+  //   { label: "June", value: 6 },
+  //   { label: "July", value: 7 },
+  //   { label: "August", value: 8 },
+  //   { label: "Septmber", value: 9 },
+  //   { label: "October", value: 10 },
+  //   { label: "November", value: 11 },
+  //   { label: "December", value: 12 },
+  // ];
+  // const onDateChangesingle = (e) => {
+  //   var newDate = e;
+  //   var calDate = new Date(newDate);
+  //   var dd1 = calDate.getDate();
+  //   var mm2 = calDate.getMonth() + 1;
+  //   var yyyy1 = calDate.getFullYear();
+  //   if (dd1 < 10) {
+  //     dd1 = "0" + dd1;
+  //   }
+
+  //   if (mm2 < 10) {
+  //     mm2 = "0" + mm2;
+  //   }
+
+  //   let finalDate = dd1 + "-" + mm2 + "-" + yyyy1;
+  //   SetstartclientShow1(finalDate);
+  //   let last_variable = yyyy1 + "-" + mm2 + "-" + dd1;
+  //   // console.log(last_variable, "last_variable");
+  //   getPotentialClients({ MonthDate: last_variable });
+  // };
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -287,13 +395,22 @@ const AllSctPotentials = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h5 className="heading_color">All Sct Potentials</h5>
             </div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+            {/* <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+              <DatePicker
+                label="Controlled picker"
+                value={startclientShow1}
+                className=" form-control"
+                placeholderText="dd-mm-yyyy"
+                onChange={(newValue) => onDateChangesingle(newValue)}
+              />
+            </div> */}
+            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="sctProjectName"
                 options={allprojects}
                 isSearchable={true}
                 value={projects}
-                placeholder="Select Projects"
+                placeholder="Projects"
                 onChange={(e) => onprojectsChange(e)}
                 theme={(theme) => ({
                   ...theme,
@@ -307,16 +424,27 @@ const AllSctPotentials = ({
                 })}
               />
             </div>
-            {/* <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="stateName"
                 options={allstates}
                 isSearchable={true}
                 value={state}
-                placeholder="Select State"
+                placeholder="State"
                 onChange={(e) => onStateChange(e)}
               />
-            </div> */}
+            </div>
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+              <Select
+                name="companyName"
+                options={allclient}
+                isSearchable={true}
+                value={clients}
+                placeholder="Select Lead"
+                onChange={(e) => onclientsChange(e)}
+              />
+            </div>
+
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="sctLeadsCategory"
@@ -327,6 +455,17 @@ const AllSctPotentials = ({
                 onChange={(e) => onLeadCategoryChange(e)}
               />
             </div>
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+              <Select
+                name="clientPhone"
+                options={allClientPhone}
+                isSearchable={true}
+                value={clientsPhone}
+                placeholder="Phone"
+                onChange={(e) => onClientPhoneChange(e)}
+              />
+            </div>
+
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
               user.userGroupName === "Super Admin" ||
@@ -337,7 +476,7 @@ const AllSctPotentials = ({
                     options={allemp}
                     isSearchable={true}
                     value={emp}
-                    placeholder="Select Emp"
+                    placeholder=" Select Emp"
                     onChange={(e) => onempChange(e)}
                   />
                 </>
@@ -346,7 +485,7 @@ const AllSctPotentials = ({
               )}
             </div>
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-2">
+            <div className="col-lg-1 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -389,6 +528,7 @@ const AllSctPotentials = ({
                             sctCallDate = [ED[2], ED[1], ED[0]].join("-");
                           }
                           if (allSctLeads.sctLeadsCategory !== "") {
+                            //setCount(idx + 1);
                             return (
                               <tr
                                 key={idx}
@@ -602,6 +742,7 @@ export default connect(mapStateToProps, {
   getSctLeadDetailsDD,
   getActiveCountry,
   getSctLastmessage,
+  getPotentialClients,
   getActiveState,
   getProjectList,
 })(AllSctPotentials);

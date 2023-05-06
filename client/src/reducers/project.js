@@ -14,8 +14,11 @@ import {
   AMENDMENT_LAST_HISTORY_PROJECTS,
   AMENDMENT_LAST_COUNTER,
   SELECTED_CLIENT_DATA,
+  SELECTED_PROJECT_DATA,
   CLIENTS_REPORT_DATA,
   CLIENT_JOB_SUMMARY,
+  CLIENT_DATA,
+  ALL_FOLDER,
 } from "../actions/types";
 
 const initialState = {
@@ -31,8 +34,11 @@ const initialState = {
   amendentLastHistory: [],
   amendentLastCounter: [],
   selectedClientData: [],
+  selectedProjectData: [],
   clientsReportData: [],
   clientJobSummary: [],
+  clientsData: [],
+  allfolder: [],
 };
 
 const projects = (state = initialState, action) => {
@@ -45,6 +51,7 @@ const projects = (state = initialState, action) => {
         allProjectStatus: payload,
       };
     case ALL_FOLDER_NAMES:
+      localStorage.setItem("AllFolderNme", JSON.stringify(payload));
       return {
         ...state,
         allFolderName: payload,
@@ -117,16 +124,33 @@ const projects = (state = initialState, action) => {
         ...state,
         selectedClientData: payload,
       };
+    case SELECTED_PROJECT_DATA:
+      return {
+        ...state,
+        selectedProjectData: payload,
+      };
     case CLIENTS_REPORT_DATA:
       return {
         ...state,
         clientsReportData: payload,
       };
+    case CLIENT_DATA:
+      return {
+        ...state,
+        clientsData: payload,
+      };
+
     case CLIENT_JOB_SUMMARY:
       return {
         ...state,
         clientJobSummary: payload,
       };
+    case ALL_FOLDER:
+      return {
+        ...state,
+        allfolder: payload,
+      };
+
     default:
       return state;
   }

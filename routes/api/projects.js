@@ -9,6 +9,7 @@ const ProjectTrack = require("../../models/ProjectTrack");
 const ClientDetails = require("../../models/Client");
 const DctClientDetails = require("../../models/dct/dctClients");
 const AmendmentHistory = require("../../models/AmendmentHistory");
+const dctClients = require("../../models/dct/dctClients");
 
 //ADD
 router.post("/add-project", async (req, res) => {
@@ -269,6 +270,54 @@ router.get("/get-all-folder-name", async (req, res) => {
       },
       { $group: { _id: "$clientFolderName" } },
     ]).sort({ _id: 1 });
+    res.json(allClientFolderDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.get("/get-all-folder", async (req, res) => {
+  try {
+    const allClientFolderDetails = await Project.aggregate([
+      {
+        $match: {
+          projectDate: {
+            $ne: null,
+            $ne: "",
+          },
+        },
+      },
+
+      {
+        $addFields: {
+          projectDate: {
+            $toDate: "$projectDate",
+          },
+        },
+      },
+      // {
+      //   $match: {
+      //     projectDate: {
+      //       $gte: new D,
+      //       $lte: new Date("2023-03-31"),
+      //     },
+      //   },
+      // },
+      {
+        $group: {
+          _id: "$clientFolderName",
+          totQty: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ]);
     res.json(allClientFolderDetails);
   } catch (err) {
     console.error(err.message);
@@ -973,13 +1022,54 @@ router.post("/get-last-amendment-histories", async (req, res) => {
   }
 });
 
+// router.post("/get-selected-client-details", async (req, res) => {
+//   const { clientId } = req.body;
+
+//   try {
+//     const getSelectedClientDetails = await Project.find({
+//       clientId: mongoose.Types.ObjectId(clientId),
+//     });
+//     res.json(getSelectedClientDetails);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Internal Server Error.");
+//   }
+// });
 router.post("/get-selected-client-details", async (req, res) => {
-  const { clientId } = req.body;
+  const { clientName } = req.body;
+
   try {
-    const getSelectedClientDetails = await ClientDetails.findOne({
-      _id: clientId,
+    const getSelectedClientDetails = await dctClients.find({
+      clientName: clientName,
     });
     res.json(getSelectedClientDetails);
+    console.log("getSelectedClientDetails", getSelectedClientDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+router.post("/get-selected-project-details", async (req, res) => {
+  const { projectName, clientId } = req.body;
+
+  let query = {};
+  query = {
+    clientId: {
+      $eq: mongoose.Types.ObjectId(clientId),
+    },
+    projectName: {
+      $eq: projectName,
+    },
+  };
+
+  try {
+    // const getSelectedProjectDetails = await Project.find({
+    //   projectName: projectName,
+    // });
+    const getSelectedProjectDetails = await Project.find(query);
+    console.log("getSelectedProjectDetails", getSelectedProjectDetails);
+
+    res.json(getSelectedProjectDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
