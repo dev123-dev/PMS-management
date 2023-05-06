@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Select from "react-select";
 import Spinner from "../layout/Spinner";
+import { Link } from "react-router-dom";
 
 import {
   getverificationProjectDeatils,
@@ -20,7 +21,7 @@ import { w3cwebsocket } from "websocket";
 //SLAP IP
 const client = new w3cwebsocket("ws://192.168.6.38:8000");
 
-const ClientReportDetails = ({
+const ClientFYReport = ({
   auth: { isAuthenticated, user, users },
   project: { allFolderName },
   client: { activeVerfificationFolders },
@@ -152,7 +153,7 @@ const ClientReportDetails = ({
   );
 };
 
-ClientReportDetails.propTypes = {
+ClientFYReport.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
@@ -175,4 +176,4 @@ export default connect(mapStateToProps, {
   getSelectedClientfolderDeatils,
 
   getVerificationFolder,
-})(ClientReportDetails);
+})(ClientFYReport);
