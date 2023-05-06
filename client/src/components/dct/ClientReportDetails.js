@@ -33,6 +33,7 @@ const ClientReportDetails = ({
   getUpdatedProjectStaus,
   getYear,
   getFYclient,
+  getAllFolder,
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
