@@ -1721,6 +1721,7 @@ router.get("/get-Year", auth, async (req, res) => {
 });
 //Financial year feteching code end
 
+//MOnth wise report start
 router.post("/get-Month-wise-Report", auth, async (req, res) => {
   let data = req.body;
   console.log("xxx", data);
@@ -2086,7 +2087,39 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
     console.log(error.message);
   }
 });
-
+//Month wise report end
+router.post("/get-client-report", auth, async (req, res) => {
+  let data = req.body;
+  // console.log("this is client wise data", data);
+  let query = {
+    projectDate: {
+      $gte: data.startDate,
+      $lte: data.endDate,
+    },
+    clientFolderName: { $eq: data.clientFolderName },
+  };
+  try {
+    let ProjectDetails = await Project.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$projectDate",
+          projectName: { $first: "$projectName" },
+          projectQuantity: { $first: "$projectQuantity" },
+          clientName: { $first: "$clientName" },
+        },
+      },
+    ]);
+    //console.log("xxxxxx", ProjectDetails);
+    res.json(ProjectDetails);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+//Client details start
+//Client details end
 //Get Financial client Details start
 router.post("/get-FY-Client", auth, async (req, res) => {
   let data = req.body;

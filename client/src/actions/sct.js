@@ -868,7 +868,6 @@ export const getMonthWiseClient = (finalData) => async (dispatch) => {
 
 export const getClientDetails = (finalData) => async (dispatch) => {
   try {
-    console.log("inside the acton of get clientDetails", finalData);
     const res = await axios.post(
       "/api/sct/get-client-report",
       finalData,
