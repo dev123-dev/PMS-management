@@ -43,6 +43,7 @@ import {
   MONTH_WISE_DATA_FOLLOWUP,
   FINANCIAL_YEAR,
   FY_CLIENT,
+  FY_CLIENT_MONTHWISE,
 } from "./types";
 
 const config = {
@@ -836,6 +837,26 @@ export const getFYclient = (finalData) => async (dispatch) => {
     //localStorage.setItem("financialYear", JSON.stringify(res.data));
     dispatch({
       type: FY_CLIENT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+//get Month wise Client Report
+export const getMonthWiseClient = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/sct/get-Month-wise-Report",
+      finalData,
+      config
+    );
+    //localStorage.setItem("financialYear", JSON.stringify(res.data));
+    dispatch({
+      type: FY_CLIENT_MONTHWISE,
       payload: res.data,
     });
   } catch (err) {

@@ -38,6 +38,7 @@ import {
   MONTH_WISE_DATA_FOLLOWUP,
   FINANCIAL_YEAR,
   FY_CLIENT,
+  FY_CLIENT_MONTHWISE,
 } from "../actions/types";
 
 const initialState = {
@@ -68,6 +69,7 @@ const initialState = {
   sctClientsDD: [],
   sctClientsEmp: [],
   poPrint: [],
+  FyClientMonthWiseReport: [],
   sctStaffData: [],
   sctLeadsList: [],
   selectedSctClient: null,
@@ -88,6 +90,11 @@ const sct = (state = initialState, action) => {
       return {
         ...state,
         allSctLeads: payload,
+      };
+    case FY_CLIENT_MONTHWISE:
+      return {
+        ...state,
+        FyClientMonthWiseReport: payload,
       };
     case ALL_SCT_LEADS_DD:
       return {

@@ -1721,6 +1721,369 @@ router.get("/get-Year", auth, async (req, res) => {
 });
 //Financial year feteching code end
 
+router.post("/get-Month-wise-Report", auth, async (req, res) => {
+  let data = req.body;
+  console.log("xxx", data);
+  let query = {};
+  if (data.clientName) {
+    query = {
+      projectDate: {
+        $ne: null,
+        $ne: "",
+      },
+
+      clientFolderName: {
+        $eq: data.clientFolderName,
+      },
+      projectDate: {
+        $gte: data.startDate,
+        $lte: data.endDate,
+      },
+    };
+  }
+  try {
+    let MonthWiseData = await Project.aggregate([
+      {
+        $match: query,
+      },
+      //1st
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            projectDate: {
+              $toDate: "$projectDate",
+            },
+          },
+      },
+      //2nd
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            month: {
+              $month: "$projectDate",
+            },
+            year: {
+              $year: "$projectDate",
+            },
+          },
+      },
+      //3rd
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            monthName: {
+              $switch: {
+                branches: [
+                  {
+                    case: {
+                      $eq: ["$month", 1],
+                    },
+                    then: {
+                      $concat: [
+                        "Jan",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 2],
+                    },
+                    then: {
+                      $concat: [
+                        "Feb",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 3],
+                    },
+                    then: {
+                      $concat: [
+                        "Mar",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 4],
+                    },
+                    then: {
+                      $concat: [
+                        "Apr",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 5],
+                    },
+                    then: {
+                      $concat: [
+                        "May",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 6],
+                    },
+                    then: {
+                      $concat: [
+                        "Jun",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 7],
+                    },
+                    then: {
+                      $concat: [
+                        "Jul",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 8],
+                    },
+                    then: {
+                      $concat: [
+                        "Aug",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 9],
+                    },
+                    then: {
+                      $concat: [
+                        "Sep",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 10],
+                    },
+                    then: {
+                      $concat: [
+                        "Oct",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 11],
+                    },
+                    then: {
+                      $concat: [
+                        "Nov",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 12],
+                    },
+                    then: {
+                      $concat: [
+                        "Dec",
+                        "-",
+                        {
+                          $toString: "$year",
+                        },
+                      ],
+                    },
+                  },
+                ],
+                default: "Invalid month",
+              },
+            },
+          },
+      },
+      //4th
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            monthOrdNo: {
+              $switch: {
+                branches: [
+                  {
+                    case: {
+                      $eq: ["$month", 4],
+                    },
+                    then: 1,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 5],
+                    },
+                    then: 2,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 6],
+                    },
+                    then: 3,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 7],
+                    },
+                    then: 4,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 8],
+                    },
+                    then: 5,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 9],
+                    },
+                    then: 6,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 10],
+                    },
+                    then: 7,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 11],
+                    },
+                    then: 8,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 12],
+                    },
+                    then: 9,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 1],
+                    },
+                    then: 10,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 2],
+                    },
+                    then: 11,
+                  },
+                  {
+                    case: {
+                      $eq: ["$month", 3],
+                    },
+                    then: 12,
+                  },
+                ],
+                default: "Invalid no",
+              },
+            },
+          },
+      },
+      //5th
+      {
+        $group:
+          /**
+           * _id: The id of the group.
+           * fieldN: The first field name.
+           */
+          {
+            _id: "$monthName",
+            totProjQty: {
+              $sum: "$projectQuantity",
+            },
+            monthOrdNo: {
+              $first: "$monthOrdNo",
+            },
+          },
+      },
+      //6th
+      {
+        $sort:
+          /**
+           * Provide any number of field/order pairs.
+           */
+          {
+            monthOrdNo: 1,
+          },
+      },
+    ]);
+    console.log("final data", MonthWiseData);
+    res.json(MonthWiseData);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
 //Get Financial client Details start
 router.post("/get-FY-Client", auth, async (req, res) => {
   let data = req.body;
@@ -1735,6 +2098,7 @@ router.post("/get-FY-Client", auth, async (req, res) => {
   let startDta = date.getFullYear() + "-" + "03" + "-" + "01";
   let endday = defaultEnd + "-" + "04" + "-" + "31";
   let query = {};
+
   if (folderData) {
     query = {
       clientFolderName: { $eq: folderData },
