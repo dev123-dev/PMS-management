@@ -1724,17 +1724,40 @@ router.get("/get-Year", auth, async (req, res) => {
 //Get Financial client Details start
 router.post("/get-FY-Client", auth, async (req, res) => {
   let data = req.body;
-  console.log("api financial data=", data);
+  console.log("api data", data);
+
+  let folderData = data.folder;
   let startDate = data.startDate;
   let endDate = data.endDate;
-  let query = {
-    projectDate: {
-      $gte: startDate,
-      $lte: endDate,
-    },
-  };
+
+  let date = new Date();
+  let defaultEnd = date.getFullYear() + 1;
+  let startDta = date.getFullYear() + "-" + "03" + "-" + "01";
+  let endday = defaultEnd + "-" + "04" + "-" + "31";
+  let query = {};
+  if (folderData) {
+    query = {
+      clientFolderName: { $eq: folderData },
+    };
+  } else if (startDate && endDate) {
+    query = {
+      projectDate: {
+        $gte: startDate,
+        $lte: endDate,
+      },
+    };
+  } else {
+    query = {
+      projectDate: {
+        $gte: startDta,
+        $lte: endday,
+      },
+    };
+  }
+
   try {
     let projectDetails = await Project.find(query);
+    console.log();
     res.json(projectDetails);
   } catch (error) {
     console.log(error.message);

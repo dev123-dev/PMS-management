@@ -40,6 +40,7 @@ const ClientReportDetails = ({
 
   useEffect(() => {
     getYear();
+    getFYclient();
   }, []);
   useEffect(() => {
     client.onopen = () => {
@@ -63,7 +64,6 @@ const ClientReportDetails = ({
     let folderData = {
       folder: e.value,
     };
-    console.log("folderData", folderData);
     getFYclient(folderData);
   };
   const [startDate, setStartDate] = useState("");
@@ -123,7 +123,7 @@ const ClientReportDetails = ({
       endDate: endDate,
     };
     console.log("finalData", finalData);
-    // getShgMembers(finalData);
+    getFYclient(finalData);
     // setSubmitted(true);
   };
   return !isAuthenticated || !user || !users ? (
