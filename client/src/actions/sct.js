@@ -44,6 +44,7 @@ import {
   FINANCIAL_YEAR,
   FY_CLIENT,
   FY_CLIENT_MONTHWISE,
+  CLIENT_WISE,
 } from "./types";
 
 const config = {
@@ -874,10 +875,10 @@ export const getClientDetails = (finalData) => async (dispatch) => {
       config
     );
     //localStorage.setItem("financialYear", JSON.stringify(res.data));
-    // dispatch({
-    //   type: FY_CLIENT_MONTHWISE,
-    //   payload: res.data,
-    // });
+    dispatch({
+      type: CLIENT_WISE,
+      payload: res.data,
+    });
   } catch (err) {
     dispatch({
       type: ERROR,

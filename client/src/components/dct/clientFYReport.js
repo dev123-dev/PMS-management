@@ -35,7 +35,6 @@ const ClientFYReport = ({
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
-  console.log("FyClientMonthWiseReport", FyClientMonthWiseReport);
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -118,7 +117,7 @@ const ClientFYReport = ({
         return ele.value;
       }
     });
-    console.log("xxx", MonthValue);
+
     var lDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     let firstDay = fDay.getDate();
     let lastDay = lDay.getDate();
@@ -160,12 +159,12 @@ const ClientFYReport = ({
               >
                 Back
               </Link>
-              <button
+              {/* <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
               >
                 Refresh
-              </button>
+              </button> */}
             </div>
           </div>
           <div className="row">

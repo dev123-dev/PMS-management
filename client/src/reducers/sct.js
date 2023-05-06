@@ -39,6 +39,7 @@ import {
   FINANCIAL_YEAR,
   FY_CLIENT,
   FY_CLIENT_MONTHWISE,
+  CLIENT_WISE,
 } from "../actions/types";
 
 const initialState = {
@@ -81,6 +82,7 @@ const initialState = {
   allLeadEnteredToday: [],
   sctCallsClientCount: [],
   FYclient: [],
+  clientwise: [],
 };
 
 const sct = (state = initialState, action) => {
@@ -96,6 +98,12 @@ const sct = (state = initialState, action) => {
         ...state,
         FyClientMonthWiseReport: payload,
       };
+    case CLIENT_WISE:
+      return {
+        ...state,
+        clientwise: payload,
+      };
+
     case ALL_SCT_LEADS_DD:
       return {
         ...state,

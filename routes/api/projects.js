@@ -277,6 +277,22 @@ router.get("/get-all-folder-name", async (req, res) => {
   }
 });
 
+router.get("/get-all-folder", async (req, res) => {
+  try {
+    const allClientFolderDetails = await Project.aggregate([
+      {
+        $match: { projectStatus: { $eq: "Active" } },
+      },
+
+      { $group: { _id: "$clientFolderName" } },
+    ]).sort({ _id: 1 });
+    res.json(allClientFolderDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 router.get("/get-active-project-status", async (req, res) => {
   try {
     const activeProjectStatus = await ProjectStatus.find({

@@ -25,6 +25,7 @@ const ClientMonthReport = ({
   auth: { isAuthenticated, user, users },
   project: { allFolderName },
   client: { activeVerfificationFolders },
+  sct: { clientwise },
 
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
@@ -33,7 +34,6 @@ const ClientMonthReport = ({
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
-  console.log("allFolderName", allFolderName);
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -105,12 +105,12 @@ const ClientMonthReport = ({
               >
                 Back
               </Link>
-              <button
+              {/* <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
               >
                 Refresh
-              </button>
+              </button> */}
             </div>
           </div>
           <div className="row">
@@ -125,18 +125,33 @@ const ClientMonthReport = ({
                     <thead>
                       <tr>
                         <th>Sl no</th>
-                        <th>Month</th>
+                        <th>client Name</th>
 
                         <th>Project Name</th>
+                        <th>Project Date</th>
 
                         <th>Project QTY</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      {clientwise &&
+                        clientwise.map((client, idx) => {
+                          var projectdate = "";
+                          if (client._id) {
+                            var ED1 = client._id.split(/\D/g);
+                            projectdate = [ED1[2], ED1[1], ED1[0]].join("-");
+                          }
+                          return (
+                            <tr key={idx}>
+                              <td>{idx + 1}</td>
+                              <td>{client.clientName}</td>
+                              <td>{client.projectName}</td>
+                              <td>{projectdate}</td>
+
+                              <td>{client.projectQuantity}</td>
+                            </tr>
+                          );
+                        })}
                     </tbody>
                   </table>
                 </div>
@@ -171,6 +186,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   project: state.project,
   client: state.client,
+  sct: state.sct,
 });
 
 export default connect(mapStateToProps, {
