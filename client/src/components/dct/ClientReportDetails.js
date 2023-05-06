@@ -11,7 +11,7 @@ import {
   getAllFolder,
   getSelectedClientfolderDeatils,
 } from "../../actions/projects";
-import { getYear } from "../../actions/sct";
+import { getYear, getFYclient } from "../../actions/sct";
 import { getVerificationFolder } from "../../actions/client";
 
 import { getAllchanges, getUpdatedProjectStaus } from "../../actions/projects";
@@ -30,6 +30,7 @@ const ClientReportDetails = ({
   getAllProjectStatusVerification,
   getUpdatedProjectStaus,
   getYear,
+  getFYclient,
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
@@ -51,44 +52,17 @@ const ClientReportDetails = ({
   useEffect(() => {
     getAllFolder();
   }, [getAllFolder]);
-  useEffect(() => {
-    getverificationProjectDeatils();
-  }, [getverificationProjectDeatils]);
-  useEffect(() => {
-    getAllProjectStatusVerification();
-  }, [getAllProjectStatusVerification]);
-  useEffect(() => {
-    getVerificationFolder();
-  }, [getVerificationFolder]);
-  // useEffect(() => {
-  //   getVerificationClients();
-  // }, [getVerificationClients]);
-  useEffect(() => {
-    getSelectedClientfolderDeatils({
-      clientFolderName: allFolderName && allFolderName.clientFolderName,
-    });
-  }, [getSelectedClientfolderDeatils]);
 
-  const [projectStatusData, setProjectStatusData] = useState("");
-  const [singledate, setsingledate] = useState("");
-
-  const activeFolderOpt = [];
-  activeVerfificationFolders.map((folderData) =>
-    activeFolderOpt.push({
-      label: folderData.clientFolderName,
-      value: folderData.clientFolderName,
-    })
-  );
   const [clientData, setClientData1] = useState("");
   const [Year, setYear] = useState("");
 
   const onfolderClientChange = (e) => {
     setClientData1(e);
-    let selDateData = {
-      folder: e.value,
-      statusId: projectStatusData.value,
-      dateVal: singledate,
-    };
+    // let selDateData = {
+    //   folder: e.value,
+    //   statusId: projectStatusData.value,
+    //   dateVal: singledate,
+    // };
   };
 
   const onYearChange = (e) => {
@@ -120,11 +94,8 @@ const ClientReportDetails = ({
   );
 
   const onClickReset = () => {
-    getverificationProjectDeatils("");
+    setYear("");
 
-    setProjectStatusData("");
-
-    setsingledate("");
     setClientData1("");
   };
 
@@ -247,5 +218,6 @@ export default connect(mapStateToProps, {
   getAllFolder,
   getSelectedClientfolderDeatils,
   getYear,
+  getFYclient,
   getVerificationFolder,
 })(ClientReportDetails);
