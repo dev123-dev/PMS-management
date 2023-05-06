@@ -1573,7 +1573,6 @@ router.post("/get-client-report-details", auth, async (req, res) => {
 //client report detail page end
 
 //Financial year feteching code start
-
 router.get("/get-Year", auth, async (req, res) => {
   let query = {
     projectDate: {
@@ -1720,8 +1719,17 @@ router.get("/get-Year", auth, async (req, res) => {
     console.log(error.mesage);
   }
 });
-
 //Financial year feteching code end
+
+//Get Financial client Details start
+router.post("/get-FY-Client", auth, async (req, res) => {
+  try {
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+//Get Financial Client Details end
 
 //sct all clients count and list start
 
