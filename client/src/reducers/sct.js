@@ -37,6 +37,7 @@ import {
   ONLY_SUMMARY,
   MONTH_WISE_DATA_FOLLOWUP,
   FINANCIAL_YEAR,
+  FY_CLIENT,
 } from "../actions/types";
 
 const initialState = {
@@ -77,6 +78,7 @@ const initialState = {
   sctCallsCount: [],
   allLeadEnteredToday: [],
   sctCallsClientCount: [],
+  FYclient: [],
 };
 
 const sct = (state = initialState, action) => {
@@ -102,6 +104,12 @@ const sct = (state = initialState, action) => {
         ...state,
         financiaYEAR: payload,
       };
+    case FY_CLIENT:
+      return {
+        ...state,
+        FYclient: payload,
+      };
+
     case MONTH_WISE_DATA:
       return {
         ...state,

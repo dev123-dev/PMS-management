@@ -33,6 +33,9 @@ const ClientReportDetails = ({
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
+  let financialyear = JSON.parse(localStorage.getItem("financialYear"));
+
+  console.log("financialyear", financialyear);
   useEffect(() => {
     getYear();
   }, []);
@@ -76,6 +79,8 @@ const ClientReportDetails = ({
       value: folderData.clientFolderName,
     })
   );
+  const [clientData, setClientData1] = useState("");
+  const [Year, setYear] = useState("");
 
   const onfolderClientChange = (e) => {
     setClientData1(e);
@@ -86,6 +91,34 @@ const ClientReportDetails = ({
     };
   };
 
+  const onYearChange = (e) => {
+    setYear(e);
+    let selYear = {
+      startDate: e.value.startDate,
+      endDate: e.value.endDate,
+    };
+    console.log("selYear", selYear);
+    getFYclient(selYear);
+
+    // let selDateData = {
+    //   folder: e.value,
+    //   statusId: projectStatusData.value,
+    //   dateVal: singledate,
+    // };
+  };
+
+  const year = [];
+  financialyear.map((ele) =>
+    year.push({
+      value: {
+        startDate: ele.startDate,
+        endDate: ele.endDate,
+      },
+
+      label: ele._id,
+    })
+  );
+
   const onClickReset = () => {
     getverificationProjectDeatils("");
 
@@ -94,8 +127,6 @@ const ClientReportDetails = ({
     setsingledate("");
     setClientData1("");
   };
-
-  const [clientData, setClientData1] = useState("");
 
   const activeClientsOpt = [];
   allFolderName &&
@@ -119,11 +150,11 @@ const ClientReportDetails = ({
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="projectStatusData"
-                // options={projectStatusOpt}
-                // value={projectStatusData}
+                options={year}
+                value={Year}
                 isSearchable={true}
                 placeholder="Select"
-                // onChange={(e) => onProjectStatusChange(e)}
+                onChange={(e) => onYearChange(e)}
               />
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
