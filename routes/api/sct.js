@@ -2064,6 +2064,9 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
             monthOrdNo: {
               $first: "$monthOrdNo",
             },
+            clientFolderName: {
+              $first: "$clientFolderName",
+            },
           },
       },
       //6th

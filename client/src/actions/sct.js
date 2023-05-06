@@ -866,6 +866,26 @@ export const getMonthWiseClient = (finalData) => async (dispatch) => {
   }
 };
 
+export const getClientDetails = (finalData) => async (dispatch) => {
+  try {
+    console.log("inside the acton of get clientDetails", finalData);
+    const res = await axios.post(
+      "/api/sct/get-client-report",
+      finalData,
+      config
+    );
+    //localStorage.setItem("financialYear", JSON.stringify(res.data));
+    // dispatch({
+    //   type: FY_CLIENT_MONTHWISE,
+    //   payload: res.data,
+    // });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
 export const getAllSctCallClientCount = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post(

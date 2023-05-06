@@ -13,7 +13,7 @@ import {
   getSelectedClientfolderDeatils,
 } from "../../actions/projects";
 import { getVerificationFolder } from "../../actions/client";
-import { getClientDetails } from "../../actions/sct";
+
 import { getAllchanges, getUpdatedProjectStaus } from "../../actions/projects";
 import { w3cwebsocket } from "websocket";
 
@@ -21,21 +21,19 @@ import { w3cwebsocket } from "websocket";
 //SLAP IP
 const client = new w3cwebsocket("ws://192.168.6.38:8000");
 
-const ClientFYReport = ({
+const ClientMonthReport = ({
   auth: { isAuthenticated, user, users },
   project: { allFolderName },
-  sct: { FyClientMonthWiseReport },
   client: { activeVerfificationFolders },
 
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
   getUpdatedProjectStaus,
-  getAllFolder,
-  getClientDetails,
+
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
-  console.log("FyClientMonthWiseReport", FyClientMonthWiseReport);
+  console.log("allFolderName", allFolderName);
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -89,59 +87,6 @@ const ClientFYReport = ({
         value: clientsData._id,
       })
     );
-
-  const MonthYear = [
-    { label: "Jan", value: 1 },
-    { label: "Feb", value: 2 },
-    { label: "Mar", value: 3 },
-    { label: "Apr", value: 4 },
-    { label: "May", value: 5 },
-    { label: "Jun", value: 6 },
-    { label: "Jul", value: 7 },
-    { label: "Aug", value: 8 },
-    { label: "Sep", value: 9 },
-    { label: "Oct", value: 10 },
-    { label: "Nov", value: 11 },
-    { label: "Dec", value: 12 },
-  ];
-
-  const handleGoToAllMember = (clientmonth) => {
-    //console.log("clientMonth", clientmonth);
-    let MonthWiseData = clientmonth._id;
-    let date = new Date();
-    var fDay = new Date(date.getFullYear(), date.getMonth() + 1);
-    let data = MonthWiseData.split("-");
-    let year = data[1];
-    let month = data[0];
-    const MonthValue = MonthYear.filter((ele) => {
-      if (ele.label === month) {
-        return ele.value;
-      }
-    });
-    console.log("xxx", MonthValue);
-    var lDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    let firstDay = fDay.getDate();
-    let lastDay = lDay.getDate();
-
-    if (MonthValue[0].value < 10) {
-      MonthValue[0].value = "0" + MonthValue[0].value;
-    }
-    if (firstDay < 10) {
-      firstDay = "0" + fDay.getDate();
-    }
-
-    let startDate = year + "-" + MonthValue[0].value + "-" + firstDay;
-
-    let endDate = year + "-" + MonthValue[0].value + "-" + lastDay;
-    let finalData = {
-      clientFolderName: clientmonth.clientFolderName,
-      startDate: startDate,
-      endDate: endDate,
-    };
-
-    getClientDetails(finalData);
-    // setSubmitted(true);
-  };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -150,13 +95,13 @@ const ClientFYReport = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-6 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Client FY Report</h5>
+              <h5 className="heading_color">Client Month Report</h5>
             </div>
 
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
               <Link
                 className="btn btn_green_bg float-right"
-                to="/client-report-detail"
+                to="/client-fy-report"
               >
                 Back
               </Link>
@@ -182,39 +127,16 @@ const ClientFYReport = ({
                         <th>Sl no</th>
                         <th>Month</th>
 
-                        <th>Orders</th>
+                        <th>Project Name</th>
 
                         <th>Project QTY</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {FyClientMonthWiseReport &&
-                        FyClientMonthWiseReport.map((clientmonth, idx) => {
-                          var projectdate = "";
-                          if (client.projectDate) {
-                            var ED1 = client.projectDate.split(/\D/g);
-                            projectdate = [ED1[2], ED1[1], ED1[0]].join("-");
-                          }
-                          return (
-                            <tr key={idx}>
-                              <td>{idx + 1}</td>
-                              <td>
-                                <Link
-                                  to="/client-month-report"
-                                  className="btnLink"
-                                  onClick={() =>
-                                    handleGoToAllMember(clientmonth)
-                                  }
-                                >
-                                  {clientmonth._id}
-                                </Link>
-                              </td>
-                              <td>{clientmonth.monthOrdNo}</td>
-
-                              <td>{clientmonth.totProjQty}</td>
-                            </tr>
-                          );
-                        })}
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
                     </tbody>
                   </table>
                 </div>
@@ -237,7 +159,7 @@ const ClientFYReport = ({
   );
 };
 
-ClientFYReport.propTypes = {
+ClientMonthReport.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
@@ -249,7 +171,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   project: state.project,
   client: state.client,
-  sct: state.sct,
 });
 
 export default connect(mapStateToProps, {
@@ -258,8 +179,7 @@ export default connect(mapStateToProps, {
   getAllProjectStatusVerification,
   getUpdatedProjectStaus,
   getAllFolder,
-  getClientDetails,
   getSelectedClientfolderDeatils,
 
   getVerificationFolder,
-})(ClientFYReport);
+})(ClientMonthReport);
