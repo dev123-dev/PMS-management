@@ -831,9 +831,8 @@ export const getYear = () => async (dispatch) => {
 
 //Year extract
 export const getFYclient = (finalData) => async (dispatch) => {
-  console.log("finaldata", finalData);
   try {
-    const res = await axios.get("/api/sct/get-FY-Client", finalData, config);
+    const res = await axios.post("/api/sct/get-FY-Client", finalData, config);
     //localStorage.setItem("financialYear", JSON.stringify(res.data));
     dispatch({
       type: FY_CLIENT,

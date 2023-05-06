@@ -71,7 +71,6 @@ const ClientReportDetails = ({
       startDate: e.value.startDate,
       endDate: e.value.endDate,
     };
-    console.log("selYear", selYear);
     getFYclient(selYear);
 
     // let selDateData = {
@@ -82,16 +81,17 @@ const ClientReportDetails = ({
   };
 
   const year = [];
-  financialyear.map((ele) =>
-    year.push({
-      value: {
-        startDate: ele.startDate,
-        endDate: ele.endDate,
-      },
+  financialyear &&
+    financialyear.map((ele) =>
+      year.push({
+        value: {
+          startDate: ele.startDate,
+          endDate: ele.endDate,
+        },
 
-      label: ele._id,
-    })
-  );
+        label: ele._id,
+      })
+    );
 
   const onClickReset = () => {
     setYear("");

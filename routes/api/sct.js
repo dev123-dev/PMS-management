@@ -1723,7 +1723,19 @@ router.get("/get-Year", auth, async (req, res) => {
 
 //Get Financial client Details start
 router.post("/get-FY-Client", auth, async (req, res) => {
+  let data = req.body;
+  console.log("api financial data=", data);
+  let startDate = data.startDate;
+  let endDate = data.endDate;
+  let query = {
+    projectDate: {
+      $gte: startDate,
+      $lte: endDate,
+    },
+  };
   try {
+    let projectDetails = await Project.find(query);
+    res.json(projectDetails);
   } catch (error) {
     console.log(error.message);
   }
