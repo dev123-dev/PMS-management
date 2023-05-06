@@ -107,6 +107,8 @@ import CallReport from "../sct/CallReport";
 import PotentialHistory from "../sct/PotentialHistory";
 import FollowupHistory from "../sct/FollowupHistory";
 import ClientReportDetails from "../dct/ClientReportDetails";
+import clientFYReport from "../dct/clientFYReport";
+import clientMonthwiseReport from "../dct/clientMonthwiseReport";
 
 const RoutesFile = () => {
   return (
@@ -300,6 +302,12 @@ const RoutesFile = () => {
           path="/client-report-detail"
           component={ClientReportDetails}
         />
+        <PrivateRoute
+          exact
+          path="/client-FY-report"
+          component={clientFYReport}
+        />
+
         <PrivateRoute exact path="/add-project" component={AddProject} />
         <PrivateRoute
           exact
