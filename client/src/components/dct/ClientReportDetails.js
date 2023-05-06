@@ -11,6 +11,7 @@ import {
   getAllFolder,
   getSelectedClientfolderDeatils,
 } from "../../actions/projects";
+import { getYear } from "../../actions/sct";
 import { getVerificationFolder } from "../../actions/client";
 
 import { getAllchanges, getUpdatedProjectStaus } from "../../actions/projects";
@@ -28,11 +29,13 @@ const ClientReportDetails = ({
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
   getUpdatedProjectStaus,
-
+  getYear,
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
-  console.log("allFolderName", allFolderName);
+  useEffect(() => {
+    getYear();
+  }, []);
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -59,7 +62,7 @@ const ClientReportDetails = ({
   // }, [getVerificationClients]);
   useEffect(() => {
     getSelectedClientfolderDeatils({
-      clientFolderName: allFolderName.clientFolderName,
+      clientFolderName: allFolderName && allFolderName.clientFolderName,
     });
   }, [getSelectedClientfolderDeatils]);
 
@@ -202,6 +205,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   project: state.project,
   client: state.client,
+  sct: state.sct,
 });
 
 export default connect(mapStateToProps, {
@@ -211,6 +215,6 @@ export default connect(mapStateToProps, {
   getUpdatedProjectStaus,
   getAllFolder,
   getSelectedClientfolderDeatils,
-
+  getYear,
   getVerificationFolder,
 })(ClientReportDetails);

@@ -41,6 +41,7 @@ import {
   SCT_CALLS_CLIENT_COUNT,
   ONLY_SUMMARY,
   MONTH_WISE_DATA_FOLLOWUP,
+  FINANCIAL_YEAR,
 } from "./types";
 
 const config = {
@@ -812,13 +813,14 @@ export const getOverAllSummary = (finalData) => async (dispatch) => {
 
 //Year extract
 export const getYear = () => async (dispatch) => {
+  console.log("in action of get year");
   try {
-    const res = await axios.post("/api/sct/get-Year", config);
-    localStorage.setItem("allfollowup", JSON.stringify(res.data));
-    // dispatch({
-    //   type: SCT_CALLS_FOLLOWUP,
-    //   payload: res.data,
-    // });
+    const res = await axios.get("/api/sct/get-Year", config);
+    localStorage.setItem("financialYear", JSON.stringify(res.data));
+    dispatch({
+      type: FINANCIAL_YEAR,
+      payload: res.data,
+    });
   } catch (err) {
     dispatch({
       type: ERROR,

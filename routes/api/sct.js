@@ -1572,6 +1572,157 @@ router.post("/get-client-report-details", auth, async (req, res) => {
 
 //client report detail page end
 
+//Financial year feteching code start
+
+router.get("/get-Year", auth, async (req, res) => {
+  let query = {
+    projectDate: {
+      $ne: null,
+      $ne: "",
+    },
+  };
+  try {
+    let financialYear = [];
+    financialYear = await Project.aggregate([
+      {
+        $match: query,
+      },
+      //2nd
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            projectDate: {
+              $toDate: "$projectDate",
+            },
+          },
+      },
+      //3rd adding new field financial year and extracting year
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            financialYear: {
+              $cond: [
+                {
+                  $gte: [
+                    {
+                      $month: "$projectDate",
+                    },
+
+                    ,
+                  ],
+                },
+                {
+                  $concat: [
+                    {
+                      $toString: {
+                        $year: "$projectDate",
+                      },
+                    },
+                    "-",
+                    {
+                      $toString: {
+                        $add: [
+                          {
+                            $year: "$projectDate",
+                          },
+                          1,
+                        ],
+                      },
+                    },
+                  ],
+                },
+                {
+                  $concat: [
+                    {
+                      $toString: {
+                        $subtract: [
+                          {
+                            $year: "$projectDate",
+                          },
+                          1,
+                        ],
+                      },
+                    },
+                    "-",
+                    {
+                      $toString: {
+                        $year: "$projectDate",
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+      },
+      //4th
+      {
+        $group:
+          /**
+           * _id: The id of the group.
+           * fieldN: The first field name.
+           */
+          {
+            _id: "$financialYear",
+            totQty: {
+              $sum: 1,
+            },
+          },
+      },
+      //5th
+      {
+        $sort:
+          /**
+           * specifications: The fields to
+           *   include or exclude.
+           */
+          {
+            _id: -1,
+          },
+      },
+      //6th
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            startDate: {
+              $concat: [
+                {
+                  $substr: ["$_id", 0, 4],
+                },
+                "-04-01",
+              ],
+            },
+            endDate: {
+              $concat: [
+                {
+                  $substr: ["$_id", 5, 4],
+                },
+                "-03-31",
+              ],
+            },
+          },
+      },
+    ]);
+    res.json(financialYear);
+  } catch (error) {
+    console.log(error.mesage);
+  }
+});
+
+//Financial year feteching code end
+
 //sct all clients count and list start
 
 router.post("/get-all-sct-calls-count", auth, async (req, res) => {
