@@ -105,7 +105,6 @@ const ClientFYReport = ({
   ];
 
   const handleGoToAllMember = (clientmonth) => {
-    //console.log("clientMonth", clientmonth);
     let MonthWiseData = clientmonth._id;
     let date = new Date();
     var fDay = new Date(date.getFullYear(), date.getMonth() + 1);
@@ -117,7 +116,6 @@ const ClientFYReport = ({
         return ele.value;
       }
     });
-
     var lDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     let firstDay = fDay.getDate();
     let lastDay = lDay.getDate();
@@ -137,7 +135,6 @@ const ClientFYReport = ({
       startDate: startDate,
       endDate: endDate,
     };
-
     getClientDetails(finalData);
     // setSubmitted(true);
   };
@@ -149,7 +146,7 @@ const ClientFYReport = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-6 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Client FY Report</h5>
+              <h4 className="heading_color">Client FY Report</h4>
             </div>
 
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
@@ -171,7 +168,6 @@ const ClientFYReport = ({
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHead">
-                  <br />
                   <table
                     className="table table-bordered table-striped table-hover smll_row"
                     id="datatable2"
@@ -179,11 +175,8 @@ const ClientFYReport = ({
                     <thead>
                       <tr>
                         <th>Sl no</th>
-                        <th>Month</th>
-
-                        <th>Orders</th>
-
-                        <th>Project QTY</th>
+                        <th>Month-Year</th>
+                        <th>Total Qty</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -208,7 +201,6 @@ const ClientFYReport = ({
                                   {clientmonth._id}
                                 </Link>
                               </td>
-                              <td>{clientmonth.monthOrdNo}</td>
 
                               <td>{clientmonth.totProjQty}</td>
                             </tr>
@@ -222,14 +214,14 @@ const ClientFYReport = ({
           </div>
         </section>
 
-        <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
+        <div className="row col-md-12 col-lg-12 col-sm-12 col-12 py-2 bottmAlgmnt">
           <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
-          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
+          {/* <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             <span className="footerfont"> Projects:</span>
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             <span className="footerfont">Quantity:</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </Fragment>

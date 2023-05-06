@@ -39,7 +39,6 @@ const ClientReportDetails = ({
   getSelectedClientfolderDeatils,
 }) => {
   let financialyear = JSON.parse(localStorage.getItem("financialYear"));
-  console.log("allfolder", allfolder);
 
   useEffect(() => {
     getYear();
@@ -131,7 +130,7 @@ const ClientReportDetails = ({
       startDate: client.projectDate,
       endDate: endday,
     };
-    console.log("finalData", finalData);
+
     getMonthWiseClient(finalData);
     // setSubmitted(true);
   };
@@ -143,7 +142,7 @@ const ClientReportDetails = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Client Report Details</h5>
+              <h4 className="heading_color">Client Report Details</h4>
             </div>
 
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -167,7 +166,7 @@ const ClientReportDetails = ({
               />
             </div>
 
-            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2">
+            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 float-right">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -188,10 +187,7 @@ const ClientReportDetails = ({
                       <tr>
                         <th>Sl no</th>
                         <th>Client Name</th>
-                        <th>Client Type</th>
-                        <th>Project Name</th>
-                        <th>Project date</th>
-                        <th>Project QTY</th>
+                        <th>Total Qty</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -211,13 +207,11 @@ const ClientReportDetails = ({
                                   className="btnLink"
                                   onClick={() => handleGoToAllMember(client)}
                                 >
-                                  {client.clientName}
+                                  {client._id}
                                 </Link>
                               </td>
-                              <td>{client.clientTypeVal}</td>
-                              <td>{client.projectName}</td>
-                              <td>{projectdate}</td>
-                              <td>{client.projectQuantity}</td>
+
+                              <td>{client.totQty}</td>
                             </tr>
                           );
                         })}

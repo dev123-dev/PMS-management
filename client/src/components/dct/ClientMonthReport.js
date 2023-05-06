@@ -95,7 +95,7 @@ const ClientMonthReport = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-6 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Client Month Report</h5>
+              <h4 className="heading_color">Client Month Report For </h4>
             </div>
 
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
@@ -117,7 +117,6 @@ const ClientMonthReport = ({
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHead">
-                  <br />
                   <table
                     className="table table-bordered table-striped table-hover smll_row"
                     id="datatable2"
@@ -125,30 +124,25 @@ const ClientMonthReport = ({
                     <thead>
                       <tr>
                         <th>Sl no</th>
-                        <th>client Name</th>
-
-                        <th>Project Name</th>
                         <th>Project Date</th>
-
-                        <th>Project QTY</th>
+                        <th>Project Name</th>
+                        <th>Project Qty</th>
                       </tr>
                     </thead>
                     <tbody>
                       {clientwise &&
                         clientwise.map((client, idx) => {
-                          var projectdate = "";
+                          var projectDate = "";
                           if (client._id) {
-                            var ED1 = client._id.split(/\D/g);
-                            projectdate = [ED1[2], ED1[1], ED1[0]].join("-");
+                            var ED1 = client.projectDate.split(/\D/g);
+                            projectDate = [ED1[2], ED1[1], ED1[0]].join("-");
                           }
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-                              <td>{client.clientName}</td>
+                              <td>{projectDate}</td>
                               <td>{client.projectName}</td>
-                              <td>{projectdate}</td>
-
-                              <td>{client.projectQuantity}</td>
+                              <td>{client.projectQty}</td>
                             </tr>
                           );
                         })}
@@ -160,14 +154,14 @@ const ClientMonthReport = ({
           </div>
         </section>
 
-        <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
+        <div className="row col-md-12 col-lg-12 col-sm-12 col-12 py-2 bottmAlgmnt">
           <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
-          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
+          {/* <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             <span className="footerfont"> Projects:</span>
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             <span className="footerfont">Quantity:</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </Fragment>

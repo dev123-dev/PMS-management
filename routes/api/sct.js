@@ -1557,8 +1557,7 @@ router.post("/get-client-report-details", auth, async (req, res) => {
         },
       },
       {
-        $group: {
-          _id: "$month",
+        $project: {
           totProjQty: {
             $sum: "$projectQuantity",
           },
@@ -1723,31 +1722,24 @@ router.get("/get-Year", auth, async (req, res) => {
 
 //MOnth wise report start
 router.post("/get-Month-wise-Report", auth, async (req, res) => {
-  let data = req.body;
-  console.log("xxx", data);
-  let query = {};
-  if (data.clientName) {
-    query = {
-      projectDate: {
-        $ne: null,
-        $ne: "",
-      },
+  let { startDate, endDate, clientFolderName } = req.body;
 
-      clientFolderName: {
-        $eq: data.clientFolderName,
-      },
-      projectDate: {
-        $gte: data.startDate,
-        $lte: data.endDate,
-      },
-    };
-  }
+  console.log("data in month wise data", req.body);
+
   try {
     let MonthWiseData = await Project.aggregate([
       {
-        $match: query,
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            projectDate: {
+              $ne: null,
+              $ne: "",
+            },
+          },
       },
-      //1st
       {
         $addFields:
           /**
@@ -1760,7 +1752,21 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
             },
           },
       },
-      //2nd
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            clientFolderName: {
+              $eq: clientFolderName,
+            },
+            projectDate: {
+              $gte: new Date(startDate),
+              $lte: new Date(endDate),
+            },
+          },
+      },
       {
         $addFields:
           /**
@@ -1776,7 +1782,6 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
             },
           },
       },
-      //3rd
       {
         $addFields:
           /**
@@ -1961,7 +1966,6 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
             },
           },
       },
-      //4th
       {
         $addFields:
           /**
@@ -2050,7 +2054,6 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
             },
           },
       },
-      //5th
       {
         $group:
           /**
@@ -2065,12 +2068,9 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
             monthOrdNo: {
               $first: "$monthOrdNo",
             },
-            clientFolderName: {
-              $first: "$clientFolderName",
-            },
+            clientFolderName: { $first: "$clientFolderName" },
           },
       },
-      //6th
       {
         $sort:
           /**
@@ -2081,7 +2081,7 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
           },
       },
     ]);
-    console.log("final data", MonthWiseData);
+
     res.json(MonthWiseData);
   } catch (error) {
     console.log(error.message);
@@ -2091,27 +2091,70 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
 
 //Client details start
 router.post("/get-client-report", auth, async (req, res) => {
-  let data = req.body;
+  let { startDate, endDate, clientFolderName } = req.body;
   // console.log("this is client wise data", data);
-  let query = {
-    projectDate: {
-      $gte: data.startDate,
-      $lte: data.endDate,
-    },
-    clientFolderName: { $eq: data.clientFolderName },
-  };
+
   try {
     let ProjectDetails = await Project.aggregate([
       {
-        $match: query,
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            projectDate: {
+              $ne: null,
+              $ne: "",
+            },
+          },
       },
       {
-        $group: {
-          _id: "$projectDate",
-          projectName: { $first: "$projectName" },
-          projectQuantity: { $first: "$projectQuantity" },
-          clientName: { $first: "$clientName" },
-        },
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            projectDateObj: {
+              $toDate: "$projectDate",
+            },
+          },
+      },
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            clientFolderName: {
+              $eq: clientFolderName,
+            },
+            projectDateObj: {
+              $gte: new Date(startDate),
+              $lte: new Date(endDate),
+            },
+          },
+      },
+      {
+        $project:
+          /**
+           * specifications: The fields to
+           *   include or exclude.
+           */
+          {
+            projectDate: "$projectDate",
+            projectQty: "$projectQuantity",
+            projectName: "$projectName",
+          },
+      },
+      {
+        $sort:
+          /**
+           * Provide any number of field/order pairs.
+           */
+          {
+            _id: 1,
+          },
       },
     ]);
     //console.log("xxxxxx", ProjectDetails);
@@ -2123,48 +2166,64 @@ router.post("/get-client-report", auth, async (req, res) => {
 //Client details end
 //Get Financial client Details start
 router.post("/get-FY-Client", auth, async (req, res) => {
-  let data = req.body;
-  console.log("api data", data);
-
-  let folderData = data.folder;
-  let startDate = data.startDate;
-  let endDate = data.endDate;
-
+  let { data } = req.body;
+  let startDate;
+  let endDate;
   let date = new Date();
-  let defaultEnd = date.getFullYear() + 1;
-  let startDta = date.getFullYear() + "-" + "03" + "-" + "01";
-  let endday = defaultEnd + "-" + "04" + "-" + "31";
-  let query = {};
-
-  if (folderData) {
-    query = {
-      clientFolderName: { $eq: folderData },
-    };
-  } else if (startDate && endDate) {
-    query = {
-      projectDate: {
-        $gte: startDate,
-        $lte: endDate,
-      },
-    };
+  if (data) {
+    startDate = data.startDate;
+    endDate = data.endDate;
   } else {
-    query = {
-      projectDate: {
-        $gte: startDta,
-        $lte: endday,
-      },
-    };
+    startDate = date.getFullYear() + "-" + "04" + "-" + "01";
+    endDate = date.getFullYear() + 1 + "-" + "03" + "-" + "31";
   }
 
   try {
-    let projectDetails = await Project.find(query);
-    console.log();
+    let projectDetails = await Project.aggregate([
+      {
+        $match: {
+          projectDate: {
+            $ne: null,
+            $ne: "",
+          },
+        },
+      },
+
+      {
+        $addFields: {
+          projectDate: {
+            $toDate: "$projectDate",
+          },
+        },
+      },
+      {
+        $match: {
+          projectDate: {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$clientFolderName",
+          totQty: {
+            $sum: 1,
+          },
+          clientFolderName: { $first: "$clientFolderName" },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ]);
     res.json(projectDetails);
   } catch (error) {
     console.log(error.message);
   }
 });
-
 //Get Financial Client Details end
 
 //sct all clients count and list start

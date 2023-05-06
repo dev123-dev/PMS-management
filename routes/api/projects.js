@@ -281,11 +281,43 @@ router.get("/get-all-folder", async (req, res) => {
   try {
     const allClientFolderDetails = await Project.aggregate([
       {
-        $match: { projectStatus: { $eq: "Active" } },
+        $match: {
+          projectDate: {
+            $ne: null,
+            $ne: "",
+          },
+        },
       },
 
-      { $group: { _id: "$clientFolderName" } },
-    ]).sort({ _id: 1 });
+      {
+        $addFields: {
+          projectDate: {
+            $toDate: "$projectDate",
+          },
+        },
+      },
+      // {
+      //   $match: {
+      //     projectDate: {
+      //       $gte: new D,
+      //       $lte: new Date("2023-03-31"),
+      //     },
+      //   },
+      // },
+      {
+        $group: {
+          _id: "$clientFolderName",
+          totQty: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ]);
     res.json(allClientFolderDetails);
   } catch (err) {
     console.error(err.message);
