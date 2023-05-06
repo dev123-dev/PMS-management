@@ -18,6 +18,7 @@ import {
   CLIENTS_REPORT_DATA,
   CLIENT_JOB_SUMMARY,
   CLIENT_DATA,
+  ALL_FOLDER,
 } from "../actions/types";
 
 const initialState = {
@@ -37,6 +38,7 @@ const initialState = {
   clientsReportData: [],
   clientJobSummary: [],
   clientsData: [],
+  allfolder: [],
 };
 
 const projects = (state = initialState, action) => {
@@ -143,6 +145,12 @@ const projects = (state = initialState, action) => {
         ...state,
         clientJobSummary: payload,
       };
+    case ALL_FOLDER:
+      return {
+        ...state,
+        allfolder: payload,
+      };
+
     default:
       return state;
   }

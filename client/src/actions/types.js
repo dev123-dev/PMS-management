@@ -27,6 +27,8 @@ export const SET_LOADING_TRUE = "SET_LOADING_TRUE";
 export const SET_LOADING_FALSE = "SET_LOADING_FALSE";
 export const FINAL_DATA_REP = "FINAL_DATA_REP";
 export const FY_CLIENT_MONTHWISE = "FY_CLIENT_MONTHWISE";
+export const ALL_FOLDER = "ALL_FOLDER";
+export const CLIENT_WISE = "CLIENT_WISE";
 ///NEW
 export const PAYMENT_MODE = "PAYMENT_MODE";
 export const TEAM_NAME = "TEAM_NAME";

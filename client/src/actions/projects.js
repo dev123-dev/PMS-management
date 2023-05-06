@@ -23,6 +23,7 @@ import {
   CLIENTS_REPORT_DATA,
   CLIENT_JOB_SUMMARY,
   CLIENT_DATA,
+  ALL_FOLDER,
 } from "./types";
 
 const config = {
@@ -296,6 +297,21 @@ export const getAllFolder = () => async (dispatch) => {
     const res = await axios.get("/api/projects/get-all-folder-name");
     dispatch({
       type: ALL_FOLDER_NAMES,
+      payload: res.data,
+    });
+    localStorage.setItem("AllFolderNme", JSON.stringify(res.data));
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const getAllFolder1 = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/projects/get-all-folder");
+    dispatch({
+      type: ALL_FOLDER,
       payload: res.data,
     });
     localStorage.setItem("AllFolderNme", JSON.stringify(res.data));

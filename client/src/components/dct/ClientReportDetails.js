@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import {
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
-  getAllFolder,
+  getAllFolder1,
   getSelectedClientfolderDeatils,
 } from "../../actions/projects";
 import { getYear, getFYclient, getMonthWiseClient } from "../../actions/sct";
@@ -24,7 +24,7 @@ const client = new w3cwebsocket("ws://192.168.6.38:8000");
 
 const ClientReportDetails = ({
   auth: { isAuthenticated, user, users },
-  project: { allFolderName },
+  project: { allfolder },
   client: { activeVerfificationFolders },
   sct: { FYclient },
 
@@ -33,12 +33,13 @@ const ClientReportDetails = ({
   getUpdatedProjectStaus,
   getYear,
   getFYclient,
-  getAllFolder,
+  getAllFolder1,
   getMonthWiseClient,
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
   let financialyear = JSON.parse(localStorage.getItem("financialYear"));
+  console.log("allfolder", allfolder);
 
   useEffect(() => {
     getYear();
@@ -54,8 +55,8 @@ const ClientReportDetails = ({
     };
   }, []);
   useEffect(() => {
-    getAllFolder();
-  }, [getAllFolder]);
+    getAllFolder1();
+  }, [getAllFolder1]);
 
   const [clientData, setClientData1] = useState("");
   const [Year, setYear] = useState("");
@@ -103,13 +104,15 @@ const ClientReportDetails = ({
 
   const onClickReset = () => {
     setYear("");
+    getFYclient();
+    getMonthWiseClient();
 
     setClientData1("");
   };
 
   const activeClientsOpt = [];
-  allFolderName &&
-    allFolderName.map((clientsData) =>
+  allfolder &&
+    allfolder.map((clientsData) =>
       activeClientsOpt.push({
         label: clientsData._id,
         value: clientsData._id,
@@ -149,7 +152,7 @@ const ClientReportDetails = ({
                 options={year}
                 value={Year}
                 isSearchable={true}
-                placeholder="Select"
+                placeholder="Select Year"
                 onChange={(e) => onYearChange(e)}
               />
             </div>
@@ -260,7 +263,7 @@ export default connect(mapStateToProps, {
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
   getUpdatedProjectStaus,
-  getAllFolder,
+  getAllFolder1,
   getSelectedClientfolderDeatils,
   getYear,
   getFYclient,

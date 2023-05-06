@@ -18,7 +18,7 @@ const JobNotes = ({
   getSelectedprojectDeatils,
 }) => {
   useEffect(() => {
-    getSelectedClientDeatils({ clientId: allnotesdata.clientId });
+    getSelectedClientDeatils({ clientName: allnotesdata.clientName });
   }, [getSelectedClientDeatils]);
   useEffect(() => {
     getSelectedprojectDeatils({
@@ -57,16 +57,20 @@ const JobNotes = ({
   const { showStandardinstructionSection } = showHide;
   const { showProjectInstructionSection } = showHide1;
   const { showProjecthistoryInstructionSection } = showHide2;
-  // const onstandardinstruction = () => {
-  //   setShowHide({
-  //     ...showHide,
-  //     showStandardinstructionSection: true,
-  //   });
-  //   setShowHide1({
-  //     ...showHide1,
-  //     showProjectInstructionSection: false,
-  //   });
-  // };
+  const onstandardinstruction = () => {
+    setShowHide({
+      ...showHide,
+      showStandardinstructionSection: true,
+    });
+    setShowHide1({
+      ...showHide1,
+      showProjectInstructionSection: false,
+    });
+    setShowHide1({
+      ...showHide2,
+      showProjecthistoryInstructionSection: false,
+    });
+  };
 
   const onprojectinstruction = () => {
     setShowHide1({
@@ -76,6 +80,10 @@ const JobNotes = ({
     setShowHide2({
       ...showHide2,
       showProjecthistoryInstructionSection: false,
+    });
+    setShowHide({
+      ...showHide,
+      showStandardinstructionSection: false,
     });
   };
   const onprojecthistoryinstruction = () => {
@@ -87,23 +95,35 @@ const JobNotes = ({
       ...showHide1,
       showProjectInstructionSection: false,
     });
+    setShowHide({
+      ...showHide,
+      showStandardinstructionSection: false,
+    });
   };
+  let dctclients = [];
+  selectedClientData &&
+    selectedClientData.map((ele) => {
+      {
+        dctclients.push(ele.instructions[0]);
+      }
+    });
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
     <Fragment>
       <div className="row col-lg-12 col-md-12 col-sm-12 col-12">
-        <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+        <div className="col-lg-4 col-md-12 col-sm-12 col-12">
           <Link
             to="#"
             className="btnLink"
             onClick={() => onprojectinstruction()}
+            defaultChecked
           >
             Project Instruction
           </Link>
         </div>
-        {/* <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+        <div className="col-lg-4 col-md-12 col-sm-12 col-12">
           <Link
             to="#"
             className="btnLink"
@@ -111,8 +131,8 @@ const JobNotes = ({
           >
             Standard Instruction
           </Link>
-        </div> */}
-        <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+        </div>
+        <div className="col-lg-4 col-md-12 col-sm-12 col-12">
           <Link
             to="#"
             className="btnLink"
@@ -133,7 +153,7 @@ const JobNotes = ({
             style={{ width: "100%", resize: "vertical", overflow: "auto" }}
             readOnly
           >
-            {selectedClientData.standardInstruction}
+            {dctclients && dctclients[0].instructionDiscription}
           </textarea>
         </div>
       )}
@@ -152,8 +172,8 @@ const JobNotes = ({
         </div>
       )}
       {showProjecthistoryInstructionSection &&
-        showProjectInstructionSection !==
-          showProjecthistoryInstructionSection && (
+        showProjecthistoryInstructionSection !==
+          showProjectInstructionSection && (
           <div className=" col-lg-12 col-md-12 col-sm-12 col-12">
             <label className="label-control">
               Project Instruction history :
