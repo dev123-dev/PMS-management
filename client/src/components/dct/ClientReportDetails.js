@@ -12,7 +12,7 @@ import {
   getAllFolder,
   getSelectedClientfolderDeatils,
 } from "../../actions/projects";
-import { getYear, getFYclient } from "../../actions/sct";
+import { getYear, getFYclient, getMonthWiseClient } from "../../actions/sct";
 import { getVerificationFolder } from "../../actions/client";
 
 import { getAllchanges, getUpdatedProjectStaus } from "../../actions/projects";
@@ -34,6 +34,7 @@ const ClientReportDetails = ({
   getYear,
   getFYclient,
   getAllFolder,
+  getMonthWiseClient,
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
@@ -128,7 +129,7 @@ const ClientReportDetails = ({
       endDate: endday,
     };
     console.log("finalData", finalData);
-    getFYclient(finalData);
+    getMonthWiseClient(finalData);
     // setSubmitted(true);
   };
   return !isAuthenticated || !user || !users ? (
@@ -263,5 +264,6 @@ export default connect(mapStateToProps, {
   getSelectedClientfolderDeatils,
   getYear,
   getFYclient,
+  getMonthWiseClient,
   getVerificationFolder,
 })(ClientReportDetails);
