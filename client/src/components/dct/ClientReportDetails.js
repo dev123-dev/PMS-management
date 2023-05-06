@@ -115,12 +115,16 @@ const ClientReportDetails = ({
     );
 
   const handleGoToAllMember = (client) => {
+    let date = new Date();
+    let defaultEnd = date.getFullYear() + 1;
+    let startDta = date.getFullYear() + "-" + "03" + "-" + "01";
+    let endday = defaultEnd + "-" + "04" + "-" + "31";
     const finalData = {
       Id: client._id,
       clientName: client.clientName,
       clientFolderName: client.clientFolderName,
-      startDate: startDate,
-      endDate: endDate,
+      startDate: client.projectDate,
+      endDate: endday,
     };
     console.log("finalData", finalData);
     getFYclient(finalData);
@@ -158,7 +162,7 @@ const ClientReportDetails = ({
               />
             </div>
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -171,7 +175,6 @@ const ClientReportDetails = ({
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHead">
-                  <br />
                   <table
                     className="table table-bordered table-striped table-hover smll_row"
                     id="datatable2"
@@ -199,7 +202,7 @@ const ClientReportDetails = ({
                               <td>{idx + 1}</td>
                               <td>
                                 <Link
-                                  to="/client-FY-report"
+                                  to="/client-fy-report"
                                   className="btnLink"
                                   onClick={() => handleGoToAllMember(client)}
                                 >
