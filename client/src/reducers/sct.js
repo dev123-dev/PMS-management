@@ -36,6 +36,7 @@ import {
   ALL_SUMMARY,
   ONLY_SUMMARY,
   MONTH_WISE_DATA_FOLLOWUP,
+  FINANCIAL_YEAR,
 } from "../actions/types";
 
 const initialState = {
@@ -47,7 +48,7 @@ const initialState = {
   getAllSctLeads: [],
   getAllSctLeadsDD: [],
   getAllSctLeadsEmp: [],
-
+  financiaYEAR: [],
   sctLastMsg: [],
   allFollowUp: [],
   allSctProject: [],
@@ -95,6 +96,11 @@ const sct = (state = initialState, action) => {
       return {
         ...state,
         follouphistory: payload,
+      };
+    case FINANCIAL_YEAR:
+      return {
+        ...state,
+        financiaYEAR: payload,
       };
     case MONTH_WISE_DATA:
       return {
