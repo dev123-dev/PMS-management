@@ -2088,6 +2088,8 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
   }
 });
 //Month wise report end
+
+//Client details start
 router.post("/get-client-report", auth, async (req, res) => {
   let data = req.body;
   // console.log("this is client wise data", data);
@@ -2118,7 +2120,6 @@ router.post("/get-client-report", auth, async (req, res) => {
     console.log(error.message);
   }
 });
-//Client details start
 //Client details end
 //Get Financial client Details start
 router.post("/get-FY-Client", auth, async (req, res) => {
