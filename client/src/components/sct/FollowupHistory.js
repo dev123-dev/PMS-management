@@ -167,26 +167,7 @@ const FollowupHistory = ({
   const { showdateSection, showdateSection1 } = showHide;
 
   const [fromdate, setfromdate] = useState(todayDateymd);
-  //   const onDateChange = (e) => {
-  //     var newDate = e;
-  //     var calDate = new Date(newDate);
-  //     var dd1 = calDate.getDate();
-  //     var mm2 = calDate.getMonth() + 1;
-  //     var yyyy1 = calDate.getFullYear();
-  //     if (dd1 < 10) {
-  //       dd1 = "0" + dd1;
-  //     }
 
-  //     if (mm2 < 10) {
-  //       mm2 = "0" + mm2;
-  //     }
-
-  //     let finalDate = dd1 + "-" + mm2 + "-" + yyyy1;
-  //     SetstartclientShow1(finalDate);
-  //     let last_variable = yyyy1 + "-" + mm2 + "-" + dd1;
-  //     // console.log(last_variable, "last_variable");
-  //     getPotentialClients({ MonthDate: last_variable });
-  //   };
   const [startclientShow1, SetstartclientShow1] = useState("");
   const onDateChangesingle = (e) => {
     var newDate = e;
@@ -277,21 +258,6 @@ const FollowupHistory = ({
               {showdateSection1 && (
                 <>
                   <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-                    {/* <input
-                    type="date"
-                    placeholder="dd/mm/yyyy"
-                    className="form-control cpp-input datevalidation"
-                    name="singledate"
-                    value={singledate}
-                    onChange={(e) => onDateChange2(e)}
-                    style={{
-                      width: "100%",
-                    }}
-                    onKeyDown={(e) => {
-                      e.preventDefault();
-                    }}
-                    required
-                  /> */}
                     <DatePicker
                       label="Controlled picker"
                       value={startclientShow1}
@@ -311,41 +277,6 @@ const FollowupHistory = ({
                 </>
               )}
             </div>
-
-            {/* <div className="col-lg-2 col-md-4 col-sm-4 col-12 py-2">
-            
-              <DatePicker
-                label="Controlled picker"
-                value={startclientShow1}
-                className=" form-control"
-                placeholderText="dd-mm-yyyy"
-                onChange={(newValue) => onDateChangesingle(newValue)}
-              />
-            </div> */}
-            {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              {user.empCtAccess && user.empCtAccess === "All" ? (
-                <div className=" col-lg-4 col-md-11 col-sm-10 col-10 py-2">
-                <Select
-                  name="empFullName"
-                  options={allemp}
-                  isSearchable={true}
-                  value={emp}
-                  placeholder="Select Emp"
-                  onChange={(e) => onempChange(e)}
-                />
-              ) : (
-                // </div>
-                <></>
-              )}
-            </div> */}
-            {/* <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2">
-              <button
-                className="btn btn_green_bg float-right"
-                onClick={() => onClickReset()}
-              >
-                Refresh
-              </button>
-            </div> */}
           </div>
 
           <div className="row">
@@ -391,7 +322,7 @@ const FollowupHistory = ({
                             return (
                               <tr key={idx}>
                                 <td>{idx + 1}</td>
-                                <td>{allSctCalls.sctCallComeFrom}</td>
+                                <td>{allSctCalls.sctCallFromName}</td>
                                 <td>{allSctCalls.sctCallToName}</td>
                                 <td>{allSctCalls.sctcallToNumber}</td>
                                 <td>{allSctCalls.sctCallTime}</td>

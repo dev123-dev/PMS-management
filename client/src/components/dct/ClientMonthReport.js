@@ -34,6 +34,7 @@ const ClientMonthReport = ({
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
+  console.log("clientwise", clientwise);
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -64,6 +65,40 @@ const ClientMonthReport = ({
     });
   }, [getSelectedClientfolderDeatils]);
 
+  const MonthYear = [
+    { label: "January", value: "1" },
+    { label: "Febrery", value: "2" },
+    { label: "March", value: "3" },
+    { label: "April", value: "4" },
+    { label: "May", value: "5" },
+    { label: "June", value: "6" },
+    { label: "July", value: "7" },
+    { label: "August", value: "8" },
+    { label: "September", value: "9" },
+    { label: "October", value: "10" },
+    { label: "November", value: "11" },
+    { label: "December", value: "12" },
+  ];
+  let monthandyear =
+    clientwise && clientwise[0] && clientwise[0].projectDate.split("-");
+  let year = monthandyear && monthandyear[0];
+  let month = monthandyear && monthandyear[1];
+  if (month < 10) {
+    let m = month.split("");
+    month = m[1];
+  }
+  let monthLabel = MonthYear.filter((ele) => {
+    if (ele.value === month) {
+      return ele.label;
+    }
+  });
+  let finalDateValue =
+    monthLabel && monthLabel[0] && monthLabel[0].label + "-" + year;
+  // let finalDateData =
+
+  // clientwise && clientwise.map((ele)=>{
+
+  // })
   const onfolderClientChange = (e) => {
     setClientData1(e);
     // let selDateData = {
@@ -95,7 +130,17 @@ const ClientMonthReport = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-6 col-md-11 col-sm-10 col-10">
-              <h4 className="heading_color">Client Month Report For </h4>
+              <h4 className="heading_color">
+                <b>
+                  {" "}
+                  {clientwise &&
+                    clientwise[0] &&
+                    "(" + clientwise[0].clientFolderName}
+                  {" : "}
+                  {finalDateValue + ")"}
+                </b>{" "}
+                Month Report
+              </h4>
             </div>
 
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">

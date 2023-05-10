@@ -35,6 +35,7 @@ const ClientFYReport = ({
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
+  console.log("FyClientMonthWiseReport", FyClientMonthWiseReport);
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -103,9 +104,9 @@ const ClientFYReport = ({
     { label: "Nov", value: 11 },
     { label: "Dec", value: 12 },
   ];
-
   const handleGoToAllMember = (clientmonth) => {
     let MonthWiseData = clientmonth._id;
+
     let date = new Date();
     var fDay = new Date(date.getFullYear(), date.getMonth() + 1);
     let data = MonthWiseData.split("-");
@@ -136,7 +137,6 @@ const ClientFYReport = ({
       endDate: endDate,
     };
     getClientDetails(finalData);
-    // setSubmitted(true);
   };
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -146,7 +146,19 @@ const ClientFYReport = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-6 col-md-11 col-sm-10 col-10">
-              <h4 className="heading_color">Client FY Report</h4>
+              <h4 className="heading_color">
+                <b>
+                  {FyClientMonthWiseReport &&
+                    FyClientMonthWiseReport[0] &&
+                    "(" + FyClientMonthWiseReport[0].clientFolderName}
+                  {" : "}{" "}
+                  {FyClientMonthWiseReport &&
+                    FyClientMonthWiseReport[0] &&
+                    FyClientMonthWiseReport[0].finYear + ")"}
+                  {}
+                </b>{" "}
+                FY Report
+              </h4>
             </div>
 
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
@@ -182,11 +194,6 @@ const ClientFYReport = ({
                     <tbody>
                       {FyClientMonthWiseReport &&
                         FyClientMonthWiseReport.map((clientmonth, idx) => {
-                          var projectdate = "";
-                          if (client.projectDate) {
-                            var ED1 = client.projectDate.split(/\D/g);
-                            projectdate = [ED1[2], ED1[1], ED1[0]].join("-");
-                          }
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
