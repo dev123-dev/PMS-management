@@ -2466,7 +2466,6 @@ router.post("/get-sct-potential-clients", auth, async (req, res) => {
 //sct followup start
 router.post("/get-sct-FollowUp-clients", auth, async (req, res) => {
   let { MonthDate, dateType, fromdate, todate, assignedTo } = req.body;
-  console.log("history", req.body);
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -2698,136 +2697,155 @@ router.post("/get-summary", auth, async (req, res) => {
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
-
   let sctCallFromId;
-
   if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
   else {
-    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
-    else sctCallFromId = { $ne: null };
+    if (assignedTo) {
+      sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    } else {
+      sctCallFromId = { $ne: null };
+    }
   }
 
   try {
     let getAllSctCalls = [];
-    if (userInfo.empCtAccess === "All") {
-      getAllSctCalls = await SctCalls.aggregate([
-        {
-          $match:
-            /**
-             * query: The query in MQL.
-             */
+
+    getAllSctCalls = await SctCalls.aggregate([
+      {
+        $match: {
+          $or: [
             {
-              $or: [
-                {
-                  sctCallCategory: {
-                    $eq: "P",
-                  },
+              sctCallCategory: {
+                $ne: null,
+              },
+            },
+            {
+              sctCallCategory: {
+                $eq: sctCallFromId,
+              },
+            },
+          ],
+        },
+      },
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+
+          {
+            $or: [
+              {
+                sctCallCategory: {
+                  $eq: "P",
                 },
-                {
-                  sctCallCategory: {
-                    $eq: "F",
-                  },
+              },
+              {
+                sctCallCategory: {
+                  $eq: "F",
                 },
-              ],
-            },
-        },
-        {
-          $match:
-            /**
-             * query: The query in MQL.
-             */
-            {
-              $and: [
-                {
-                  sctLeadsCategory: {
-                    $ne: "",
-                  },
+              },
+            ],
+          },
+      },
+
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            $and: [
+              {
+                sctLeadsCategory: {
+                  $ne: "",
                 },
-                {
-                  sctLeadsCategory: {
-                    $ne: null,
-                  },
+              },
+              {
+                sctLeadsCategory: {
+                  $ne: null,
                 },
-              ],
-            },
-        },
-        {
-          $addFields:
-            /**
-             * newField: The new field name.
-             * expression: The new field expression.
-             */
-            {
-              sctCallTakenDate: {
-                $toDate: "$sctCallTakenDate",
               },
+            ],
+          },
+      },
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            sctCallTakenDate: {
+              $toDate: "$sctCallTakenDate",
             },
-        },
-        {
-          $match:
-            /**
-             * query: The query in MQL.
-             */
-            {
-              sctCallTakenDate: {
-                $gte: new Date(fromdate),
-                $lte: new Date(todate),
-              },
+          },
+      },
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            sctCallTakenDate: {
+              $gte: new Date(fromdate),
+              $lte: new Date(todate),
             },
-        },
-        {
-          $addFields:
-            /**
-             * newField: The new field name.
-             * expression: The new field expression.
-             */
-            {
-              month: {
-                $month: "$sctCallTakenDate",
-              },
+          },
+      },
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            month: {
+              $month: "$sctCallTakenDate",
             },
-        },
-        {
-          $group:
-            /**
-             * _id: The id of the group.
-             * fieldN: The first field name.
-             */
-            {
-              _id: "$sctExpectedMonthYear",
-              sctCallSalesValue: {
-                $sum: "$sctCallSalesValue",
-              },
-              countClient: {
-                $sum: 1,
-              },
-              month: {
-                $first: "$month",
-              },
+          },
+      },
+      {
+        $group:
+          /**
+           * _id: The id of the group.
+           * fieldN: The first field name.
+           */
+          {
+            _id: "$sctExpectedMonthYear",
+            sctCallSalesValue: {
+              $sum: "$sctCallSalesValue",
             },
-        },
-        {
-          $match:
-            /**
-             * query: The query in MQL.
-             */
-            {
-              _id: {
-                $ne: "",
-              },
+            countClient: {
+              $sum: 1,
             },
-        },
-        {
-          $sort:
-            /**
-             * Provide any number of field/order pairs.
-             */
-            {
-              month: 1,
+            month: {
+              $first: "$month",
             },
-        },
-      ]);
-    }
+          },
+      },
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            _id: {
+              $ne: "",
+            },
+          },
+      },
+      {
+        $sort:
+          /**
+           * Provide any number of field/order pairs.
+           */
+          {
+            month: 1,
+          },
+      },
+    ]);
+
     res.json(getAllSctCalls);
   } catch (err) {
     console.error(err.message);
@@ -2923,7 +2941,7 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
-  console.log(req.body);
+
   var dateVal = new Date().toISOString().split("T")[0];
 
   if (selDate) dateVal = selDate;
