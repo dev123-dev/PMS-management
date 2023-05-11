@@ -3037,6 +3037,7 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
       sctCallFromId,
     };
   }
+  console.log(query);
   try {
     // const getAllSctCallsCount = await SctCalls.aggregate([
     //   {
@@ -3056,23 +3057,14 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
         {
           $match: query,
         },
-        // {
-        //   $group: {
-        //     _id: "$sctCallFromId",
-        //     sctCallFromId: { $first: "$sctCallFromId" },
-        //     sctCallFromName: { $first: "$sctCallFromName" },
-        //     count: { $sum: 1 },
-        //     count1: { $sum: "$sctCallSalesValue" },
-        //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
-        //   },
-        // },
+
         {
           $group: {
             _id: "$sctCallFromId",
             sctCallFromName: { $first: "$sctCallFromName" },
             countClient: { $sum: 1 },
             countCall: { $sum: "$count" },
-            sctCallSalesValue: { $sum: "$count1" },
+            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
             sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
           },
         },
@@ -3082,35 +3074,14 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
         {
           $match: query,
         },
-        // {
-        //   $group: {
-        //     _id: "$sctCallToId",
-        //     sctCallFromName: { $first: "$sctCallFromName" },
-        //     countClient: { $sum: 1 },
-        //     sctCallSalesValue: { $sum: "$sctCallSalesValue" },
-        //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
-        //   },
-        // },
-        // {
-        //   $group: {
-        //     _id: {
-        //       sctCallFromId: "$sctCallFromId",
-        //       sctCallToId: "$sctCallToId",
-        //     },
-        //     sctCallFromId: { $first: "$sctCallFromId" },
-        //     sctCallFromName: { $first: "$sctCallFromName" },
-        //     count: { $sum: 1 },
-        //     count1: { $sum: "$sctCallSalesValue" },
-        //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
-        //   },
-        // },
+
         {
           $group: {
             _id: "$sctCallFromId",
             sctCallFromName: { $first: "$sctCallFromName" },
             countClient: { $sum: 1 },
-            countCall: { $sum: "$count" },
-            sctCallSalesValue: { $sum: "$count1" },
+            countCall: { $sum: 1 },
+            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
             sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
           },
         },

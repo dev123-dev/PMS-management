@@ -3,30 +3,19 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import {
-  getAllSctCall,
-  getAllSctCallEmp,
-  getFollowUpClient,
-} from "../../actions/sct";
+import { getFollowUpClient } from "../../actions/sct";
 
 import DatePicker from "react-datepicker";
 const FollowupHistory = ({
   auth: { isAuthenticated, user, users },
   sct: { allSctCalls, allSctCallsEmp, follouphistory },
-  getAllSctCall,
-  getAllSctCallEmp,
+
   getFollowUpClient,
 }) => {
-  useEffect(() => {
-    getAllSctCall();
-  }, [getAllSctCall]);
   useEffect(() => {
     getFollowUpClient();
   }, []);
 
-  useEffect(() => {
-    getAllSctCallEmp();
-  }, [getAllSctCallEmp]);
   const DateMethods = [
     { value: "Single Date", label: "Single Date" },
     { value: "Multi Date", label: "Multi Date" },
@@ -85,11 +74,6 @@ const FollowupHistory = ({
   const [startToDate, setToDate] = useState("");
   const [startcToDateShow, SetstartToDateShow] = useState("");
   const ontoDateChange = (e) => {
-    // setError({
-    //   ...error,
-    //   clientdateChecker: true,
-    //   clientdateErrorStyle: { color: "#000" },
-    // });
     var newDate = e;
     var calDate = new Date(newDate);
     var dd1 = calDate.getDate();
@@ -106,22 +90,14 @@ const FollowupHistory = ({
     setToDate(EndDate1);
     var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
     SetstartToDateShow(EndDate);
-
     settodate(startFromDate);
 
     let finalData = {
       fromdate: fromdate,
       todate: EndDate1,
       dateType: "Multi Date",
-      // folderId: projectData.folderId,
     };
     getFollowUpClient(finalData);
-
-    // getAllSctCallCount(finalData);
-    // getAllLeadToday(finalData);
-    // getALLDemosReport(finalData);
-    // getDailyjobSheetFolder(selDateData);
-    //console.log("formData", formData);
   };
 
   var today = new Date();
@@ -136,30 +112,6 @@ const FollowupHistory = ({
   }
   var todayDateymd = yyyy + "-" + mm + "-" + dd;
 
-  const allemp = [{ empId: null, label: "All", value: null }];
-  allSctCallsEmp &&
-    allSctCallsEmp.map((emp) =>
-      allemp.push({
-        empId: emp._id,
-        label: emp.sctCallFromName,
-        value: emp.sctCallFromName,
-      })
-    );
-
-  const [emp, getempData] = useState();
-  const onempChange = (e) => {
-    getempData(e);
-    getAllSctCall({ selectedDate: fromdate, assignedTo: e.empId });
-  };
-
-  // let new_folloupdata = [];
-  // MonthWiseData &&
-  //   MonthWiseData.getAllSctCallsClient &&
-  //   MonthWiseData.getAllSctCallsClient.map((ele) => {
-  //     if (ele.sctCallCategory === "F") {
-  //       new_folloupdata.push(ele);
-  //     }
-  //   });
   const [showHide, setShowHide] = useState({
     showdateSection: false,
     showdateSection1: true,
@@ -186,15 +138,11 @@ const FollowupHistory = ({
     let finalDate = dd1 + "-" + mm2 + "-" + yyyy1;
     SetstartclientShow1(finalDate);
     let last_variable = yyyy1 + "-" + mm2 + "-" + dd1;
-    // console.log(last_variable, "last_variable");
     getFollowUpClient({ MonthDate: last_variable });
   };
 
   const onClickReset = () => {
-    getempData("");
     setfromdate(todayDateymd);
-    getAllSctCall();
-    getAllSctCallEmp();
     setFromDateShow("");
     SetstartclientShow1("");
     SetstartToDateShow("");
@@ -305,11 +253,6 @@ const FollowupHistory = ({
                         follouphistory.getAllSctCallsClient &&
                         follouphistory.getAllSctCallsClient.map(
                           (allSctCalls, idx) => {
-                            var sctCallDate = "";
-                            if (allSctCalls.sctCallDate) {
-                              var ED = allSctCalls.sctCallDate.split(/\D/g);
-                              sctCallDate = [ED[2], ED[1], ED[0]].join("-");
-                            }
                             var sctCallTakenDate = "";
                             if (allSctCalls.sctCallTakenDate) {
                               var ED1 =
@@ -364,7 +307,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getAllSctCall,
-  getAllSctCallEmp,
   getFollowUpClient,
 })(FollowupHistory);

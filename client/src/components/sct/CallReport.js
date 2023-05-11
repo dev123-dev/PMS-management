@@ -11,24 +11,11 @@ import Select from "react-select";
 
 const CallReport = ({
   auth: { isAuthenticated, user },
-  sct: {
-    sctCallsCount1,
-    allFollowUp,
-    onlySummary,
-    // allDemosTaken,
-    // allDemosAddedToday,
-    // allLeadEnteredToday,
-  },
+  sct: { sctCallsCount1, allFollowUp, onlySummary },
   getSummary,
   getAllFollowUp,
   getAllSctCallCount1,
 }) => {
-  ////////////////////////
-  //let PipeLineData = [];
-  // const [PipeLineData, setPipeLineData] = useState([]);
-  //getAllSctCallCount1
-  /////////////////
-
   const localAllSctCallCount1 = JSON.parse(
     localStorage.getItem("getAllSctCallCount1")
   );
