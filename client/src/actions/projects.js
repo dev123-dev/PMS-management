@@ -58,7 +58,7 @@ export const deactiveProjectData = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/projects/deactive-project-data", finalData, config);
-
+    dispatch(getJobQueueProjectDeatils());
     dispatch({
       type: SET_LOADING_FALSE,
     });
