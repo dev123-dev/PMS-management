@@ -767,7 +767,6 @@ export const getALLDemosReport =
 export const getSummary = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/sct/get-summary", finalData);
-    console.log("only summary in actoiojn", res.data);
     dispatch({
       type: ONLY_SUMMARY,
       payload: res.data,
@@ -816,7 +815,6 @@ export const getOverAllSummary = (finalData) => async (dispatch) => {
 
 //Year extract
 export const getYear = () => async (dispatch) => {
-  console.log("in action of get year");
   try {
     const res = await axios.get("/api/sct/get-Year", config);
     localStorage.setItem("financialYear", JSON.stringify(res.data));
@@ -972,7 +970,6 @@ export const getAllSct = (finalData) => async (dispatch) => {
 };
 
 export const getALLSummary = (finaldata) => async (dispatch) => {
-  console.log("inside action", finaldata);
   try {
     const res = await axios.post(
       "/api/sct/get-all-sct-details-overaAllSummary",
@@ -1039,7 +1036,6 @@ export const getAllSctCallCount = (finalData) => async (dispatch) => {
 };
 
 export const getAllSctCallCount1 = (finalData) => async (dispatch) => {
-  console.log("in action", finalData);
   try {
     const res = await axios.post(
       "/api/sct/get-all-sct-calls-count-1",

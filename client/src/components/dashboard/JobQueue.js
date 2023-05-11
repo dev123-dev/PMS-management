@@ -25,7 +25,11 @@ import {
   getUpdatedProjectStaus,
   // getUpdatedProjectStausForDailyJobSheet,
 } from "../../actions/projects";
-import { getAllFollowUp, getAllSctCallCount1 } from "../../actions/sct";
+import {
+  getAllFollowUp,
+  getAllSctCallCount1,
+  // getYear,
+} from "../../actions/sct";
 import AllLatestChange from "./AllLatestChange";
 import { w3cwebsocket } from "websocket";
 import DeactiveProject from "./DeactiveProject";
@@ -47,6 +51,7 @@ const JobQueue = ({
   getLatestChanges,
   getAllFollowUp,
   getAllSctCallCount1,
+  // getYear,
   // getUpdatedProjectStausForDailyJobSheet,
   updateMsgSent,
 }) => {
@@ -55,6 +60,7 @@ const JobQueue = ({
   const [clientData, setClientData] = useState("");
   useEffect(() => {
     getAllFollowUp();
+    // getYear();
     // console.log("localgetAllSctCallCount1", localAllSctCallCount1);
   }, []);
 
@@ -888,6 +894,10 @@ const JobQueue = ({
                                                 ...base,
                                                 color: "#fff",
                                               }),
+                                              input: (baseStyles) => ({
+                                                ...baseStyles,
+                                                color: "transparent",
+                                              }),
                                             }}
                                             name="projectStatusData"
                                             value={{
@@ -957,6 +967,10 @@ const JobQueue = ({
                                               input: (base) => ({
                                                 ...base,
                                                 color: "#fff",
+                                              }),
+                                              input: (baseStyles) => ({
+                                                ...baseStyles,
+                                                color: "transparent",
                                               }),
                                             }}
                                             name="projectStatusData"
@@ -1233,6 +1247,10 @@ const JobQueue = ({
                                                 ...base,
                                                 color: "#fff",
                                               }),
+                                              input: (baseStyles) => ({
+                                                ...baseStyles,
+                                                color: "transparent",
+                                              }),
                                             }}
                                             name="projectStatusData"
                                             value={{
@@ -1303,6 +1321,10 @@ const JobQueue = ({
                                               input: (base) => ({
                                                 ...base,
                                                 color: "#fff",
+                                              }),
+                                              input: (baseStyles) => ({
+                                                ...baseStyles,
+                                                color: "transparent",
                                               }),
                                             }}
                                             name="projectStatusData"
@@ -1707,7 +1729,7 @@ export default connect(mapStateToProps, {
   getLatestChanges,
   getAllFollowUp,
   getAllSctCallCount1,
-
+  // getYear,
   // getUpdatedProjectStausForDailyJobSheet,
   updateMsgSent,
 })(JobQueue);

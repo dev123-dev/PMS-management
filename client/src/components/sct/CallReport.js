@@ -11,27 +11,11 @@ import Select from "react-select";
 
 const CallReport = ({
   auth: { isAuthenticated, user },
-  sct: {
-    sctCallsCount1,
-    allFollowUp,
-    onlySummary,
-    // allDemosTaken,
-    // allDemosAddedToday,
-    // allLeadEnteredToday,
-  },
+  sct: { sctCallsCount1, allFollowUp, onlySummary },
   getSummary,
   getAllFollowUp,
   getAllSctCallCount1,
 }) => {
-  console.log("onlySummary", onlySummary);
-  //console.log("sctCallsCount1", sctCallsCount1);
-
-  ////////////////////////
-  //let PipeLineData = [];
-  // const [PipeLineData, setPipeLineData] = useState([]);
-  //getAllSctCallCount1
-  /////////////////
-
   const localAllSctCallCount1 = JSON.parse(
     localStorage.getItem("getAllSctCallCount1")
   );
@@ -57,32 +41,8 @@ const CallReport = ({
   }
 
   let res = [];
-  // console.log("XXX", sctCallsCount1, "YY", allFollowUp);
-  // console.log("small", small);
-  // console.log("big", big);
+
   if (PotentialClient.length > 0) {
-    // for (let i = 0; i < big.length; i++) {
-    //   let PId = big && big[i]._id;
-    //   //console.log(PotentialClient[i]);
-    //   for (let j = 0; j < small.length; j++) {
-    //     let FId = small && small[j]._id;
-    //     if (PId === FId) {
-    //       let tot =
-    //         Number(PotentialClient[i] && PotentialClient[i].countClient) +
-    //         Number(FollowUpClient[i] && FollowUpClient[j].countClient);
-    //       let sales =
-    //         Number(PotentialClient[i] && PotentialClient[i].sctCallSalesValue) +
-    //         Number(FollowUpClient[i] && FollowUpClient[j].sctCallSalesValue);
-    //       res.push({
-    //         _id: PotentialClient[i] && PotentialClient[i]._id,
-    //         sctCallFromName:
-    //           PotentialClient[i] && PotentialClient[i].sctCallFromName,
-    //         countClient: tot,
-    //         sctCallSalesValue: sales,
-    //       });
-    //     }
-    //   }
-    // }
     big.map((obj1) => {
       small.some((obj2) => {
         if (obj1._id === obj2._id) {
@@ -97,10 +57,6 @@ const CallReport = ({
     });
   }
 
-  // PotentialTot = PotentialClient.filter((objA) => {
-  //   return !FollowUpClient.some((objB) => objA._id === objB._id);
-  // });
-
   let resBigU = big.filter((obj1) => {
     return !small.some((obj2) => obj1._id === obj2._id);
   });
@@ -108,10 +64,8 @@ const CallReport = ({
     return !big.some((obj2) => obj1._id === obj2._id);
   });
 
-  // console.log("resSmallU", resSmallU, "res", res);
   PipeLineData = [...res, ...resBigU, ...resSmallU];
-  // console.log("PipeLineData", PipeLineData);
-  //console.log("pdata", PipeLineData);
+
   let sumMonth = PipeLineData.filter(
     (ele, i) => ele.sctExpectedMonthYear && ele.sctExpectedMonthYear != ""
   );
@@ -126,15 +80,21 @@ const CallReport = ({
   });
 
   // setPipeLineData([...PotentialTot, ...res]);
+
+  let defaultStartDate = new Date().getFullYear() + "-" + "04" + "-" + "01";
+  let defaultEndDate = new Date().getFullYear() + 1 + "-" + "03" + "-" + "31";
+  let ClientFolderName = "";
   useEffect(() => {
     getAllFollowUp();
-    //console.log("1");
   }, [getAllFollowUp]);
 
   useEffect(() => {
     getAllSctCallCount1();
-    // console.log("2");
   }, [getAllSctCallCount1]);
+
+  useEffect(() => {
+    getSummary({ selDate: "", dateType: "Single Date" });
+  }, []);
 
   const DateMethods = [
     { value: "Single Date", label: "Single Date" },
@@ -297,30 +257,6 @@ const CallReport = ({
     getSummary(finalData);
   };
 
-  // const alldemosentered = [];
-  // allLeadEnteredToday &&
-  //   allLeadEnteredToday.map((demos) =>
-  //     alldemosentered.push({
-  //       demosId: demos._id,
-  //       label: demos.empFullName,
-  //       value: demos.empFullName,
-  //     })
-  //   );
-
-  let month = "";
-  // let count = 0;
-  // let salesv = 0;
-  // allSummary &&
-  //   allSummary.getAllSctCallsClient &&
-  //   allSummary.getAllSctCallsClient.filter((ele) => {
-  //     if (ele.sctLeadsCategory !== "" || ele.sctCallCategory !== "") {
-  //       count += 1;
-  //       month = ele.sctExpectedMonthYear;
-
-  //       salesv += ele.sctCallSalesValue;
-  //     }
-  //   });
-
   return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
@@ -426,35 +362,37 @@ const CallReport = ({
                             sctCallsCount1.getAllSctCallsClient[0]
                               .sctCallSalesValue}
                         </h3> */}
-                        <table
-                          className="table table-bordered table-striped table-hover"
-                          id="datatable2"
-                        >
-                          <thead>
-                            <tr>
-                              <th width="15px">No.</th>
-                              <th>Name</th>
-                              <th>Client</th>
-                              <th>sales Value</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {sctCallsCount1 &&
-                              sctCallsCount1.getAllSctCallsClient &&
-                              sctCallsCount1.getAllSctCallsClient.map(
-                                (call, idx) => {
-                                  return (
-                                    <tr key={idx}>
-                                      <td>{idx + 1}</td>
-                                      <td>{call.sctCallFromName}</td>
-                                      <td>{call.countClient}</td>
-                                      <td>{call.sctCallSalesValue}</td>
-                                    </tr>
-                                  );
-                                }
-                              )}
-                          </tbody>
-                        </table>
+                        <div style={{ padding: "0 15px 0 15px" }}>
+                          <table
+                            className="table table-bordered table-striped table-hover"
+                            id="datatable2"
+                          >
+                            <thead>
+                              <tr>
+                                <th width="15px">No.</th>
+                                <th>Name</th>
+                                <th> No. of Clients</th>
+                                <th>Sales Value</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {sctCallsCount1 &&
+                                sctCallsCount1.getAllSctCallsClient &&
+                                sctCallsCount1.getAllSctCallsClient.map(
+                                  (call, idx) => {
+                                    return (
+                                      <tr key={idx}>
+                                        <td>{idx + 1}</td>
+                                        <td>{call.sctCallFromName}</td>
+                                        <td>{call.countClient}</td>
+                                        <td>{call.sctCallSalesValue}</td>
+                                      </tr>
+                                    );
+                                  }
+                                )}
+                            </tbody>
+                          </table>
+                        </div>
                       </center>
                     </div>
                   </div>
@@ -480,40 +418,46 @@ const CallReport = ({
                                 .sctCallSalesValue}
                           </h3>
                         </h3> */}
-                        <table
-                          className="table table-bordered table-striped table-hover"
-                          id="datatable2"
-                        >
-                          <thead>
-                            <tr>
-                              <th width="15px">No.</th>
-                              <th>Name</th>
-                              <th>Client </th>
-                              <th>Sales Value</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {allFollowUp &&
-                              allFollowUp.getAllSctCallsClient &&
-                              allFollowUp.getAllSctCallsClient.map(
-                                (today, idx) => {
-                                  return (
-                                    <tr key={idx}>
-                                      <td>{idx + 1}</td>
-                                      <td>{today.sctCallFromName}</td>
-                                      <td>{today.countClient}</td>
-                                      <td>{today.sctCallSalesValue}</td>
-                                    </tr>
-                                  );
-                                }
-                              )}
-                          </tbody>
-                        </table>
+                        <div style={{ padding: "0 15px 0 15px" }}>
+                          <table
+                            className="table table-bordered table-striped table-hover"
+                            id="datatable2"
+                          >
+                            <thead>
+                              <tr>
+                                <th width="15px">No.</th>
+                                <th>Name</th>
+                                <th> No. of Clients </th>
+                                <th>Sales Value</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {allFollowUp &&
+                                allFollowUp.getAllSctCallsClient &&
+                                allFollowUp.getAllSctCallsClient.map(
+                                  (today, idx) => {
+                                    return (
+                                      <tr key={idx}>
+                                        <td>{idx + 1}</td>
+                                        <td>{today.sctCallFromName}</td>
+                                        <td>{today.countClient}</td>
+                                        <td>{today.sctCallSalesValue}</td>
+                                      </tr>
+                                    );
+                                  }
+                                )}
+                            </tbody>
+                          </table>
+                        </div>
                       </center>
                     </div>
                   </div>
+
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
-                    <div className="card card-content ">
+                    <div
+                      className="card card-content "
+                      style={{ height: "100%" }}
+                    >
                       <center>
                         <h3 className="callreport">Pipeline Clients</h3>
                         {/* <h3 className="callreport">Pipeline Clients</h3>
@@ -524,30 +468,34 @@ const CallReport = ({
                             PipeLineData[0] &&
                             PipeLineData[0].sctCallSalesValue}
                         </h3> */}
-                        <table
-                          className="table table-bordered table-striped table-hover"
-                          id="datatable2"
-                        >
-                          <thead>
-                            <tr>
-                              <th>Name</th>
-                              <th>Client</th>
-                              <th>Total Sales</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {PipeLineData &&
-                              PipeLineData.map((ele) => {
-                                return (
-                                  <tr>
-                                    <td>{ele.sctCallFromName}</td>
-                                    <td>{ele.countClient}</td>
-                                    <td>{ele.sctCallSalesValue}</td>
-                                  </tr>
-                                );
-                              })}
-                          </tbody>
-                        </table>
+                        <div style={{ padding: "0 15px 0 15px" }}>
+                          <table
+                            className="table table-bordered table-striped table-hover"
+                            id="datatable2"
+                          >
+                            <thead>
+                              <tr>
+                                <th width="15px">No.</th>
+                                <th>Name</th>
+                                <th> Total Clients</th>
+                                <th>Total Sales</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {PipeLineData &&
+                                PipeLineData.map((ele, idx) => {
+                                  return (
+                                    <tr>
+                                      <td>{idx + 1}</td>
+                                      <td>{ele.sctCallFromName}</td>
+                                      <td>{ele.countClient}</td>
+                                      <td>{ele.sctCallSalesValue}</td>
+                                    </tr>
+                                  );
+                                })}
+                            </tbody>
+                          </table>
+                        </div>
                       </center>
                     </div>
                   </div>
@@ -570,9 +518,10 @@ const CallReport = ({
                         >
                           <thead>
                             <tr>
+                              <th width="15px">No.</th>
                               <th>Month</th>
-                              <th>Client</th>
-                              <th>Sales</th>
+                              <th>Total Clients</th>
+                              <th>Total Sales</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -582,9 +531,10 @@ const CallReport = ({
                               <td>{totSales}</td>
                             </tr> */}
                             {onlySummary &&
-                              onlySummary.map((ele) => {
+                              onlySummary.map((ele, idx) => {
                                 return (
                                   <tr>
+                                    <td>{idx + 1}</td>
                                     <td>{ele._id}</td>
                                     <td>{ele.countClient}</td>
                                     <td>{ele.sctCallSalesValue}</td>
@@ -617,8 +567,8 @@ const CallReport = ({
                             <tr>
                               <th width="15px">No.</th>
                               <th>Name</th>
-                              <th>Client</th>
-                              <th>sales Value</th>
+                              <th>No. of Clients</th>
+                              <th>Sales Value</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -660,7 +610,7 @@ const CallReport = ({
                             <tr>
                               <th width="15px">No.</th>
                               <th>Name</th>
-                              <th>Client </th>
+                              <th>No. of Clients </th>
                               <th>Sales Value</th>
                             </tr>
                           </thead>
@@ -696,16 +646,18 @@ const CallReport = ({
                         >
                           <thead>
                             <tr>
+                              <th width="15px">No.</th>
                               <th>Name</th>
-                              <th>Client</th>
+                              <th>Total Clients</th>
                               <th>Total Sales</th>
                             </tr>
                           </thead>
                           <tbody>
                             {PipeLineData &&
-                              PipeLineData.map((ele) => {
+                              PipeLineData.map((ele, idx) => {
                                 return (
                                   <tr>
+                                    <td>{idx + 1}</td>
                                     <td>{ele.sctCallFromName}</td>
                                     <td>{ele.countClient}</td>
                                     <td>{ele.sctCallSalesValue}</td>
@@ -735,17 +687,19 @@ const CallReport = ({
                         >
                           <thead>
                             <tr>
+                              <th width="15px">No.</th>
                               <th>Month</th>
-                              <th>Client</th>
+                              <th>Total Clients</th>
                               <th>Total Sales</th>
                             </tr>
                           </thead>
 
                           <tbody>
                             {onlySummary &&
-                              onlySummary.map((ele) => {
+                              onlySummary.map((ele, idx) => {
                                 return (
                                   <tr>
+                                    <td>{idx + 1}</td>
                                     <td>{ele._id}</td>
                                     <td>{ele.countClient}</td>
                                     <td>{ele.sctCallSalesValue}</td>

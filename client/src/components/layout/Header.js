@@ -337,7 +337,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       to="/sct-call-report"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      <Dropdown.Item>Call Report</Dropdown.Item>
+                      <Dropdown.Item>MIS Report</Dropdown.Item>
                     </NavLink>
                   </Dropdown>
                 ) : (

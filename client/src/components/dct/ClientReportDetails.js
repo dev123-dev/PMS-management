@@ -38,11 +38,18 @@ const ClientReportDetails = ({
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
+  let defaultStartDate = new Date().getFullYear() + "-" + "04" + "-" + "01";
+  let defaultEndDate = new Date().getFullYear() + 1 + "-" + "03" + "-" + "31";
+  let ClientFolderName = "";
   let financialyear = JSON.parse(localStorage.getItem("financialYear"));
-
   useEffect(() => {
     getYear();
-    getFYclient();
+    getFYclient({
+      startDate: defaultStartDate,
+      endDate: defaultEndDate,
+      clientFolderName: ClientFolderName,
+      finYear: financialyear && financialyear[0]._id,
+    });
   }, []);
   useEffect(() => {
     client.onopen = () => {
@@ -58,18 +65,19 @@ const ClientReportDetails = ({
   }, [getAllFolder1]);
 
   const [clientData, setClientData1] = useState("");
-  const [Year, setYear] = useState("");
-
+  const [Year, setYear] = useState(financialyear && financialyear[0]._id);
+  const [startDate, setStartDate] = useState(defaultStartDate);
+  const [endDate, setendDate] = useState(defaultEndDate);
   const onfolderClientChange = (e) => {
     setClientData1(e);
 
-    let folderData = {
-      folder: e.value,
-    };
-    getFYclient(folderData);
+    getFYclient({
+      startDate: startDate,
+      endDate: endDate,
+      clientFolderName: e.value,
+      finYear: Year,
+    });
   };
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setendDate] = useState("");
 
   const onYearChange = (e) => {
     setYear(e);
@@ -78,14 +86,11 @@ const ClientReportDetails = ({
     let selYear = {
       startDate: e.value.startDate,
       endDate: e.value.endDate,
+      clientFolderName: "",
+      finYear: Year,
     };
     getFYclient(selYear);
-
-    // let selDateData = {
-    //   folder: e.value,
-    //   statusId: projectStatusData.value,
-    //   dateVal: singledate,
-    // };
+    setClientData1("");
   };
 
   const year = [];
@@ -103,9 +108,12 @@ const ClientReportDetails = ({
 
   const onClickReset = () => {
     setYear("");
-    getFYclient();
-    getMonthWiseClient();
-
+    getFYclient({
+      startDate: defaultStartDate,
+      endDate: defaultEndDate,
+      clientFolderName: ClientFolderName,
+      finYear: Year,
+    });
     setClientData1("");
   };
 
@@ -119,21 +127,14 @@ const ClientReportDetails = ({
     );
 
   const handleGoToAllMember = (client) => {
-    let date = new Date();
-    let defaultEnd = date.getFullYear() + 1;
-    let startDta = date.getFullYear() + "-" + "03" + "-" + "01";
-    let endday = defaultEnd + "-" + "04" + "-" + "31";
-    const finalData = {
-      Id: client._id,
-      clientName: client.clientName,
-      clientFolderName: client.clientFolderName,
-      startDate: client.projectDate,
-      endDate: endday,
-    };
-
-    getMonthWiseClient(finalData);
-    // setSubmitted(true);
+    getMonthWiseClient({
+      clientFolderName: client._id,
+      startDate: startDate,
+      endDate: endDate,
+      finYear: client.finYear,
+    });
   };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -151,7 +152,7 @@ const ClientReportDetails = ({
                 options={year}
                 value={Year}
                 isSearchable={true}
-                placeholder="Select Year"
+                placeholder={Year}
                 onChange={(e) => onYearChange(e)}
               />
             </div>
@@ -193,11 +194,6 @@ const ClientReportDetails = ({
                     <tbody>
                       {FYclient &&
                         FYclient.map((client, idx) => {
-                          var projectdate = "";
-                          if (client.projectDate) {
-                            var ED1 = client.projectDate.split(/\D/g);
-                            projectdate = [ED1[2], ED1[1], ED1[0]].join("-");
-                          }
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
@@ -222,16 +218,6 @@ const ClientReportDetails = ({
             </div>
           </div>
         </section>
-
-        {/* <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
-          <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
-          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            <span className="footerfont"> Projects:</span>
-          </div>
-          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            <span className="footerfont">Quantity:</span>
-          </div>
-        </div> */}
       </div>
     </Fragment>
   );
