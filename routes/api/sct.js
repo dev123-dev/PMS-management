@@ -2361,9 +2361,9 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
             sctLeadsCategory: { $first: "$sctLeadsCategory" },
           },
         },
-        {
-          $project: {},
-        },
+        // {
+        //   $project: {},
+        // },
       ]);
     }
     res.json({

@@ -260,7 +260,7 @@ const AllDctWrongNumbers = ({
             </div>
 
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Wrong Numbers</h5>
+              <h4 className="heading_color">All Wrong Numbers</h4>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -274,7 +274,7 @@ const AllDctWrongNumbers = ({
               />
             </div>
 
-            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2">
               <CSVLink
                 className="secondlinebreak"
                 data={csvData}
