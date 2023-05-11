@@ -158,9 +158,9 @@ const FollowupHistory = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Followup History </h5>
+              <h4 className="heading_color">Followup History </h4>
             </div>
-            <div className="row col-lg-12 col-md-6 col-sm-12 col-12 no_padding">
+            <div className="row col-lg-10 col-md-6 col-sm-12 col-12 no_padding">
               <div className="col-lg-2 col-md-4 col-sm-4 col-12 py-2">
                 <Select
                   name="Dateselectmode"
@@ -193,7 +193,7 @@ const FollowupHistory = ({
                       onChange={(newValue) => ontoDateChange(newValue)}
                     />
                   </div>
-                  <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-2 ">
+                  <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
                     <button
                       className="btn btn_green_bg float-right"
                       onClick={() => onClickReset()}
@@ -214,7 +214,7 @@ const FollowupHistory = ({
                       onChange={(newValue) => onDateChangesingle(newValue)}
                     />
                   </div>
-                  <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-2 ">
+                  <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2 ">
                     <button
                       className="btn btn_green_bg float-right"
                       onClick={() => onClickReset()}

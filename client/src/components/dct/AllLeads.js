@@ -346,7 +346,7 @@ const AllLeads = ({
                 </h6>
               )}
             </div>
-            <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 ">
               <h4 className="heading_color">All Leads</h4>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -388,7 +388,7 @@ const AllLeads = ({
                 <></>
               )}
             </div>
-            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2 ">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
               user.userGroupName === "Super Admin" ||
               user.empCtAccess === "All" ? (
@@ -407,7 +407,7 @@ const AllLeads = ({
               )}
             </div>
 
-            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2">
+            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2 align_right">
               {user.userGroupName && user.userGroupName === "Super Admin" && (
                 <button
                   className="btn btn_green_bg "

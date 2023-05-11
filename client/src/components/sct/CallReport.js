@@ -140,9 +140,8 @@ const CallReport = ({
     }
   };
 
-  const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+  const [selectedDate, setSelectedDate] = useState();
+  // new Date().toISOString().split("T")[0]
   const [ReversedselectedDate, setReversedselectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -309,13 +308,13 @@ const CallReport = ({
   ) : (
     <Fragment>
       <div className="container container_align">
-        <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
-          <div className="col-lg-11 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">MIS Report </h2>
+        <div className="row col-lg-12 col-md-6 col-sm-12 col-12 no_padding">
+          <div className="col-lg-2 col-md-11 col-sm-12 col-12">
+            <h3 className="heading_color">MIS Report </h3>
           </div>
 
-          <div className="row col-lg-12 col-md-6 col-sm-12 col-12 no_padding">
-            <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-2">
+          <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
+            <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-4">
               <Select
                 name="Dateselectmode"
                 options={DateMethods}
@@ -328,7 +327,7 @@ const CallReport = ({
             </div>
             {showdateSection && (
               <>
-                <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-4">
                   {/* <input
                     type="date"
                     placeholder="dd/mm/yyyy"
@@ -351,7 +350,7 @@ const CallReport = ({
                     onChange={(e) => onDateChange(e)}
                   />
                 </div>
-                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-4">
                   {/* <input
                     type="date"
                     placeholder="dd/mm/yyyy"
@@ -378,7 +377,7 @@ const CallReport = ({
             )}
             {showdateSection1 && (
               <>
-                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-4">
                   {/* <input
                     type="date"
                     placeholder="dd/mm/yyyy"

@@ -354,7 +354,7 @@ const AllDctPotentials = ({
             </div>
 
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Potentials</h5>
+              <h4 className="heading_color">All Potentials</h4>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -425,7 +425,7 @@ const AllDctPotentials = ({
               )}
             </div>
 
-            <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}

@@ -76,9 +76,9 @@ const AllDctClients = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All DCT Client Details </h5>
+              <h4 className="heading_color">All DCT Client Details </h4>
             </div>
-            <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-2">
               <Select
                 name="clientData"
                 isSearchable={true}
@@ -88,7 +88,7 @@ const AllDctClients = ({
                 onChange={(e) => onClientChange(e)}
               />
             </div>
-            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2">
               <Link
                 className="btn btn_green_bg float-right"
                 to="/add-dct-client"

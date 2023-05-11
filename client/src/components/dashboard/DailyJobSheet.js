@@ -76,6 +76,7 @@ const DailyJobSheet = ({
   useEffect(() => {
     getDailyJobsheetProjectDeatils();
   }, []);
+
   // useEffect(() => {
   //   getDailyJobSheetExcelExport();
   // }, []);
@@ -432,14 +433,45 @@ const DailyJobSheet = ({
     new Date().toISOString().split("T")[0]
   );
 
-  const [singledate, setsingledate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+  const [singledate, setsingledate] = useState();
+  // new Date().toISOString().split("T")[0]
   const [singledateshow, setsingledateshow] = useState("");
 
   //
   const onDateChange2 = (e) => {
     // setprojectData("");
+    // setSelectedDate(e.target.value);
+    // var newDate = e;
+    // var calDate = new Date(newDate);
+    // var dd1 = calDate.getDate();
+    // var mm2 = calDate.getMonth() + 1;
+    // var yyyy1 = calDate.getFullYear();
+    // if (dd1 < 10) {
+    //   dd1 = "0" + dd1;
+    // }
+
+    // if (mm2 < 10) {
+    //   mm2 = "0" + mm2;
+    // }
+    // var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
+    // setsingledate(clientEndDate);
+    // var clientDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    // setsingledateshow(clientDate);
+
+    setsingledate(e.target.value);
+    let selDateData = {
+      selDate: e.target.value,
+      dateType: "Single Date",
+      folderId: projectData.folderId,
+    };
+
+    setSelDateDataVal(selDateData);
+    getDailyJobsheetProjectDeatils(selDateData);
+    getDailyJobSheetExcelExport(selDateData);
+    getDailyjobSheetFolder(selDateData);
+  };
+
+  const onDateSingle = (e) => {
     var newDate = e;
     var calDate = new Date(newDate);
     var dd1 = calDate.getDate();
@@ -456,14 +488,11 @@ const DailyJobSheet = ({
     setsingledate(clientEndDate);
     var clientDate = dd1 + "-" + mm2 + "-" + yyyy1;
     setsingledateshow(clientDate);
-
-    // setsingledate(e.target.value);
     let selDateData = {
       selDate: clientEndDate,
       dateType: "Single Date",
       folderId: projectData.folderId,
     };
-
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
     getDailyJobSheetExcelExport(selDateData);
@@ -473,6 +502,27 @@ const DailyJobSheet = ({
   const [fromdate, setfromdate] = useState("");
   const [fromdateshow, setfromdateshow] = useState("");
   const onDateChange = (e) => {
+    // var newDate = e;
+    // var calDate = new Date(newDate);
+    // var dd1 = calDate.getDate();
+    // var mm2 = calDate.getMonth() + 1;
+    // var yyyy1 = calDate.getFullYear();
+    // if (dd1 < 10) {
+    //   dd1 = "0" + dd1;
+    // }
+
+    // if (mm2 < 10) {
+    //   mm2 = "0" + mm2;
+    // }
+    // var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
+    // setfromdate(clientEndDate);
+    // console.log("from date", clientEndDate);
+    // var clientDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    setfromdate(e.target.value);
+    //setfromdate(e.target.value);
+  };
+
+  const onfromDateChangedatepicker = (e) => {
     var newDate = e;
     var calDate = new Date(newDate);
     var dd1 = calDate.getDate();
@@ -487,15 +537,46 @@ const DailyJobSheet = ({
     }
     var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
     setfromdate(clientEndDate);
-    console.log("from date", clientEndDate);
     var clientDate = dd1 + "-" + mm2 + "-" + yyyy1;
     setfromdateshow(clientDate);
-    //setfromdate(e.target.value);
+    setfromdate(clientEndDate);
   };
 
   const [todate, settodate] = useState("");
   const [todateshow, settodateshow] = useState("");
   const onDateChange1 = (e) => {
+    // var newDate = e;
+    // var calDate = new Date(newDate);
+    // var dd1 = calDate.getDate();
+    // var mm2 = calDate.getMonth() + 1;
+    // var yyyy1 = calDate.getFullYear();
+    // if (dd1 < 10) {
+    //   dd1 = "0" + dd1;
+    // }
+
+    // if (mm2 < 10) {
+    //   mm2 = "0" + mm2;
+    // }
+    // var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
+    settodate(e.target.value);
+    // console.log("to date", clientEndDate);
+    // var clientDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    // settodateshow(clientDate);
+    //settodate(e.target.value);
+
+    let selDateData = {
+      fromdate: fromdate,
+      todate: e.target.value,
+      dateType: "Multi Date",
+      folderId: projectData.folderId,
+    };
+
+    setSelDateDataVal(selDateData);
+    getDailyJobsheetProjectDeatils(selDateData);
+    getDailyJobSheetExcelExport(selDateData);
+    getDailyjobSheetFolder(selDateData);
+  };
+  const ontoDateChange = (e) => {
     var newDate = e;
     var calDate = new Date(newDate);
     var dd1 = calDate.getDate();
@@ -510,10 +591,9 @@ const DailyJobSheet = ({
     }
     var clientEndDate = yyyy1 + "-" + mm2 + "-" + dd1;
     settodate(clientEndDate);
-    console.log("to date", clientEndDate);
-    var clientDate = dd1 + "-" + mm2 + "-" + yyyy1;
-    settodateshow(clientDate);
-    //settodate(e.target.value);
+    var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+    settodateshow(EndDate);
+    settodate(fromdate);
 
     let selDateData = {
       fromdate: fromdate,
@@ -521,7 +601,7 @@ const DailyJobSheet = ({
       dateType: "Multi Date",
       folderId: projectData.folderId,
     };
-    console.log(selDateData);
+
     setSelDateDataVal(selDateData);
     getDailyJobsheetProjectDeatils(selDateData);
     getDailyJobSheetExcelExport(selDateData);
@@ -625,11 +705,14 @@ const DailyJobSheet = ({
     // getDailyjobSheetClients("");
     getDailyjobSheetFolder("");
     setsingledateshow("");
+    setsingledate("");
     setSelDateDataVal("");
     setprojectData("");
     setfromdate("");
-    setfromdateshow("");
-    setsingledate(new Date().toISOString().split("T")[0]);
+
+    settodate("");
+
+    //setsingledate(new Date().toISOString().split("T")[0]);
     setSelectedDate(new Date().toISOString().split("T")[0]);
     setShowHide({
       ...showHide,
@@ -646,12 +729,12 @@ const DailyJobSheet = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className="col-lg-1 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Daily Job Sheet</h5>
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10">
+              <h4 className="heading_color">Daily Job Sheet</h4>
             </div>
 
             <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
-              <div className="col-lg-4 col-md-4 col-sm-4 col-12 py-4">
+              <div className="col-lg-2 col-md-4 col-sm-4 col-12 py-2">
                 {/* SLAP UserGroupRights */}
 
                 {(user.userGroupName &&
@@ -665,7 +748,7 @@ const DailyJobSheet = ({
                       isSearchable={true}
                       // defaultValue={DateMethods[0]}
                       value={Dateselectmode}
-                      placeholder="Select "
+                      placeholder="Select"
                       onChange={(e) => onDateModeChange(e)}
                     />
                   </>
@@ -675,8 +758,8 @@ const DailyJobSheet = ({
               </div>
               {showdateSection && (
                 <>
-                  <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-4 ">
-                    <DatePicker
+                  <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2 ">
+                    {/* <DatePicker
                       label="Controlled picker"
                       value={fromdateshow}
                       placeholderText="dd-mm-yyyy"
@@ -684,9 +767,11 @@ const DailyJobSheet = ({
                       style={{
                         width: "100%",
                       }}
-                      onChange={(newValue) => onDateChange(newValue)}
-                    />
-                    {/* <input
+                      onChange={(newValue) =>
+                        onfromDateChangedatepicker(newValue)
+                      }
+                    /> */}
+                    <input
                       type="date"
                       placeholder="dd/mm/yyyy"
                       className="form-control cpp-input datevalidation"
@@ -700,10 +785,10 @@ const DailyJobSheet = ({
                         e.preventDefault();
                       }}
                       required
-                    /> */}
+                    />
                   </div>
-                  <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-4">
-                    <DatePicker
+                  <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                    {/* <DatePicker
                       label="Controlled picker"
                       value={todateshow}
                       placeholderText="dd-mm-yyyy"
@@ -711,9 +796,9 @@ const DailyJobSheet = ({
                       style={{
                         width: "100%",
                       }}
-                      onChange={(newValue) => onDateChange1(newValue)}
-                    />
-                    {/* <input
+                      onChange={(newValue) => ontoDateChange(newValue)}
+                    /> */}
+                    <input
                       type="date"
                       placeholder="dd/mm/yyyy"
                       className="form-control cpp-input datevalidation"
@@ -727,7 +812,7 @@ const DailyJobSheet = ({
                         e.preventDefault();
                       }}
                       required
-                    /> */}
+                    />
                   </div>
                   {/* <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-3">
                     <img
@@ -742,8 +827,8 @@ const DailyJobSheet = ({
               )}
               {showdateSection1 && (
                 <>
-                  <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-4  ">
-                    <DatePicker
+                  <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2 ">
+                    {/* <DatePicker
                       label="Controlled picker"
                       value={singledateshow}
                       placeholderText="dd-mm-yyyy"
@@ -751,9 +836,9 @@ const DailyJobSheet = ({
                       style={{
                         width: "100%",
                       }}
-                      onChange={(newValue) => onDateChange2(newValue)}
-                    />
-                    {/* <input
+                      onChange={(newValue) => onDateSingle(newValue)}
+                    /> */}
+                    <input
                       type="date"
                       placeholder="dd/mm/yyyy"
                       className="form-control cpp-input datevalidation"
@@ -761,13 +846,13 @@ const DailyJobSheet = ({
                       value={singledate}
                       onChange={(e) => onDateChange2(e)}
                       style={{
-                        width: "100%",
+                        width: "110%",
                       }}
                       onKeyDown={(e) => {
                         e.preventDefault();
                       }}
                       required
-                    /> */}
+                    />
                   </div>
                   {/* <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-3">
                     <img
@@ -780,7 +865,7 @@ const DailyJobSheet = ({
                   </div> */}
                 </>
               )}
-              <div className="col-lg-4 col-md-11 col-sm-10 col-10 py-4">
+              <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
                 <Select
                   name="projectData"
                   isSearchable={true}
@@ -794,7 +879,7 @@ const DailyJobSheet = ({
 
             {/* <CSVDownload data={dailyJobsheetProjects} target="_blank" />; */}
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-4">
+            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-2">
               <CSVLink
                 className="secondlinebreak"
                 data={csvData}
