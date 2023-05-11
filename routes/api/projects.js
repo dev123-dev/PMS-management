@@ -1043,7 +1043,6 @@ router.post("/get-selected-client-details", async (req, res) => {
       clientName: clientName,
     });
     res.json(getSelectedClientDetails);
-    console.log("getSelectedClientDetails", getSelectedClientDetails);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -1067,7 +1066,6 @@ router.post("/get-selected-project-details", async (req, res) => {
     //   projectName: projectName,
     // });
     const getSelectedProjectDetails = await Project.find(query);
-    console.log("getSelectedProjectDetails", getSelectedProjectDetails);
 
     res.json(getSelectedProjectDetails);
   } catch (err) {
