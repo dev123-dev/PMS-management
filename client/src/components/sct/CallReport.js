@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import DatePicker from "react-datepicker";
 import {
   getAllSctCallCount1,
   getAllFollowUp,
@@ -93,7 +94,10 @@ const CallReport = ({
   }, [getAllSctCallCount1]);
 
   useEffect(() => {
-    getSummary({ selDate: "", dateType: "Single Date" });
+    getSummary({
+      fromdate: new Date().toISOString().split("T")[0],
+      todate: new Date().toISOString().split("T")[0],
+    });
   }, []);
 
   const DateMethods = [
@@ -139,13 +143,15 @@ const CallReport = ({
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
+  const [ReversedselectedDate, setReversedselectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
 
   const [singledate, setsingledate] = useState(
     new Date().toISOString().split("T")[0]
   );
   //
   const onDateChange2 = (e) => {
-    setSelectedDate(e.target.value);
     const MonthYear = [
       { label: "January", value: 1 },
       { label: "Febrery", value: 2 },
@@ -160,9 +166,18 @@ const CallReport = ({
       { label: "November", value: 11 },
       { label: "December", value: 12 },
     ];
-    let new_date = new Date(e.target.value);
+    let new_date = new Date(e);
+
     let month = new_date.getMonth() + 1;
     let year = new_date.getFullYear();
+    let date = new_date.getDate();
+    if (date < 10) {
+      date = "0" + date;
+    }
+
+    let final_date = date + "-" + month + "-" + year;
+
+    setSelectedDate(final_date);
 
     let finaldata = MonthYear.filter((ele) => {
       if (ele.value === month) {
@@ -171,13 +186,18 @@ const CallReport = ({
     });
 
     let new_year = finaldata[0].label + "-" + year;
+    // setReversedselectedDate(ReversedDate);
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    let ReversedDate = year + "-" + month + "-" + date;
     setsingledate(new_year);
     let finalData = {
-      selDate: e.target.value,
-      dateType: "Single Date",
+      fromdate: ReversedDate,
+      todate: ReversedDate,
       // folderId: projectData.folderId,
     };
-
     // setSelDateDataVal(selDateData);
     getAllSctCallCount1(finalData);
     getAllFollowUp(finalData);
@@ -186,6 +206,7 @@ const CallReport = ({
 
   const [fromdate, setfromdate] = useState("");
   const [FromDateValue, setFromDateValue] = useState("");
+  const [ReversedFromDateValue, setReversedFromDateValue] = useState("");
 
   const onDateChange = (e) => {
     const MonthYear = [
@@ -202,10 +223,21 @@ const CallReport = ({
       { label: "November", value: 11 },
       { label: "December", value: 12 },
     ];
-    let new_date = new Date(e.target.value);
-    setFromDateValue(e.target.value);
+    let new_date = new Date(e);
+
     let month = new_date.getMonth() + 1;
     let year = new_date.getFullYear();
+    let date = new_date.getDate();
+    if (date < 10) {
+      date = "0" + date;
+    }
+    if (month < 10) {
+      month = "0" + month;
+    }
+    let final_date = date + "-" + month + "-" + year;
+    let ReversedDate = year + "-" + month + "-" + date;
+    setFromDateValue(final_date);
+    setReversedFromDateValue(ReversedDate);
     let finaldata = MonthYear.filter((ele) => {
       if (ele.value === month) {
         return ele.label;
@@ -219,6 +251,7 @@ const CallReport = ({
   const [ToDateValue, setToDateValue] = useState("");
 
   const onDateChange1 = (e) => {
+    //  toenddate
     const MonthYear = [
       { label: "January", value: 1 },
       { label: "Febrery", value: 2 },
@@ -233,10 +266,19 @@ const CallReport = ({
       { label: "November", value: 11 },
       { label: "December", value: 12 },
     ];
-    let new_date = new Date(e.target.value);
-    setToDateValue(e.target.value);
+    let new_date = new Date(e);
+
     let month = new_date.getMonth() + 1;
     let year = new_date.getFullYear();
+    let date = new_date.getDate();
+    if (date < 10) {
+      date = "0" + date;
+    }
+
+    let final_date = date + "-" + month + "-" + year;
+
+    setToDateValue(final_date);
+
     let finaldata = MonthYear.filter((ele) => {
       if (ele.value === month) {
         return ele.label;
@@ -245,9 +287,14 @@ const CallReport = ({
     let To_new_year = finaldata[0].label + "-" + year;
     settodate(To_new_year);
 
+    if (month < 10) {
+      month = "0" + month;
+    }
+    let ReversedDate = year + "-" + month + "-" + date;
+
     let finalData = {
-      fromdate: FromDateValue,
-      todate: e.target.value,
+      fromdate: ReversedFromDateValue,
+      todate: ReversedDate,
       dateType: "Multi Date",
       // folderId: projectData.folderId,
     };
@@ -282,13 +329,11 @@ const CallReport = ({
             {showdateSection && (
               <>
                 <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
-                  <input
+                  {/* <input
                     type="date"
                     placeholder="dd/mm/yyyy"
                     className="form-control cpp-input datevalidation"
                     name="fromdate"
-                    value={FromDateValue}
-                    onChange={(e) => onDateChange(e)}
                     style={{
                       width: "110%",
                     }}
@@ -296,22 +341,36 @@ const CallReport = ({
                       e.preventDefault();
                     }}
                     required
+                  /> */}
+
+                  <DatePicker
+                    label="Controlled picker"
+                    value={FromDateValue}
+                    className="form-control"
+                    placeholderText="dd-mm-yyyy"
+                    onChange={(e) => onDateChange(e)}
                   />
                 </div>
                 <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
-                  <input
+                  {/* <input
                     type="date"
                     placeholder="dd/mm/yyyy"
-                    className="form-control cpp-input datevalidation"
+                    // className="form-control cpp-input datevalidation"
                     name="todate"
-                    value={ToDateValue}
-                    onChange={(e) => onDateChange1(e)}
                     style={{
                       width: "110%",
                     }}
                     onKeyDown={(e) => {
                       e.preventDefault();
                     }}
+                    
+                  /> */}
+                  <DatePicker
+                    label="Controlled picker"
+                    value={ToDateValue}
+                    className="form-control"
+                    placeholderText="dd-mm-yyyy"
+                    onChange={(e) => onDateChange1(e)}
                     required
                   />
                 </div>
@@ -320,19 +379,26 @@ const CallReport = ({
             {showdateSection1 && (
               <>
                 <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
-                  <input
+                  {/* <input
                     type="date"
                     placeholder="dd/mm/yyyy"
-                    className="form-control cpp-input datevalidation"
+                    //className="form-control cpp-input datevalidation"
                     name="singledate"
-                    value={selectedDate}
-                    onChange={(e) => onDateChange2(e)}
                     style={{
                       width: "100%",
                     }}
                     onKeyDown={(e) => {
                       e.preventDefault();
                     }}
+                    required
+                  /> */}
+
+                  <DatePicker
+                    label="Controlled picker"
+                    value={selectedDate}
+                    className="form-control"
+                    placeholderText="dd-mm-yyyy"
+                    onChange={(e) => onDateChange2(e)}
                     required
                   />
                 </div>

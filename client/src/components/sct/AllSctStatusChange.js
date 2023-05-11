@@ -30,7 +30,6 @@ const AllSctStatusChange = ({
   page,
   getSctStaffsData,
 }) => {
-  console.log("leadDataVal", leadDataVal);
   useEffect(() => {
     checkDemo({ demoUserId: leadDataVal._id });
   }, [leadDataVal, checkDemo]);
@@ -93,7 +92,6 @@ const AllSctStatusChange = ({
     );
   }
   //STATUS END
-  console.log("staffFilter", staffFilter);
   //Category
 
   let CategoryMethods = [
@@ -163,7 +161,6 @@ const AllSctStatusChange = ({
   } = error;
 
   const checkErrors = () => {
-    console.log("statusmodeIdChecker", statusmodeIdChecker);
     if (!statusmodeIdChecker) {
       setError({
         ...error,
@@ -481,7 +478,7 @@ const AllSctStatusChange = ({
         filterData: filterData,
         page: page,
       };
-      console.log("finalData", finalData);
+      //console.log("finalData", finalData);
       if (from === "EngagedClient" || from === "RegularClient") {
         addSctClientCalls(finalData);
       } else {

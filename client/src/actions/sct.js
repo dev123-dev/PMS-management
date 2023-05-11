@@ -564,6 +564,7 @@ export const addSctCalls = (finalData) => async (dispatch) => {
 };
 
 export const addSctClientCalls = (finalData) => async (dispatch) => {
+  console.log("x", finalData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,
