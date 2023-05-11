@@ -894,6 +894,10 @@ const JobQueue = ({
                                                 ...base,
                                                 color: "#fff",
                                               }),
+                                              input: (baseStyles) => ({
+                                                ...baseStyles,
+                                                color: "transparent",
+                                              }),
                                             }}
                                             name="projectStatusData"
                                             value={{
@@ -963,6 +967,10 @@ const JobQueue = ({
                                               input: (base) => ({
                                                 ...base,
                                                 color: "#fff",
+                                              }),
+                                              input: (baseStyles) => ({
+                                                ...baseStyles,
+                                                color: "transparent",
                                               }),
                                             }}
                                             name="projectStatusData"
@@ -1239,6 +1247,10 @@ const JobQueue = ({
                                                 ...base,
                                                 color: "#fff",
                                               }),
+                                              input: (baseStyles) => ({
+                                                ...baseStyles,
+                                                color: "transparent",
+                                              }),
                                             }}
                                             name="projectStatusData"
                                             value={{
@@ -1309,6 +1321,10 @@ const JobQueue = ({
                                               input: (base) => ({
                                                 ...base,
                                                 color: "#fff",
+                                              }),
+                                              input: (baseStyles) => ({
+                                                ...baseStyles,
+                                                color: "transparent",
                                               }),
                                             }}
                                             name="projectStatusData"
