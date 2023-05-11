@@ -218,16 +218,6 @@ const ClientReportDetails = ({
             </div>
           </div>
         </section>
-
-        {/* <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
-          <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
-          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            <span className="footerfont"> Projects:</span>
-          </div>
-          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            <span className="footerfont">Quantity:</span>
-          </div>
-        </div> */}
       </div>
     </Fragment>
   );
