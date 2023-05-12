@@ -2716,7 +2716,7 @@ router.post("/get-summary", auth, async (req, res) => {
           $or: [
             {
               sctCallCategory: {
-                $ne: null,
+                $ne: "",
               },
             },
             {
@@ -2755,15 +2755,15 @@ router.post("/get-summary", auth, async (req, res) => {
            * query: The query in MQL.
            */
           {
-            $and: [
+            $or: [
               {
                 sctLeadsCategory: {
-                  $ne: "",
+                  $eq: "",
                 },
               },
               {
                 sctLeadsCategory: {
-                  $ne: null,
+                  $ne: "",
                 },
               },
             ],
