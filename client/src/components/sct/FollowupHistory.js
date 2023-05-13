@@ -9,7 +9,6 @@ import DatePicker from "react-datepicker";
 const FollowupHistory = ({
   auth: { isAuthenticated, user, users },
   sct: { allSctCalls, allSctCallsEmp, follouphistory },
-
   getFollowUpClient,
 }) => {
   useEffect(() => {
@@ -120,7 +119,14 @@ const FollowupHistory = ({
 
   const [fromdate, setfromdate] = useState(todayDateymd);
 
-  const [startclientShow1, SetstartclientShow1] = useState("");
+  let tdate = "";
+  let todaydate = new Date().toISOString().split("T")[0];
+  if (todaydate !== "") {
+    var ED = todaydate.split(/\D/g);
+    tdate = [ED[2], ED[1], ED[0]].join("-");
+  }
+
+  const [startclientShow1, SetstartclientShow1] = useState(tdate);
   const onDateChangesingle = (e) => {
     var newDate = e;
     var calDate = new Date(newDate);
@@ -142,14 +148,21 @@ const FollowupHistory = ({
   };
 
   const onClickReset = () => {
+    let tdate = "";
+    let todaydate = new Date().toISOString().split("T")[0];
+    if (todaydate !== "") {
+      var ED = todaydate.split(/\D/g);
+      tdate = [ED[2], ED[1], ED[0]].join("-");
+    }
     setfromdate(todayDateymd);
     setFromDateShow("");
-    SetstartclientShow1("");
+    SetstartclientShow1(tdate);
     SetstartToDateShow("");
 
     getFollowUpClient();
-    SetstartclientShow1("");
+    // SetstartclientShow1("");
   };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (

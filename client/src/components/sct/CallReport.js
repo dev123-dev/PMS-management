@@ -94,6 +94,20 @@ const CallReport = ({
   }, [getAllSctCallCount1]);
 
   useEffect(() => {
+    getAllFollowUp({
+      fromdate: new Date().toISOString().split("T")[0],
+      todate: new Date().toISOString().split("T")[0],
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllSctCallCount1({
+      fromdate: new Date().toISOString().split("T")[0],
+      todate: new Date().toISOString().split("T")[0],
+    });
+  }, []);
+
+  useEffect(() => {
     getSummary({
       fromdate: new Date().toISOString().split("T")[0],
       todate: new Date().toISOString().split("T")[0],
@@ -140,7 +154,14 @@ const CallReport = ({
     }
   };
 
-  const [selectedDate, setSelectedDate] = useState();
+  let tdate = "";
+  let todaydate = new Date().toISOString().split("T")[0];
+  if (todaydate !== "") {
+    var ED = todaydate.split(/\D/g);
+    tdate = [ED[2], ED[1], ED[0]].join("-");
+  }
+
+  const [selectedDate, setSelectedDate] = useState(tdate);
   // new Date().toISOString().split("T")[0]
   const [ReversedselectedDate, setReversedselectedDate] = useState(
     new Date().toISOString().split("T")[0]
@@ -572,7 +593,7 @@ const CallReport = ({
                     >
                       <center>
                         <h3 className="callreport">
-                          Over All Summary
+                          Overall Summary
                           {/* {allDemosAddedToday && allDemosAddedToday.length} */}
                         </h3>
                       </center>
@@ -741,7 +762,7 @@ const CallReport = ({
                     >
                       <center>
                         <h3>
-                          Over All Summary
+                          Overall Summary
                           {/* {allDemosAddedToday && allDemosAddedToday.length} */}
                         </h3>
                       </center>

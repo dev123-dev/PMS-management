@@ -72,7 +72,16 @@ const PotentialHistory = ({
 
   const [fromdate, setfromdate] = useState(todayDateymd);
 
-  const [startclientShow1, SetstartclientShow1] = useState("");
+  let tdate = "";
+  let todaydate = new Date().toISOString().split("T")[0];
+  if (todaydate !== "") {
+    var ED = todaydate.split(/\D/g);
+    tdate = [ED[2], ED[1], ED[0]].join("-");
+  }
+
+  const [startclientShow1, SetstartclientShow1] = useState(tdate);
+
+  // new Date().toISOString().split("T")[0]
   const onDateChangesingle = (e) => {
     var newDate = e;
     var calDate = new Date(newDate);
@@ -146,15 +155,20 @@ const PotentialHistory = ({
   };
 
   const onClickReset = () => {
+    let tdate = "";
+    let todaydate = new Date().toISOString().split("T")[0];
+    if (todaydate !== "") {
+      var ED = todaydate.split(/\D/g);
+      tdate = [ED[2], ED[1], ED[0]].join("-");
+    }
     getempData("");
     setfromdate(todayDateymd);
     getAllSctCall();
     getAllSctCallEmp();
     getPotentialClients();
-    SetstartclientShow1("");
+    SetstartclientShow1(tdate);
     SetstartToDateShow("");
     setFromDateShow("");
-    SetstartclientShow1("");
   };
   const DateMethods = [
     { value: "Single Date", label: "Single Date" },

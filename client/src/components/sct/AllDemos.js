@@ -275,7 +275,7 @@ const AllDemos = ({
             )}
             {showdateSection1 && (
               <>
-                <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
                   <input
                     type="date"
                     placeholder="dd/mm/yyyy"
@@ -312,7 +312,7 @@ const AllDemos = ({
               />
             </div>
 
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+            {/* <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <input
                 type="submit"
                 name="submit"
@@ -328,6 +328,21 @@ const AllDemos = ({
               >
                 Refresh
               </button>
+            </div> */}
+            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-2">
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickReset()}
+              >
+                Refresh
+              </button>
+              <input
+                type="submit"
+                name="submit"
+                value="Schedules"
+                onClick={() => onCheckSchedule()}
+                className="btn btn_green_bg float-right"
+              />
             </div>
           </div>
           <div className="row">
