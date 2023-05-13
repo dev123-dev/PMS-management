@@ -50,6 +50,9 @@ const SctCallsSchema = new mongoose.Schema({
   sctCallSalesValue: {
     type: Number,
   },
+  sctCallReasonForChange: {
+    type: String,
+  },
   sctCallComeFrom: {
     type: String, //Leads or Clients
   },

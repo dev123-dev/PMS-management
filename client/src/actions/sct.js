@@ -397,7 +397,7 @@ export const getSctLeadDetails = (finalData) => async (dispatch) => {
       type: SET_LOADING_TRUE,
     });
     const res = await axios.post("/api/sct/get-sct-Leads", finalData, config);
-    console.log(res);
+
     dispatch({
       type: ALL_SCT_LEADS,
       payload: res.data.result1,
@@ -564,7 +564,6 @@ export const addSctCalls = (finalData) => async (dispatch) => {
 };
 
 export const addSctClientCalls = (finalData) => async (dispatch) => {
-  console.log("x", finalData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,
