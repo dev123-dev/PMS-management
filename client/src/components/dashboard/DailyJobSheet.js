@@ -881,6 +881,12 @@ const DailyJobSheet = ({
             {/* <CSVDownload data={dailyJobsheetProjects} target="_blank" />; */}
 
             <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-2">
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickReset()}
+              >
+                Refresh
+              </button>
               <CSVLink
                 className="secondlinebreak"
                 data={csvData}
@@ -888,12 +894,6 @@ const DailyJobSheet = ({
               >
                 <button className="btn btn_green_bg float-right">Export</button>
               </CSVLink>
-              <button
-                className="btn btn_green_bg float-right"
-                onClick={() => onClickReset()}
-              >
-                Refresh
-              </button>
 
               <Link className="btn btn_green_bg float-right" to="/add-Project">
                 Add Project

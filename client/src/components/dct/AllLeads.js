@@ -380,7 +380,7 @@ const AllLeads = ({
                     options={allemp}
                     isSearchable={true}
                     value={emp}
-                    placeholder="Select Emp"
+                    placeholder="Select Employee"
                     onChange={(e) => onempChange(e)}
                   />
                 </>
@@ -416,15 +416,16 @@ const AllLeads = ({
                   Import
                 </button>
               )}
+
+              <Link className="btn btn_green_bg " to="/add-lead">
+                Add Lead
+              </Link>
               <button
                 className="btn btn_green_bg "
                 onClick={() => onClickReset()}
               >
                 Refresh
               </button>
-              <Link className="btn btn_green_bg " to="/add-lead">
-                Add Lead
-              </Link>
             </div>
           </div>
           <div className="row">
@@ -445,6 +446,14 @@ const AllLeads = ({
                         <th style={{ width: "13%" }}>Contact</th>
                         <th style={{ width: "10%" }}>Call Date</th>
                         <th style={{ width: "5%" }}>Op</th>
+                        {/* <th>Sl.No</th>
+                        <th>Company </th>
+                        <th>Website </th>
+                        <th>Email</th>
+                        <th>Region</th>
+                        <th>Contact</th>
+                        <th>Call Date</th>
+                        <th>Op</th> */}
                       </tr>
                     </thead>
                     <tbody>

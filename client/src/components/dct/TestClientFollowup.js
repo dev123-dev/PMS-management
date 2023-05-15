@@ -257,7 +257,7 @@ const TestClientFollowup = ({
               )}
             </div>
             <div className=" col-lg-2 col-md-12 col-sm-12 col-12">
-              <h4 className="heading_color">Test Client FollowUp</h4>
+              <h4 className="heading_color">Test Client Follow-up</h4>
             </div>
             <div className=" col-lg-2 col-md-12 col-sm-12 col-12 py-2">
               <Select
@@ -292,7 +292,7 @@ const TestClientFollowup = ({
                   options={allemp}
                   isSearchable={true}
                   value={emp}
-                  placeholder="Select Emp"
+                  placeholder="Select Employee"
                   onChange={(e) => onempChange(e)}
                 />
               ) : (
@@ -387,7 +387,7 @@ const TestClientFollowup = ({
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
                     <label>
-                      No of Test Client Followup :
+                      No of Test Client Follow-up :
                       {dctClients && dctClients.length}
                     </label>
                   </div>

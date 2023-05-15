@@ -378,13 +378,13 @@ const AllSctLeads = ({
                 onChange={(e) => oncountryChange(e)}
               />
             </div> */}
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="sctProjectName"
                 options={allprojects}
                 isSearchable={true}
                 value={projects}
-                placeholder="Projects"
+                placeholder=" Project"
                 onChange={(e) => onprojectsChange(e)}
                 theme={(theme) => ({
                   ...theme,
@@ -408,7 +408,7 @@ const AllSctLeads = ({
                 onChange={(e) => onStateChange(e)}
               />
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="companyName"
                 options={allclient}
@@ -424,7 +424,7 @@ const AllSctLeads = ({
                 options={allClientName}
                 isSearchable={true}
                 value={clientsName}
-                placeholder="Client"
+                placeholder=" Client"
                 onChange={(e) => onClientNameChange(e)}
               />
             </div>
@@ -434,7 +434,7 @@ const AllSctLeads = ({
                 options={allClientPhone}
                 isSearchable={true}
                 value={clientsPhone}
-                placeholder="Phone"
+                placeholder=" Phone"
                 onChange={(e) => onClientPhoneChange(e)}
               />
             </div>
@@ -456,7 +456,13 @@ const AllSctLeads = ({
                 <></>
               )}
             </div>
-            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2">
+            <div className="col-lg-5 col-md-11 col-sm-12 col-11 py-2">
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickReset()}
+              >
+                Refresh
+              </button>
               {user.userGroupName && user.userGroupName === "Super Admin" && (
                 <button
                   className="btn btn_green_bg float-right"
@@ -465,12 +471,7 @@ const AllSctLeads = ({
                   Import
                 </button>
               )}
-              <button
-                className="btn btn_green_bg float-right"
-                onClick={() => onClickReset()}
-              >
-                Refresh
-              </button>
+
               <Link className="btn btn_green_bg float-right" to="/add-sct-lead">
                 Add Lead
               </Link>

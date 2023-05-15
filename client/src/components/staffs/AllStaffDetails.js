@@ -160,7 +160,7 @@ const AllStaffDetails = ({
                         <th>Address</th>
                         <th>Staff Code</th>
                         <th>Joining Date </th>
-                        <th>OP</th>
+                        <th style={{ width: "8%" }}>OP</th>
                       </tr>
                     </thead>
                     <tbody>

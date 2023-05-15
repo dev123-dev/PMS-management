@@ -64,7 +64,7 @@ const AllCompany = ({
                         <th>TradeLicenseNo</th>
                         <th>Description</th>
                         <th>Address</th>
-                        <th>Op</th>
+                        <th style={{ width: "8%" }}>Op</th>
                       </tr>
                     </thead>
                     <tbody>

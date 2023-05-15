@@ -303,13 +303,13 @@ const AllSctProspects = ({
                 onChange={(e) => oncountryChange(e)}
               />
             </div> */}
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="sctProjectName"
                 options={allprojects}
                 isSearchable={true}
                 value={projects}
-                placeholder="Select Projects"
+                placeholder="Projects"
                 onChange={(e) => onprojectsChange(e)}
                 theme={(theme) => ({
                   ...theme,
@@ -323,23 +323,23 @@ const AllSctProspects = ({
                 })}
               />
             </div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="stateName"
                 options={allstates}
                 isSearchable={true}
                 value={state}
-                placeholder="Select State"
+                placeholder="State"
                 onChange={(e) => onStateChange(e)}
               />
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="companyName"
                 options={allclient}
                 isSearchable={true}
                 value={clients}
-                placeholder="Select Lead"
+                placeholder="Lead"
                 onChange={(e) => onclientsChange(e)}
               />
             </div>
@@ -353,7 +353,7 @@ const AllSctProspects = ({
                 onChange={(e) => onClientPhoneChange(e)}
               />
             </div>
-            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
               user.userGroupName === "Super Admin" ||
               user.empCtAccess === "All" ? (
@@ -363,7 +363,7 @@ const AllSctProspects = ({
                     options={allemp}
                     isSearchable={true}
                     value={emp}
-                    placeholder="Select Emp"
+                    placeholder="Employee"
                     onChange={(e) => onempChange(e)}
                   />
                 </>
@@ -372,7 +372,7 @@ const AllSctProspects = ({
               )}
             </div>
 
-            <div className="col-lg-1 col-md-11 col-sm-12 col-11 py-2">
+            <div className="col-lg-5 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}

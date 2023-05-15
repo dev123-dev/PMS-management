@@ -275,6 +275,12 @@ const AllDctWrongNumbers = ({
             </div>
 
             <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2">
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickReset()}
+              >
+                Refresh
+              </button>
               <CSVLink
                 className="secondlinebreak"
                 data={csvData}
@@ -282,12 +288,6 @@ const AllDctWrongNumbers = ({
               >
                 <button className="btn btn_green_bg float-right">Export</button>
               </CSVLink>
-              <button
-                className="btn btn_green_bg float-right"
-                onClick={() => onClickReset()}
-              >
-                Refresh
-              </button>
             </div>
           </div>
           <div className="row">

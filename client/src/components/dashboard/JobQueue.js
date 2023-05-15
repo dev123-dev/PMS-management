@@ -611,6 +611,12 @@ const JobQueue = ({
             </div>
 
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-2 float_right ">
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickReset()}
+              >
+                Refresh
+              </button>
               {(user.userGroupName && user.userGroupName === "Administrator") ||
               user.userGroupName === "Super Admin" ||
               user.userGroupName === "Clarical Admins" ? (
@@ -622,12 +628,7 @@ const JobQueue = ({
               ) : (
                 <></>
               )}
-              <button
-                className="btn btn_green_bg float-right"
-                onClick={() => onClickReset()}
-              >
-                Refresh
-              </button>
+
               {(user.userGroupName && user.userGroupName === "Administrator") ||
               user.userGroupName === "Super Admin" ||
               user.userGroupName === "Clarical Admins" ? (

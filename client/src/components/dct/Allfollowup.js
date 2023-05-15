@@ -315,7 +315,7 @@ const Allfollowup = ({
               )}
             </div>
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
-              <h4 className="heading_color">All FollowUp</h4>
+              <h4 className="heading_color">All Follow-up</h4>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -350,7 +350,7 @@ const Allfollowup = ({
                   options={allemp}
                   isSearchable={true}
                   value={emp}
-                  placeholder="Select Emp"
+                  placeholder="Select Employee"
                   onChange={(e) => onempChange(e)}
                 />
               ) : (
@@ -368,7 +368,7 @@ const Allfollowup = ({
                     options={allEnteredBy}
                     isSearchable={true}
                     value={enterBy}
-                    placeholder="Select EnteredBy"
+                    placeholder="Select Entered By"
                     onChange={(e) => onEnteredByChange(e)}
                   />
                 </>
@@ -397,13 +397,13 @@ const Allfollowup = ({
                     <thead>
                       <tr>
                         <th style={{ width: "3%" }}>Sl.No</th>
-                        <th style={{ width: "15%" }}>Company </th>
-                        <th style={{ width: "15%" }}>Website </th>
-                        <th style={{ width: "13%" }}>Email</th>
+                        <th style={{ width: "14%" }}>Company </th>
+                        <th style={{ width: "14%" }}>Website </th>
+                        <th style={{ width: "10%" }}>Email</th>
                         <th style={{ width: "8%" }}>Region</th>
-                        <th style={{ width: "13%" }}>Contact</th>
-                        <th style={{ width: "8%" }}>Call Date</th>
-                        <th style={{ width: "5%" }}>Op</th>
+                        <th style={{ width: "12%" }}>Contact</th>
+                        <th style={{ width: "12%" }}>Call Date</th>
+                        <th style={{ width: "10%" }}>Op</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -460,7 +460,6 @@ const Allfollowup = ({
                                   alt="Delete Project"
                                   title="Delete Project"
                                 />{" "}
-                                &emsp;
                                 <img
                                   className="img_icon_size log"
                                   onClick={() => onUpdate(allLeads, idx)}

@@ -89,18 +89,18 @@ const AllDctClients = ({
               />
             </div>
             <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2">
-              <Link
-                className="btn btn_green_bg float-right"
-                to="/add-dct-client"
-              >
-                Add client
-              </Link>
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
               >
                 Refresh
               </button>
+              <Link
+                className="btn btn_green_bg float-right"
+                to="/add-dct-client"
+              >
+                Add client
+              </Link>
             </div>
           </div>
 
@@ -124,7 +124,7 @@ const AllDctClients = ({
                         <th>Currency</th>
                         <th>Mode of Pay</th>
                         <th>Country</th>
-                        <th>Op</th>
+                        <th style={{ width: "8%" }}>Op</th>
                       </tr>
                     </thead>
                     <tbody>

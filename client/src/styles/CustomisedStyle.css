@@ -835,7 +835,7 @@ label {
 }
 .fixTableHeadstatus{
   overflow-y: auto;
-  height:26vh;
+  height:35vh;
 }
 .fixTableHead {
    overflow-y: auto;
@@ -2107,6 +2107,15 @@ padding: 0.15rem !important;
 
 }
 
+.sidePartHeightstatus
+{
+  height:45vh
+}
+.sidePartHeightlastmessage 
+{
+  height: 19vh;
+}
+
 .sidePart2divHeight{  height: 40vh;}
 /* side partitions ends */
 
@@ -2239,5 +2248,14 @@ td{
   text-align: center;
 }
 
+/* .react-datepicker__day--keyboard-selected {
+  border-radius: 0; 
+  background-color: #eeacac;
+  color: #000;
+} */
+
+/* div{
+  border: 1px solid red;
+} */
 
 

@@ -91,7 +91,7 @@ const DctCallsHistory = ({
                   options={allemp}
                   isSearchable={true}
                   value={emp}
-                  placeholder="Select Emp"
+                  placeholder="Select Employee"
                   onChange={(e) => onempChange(e)}
                 />
               ) : (

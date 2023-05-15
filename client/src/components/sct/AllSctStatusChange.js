@@ -108,7 +108,9 @@ const AllSctStatusChange = ({
     sctCallNote: "",
     toTime: "",
     expectedMonth: "",
-    salesValue: "",
+    salesValue: leadDataVal.sctCallSalesValue,
+    sctCallSalesValue: "",
+    sctExpectedMonthYear: "",
     fromTime: "",
     sctCallTime: "",
     sctcallToNumber: "",
@@ -402,9 +404,14 @@ const AllSctStatusChange = ({
     { label: "December", value: 12 },
   ];
   const [MonthAndYear, setMonthYear] = useState("");
-  const [expectedMonth, SetexpectedMonth] = useState("");
+  const [expectedDate, setExpectedDate] = useState(
+    leadDataVal.sctExpectedMonth
+      ? new Date(leadDataVal.sctExpectedMonth).toISOString().split("T")[0]
+      : ""
+  );
   const onDateChange2 = (e) => {
-    SetexpectedMonth(e.target.value);
+    setExpectedDate(e.target.value);
+
     const new_date = new Date(e.target.value);
     const year = new_date.getFullYear();
 
@@ -466,8 +473,10 @@ const AllSctStatusChange = ({
         sctcallToNumber: staffsNumber ? staffsNumber : phone1,
         // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
         sctCallDate: startStatusDate || demoDate || todayDateymd,
-        sctExpectedMonth: expectedMonth,
+        sctExpectedMonth: expectedDate,
         sctExpectedMonthYear: MonthAndYear,
+        sctCallReasonForChange: "",
+
         sctCallTime: sctCallTime,
         sctCallSalesValue: salesValue,
         sctCallNote: sctCallNote?.trim(),
@@ -719,37 +728,6 @@ const AllSctStatusChange = ({
               // required
             />
           </div>
-          {showLeadCategory && showLeadCategory ? (
-            <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
-              <label className="label-control"> Notes* :</label>
-              <textarea
-                name="sctCallNote"
-                id="sctCallNote"
-                className="textarea form-control"
-                rows="3"
-                placeholder="Notes"
-                style={{ width: "100%" }}
-                value={sctCallNote}
-                onChange={(e) => onInputChange(e)}
-                required
-              ></textarea>
-            </div>
-          ) : (
-            <div className="col-lg-8 col-md-12 col-sm-12 col-12 notesTopSCT">
-              <label className="label-control"> Notes* :</label>
-              <textarea
-                name="sctCallNote"
-                id="sctCallNote"
-                className="textarea form-control"
-                rows="3"
-                placeholder="Notes"
-                style={{ width: "100%" }}
-                value={sctCallNote}
-                onChange={(e) => onInputChange(e)}
-                required
-              ></textarea>
-            </div>
-          )}
 
           {showstatus === "FollowUp" ||
           (showstatus === "CallBack" && sctLeadsCategory) ||
@@ -757,15 +735,15 @@ const AllSctStatusChange = ({
             <>
               {" "}
               <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
-                <label className="label-control"> Expected Month :</label>
+                <label className="label-control"> Expected Date :</label>
 
                 <input
                   type="date"
-                  placeholder="dd/mm/yyyy"
+                  // placeholder="dd/mm/yyyy"
                   className="form-control cpp-input datevalidation"
                   min={todaydate}
                   name="expectedMonth"
-                  value={expectedMonth}
+                  value={expectedDate}
                   onChange={(e) => onDateChange2(e)}
                   style={{
                     width: "100%",
@@ -786,6 +764,52 @@ const AllSctStatusChange = ({
           ) : (
             <></>
           )}
+          {showLeadCategory && showLeadCategory ? (
+            <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
+              <label className="label-control"> Notes* :</label>
+              <textarea
+                name="sctCallNote"
+                id="sctCallNote"
+                className="textarea form-control"
+                rows="2"
+                placeholder="Notes"
+                style={{ width: "100%" }}
+                value={sctCallNote}
+                onChange={(e) => onInputChange(e)}
+                required
+              ></textarea>
+            </div>
+          ) : (
+            <div className="col-lg-8 col-md-12 col-sm-12 col-12 notesTopSCT">
+              <label className="label-control"> Notes* :</label>
+              <textarea
+                name="sctCallNote"
+                id="sctCallNote"
+                className="textarea form-control"
+                rows="2"
+                placeholder="Notes"
+                style={{ width: "100%" }}
+                value={sctCallNote}
+                onChange={(e) => onInputChange(e)}
+                required
+              ></textarea>
+            </div>
+          )}
+
+          <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
+            <label className="label-control"> Reason* :</label>
+            <textarea
+              name="sctCallNote"
+              id="sctCallNote"
+              className="textarea form-control"
+              rows="2"
+              placeholder="Notes"
+              style={{ width: "100%" }}
+              value={sctCallNote}
+              onChange={(e) => onInputChange(e)}
+              required
+            ></textarea>
+          </div>
 
           {showLeadCategory && showLeadCategory ? (
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
