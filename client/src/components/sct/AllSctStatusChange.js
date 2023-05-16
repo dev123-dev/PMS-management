@@ -453,7 +453,7 @@ const AllSctStatusChange = ({
       setError({
         ...error,
         expectedDateChecker: false,
-        expectedDateErrorStyle: { color: "#FF0000" },
+        expectedDateErrorStyle: { color: "#000000" },
       });
       setIsExpectedDateChnaged("true");
       const new_date = new Date(e.target.value);
@@ -486,7 +486,7 @@ const AllSctStatusChange = ({
       setError({
         ...error,
         salesValueChecker: false,
-        salesValueErrorStyle: { color: "#FF0000" },
+        salesValueErrorStyle: { color: "#000000" },
       });
     }
   }, [salesValue]);
@@ -504,7 +504,7 @@ const AllSctStatusChange = ({
       setError({
         ...error,
         salesValueChecker: false,
-        salesValueErrorStyle: { color: "#FF0000" },
+        salesValueErrorStyle: { color: "#000000" },
       });
       setIsSalesValueChanged("true");
       // // setSalesvalue("");
@@ -830,10 +830,10 @@ const AllSctStatusChange = ({
     setError({
       ...error,
       expectedDateChecker: false,
-      expectedDateErrorStyle: { color: "#FF0000" },
+      expectedDateErrorStyle: { color: "#000000" },
 
       salesValueChecker: false,
-      salesValueErrorStyle: { color: "#FF0000" },
+      salesValueErrorStyle: { color: "#000000" },
     });
     setSalesvalue(
       leadDataVal.sctCallSalesValue ? Number(leadDataVal.sctCallSalesValue) : ""
@@ -1006,10 +1006,7 @@ const AllSctStatusChange = ({
             <>
               {" "}
               <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
-                <label
-                  className="label-control"
-                  //  style={expectedDateErrorStyle}
-                >
+                <label className="label-control" style={expectedDateErrorStyle}>
                   {" "}
                   Expected Date :
                 </label>
@@ -1028,7 +1025,10 @@ const AllSctStatusChange = ({
                 />
               </div>
               <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
-                <label className="label-control"> Sales Value:</label>
+                <label className="label-control" style={salesValueErrorStyle}>
+                  {" "}
+                  Sales Value:
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -1094,7 +1094,7 @@ const AllSctStatusChange = ({
               <></>
             )}
           </div>
-          <div className=" col-lg-12">
+          {/* <div className=" col-lg-12">
             {expectedDateChecker ? (
               <>
                 <span style={{ color: "red" }}>Date cannot be less</span>
@@ -1113,7 +1113,7 @@ const AllSctStatusChange = ({
             ) : (
               <></>
             )}
-          </div>
+          </div> */}
 
           {showLeadCategory && showLeadCategory ? (
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
