@@ -112,9 +112,9 @@ const Amendments = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-3 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">
+              <h4 className="heading_color">
                 Amendments / Additional Instruction
-              </h5>
+              </h4>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
