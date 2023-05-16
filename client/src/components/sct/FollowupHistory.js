@@ -322,28 +322,38 @@ const FollowupHistory = ({
                       required
                     />
                   </div>
-                  <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
-                    {(user.userGroupName &&
-                      user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin" ||
-                    user.userGroupName === "Clarical Admins" ? (
+
+                  {(user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                  user.userGroupName === "Super Admin" ||
+                  user.userGroupName === "Clarical Admins" ||
+                  user.userGroupName === "Sct Marketing" ? (
+                    <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
+                      <button
+                        className="btn btn_green_bg float-right"
+                        onClick={() => onClickReset()}
+                      >
+                        Refresh
+                      </button>
                       <CSVLink data={csvData} filename={fileName}>
                         <button className="btn btn_green_bg float-right">
                           Export
                         </button>
                       </CSVLink>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-                  <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
-                    <button
-                      className="btn btn_green_bg float-right"
-                      onClick={() => onClickReset()}
-                    >
-                      Refresh
-                    </button>
-                  </div>
+                    </div>
+                  ) : (
+                    <>
+                      {" "}
+                      <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
+                        <button
+                          className="btn btn_green_bg float-right"
+                          onClick={() => onClickReset()}
+                        >
+                          Refresh
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
               {showdateSection1 && (
@@ -372,28 +382,38 @@ const FollowupHistory = ({
                       required
                     />
                   </div>
-                  <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
-                    {(user.userGroupName &&
-                      user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin" ||
-                    user.userGroupName === "Clarical Admins" ? (
+
+                  {(user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                  user.userGroupName === "Super Admin" ||
+                  user.userGroupName === "Clarical Admins" ||
+                  user.userGroupName === "Sct Marketing" ? (
+                    <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2 ">
+                      <button
+                        className="btn btn_green_bg float-right"
+                        onClick={() => onClickReset()}
+                      >
+                        Refresh
+                      </button>
+
                       <CSVLink data={csvData} filename={fileName}>
                         <button className="btn btn_green_bg float-right">
                           Export
                         </button>
                       </CSVLink>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-                  <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2 ">
-                    <button
-                      className="btn btn_green_bg float-right"
-                      onClick={() => onClickReset()}
-                    >
-                      Refresh
-                    </button>
-                  </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2 ">
+                        <button
+                          className="btn btn_green_bg float-right"
+                          onClick={() => onClickReset()}
+                        >
+                          Refresh
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </div>

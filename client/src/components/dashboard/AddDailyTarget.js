@@ -177,7 +177,7 @@ const AddDailyTarget = ({
   if (!data) {
     return <Redirect to="/job-queue" />;
   }
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>

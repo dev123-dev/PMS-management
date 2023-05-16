@@ -404,7 +404,7 @@ const AllSctPotentials = ({
                 onChange={(newValue) => onDateChangesingle(newValue)}
               />
             </div> */}
-            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="sctProjectName"
                 options={allprojects}
@@ -455,7 +455,7 @@ const AllSctPotentials = ({
                 onChange={(e) => onLeadCategoryChange(e)}
               />
             </div>
-            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="clientPhone"
                 options={allClientPhone}
@@ -485,7 +485,7 @@ const AllSctPotentials = ({
               )}
             </div>
 
-            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2">
+            <div className="col-lg-1 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -601,7 +601,7 @@ const AllSctPotentials = ({
                 </table>
               </div>
               <div className="row">
-                <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
+                <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right  ">
                   <label>No of Leads : {count}</label>
                 </div>
               </div>
@@ -620,12 +620,13 @@ const AllSctPotentials = ({
                   />
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop sidePartHeightstatus ">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding  statusTop ">
+                {/* sidePartHeightstatus */}
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "37vh" }}
+                  style={{ height: "39vh" }}
                 >
-                  <label className="sidePartHeading ">Status</label>
+                  <label className="sidePartHeading ">&nbsp;&nbsp;Status</label>
                   {showdateselectionSection && (
                     <AllSctStatusChange
                       leadDataVal={leadData}
@@ -637,14 +638,17 @@ const AllSctPotentials = ({
                   )}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage sidePartHeightlastmessage">
+
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastmessage">
+                {/* sidePartHeightlastmessage */}
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
                   style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
-                    Last Message Details
+                    &nbsp;&nbsp;Last Message Details
                   </label>
+
                   {showdateselectionSection && (
                     <SctLastMessageDetails
                       searchDataVal={searchDataVal}

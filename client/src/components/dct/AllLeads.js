@@ -398,7 +398,7 @@ const AllLeads = ({
                     options={allEnteredBy}
                     isSearchable={true}
                     value={enterBy}
-                    placeholder="Select EnteredBy"
+                    placeholder="Select Entered By"
                     onChange={(e) => onEnteredByChange(e)}
                   />
                 </>
@@ -542,7 +542,7 @@ const AllLeads = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "33vh" }}
+                  style={{ height: "39vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
@@ -558,7 +558,7 @@ const AllLeads = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "18vh" }}
+                  style={{ height: "17vh" }}
                 >
                   <label className="sidePartHeading ">
                     Last Message Details

@@ -153,12 +153,20 @@ const AllSctStatusChange = ({
     statusmodeIdErrorStyle: {},
     stafftypeIdChecker: false,
     stafftypeIdErrorStyle: {},
+    expectedDateChecker: false,
+    expectedDateErrorStyle: {},
+    salesValueChecker: false,
+    salesValueErrorStyle: {},
   });
   const {
     statusmodeIdChecker,
     statusmodeIdErrorStyle,
     stafftypeIdChecker,
     stafftypeIdErrorStyle,
+    expectedDateChecker,
+    expectedDateErrorStyle,
+    salesValueChecker,
+    salesValueErrorStyle,
   } = error;
 
   const checkErrors = () => {
@@ -176,6 +184,20 @@ const AllSctStatusChange = ({
       });
       return false;
     }
+    // if (!expectedDateChecker) {
+    //   setError({
+    //     ...error,
+    //     expectedDateErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
+    // if (!salesValueChecker) {
+    //   setError({
+    //     ...error,
+    //     salesValueErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
     return true;
   };
 
@@ -264,14 +286,20 @@ const AllSctStatusChange = ({
         statusmodeIdChecker: true,
         statusmodeIdErrorStyle: { color: "#000" },
       });
+
+      // setError({
+      //   ...error,
+      //   statusmodeIdChecker: true,
+      //   statusmodeIdErrorStyle: { color: "#000" },
+      // });
     } else {
       setstatus("false");
 
-      setError({
-        ...error,
-        statusmodeIdChecker: true,
-        statusmodeIdErrorStyle: { color: "#000" },
-      });
+      // setError({
+      //   ...error,
+      //   expectedDateChecker: true,
+      //   expectedDateErrorStyle: { color: "#000" },
+      // });
       if (e) {
         setFormData({
           ...formData,
@@ -409,35 +437,76 @@ const AllSctStatusChange = ({
       ? new Date(leadDataVal.sctExpectedMonth).toISOString().split("T")[0]
       : ""
   );
+
+  const [newdate, setnewdate] = useState("");
   const onDateChange2 = (e) => {
-    setExpectedDate(e.target.value);
+    setnewdate(e.target.value);
+    //setExpectedDate(e.target.value);
     if (e.target.value < expectedDate) {
-      alert();
+      setError({
+        ...error,
+        expectedDateChecker: true,
+        expectedDateErrorStyle: { color: "#FF0000" },
+      });
     } else {
-      // setIsExpectedDateChnaged("true");
-      // const new_date = new Date(e.target.value);
-      // const year = new_date.getFullYear();
-      // let new_month = new_date.getMonth() + 1;
-      // const month = MonthYear.filter((ele) => {
-      //   if (ele.value === new_month) {
-      //     return ele.label;
-      //   }
-      // });
-      // let final_data = month[0].label + "-" + year;
-      // setMonthYear(final_data);
+      setExpectedDate(e.target.value);
+      setError({
+        ...error,
+        expectedDateChecker: false,
+        expectedDateErrorStyle: { color: "#FF0000" },
+      });
+      setIsExpectedDateChnaged("true");
+      const new_date = new Date(e.target.value);
+      const year = new_date.getFullYear();
+      let new_month = new_date.getMonth() + 1;
+      const month = MonthYear.filter((ele) => {
+        if (ele.value === new_month) {
+          return ele.label;
+        }
+      });
+      let final_data = month[0].label + "-" + year;
+      setMonthYear(final_data);
     }
   };
   const [isSalesValueChanged, setIsSalesValueChanged] = useState();
   const [salesValue, setSalesvalue] = useState(
     leadDataVal.sctCallSalesValue ? Number(leadDataVal.sctCallSalesValue) : ""
   );
-
+  let x = leadDataVal.sctCallSalesValue
+    ? Number(leadDataVal.sctCallSalesValue)
+    : "";
+  useEffect(() => {
+    if (salesValue < x) {
+      setError({
+        ...error,
+        salesValueChecker: true,
+        salesValueErrorStyle: { color: "#FF0000" },
+      });
+    } else {
+      setError({
+        ...error,
+        salesValueChecker: false,
+        salesValueErrorStyle: { color: "#FF0000" },
+      });
+    }
+  }, [salesValue]);
   const onSalesvalueChange = (e) => {
     if (Number(e.target.value) < salesValue) {
-      alert();
+      setSalesvalue(e.target.value);
+      setError({
+        ...error,
+        salesValueChecker: true,
+        salesValueErrorStyle: { color: "#FF0000" },
+      });
     } else {
       setSalesvalue(e.target.value);
-      // setIsSalesValueChanged("true");
+
+      setError({
+        ...error,
+        salesValueChecker: false,
+        salesValueErrorStyle: { color: "#FF0000" },
+      });
+      setIsSalesValueChanged("true");
       // // setSalesvalue("");
     }
   };
@@ -539,7 +608,7 @@ const AllSctStatusChange = ({
             },
             demoEnteredByDateTime: new Date().toLocaleString("en-GB"),
           };
-          addDemo(demoData);
+          // addDemo(demoData);
         }
         if (
           (sctCallStatus.value === "EngagedClient" ||
@@ -581,7 +650,7 @@ const AllSctStatusChange = ({
             sctStaffs: leadDataVal.sctStaffs,
           };
 
-          addSctClientDetails(transferData);
+          // addSctClientDetails(transferData);
         }
         setFormData({
           ...formData,
@@ -658,9 +727,11 @@ const AllSctStatusChange = ({
         };
         //console.log("finalData", finalData);
         if (from === "EngagedClient" || from === "RegularClient") {
-          addSctClientCalls(finalData);
+          // addSctClientCalls(finalData);
+          console.log("finalData", finalData);
         } else {
-          addSctCalls(finalData);
+          // addSctCalls(finalData);
+          console.log("finalData", finalData);
         }
 
         if (
@@ -689,7 +760,8 @@ const AllSctStatusChange = ({
             },
             demoEnteredByDateTime: new Date().toLocaleString("en-GB"),
           };
-          addDemo(demoData);
+          // addDemo(demoData);
+          console.log("demoData", demoData);
         }
         if (
           (sctCallStatus.value === "EngagedClient" ||
@@ -731,7 +803,8 @@ const AllSctStatusChange = ({
             sctStaffs: leadDataVal.sctStaffs,
           };
 
-          addSctClientDetails(transferData);
+          // addSctClientDetails(transferData);
+          console.log("transferData", transferData);
         }
         setFormData({
           ...formData,
@@ -747,6 +820,30 @@ const AllSctStatusChange = ({
       }
     }
   };
+
+  const onReset = (e) => {
+    setExpectedDate(
+      leadDataVal.sctExpectedMonth
+        ? new Date(leadDataVal.sctExpectedMonth).toISOString().split("T")[0]
+        : ""
+    );
+    setError({
+      ...error,
+      expectedDateChecker: false,
+      expectedDateErrorStyle: { color: "#FF0000" },
+
+      salesValueChecker: false,
+      salesValueErrorStyle: { color: "#FF0000" },
+    });
+    setSalesvalue(
+      leadDataVal.sctCallSalesValue ? Number(leadDataVal.sctCallSalesValue) : ""
+    );
+    // setError({
+    //   ...error,
+    //   salesValueChecker: false,
+    //   salesValueErrorStyle: { color: "#FF0000" },
+    // });
+  };
   // console.log("sctLeadsCategory", sctLeadsCategory);
 
   return !isAuthenticated || !user || !users ? (
@@ -754,13 +851,15 @@ const AllSctStatusChange = ({
   ) : (
     <Fragment>
       <form className="row" onSubmit={(e) => onSubmit(e)}>
-        <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadstatus">
+        <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadstatus ">
           <div className="col-lg-4 col-md-12 col-sm-12 col-12  ">
             <label style={statusmodeIdErrorStyle}>Status* :</label>
             <Select
               name="sctCallStatus"
               options={StatusMethods}
+              className="statuschange "
               isSearchable={false}
+              menuPlacement="bottom"
               value={sctCallStatus}
               placeholder="Select "
               onChange={(e) => onStatusTypeChange(e)}
@@ -907,7 +1006,13 @@ const AllSctStatusChange = ({
             <>
               {" "}
               <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
-                <label className="label-control"> Expected Date :</label>
+                <label
+                  className="label-control"
+                  //  style={expectedDateErrorStyle}
+                >
+                  {" "}
+                  Expected Date :
+                </label>
 
                 <input
                   type="date"
@@ -989,6 +1094,26 @@ const AllSctStatusChange = ({
               <></>
             )}
           </div>
+          <div className=" col-lg-12">
+            {expectedDateChecker ? (
+              <>
+                <span style={{ color: "red" }}>Date cannot be less</span>
+                <br />
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
+
+          <div className=" col-lg-12">
+            {salesValueChecker ? (
+              <>
+                <span style={{ color: "red" }}>Sales value cannot be less</span>
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
 
           {showLeadCategory && showLeadCategory ? (
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -1001,12 +1126,21 @@ const AllSctStatusChange = ({
                   Loading...
                 </button>
               ) : (
-                <input
-                  type="submit"
-                  name="Submit"
-                  value="Submit"
-                  className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
-                />
+                <>
+                  <input
+                    type="submit"
+                    name="Submit"
+                    value="Submit"
+                    className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
+                  />
+                  <input
+                    type="button"
+                    name="reset"
+                    value="Reset"
+                    onClick={(e) => onReset(e)}
+                    className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
+                  />
+                </>
               )}
             </div>
           ) : (
@@ -1020,12 +1154,21 @@ const AllSctStatusChange = ({
                   Loading...
                 </button>
               ) : (
-                <input
-                  type="submit"
-                  name="Submit"
-                  value="Submit"
-                  className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
-                />
+                <>
+                  <input
+                    type="submit"
+                    name="Submit"
+                    value="Submit"
+                    className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
+                  />
+                  <input
+                    type="button"
+                    name="reset"
+                    value="Reset"
+                    onClick={(e) => onReset(e)}
+                    className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
+                  />
+                </>
               )}
             </div>
           )}

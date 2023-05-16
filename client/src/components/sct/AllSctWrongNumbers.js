@@ -323,7 +323,7 @@ const AllSctWrongNumbers = ({
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
                   style={{ height: "37vh" }}
                 >
-                  <label className="sidePartHeading ">Status</label>
+                  <label className="sidePartHeading ">&nbsp;&nbsp;Status</label>
                   {showdateselectionSection && (
                     <AllSctStatusChange
                       leadDataVal={leadData}
@@ -341,7 +341,7 @@ const AllSctWrongNumbers = ({
                   style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
-                    Last Message Details
+                    &nbsp;&nbsp; Last Message Details
                   </label>
                   {showdateselectionSection && (
                     <SctLastMessageDetails
