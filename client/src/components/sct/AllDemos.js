@@ -229,7 +229,7 @@ const AllDemos = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Demos</h5>
+              <h4 className="heading_color">All Demos</h4>
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -275,7 +275,7 @@ const AllDemos = ({
             )}
             {showdateSection1 && (
               <>
-                <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
                   <input
                     type="date"
                     placeholder="dd/mm/yyyy"
@@ -291,27 +291,28 @@ const AllDemos = ({
                 </div>
               </>
             )}
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="stateName"
                 options={allstates}
                 isSearchable={true}
                 value={state}
-                placeholder="Select State"
+                placeholder="State"
                 onChange={(e) => onStateChange(e)}
               />
             </div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
+            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="clientData"
                 isSearchable={true}
                 value={clientData}
                 options={ClientsOpt}
-                placeholder="Select"
+                placeholder="Client"
                 onChange={(e) => onClientChange(e)}
               />
             </div>
-            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2 ml-5">
+
+            {/* <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <input
                 type="submit"
                 name="submit"
@@ -327,6 +328,21 @@ const AllDemos = ({
               >
                 Refresh
               </button>
+            </div> */}
+            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2">
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickReset()}
+              >
+                Refresh
+              </button>
+              <input
+                type="submit"
+                name="submit"
+                value="Schedules"
+                onClick={() => onCheckSchedule()}
+                className="btn btn_green_bg float-right"
+              />
             </div>
           </div>
           <div className="row">
@@ -345,7 +361,7 @@ const AllDemos = ({
                         <th style={{ width: "10%" }}>Email Id </th>
                         <th style={{ width: "8%" }}>Contact No </th>
                         <th style={{ width: "5%" }}>State </th>
-                        <th style={{ width: "5%" }}>Demo time </th>
+                        <th style={{ width: "5%" }}>Demo Time </th>
                         <th style={{ width: "14%" }}>Demo Status</th>
                       </tr>
                     </thead>

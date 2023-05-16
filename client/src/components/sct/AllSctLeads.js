@@ -366,7 +366,7 @@ const AllSctLeads = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Leads</h5>
+              <h4 className="heading_color">All Leads</h4>
             </div>
             {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -384,7 +384,7 @@ const AllSctLeads = ({
                 options={allprojects}
                 isSearchable={true}
                 value={projects}
-                placeholder="Projects"
+                placeholder=" Project"
                 onChange={(e) => onprojectsChange(e)}
                 theme={(theme) => ({
                   ...theme,
@@ -408,7 +408,7 @@ const AllSctLeads = ({
                 onChange={(e) => onStateChange(e)}
               />
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="companyName"
                 options={allclient}
@@ -424,17 +424,17 @@ const AllSctLeads = ({
                 options={allClientName}
                 isSearchable={true}
                 value={clientsName}
-                placeholder="Client"
+                placeholder=" Client"
                 onChange={(e) => onClientNameChange(e)}
               />
             </div>
-            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="clientPhone"
                 options={allClientPhone}
                 isSearchable={true}
                 value={clientsPhone}
-                placeholder="Phone"
+                placeholder=" Phone"
                 onChange={(e) => onClientPhoneChange(e)}
               />
             </div>
@@ -457,6 +457,12 @@ const AllSctLeads = ({
               )}
             </div>
             <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2">
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickReset()}
+              >
+                Refresh
+              </button>
               {user.userGroupName && user.userGroupName === "Super Admin" && (
                 <button
                   className="btn btn_green_bg float-right"
@@ -465,12 +471,7 @@ const AllSctLeads = ({
                   Import
                 </button>
               )}
-              <button
-                className="btn btn_green_bg float-right"
-                onClick={() => onClickReset()}
-              >
-                Refresh
-              </button>
+
               <Link className="btn btn_green_bg float-right" to="/add-sct-lead">
                 Add Lead
               </Link>
@@ -605,9 +606,9 @@ const AllSctLeads = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "37vh" }}
+                  style={{ height: "39vh" }}
                 >
-                  <label className="sidePartHeading ">Status</label>
+                  <label className="sidePartHeading ">&nbsp;&nbsp;Status</label>
                   {showdateselectionSection && (
                     <AllSctStatusChange
                       leadDataVal={leadData}
@@ -625,7 +626,7 @@ const AllSctLeads = ({
                   style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
-                    Last Message Details
+                    &nbsp;&nbsp; Last Message Details
                   </label>
                   {showdateselectionSection && (
                     <SctLastMessageDetails

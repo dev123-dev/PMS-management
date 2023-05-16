@@ -393,7 +393,7 @@ const AllSctPotentials = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Sct Potentials</h5>
+              <h4 className="heading_color">All Sct Potentials</h4>
             </div>
             {/* <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               <DatePicker
@@ -404,7 +404,7 @@ const AllSctPotentials = ({
                 onChange={(newValue) => onDateChangesingle(newValue)}
               />
             </div> */}
-            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="sctProjectName"
                 options={allprojects}
@@ -440,7 +440,7 @@ const AllSctPotentials = ({
                 options={allclient}
                 isSearchable={true}
                 value={clients}
-                placeholder="Select Lead"
+                placeholder="Lead"
                 onChange={(e) => onclientsChange(e)}
               />
             </div>
@@ -451,11 +451,11 @@ const AllSctPotentials = ({
                 options={CategoryMethods}
                 isSearchable={true}
                 value={leadCategory}
-                placeholder="Select Leads Category"
+                placeholder="Leads Category"
                 onChange={(e) => onLeadCategoryChange(e)}
               />
             </div>
-            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="clientPhone"
                 options={allClientPhone}
@@ -466,7 +466,7 @@ const AllSctPotentials = ({
               />
             </div>
 
-            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
               user.userGroupName === "Super Admin" ||
               user.empCtAccess === "All" ? (
@@ -476,7 +476,7 @@ const AllSctPotentials = ({
                     options={allemp}
                     isSearchable={true}
                     value={emp}
-                    placeholder=" Select Emp"
+                    placeholder="Employee"
                     onChange={(e) => onempChange(e)}
                   />
                 </>
@@ -496,52 +496,50 @@ const AllSctPotentials = ({
           </div>
           <div className="row">
             <div className="col-lg-8 col-md-12 col-sm-12 col-12 text-center ">
-              <section className="body">
-                <div className=" body-inner no-padding table-responsive fixTableHead">
-                  <table
-                    className="table table-bordered table-striped hoverrow smll_row"
-                    id="datatable2"
-                  >
-                    <thead>
-                      <tr>
-                        {/* <th style={{ width: "3%" }}>Sl.No</th> */}
-                        {/* <th style={{ width: "8%" }}>Website </th>
+              {/* <section className="body"> */}
+              <div className=" body-inner no-padding table-responsive fixTableHead">
+                <table
+                  className="table table-bordered table-striped hoverrow smll_row"
+                  id="datatable2"
+                >
+                  <thead>
+                    <tr>
+                      {/* <th style={{ width: "3%" }}>Sl.No</th> */}
+                      {/* <th style={{ width: "8%" }}>Website </th>
                         <th style={{ width: "8%" }}>Email</th> */}
-                        {/* <th style={{ width: "8%" }}>Region</th> */}
-                        {/* <th style={{ width: "8%" }}>Call Time</th> */}
-                        <th style={{ width: "10%" }}>Company </th>
-                        <th style={{ width: "8%" }}>State</th>
-                        <th style={{ width: "8%" }}>Contact</th>
-                        <th style={{ width: "8%" }}>Contact 2</th>
-                        <th style={{ width: "15%" }}>Call Date & Time</th>
-                        <th style={{ width: "2%" }}>Notes</th>
-                        <th style={{ width: "8%" }}>Entered By</th>
-                        <th style={{ width: "5%" }}>Op</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {allSctLeads &&
-                        allSctLeads.map((allSctLeads, idx) => {
-                          var sctCallDate = "";
-                          if (allSctLeads.sctCallDate) {
-                            var ED = allSctLeads.sctCallDate.split(/\D/g);
-                            sctCallDate = [ED[2], ED[1], ED[0]].join("-");
-                          }
-                          if (allSctLeads.sctLeadsCategory !== "") {
-                            //setCount(idx + 1);
-                            return (
-                              <tr
-                                key={idx}
-                                className={
-                                  colorData === idx
-                                    ? "seletedrowcolorchange"
-                                    : ""
-                                }
-                                onClick={() => onClickHandler(allSctLeads, idx)}
-                              >
-                                {/* <td>{idx + 1}</td> */}
-                                {/* <td>{allSctLeads.countryName}</td> */}
-                                {/* <td>
+                      {/* <th style={{ width: "8%" }}>Region</th> */}
+                      {/* <th style={{ width: "8%" }}>Call Time</th> */}
+                      <th style={{ width: "10%" }}>Company </th>
+                      <th style={{ width: "8%" }}>State</th>
+                      <th style={{ width: "8%" }}>Contact</th>
+                      <th style={{ width: "8%" }}>Contact 2</th>
+                      <th style={{ width: "15%" }}>Call Date & Time</th>
+                      <th style={{ width: "2%" }}>Notes</th>
+                      <th style={{ width: "8%" }}>Entered By</th>
+                      <th style={{ width: "5%" }}>Op</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allSctLeads &&
+                      allSctLeads.map((allSctLeads, idx) => {
+                        var sctCallDate = "";
+                        if (allSctLeads.sctCallDate) {
+                          var ED = allSctLeads.sctCallDate.split(/\D/g);
+                          sctCallDate = [ED[2], ED[1], ED[0]].join("-");
+                        }
+                        if (allSctLeads.sctLeadsCategory !== "") {
+                          //setCount(idx + 1);
+                          return (
+                            <tr
+                              key={idx}
+                              className={
+                                colorData === idx ? "seletedrowcolorchange" : ""
+                              }
+                              onClick={() => onClickHandler(allSctLeads, idx)}
+                            >
+                              {/* <td>{idx + 1}</td> */}
+                              {/* <td>{allSctLeads.countryName}</td> */}
+                              {/* <td>
                                   {" "}
                                   <a
                                     href={allSctLeads.sctWebsite}
@@ -552,62 +550,62 @@ const AllSctPotentials = ({
                                   </a>
                                 </td>
                                 <td>{allSctLeads.sctEmailId}</td> */}
-                                {/* <td>{allSctLeads.sctCallTime}</td> */}
-                                <td>{allSctLeads.sctCompanyName}</td>
+                              {/* <td>{allSctLeads.sctCallTime}</td> */}
+                              <td>{allSctLeads.sctCompanyName}</td>
 
-                                <td>{allSctLeads.stateName}</td>
-                                <td>
-                                  {allSctLeads.sctcountryCode
-                                    ? "+" + allSctLeads.sctcountryCode
-                                    : ""}
-                                  &nbsp;
-                                  {allSctLeads.sctPhone1}
-                                </td>
-                                <td>
-                                  {allSctLeads.sctPhone2 &&
-                                  allSctLeads.sctcountryCode
-                                    ? "+" + allSctLeads.sctcountryCode
-                                    : ""}
-                                  &nbsp;
-                                  {allSctLeads.sctPhone2}
-                                </td>
-                                <td>
-                                  {" "}
-                                  {sctCallDate}&nbsp;{allSctLeads.sctCallTime}
-                                </td>
+                              <td>{allSctLeads.stateName}</td>
+                              <td>
+                                {allSctLeads.sctcountryCode
+                                  ? "+" + allSctLeads.sctcountryCode
+                                  : ""}
+                                &nbsp;
+                                {allSctLeads.sctPhone1}
+                              </td>
+                              <td>
+                                {allSctLeads.sctPhone2 &&
+                                allSctLeads.sctcountryCode
+                                  ? "+" + allSctLeads.sctcountryCode
+                                  : ""}
+                                &nbsp;
+                                {allSctLeads.sctPhone2}
+                              </td>
+                              <td>
+                                {" "}
+                                {sctCallDate}&nbsp;{allSctLeads.sctCallTime}
+                              </td>
 
-                                <td>{allSctLeads.sctNotes}</td>
-                                <td>{allSctLeads.sctLeadEnteredByName}</td>
-                                <td>
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onDeactive(allSctLeads, idx)}
-                                    src={require("../../static/images/delete.png")}
-                                    alt="Delete Project"
-                                    title="Delete Project"
-                                  />{" "}
-                                  &emsp;
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(allSctLeads, idx)}
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  />
-                                </td>
-                              </tr>
-                            );
-                          }
-                        })}
-                    </tbody>
-                  </table>
+                              <td>{allSctLeads.sctNotes}</td>
+                              <td>{allSctLeads.sctLeadEnteredByName}</td>
+                              <td>
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onDeactive(allSctLeads, idx)}
+                                  src={require("../../static/images/delete.png")}
+                                  alt="Delete Project"
+                                  title="Delete Project"
+                                />{" "}
+                                &emsp;
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() => onUpdate(allSctLeads, idx)}
+                                  src={require("../../static/images/edit_icon.png")}
+                                  alt="Edit"
+                                  title="Edit"
+                                />
+                              </td>
+                            </tr>
+                          );
+                        }
+                      })}
+                  </tbody>
+                </table>
+              </div>
+              <div className="row">
+                <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right  ">
+                  <label>No of Leads : {count}</label>
                 </div>
-                <div className="row">
-                  <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
-                    <label>No of Leads : {count}</label>
-                  </div>
-                </div>
-              </section>
+              </div>
+              {/* </section> */}
             </div>
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 ">
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
@@ -622,12 +620,13 @@ const AllSctPotentials = ({
                   />
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding  statusTop ">
+                {/* sidePartHeightstatus */}
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "37vh" }}
+                  style={{ height: "39vh" }}
                 >
-                  <label className="sidePartHeading ">Status</label>
+                  <label className="sidePartHeading ">&nbsp;&nbsp;Status</label>
                   {showdateselectionSection && (
                     <AllSctStatusChange
                       leadDataVal={leadData}
@@ -639,14 +638,17 @@ const AllSctPotentials = ({
                   )}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
+
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastmessage">
+                {/* sidePartHeightlastmessage */}
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
                   style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
-                    Last Message Details
+                    &nbsp;&nbsp;Last Message Details
                   </label>
+
                   {showdateselectionSection && (
                     <SctLastMessageDetails
                       searchDataVal={searchDataVal}

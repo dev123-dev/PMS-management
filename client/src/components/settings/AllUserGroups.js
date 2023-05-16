@@ -49,9 +49,9 @@ const AllUserGroups = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className="col-lg-6 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Groups</h5>
+              <h4 className="heading_color">All Groups</h4>
             </div>
-            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2">
               {/* <img
                 className="img_icon_size log float-right"
                 onClick={() => onClickHandler()}

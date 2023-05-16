@@ -51,6 +51,18 @@ const SctLeadsSchema = new mongoose.Schema({
   stateName: {
     type: String,
   },
+  sctExpectedMonth: {
+    type: String,
+  },
+  sctExpectedMonthYear: {
+    type: String,
+  },
+  sctCallSalesValue: {
+    type: Number,
+  },
+  sctCallReasonForChange: {
+    type: String,
+  },
   // districtId: {
   //   type: ObjectId,
   // },

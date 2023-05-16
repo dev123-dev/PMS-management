@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import DatePicker from "react-datepicker";
 import {
   getAllSctCallCount1,
   getAllFollowUp,
@@ -93,7 +94,24 @@ const CallReport = ({
   }, [getAllSctCallCount1]);
 
   useEffect(() => {
-    getSummary({ selDate: "", dateType: "Single Date" });
+    getAllFollowUp({
+      fromdate: new Date().toISOString().split("T")[0],
+      todate: new Date().toISOString().split("T")[0],
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllSctCallCount1({
+      fromdate: new Date().toISOString().split("T")[0],
+      todate: new Date().toISOString().split("T")[0],
+    });
+  }, []);
+
+  useEffect(() => {
+    getSummary({
+      fromdate: new Date().toISOString().split("T")[0],
+      todate: new Date().toISOString().split("T")[0],
+    });
   }, []);
 
   const DateMethods = [
@@ -136,16 +154,80 @@ const CallReport = ({
     }
   };
 
+  let tdate = "";
+  let todaydate = new Date().toISOString().split("T")[0];
+  if (todaydate !== "") {
+    var ED = todaydate.split(/\D/g);
+    tdate = [ED[2], ED[1], ED[0]].join("-");
+  }
+
   const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  // new Date().toISOString().split("T")[0]
+  const [ReversedselectedDate, setReversedselectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
 
   const [singledate, setsingledate] = useState(
     new Date().toISOString().split("T")[0]
   );
-  //
+  //datepicker date for single data
+  // const onDateChange2 = (e) => {
+  //   const MonthYear = [
+  //     { label: "January", value: 1 },
+  //     { label: "Febrery", value: 2 },
+  //     { label: "March", value: 3 },
+  //     { label: "April", value: 4 },
+  //     { label: "May", value: 5 },
+  //     { label: "June", value: 6 },
+  //     { label: "July", value: 7 },
+  //     { label: "August", value: 8 },
+  //     { label: "Septmber", value: 9 },
+  //     { label: "October", value: 10 },
+  //     { label: "November", value: 11 },
+  //     { label: "December", value: 12 },
+  //   ];
+  //   let new_date = new Date(e);
+
+  //   let month = new_date.getMonth() + 1;
+  //   let year = new_date.getFullYear();
+  //   let date = new_date.getDate();
+  //   if (date < 10) {
+  //     date = "0" + date;
+  //   }
+
+  //   let final_date = date + "-" + month + "-" + year;
+
+  //   setSelectedDate(final_date);
+
+  //   let finaldata = MonthYear.filter((ele) => {
+  //     if (ele.value === month) {
+  //       return ele.label;
+  //     }
+  //   });
+
+  //   let new_year = finaldata[0].label + "-" + year;
+  //   // setReversedselectedDate(ReversedDate);
+  //   if (month < 10) {
+  //     month = "0" + month;
+  //   }
+
+  //   let ReversedDate = year + "-" + month + "-" + date;
+  //   setsingledate(new_year);
+  //   let finalData = {
+  //     fromdate: ReversedDate,
+  //     todate: ReversedDate,
+
+  //   };
+
+  //   getAllSctCallCount1(finalData);
+  //   getAllFollowUp(finalData);
+  //   getSummary(finalData);
+  // };
+
+  //single date normal
   const onDateChange2 = (e) => {
-    setSelectedDate(e.target.value);
     const MonthYear = [
       { label: "January", value: 1 },
       { label: "Febrery", value: 2 },
@@ -160,9 +242,19 @@ const CallReport = ({
       { label: "November", value: 11 },
       { label: "December", value: 12 },
     ];
+
     let new_date = new Date(e.target.value);
+
     let month = new_date.getMonth() + 1;
     let year = new_date.getFullYear();
+    let date = new_date.getDate();
+    if (date < 10) {
+      date = "0" + date;
+    }
+
+    let final_date = date + "-" + month + "-" + year;
+
+    setSelectedDate(e.target.value);
 
     let finaldata = MonthYear.filter((ele) => {
       if (ele.value === month) {
@@ -171,14 +263,19 @@ const CallReport = ({
     });
 
     let new_year = finaldata[0].label + "-" + year;
+
+    // setReversedselectedDate(ReversedDate);
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    let ReversedDate = year + "-" + month + "-" + date;
     setsingledate(new_year);
     let finalData = {
-      selDate: e.target.value,
-      dateType: "Single Date",
-      // folderId: projectData.folderId,
+      fromdate: e.target.value,
+      todate: e.target.value,
     };
 
-    // setSelDateDataVal(selDateData);
     getAllSctCallCount1(finalData);
     getAllFollowUp(finalData);
     getSummary(finalData);
@@ -186,7 +283,49 @@ const CallReport = ({
 
   const [fromdate, setfromdate] = useState("");
   const [FromDateValue, setFromDateValue] = useState("");
+  const [ReversedFromDateValue, setReversedFromDateValue] = useState("");
 
+  //Fromdate datepicker
+  // const onDateChange = (e) => {
+  //   const MonthYear = [
+  //     { label: "January", value: 1 },
+  //     { label: "Febrery", value: 2 },
+  //     { label: "March", value: 3 },
+  //     { label: "April", value: 4 },
+  //     { label: "May", value: 5 },
+  //     { label: "June", value: 6 },
+  //     { label: "July", value: 7 },
+  //     { label: "August", value: 8 },
+  //     { label: "Septmber", value: 9 },
+  //     { label: "October", value: 10 },
+  //     { label: "November", value: 11 },
+  //     { label: "December", value: 12 },
+  //   ];
+  //   let new_date = new Date(e);
+
+  //   let month = new_date.getMonth() + 1;
+  //   let year = new_date.getFullYear();
+  //   let date = new_date.getDate();
+  //   if (date < 10) {
+  //     date = "0" + date;
+  //   }
+  //   if (month < 10) {
+  //     month = "0" + month;
+  //   }
+  //   let final_date = date + "-" + month + "-" + year;
+  //   let ReversedDate = year + "-" + month + "-" + date;
+  //   setFromDateValue(final_date);
+  //   setReversedFromDateValue(ReversedDate);
+  //   let finaldata = MonthYear.filter((ele) => {
+  //     if (ele.value === month) {
+  //       return ele.label;
+  //     }
+  //   });
+  //   let From_new_year = finaldata[0].label + "-" + year;
+  //   setfromdate(From_new_year);
+  // };
+
+  //from date normal
   const onDateChange = (e) => {
     const MonthYear = [
       { label: "January", value: 1 },
@@ -203,14 +342,26 @@ const CallReport = ({
       { label: "December", value: 12 },
     ];
     let new_date = new Date(e.target.value);
-    setFromDateValue(e.target.value);
+
     let month = new_date.getMonth() + 1;
     let year = new_date.getFullYear();
+    let date = new_date.getDate();
+    if (date < 10) {
+      date = "0" + date;
+    }
+    if (month < 10) {
+      month = "0" + month;
+    }
+    let final_date = date + "-" + month + "-" + year;
+    let ReversedDate = year + "-" + month + "-" + date;
+    setFromDateValue(e.target.value);
+    setReversedFromDateValue(ReversedDate);
     let finaldata = MonthYear.filter((ele) => {
       if (ele.value === month) {
         return ele.label;
       }
     });
+
     let From_new_year = finaldata[0].label + "-" + year;
     setfromdate(From_new_year);
   };
@@ -218,7 +369,64 @@ const CallReport = ({
   const [todate, settodate] = useState("");
   const [ToDateValue, setToDateValue] = useState("");
 
+  //to date datepicker
+  // const onDateChange1 = (e) => {
+  //   //  toenddate
+  //   const MonthYear = [
+  //     { label: "January", value: 1 },
+  //     { label: "Febrery", value: 2 },
+  //     { label: "March", value: 3 },
+  //     { label: "April", value: 4 },
+  //     { label: "May", value: 5 },
+  //     { label: "June", value: 6 },
+  //     { label: "July", value: 7 },
+  //     { label: "August", value: 8 },
+  //     { label: "Septmber", value: 9 },
+  //     { label: "October", value: 10 },
+  //     { label: "November", value: 11 },
+  //     { label: "December", value: 12 },
+  //   ];
+  //   let new_date = new Date(e);
+
+  //   let month = new_date.getMonth() + 1;
+  //   let year = new_date.getFullYear();
+  //   let date = new_date.getDate();
+  //   if (date < 10) {
+  //     date = "0" + date;
+  //   }
+
+  //   let final_date = date + "-" + month + "-" + year;
+
+  //   setToDateValue(final_date);
+
+  //   let finaldata = MonthYear.filter((ele) => {
+  //     if (ele.value === month) {
+  //       return ele.label;
+  //     }
+  //   });
+  //   let To_new_year = finaldata[0].label + "-" + year;
+  //   settodate(To_new_year);
+
+  //   if (month < 10) {
+  //     month = "0" + month;
+  //   }
+  //   let ReversedDate = year + "-" + month + "-" + date;
+
+  //   let finalData = {
+  //     fromdate: ReversedFromDateValue,
+  //     todate: ReversedDate,
+  //     dateType: "Multi Date",
+  //     // folderId: projectData.folderId,
+  //   };
+  //   // setSelDateDataVal(selDateData);
+  //   getAllSctCallCount1(finalData);
+  //   getAllFollowUp(finalData);
+  //   getSummary(finalData);
+  // };
+
+  //todate normal
   const onDateChange1 = (e) => {
+    //  toenddate
     const MonthYear = [
       { label: "January", value: 1 },
       { label: "Febrery", value: 2 },
@@ -234,9 +442,18 @@ const CallReport = ({
       { label: "December", value: 12 },
     ];
     let new_date = new Date(e.target.value);
-    setToDateValue(e.target.value);
+
     let month = new_date.getMonth() + 1;
     let year = new_date.getFullYear();
+    let date = new_date.getDate();
+    if (date < 10) {
+      date = "0" + date;
+    }
+
+    let final_date = date + "-" + month + "-" + year;
+
+    setToDateValue(e.target.value);
+
     let finaldata = MonthYear.filter((ele) => {
       if (ele.value === month) {
         return ele.label;
@@ -244,6 +461,11 @@ const CallReport = ({
     });
     let To_new_year = finaldata[0].label + "-" + year;
     settodate(To_new_year);
+
+    if (month < 10) {
+      month = "0" + month;
+    }
+    let ReversedDate = year + "-" + month + "-" + date;
 
     let finalData = {
       fromdate: FromDateValue,
@@ -262,13 +484,13 @@ const CallReport = ({
   ) : (
     <Fragment>
       <div className="container container_align">
-        <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
-          <div className="col-lg-11 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">MIS Report </h2>
+        <div className="row col-lg-12 col-md-6 col-sm-12 col-12 no_padding">
+          <div className="col-lg-2 col-md-11 col-sm-12 col-12">
+            <h3 className="heading_color">MIS Report </h3>
           </div>
 
-          <div className="row col-lg-12 col-md-6 col-sm-12 col-12 no_padding">
-            <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-2">
+          <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
+            <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-4">
               <Select
                 name="Dateselectmode"
                 options={DateMethods}
@@ -281,7 +503,7 @@ const CallReport = ({
             </div>
             {showdateSection && (
               <>
-                <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-4">
                   <input
                     type="date"
                     placeholder="dd/mm/yyyy"
@@ -297,44 +519,68 @@ const CallReport = ({
                     }}
                     required
                   />
+
+                  {/* <DatePicker
+                    label="Controlled picker"
+                    value={FromDateValue}
+                    className="form-control"
+                    placeholderText="dd-mm-yyyy"
+                    onChange={(e) => onDateChange(e)}
+                  /> */}
                 </div>
-                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-4">
                   <input
                     type="date"
                     placeholder="dd/mm/yyyy"
-                    className="form-control cpp-input datevalidation"
-                    name="todate"
                     value={ToDateValue}
+                    className="form-control cpp-input datevalidation"
                     onChange={(e) => onDateChange1(e)}
+                    name="todate"
                     style={{
                       width: "110%",
                     }}
                     onKeyDown={(e) => {
                       e.preventDefault();
                     }}
-                    required
                   />
+                  {/* <DatePicker
+                    label="Controlled picker"
+                    value={ToDateValue}
+                    className="form-control"
+                    placeholderText="dd-mm-yyyy"
+                    onChange={(e) => onDateChange1(e)}
+                    required
+                  /> */}
                 </div>
               </>
             )}
             {showdateSection1 && (
               <>
-                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
+                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-4">
                   <input
                     type="date"
                     placeholder="dd/mm/yyyy"
+                    value={selectedDate}
                     className="form-control cpp-input datevalidation"
                     name="singledate"
-                    value={selectedDate}
-                    onChange={(e) => onDateChange2(e)}
                     style={{
                       width: "100%",
                     }}
+                    onChange={(e) => onDateChange2(e)}
                     onKeyDown={(e) => {
                       e.preventDefault();
                     }}
                     required
                   />
+
+                  {/* <DatePicker
+                    label="Controlled picker"
+                    value={selectedDate}
+                    className="form-control"
+                    placeholderText="dd-mm-yyyy"
+                    onChange={(e) => onDateChange2(e)}
+                    required
+                  /> */}
                 </div>
               </>
             )}
@@ -402,7 +648,7 @@ const CallReport = ({
                       style={{ height: "100%" }}
                     >
                       <center>
-                        <h3 className="callreport">Follow Up Clients</h3>
+                        <h3 className="callreport">Follow-up Clients</h3>
                         {/* <h3>
                           <h3>
                             Clients :{" "}
@@ -507,7 +753,7 @@ const CallReport = ({
                     >
                       <center>
                         <h3 className="callreport">
-                          Over All Summary
+                          Overall Summary
                           {/* {allDemosAddedToday && allDemosAddedToday.length} */}
                         </h3>
                       </center>
@@ -556,7 +802,7 @@ const CallReport = ({
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
                     <div className="card card-content ">
                       <center>
-                        <h3>Potential client</h3>
+                        <h3>Potential Clients</h3>
                       </center>
                       <div style={{ padding: "0 15px 0 15px" }}>
                         <table
@@ -597,7 +843,7 @@ const CallReport = ({
                       style={{ height: "100%" }}
                     >
                       <center>
-                        <h3>Follow Up Client </h3>
+                        <h3>Follow-up Clients </h3>
                       </center>
 
                       {/*className="table-responsive fixTableHead" */}
@@ -637,7 +883,7 @@ const CallReport = ({
                   <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
                     <div className="card card-content ">
                       <center>
-                        <h3>Pipe Line</h3>
+                        <h3>Pipeline Clients</h3>
                       </center>
                       <div style={{ padding: "0 15px 0 15px" }}>
                         <table
@@ -676,7 +922,7 @@ const CallReport = ({
                     >
                       <center>
                         <h3>
-                          Over All Summary
+                          Overall Summary
                           {/* {allDemosAddedToday && allDemosAddedToday.length} */}
                         </h3>
                       </center>

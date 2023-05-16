@@ -452,6 +452,9 @@ router.post("/update-sct-leads-status", async (req, res) => {
           sctLeadsCategory: data.sctLeadsCategory,
           sctCallDate: data.sctCallDate,
           sctCallTime: data.sctCallTime,
+          sctExpectedMonth: data.sctExpectedMonth,
+          sctExpectedMonthYear: data.sctExpectedMonthYear,
+          sctCallSalesValue: data.sctCallSalesValue,
         },
       }
     );
@@ -2361,9 +2364,9 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
             sctLeadsCategory: { $first: "$sctLeadsCategory" },
           },
         },
-        {
-          $project: {},
-        },
+        // {
+        //   $project: {},
+        // },
       ]);
     }
     res.json({
@@ -2382,7 +2385,7 @@ router.post("/get-all-sct-calls-count", auth, async (req, res) => {
 //sct call count
 router.post("/get-sct-potential-clients", auth, async (req, res) => {
   let { selDate, dateType, fromdate, todate, MonthDate, assignedTo } = req.body;
-  console;
+
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -2417,6 +2420,7 @@ router.post("/get-sct-potential-clients", auth, async (req, res) => {
       sctCallFromId,
     };
   }
+  // console.log(query);
   try {
     let getAllSctCallsClient = [];
     if (userInfo.empCtAccess === "All") {
@@ -2464,14 +2468,13 @@ router.post("/get-sct-potential-clients", auth, async (req, res) => {
 
 //sct followup start
 router.post("/get-sct-FollowUp-clients", auth, async (req, res) => {
-  let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
-  console;
+  let { MonthDate, dateType, fromdate, todate, assignedTo } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
   var dateVal = new Date().toISOString().split("T")[0];
 
-  if (selDate) dateVal = selDate;
+  if (MonthDate) dateVal = MonthDate;
   let sctCallFromId = "",
     query = {};
 
@@ -2693,95 +2696,159 @@ router.post("/get-over-all-summary", auth, async (req, res) => {
 
 //summary for callReport start
 router.post("/get-summary", auth, async (req, res) => {
-  let { selDate, dateType, fromdate, todate, assignedTo } = req.body;
+  let { fromdate, todate, assignedTo } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
-  if (selDate === "") {
-    dateVal = new Date().toISOString().split("T")[0];
-  } else {
-    dateVal = selDate;
-  }
-  let sctCallFromId = "",
-    query = {};
-
+  let sctCallFromId;
   if (userInfo.empCtAccess !== "All") sctCallFromId = userInfo._id;
   else {
-    if (assignedTo) sctCallFromId = mongoose.Types.ObjectId(assignedTo);
-    else sctCallFromId = { $ne: null };
+    if (assignedTo) {
+      sctCallFromId = mongoose.Types.ObjectId(assignedTo);
+    } else {
+      sctCallFromId = { $ne: null };
+    }
   }
 
-  if (dateType === "Multi Date") {
-    query = {
-      $and: [
-        {
-          sctCallFromId,
-        },
-        {
-          sctLeadsCategory: { $ne: null },
-          sctExpectedMonthYear: { $ne: null },
-          sctCallTakenDate: {
-            $gte: fromdate,
-            $lte: todate,
-          },
-        },
-        {
-          $or: [
-            { sctCallCategory: { $eq: "F" } },
-            { sctCallCategory: { $eq: "P" } },
-          ],
-        },
-      ],
-    };
-  } else {
-    query = {
-      $and: [
-        {
-          sctCallFromId,
-        },
-        {
-          sctLeadsCategory: { $ne: null },
-          sctExpectedMonthYear: { $ne: null },
-          $or: [
-            { sctCallCategory: { $eq: "F" } },
-            { sctCallCategory: { $eq: "P" } },
-          ],
-        },
-        {
-          sctCallTakenDate: dateVal,
-        },
-      ],
-    };
-  }
   try {
     let getAllSctCalls = [];
-    if (userInfo.empCtAccess === "All") {
-      getAllSctCalls = await SctCalls.aggregate([
-        {
-          $match: query,
+
+    getAllSctCalls = await SctCalls.aggregate([
+      {
+        $match: {
+          $or: [
+            {
+              sctCallCategory: {
+                $ne: null,
+              },
+            },
+            {
+              sctCallCategory: {
+                $eq: "",
+              },
+            },
+          ],
         },
-        {
-          $group: {
-            _id: "$sctExpectedMonthYear",
-            countClient: { $sum: 1 },
-            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+      },
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+
+          {
+            $or: [
+              {
+                sctCallCategory: {
+                  $eq: "P",
+                },
+              },
+              {
+                sctCallCategory: {
+                  $eq: "F",
+                },
+              },
+            ],
           },
-        },
-      ]).sort({ _id: 1 });
-    } else {
-      getAllSctCalls = await SctCalls.aggregate([
-        {
-          $match: query,
-        },
-        {
-          $group: {
-            _id: "$sctExpectedMonthYear",
-            countClient: { $sum: 1 },
-            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
+      },
+
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            $or: [
+              {
+                sctLeadsCategory: {
+                  $eq: "",
+                },
+              },
+              {
+                sctLeadsCategory: {
+                  $ne: "",
+                },
+              },
+            ],
           },
-        },
-      ]).sort({ _id: 1 });
-    }
+      },
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            sctCallTakenDate: {
+              $toDate: "$sctCallTakenDate",
+            },
+          },
+      },
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            sctCallTakenDate: {
+              $gte: new Date(fromdate),
+              $lte: new Date(todate),
+            },
+          },
+      },
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            month: {
+              $month: "$sctCallTakenDate",
+            },
+          },
+      },
+      {
+        $group:
+          /**
+           * _id: The id of the group.
+           * fieldN: The first field name.
+           */
+          {
+            _id: "$sctExpectedMonthYear",
+            sctCallSalesValue: {
+              $sum: "$sctCallSalesValue",
+            },
+            countClient: {
+              $sum: 1,
+            },
+            month: {
+              $first: "$month",
+            },
+          },
+      },
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            _id: {
+              $ne: "",
+            },
+          },
+      },
+      {
+        $sort:
+          /**
+           * Provide any number of field/order pairs.
+           */
+          {
+            month: 1,
+          },
+      },
+    ]);
+
     res.json(getAllSctCalls);
   } catch (err) {
     console.error(err.message);
@@ -2877,6 +2944,7 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
+
   var dateVal = new Date().toISOString().split("T")[0];
 
   if (selDate) dateVal = selDate;
@@ -2903,7 +2971,10 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
       sctCallCategory: { $eq: "P" },
       sctLeadsCategory: { $ne: "" },
 
-      sctCallTakenDate: dateVal,
+      sctCallTakenDate: {
+        $gte: fromdate,
+        $lte: todate,
+      },
       sctCallFromId,
     };
   }
@@ -2926,26 +2997,39 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
         {
           $match: query,
         },
+        // {
+        //   $group: {
+        //     _id: {
+        //       sctCallFromId: "$sctCallFromId",
+        //       sctCallToId: "$sctCallToId",
+        //     },
+        //     sctCallFromId: { $first: "$sctCallFromId" },
+        //     sctCallFromName: { $first: "$sctCallFromName" },
+        //     count: { $sum: 1 },
+        //     count1: { $sum: "$sctCallSalesValue" },
+        //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+        //   },
+        // },
         {
           $group: {
             _id: {
               sctCallFromId: "$sctCallFromId",
               sctCallToId: "$sctCallToId",
             },
-            sctCallFromId: { $first: "$sctCallFromId" },
             sctCallFromName: { $first: "$sctCallFromName" },
-            count: { $sum: 1 },
-            count1: { $sum: "$sctCallSalesValue" },
+            countClient: { $sum: 1 },
+            countCall: { $sum: "$count" },
+            sctCallSalesValue: { $last: "$sctCallSalesValue" },
             sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
           },
         },
         {
           $group: {
-            _id: "$sctCallFromId",
+            _id: "$sctCallFromName",
             sctCallFromName: { $first: "$sctCallFromName" },
             countClient: { $sum: 1 },
             countCall: { $sum: "$count" },
-            sctCallSalesValue: { $sum: "$count1" },
+            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
             sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
           },
         },
@@ -2964,26 +3048,39 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
         //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
         //   },
         // },
+        // {
+        //   $group: {
+        //     _id: {
+        //       sctCallFromId: "$sctCallFromId",
+        //       sctCallToId: "$sctCallToId",
+        //     },
+        //     sctCallFromId: { $first: "$sctCallFromId" },
+        //     sctCallFromName: { $first: "$sctCallFromName" },
+        //     count: { $sum: 1 },
+        //     count1: { $sum: "$sctCallSalesValue" },
+        //     sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+        //   },
+        // },
         {
           $group: {
             _id: {
               sctCallFromId: "$sctCallFromId",
               sctCallToId: "$sctCallToId",
             },
-            sctCallFromId: { $first: "$sctCallFromId" },
             sctCallFromName: { $first: "$sctCallFromName" },
-            count: { $sum: 1 },
-            count1: { $sum: "$sctCallSalesValue" },
+            countClient: { $sum: 1 },
+            countCall: { $sum: "$count" },
+            sctCallSalesValue: { $last: "$sctCallSalesValue" },
             sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
           },
         },
         {
           $group: {
-            _id: "$sctCallFromId",
+            _id: "$sctCallFromName",
             sctCallFromName: { $first: "$sctCallFromName" },
             countClient: { $sum: 1 },
             countCall: { $sum: "$count" },
-            sctCallSalesValue: { $sum: "$count1" },
+            sctCallSalesValue: { $sum: "$sctCallSalesValue" },
             sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
           },
         },
@@ -3033,10 +3130,14 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
     query = {
       sctCallCategory: { $eq: "F" },
       sctLeadsCategory: { $eq: "" },
-      sctCallTakenDate: dateVal,
+      sctCallTakenDate: {
+        $gte: fromdate,
+        $lte: todate,
+      },
       sctCallFromId,
     };
   }
+  console.log(query);
   try {
     // const getAllSctCallsCount = await SctCalls.aggregate([
     //   {
@@ -3059,7 +3160,21 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
 
         {
           $group: {
-            _id: "$sctCallFromId",
+            _id: {
+              sctCallFromId: "$sctCallFromId",
+              sctCallToId: "$sctCallToId",
+            },
+
+            sctCallFromName: { $first: "$sctCallFromName" },
+            countClient: { $sum: 1 },
+
+            sctCallSalesValue: { $last: "$sctCallSalesValue" },
+            sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+          },
+        },
+        {
+          $group: {
+            _id: "$sctCallFromName",
             sctCallFromName: { $first: "$sctCallFromName" },
             countClient: { $sum: 1 },
             countCall: { $sum: "$count" },
@@ -3076,7 +3191,20 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
 
         {
           $group: {
-            _id: "$sctCallFromId",
+            _id: {
+              sctCallFromId: "$sctCallFromId",
+              sctCallToId: "$sctCallToId",
+            },
+            sctCallFromName: { $first: "$sctCallFromName" },
+            countClient: { $sum: 1 },
+            countCall: { $sum: 1 },
+            sctCallSalesValue: { $last: "$sctCallSalesValue" },
+            sctExpectedMonthYear: { $first: "$sctExpectedMonthYear" },
+          },
+        },
+        {
+          $group: {
+            _id: "$sctCallFromName",
             sctCallFromName: { $first: "$sctCallFromName" },
             countClient: { $sum: 1 },
             countCall: { $sum: 1 },

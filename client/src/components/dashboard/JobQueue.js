@@ -576,7 +576,7 @@ const JobQueue = ({
   );
   const fileName = [clientFolderName ? clientFolderName : "Client Report"];
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -587,7 +587,7 @@ const JobQueue = ({
             //  style={{ postion: "fixed" }}
           >
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Job Queue</h5>
+              <h4 className="heading_color">Job Queue</h4>
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -610,7 +610,13 @@ const JobQueue = ({
               />
             </div>
 
-            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-2 float_right ">
+              <button
+                className="btn btn_green_bg float-right"
+                onClick={() => onClickReset()}
+              >
+                Refresh
+              </button>
               {(user.userGroupName && user.userGroupName === "Administrator") ||
               user.userGroupName === "Super Admin" ||
               user.userGroupName === "Clarical Admins" ? (
@@ -622,12 +628,7 @@ const JobQueue = ({
               ) : (
                 <></>
               )}
-              <button
-                className="btn btn_green_bg float-right"
-                onClick={() => onClickReset()}
-              >
-                Refresh
-              </button>
+
               {(user.userGroupName && user.userGroupName === "Administrator") ||
               user.userGroupName === "Super Admin" ||
               user.userGroupName === "Clarical Admins" ? (
