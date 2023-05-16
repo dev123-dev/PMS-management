@@ -923,7 +923,7 @@ const DailyJobSheet = ({
                           <></>
                         )}
                         <th style={{ width: "5%" }}>Folder</th>
-                        <th></th>
+                        {/* <th></th> */}
                         <th style={{ width: "15%" }}>Project Name</th>
                         <th style={{ width: "5%" }}>History</th>
                         {/* <th style={{ width: "12%" }}>Queue Duration</th> */}
@@ -1018,9 +1018,9 @@ const DailyJobSheet = ({
                                 user.userGroupName === "Super Admin" ||
                                 user.userGroupName === "Clarical Admins" ? (
                                   <>
-                                    <td>
+                                    {/* <td>
                                       <img
-                                        className="img_icon_size log float-left "
+                                        className="img_icon_size log float-left  "
                                         onClick={() =>
                                           handleGoToAllLatestChange(
                                             dailyJobsheetProjects
@@ -1030,7 +1030,7 @@ const DailyJobSheet = ({
                                         alt="Last change"
                                         title="Last change"
                                       />
-                                    </td>
+                                    </td> */}
                                     <td>
                                       <Link
                                         className="float-left ml-3 aTagActiveRemoveClrBlk"

@@ -2724,7 +2724,7 @@ router.post("/get-summary", auth, async (req, res) => {
             },
             {
               sctCallCategory: {
-                $eq: sctCallFromId,
+                $eq: "",
               },
             },
           ],

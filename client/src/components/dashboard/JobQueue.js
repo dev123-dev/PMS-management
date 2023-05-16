@@ -576,7 +576,7 @@ const JobQueue = ({
   );
   const fileName = [clientFolderName ? clientFolderName : "Client Report"];
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
