@@ -68,7 +68,7 @@ const PotentialHistory = ({
   MonthWiseData &&
     MonthWiseData.getAllSctCallsClient &&
     MonthWiseData.getAllSctCallsClient.map((ele) => {
-      if (ele.sctCallCategory === "P") {
+      if (ele.sctCallCategory === "PT") {
         new_potentialdata.push(ele);
       }
     });
