@@ -222,7 +222,6 @@ const AllSctProspects = ({
       value: emp.sctLeadAssignedToName,
     })
   );
-  console.log("getAllSctLeadsDD", getAllSctLeadsDD);
   const allClientPhone = [];
   allSctLeadsDD &&
     allSctLeadsDD.map((clients) =>

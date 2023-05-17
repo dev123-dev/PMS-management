@@ -38,6 +38,15 @@ const AllSctStatusChange = ({
     getSctStaffsData(staffFilter);
   }, [leadDataVal]);
 
+  let passwrdTooltip = {
+    marginLeft: "-12em",
+    position: "absolute",
+    marginTop: "1.5em",
+    pointerEvents: "none",
+    zIndex: "995",
+    width: "270px",
+  };
+
   //STATUS START
   let StatusMethods = [
     { value: "VoiceMail", label: "Voice Mail" },
@@ -170,13 +179,13 @@ const AllSctStatusChange = ({
   } = error;
 
   const checkErrors = () => {
-    if (!statusmodeIdChecker) {
-      setError({
-        ...error,
-        statusmodeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+    // if (!statusmodeIdChecker) {
+    //   setError({
+    //     ...error,
+    //     statusmodeIdErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
     if (!stafftypeIdChecker) {
       setError({
         ...error,
@@ -266,7 +275,6 @@ const AllSctStatusChange = ({
 
   const [showstatus, setstatus] = useState("");
   const [sctLeadsCategory, setsctLeadsCategory] = useState("");
-
   const onStatusTypeChange = (e) => {
     if (e.value === "CallBack") {
       setstatus("CallBack");
@@ -430,7 +438,9 @@ const AllSctStatusChange = ({
     { label: "November", value: 11 },
     { label: "December", value: 12 },
   ];
-  const [MonthAndYear, setMonthYear] = useState("");
+  const [MonthAndYear, setMonthYear] = useState(
+    leadDataVal.sctExpectedMonthYear ? leadDataVal.sctExpectedMonthYear : ""
+  );
   const [isExpectedDateChanged, setIsExpectedDateChnaged] = useState("");
   const [expectedDate, setExpectedDate] = useState(
     leadDataVal.sctExpectedMonth
@@ -468,6 +478,7 @@ const AllSctStatusChange = ({
       setMonthYear(final_data);
     }
   };
+
   const [isSalesValueChanged, setIsSalesValueChanged] = useState();
   const [salesValue, setSalesvalue] = useState(
     leadDataVal.sctCallSalesValue ? Number(leadDataVal.sctCallSalesValue) : ""
@@ -527,11 +538,9 @@ const AllSctStatusChange = ({
         callComeFromVal = "Client";
       if (sctCallStatus.value === "FollowUp") {
         callCategoryVal = "F";
-      }
-      // else if (sctCallStatus.value === "CallBack") {
-      //   callCategoryVal = "P";
-      // }
-      else if (sctCallStatus.value === "WrongNumber") {
+      } else if (sctLeadsCategory.value !== "") {
+        callCategoryVal = "PT";
+      } else if (sctCallStatus.value === "WrongNumber") {
         callCategoryVal = "W";
       } else if (sctCallStatus.value === "EngagedClient") {
         callCategoryVal = "EC";
@@ -540,7 +549,11 @@ const AllSctStatusChange = ({
         callCategoryVal = "RC";
         clientTypeVal = "Regular";
       } else {
-        if (leadDataVal.sctLeadCategory === "NL") callCategoryVal = "P";
+        if (
+          leadDataVal.sctLeadCategory === "NL" &&
+          sctLeadsCategory.value === ""
+        )
+          callCategoryVal = "P";
         else {
           if (from === "EngagedClient" || from === "RegularClient")
             callCategoryVal = leadDataVal.sctClientCategory;
@@ -558,7 +571,11 @@ const AllSctStatusChange = ({
           sctCallFromName: user.userName,
           sctCallCategory: callCategoryVal,
           sctCallStatus: sctCallStatus.value,
-          sctLeadsCategory: sctLeadsCategory ? sctLeadsCategory.value : "",
+          sctLeadsCategory: leadDataVal.sctLeadsCategory
+            ? leadDataVal.sctLeadsCategory
+            : sctLeadsCategory
+            ? sctLeadsCategory.value
+            : "",
           sctcallToNumber: staffsNumber ? staffsNumber : phone1,
           // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
           sctCallDate: startStatusDate || demoDate || todayDateymd,
@@ -575,12 +592,11 @@ const AllSctStatusChange = ({
           filterData: filterData,
           page: page,
         };
-        console.log("finalData", finalData);
-        // if (from === "EngagedClient" || from === "RegularClient") {
-        //   addSctClientCalls(finalData);
-        // } else {
-        //   addSctCalls(finalData);
-        // }
+        if (from === "EngagedClient" || from === "RegularClient") {
+          addSctClientCalls(finalData);
+        } else {
+          addSctCalls(finalData);
+        }
 
         if (
           sctCallStatus.value === "Demo" ||
@@ -608,7 +624,7 @@ const AllSctStatusChange = ({
             },
             demoEnteredByDateTime: new Date().toLocaleString("en-GB"),
           };
-          // addDemo(demoData);
+          addDemo(demoData);
         }
         if (
           (sctCallStatus.value === "EngagedClient" ||
@@ -650,7 +666,7 @@ const AllSctStatusChange = ({
             sctStaffs: leadDataVal.sctStaffs,
           };
 
-          // addSctClientDetails(transferData);
+          addSctClientDetails(transferData);
         }
         setFormData({
           ...formData,
@@ -667,7 +683,6 @@ const AllSctStatusChange = ({
     } else {
       e.preventDefault();
       setReasonForChange("false");
-
       let callCategoryVal = null,
         clientTypeVal = "",
         callComeFromVal = "Lead";
@@ -676,15 +691,16 @@ const AllSctStatusChange = ({
         callComeFromVal = "Client";
       if (sctCallStatus.value === "FollowUp") {
         callCategoryVal = "F";
-      }
-      // else if (sctCallStatus.value === "CallBack") {
-      //   callCategoryVal = "P";
-      // }
-      else if (sctCallStatus.value === "WrongNumber") {
+      } else if (sctLeadsCategory !== "") {
+        callCategoryVal = "PT";
+      } else if (sctCallStatus.value === "WrongNumber") {
         callCategoryVal = "W";
       } else if (sctCallStatus.value === "EngagedClient") {
         callCategoryVal = "EC";
         clientTypeVal = "Engaged";
+      } else if (sctCallStatus.value === "RegularClient") {
+        callCategoryVal = "RC";
+        clientTypeVal = "Regular";
       } else if (sctCallStatus.value === "RegularClient") {
         callCategoryVal = "RC";
         clientTypeVal = "Regular";
@@ -707,7 +723,11 @@ const AllSctStatusChange = ({
           sctCallFromName: user.userName,
           sctCallCategory: callCategoryVal,
           sctCallStatus: sctCallStatus.value,
-          sctLeadsCategory: sctLeadsCategory ? sctLeadsCategory.value : "",
+          sctLeadsCategory: leadDataVal.sctLeadsCategory
+            ? leadDataVal.sctLeadsCategory
+            : sctLeadsCategory
+            ? sctLeadsCategory.value
+            : "",
           sctcallToNumber: staffsNumber ? staffsNumber : phone1,
           // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
           sctCallDate: startStatusDate || demoDate || todayDateymd,
@@ -716,7 +736,7 @@ const AllSctStatusChange = ({
           sctCallReasonForChange: "",
 
           sctCallTime: sctCallTime,
-          sctCallSalesValue: salesValue,
+          sctCallSalesValue: salesValue ? salesValue : 0,
           sctCallNote: sctCallNote?.trim(),
           sctCallComeFrom: callComeFromVal,
           sctCallTakenDate: new Date().toISOString().split("T")[0],
@@ -725,13 +745,10 @@ const AllSctStatusChange = ({
           filterData: filterData,
           page: page,
         };
-        //console.log("finalData", finalData);
         if (from === "EngagedClient" || from === "RegularClient") {
-          // addSctClientCalls(finalData);
-          console.log("finalData", finalData);
+          addSctClientCalls(finalData);
         } else {
-          // addSctCalls(finalData);
-          console.log("finalData", finalData);
+          addSctCalls(finalData);
         }
 
         if (
@@ -760,8 +777,7 @@ const AllSctStatusChange = ({
             },
             demoEnteredByDateTime: new Date().toLocaleString("en-GB"),
           };
-          // addDemo(demoData);
-          console.log("demoData", demoData);
+          addDemo(demoData);
         }
         if (
           (sctCallStatus.value === "EngagedClient" ||
@@ -803,8 +819,7 @@ const AllSctStatusChange = ({
             sctStaffs: leadDataVal.sctStaffs,
           };
 
-          // addSctClientDetails(transferData);
-          console.log("transferData", transferData);
+          addSctClientDetails(transferData);
         }
         setFormData({
           ...formData,
@@ -845,6 +860,11 @@ const AllSctStatusChange = ({
     // });
   };
   // console.log("sctLeadsCategory", sctLeadsCategory);
+  let ED =
+    leadDataVal && leadDataVal.sctExpectedMonth
+      ? leadDataVal.sctExpectedMonth.split(/\D/g)
+      : "";
+  let sctExpectedMonthrevered = [ED[2], ED[1], ED[0]].join("-");
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -985,7 +1005,7 @@ const AllSctStatusChange = ({
               </div>
             </>
           )}
-          <div className="col-lg-4 col-md-6 col-sm-6 col-12 notesTopSCT">
+          <div className="col-lg-3 col-md-6 col-sm-6 col-12 notesTopSCT">
             <label className="label-control">Call Time* :</label>
             <br />
             <input
@@ -993,6 +1013,7 @@ const AllSctStatusChange = ({
               className="form-control"
               name="sctCallTime"
               value={sctCallTime}
+              style={{ width: "120%" }}
               min="00:00"
               max="24:00"
               onChange={(e) => onInputChange(e)}
@@ -1016,6 +1037,7 @@ const AllSctStatusChange = ({
                   // placeholder="dd/mm/yyyy"
                   className="form-control cpp-input datevalidation"
                   // min={todaydate}
+                  min={expectedDate}
                   name="expectedMonth"
                   value={expectedDate}
                   onChange={(e) => onDateChange2(e)}
@@ -1023,6 +1045,27 @@ const AllSctStatusChange = ({
                     width: "100%",
                   }}
                 />
+                <div
+                  className="cstm-hint text-white"
+                  id="pass_admin_help"
+                  style={{ top: "60px", marginRight: "3px" }}
+                >
+                  <img
+                    src={require("../../static/images/help1.png")}
+                    alt="help"
+                    id="img_tool_admin"
+                    className="pass_admin_help_icon_question"
+                  />
+                  <div
+                    id="tooltipPassAdmin"
+                    className="syle-hint"
+                    style={passwrdTooltip}
+                    data-hint={
+                      "Expected date must be greater than" +
+                      sctExpectedMonthrevered
+                    }
+                  ></div>
+                </div>
               </div>
               <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
                 <label className="label-control" style={salesValueErrorStyle}>
@@ -1036,6 +1079,27 @@ const AllSctStatusChange = ({
                   value={salesValue}
                   onChange={(e) => onSalesvalueChange(e)}
                 />
+                <div
+                  className="cstm-hint text-white"
+                  id="pass_admin_help"
+                  style={{ top: "60px" }}
+                >
+                  <img
+                    src={require("../../static/images/help1.png")}
+                    alt="help"
+                    id="img_tool_admin"
+                    className="pass_admin_help_icon_question"
+                  />
+                  <div
+                    id="tooltipPassAdmin"
+                    className="syle-hint"
+                    style={passwrdTooltip}
+                    data-hint={
+                      "Sales Value must be more than " +
+                      leadDataVal.sctCallSalesValue
+                    }
+                  ></div>
+                </div>
               </div>
             </>
           ) : (

@@ -61,7 +61,7 @@ const AllSctPotentials = ({
     { value: "Normal", label: "Normal" },
     { value: "Cool", label: "Cool" },
   ];
-  const [filterData, setFilterData] = useState({ sctLeadCategory: "P" });
+  const [filterData, setFilterData] = useState({ sctLeadCategory: "PT" });
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -140,9 +140,9 @@ const AllSctPotentials = ({
     getclientsData("");
     getempData("");
     getcountryIdData(e.countryId);
-    getSctLeadDetails({ countryId: e.countryId, sctLeadCategory: "P" });
-    getSctLeadDetailsDD({ countryId: e.countryId, sctLeadCategory: "P" });
-    setFilterData({ countryId: e.countryId, sctLeadCategory: "P" });
+    getSctLeadDetails({ countryId: e.countryId, sctLeadCategory: "PT" });
+    getSctLeadDetailsDD({ countryId: e.countryId, sctLeadCategory: "PT" });
+    setFilterData({ countryId: e.countryId, sctLeadCategory: "PT" });
   };
 
   const allprojects = [];
@@ -166,7 +166,7 @@ const AllSctPotentials = ({
     setprojectsID(e.projectsId);
     let searchData = {
       projectsId: e.projectsId,
-      sctLeadCategory: "P",
+      sctLeadCategory: "PT",
     };
     getSctLeadDetails(searchData);
     getSctLeadDetailsDD(searchData);
@@ -195,7 +195,7 @@ const AllSctPotentials = ({
     let searchData = {
       projectsId: projectsId,
       stateId: e.stateId,
-      sctLeadCategory: "P",
+      sctLeadCategory: "PT",
     };
     getSctLeadDetails(searchData);
     getSctLeadDetailsDD(searchData);
@@ -223,7 +223,7 @@ const AllSctPotentials = ({
       let searchData = {
         projectsId: projectsId,
         sctLeadsCategory: e.value,
-        sctLeadCategory: "P",
+        sctLeadCategory: "PT",
       };
       getSctLeadDetails(searchData);
       setFilterData(searchData);
@@ -262,7 +262,7 @@ const AllSctPotentials = ({
       projectsId: projectsId,
       stateId: stateId,
       clientsId: clientsId,
-      sctLeadCategory: "P",
+      sctLeadCategory: "PT",
       assignedTo: e.empId,
     };
     getSctLeadDetails(searchData);
@@ -312,7 +312,7 @@ const AllSctPotentials = ({
       projectsId: projectsId,
       stateId: stateId,
       clientsId: e.clientsId,
-      sctLeadCategory: "P",
+      sctLeadCategory: "PT",
     };
     getSctLeadDetails(searchData);
     setFilterData(searchData);
@@ -339,7 +339,7 @@ const AllSctPotentials = ({
       projectsId: projectsId,
       stateId: stateId,
       clientsId: e.clientsId,
-      sctLeadCategory: "P",
+      sctLeadCategory: "PT",
     };
     getSctLeadDetails(searchData);
     setFilterData(searchData);
@@ -504,12 +504,13 @@ const AllSctPotentials = ({
                 >
                   <thead>
                     <tr>
-                      {/* <th style={{ width: "3%" }}>Sl.No</th> */}
+                      <th style={{ width: "3%" }}>Sl.No</th>
                       {/* <th style={{ width: "8%" }}>Website </th>
                         <th style={{ width: "8%" }}>Email</th> */}
                       {/* <th style={{ width: "8%" }}>Region</th> */}
                       {/* <th style={{ width: "8%" }}>Call Time</th> */}
                       <th style={{ width: "10%" }}>Company </th>
+                      <th style={{ width: "8%" }}>Lead Category</th>
                       <th style={{ width: "8%" }}>State</th>
                       <th style={{ width: "8%" }}>Contact</th>
                       <th style={{ width: "8%" }}>Contact 2</th>
@@ -527,19 +528,19 @@ const AllSctPotentials = ({
                           var ED = allSctLeads.sctCallDate.split(/\D/g);
                           sctCallDate = [ED[2], ED[1], ED[0]].join("-");
                         }
-                        if (allSctLeads.sctLeadsCategory !== "") {
-                          //setCount(idx + 1);
-                          return (
-                            <tr
-                              key={idx}
-                              className={
-                                colorData === idx ? "seletedrowcolorchange" : ""
-                              }
-                              onClick={() => onClickHandler(allSctLeads, idx)}
-                            >
-                              {/* <td>{idx + 1}</td> */}
-                              {/* <td>{allSctLeads.countryName}</td> */}
-                              {/* <td>
+                        // if (allSctLeads.sctLeadsCategory !== "") {
+                        //setCount(idx + 1);
+                        return (
+                          <tr
+                            key={idx}
+                            className={
+                              colorData === idx ? "seletedrowcolorchange" : ""
+                            }
+                            onClick={() => onClickHandler(allSctLeads, idx)}
+                          >
+                            <td>{idx + 1}</td>
+                            {/* <td>{allSctLeads.countryName}</td> */}
+                            {/* <td>
                                   {" "}
                                   <a
                                     href={allSctLeads.sctWebsite}
@@ -550,59 +551,61 @@ const AllSctPotentials = ({
                                   </a>
                                 </td>
                                 <td>{allSctLeads.sctEmailId}</td> */}
-                              {/* <td>{allSctLeads.sctCallTime}</td> */}
-                              <td>{allSctLeads.sctCompanyName}</td>
+                            {/* <td>{allSctLeads.sctCallTime}</td> */}
+                            <td>{allSctLeads.sctCompanyName}</td>
+                            <td>{allSctLeads.sctLeadsCategory}</td>
+                            <td>{allSctLeads.stateName}</td>
+                            <td>
+                              {allSctLeads.sctcountryCode
+                                ? "+" + allSctLeads.sctcountryCode
+                                : ""}
+                              &nbsp;
+                              {allSctLeads.sctPhone1}
+                            </td>
+                            <td>
+                              {allSctLeads.sctPhone2 &&
+                              allSctLeads.sctcountryCode
+                                ? "+" + allSctLeads.sctcountryCode
+                                : ""}
+                              &nbsp;
+                              {allSctLeads.sctPhone2}
+                            </td>
+                            <td>
+                              {" "}
+                              {sctCallDate}&nbsp;{allSctLeads.sctCallTime}
+                            </td>
 
-                              <td>{allSctLeads.stateName}</td>
-                              <td>
-                                {allSctLeads.sctcountryCode
-                                  ? "+" + allSctLeads.sctcountryCode
-                                  : ""}
-                                &nbsp;
-                                {allSctLeads.sctPhone1}
-                              </td>
-                              <td>
-                                {allSctLeads.sctPhone2 &&
-                                allSctLeads.sctcountryCode
-                                  ? "+" + allSctLeads.sctcountryCode
-                                  : ""}
-                                &nbsp;
-                                {allSctLeads.sctPhone2}
-                              </td>
-                              <td>
-                                {" "}
-                                {sctCallDate}&nbsp;{allSctLeads.sctCallTime}
-                              </td>
-
-                              <td>{allSctLeads.sctNotes}</td>
-                              <td>{allSctLeads.sctLeadEnteredByName}</td>
-                              <td>
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() => onDeactive(allSctLeads, idx)}
-                                  src={require("../../static/images/delete.png")}
-                                  alt="Delete Project"
-                                  title="Delete Project"
-                                />{" "}
-                                &emsp;
-                                <img
-                                  className="img_icon_size log"
-                                  onClick={() => onUpdate(allSctLeads, idx)}
-                                  src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
-                                />
-                              </td>
-                            </tr>
-                          );
-                        }
+                            <td>{allSctLeads.sctNotes}</td>
+                            <td>{allSctLeads.sctLeadEnteredByName}</td>
+                            <td>
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onDeactive(allSctLeads, idx)}
+                                src={require("../../static/images/delete.png")}
+                                alt="Delete Project"
+                                title="Delete Project"
+                              />{" "}
+                              &emsp;
+                              <img
+                                className="img_icon_size log"
+                                onClick={() => onUpdate(allSctLeads, idx)}
+                                src={require("../../static/images/edit_icon.png")}
+                                alt="Edit"
+                                title="Edit"
+                              />
+                            </td>
+                          </tr>
+                        );
+                        // }
                       })}
                   </tbody>
                 </table>
               </div>
               <div className="row">
                 <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right  ">
-                  <label>No of Leads : {count}</label>
+                  <label>
+                    No of Leads : {allSctLeads && allSctLeads.length}
+                  </label>
                 </div>
               </div>
               {/* </section> */}
