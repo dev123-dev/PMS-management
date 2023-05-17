@@ -3137,7 +3137,7 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
       sctCallFromId,
     };
   }
-  // console.log(query);
+  console.log(query);
   try {
     // const getAllSctCallsCount = await SctCalls.aggregate([
     //   {
@@ -3485,8 +3485,8 @@ router.post("/sct-transfer-lead", async (req, res) => {
         }
       );
     }
-    console.log("success");
-    // res.json({ status: "success" });
+    // console.log("success");
+    res.json({ status: "success" });
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
