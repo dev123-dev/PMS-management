@@ -328,7 +328,9 @@ const RegularClientFollowup = ({
                         <th style={{ width: "12%" }}>Email</th>
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "12%" }}>Contact</th>
-                        <th style={{ width: "10%" }}>Call Date</th>
+                        <th style={{ width: "10%" }}>
+                          &nbsp;&nbsp;&nbsp;CallDate&nbsp;&nbsp;&nbsp;
+                        </th>
                       </tr>
                     </thead>
                     <tbody>

@@ -402,19 +402,21 @@ const AllProspects = ({
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHeadCT">
                   <table
-                    className="table table-bordered table-striped  smll_row"
+                    className="table table-bordered table-striped "
                     id="datatable2"
                   >
                     <thead>
                       <tr>
-                        <th style={{ width: "3%" }}>Sl.No</th>
-                        <th style={{ width: "15%" }}>Company </th>
-                        <th style={{ width: "12%" }}>Website </th>
-                        <th style={{ width: "11%" }}>Email</th>
-                        <th style={{ width: "8%" }}>Region</th>
-                        <th style={{ width: "13%" }}>Contact</th>
-                        <th style={{ width: "10%" }}>Call Date</th>
-                        <th style={{ width: "9%" }}>Op</th>
+                        <th>Sl.No</th>
+                        <th>Company </th>
+                        <th>Website </th>
+                        <th>Email</th>
+                        <th>Region</th>
+                        <th>Contact</th>
+                        <th>
+                          &nbsp;&nbsp;&nbsp;&nbsp;CallDate&nbsp;&nbsp;&nbsp;&nbsp;
+                        </th>
+                        <th>Operation</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -434,15 +436,7 @@ const AllProspects = ({
                               onClick={() => onClickHandler(allLeads, idx)}
                             >
                               <td>{idx + 1}</td>
-                              <td>
-                                {/* <Link
-                                  className="float-left ml-1"
-                                  to="#"
-                                  // onClick={() => onClickHandler(allLeads, idx)}
-                                > */}
-                                {allLeads.companyName}
-                                {/* </Link> */}
-                              </td>
+                              <td>{allLeads.companyName}</td>
                               <td>
                                 {" "}
                                 <a
@@ -470,6 +464,7 @@ const AllProspects = ({
                                   src={require("../../static/images/delete.png")}
                                   alt="Delete Project"
                                   title="Delete Project"
+                                  style={{ width: "20px" }}
                                 />{" "}
                                 <img
                                   className="img_icon_size log"
@@ -477,6 +472,7 @@ const AllProspects = ({
                                   src={require("../../static/images/edit_icon.png")}
                                   alt="Edit"
                                   title="Edit"
+                                  style={{ width: "20px" }}
                                 />
                               </td>
                             </tr>

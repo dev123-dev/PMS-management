@@ -444,16 +444,10 @@ const AllLeads = ({
                         <th style={{ width: "11%" }}>Email</th>
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
-                        <th style={{ width: "10%" }}>Call Date</th>
-                        <th style={{ width: "5%" }}>Op</th>
-                        {/* <th>Sl.No</th>
-                        <th>Company </th>
-                        <th>Website </th>
-                        <th>Email</th>
-                        <th>Region</th>
-                        <th>Contact</th>
-                        <th>Call Date</th>
-                        <th>Op</th> */}
+                        <th style={{ width: "10%" }}>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CallDate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </th>
+                        <th style={{ width: "5%" }}>Operation</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -501,7 +495,6 @@ const AllLeads = ({
                                   alt="Delete Project"
                                   title="Delete Project"
                                 />{" "}
-                                &emsp;
                                 <img
                                   className="img_icon_size log"
                                   onClick={() => onUpdate(getAllLeads, idx)}
