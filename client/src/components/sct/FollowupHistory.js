@@ -4,16 +4,23 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { getFollowUpClient } from "../../actions/sct";
+import { CSVLink } from "react-csv";
 
 import DatePicker from "react-datepicker";
 const FollowupHistory = ({
   auth: { isAuthenticated, user, users },
   sct: { allSctCalls, allSctCallsEmp, follouphistory },
-
   getFollowUpClient,
 }) => {
   useEffect(() => {
     getFollowUpClient();
+  }, []);
+
+  useEffect(() => {
+    getFollowUpClient({
+      fromdate: new Date().toISOString().split("T")[0],
+      todate: new Date().toISOString().split("T")[0],
+    });
   }, []);
 
   const DateMethods = [
@@ -52,49 +59,67 @@ const FollowupHistory = ({
   const [startFromDateShow, setFromDateShow] = useState("");
   const [todate, settodate] = useState("");
 
-  const onfromDateChange = (e) => {
-    var newDate = e;
-    var calDate = new Date(newDate);
-    var dd1 = calDate.getDate();
-    var mm2 = calDate.getMonth() + 1;
-    var yyyy1 = calDate.getFullYear();
-    if (dd1 < 10) {
-      dd1 = "0" + dd1;
-    }
+  //from date datepicker
+  // const onfromDateChange = (e) => {
+  //   var newDate = e;
+  //   var calDate = new Date(newDate);
+  //   var dd1 = calDate.getDate();
+  //   var mm2 = calDate.getMonth() + 1;
+  //   var yyyy1 = calDate.getFullYear();
+  //   if (dd1 < 10) {
+  //     dd1 = "0" + dd1;
+  //   }
 
-    if (mm2 < 10) {
-      mm2 = "0" + mm2;
-    }
-    var EndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
-    setFromDate(EndDate1);
-    var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
-    setFromDateShow(EndDate);
-    setfromdate(EndDate1);
+  //   if (mm2 < 10) {
+  //     mm2 = "0" + mm2;
+  //   }
+  //   var EndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+  //   setFromDate(EndDate1);
+  //   var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+  //   setFromDateShow(EndDate);
+  //   setfromdate(EndDate1);
+  // };
+
+  const onfromDateChange = (e) => {
+    setFromDate(e.target.value);
   };
+
   const [startToDate, setToDate] = useState("");
   const [startcToDateShow, SetstartToDateShow] = useState("");
+
+  //todate datepicker
+  // const ontoDateChange = (e) => {
+  //   var newDate = e;
+  //   var calDate = new Date(newDate);
+  //   var dd1 = calDate.getDate();
+  //   var mm2 = calDate.getMonth() + 1;
+  //   var yyyy1 = calDate.getFullYear();
+  //   if (dd1 < 10) {
+  //     dd1 = "0" + dd1;
+  //   }
+
+  //   if (mm2 < 10) {
+  //     mm2 = "0" + mm2;
+  //   }
+  //   var EndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
+  //   setToDate(EndDate1);
+  //   var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
+  //   SetstartToDateShow(EndDate);
+  //   settodate(startFromDate);
+
+  //   let finalData = {
+  //     fromdate: fromdate,
+  //     todate: EndDate1,
+  //     dateType: "Multi Date",
+  //   };
+  //   getFollowUpClient(finalData);
+  // };
+
   const ontoDateChange = (e) => {
-    var newDate = e;
-    var calDate = new Date(newDate);
-    var dd1 = calDate.getDate();
-    var mm2 = calDate.getMonth() + 1;
-    var yyyy1 = calDate.getFullYear();
-    if (dd1 < 10) {
-      dd1 = "0" + dd1;
-    }
-
-    if (mm2 < 10) {
-      mm2 = "0" + mm2;
-    }
-    var EndDate1 = yyyy1 + "-" + mm2 + "-" + dd1;
-    setToDate(EndDate1);
-    var EndDate = dd1 + "-" + mm2 + "-" + yyyy1;
-    SetstartToDateShow(EndDate);
-    settodate(startFromDate);
-
+    settodate(e.target.value);
     let finalData = {
-      fromdate: fromdate,
-      todate: EndDate1,
+      fromdate: startFromDate,
+      todate: e.target.value,
       dateType: "Multi Date",
     };
     getFollowUpClient(finalData);
@@ -120,36 +145,110 @@ const FollowupHistory = ({
 
   const [fromdate, setfromdate] = useState(todayDateymd);
 
-  const [startclientShow1, SetstartclientShow1] = useState("");
+  let tdate = "";
+  let todaydate = new Date().toISOString().split("T")[0];
+  if (todaydate !== "") {
+    var ED = todaydate.split(/\D/g);
+    tdate = [ED[2], ED[1], ED[0]].join("-");
+  }
+
+  const [startclientShow1, SetstartclientShow1] = useState(
+    new Date().toISOString().split("T")[0]
+    // tdate
+  );
+  const fileName = ["Followup Client Report"];
+
+  const csvData = [
+    [
+      "Call From name	",
+      "Call to name",
+      "Call to No",
+      "Call Time",
+      "Expected Month	",
+      "Call Taken date",
+      "Call Note",
+      "Sales Value",
+
+      // "Folder Name",
+      // "Project Deadline",
+      // "Entered By",
+      // "Client Date Time",
+      // "Project Status",
+      // "Client Type",
+      // "Project Working Status",
+      // "projectPriority",
+    ],
+  ];
+
+  follouphistory &&
+    follouphistory.getAllSctCallsClient &&
+    follouphistory.getAllSctCallsClient.map((ele) =>
+      csvData.push([
+        ele.sctCallFromName,
+        ele.sctCallToName,
+        ele.sctcallToNumber,
+        ele.sctCallTime,
+        ele.sctExpectedMonthYear,
+        ele.sctCallTakenDate,
+        ele.sctCallNote,
+        ele.sctCallSalesValue,
+        ele.sctCallNote.replaceAll("\n", " "),
+        // dailyJobsheetData.clientFolderName,
+        // dailyJobsheetData.projectDeadline,
+        // dailyJobsheetData.projectEnteredByName,
+        // dailyJobsheetData.clientDate + " : " + dailyJobsheetData.clientTime,
+        // dailyJobsheetData.projectStatus,
+        // dailyJobsheetData.clientTypeVal,
+        // dailyJobsheetData.projectStatusType,
+        // dailyJobsheetData.projectPriority,
+      ])
+    );
+
+  //single date datepicker
+  // const onDateChangesingle = (e) => {
+  //   var newDate = e;
+  //   var calDate = new Date(newDate);
+  //   var dd1 = calDate.getDate();
+  //   var mm2 = calDate.getMonth() + 1;
+  //   var yyyy1 = calDate.getFullYear();
+  //   if (dd1 < 10) {
+  //     dd1 = "0" + dd1;
+  //   }
+
+  //   if (mm2 < 10) {
+  //     mm2 = "0" + mm2;
+  //   }
+
+  //   let finalDate = dd1 + "-" + mm2 + "-" + yyyy1;
+  //   SetstartclientShow1(finalDate);
+  //   let last_variable = yyyy1 + "-" + mm2 + "-" + dd1;
+  //   getFollowUpClient({ MonthDate: last_variable });
+  // };
+
+  //Normal single date
   const onDateChangesingle = (e) => {
-    var newDate = e;
-    var calDate = new Date(newDate);
-    var dd1 = calDate.getDate();
-    var mm2 = calDate.getMonth() + 1;
-    var yyyy1 = calDate.getFullYear();
-    if (dd1 < 10) {
-      dd1 = "0" + dd1;
-    }
-
-    if (mm2 < 10) {
-      mm2 = "0" + mm2;
-    }
-
-    let finalDate = dd1 + "-" + mm2 + "-" + yyyy1;
-    SetstartclientShow1(finalDate);
-    let last_variable = yyyy1 + "-" + mm2 + "-" + dd1;
-    getFollowUpClient({ MonthDate: last_variable });
+    SetstartclientShow1(e.target.value);
+    getFollowUpClient({ MonthDate: e.target.value });
   };
 
   const onClickReset = () => {
+    let tdate = "";
+    let todaydate = new Date().toISOString().split("T")[0];
+    if (todaydate !== "") {
+      var ED = todaydate.split(/\D/g);
+      tdate = [ED[2], ED[1], ED[0]].join("-");
+    }
     setfromdate(todayDateymd);
     setFromDateShow("");
-    SetstartclientShow1("");
+    setFromDate("");
+    settodate("");
+    SetstartclientShow1(new Date().toISOString().split("T")[0]);
     SetstartToDateShow("");
 
     getFollowUpClient();
-    SetstartclientShow1("");
+    // SetstartclientShow1("");
   };
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -158,9 +257,9 @@ const FollowupHistory = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Followup History </h5>
+              <h4 className="heading_color">Followup History </h4>
             </div>
-            <div className="row col-lg-12 col-md-6 col-sm-12 col-12 no_padding">
+            <div className="row col-lg-10 col-md-6 col-sm-12 col-12 no_padding">
               <div className="col-lg-2 col-md-4 col-sm-4 col-12 py-2">
                 <Select
                   name="Dateselectmode"
@@ -176,52 +275,145 @@ const FollowupHistory = ({
               {showdateSection && (
                 <>
                   <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-                    <DatePicker
+                    {/* <DatePicker
                       label="Controlled picker"
                       value={startFromDateShow}
                       className=" form-control"
                       placeholderText="dd-mm-yyyy"
                       onChange={(newValue) => onfromDateChange(newValue)}
+                    /> */}
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="fromdate"
+                      value={startFromDate}
+                      onChange={(e) => onfromDateChange(e)}
+                      style={{
+                        width: "110%",
+                      }}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
+                      required
                     />
                   </div>
                   <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-                    <DatePicker
+                    {/* <DatePicker
                       label="Controlled picker"
                       value={startcToDateShow}
                       className=" form-control"
                       placeholderText="dd-mm-yyyy"
                       onChange={(newValue) => ontoDateChange(newValue)}
+                    /> */}
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="todate"
+                      value={todate}
+                      onChange={(e) => ontoDateChange(e)}
+                      style={{
+                        width: "110%",
+                      }}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
+                      required
                     />
                   </div>
-                  <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-2 ">
-                    <button
-                      className="btn btn_green_bg float-right"
-                      onClick={() => onClickReset()}
-                    >
-                      Refresh
-                    </button>
-                  </div>
+
+                  {(user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                  user.userGroupName === "Super Admin" ||
+                  user.userGroupName === "Clarical Admins" ||
+                  user.userGroupName === "Sct Marketing" ? (
+                    <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
+                      <button
+                        className="btn btn_green_bg float-right"
+                        onClick={() => onClickReset()}
+                      >
+                        Refresh
+                      </button>
+                      <CSVLink data={csvData} filename={fileName}>
+                        <button className="btn btn_green_bg float-right">
+                          Export
+                        </button>
+                      </CSVLink>
+                    </div>
+                  ) : (
+                    <>
+                      {" "}
+                      <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
+                        <button
+                          className="btn btn_green_bg float-right"
+                          onClick={() => onClickReset()}
+                        >
+                          Refresh
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
               {showdateSection1 && (
                 <>
                   <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-                    <DatePicker
+                    {/* <DatePicker
                       label="Controlled picker"
                       value={startclientShow1}
                       className=" form-control"
                       placeholderText="dd-mm-yyyy"
                       onChange={(newValue) => onDateChangesingle(newValue)}
+                    /> */}
+                    <input
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation"
+                      name="singledate"
+                      value={startclientShow1}
+                      onChange={(e) => onDateChangesingle(e)}
+                      style={{
+                        width: "100%",
+                      }}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
+                      required
                     />
                   </div>
-                  <div className="col-lg-2 col-md-11 col-sm-12 col-11 py-2 ">
-                    <button
-                      className="btn btn_green_bg float-right"
-                      onClick={() => onClickReset()}
-                    >
-                      Refresh
-                    </button>
-                  </div>
+
+                  {(user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                  user.userGroupName === "Super Admin" ||
+                  user.userGroupName === "Clarical Admins" ||
+                  user.userGroupName === "Sct Marketing" ? (
+                    <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2 ">
+                      <button
+                        className="btn btn_green_bg float-right"
+                        onClick={() => onClickReset()}
+                      >
+                        Refresh
+                      </button>
+
+                      <CSVLink data={csvData} filename={fileName}>
+                        <button className="btn btn_green_bg float-right">
+                          Export
+                        </button>
+                      </CSVLink>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2 ">
+                        <button
+                          className="btn btn_green_bg float-right"
+                          onClick={() => onClickReset()}
+                        >
+                          Refresh
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </div>
@@ -238,14 +430,14 @@ const FollowupHistory = ({
                     <thead>
                       <tr>
                         <th style={{ width: "4%" }}>Sl No.</th>
-                        <th style={{ width: "8%" }}>Call From name</th>
-                        <th style={{ width: "25%" }}>Call to name</th>
+                        <th style={{ width: "8%" }}>Call From Name</th>
+                        <th style={{ width: "25%" }}>Call To Name</th>
                         <th style={{ width: "6%" }}>Call to No</th>
                         <th style={{ width: "6%" }}>Call Time</th>
                         <th style={{ width: "8%" }}>Expected Month</th>
                         <th style={{ width: "15%" }}>Call Taken date</th>
                         <th style={{ width: "15%" }}>Call Note</th>
-                        <th style={{ width: "15%" }}>sales value</th>
+                        <th style={{ width: "15%" }}>Sales Value</th>
                       </tr>
                     </thead>
                     <tbody>

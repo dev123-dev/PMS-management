@@ -15,7 +15,7 @@ import { getAllchanges, getUpdatedProjectStaus } from "../../actions/projects";
 import { w3cwebsocket } from "websocket";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.40:8000");
+const client = new w3cwebsocket("ws://192.168.6.38:8000");
 
 const ProjectVerification = ({
   auth: { isAuthenticated, user, users },
@@ -142,7 +142,7 @@ const ProjectVerification = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Job Verification</h5>
+              <h4 className="heading_color">Job Verification</h4>
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -150,7 +150,7 @@ const ProjectVerification = ({
                 isSearchable={true}
                 value={folderData}
                 options={activeFolderOpt}
-                placeholder="Select"
+                placeholder="Select Folder"
                 onChange={(e) => onFolderChange(e)}
               />
             </div>
@@ -160,7 +160,7 @@ const ProjectVerification = ({
                 options={projectStatusOpt}
                 value={projectStatusData}
                 isSearchable={true}
-                placeholder="Select"
+                placeholder="Select Status"
                 onChange={(e) => onProjectStatusChange(e)}
               />
             </div>
@@ -173,11 +173,11 @@ const ProjectVerification = ({
                 value={singledate}
                 onChange={(e) => onDateChange2(e)}
                 style={{
-                  width: "75%",
+                  width: "60%",
                 }}
               />
             </div>
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}

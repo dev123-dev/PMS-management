@@ -283,7 +283,7 @@ const TransferDctLeads = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Transfer Dct Leads</h5>
+              <h4 className="heading_color">Transfer Dct Leads</h4>
             </div>
 
             <div className="col-lg-10 col-md-11 col-sm-12 col-11 py-2 ">

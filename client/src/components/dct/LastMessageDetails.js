@@ -42,7 +42,7 @@ const LastMessageDetails = ({
     <Spinner />
   ) : (
     <Fragment>
-      <div className="row col-lg-12 col-md-11 col-sm-10 col-10 fixTableHeadhistory">
+      <div className="row col-lg-12 col-md-11 col-sm-10 col-10 fixTableHeadhistoryDCT">
         <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
           <label>St. Name : {lastMsg && lastMsg.callToStaffName}</label>
         </div>

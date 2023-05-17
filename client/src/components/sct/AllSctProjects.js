@@ -79,9 +79,9 @@ const AllSctProjects = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-5 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Project Details </h5>
+              <h4 className="heading_color">All Project Details </h4>
             </div>
-            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-2">
               {user.userGroupName && user.userGroupName !== "Sct Marketing" ? (
                 <Link
                   to="#"

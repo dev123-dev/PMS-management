@@ -346,7 +346,7 @@ const AllLeads = ({
                 </h6>
               )}
             </div>
-            <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 ">
               <h4 className="heading_color">All Leads</h4>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -380,7 +380,7 @@ const AllLeads = ({
                     options={allemp}
                     isSearchable={true}
                     value={emp}
-                    placeholder="Select Emp"
+                    placeholder="Select Employee"
                     onChange={(e) => onempChange(e)}
                   />
                 </>
@@ -388,7 +388,7 @@ const AllLeads = ({
                 <></>
               )}
             </div>
-            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2 ">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
               user.userGroupName === "Super Admin" ||
               user.empCtAccess === "All" ? (
@@ -398,7 +398,7 @@ const AllLeads = ({
                     options={allEnteredBy}
                     isSearchable={true}
                     value={enterBy}
-                    placeholder="Select EnteredBy"
+                    placeholder="Select Entered By"
                     onChange={(e) => onEnteredByChange(e)}
                   />
                 </>
@@ -407,7 +407,7 @@ const AllLeads = ({
               )}
             </div>
 
-            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2">
+            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2 align_right">
               {user.userGroupName && user.userGroupName === "Super Admin" && (
                 <button
                   className="btn btn_green_bg "
@@ -416,15 +416,16 @@ const AllLeads = ({
                   Import
                 </button>
               )}
+
+              <Link className="btn btn_green_bg " to="/add-lead">
+                Add Lead
+              </Link>
               <button
                 className="btn btn_green_bg "
                 onClick={() => onClickReset()}
               >
                 Refresh
               </button>
-              <Link className="btn btn_green_bg " to="/add-lead">
-                Add Lead
-              </Link>
             </div>
           </div>
           <div className="row">
@@ -443,8 +444,10 @@ const AllLeads = ({
                         <th style={{ width: "11%" }}>Email</th>
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
-                        <th style={{ width: "10%" }}>Call Date</th>
-                        <th style={{ width: "5%" }}>Op</th>
+                        <th style={{ width: "10%" }}>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CallDate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </th>
+                        <th style={{ width: "5%" }}>Operation</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -492,7 +495,6 @@ const AllLeads = ({
                                   alt="Delete Project"
                                   title="Delete Project"
                                 />{" "}
-                                &emsp;
                                 <img
                                   className="img_icon_size log"
                                   onClick={() => onUpdate(getAllLeads, idx)}
@@ -533,7 +535,7 @@ const AllLeads = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "33vh" }}
+                  style={{ height: "39vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
@@ -549,7 +551,7 @@ const AllLeads = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "18vh" }}
+                  style={{ height: "17vh" }}
                 >
                   <label className="sidePartHeading ">
                     Last Message Details

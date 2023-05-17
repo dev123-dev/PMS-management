@@ -253,10 +253,10 @@ const AllContacts = ({
                   >
                     <thead>
                       <tr>
-                        <th style={{ width: "15%" }}>Staff Name </th>
-                        <th style={{ width: "13%" }}>Phone No</th>
+                        <th style={{ width: "13%" }}>Staff Name </th>
+                        <th style={{ width: "11%" }}>Phone No</th>
                         <th style={{ width: "13%" }}>Designation</th>
-                        <th style={{ width: "5%" }}>Op</th>
+                        <th style={{ width: "7%" }}>Op</th>
                       </tr>
                     </thead>
                     <tbody>

@@ -229,7 +229,7 @@ const AllLeave = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className="col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">Leave Management</h5>
+              <h4 className="heading_color">Leave Management</h4>
             </div>
 
             <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
@@ -285,7 +285,7 @@ const AllLeave = ({
                       required
                     />
                   </div>
-                  <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-3">
+                  <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-2">
                     <img
                       className="img_icon_size log"
                       onClick={() => onSearchmultidate()}
@@ -335,7 +335,7 @@ const AllLeave = ({
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}

@@ -26,7 +26,7 @@ module.exports = {
   USER_LOGGEDIN: "User LoggedIn.",
 
   INVALID_CREDENTIALS: "Invalid Username or Password",
-  EXPIRES_IN: "8h",
+  EXPIRES_IN: "12h",
 
   //Messeges
   INVALID_TOKEN: "Token is Invalid.",

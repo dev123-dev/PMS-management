@@ -30,7 +30,6 @@ const AllSctStatusChange = ({
   page,
   getSctStaffsData,
 }) => {
-  console.log("leadDataVal", leadDataVal);
   useEffect(() => {
     checkDemo({ demoUserId: leadDataVal._id });
   }, [leadDataVal, checkDemo]);
@@ -38,6 +37,15 @@ const AllSctStatusChange = ({
   useEffect(() => {
     getSctStaffsData(staffFilter);
   }, [leadDataVal]);
+
+  let passwrdTooltip = {
+    marginLeft: "-12em",
+    position: "absolute",
+    marginTop: "1.5em",
+    pointerEvents: "none",
+    zIndex: "995",
+    width: "270px",
+  };
 
   //STATUS START
   let StatusMethods = [
@@ -93,7 +101,6 @@ const AllSctStatusChange = ({
     );
   }
   //STATUS END
-  console.log("staffFilter", staffFilter);
   //Category
 
   let CategoryMethods = [
@@ -111,6 +118,9 @@ const AllSctStatusChange = ({
     toTime: "",
     expectedMonth: "",
     salesValue: "",
+    sctCallReasonForChange: "",
+    sctCallSalesValue: "",
+    sctExpectedMonthYear: "",
     fromTime: "",
     sctCallTime: "",
     sctcallToNumber: "",
@@ -119,10 +129,8 @@ const AllSctStatusChange = ({
   const {
     sctCallNote,
     sctCallStatus,
-
+    sctCallReasonForChange,
     toTime,
-
-    salesValue,
     fromTime,
     sctCallTime,
     sctcallToNumber,
@@ -154,23 +162,30 @@ const AllSctStatusChange = ({
     statusmodeIdErrorStyle: {},
     stafftypeIdChecker: false,
     stafftypeIdErrorStyle: {},
+    expectedDateChecker: false,
+    expectedDateErrorStyle: {},
+    salesValueChecker: false,
+    salesValueErrorStyle: {},
   });
   const {
     statusmodeIdChecker,
     statusmodeIdErrorStyle,
     stafftypeIdChecker,
     stafftypeIdErrorStyle,
+    expectedDateChecker,
+    expectedDateErrorStyle,
+    salesValueChecker,
+    salesValueErrorStyle,
   } = error;
 
   const checkErrors = () => {
-    console.log("statusmodeIdChecker", statusmodeIdChecker);
-    if (!statusmodeIdChecker) {
-      setError({
-        ...error,
-        statusmodeIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
+    // if (!statusmodeIdChecker) {
+    //   setError({
+    //     ...error,
+    //     statusmodeIdErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
     if (!stafftypeIdChecker) {
       setError({
         ...error,
@@ -178,6 +193,20 @@ const AllSctStatusChange = ({
       });
       return false;
     }
+    // if (!expectedDateChecker) {
+    //   setError({
+    //     ...error,
+    //     expectedDateErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
+    // if (!salesValueChecker) {
+    //   setError({
+    //     ...error,
+    //     salesValueErrorStyle: { color: "#F00" },
+    //   });
+    //   return false;
+    // }
     return true;
   };
 
@@ -246,7 +275,6 @@ const AllSctStatusChange = ({
 
   const [showstatus, setstatus] = useState("");
   const [sctLeadsCategory, setsctLeadsCategory] = useState("");
-
   const onStatusTypeChange = (e) => {
     if (e.value === "CallBack") {
       setstatus("CallBack");
@@ -266,14 +294,20 @@ const AllSctStatusChange = ({
         statusmodeIdChecker: true,
         statusmodeIdErrorStyle: { color: "#000" },
       });
+
+      // setError({
+      //   ...error,
+      //   statusmodeIdChecker: true,
+      //   statusmodeIdErrorStyle: { color: "#000" },
+      // });
     } else {
       setstatus("false");
 
-      setError({
-        ...error,
-        statusmodeIdChecker: true,
-        statusmodeIdErrorStyle: { color: "#000" },
-      });
+      // setError({
+      //   ...error,
+      //   expectedDateChecker: true,
+      //   expectedDateErrorStyle: { color: "#000" },
+      // });
       if (e) {
         setFormData({
           ...formData,
@@ -404,185 +438,448 @@ const AllSctStatusChange = ({
     { label: "November", value: 11 },
     { label: "December", value: 12 },
   ];
-  const [MonthAndYear, setMonthYear] = useState("");
-  const [expectedMonth, SetexpectedMonth] = useState("");
-  const onDateChange2 = (e) => {
-    SetexpectedMonth(e.target.value);
-    const new_date = new Date(e.target.value);
-    const year = new_date.getFullYear();
+  const [MonthAndYear, setMonthYear] = useState(
+    leadDataVal.sctExpectedMonthYear ? leadDataVal.sctExpectedMonthYear : ""
+  );
+  const [isExpectedDateChanged, setIsExpectedDateChnaged] = useState("");
+  const [expectedDate, setExpectedDate] = useState(
+    leadDataVal.sctExpectedMonth
+      ? new Date(leadDataVal.sctExpectedMonth).toISOString().split("T")[0]
+      : ""
+  );
 
-    let new_month = new_date.getMonth() + 1;
-    const month = MonthYear.filter((ele) => {
-      if (ele.value === new_month) {
-        return ele.label;
-      }
-    });
-    let final_data = month[0].label + "-" + year;
-    setMonthYear(final_data);
+  const [newdate, setnewdate] = useState("");
+  const onDateChange2 = (e) => {
+    setnewdate(e.target.value);
+    //setExpectedDate(e.target.value);
+    if (e.target.value < expectedDate) {
+      setError({
+        ...error,
+        expectedDateChecker: true,
+        expectedDateErrorStyle: { color: "#FF0000" },
+      });
+    } else {
+      setExpectedDate(e.target.value);
+      setError({
+        ...error,
+        expectedDateChecker: false,
+        expectedDateErrorStyle: { color: "#000000" },
+      });
+      setIsExpectedDateChnaged("true");
+      const new_date = new Date(e.target.value);
+      const year = new_date.getFullYear();
+      let new_month = new_date.getMonth() + 1;
+      const month = MonthYear.filter((ele) => {
+        if (ele.value === new_month) {
+          return ele.label;
+        }
+      });
+      let final_data = month[0].label + "-" + year;
+      setMonthYear(final_data);
+    }
+  };
+
+  const [isSalesValueChanged, setIsSalesValueChanged] = useState();
+  const [salesValue, setSalesvalue] = useState(
+    leadDataVal.sctCallSalesValue ? Number(leadDataVal.sctCallSalesValue) : ""
+  );
+  let x = leadDataVal.sctCallSalesValue
+    ? Number(leadDataVal.sctCallSalesValue)
+    : "";
+  useEffect(() => {
+    if (salesValue < x) {
+      setError({
+        ...error,
+        salesValueChecker: true,
+        salesValueErrorStyle: { color: "#FF0000" },
+      });
+    } else {
+      setError({
+        ...error,
+        salesValueChecker: false,
+        salesValueErrorStyle: { color: "#000000" },
+      });
+    }
+  }, [salesValue]);
+  const onSalesvalueChange = (e) => {
+    if (Number(e.target.value) < salesValue) {
+      setSalesvalue(e.target.value);
+      setError({
+        ...error,
+        salesValueChecker: true,
+        salesValueErrorStyle: { color: "#FF0000" },
+      });
+    } else {
+      setSalesvalue(e.target.value);
+
+      setError({
+        ...error,
+        salesValueChecker: false,
+        salesValueErrorStyle: { color: "#000000" },
+      });
+      setIsSalesValueChanged("true");
+      // // setSalesvalue("");
+    }
   };
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  const [reasonForChange, setReasonForChange] = useState("");
   const onSubmit = (e) => {
-    let callCategoryVal = null,
-      clientTypeVal = "",
-      callComeFromVal = "Lead";
-
-    if (from === "EngagedClient" || from === "RegularClient")
-      callComeFromVal = "Client";
-    if (sctCallStatus.value === "FollowUp") {
-      callCategoryVal = "F";
-    }
-    // else if (sctCallStatus.value === "CallBack") {
-    //   callCategoryVal = "P";
-    // }
-    else if (sctCallStatus.value === "WrongNumber") {
-      callCategoryVal = "W";
-    } else if (sctCallStatus.value === "EngagedClient") {
-      callCategoryVal = "EC";
-      clientTypeVal = "Engaged";
-    } else if (sctCallStatus.value === "RegularClient") {
-      callCategoryVal = "RC";
-      clientTypeVal = "Regular";
-    } else {
-      if (leadDataVal.sctLeadCategory === "NL") callCategoryVal = "P";
-      else {
-        if (from === "EngagedClient" || from === "RegularClient")
-          callCategoryVal = leadDataVal.sctClientCategory;
-        else callCategoryVal = leadDataVal.sctLeadCategory;
-      }
-    }
     e.preventDefault();
-    if (checkErrors()) {
-      const finalData = {
-        sctCallToId: leadDataVal._id,
-        sctCallToName: leadDataVal.sctCompanyName,
-        sctCallToStaffId: sctStaffs.staffsId,
-        sctCallToStaffName: sctStaffs.value,
-        sctCallFromId: user._id,
-        sctCallFromName: user.userName,
-        sctCallCategory: callCategoryVal,
-        sctCallStatus: sctCallStatus.value,
-        sctLeadsCategory: sctLeadsCategory ? sctLeadsCategory.value : "",
-        sctcallToNumber: staffsNumber ? staffsNumber : phone1,
-        // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
-        sctCallDate: startStatusDate || demoDate || todayDateymd,
-        sctExpectedMonth: expectedMonth,
-        sctExpectedMonthYear: MonthAndYear,
-        sctCallTime: sctCallTime,
-        sctCallSalesValue: salesValue,
-        sctCallNote: sctCallNote?.trim(),
-        sctCallComeFrom: callComeFromVal,
-        sctCallTakenDate: new Date().toISOString().split("T")[0],
-        sctCallEnteredDate: new Date().toLocaleString("en-GB"),
-        sctCallDateTime: new Date().toLocaleString("en-GB"),
-        filterData: filterData,
-        page: page,
-      };
-      console.log("finalData", finalData);
-      if (from === "EngagedClient" || from === "RegularClient") {
-        addSctClientCalls(finalData);
-      } else {
-        addSctCalls(finalData);
-      }
+    if (isSalesValueChanged === "true" || isExpectedDateChanged === "true") {
+      setReasonForChange("true");
+      let callCategoryVal = null,
+        clientTypeVal = "",
+        callComeFromVal = "Lead";
 
-      if (
-        sctCallStatus.value === "Demo" ||
-        sctCallStatus.value === "AdditionalDemo" ||
-        sctCallStatus.value === "TrainingDemo"
-      ) {
-        const demoData = {
-          demoDate: demoDate,
-          fromTime: fromTime,
-          toTime: toTime,
-          callDate: todayDateymd,
-          demoCategory: sctCallStatus.value,
-          demoEnteredById: user._id,
-          clientId: leadDataVal._id,
-          clientName: leadDataVal.sctClientName,
-          sctDemoComeFrom: callComeFromVal,
-          clientDetails: {
+      if (from === "EngagedClient" || from === "RegularClient")
+        callComeFromVal = "Client";
+      if (sctCallStatus.value === "FollowUp") {
+        callCategoryVal = "F";
+      } else if (sctLeadsCategory.value !== "") {
+        callCategoryVal = "PT";
+      } else if (sctCallStatus.value === "WrongNumber") {
+        callCategoryVal = "W";
+      } else if (sctCallStatus.value === "EngagedClient") {
+        callCategoryVal = "EC";
+        clientTypeVal = "Engaged";
+      } else if (sctCallStatus.value === "RegularClient") {
+        callCategoryVal = "RC";
+        clientTypeVal = "Regular";
+      } else {
+        if (
+          leadDataVal.sctLeadCategory === "NL" &&
+          sctLeadsCategory.value === ""
+        )
+          callCategoryVal = "P";
+        else {
+          if (from === "EngagedClient" || from === "RegularClient")
+            callCategoryVal = leadDataVal.sctClientCategory;
+          else callCategoryVal = leadDataVal.sctLeadCategory;
+        }
+      }
+      e.preventDefault();
+      if (checkErrors()) {
+        const finalData = {
+          sctCallToId: leadDataVal._id,
+          sctCallToName: leadDataVal.sctCompanyName,
+          sctCallToStaffId: sctStaffs.staffsId,
+          sctCallToStaffName: sctStaffs.value,
+          sctCallFromId: user._id,
+          sctCallFromName: user.userName,
+          sctCallCategory: callCategoryVal,
+          sctCallStatus: sctCallStatus.value,
+          sctLeadsCategory: leadDataVal.sctLeadsCategory
+            ? leadDataVal.sctLeadsCategory
+            : sctLeadsCategory
+            ? sctLeadsCategory.value
+            : "",
+          sctcallToNumber: staffsNumber ? staffsNumber : phone1,
+          // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
+          sctCallDate: startStatusDate || demoDate || todayDateymd,
+          sctExpectedMonth: expectedDate,
+          sctExpectedMonthYear: MonthAndYear,
+          sctCallReasonForChange: sctCallReasonForChange,
+          sctCallTime: sctCallTime,
+          sctCallSalesValue: salesValue,
+          sctCallNote: sctCallNote?.trim(),
+          sctCallComeFrom: callComeFromVal,
+          sctCallTakenDate: new Date().toISOString().split("T")[0],
+          sctCallEnteredDate: new Date().toLocaleString("en-GB"),
+          sctCallDateTime: new Date().toLocaleString("en-GB"),
+          filterData: filterData,
+          page: page,
+        };
+        if (from === "EngagedClient" || from === "RegularClient") {
+          addSctClientCalls(finalData);
+        } else {
+          addSctCalls(finalData);
+        }
+
+        if (
+          sctCallStatus.value === "Demo" ||
+          sctCallStatus.value === "AdditionalDemo" ||
+          sctCallStatus.value === "TrainingDemo"
+        ) {
+          const demoData = {
+            demoDate: demoDate,
+            fromTime: fromTime,
+            toTime: toTime,
+            callDate: todayDateymd,
+            demoCategory: sctCallStatus.value,
+            demoEnteredById: user._id,
+            clientId: leadDataVal._id,
+            clientName: leadDataVal.sctClientName,
+            sctDemoComeFrom: callComeFromVal,
+            clientDetails: {
+              sctCompanyName: leadDataVal.sctCompanyName,
+              sctEmailId: leadDataVal.sctEmailId,
+              sctPhone1: leadDataVal.sctPhone1,
+              sctCallToStaffId: sctStaffs.staffsId ? sctStaffs.staffsId : null,
+              sctCallToStaffName: sctStaffs.value,
+              stateId: leadDataVal.stateId ? leadDataVal.stateId : null,
+              stateName: leadDataVal.stateName,
+            },
+            demoEnteredByDateTime: new Date().toLocaleString("en-GB"),
+          };
+          addDemo(demoData);
+        }
+        if (
+          (sctCallStatus.value === "EngagedClient" ||
+            sctCallStatus.value === "RegularClient") &&
+          leadDataVal.sctClientCategory !== "EC"
+        ) {
+          const transferData = {
             sctCompanyName: leadDataVal.sctCompanyName,
+            sctClientName: leadDataVal.sctClientName,
+            sctLeadId: leadDataVal._id,
             sctEmailId: leadDataVal.sctEmailId,
             sctPhone1: leadDataVal.sctPhone1,
-            sctCallToStaffId: sctStaffs.staffsId ? sctStaffs.staffsId : null,
-            sctCallToStaffName: sctStaffs.value,
+            sctPhone2: leadDataVal.sctPhone2,
+            sctWebsite: leadDataVal.sctWebsite,
+            sctClientAddress: leadDataVal.sctLeadAddress,
+            sctClientImportantPoints: leadDataVal.sctImportantPoints,
+            projectsId: leadDataVal.projectsId ? leadDataVal.projectsId : null,
+            projectsName: leadDataVal.projectsName
+              ? leadDataVal.projectsName
+              : null,
+            countryId: leadDataVal.countryId ? leadDataVal.countryId : null,
+            countryName: leadDataVal.countryName
+              ? leadDataVal.countryName
+              : null,
+            sctcountryCode: leadDataVal.sctcountryCode,
             stateId: leadDataVal.stateId ? leadDataVal.stateId : null,
             stateName: leadDataVal.stateName,
-          },
-          demoEnteredByDateTime: new Date().toLocaleString("en-GB"),
-        };
-        addDemo(demoData);
-      }
-      if (
-        (sctCallStatus.value === "EngagedClient" ||
-          sctCallStatus.value === "RegularClient") &&
-        leadDataVal.sctClientCategory !== "EC"
-      ) {
-        const transferData = {
-          sctCompanyName: leadDataVal.sctCompanyName,
-          sctClientName: leadDataVal.sctClientName,
-          sctLeadId: leadDataVal._id,
-          sctEmailId: leadDataVal.sctEmailId,
-          sctPhone1: leadDataVal.sctPhone1,
-          sctPhone2: leadDataVal.sctPhone2,
-          sctWebsite: leadDataVal.sctWebsite,
-          sctClientAddress: leadDataVal.sctLeadAddress,
-          sctClientImportantPoints: leadDataVal.sctImportantPoints,
-          projectsId: leadDataVal.projectsId ? leadDataVal.projectsId : null,
-          projectsName: leadDataVal.projectsName
-            ? leadDataVal.projectsName
-            : null,
-          countryId: leadDataVal.countryId ? leadDataVal.countryId : null,
-          countryName: leadDataVal.countryName ? leadDataVal.countryName : null,
-          sctcountryCode: leadDataVal.sctcountryCode,
-          stateId: leadDataVal.stateId ? leadDataVal.stateId : null,
-          stateName: leadDataVal.stateName,
-          districtId: leadDataVal.districtId ? leadDataVal.districtId : null,
-          sctClientStatus: "Active",
-          sctClientCategory: callCategoryVal,
-          sctCallDate: new Date().toISOString().split("T")[0],
-          sctCallTime: sctCallTime,
-          sctClientEnteredById: user._id,
-          sctClientEnteredByName: user.empFullName,
-          sctClientEnteredDateTime: new Date().toLocaleString("en-GB"),
-          sctClientAssignedToId: leadDataVal.sctLeadAssignedToId,
-          sctClientAssignedToName: leadDataVal.sctLeadAssignedToName,
-          clientType: clientTypeVal,
-          sctStaffs: leadDataVal.sctStaffs,
-        };
+            districtId: leadDataVal.districtId ? leadDataVal.districtId : null,
+            sctClientStatus: "Active",
+            sctClientCategory: callCategoryVal,
+            sctCallDate: new Date().toISOString().split("T")[0],
+            sctCallTime: sctCallTime,
+            sctClientEnteredById: user._id,
+            sctClientEnteredByName: user.empFullName,
+            sctClientEnteredDateTime: new Date().toLocaleString("en-GB"),
+            sctClientAssignedToId: leadDataVal.sctLeadAssignedToId,
+            sctClientAssignedToName: leadDataVal.sctLeadAssignedToName,
+            clientType: clientTypeVal,
+            sctStaffs: leadDataVal.sctStaffs,
+          };
 
-        addSctClientDetails(transferData);
+          addSctClientDetails(transferData);
+        }
+        setFormData({
+          ...formData,
+          sctCallStatus: "",
+          sctLeadsCategory: "",
+          sctCallDate: "",
+          sctCallNote: "",
+          isSubmitted: true,
+        });
+        ondivcloseChange(true);
+        setStatusDate("");
+        getstaffsData("");
       }
-      setFormData({
-        ...formData,
-        sctCallStatus: "",
-        sctLeadsCategory: "",
-        sctCallDate: "",
-        sctCallNote: "",
-        isSubmitted: true,
-      });
-      ondivcloseChange(true);
-      setStatusDate("");
-      getstaffsData("");
+    } else {
+      e.preventDefault();
+      setReasonForChange("false");
+      let callCategoryVal = null,
+        clientTypeVal = "",
+        callComeFromVal = "Lead";
+
+      if (from === "EngagedClient" || from === "RegularClient")
+        callComeFromVal = "Client";
+      if (sctCallStatus.value === "FollowUp") {
+        callCategoryVal = "F";
+      } else if (sctLeadsCategory !== "") {
+        callCategoryVal = "PT";
+      } else if (sctCallStatus.value === "WrongNumber") {
+        callCategoryVal = "W";
+      } else if (sctCallStatus.value === "EngagedClient") {
+        callCategoryVal = "EC";
+        clientTypeVal = "Engaged";
+      } else if (sctCallStatus.value === "RegularClient") {
+        callCategoryVal = "RC";
+        clientTypeVal = "Regular";
+      } else if (sctCallStatus.value === "RegularClient") {
+        callCategoryVal = "RC";
+        clientTypeVal = "Regular";
+      } else {
+        if (leadDataVal.sctLeadCategory === "NL") callCategoryVal = "P";
+        else {
+          if (from === "EngagedClient" || from === "RegularClient")
+            callCategoryVal = leadDataVal.sctClientCategory;
+          else callCategoryVal = leadDataVal.sctLeadCategory;
+        }
+      }
+      e.preventDefault();
+      if (checkErrors()) {
+        const finalData = {
+          sctCallToId: leadDataVal._id,
+          sctCallToName: leadDataVal.sctCompanyName,
+          sctCallToStaffId: sctStaffs.staffsId,
+          sctCallToStaffName: sctStaffs.value,
+          sctCallFromId: user._id,
+          sctCallFromName: user.userName,
+          sctCallCategory: callCategoryVal,
+          sctCallStatus: sctCallStatus.value,
+          sctLeadsCategory: leadDataVal.sctLeadsCategory
+            ? leadDataVal.sctLeadsCategory
+            : sctLeadsCategory
+            ? sctLeadsCategory.value
+            : "",
+          sctcallToNumber: staffsNumber ? staffsNumber : phone1,
+          // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
+          sctCallDate: startStatusDate || demoDate || todayDateymd,
+          sctExpectedMonth: expectedDate,
+          sctExpectedMonthYear: MonthAndYear,
+          sctCallReasonForChange: "",
+
+          sctCallTime: sctCallTime,
+          sctCallSalesValue: salesValue ? salesValue : 0,
+          sctCallNote: sctCallNote?.trim(),
+          sctCallComeFrom: callComeFromVal,
+          sctCallTakenDate: new Date().toISOString().split("T")[0],
+          sctCallEnteredDate: new Date().toLocaleString("en-GB"),
+          sctCallDateTime: new Date().toLocaleString("en-GB"),
+          filterData: filterData,
+          page: page,
+        };
+        if (from === "EngagedClient" || from === "RegularClient") {
+          addSctClientCalls(finalData);
+        } else {
+          addSctCalls(finalData);
+        }
+
+        if (
+          sctCallStatus.value === "Demo" ||
+          sctCallStatus.value === "AdditionalDemo" ||
+          sctCallStatus.value === "TrainingDemo"
+        ) {
+          const demoData = {
+            demoDate: demoDate,
+            fromTime: fromTime,
+            toTime: toTime,
+            callDate: todayDateymd,
+            demoCategory: sctCallStatus.value,
+            demoEnteredById: user._id,
+            clientId: leadDataVal._id,
+            clientName: leadDataVal.sctClientName,
+            sctDemoComeFrom: callComeFromVal,
+            clientDetails: {
+              sctCompanyName: leadDataVal.sctCompanyName,
+              sctEmailId: leadDataVal.sctEmailId,
+              sctPhone1: leadDataVal.sctPhone1,
+              sctCallToStaffId: sctStaffs.staffsId ? sctStaffs.staffsId : null,
+              sctCallToStaffName: sctStaffs.value,
+              stateId: leadDataVal.stateId ? leadDataVal.stateId : null,
+              stateName: leadDataVal.stateName,
+            },
+            demoEnteredByDateTime: new Date().toLocaleString("en-GB"),
+          };
+          addDemo(demoData);
+        }
+        if (
+          (sctCallStatus.value === "EngagedClient" ||
+            sctCallStatus.value === "RegularClient") &&
+          leadDataVal.sctClientCategory !== "EC"
+        ) {
+          const transferData = {
+            sctCompanyName: leadDataVal.sctCompanyName,
+            sctClientName: leadDataVal.sctClientName,
+            sctLeadId: leadDataVal._id,
+            sctEmailId: leadDataVal.sctEmailId,
+            sctPhone1: leadDataVal.sctPhone1,
+            sctPhone2: leadDataVal.sctPhone2,
+            sctWebsite: leadDataVal.sctWebsite,
+            sctClientAddress: leadDataVal.sctLeadAddress,
+            sctClientImportantPoints: leadDataVal.sctImportantPoints,
+            projectsId: leadDataVal.projectsId ? leadDataVal.projectsId : null,
+            projectsName: leadDataVal.projectsName
+              ? leadDataVal.projectsName
+              : null,
+            countryId: leadDataVal.countryId ? leadDataVal.countryId : null,
+            countryName: leadDataVal.countryName
+              ? leadDataVal.countryName
+              : null,
+            sctcountryCode: leadDataVal.sctcountryCode,
+            stateId: leadDataVal.stateId ? leadDataVal.stateId : null,
+            stateName: leadDataVal.stateName,
+            districtId: leadDataVal.districtId ? leadDataVal.districtId : null,
+            sctClientStatus: "Active",
+            sctClientCategory: callCategoryVal,
+            sctCallDate: new Date().toISOString().split("T")[0],
+            sctCallTime: sctCallTime,
+            sctClientEnteredById: user._id,
+            sctClientEnteredByName: user.empFullName,
+            sctClientEnteredDateTime: new Date().toLocaleString("en-GB"),
+            sctClientAssignedToId: leadDataVal.sctLeadAssignedToId,
+            sctClientAssignedToName: leadDataVal.sctLeadAssignedToName,
+            clientType: clientTypeVal,
+            sctStaffs: leadDataVal.sctStaffs,
+          };
+
+          addSctClientDetails(transferData);
+        }
+        setFormData({
+          ...formData,
+          sctCallStatus: "",
+          sctLeadsCategory: "",
+          sctCallDate: "",
+          sctCallNote: "",
+          isSubmitted: true,
+        });
+        ondivcloseChange(true);
+        setStatusDate("");
+        getstaffsData("");
+      }
     }
   };
+
+  const onReset = (e) => {
+    setExpectedDate(
+      leadDataVal.sctExpectedMonth
+        ? new Date(leadDataVal.sctExpectedMonth).toISOString().split("T")[0]
+        : ""
+    );
+    setError({
+      ...error,
+      expectedDateChecker: false,
+      expectedDateErrorStyle: { color: "#000000" },
+
+      salesValueChecker: false,
+      salesValueErrorStyle: { color: "#000000" },
+    });
+    setSalesvalue(
+      leadDataVal.sctCallSalesValue ? Number(leadDataVal.sctCallSalesValue) : ""
+    );
+    // setError({
+    //   ...error,
+    //   salesValueChecker: false,
+    //   salesValueErrorStyle: { color: "#FF0000" },
+    // });
+  };
   // console.log("sctLeadsCategory", sctLeadsCategory);
+  let ED =
+    leadDataVal && leadDataVal.sctExpectedMonth
+      ? leadDataVal.sctExpectedMonth.split(/\D/g)
+      : "";
+  let sctExpectedMonthrevered = [ED[2], ED[1], ED[0]].join("-");
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
     <Fragment>
       <form className="row" onSubmit={(e) => onSubmit(e)}>
-        <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadstatus">
+        <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadstatus ">
           <div className="col-lg-4 col-md-12 col-sm-12 col-12  ">
             <label style={statusmodeIdErrorStyle}>Status* :</label>
             <Select
               name="sctCallStatus"
               options={StatusMethods}
+              className="statuschange "
               isSearchable={false}
+              menuPlacement="bottom"
               value={sctCallStatus}
               placeholder="Select "
               onChange={(e) => onStatusTypeChange(e)}
@@ -708,7 +1005,7 @@ const AllSctStatusChange = ({
               </div>
             </>
           )}
-          <div className="col-lg-4 col-md-6 col-sm-6 col-12 notesTopSCT">
+          <div className="col-lg-3 col-md-6 col-sm-6 col-12 notesTopSCT">
             <label className="label-control">Call Time* :</label>
             <br />
             <input
@@ -716,12 +1013,98 @@ const AllSctStatusChange = ({
               className="form-control"
               name="sctCallTime"
               value={sctCallTime}
+              style={{ width: "120%" }}
               min="00:00"
               max="24:00"
               onChange={(e) => onInputChange(e)}
               // required
             />
           </div>
+
+          {showstatus === "FollowUp" ||
+          (showstatus === "CallBack" && sctLeadsCategory) ||
+          (staffFilter.staffFrom === "F" && showstatus === "CallBack") ? (
+            <>
+              {" "}
+              <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
+                <label className="label-control" style={expectedDateErrorStyle}>
+                  {" "}
+                  Expected Date :
+                </label>
+
+                <input
+                  type="date"
+                  // placeholder="dd/mm/yyyy"
+                  className="form-control cpp-input datevalidation"
+                  // min={todaydate}
+                  min={expectedDate}
+                  name="expectedMonth"
+                  value={expectedDate}
+                  onChange={(e) => onDateChange2(e)}
+                  style={{
+                    width: "100%",
+                  }}
+                />
+                <div
+                  className="cstm-hint text-white"
+                  id="pass_admin_help"
+                  style={{ top: "60px", marginRight: "3px" }}
+                >
+                  <img
+                    src={require("../../static/images/help1.png")}
+                    alt="help"
+                    id="img_tool_admin"
+                    className="pass_admin_help_icon_question"
+                  />
+                  <div
+                    id="tooltipPassAdmin"
+                    className="syle-hint"
+                    style={passwrdTooltip}
+                    data-hint={
+                      "Expected date must be greater than" +
+                      sctExpectedMonthrevered
+                    }
+                  ></div>
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
+                <label className="label-control" style={salesValueErrorStyle}>
+                  {" "}
+                  Sales Value:
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="salesValue"
+                  value={salesValue}
+                  onChange={(e) => onSalesvalueChange(e)}
+                />
+                <div
+                  className="cstm-hint text-white"
+                  id="pass_admin_help"
+                  style={{ top: "60px" }}
+                >
+                  <img
+                    src={require("../../static/images/help1.png")}
+                    alt="help"
+                    id="img_tool_admin"
+                    className="pass_admin_help_icon_question"
+                  />
+                  <div
+                    id="tooltipPassAdmin"
+                    className="syle-hint"
+                    style={passwrdTooltip}
+                    data-hint={
+                      "Sales Value must be more than " +
+                      leadDataVal.sctCallSalesValue
+                    }
+                  ></div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
           {showLeadCategory && showLeadCategory ? (
             <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
               <label className="label-control"> Notes* :</label>
@@ -729,7 +1112,7 @@ const AllSctStatusChange = ({
                 name="sctCallNote"
                 id="sctCallNote"
                 className="textarea form-control"
-                rows="3"
+                rows="2"
                 placeholder="Notes"
                 style={{ width: "100%" }}
                 value={sctCallNote}
@@ -744,7 +1127,7 @@ const AllSctStatusChange = ({
                 name="sctCallNote"
                 id="sctCallNote"
                 className="textarea form-control"
-                rows="3"
+                rows="2"
                 placeholder="Notes"
                 style={{ width: "100%" }}
                 value={sctCallNote}
@@ -754,41 +1137,47 @@ const AllSctStatusChange = ({
             </div>
           )}
 
-          {showstatus === "FollowUp" ||
-          (showstatus === "CallBack" && sctLeadsCategory) ||
-          (staffFilter.staffFrom === "F" && showstatus === "CallBack") ? (
-            <>
-              {" "}
-              <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
-                <label className="label-control"> Expected Month :</label>
-
-                <input
-                  type="date"
-                  placeholder="dd/mm/yyyy"
-                  className="form-control cpp-input datevalidation"
-                  min={todaydate}
-                  name="expectedMonth"
-                  value={expectedMonth}
-                  onChange={(e) => onDateChange2(e)}
-                  style={{
-                    width: "100%",
-                  }}
-                />
-              </div>
-              <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
-                <label className="label-control"> Sales Value:</label>
-                <input
-                  type="text"
-                  className="form-control "
-                  name="salesValue"
-                  value={salesValue}
+          <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
+            {reasonForChange === "true" ? (
+              <>
+                {" "}
+                <label className="label-control"> Reason* :</label>
+                <textarea
+                  name="sctCallReasonForChange"
+                  id="sctCallNote"
+                  className="textarea form-control"
+                  rows="2"
+                  placeholder="Notes"
+                  style={{ width: "100%" }}
+                  value={sctCallReasonForChange}
                   onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </>
-          ) : (
-            <></>
-          )}
+                  required
+                ></textarea>
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
+          {/* <div className=" col-lg-12">
+            {expectedDateChecker ? (
+              <>
+                <span style={{ color: "red" }}>Date cannot be less</span>
+                <br />
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
+
+          <div className=" col-lg-12">
+            {salesValueChecker ? (
+              <>
+                <span style={{ color: "red" }}>Sales value cannot be less</span>
+              </>
+            ) : (
+              <></>
+            )}
+          </div> */}
 
           {showLeadCategory && showLeadCategory ? (
             <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -801,12 +1190,21 @@ const AllSctStatusChange = ({
                   Loading...
                 </button>
               ) : (
-                <input
-                  type="submit"
-                  name="Submit"
-                  value="Submit"
-                  className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
-                />
+                <>
+                  <input
+                    type="submit"
+                    name="Submit"
+                    value="Submit"
+                    className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
+                  />
+                  <input
+                    type="button"
+                    name="reset"
+                    value="Reset"
+                    onClick={(e) => onReset(e)}
+                    className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
+                  />
+                </>
               )}
             </div>
           ) : (
@@ -820,12 +1218,21 @@ const AllSctStatusChange = ({
                   Loading...
                 </button>
               ) : (
-                <input
-                  type="submit"
-                  name="Submit"
-                  value="Submit"
-                  className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
-                />
+                <>
+                  <input
+                    type="submit"
+                    name="Submit"
+                    value="Submit"
+                    className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
+                  />
+                  <input
+                    type="button"
+                    name="reset"
+                    value="Reset"
+                    onClick={(e) => onReset(e)}
+                    className="btn sub_form btn_continue blackbrd Save float-right submitTopSCT"
+                  />
+                </>
               )}
             </div>
           )}

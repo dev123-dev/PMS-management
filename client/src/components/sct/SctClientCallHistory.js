@@ -23,6 +23,7 @@ const SctClientCallHistory = ({
               <th style={{ width: "6%" }}>Next Call Date</th>
               <th style={{ width: "5%" }}>Status</th>
               <th style={{ width: "5%" }}>Category</th>
+              <th style={{ width: "5%" }}>Prospect Type</th>
               <th style={{ width: "30%" }}>Notes</th>
               <th style={{ width: "6%" }}>By</th>
             </tr>
@@ -56,6 +57,7 @@ const SctClientCallHistory = ({
                     <td>{sctCallDate}</td>
                     <td>{sctcallHistory.sctCallStatus}</td>
                     <td>{sctCallCategory}</td>
+                    <td>{sctcallHistory.sctLeadsCategory}</td>
                     <td>{sctcallHistory.sctCallNote}</td>
                     <td>{sctcallHistory.sctCallFromName}</td>
                   </tr>

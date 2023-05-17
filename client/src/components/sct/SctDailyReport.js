@@ -116,7 +116,6 @@ const SctDailyReport = ({
     getAllLeadToday(finalData);
     getALLDemosReport(finalData);
     // getDailyjobSheetFolder(selDateData);
-    console.log("FinalData", finalData);
   };
 
   const alldemosentered = [];
@@ -221,8 +220,6 @@ const SctDailyReport = ({
     getAllLeadToday(finalData);
     getALLDemosReport(finalData);
     // getDailyjobSheetFolder(selDateData);
-    //console.log("formData", formData);
-    console.log("FinalData", finalData);
   };
 
   return !isAuthenticated || !user ? (
@@ -230,12 +227,12 @@ const SctDailyReport = ({
   ) : (
     <Fragment>
       <div className="container container_align">
-        <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
-          <div className="col-lg-11 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">Sct Daily Report </h2>
+        <div className="row col-lg-12 col-md-6 col-sm-12 col-12 no_padding">
+          <div className="col-lg-2 col-md-11 col-sm-12 col-12">
+            <h3 className="heading_color">Sct Daily Report </h3>
           </div>
-          <div className="row col-lg-12 col-md-6 col-sm-12 col-12 no_padding">
-            <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-2">
+          <div className="row col-lg-6 col-md-6 col-sm-12 col-12 no_padding">
+            <div className="col-lg-3 col-md-4 col-sm-4 col-12 py-4">
               <Select
                 name="Dateselectmode"
                 options={DateMethods}
@@ -249,8 +246,8 @@ const SctDailyReport = ({
 
             {showdateSection && (
               <>
-                <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-2">
-                  {/* <input
+                <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-4">
+                  <input
                     type="date"
                     placeholder="dd/mm/yyyy"
                     className="form-control cpp-input datevalidation"
@@ -264,17 +261,17 @@ const SctDailyReport = ({
                       e.preventDefault();
                     }}
                     required
-                  /> */}
-                  <DatePicker
+                  />
+                  {/* <DatePicker
                     label="Controlled picker"
                     value={startFromDateShow}
                     className=" form-control"
                     placeholderText="dd-mm-yyyy"
                     onChange={(newValue) => onfromDateChange(newValue)}
-                  />
+                  /> */}
                 </div>
-                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
-                  {/* <input
+                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-4">
+                  <input
                     type="date"
                     placeholder="dd/mm/yyyy"
                     className="form-control cpp-input datevalidation"
@@ -288,21 +285,21 @@ const SctDailyReport = ({
                       e.preventDefault();
                     }}
                     required
-                  /> */}
-                  <DatePicker
+                  />
+                  {/* <DatePicker
                     label="Controlled picker"
                     value={startcToDateShow}
                     className=" form-control"
                     placeholderText="dd-mm-yyyy"
                     onChange={(newValue) => ontoDateChange(newValue)}
-                  />
+                  /> */}
                 </div>
               </>
             )}
             {showdateSection1 && (
               <>
-                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-2">
-                  {/* <input
+                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-4">
+                  <input
                     type="date"
                     placeholder="dd/mm/yyyy"
                     className="form-control cpp-input datevalidation"
@@ -316,14 +313,14 @@ const SctDailyReport = ({
                       e.preventDefault();
                     }}
                     required
-                  /> */}
-                  <DatePicker
+                  />
+                  {/* <DatePicker
                     label="Controlled picker"
                     value={startSingleDateShow}
                     className=" form-control"
                     placeholderText="dd-mm-yyyy"
                     onChange={(newValue) => onDateChangesingle(newValue)}
-                  />
+                  /> */}
                 </div>
               </>
             )}

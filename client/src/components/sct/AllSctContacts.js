@@ -282,7 +282,7 @@ const AllSctContacts = ({
       <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
           <div className="col-lg-11 col-md-12 col-sm-12 col-12 no_padding ">
-            <label className="sidePartHeading"> Contacts</label>
+            <label className="sidePartHeading">&nbsp; Contacts</label>
           </div>
 
           <div

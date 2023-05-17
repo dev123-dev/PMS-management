@@ -67,7 +67,7 @@ const AllSctCountry = ({
           <div className="col-lg-5 col-md-11 col-sm-10 col-10">
             <h5 className="heading_color">All Country Details </h5>
           </div>
-          <div className="col-lg-7 col-md-1 col-sm-1 col-1 ">
+          <div className="col-lg-7 col-md-1 col-sm-1 col-1 py-2">
             <button
               className="btn btn_green_bg float-right"
               onClick={() => onClickHandler()}

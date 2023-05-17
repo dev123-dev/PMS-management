@@ -298,9 +298,11 @@ const AllStatuschange = ({
       callCategoryVal = "F";
     } else if (callStatus.value === "WrongNumber") {
       callCategoryVal = "W";
-    } else if (callStatus.value === "CallBack") {
-      callCategoryVal = "P";
-    } else if (callStatus.value === "TestClient") {
+    }
+    // else if (callStatus.value === "CallBack") {
+    //   callCategoryVal = "P";
+    // }
+    else if (callStatus.value === "TestClient") {
       callCategoryVal = "TC";
     } else if (callStatus.value === "RegularClient") {
       callCategoryVal = "RC";
@@ -332,7 +334,7 @@ const AllStatuschange = ({
         callEnteredDateTime: new Date().toLocaleString("en-GB"),
         filterData: filterData,
       };
-
+      // console.log("finaldata", finalData);
       if (from === "TestClient" || from === "RegularClient") {
         addDctClientCalls(finalData);
       } else {
@@ -357,7 +359,7 @@ const AllStatuschange = ({
   ) : (
     <Fragment>
       <form className="row" onSubmit={(e) => onSubmit(e)}>
-        <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadstatus">
+        <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadstatusDCT">
           <div className="col-lg-4 col-md-12 col-sm-12 col-12 headingTop">
             <label className="label-control" style={statusmodeIdErrorStyle}>
               Status :
@@ -440,7 +442,7 @@ const AllStatuschange = ({
                 name="callNote"
                 id="callNote"
                 className="textarea "
-                rows="4"
+                rows="3"
                 cols="5"
                 placeholder="Notes"
                 style={{ width: "100%" }}

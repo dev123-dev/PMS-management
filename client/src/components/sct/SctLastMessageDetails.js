@@ -66,14 +66,14 @@ const SctLastMessageDetails = ({
               className="textarea form-control"
               rows="2"
               placeholder="Notes"
-              style={{ width: "100%" }}
+              style={{ width: "90%" }}
               value={sctLastMsg && sctLastMsg.sctCallNote}
               disabled
               // editable={false}
             ></textarea>
           </Link>
         </div>
-        <div className="col-lg-3 col-md-12 col-sm-12 col-12 mt-3">
+        <div className="col-lg-3 col-md-12 col-sm-12 col-12 mt-4">
           <input
             type="submit"
             name="submit"

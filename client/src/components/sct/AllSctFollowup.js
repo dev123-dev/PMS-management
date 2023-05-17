@@ -339,7 +339,7 @@ const AllSctFollowup = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h5 className="heading_color">All Followup</h5>
+              <h4 className="heading_color">All Followup</h4>
             </div>
             {/* <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -366,7 +366,7 @@ const AllSctFollowup = ({
                 options={allprojects}
                 isSearchable={true}
                 value={projects}
-                placeholder="Select Projects"
+                placeholder="Projects"
                 onChange={(e) => onprojectsChange(e)}
                 theme={(theme) => ({
                   ...theme,
@@ -390,17 +390,17 @@ const AllSctFollowup = ({
                 onChange={(e) => onStateChange(e)}
               />
             </div>
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="companyName"
                 options={allclient}
                 isSearchable={true}
                 value={clients}
-                placeholder="Select Lead"
+                placeholder="Lead"
                 onChange={(e) => onclientsChange(e)}
               />
             </div>
-            <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
+            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="clientPhone"
                 options={allClientPhone}
@@ -410,7 +410,7 @@ const AllSctFollowup = ({
                 onChange={(e) => onClientPhoneChange(e)}
               />
             </div>
-            <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
               user.userGroupName === "Super Admin" ||
               user.empCtAccess === "All" ? (
@@ -420,7 +420,7 @@ const AllSctFollowup = ({
                     options={allemp}
                     isSearchable={true}
                     value={emp}
-                    placeholder="Select Emp"
+                    placeholder=" Employee"
                     onChange={(e) => onempChange(e)}
                   />
                 </>
@@ -429,7 +429,7 @@ const AllSctFollowup = ({
               )}
             </div>
 
-            <div className="col-lg-1 col-md-11 col-sm-12 col-11 py-2">
+            <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2 ">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -557,9 +557,11 @@ const AllSctFollowup = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "37vh" }}
+                  style={{ height: "40vh" }}
                 >
-                  <label className="sidePartHeading ">Status</label>
+                  <label className="sidePartHeading ">
+                    &nbsp;&nbsp; Status
+                  </label>
                   {showdateselectionSection && (
                     <AllSctStatusChange
                       leadDataVal={leadData}
@@ -577,7 +579,7 @@ const AllSctFollowup = ({
                   style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
-                    Last Message Details
+                    &nbsp;&nbsp; Last Message Details
                   </label>
                   {showdateselectionSection && (
                     <SctLastMessageDetails

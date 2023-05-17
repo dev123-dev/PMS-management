@@ -257,7 +257,7 @@ const TestClientFollowup = ({
               )}
             </div>
             <div className=" col-lg-2 col-md-12 col-sm-12 col-12">
-              <h5 className="heading_color">Test Client FollowUp</h5>
+              <h4 className="heading_color">Test Client Follow-up</h4>
             </div>
             <div className=" col-lg-2 col-md-12 col-sm-12 col-12 py-2">
               <Select
@@ -292,7 +292,7 @@ const TestClientFollowup = ({
                   options={allemp}
                   isSearchable={true}
                   value={emp}
-                  placeholder="Select Emp"
+                  placeholder="Select Employee"
                   onChange={(e) => onempChange(e)}
                 />
               ) : (
@@ -301,7 +301,7 @@ const TestClientFollowup = ({
               )}
             </div>
 
-            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-3">
+            <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -387,7 +387,7 @@ const TestClientFollowup = ({
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
                     <label>
-                      No of Test Client Followup :
+                      No of Test Client Follow-up :
                       {dctClients && dctClients.length}
                     </label>
                   </div>
@@ -409,10 +409,10 @@ const TestClientFollowup = ({
                   {/* )} */}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding ">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "30vh" }}
+                  style={{ height: "39vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
@@ -425,10 +425,10 @@ const TestClientFollowup = ({
                   )}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding ">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "23vh" }}
+                  style={{ height: "17vh" }}
                 >
                   <label className="sidePartHeading ">
                     Last Message Details
