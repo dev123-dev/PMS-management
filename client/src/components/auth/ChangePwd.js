@@ -203,7 +203,7 @@ const ChangePwd = ({
                   </span>
                 )}
                 <div
-                  className="cstm-hint"
+                  className="cstm-hint text-white"
                   id="pass_admin_help"
                   style={{ top: "60px" }}
                 >

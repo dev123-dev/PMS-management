@@ -175,7 +175,7 @@ const AllSctWrongNumbers = ({
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h4 className="heading_color">All Sct Wrong Numbers</h4>
             </div>
-            <div className="col-lg-1 col-md-6 col-sm-6 col-12 py-2">
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 py-2">
               <Select
                 name="sctProjectName"
                 options={allprojects}
@@ -196,7 +196,7 @@ const AllSctWrongNumbers = ({
               />
             </div>
 
-            <div className="col-lg-9 col-md-11 col-sm-12 col-11 py-2">
+            <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2">
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -321,7 +321,7 @@ const AllSctWrongNumbers = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "37vh" }}
+                  style={{ height: "39vh" }}
                 >
                   <label className="sidePartHeading ">&nbsp;&nbsp;Status</label>
                   {showdateselectionSection && (
