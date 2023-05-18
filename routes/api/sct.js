@@ -3019,6 +3019,10 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
             $gte: new Date(fromdate),
             $lte: new Date(todate),
           },
+          sctCallCategory: "PT",
+          sctCallSalesValue: {
+            $ne: "",
+          },
         },
       },
       {
@@ -3030,11 +3034,6 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
           lastRecord: {
             $last: "$$ROOT",
           },
-        },
-      },
-      {
-        $match: {
-          "lastRecord.sctCallCategory": "PT",
         },
       },
       {
@@ -3061,7 +3060,7 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
       getAllSctCallsClient: getAllSctCalls,
     });
   } catch (err) {
-    console.error(err.message);
+    console.error("Sct Potential Count", err.message);
     res.status(500).send("Internal Server Error.");
   }
 });
@@ -3098,6 +3097,10 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
             $gte: new Date(fromdate),
             $lte: new Date(todate),
           },
+          sctCallCategory: "F",
+          sctCallSalesValue: {
+            $ne: "",
+          },
         },
       },
       {
@@ -3109,11 +3112,6 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
           lastRecord: {
             $last: "$$ROOT",
           },
-        },
-      },
-      {
-        $match: {
-          "lastRecord.sctCallCategory": "F",
         },
       },
       {
@@ -3137,11 +3135,10 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
       },
     ]);
     res.json({
-      // getAllSctCallsCount: getAllSctCallsCount,
       getAllSctCallsClient: getAllSctCalls,
     });
   } catch (err) {
-    console.error(err.message);
+    console.error("All Followup", err.message);
     res.status(500).send("Internal Server Error.");
   }
 });
