@@ -3021,7 +3021,7 @@ router.post("/get-all-sct-calls-count-1", auth, async (req, res) => {
           },
           sctCallCategory: "PT",
           sctCallSalesValue: {
-            $ne: "",
+            $gt: 0,
           },
         },
       },
