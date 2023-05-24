@@ -3099,7 +3099,7 @@ router.post("/get-all-sct-FollowUp", auth, async (req, res) => {
           },
           sctCallCategory: "F",
           sctCallSalesValue: {
-            $ne: "",
+            $gt: 0,
           },
         },
       },
@@ -3411,7 +3411,7 @@ router.post("/sct-transfer-lead", async (req, res) => {
 });
 
 router.post("/add-import-sct-lead-data", async (req, res) => {
-  let filePath = "C:/PMSExcelImport/";
+  let filePath = "D:/PMSExcelImport/";
   let data = req.body;
   let pathName = filePath + data.filePathName;
   csvtojson()
