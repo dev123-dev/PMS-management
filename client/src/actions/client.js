@@ -15,6 +15,7 @@ import {
   ALL_DCT_CLIENTS,
   CLIENT_FILTER,
   ALL_BILLING_CLIENT,
+  EMP_DETAILS,
 } from "./types";
 
 const config = {
@@ -126,6 +127,18 @@ export const getActiveClientsFilter = (clientTypeVal) => async (dispatch) => {
     dispatch({
       type: AUTH_ERROR,
     });
+  }
+};
+
+export const getEmployerDetails = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/client/get-employerDetails");
+    dispatch({
+      type: EMP_DETAILS,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log(error.message);
   }
 };
 

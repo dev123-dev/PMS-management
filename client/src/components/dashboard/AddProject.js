@@ -7,6 +7,7 @@ import Spinner from "../layout/Spinner";
 import {
   getActiveClientsFilter,
   getActiveStaffFilter,
+  getEmployerDetails,
 } from "../../actions/client";
 import { getAllProjectStatus, addProject } from "../../actions/projects";
 import { Redirect } from "react-router-dom";
@@ -26,11 +27,12 @@ const AddProject = ({
   auth: { isAuthenticated, user, users, loading },
 
   settings: { paymentMode },
-  client: { activeClientFilter, activeStaffFilter },
+  client: { activeClientFilter, activeStaffFilter, empdetails },
   project: { allProjectStatus },
   getActiveClientsFilter,
   getActiveStaffFilter,
   getAllProjectStatus,
+  getEmployerDetails,
   addProject,
 }) => {
   useEffect(() => {
@@ -42,6 +44,12 @@ const AddProject = ({
   useEffect(() => {
     getActiveStaffFilter();
   }, [getActiveStaffFilter]);
+
+  useEffect(() => {
+    getEmployerDetails();
+  }, [getEmployerDetails]);
+
+  console.log("empdetails", empdetails);
 
   var today = new Date();
   var dd = today.getDate();
@@ -378,7 +386,9 @@ const AddProject = ({
     setstaffID(staffId);
     setstaffName(staffName);
   };
+  console.log("ActiveClientId", ActiveClientId);
   //Required Validation Starts
+
   const [error, setError] = useState({
     // clientnameIdChecker: false,
     // clientnameIdErrorStyle: {},
@@ -496,7 +506,7 @@ const AddProject = ({
         projectEnteredById: user._id,
         projectEnteredByName: user.empFullName,
       };
-      //console.log("finalData", finalData);
+      // console.log("finalData", finalData);
       addProject(finalData);
       setFormData({
         ...formData,
@@ -516,7 +526,7 @@ const AddProject = ({
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
           <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">Add New Project</h2>
+            <h2 className="heading_color">Add New Project </h2>
             <hr />
           </div>
           <section className="sub_reg">
@@ -861,7 +871,7 @@ const AddProject = ({
                 </label>
               </div>
               <div className="col-lg-4 col-md-6 col-sm-12 col-12">
-                {loading ? (
+                {console.log(loading) ? (
                   <button
                     className="btn sub_form btn_continue blackbrd Save float-right"
                     disabled
@@ -912,4 +922,5 @@ export default connect(mapStateToProps, {
   getActiveClientsFilter,
   getActiveStaffFilter,
   addProject,
+  getEmployerDetails,
 })(AddProject);

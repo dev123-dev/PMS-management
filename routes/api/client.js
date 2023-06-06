@@ -7,6 +7,7 @@ const ClientDetails = require("../../models/Client");
 const ClientHistoryDetails = require("../../models/ClientHistory");
 const DctClients = require("../../models/dct/dctClients");
 const Project = require("../../models/Project");
+const Employerdetails = require("../../models/EmpDetails");
 
 //ADD
 router.post("/add-client", async (req, res) => {
@@ -174,6 +175,29 @@ router.post("/get-client-filter", async (req, res) => {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
   }
+});
+
+router.get("/get-employerDetails", async (req, res) => {
+  let empdetails = await Employerdetails.aggregate([
+    {
+      $match: {
+        empStatus: { $eq: "Active" },
+        $or: [
+          { userGroupName: { $eq: "Quality Controller" } },
+          { userGroupName: { $eq: "Distributors" } },
+        ],
+      },
+    },
+
+    {
+      $project: {
+        empFullName: 1,
+        _id: 1,
+      },
+    },
+  ]);
+  console.log("xxx", empdetails);
+  res.json(empdetails);
 });
 
 router.post("/get-active-staff-filter", async (req, res) => {

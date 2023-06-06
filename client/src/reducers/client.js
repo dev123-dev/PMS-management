@@ -10,10 +10,12 @@ import {
   ALL_VERF_FOLDER,
   ACTIVE_REPORT_CLIENTS,
   ALL_BILLING_CLIENT,
+  EMP_DETAILS,
 } from "../actions/types";
 
 const initialState = {
   allClient: [],
+  empdetails: [],
   activeClient: [],
   activeClientFilter: [],
   activeStaffFilter: [],
@@ -33,6 +35,11 @@ const client = (state = initialState, action) => {
       return {
         ...state,
         allClient: payload,
+      };
+    case EMP_DETAILS:
+      return {
+        ...state,
+        empdetails: payload,
       };
     case ACTIVE_CLIENTS:
       return {
