@@ -80,6 +80,7 @@ const AddProject = ({
     clientTime: "",
     Instructions: "",
     inputpath: "",
+    review: false,
     isSubmitted: false,
   });
 
@@ -94,6 +95,7 @@ const AddProject = ({
     clientTime,
     Instructions,
     clientType,
+    review,
     isSubmitted,
   } = formData;
 
@@ -272,6 +274,14 @@ const AddProject = ({
     setprojectDate(clientEndDate);
     var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
     setprojectShow(clientEndDate);
+  };
+
+  const handleOnOtherChange = () => {
+    setFormData({
+      ...formData,
+      review: !review,
+    });
+    //setProjectStatusData(projectStatusOpt || projectStatusOpt[1]);
   };
 
   const [startclientDate, setclientDate] = useState("");
@@ -514,7 +524,7 @@ const AddProject = ({
       });
     }
   };
-
+  console.log("projectStatusOpt", projectStatusOpt);
   if (isSubmitted) {
     return <Redirect to="/job-queue" />;
   }
@@ -794,6 +804,24 @@ const AddProject = ({
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Other Info</h5>
                   </div>
+                  <div className="col-lg-2 col-md-12 col-sm-12 col-12">
+                    <span>
+                      Review ? :
+                      <input
+                        style={{
+                          height: "20px",
+                          width: "20px",
+                          borderRadius: "50%",
+                          display: "block",
+                        }}
+                        //value={review}
+                        type="checkbox"
+                        id="Unconfirmed"
+                        onChange={handleOnOtherChange}
+                        checked={review}
+                      />
+                    </span>
+                  </div>
                   <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label
                       // className="label-control"
@@ -803,7 +831,12 @@ const AddProject = ({
                     </label>
                     <Select
                       name="projectStatusData"
-                      value={projectStatusData || projectStatusOpt[1]}
+                      value={
+                        review === true
+                          ? projectStatusOpt[5]
+                          : projectStatusData || projectStatusOpt[5]
+                      }
+                      // value={projectStatusData || projectStatusOpt[5]}
                       options={projectStatusOpt}
                       isSearchable={true}
                       placeholder="Select"
