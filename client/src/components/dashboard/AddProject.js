@@ -220,6 +220,11 @@ const AddProject = ({
   const [empdata, setempdata] = useState("");
 
   const onReviewerChange = (e) => {
+    setError({
+      ...error,
+      empselectChecker: true,
+      empselectErrorStyle: { color: "#000" },
+    });
     setempdata(e);
   };
 
@@ -433,6 +438,9 @@ const AddProject = ({
 
     clientdateChecker: false,
     clientdateErrorStyle: {},
+
+    empselectChecker: false,
+    empselectErrorStyle: {},
   });
   const {
     // clientnameIdChecker,
@@ -447,6 +455,8 @@ const AddProject = ({
     ClientErrorStyle,
     projectstatusChecker,
     projectstatusErrorStyle,
+    empselectChecker,
+    empselectErrorStyle,
   } = error;
 
   const checkErrors = () => {
@@ -488,12 +498,23 @@ const AddProject = ({
       });
       return false;
     }
-    if (!clientdateChecker) {
-      setError({
-        ...error,
-        clientdateErrorStyle: { color: "#F00" },
-      });
-      return false;
+    if (review === true) {
+      if (!clientdateChecker) {
+        setError({
+          ...error,
+          clientdateErrorStyle: { color: "#F00" },
+        });
+        return false;
+      }
+    }
+    if (review === true) {
+      if (!empselectChecker) {
+        setError({
+          ...error,
+          empselectErrorStyle: { color: "#F00" },
+        });
+        return false;
+      }
     }
 
     return true;
@@ -571,7 +592,7 @@ const AddProject = ({
                   className="row card-new mb-3"
                   style={{ paddingBottom: "62px" }}
                 >
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 pb-3">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 pb-3 ">
                     <h5>Client Info</h5>
                   </div>
 
@@ -813,7 +834,7 @@ const AddProject = ({
                       // required
                     />
                   </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 mt-5">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 mt-5 py-4">
                     <label className="label-control colorRed">
                       * Client Date & Client Time is Mail Date & Mail Time.
                       <br />* Before 2:00 PM Project Date should be previous
@@ -824,19 +845,21 @@ const AddProject = ({
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
                 {/* Other Info */}
-                <div className="row card-new mt-1">
+                <div className="row card-new mb-2">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Other Info</h5>
                   </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <span>
-                      Review ? :
+                  <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+                    <div>
+                      <label style={{ marginLeft: "10px" }}> Review ? :</label>
+
                       <input
                         style={{
-                          height: "20px",
-                          width: "20px",
+                          height: "14px",
+                          width: "14px",
                           borderRadius: "50%",
                           display: "block",
+                          marginLeft: "10px",
                         }}
                         //value={review}
                         type="checkbox"
@@ -844,7 +867,7 @@ const AddProject = ({
                         onChange={handleOnOtherChange}
                         checked={review}
                       />
-                    </span>
+                    </div>
                   </div>
 
                   {review === true ? (
@@ -867,7 +890,7 @@ const AddProject = ({
                       <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                         <label
                           // className="label-control"
-                          style={projectstatusErrorStyle}
+                          style={empselectErrorStyle}
                         >
                           Select Employee<i className="text-danger">*</i> :
                         </label>
@@ -900,38 +923,31 @@ const AddProject = ({
                       </div>
                     </>
                   )}
+                  <span className=" row col-lg-12 col-md-6 col-sm-6 col-12 ">
+                    <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Deadline :</label>
+                      <input
+                        type="text"
+                        name="deadline"
+                        value={deadline}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
 
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label
-                    //  className="label-control"
-                    >
-                      Deadline :
-                    </label>
-                    <input
-                      type="text"
-                      name="deadline"
-                      value={deadline}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
+                    <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Output Format :</label>
+                      <input
+                        type="text"
+                        name="outputformat"
+                        value={outputformat}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                  </span>
 
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label
-                    // className="label-control"
-                    >
-                      Output Format :
-                    </label>
-                    <input
-                      type="text"
-                      name="outputformat"
-                      value={outputformat}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-
-                  <div className="col-lg-12 col-md-11 col-sm-12 col-12 py-2">
+                  <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
                     <label className="label-control">
                       Project Instructions<i className="text-danger">*</i> :
                     </label>
@@ -939,7 +955,7 @@ const AddProject = ({
                       name="Instructions"
                       id="Instructions"
                       className="textarea form-control"
-                      rows="4"
+                      rows="3"
                       placeholder="Instructions"
                       style={{ width: "100%" }}
                       value={Instructions}
