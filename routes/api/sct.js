@@ -527,7 +527,7 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
     sctLeadStatus: "Active",
     condition,
     $or: catCondition,
-    sctCallDate: { $lte: todayDate },
+    // sctCallDate: { $lte: todayDate },
     sctLeadAssignedToId,
   };
 

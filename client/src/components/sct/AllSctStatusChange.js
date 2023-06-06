@@ -295,6 +295,7 @@ const AllSctStatusChange = ({
 
   const [showstatus, setstatus] = useState("");
   const [sctLeadsCategory, setsctLeadsCategory] = useState("");
+
   const onStatusTypeChange = (e) => {
     if (e.value === "CallBack") {
       setstatus("CallBack");
@@ -592,10 +593,10 @@ const AllSctStatusChange = ({
           sctCallFromName: user.userName,
           sctCallCategory: callCategoryVal,
           sctCallStatus: sctCallStatus.value,
-          sctLeadsCategory: leadDataVal.sctLeadsCategory
-            ? leadDataVal.sctLeadsCategory
-            : sctLeadsCategory
+          sctLeadsCategory: sctLeadsCategory
             ? sctLeadsCategory.value
+            : leadDataVal.sctLeadsCategory
+            ? leadDataVal.sctLeadsCategory
             : "",
           sctcallToNumber: staffsNumber ? staffsNumber : phone1,
           // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
@@ -613,6 +614,7 @@ const AllSctStatusChange = ({
           filterData: filterData,
           page: page,
         };
+
         if (from === "EngagedClient" || from === "RegularClient") {
           addSctClientCalls(finalData);
         } else {
@@ -744,10 +746,10 @@ const AllSctStatusChange = ({
           sctCallFromName: user.userName,
           sctCallCategory: callCategoryVal,
           sctCallStatus: sctCallStatus.value,
-          sctLeadsCategory: leadDataVal.sctLeadsCategory
-            ? leadDataVal.sctLeadsCategory
-            : sctLeadsCategory
+          sctLeadsCategory: sctLeadsCategory
             ? sctLeadsCategory.value
+            : leadDataVal.sctLeadsCategory
+            ? leadDataVal.sctLeadsCategory
             : "",
           sctcallToNumber: staffsNumber ? staffsNumber : phone1,
           // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
@@ -766,6 +768,7 @@ const AllSctStatusChange = ({
           filterData: filterData,
           page: page,
         };
+
         if (from === "EngagedClient" || from === "RegularClient") {
           addSctClientCalls(finalData);
         } else {
