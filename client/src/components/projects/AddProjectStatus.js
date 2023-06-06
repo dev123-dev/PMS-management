@@ -10,6 +10,8 @@ const StatusCategory = [
   { value: "Normal", label: "Normal" },
   { value: "Dont Work", label: "Dont Work" },
   { value: "Additional Instruction", label: "Additional Instruction" },
+  { value: "Review", label: "Review" },
+  { value: "Approval", label: "Approval" },
 ];
 const AddProjectStatus = ({
   auth: { isAuthenticated, user, users, loading },
