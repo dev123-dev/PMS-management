@@ -151,6 +151,16 @@ const AddProject = ({
       })
     );
 
+  const empdetailsopt = [];
+  empdetails &&
+    empdetails.map((emp) =>
+      empdetailsopt.push({
+        empId: emp._id,
+        label: emp.empFullName,
+        value: emp.empFullName,
+      })
+    );
+
   const [clientData, setClientData] = useState("");
   const [clientId, setClientId] = useState("");
 
@@ -204,6 +214,12 @@ const AddProject = ({
     projectStatusType = e.value;
     setprojectStatusId(projectStatusId);
     setprojectStatusType(projectStatusType);
+  };
+
+  const [empdata, setempdata] = useState("");
+
+  const onReviewerChange = (e) => {
+    setempdata(e);
   };
 
   const onInputChange = (e) => {
@@ -804,7 +820,7 @@ const AddProject = ({
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Other Info</h5>
                   </div>
-                  <div className="col-lg-2 col-md-12 col-sm-12 col-12">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <span>
                       Review ? :
                       <input
@@ -833,8 +849,8 @@ const AddProject = ({
                       name="projectStatusData"
                       value={
                         review === true
-                          ? projectStatusOpt[5]
-                          : projectStatusData || projectStatusOpt[5]
+                          ? projectStatusOpt[28]
+                          : projectStatusData || projectStatusOpt[1]
                       }
                       // value={projectStatusData || projectStatusOpt[5]}
                       options={projectStatusOpt}
@@ -843,6 +859,35 @@ const AddProject = ({
                       onChange={(e) => onProjectStatusChange(e)}
                     />
                   </div>
+                  {review === true ? (
+                    <>
+                      <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <label
+                          // className="label-control"
+                          style={projectstatusErrorStyle}
+                        >
+                          Select Employee<i className="text-danger">*</i> :
+                        </label>
+                        <Select
+                          name="projectempData"
+                          options={empdetailsopt}
+                          // value={
+                          //   review === true
+                          //     ? projectStatusOpt[28]
+                          //     : projectStatusData || projectStatusOpt[1]
+                          // }
+                          // // value={projectStatusData || projectStatusOpt[5]}
+                          // options={projectStatusOpt}
+                          isSearchable={true}
+                          placeholder="Select Emp"
+                          onChange={(e) => onReviewerChange(e)}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+
                   <div className="col-lg-4 col-md-6 col-sm-6 col-12">
                     <label
                     //  className="label-control"
