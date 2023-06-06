@@ -2283,9 +2283,9 @@ font-weight: 600;
 color: #456792;
 font-weight: bold;
 }
-td{
+/* td{
   text-align: center;
-}
+} */
 /* 
 div{
   border: 1px solid red;
@@ -2334,3 +2334,7 @@ div{
 #pass_admin_help #tooltipPassAdmin:after {
   content: attr(data-hint);
 }
+
+/* div{
+  border:1px solid red;
+} */

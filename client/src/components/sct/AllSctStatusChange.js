@@ -135,6 +135,26 @@ const AllSctStatusChange = ({
     sctCallTime,
     sctcallToNumber,
   } = formData;
+  useEffect(() => {
+    setStatusDate("");
+    setsctLeadsCategory("");
+    setsctLeadsCategory("");
+    getstaffsData("");
+    setSalesvalue(
+      leadDataVal.sctCallSalesValue ? Number(leadDataVal.sctCallSalesValue) : ""
+    );
+    setExpectedDate(
+      leadDataVal.sctExpectedMonth
+        ? new Date(leadDataVal.sctExpectedMonth).toISOString().split("T")[0]
+        : ""
+    );
+    setFormData({
+      ...formData,
+      sctCallTime: "",
+      sctCallStatus: "",
+      sctCallNote: "",
+    });
+  }, [leadDataVal]);
 
   //DATE START
   var todayDateymd = new Date().toISOString().split("T")[0];
@@ -561,6 +581,7 @@ const AllSctStatusChange = ({
         }
       }
       e.preventDefault();
+
       if (checkErrors()) {
         const finalData = {
           sctCallToId: leadDataVal._id,
@@ -911,7 +932,7 @@ const AllSctStatusChange = ({
           </div>
           {showdateselectionSection && (
             <div className=" col-lg-4 col-md-12 col-sm-12 col-12 ">
-              <label>{sctCallStatus && sctCallStatus.label} Date*</label>
+              <label>{sctCallStatus && sctCallStatus.label} Date* :</label>
               <input
                 type="date"
                 placeholder="dd/mm/yyyy"
@@ -920,6 +941,9 @@ const AllSctStatusChange = ({
                 min={todaydate}
                 value={startStatusDate}
                 onChange={(e) => onDateChange(e)}
+                onKeyDown={(e) => {
+                  e.preventDefault();
+                }}
                 style={{
                   width: "100%",
                 }}
@@ -957,7 +981,7 @@ const AllSctStatusChange = ({
               <div className=" col-lg-4 col-md-12 col-sm-12 col-12 ">
                 <>
                   <label className="label-control">
-                    {sctCallStatus && sctCallStatus.label} Date
+                    {sctCallStatus && sctCallStatus.label} Date :
                   </label>
 
                   <input
@@ -968,6 +992,9 @@ const AllSctStatusChange = ({
                     min={todaydate}
                     value={demoDate}
                     onChange={(e) => onDateChange1(e)}
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
                     style={{
                       width: "100%",
                     }}
@@ -1005,7 +1032,7 @@ const AllSctStatusChange = ({
               </div>
             </>
           )}
-          <div className="col-lg-3 col-md-6 col-sm-6 col-12 notesTopSCT">
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12 notesTopSCT">
             <label className="label-control">Call Time* :</label>
             <br />
             <input
@@ -1013,7 +1040,7 @@ const AllSctStatusChange = ({
               className="form-control"
               name="sctCallTime"
               value={sctCallTime}
-              style={{ width: "120%" }}
+              style={{ width: "100%" }}
               min="00:00"
               max="24:00"
               onChange={(e) => onInputChange(e)}
@@ -1028,49 +1055,123 @@ const AllSctStatusChange = ({
               {" "}
               <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
                 <label className="label-control" style={expectedDateErrorStyle}>
-                  {" "}
-                  Expected Date :
+                  Expected Date (
+                  {leadDataVal.sctExpectedMonth ? (
+                    <>
+                      {" "}
+                      <img
+                        className="img_icon_size log "
+                        src={require("../../static/images/question3.png")}
+                        alt="Reason"
+                        title={
+                          "Expected date must be greater than " +
+                          sctExpectedMonthrevered
+                        }
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        className="img_icon_size log "
+                        src={require("../../static/images/question3.png")}
+                        alt="Reason"
+                        title={" Please select Expected date "}
+                      />
+                    </>
+                  )}
+                  ) :
                 </label>
-
                 <input
                   type="date"
                   // placeholder="dd/mm/yyyy"
-                  className="form-control cpp-input datevalidation"
+                  className="form-control cpp-input datevalidation datecorrect"
                   // min={todaydate}
                   min={expectedDate}
                   name="expectedMonth"
                   value={expectedDate}
                   onChange={(e) => onDateChange2(e)}
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                  }}
                   style={{
                     width: "100%",
                   }}
                 />
-                <div
-                  className="cstm-hint text-white"
-                  id="pass_admin_help"
-                  style={{ top: "60px", marginRight: "3px" }}
-                >
-                  <img
-                    src={require("../../static/images/help1.png")}
-                    alt="help"
-                    id="img_tool_admin"
-                    className="pass_admin_help_icon_question"
-                  />
-                  <div
-                    id="tooltipPassAdmin"
-                    className="syle-hint"
-                    style={passwrdTooltip}
-                    data-hint={
-                      "Expected date must be greater than" +
-                      sctExpectedMonthrevered
-                    }
-                  ></div>
-                </div>
+
+                {/* {leadDataVal.sctExpectedMonth ? (
+                  <>
+                    <div
+                      className="cstm-hint text-white"
+                      id="pass_admin_help"
+                      style={{ top: "60px", marginRight: "3px" }}
+                    >
+                      <img
+                        src={require("../../static/images/help1.png")}
+                        alt="help"
+                        id="img_tool_admin"
+                        className="pass_admin_help_icon_question"
+                      />
+                      <div
+                        id="tooltipPassAdmin"
+                        className="syle-hint"
+                        style={passwrdTooltip}
+                        data-hint={
+                          "Expected date must be greater than" +
+                          sctExpectedMonthrevered
+                        }
+                      ></div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div
+                      className="cstm-hint text-white"
+                      id="pass_admin_help"
+                      style={{ top: "60px", marginRight: "3px" }}
+                    >
+                      <img
+                        src={require("../../static/images/help1.png")}
+                        alt="help"
+                        id="img_tool_admin"
+                        className="pass_admin_help_icon_question"
+                      />
+                      <div
+                        id="tooltipPassAdmin"
+                        className="syle-hint"
+                        style={passwrdTooltip}
+                        data-hint={" Please select Expected date "}
+                      ></div>
+                    </div>
+                  </>
+                )} */}
               </div>
               <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
                 <label className="label-control" style={salesValueErrorStyle}>
-                  {" "}
-                  Sales Value:
+                  Sales Value (
+                  {leadDataVal.sctCallSalesValue ? (
+                    <>
+                      {" "}
+                      <img
+                        className="img_icon_size log "
+                        src={require("../../static/images/question3.png")}
+                        alt="Reason"
+                        title={
+                          "Sales Value must be more than " +
+                          leadDataVal.sctCallSalesValue
+                        }
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        className="img_icon_size log "
+                        src={require("../../static/images/question3.png")}
+                        alt="Reason"
+                        title={"Please add Sales Value"}
+                      />
+                    </>
+                  )}
+                  ) :
                 </label>
                 <input
                   type="text"
@@ -1079,27 +1180,52 @@ const AllSctStatusChange = ({
                   value={salesValue}
                   onChange={(e) => onSalesvalueChange(e)}
                 />
-                <div
-                  className="cstm-hint text-white"
-                  id="pass_admin_help"
-                  style={{ top: "60px" }}
-                >
-                  <img
-                    src={require("../../static/images/help1.png")}
-                    alt="help"
-                    id="img_tool_admin"
-                    className="pass_admin_help_icon_question"
-                  />
-                  <div
-                    id="tooltipPassAdmin"
-                    className="syle-hint"
-                    style={passwrdTooltip}
-                    data-hint={
-                      "Sales Value must be more than " +
-                      leadDataVal.sctCallSalesValue
-                    }
-                  ></div>
-                </div>
+                {/* {leadDataVal.sctCallSalesValue ? (
+                  <>
+                    <div
+                      className="cstm-hint text-white"
+                      id="pass_admin_help"
+                      style={{ top: "60px" }}
+                    >
+                      <img
+                        src={require("../../static/images/help1.png")}
+                        alt="help"
+                        id="img_tool_admin"
+                        className="pass_admin_help_icon_question"
+                      />
+                      <div
+                        id="tooltipPassAdmin"
+                        className="syle-hint"
+                        style={passwrdTooltip}
+                        data-hint={
+                          "Sales Value must be more than " +
+                          leadDataVal.sctCallSalesValue
+                        }
+                      ></div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div
+                      className="cstm-hint text-white"
+                      id="pass_admin_help"
+                      style={{ top: "60px" }}
+                    >
+                      <img
+                        src={require("../../static/images/help1.png")}
+                        alt="help"
+                        id="img_tool_admin"
+                        className="pass_admin_help_icon_question"
+                      />
+                      <div
+                        id="tooltipPassAdmin"
+                        className="syle-hint"
+                        style={passwrdTooltip}
+                        data-hint={"Please add Sales Value"}
+                      ></div>
+                    </div>
+                  </>
+                )} */}
               </div>
             </>
           ) : (
