@@ -884,7 +884,7 @@ const JobQueue = ({
 
                                           <Select
                                             className="ml-4"
-                                            menuPlacement="top"
+                                            menuPlacement="auto"
                                             styles={{
                                               control: (base) => ({
                                                 ...base,
@@ -1237,7 +1237,7 @@ const JobQueue = ({
 
                                           <Select
                                             className="ml-4"
-                                            menuPlacement="top"
+                                            menuPlacement="auto"
                                             styles={{
                                               control: (base) => ({
                                                 ...base,
