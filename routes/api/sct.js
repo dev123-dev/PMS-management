@@ -522,12 +522,14 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
     catCondition = [{ sctLeadCategory: "W" }, { sctLeadCategory: "W" }];
   } else if (sctLeadCategory == "F") {
     catCondition = [{ sctLeadCategory: "F" }, { sctLeadCategory: "F" }];
+  } else if (sctLeadCategory == "EC") {
+    catCondition = [{ sctLeadCategory: "EC" }, { sctLeadCategory: "EC" }];
   }
   let query = {
     sctLeadStatus: "Active",
     condition,
     $or: catCondition,
-    // sctCallDate: { $lte: todayDate },
+    sctCallDate: { $lte: todayDate },
     sctLeadAssignedToId,
   };
 
