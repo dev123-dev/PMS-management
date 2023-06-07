@@ -1,23 +1,27 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import axios from "axios";
+import Select from "react-select";
 import { sendMessageRoute } from "../../utils/APIRoutes";
 import {
   AddProjectTrack,
   AddAmendmentHistory,
   getLastAmendmentCounter,
 } from "../../actions/projects";
+import { getEmployerDetails } from "../../actions/client";
 import { w3cwebsocket } from "websocket";
 
 const ChangeProjectLifeCycle = ({
   auth: { isAuthenticated, user, users, loading },
+  client: { empdetails },
   ProjectCycledata,
   AddProjectTrack,
   // AddAmendmentHistory,
   onProjectCycleModalChange,
   getLastAmendmentCounter,
+  getEmployerDetails,
   contacts,
   socket,
   mainProjectId,
@@ -36,6 +40,10 @@ const ChangeProjectLifeCycle = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  useEffect(() => {
+    getEmployerDetails();
+  }, [getEmployerDetails]);
+
   const onHourChange = (e) => {
     if (e.target.value < 13) {
       setFormData({
@@ -47,6 +55,27 @@ const ChangeProjectLifeCycle = ({
         ...formData,
       });
     }
+  };
+  console.log("empdetails", empdetails);
+
+  const empdetailsopt = [];
+  empdetails &&
+    empdetails.map((emp) =>
+      empdetailsopt.push({
+        label: emp.empFullName,
+        value: emp._id,
+      })
+    );
+
+  const [empdata, setempdata] = useState("");
+
+  const onReviewerChange = (e) => {
+    // setError({
+    //   ...error,
+    //   empselectChecker: true,
+    //   empselectErrorStyle: { color: "#000" },
+    // });
+    setempdata(e);
   };
 
   const onMinuteChange = (e) => {
@@ -71,11 +100,12 @@ const ChangeProjectLifeCycle = ({
         ? true
         : false,
   });
+  console.log("ProjectCycledata", ProjectCycledata);
 
   const { showTimerSection } = showHide;
   //client in websocket
   //SLAP IP
-  const client = new w3cwebsocket("ws://192.168.6.140:8000");
+  const client = new w3cwebsocket("ws://192.168.6.38:8000");
 
   const onSubmit = async (e) => {
     const amendmentProjectId = {
@@ -226,6 +256,26 @@ const ChangeProjectLifeCycle = ({
             <label className="label-control">
               <strong> Status : {ProjectCycledata.value}</strong>
             </label>
+            {ProjectCycledata.value === "Review_Pending" ? (
+              <>
+                <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <label
+                  // className="label-control"
+                  >
+                    Select Employee<i className="text-danger">*</i> :
+                    <Select
+                      name="projectempData"
+                      options={empdetailsopt}
+                      isSearchable={true}
+                      placeholder="Select Emp"
+                      onChange={(e) => onReviewerChange(e)}
+                    />
+                  </label>
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
           </div>
           {showTimerSection && (
             <>
@@ -269,6 +319,7 @@ const ChangeProjectLifeCycle = ({
               </div>
             </>
           )}
+
           <div className="col-lg-11 col-md-6 col-sm-6 col-12">
             <label className="label-control">Update Notes* :</label>
             <textarea
@@ -325,9 +376,11 @@ ChangeProjectLifeCycle.propTypes = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  client: state.client,
 });
 
 export default connect(mapStateToProps, {
   AddProjectTrack,
   getLastAmendmentCounter,
+  getEmployerDetails,
 })(ChangeProjectLifeCycle);

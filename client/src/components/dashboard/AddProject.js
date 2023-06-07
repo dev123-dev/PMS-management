@@ -155,9 +155,8 @@ const AddProject = ({
   empdetails &&
     empdetails.map((emp) =>
       empdetailsopt.push({
-        empId: emp._id,
         label: emp.empFullName,
-        value: emp.empFullName,
+        value: emp._id,
       })
     );
 
@@ -560,6 +559,7 @@ const AddProject = ({
         projectEnteredById: user._id,
         projectEnteredByName: user.empFullName,
         Reviewer: empdata.label,
+        ReviewerId: empdata.value,
       };
       console.log("finalDataaa", finalData);
       addProject(finalData);
