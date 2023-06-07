@@ -532,7 +532,6 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
     sctCallDate: { $lte: todayDate },
     sctLeadAssignedToId,
   };
-
   if (projectsId) {
     query = {
       ...query,
@@ -620,7 +619,7 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
   let query = {
     sctLeadStatus: "Active",
     $and: [
-      { sctLeadCategory: { $ne: "EC" } },
+      // { sctLeadCategory: { $ne: "EC" } },
       { sctLeadCategory: { $ne: "RC" } },
     ],
     sctLeadAssignedToId,
