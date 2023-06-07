@@ -2338,3 +2338,25 @@ div{
 /* div{
   border:1px solid red;
 } */
+.blink {
+  animation: blinker .75s linear infinite;
+  color:#ffd037;
+  
+  font-size: 16px;
+  font-weight: bold;
+}
+@keyframes blinker {
+  30% {
+      opacity: 0;
+     
+  }
+}
+.blink:hover{
+  color:#ffd037;
+}
+
+.footerfont1{
+  font-size: 16px;
+  font-weight: bold;
+  color:#ffd037;
+}
