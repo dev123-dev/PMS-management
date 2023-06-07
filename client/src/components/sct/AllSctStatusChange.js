@@ -546,6 +546,7 @@ const AllSctStatusChange = ({
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const [reasonForChange, setReasonForChange] = useState("");
   const onSubmit = (e) => {
     e.preventDefault();
@@ -559,7 +560,7 @@ const AllSctStatusChange = ({
         callComeFromVal = "Client";
       if (sctCallStatus.value === "FollowUp") {
         callCategoryVal = "F";
-      } else if (sctLeadsCategory.value !== "") {
+      } else if (sctLeadsCategory !== "") {
         callCategoryVal = "PT";
       } else if (sctCallStatus.value === "WrongNumber") {
         callCategoryVal = "W";
@@ -614,7 +615,7 @@ const AllSctStatusChange = ({
           filterData: filterData,
           page: page,
         };
-
+        // console.log("finaldata", finalData);
         if (from === "EngagedClient" || from === "RegularClient") {
           addSctClientCalls(finalData);
         } else {
@@ -768,7 +769,7 @@ const AllSctStatusChange = ({
           filterData: filterData,
           page: page,
         };
-
+        // console.log("finaldataaa", finalData);
         if (from === "EngagedClient" || from === "RegularClient") {
           addSctClientCalls(finalData);
         } else {
