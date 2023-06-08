@@ -247,56 +247,58 @@ const AllContacts = ({
             <div className="col-lg-12 col-md-11 col-sm-11 col-11 text-center ">
               <section className="body">
                 <div className="body-inner   table-responsive fixTableHeadcontact">
-                  <table
-                    className="table table-bordered table-striped table-hover smll_row "
-                    id="datatable2"
-                  >
-                    <thead>
-                      <tr>
-                        <th style={{ width: "13%" }}>Staff Name </th>
-                        <th style={{ width: "11%" }}>Phone No</th>
-                        <th style={{ width: "13%" }}>Designation</th>
-                        <th style={{ width: "7%" }}>Op</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {staffData &&
-                        staffData.staffs &&
-                        staffData.staffs.map((staff, idx) => {
-                          if (staff.staffStatus === "Active")
-                            return (
-                              <tr key={idx}>
-                                <td>{staff.staffName}</td>
-                                <td>
-                                  {staff.staffCountryCode
-                                    ? "+" + staff.staffCountryCode
-                                    : ""}
-                                  &nbsp;
-                                  {staff.staffPhoneNumber}
-                                </td>
-                                <td>{staff.staffDesignation}</td>
-                                <td>
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onDeactive(staff, idx)}
-                                    src={require("../../static/images/delete.png")}
-                                    alt="Delete Staff"
-                                    title="Delelte Staff"
-                                  />
-                                  &nbsp;
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(staff, idx)}
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  />
-                                </td>
-                              </tr>
-                            );
-                        })}
-                    </tbody>
-                  </table>
+                  <div className="fixTableHeadcontactsct">
+                    <table
+                      className="table table-bordered table-striped table-hover smll_row "
+                      id="datatable2"
+                    >
+                      <thead>
+                        <tr>
+                          <th style={{ width: "13%" }}>Staff Name </th>
+                          <th style={{ width: "11%" }}>Phone No</th>
+                          <th style={{ width: "13%" }}>Designation</th>
+                          <th style={{ width: "7%" }}>Op</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {staffData &&
+                          staffData.staffs &&
+                          staffData.staffs.map((staff, idx) => {
+                            if (staff.staffStatus === "Active")
+                              return (
+                                <tr key={idx}>
+                                  <td>{staff.staffName}</td>
+                                  <td>
+                                    {staff.staffCountryCode
+                                      ? "+" + staff.staffCountryCode
+                                      : ""}
+                                    &nbsp;
+                                    {staff.staffPhoneNumber}
+                                  </td>
+                                  <td>{staff.staffDesignation}</td>
+                                  <td>
+                                    <img
+                                      className="img_icon_size log"
+                                      onClick={() => onDeactive(staff, idx)}
+                                      src={require("../../static/images/delete.png")}
+                                      alt="Delete Staff"
+                                      title="Delelte Staff"
+                                    />
+                                    &nbsp;
+                                    <img
+                                      className="img_icon_size log"
+                                      onClick={() => onUpdate(staff, idx)}
+                                      src={require("../../static/images/edit_icon.png")}
+                                      alt="Edit"
+                                      title="Edit"
+                                    />
+                                  </td>
+                                </tr>
+                              );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </section>
             </div>

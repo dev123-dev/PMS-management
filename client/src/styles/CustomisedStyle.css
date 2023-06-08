@@ -872,10 +872,7 @@ label {
 .secondlinebreak{
   white-space: unset !important;
 }
-.fixTableHeadcontact{
-  overflow-y: auto;
-  height:20vh;
-}
+
 .fixTableHeadhistory{
   overflow-y: auto;
   height:19vh;
@@ -2359,4 +2356,15 @@ div{
   font-size: 16px;
   font-weight: bold;
   color:#ffd037;
+}
+
+.fixTableHeadcontactsct{
+  overflow-y: auto;
+  height: 300px;
+  max-height: 400px;
+}
+
+.fixTableHeadcontact{
+  overflow-y: auto;
+  height:20vh;
 }
