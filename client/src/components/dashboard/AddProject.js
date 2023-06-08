@@ -7,6 +7,7 @@ import Spinner from "../layout/Spinner";
 import {
   getActiveClientsFilter,
   getActiveStaffFilter,
+  getEmployerDetails,
 } from "../../actions/client";
 import { getAllProjectStatus, addProject } from "../../actions/projects";
 import { Redirect } from "react-router-dom";
@@ -26,11 +27,12 @@ const AddProject = ({
   auth: { isAuthenticated, user, users, loading },
 
   settings: { paymentMode },
-  client: { activeClientFilter, activeStaffFilter },
+  client: { activeClientFilter, activeStaffFilter, empdetails },
   project: { allProjectStatus },
   getActiveClientsFilter,
   getActiveStaffFilter,
   getAllProjectStatus,
+  getEmployerDetails,
   addProject,
 }) => {
   useEffect(() => {
@@ -42,6 +44,12 @@ const AddProject = ({
   useEffect(() => {
     getActiveStaffFilter();
   }, [getActiveStaffFilter]);
+
+  useEffect(() => {
+    getEmployerDetails();
+  }, [getEmployerDetails]);
+
+  // console.log("empdetails", empdetails);
 
   var today = new Date();
   var dd = today.getDate();
@@ -72,6 +80,7 @@ const AddProject = ({
     clientTime: "",
     Instructions: "",
     inputpath: "",
+    review: false,
     isSubmitted: false,
   });
 
@@ -86,6 +95,7 @@ const AddProject = ({
     clientTime,
     Instructions,
     clientType,
+    review,
     isSubmitted,
   } = formData;
 
@@ -141,6 +151,15 @@ const AddProject = ({
       })
     );
 
+  const empdetailsopt = [];
+  empdetails &&
+    empdetails.map((emp) =>
+      empdetailsopt.push({
+        label: emp.empFullName,
+        value: emp._id,
+      })
+    );
+
   const [clientData, setClientData] = useState("");
   const [clientId, setClientId] = useState("");
 
@@ -185,6 +204,7 @@ const AddProject = ({
       projectstatusChecker: true,
       projectstatusErrorStyle: { color: "#000" },
     });
+
     //Required Validation ends
     setProjectStatusData(e);
     var projectStatusId = "";
@@ -194,6 +214,17 @@ const AddProject = ({
     projectStatusType = e.value;
     setprojectStatusId(projectStatusId);
     setprojectStatusType(projectStatusType);
+  };
+
+  const [empdata, setempdata] = useState("");
+
+  const onReviewerChange = (e) => {
+    setError({
+      ...error,
+      empselectChecker: true,
+      empselectErrorStyle: { color: "#000" },
+    });
+    setempdata(e);
   };
 
   const onInputChange = (e) => {
@@ -223,6 +254,7 @@ const AddProject = ({
     setFolderNameVal("");
   };
 
+  // console.log("projectStatusType", projectStatusType);
   const priorityToChange = (e) => {
     //Required Validation starts
     // setError({
@@ -264,6 +296,15 @@ const AddProject = ({
     setprojectDate(clientEndDate);
     var clientEndDate = dd1 + "-" + mm2 + "-" + yyyy1;
     setprojectShow(clientEndDate);
+  };
+
+  const handleOnOtherChange = () => {
+    console.log("projectStatusData", projectStatusData);
+    setFormData({
+      ...formData,
+      review: !review,
+    });
+    //setProjectStatusData(projectStatusOpt || projectStatusOpt[1]);
   };
 
   const [startclientDate, setclientDate] = useState("");
@@ -378,7 +419,9 @@ const AddProject = ({
     setstaffID(staffId);
     setstaffName(staffName);
   };
+  // console.log("ActiveClientId", ActiveClientId);
   //Required Validation Starts
+
   const [error, setError] = useState({
     // clientnameIdChecker: false,
     // clientnameIdErrorStyle: {},
@@ -394,6 +437,9 @@ const AddProject = ({
 
     clientdateChecker: false,
     clientdateErrorStyle: {},
+
+    empselectChecker: false,
+    empselectErrorStyle: {},
   });
   const {
     // clientnameIdChecker,
@@ -408,6 +454,8 @@ const AddProject = ({
     ClientErrorStyle,
     projectstatusChecker,
     projectstatusErrorStyle,
+    empselectChecker,
+    empselectErrorStyle,
   } = error;
 
   const checkErrors = () => {
@@ -449,12 +497,23 @@ const AddProject = ({
       });
       return false;
     }
-    if (!clientdateChecker) {
-      setError({
-        ...error,
-        clientdateErrorStyle: { color: "#F00" },
-      });
-      return false;
+    if (review === true) {
+      if (!clientdateChecker) {
+        setError({
+          ...error,
+          clientdateErrorStyle: { color: "#F00" },
+        });
+        return false;
+      }
+    }
+    if (review === true) {
+      if (!empselectChecker) {
+        setError({
+          ...error,
+          empselectErrorStyle: { color: "#F00" },
+        });
+        return false;
+      }
     }
 
     return true;
@@ -480,8 +539,12 @@ const AddProject = ({
         projectPriority: priority.value || "",
         projectNotes: Instructions?.trim(),
         projectDeadline: deadline?.trim(),
-        projectStatusType: projectStatusData.value || projectStatusType,
-        projectStatusId: projectStatusData.projStatusId || projectStatusId,
+        projectStatusType: review
+          ? projectStatusOpt[28].label
+          : projectStatusData.value || projectStatusType,
+        projectStatusId: review
+          ? projectStatusOpt[28].projStatusId
+          : projectStatusData.projStatusId || projectStatusId,
         projectQuantity: qty,
         projectUnconfirmed: isChecked,
         clientTypeVal: clientType.value,
@@ -495,8 +558,10 @@ const AddProject = ({
         clientDate: startclientDate,
         projectEnteredById: user._id,
         projectEnteredByName: user.empFullName,
+        Reviewer: empdata.label,
+        ReviewerId: empdata.value,
       };
-      //console.log("finalData", finalData);
+      console.log("finalDataaa", finalData);
       addProject(finalData);
       setFormData({
         ...formData,
@@ -504,7 +569,7 @@ const AddProject = ({
       });
     }
   };
-
+  // console.log("projectStatusOpt", projectStatusOpt);
   if (isSubmitted) {
     return <Redirect to="/job-queue" />;
   }
@@ -516,7 +581,7 @@ const AddProject = ({
       <div className="container container_align">
         <form className="row" onSubmit={(e) => onSubmit(e)}>
           <div className="col-lg-12 col-md-11 col-sm-12 col-12">
-            <h2 className="heading_color">Add New Project</h2>
+            <h2 className="heading_color">Add New Project </h2>
             <hr />
           </div>
           <section className="sub_reg">
@@ -527,7 +592,7 @@ const AddProject = ({
                   className="row card-new mb-3"
                   style={{ paddingBottom: "62px" }}
                 >
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 pb-3">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 pb-3 ">
                     <h5>Client Info</h5>
                   </div>
 
@@ -769,7 +834,7 @@ const AddProject = ({
                       // required
                     />
                   </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 mt-5">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 mt-5 py-4">
                     <label className="label-control colorRed">
                       * Client Date & Client Time is Mail Date & Mail Time.
                       <br />* Before 2:00 PM Project Date should be previous
@@ -780,57 +845,109 @@ const AddProject = ({
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
                 {/* Other Info */}
-                <div className="row card-new mt-1">
+                <div className="row card-new mb-2">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Other Info</h5>
                   </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label
-                      // className="label-control"
-                      style={projectstatusErrorStyle}
-                    >
-                      Project Status<i className="text-danger">*</i> :
-                    </label>
-                    <Select
-                      name="projectStatusData"
-                      value={projectStatusData || projectStatusOpt[1]}
-                      options={projectStatusOpt}
-                      isSearchable={true}
-                      placeholder="Select"
-                      onChange={(e) => onProjectStatusChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label
-                    //  className="label-control"
-                    >
-                      Deadline :
-                    </label>
-                    <input
-                      type="text"
-                      name="deadline"
-                      value={deadline}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
+                  <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+                    <div>
+                      <label style={{ marginLeft: "10px" }}> Review ? :</label>
+
+                      <input
+                        style={{
+                          height: "14px",
+                          width: "14px",
+                          borderRadius: "50%",
+                          display: "block",
+                          marginLeft: "10px",
+                        }}
+                        //value={review}
+                        type="checkbox"
+                        id="Unconfirmed"
+                        onChange={handleOnOtherChange}
+                        checked={review}
+                      />
+                    </div>
                   </div>
 
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label
-                    // className="label-control"
-                    >
-                      Output Format :
-                    </label>
-                    <input
-                      type="text"
-                      name="outputformat"
-                      value={outputformat}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
+                  {review === true ? (
+                    <>
+                      <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <label
+                          // className="label-control"
+                          style={projectstatusErrorStyle}
+                        >
+                          Project Status<i className="text-danger">*</i> :
+                        </label>
+                        <Select
+                          name="projectStatusData"
+                          value={projectStatusOpt[28]}
+                          isSearchable={true}
+                          placeholder="Select"
+                          //  onChange={(e) => onProjectStatusChange(e)}
+                        />
+                      </div>
+                      <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <label
+                          // className="label-control"
+                          style={empselectErrorStyle}
+                        >
+                          Select Employee<i className="text-danger">*</i> :
+                        </label>
+                        <Select
+                          name="projectempData"
+                          options={empdetailsopt}
+                          isSearchable={true}
+                          placeholder="Select Emp"
+                          onChange={(e) => onReviewerChange(e)}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <label
+                          // className="label-control"
+                          style={projectstatusErrorStyle}
+                        >
+                          Project Status<i className="text-danger">*</i> :
+                        </label>
+                        <Select
+                          name="projectStatusData"
+                          value={projectStatusData || projectStatusOpt[1]}
+                          options={projectStatusOpt}
+                          isSearchable={true}
+                          placeholder="Select"
+                          onChange={(e) => onProjectStatusChange(e)}
+                        />
+                      </div>
+                    </>
+                  )}
+                  <span className=" row col-lg-12 col-md-6 col-sm-6 col-12 ">
+                    <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Deadline :</label>
+                      <input
+                        type="text"
+                        name="deadline"
+                        value={deadline}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
 
-                  <div className="col-lg-12 col-md-11 col-sm-12 col-12 py-2">
+                    <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Output Format :</label>
+                      <input
+                        type="text"
+                        name="outputformat"
+                        value={outputformat}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                  </span>
+
+                  <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
                     <label className="label-control">
                       Project Instructions<i className="text-danger">*</i> :
                     </label>
@@ -838,7 +955,7 @@ const AddProject = ({
                       name="Instructions"
                       id="Instructions"
                       className="textarea form-control"
-                      rows="4"
+                      rows="3"
                       placeholder="Instructions"
                       style={{ width: "100%" }}
                       value={Instructions}
@@ -861,7 +978,7 @@ const AddProject = ({
                 </label>
               </div>
               <div className="col-lg-4 col-md-6 col-sm-12 col-12">
-                {loading ? (
+                {console.log(loading) ? (
                   <button
                     className="btn sub_form btn_continue blackbrd Save float-right"
                     disabled
@@ -912,4 +1029,5 @@ export default connect(mapStateToProps, {
   getActiveClientsFilter,
   getActiveStaffFilter,
   addProject,
+  getEmployerDetails,
 })(AddProject);

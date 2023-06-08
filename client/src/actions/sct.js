@@ -771,14 +771,6 @@ export const getSummary = (finalData) => async (dispatch) => {
       type: ONLY_SUMMARY,
       payload: res.data,
     });
-    // dispatch({
-    //   type: ALL_DEMOS_TAKEN,
-    //   payload: res.data.allDemosTaken,
-    // });
-    // dispatch({
-    //   type: ALL_DEMOS_TODAY_ADDED,
-    //   payload: res.data.allDemosAddedToday,
-    // });
   } catch (err) {
     dispatch({
       type: ERROR,

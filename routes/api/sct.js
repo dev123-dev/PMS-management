@@ -522,6 +522,8 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
     catCondition = [{ sctLeadCategory: "W" }, { sctLeadCategory: "W" }];
   } else if (sctLeadCategory == "F") {
     catCondition = [{ sctLeadCategory: "F" }, { sctLeadCategory: "F" }];
+  } else if (sctLeadCategory == "EC") {
+    catCondition = [{ sctLeadCategory: "EC" }, { sctLeadCategory: "EC" }];
   }
   let query = {
     sctLeadStatus: "Active",
@@ -530,7 +532,6 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
     sctCallDate: { $lte: todayDate },
     sctLeadAssignedToId,
   };
-
   if (projectsId) {
     query = {
       ...query,
@@ -618,7 +619,7 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
   let query = {
     sctLeadStatus: "Active",
     $and: [
-      { sctLeadCategory: { $ne: "EC" } },
+      // { sctLeadCategory: { $ne: "EC" } },
       { sctLeadCategory: { $ne: "RC" } },
     ],
     sctLeadAssignedToId,

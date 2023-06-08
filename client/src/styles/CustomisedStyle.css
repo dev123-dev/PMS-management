@@ -872,10 +872,7 @@ label {
 .secondlinebreak{
   white-space: unset !important;
 }
-.fixTableHeadcontact{
-  overflow-y: auto;
-  height:20vh;
-}
+
 .fixTableHeadhistory{
   overflow-y: auto;
   height:19vh;
@@ -2283,9 +2280,9 @@ font-weight: 600;
 color: #456792;
 font-weight: bold;
 }
-td{
+/* td{
   text-align: center;
-}
+} */
 /* 
 div{
   border: 1px solid red;
@@ -2333,4 +2330,41 @@ div{
 }
 #pass_admin_help #tooltipPassAdmin:after {
   content: attr(data-hint);
+}
+
+/* div{
+  border:1px solid red;
+} */
+.blink {
+  animation: blinker .75s linear infinite;
+  color:#ffd037;
+  
+  font-size: 16px;
+  font-weight: bold;
+}
+@keyframes blinker {
+  30% {
+      opacity: 0;
+     
+  }
+}
+.blink:hover{
+  color:#ffd037;
+}
+
+.footerfont1{
+  font-size: 16px;
+  font-weight: bold;
+  color:#ffd037;
+}
+
+.fixTableHeadcontactsct{
+  overflow-y: auto;
+  height: 300px;
+  max-height: 400px;
+}
+
+.fixTableHeadcontact{
+  overflow-y: auto;
+  height:20vh;
 }

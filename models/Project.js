@@ -23,6 +23,12 @@ const ProjectSchema = new mongoose.Schema({
   staffName: {
     type: String,
   },
+  Reviewer: {
+    type: String,
+  },
+  ReviewerId: {
+    type: ObjectId,
+  },
   parentClientId: {
     type: ObjectId,
   },

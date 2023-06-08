@@ -37,7 +37,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.38:8000");
+const client = new w3cwebsocket("ws://192.168.6.40:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -55,6 +55,7 @@ const JobQueue = ({
   // getUpdatedProjectStausForDailyJobSheet,
   updateMsgSent,
 }) => {
+  // console.log("user", user);
   const socket = useRef();
   //const activeClientsOpt = [];
   const [clientData, setClientData] = useState("");
@@ -375,7 +376,8 @@ const JobQueue = ({
     QCPendingQty = 0,
     QCEstimateQty = 0,
     UploadingQty = 0,
-    QCDoneQty = 0;
+    QCDoneQty = 0,
+    Review_Pending = 0;
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -552,7 +554,7 @@ const JobQueue = ({
       // "projectPriority",
     ],
   ];
-
+  console.log(user);
   jobQueueProjects.map((JobqueuesheetData) =>
     csvData.push([
       JobqueuesheetData.clientName,
@@ -698,6 +700,8 @@ const JobQueue = ({
                     <tbody>
                       {jobQueueProjects &&
                         jobQueueProjects.map((JobQueueProject, idx) => {
+                          console.log("JobQueueProject", JobQueueProject);
+
                           let PST = JobQueueProject.projectStatusType;
                           projectQty += JobQueueProject.projectQuantity;
                           let statusType = JobQueueProject.projectStatusType;
@@ -708,6 +712,11 @@ const JobQueue = ({
                           if (statusType === "QC Estimate") QCEstimateQty += 1;
                           if (statusType === "Uploading") UploadingQty += 1;
                           if (statusType === "QC DONE") QCDoneQty += 1;
+                          if (
+                            statusType === "Review_Pending" &&
+                            user._id === JobQueueProject.ReviewerId
+                          )
+                            Review_Pending += 1;
                           let estimatedTimeVal = "",
                             jobTime = "",
                             timeOut = false;
@@ -881,7 +890,7 @@ const JobQueue = ({
 
                                           <Select
                                             className="ml-4"
-                                            menuPlacement="top"
+                                            menuPlacement="auto"
                                             styles={{
                                               control: (base) => ({
                                                 ...base,
@@ -1234,7 +1243,7 @@ const JobQueue = ({
 
                                           <Select
                                             className="ml-4"
-                                            menuPlacement="top"
+                                            menuPlacement="auto"
                                             styles={{
                                               control: (base) => ({
                                                 ...base,
@@ -1508,6 +1517,30 @@ const JobQueue = ({
             >
               <span className="footerfont"> QC Done : {QCDoneQty}</span>
             </Link>
+            &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
+            {Review_Pending > 0 ? (
+              <Link
+                to="#"
+                className=" blink"
+                onClick={() => onstatusTypeSelect("Review_Pending")}
+              >
+                <span className="footerfont1">
+                  {" "}
+                  Reviews Pending : {Review_Pending}
+                </span>
+              </Link> /* open condition for 0 pending */
+            ) : (
+              <Link
+                to="#"
+                className=" btnLinkjob"
+                onClick={() => onstatusTypeSelect("Review_Pending")}
+              >
+                <span className="footerfont">
+                  {" "}
+                  Reviews Pending : {Review_Pending}
+                </span>
+              </Link>
+            )}
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
             <span className="footerfont">
