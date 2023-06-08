@@ -37,7 +37,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.39:8000");
+const client = new w3cwebsocket("ws://192.168.6.40:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -55,6 +55,7 @@ const JobQueue = ({
   // getUpdatedProjectStausForDailyJobSheet,
   updateMsgSent,
 }) => {
+  // console.log("user", user);
   const socket = useRef();
   //const activeClientsOpt = [];
   const [clientData, setClientData] = useState("");
@@ -553,7 +554,7 @@ const JobQueue = ({
       // "projectPriority",
     ],
   ];
-
+  console.log(user);
   jobQueueProjects.map((JobqueuesheetData) =>
     csvData.push([
       JobqueuesheetData.clientName,
@@ -699,6 +700,8 @@ const JobQueue = ({
                     <tbody>
                       {jobQueueProjects &&
                         jobQueueProjects.map((JobQueueProject, idx) => {
+                          console.log("JobQueueProject", JobQueueProject);
+
                           let PST = JobQueueProject.projectStatusType;
                           projectQty += JobQueueProject.projectQuantity;
                           let statusType = JobQueueProject.projectStatusType;
@@ -709,7 +712,10 @@ const JobQueue = ({
                           if (statusType === "QC Estimate") QCEstimateQty += 1;
                           if (statusType === "Uploading") UploadingQty += 1;
                           if (statusType === "QC DONE") QCDoneQty += 1;
-                          if (statusType === "Review_Pending")
+                          if (
+                            statusType === "Review_Pending" &&
+                            user._id === JobQueueProject.ReviewerId
+                          )
                             Review_Pending += 1;
                           let estimatedTimeVal = "",
                             jobTime = "",

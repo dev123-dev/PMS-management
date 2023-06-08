@@ -105,7 +105,7 @@ const ChangeProjectLifeCycle = ({
   const { showTimerSection } = showHide;
   //client in websocket
   //SLAP IP
-  const client = new w3cwebsocket("ws://192.168.6.38:8000");
+  const client = new w3cwebsocket("ws://192.168.6.40:8000");
 
   const onSubmit = async (e) => {
     const amendmentProjectId = {
@@ -129,7 +129,7 @@ const ChangeProjectLifeCycle = ({
             ? "0" + projectMinutes
             : projectMinutes
           : "00");
-      ptEstimatedDateTimeVal = new Date().toISOString();
+      ptEstimatedDateTimeVal = new Date().toLocaleString("en-GB");
     }
 
     // if (checkErrors()) {
@@ -179,6 +179,8 @@ const ChangeProjectLifeCycle = ({
     } else {
       const finalData = {
         projectId: ProjectCycledata.projectId,
+        Reviewer: empdata.label,
+        ReviewerId: empdata.value,
         projectTrackLatestChange: Instructions,
         ptEstimatedTime: estimatedWorkTime,
         projectStatusType: ProjectCycledata.value,

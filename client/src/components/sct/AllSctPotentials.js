@@ -585,7 +585,7 @@ const AllSctPotentials = ({
                                 alt="Delete Project"
                                 title="Delete Project"
                               />{" "}
-                              &emsp;
+                              {/* &emsp; */}
                               <img
                                 className="img_icon_size log"
                                 onClick={() => onUpdate(allSctLeads, idx)}
