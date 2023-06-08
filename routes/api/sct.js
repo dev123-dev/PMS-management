@@ -2192,6 +2192,7 @@ router.post("/get-client-report", auth, async (req, res) => {
 //Get Financial client Details start
 router.post("/get-FY-Client", auth, async (req, res) => {
   let { startDate, endDate, clientFolderName, finYear } = req.body;
+  console.log(req.body);
 
   let query = {};
   if (clientFolderName === "") {
@@ -2200,6 +2201,12 @@ router.post("/get-FY-Client", auth, async (req, res) => {
         $gte: startDate,
         $lte: endDate,
       },
+      "status.projectStatusCategory": {
+        $nin: ["Dont Work", "Amend", "Additional Instruction"],
+      },
+      clientFolderName: { $ne: "" },
+      _id: { $ne: "" },
+      projectBelongsToId: { $eq: null },
     };
   } else {
     query = {
@@ -2207,27 +2214,25 @@ router.post("/get-FY-Client", auth, async (req, res) => {
         $ne: null,
         $ne: "",
       },
+      "status.projectStatusCategory": {
+        $nin: ["Dont Work", "Amend", "Additional Instruction"],
+      },
+      _id: { $ne: null },
       clientFolderName: { $eq: clientFolderName },
+      projectBelongsToId: { $eq: null },
     };
   }
+  console.log("y", query);
   try {
+    //////////////////////////////new code///////////////////////////////
     let projectDetails = await Project.aggregate([
       {
         $match: query,
       },
-
       {
         $addFields: {
           projectDate: {
             $toDate: "$projectDate",
-          },
-        },
-      },
-      {
-        $match: {
-          projectDate: {
-            $gte: new Date(startDate),
-            $lte: new Date(endDate),
           },
         },
       },
@@ -2239,13 +2244,11 @@ router.post("/get-FY-Client", auth, async (req, res) => {
           as: "status",
         },
       },
-      {
-        $match: {
-          "status.projectStatusCategory": {
-            $nin: ["Dont Work", "Amend", "Additional Instruction"],
-          },
-        },
-      },
+      // {
+      //   $match: {
+      // nin
+      //   },
+      // },
       {
         $group: {
           _id: "$clientFolderName",
@@ -2255,27 +2258,267 @@ router.post("/get-FY-Client", auth, async (req, res) => {
           clientFolderName: {
             $first: "$clientFolderName",
           },
+          MonthAndYear: {
+            $first: "$projectDate",
+          },
         },
       },
       {
-        $match: {
-          _id: { $ne: null },
+        $addFields: {
+          month: {
+            $month: "$MonthAndYear",
+          },
+          year: {
+            $year: "$MonthAndYear",
+          },
         },
       },
       {
-        $project: {
-          _id: "$_id",
-          totQty: "$totQty",
-          finYear: finYear,
-        },
-      },
-      {
-        $sort: {
-          _id: 1,
+        $addFields: {
+          monthWiseQty: {
+            $switch: {
+              branches: [
+                {
+                  case: {
+                    $eq: ["$month", 1],
+                  },
+                  then: {
+                    $concat: [
+                      "Jan",
+                      " :",
+                      {
+                        $toString: "$totQty",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 2],
+                  },
+                  then: {
+                    $concat: [
+                      "Feb",
+                      "-",
+                      {
+                        $toString: "$totQty",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 3],
+                  },
+                  then: {
+                    $concat: [
+                      "Mar",
+                      " : ",
+                      {
+                        $toString: "$totQty",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 4],
+                  },
+                  then: {
+                    $concat: [
+                      "Apr",
+                      " : ",
+                      {
+                        $toString: "$totQty",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 5],
+                  },
+                  then: {
+                    $concat: [
+                      "May",
+                      " : ",
+                      {
+                        $toString: "$totQty",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 6],
+                  },
+                  then: {
+                    $concat: [
+                      "Jun",
+                      " : ",
+                      {
+                        $toString: "$totQty",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 7],
+                  },
+                  then: {
+                    $concat: [
+                      "Jul",
+                      " : ",
+                      {
+                        $toString: "$totQty",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 8],
+                  },
+                  then: {
+                    $concat: [
+                      "Aug",
+                      " :",
+                      {
+                        $toString: "$totQty",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 9],
+                  },
+                  then: {
+                    $concat: [
+                      "Sep",
+                      " : ",
+                      {
+                        $toString: "$totQty",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 10],
+                  },
+                  then: {
+                    $concat: [
+                      "Oct",
+                      " : ",
+                      {
+                        $toString: "$totQty",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 11],
+                  },
+                  then: {
+                    $concat: [
+                      "Nov",
+                      "-",
+                      {
+                        $toString: "$totQty",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 12],
+                  },
+                  then: {
+                    $concat: [
+                      "Dec",
+                      "-",
+                      {
+                        $toString: "$totQty",
+                      },
+                    ],
+                  },
+                },
+              ],
+              default: "Invalid month",
+            },
+          },
         },
       },
     ]);
+    ///////////////////////////////////////////////////old code//////////////////////////////
+    // let projectDetails = await Project.aggregate([
+    //   {
+    //     $match: query,
+    //   },
 
+    //   {
+    //     $addFields: {
+    //       projectDate: {
+    //         $toDate: "$projectDate",
+    //       },
+    //     },
+    //   },
+    //   {
+    //     $match: {
+    //       projectDate: {
+    //         $gte: new Date(startDate),
+    //         $lte: new Date(endDate),
+    //       },
+    //     },
+    //   },
+    //   {
+    //     $lookup: {
+    //       from: "projectstatuses",
+    //       localField: "projectStatusId",
+    //       foreignField: "_id",
+    //       as: "status",
+    //     },
+    //   },
+    //   {
+    //     $match: {
+    //       "status.projectStatusCategory": {
+    //         $nin: ["Dont Work", "Amend", "Additional Instruction"],
+    //       },
+    //     },
+    //   },
+    //   {
+    //     $group: {
+    //       _id: "$clientFolderName",
+    //       totQty: {
+    //         $sum: "$projectQuantity",
+    //       },
+    //       clientFolderName: {
+    //         $first: "$clientFolderName",
+    //       },
+    //     },
+    //   },
+    //   {
+    //     $match: {
+    //       _id: { $ne: null },
+    //     },
+    //   },
+    //   {
+    //     $project: {
+    //       _id: "$_id",
+    //       totQty: "$totQty",
+    //       finYear: finYear,
+    //     },
+    //   },
+    //   {
+    //     $sort: {
+    //       _id: 1,
+    //     },
+    //   },
+    // ]);
+    // console.log("x", projectDetails);
     res.json(projectDetails);
   } catch (error) {
     console.log(error.message);
