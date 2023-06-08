@@ -56,7 +56,26 @@ const ChangeProjectLifeCycle = ({
       });
     }
   };
-  console.log("empdetails", empdetails);
+  //validation for select
+  const [errors, setErrors] = useState({
+    userGroupChecker: false,
+    userGroupErrorStyle: {},
+  });
+  const { userGroupChecker, userGroupErrorStyle } = errors;
+
+  const checkError = () => {
+    if (ProjectCycledata.value === "Review_Pending") {
+      if (!userGroupChecker) {
+        setErrors({
+          ...errors,
+          userGroupErrorStyle: { color: "#F00" },
+        });
+        return false;
+      }
+    }
+
+    return true;
+  };
 
   const empdetailsopt = [];
   empdetails &&
@@ -70,6 +89,11 @@ const ChangeProjectLifeCycle = ({
   const [empdata, setempdata] = useState("");
 
   const onReviewerChange = (e) => {
+    setErrors({
+      ...errors,
+      userGroupChecker: true,
+      userGroupErrorStyle: { color: "#000" },
+    });
     // setError({
     //   ...error,
     //   empselectChecker: true,
@@ -132,119 +156,118 @@ const ChangeProjectLifeCycle = ({
       ptEstimatedDateTimeVal = new Date().toLocaleString("en-GB");
     }
 
-    // if (checkErrors()) {
-    let msgContent = "";
-    if (ProjectCycledata.value === "Amendment") {
-      const amendmentData = {
-        projectId: ProjectCycledata.projectId,
-        projectTrackLatestChange: Instructions,
-        ptEstimatedTime: estimatedWorkTime,
-        projectStatusType: ProjectCycledata.value,
-        projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
-        ptEstimatedDateTime: ptEstimatedDateTimeVal,
-        projectStatusChangedbyName: user.empFullName,
-        projectStatusChangedById: user._id,
-        amendmentCounter: "1",
-        amendmentType: "UnResolved",
-        mainProjectId: mainProjectId,
-        projectTrackDateTime: new Date().toLocaleString("en-GB"),
-      };
-      AddProjectTrack(amendmentData);
-      msgContent = " images for Amend.";
-    } else if (
-      ProjectCycledata.value === "Amend_Working" ||
-      ProjectCycledata.value === "Amend_Pending" ||
-      ProjectCycledata.value === "Amend_QC Pending" ||
-      ProjectCycledata.value === "Amend_QC Estimate" ||
-      ProjectCycledata.value === "Amend_QC DONE" ||
-      ProjectCycledata.value === "Amend_Uploading"
-    ) {
-      const finalData = {
-        projectId: ProjectCycledata.projectId,
-        projectTrackLatestChange: Instructions,
-        ptEstimatedTime: estimatedWorkTime,
-        projectStatusType: ProjectCycledata.value,
-        projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
-        ptEstimatedDateTime: ptEstimatedDateTimeVal,
-        projectStatusChangedbyName: user.empFullName,
-        projectStatusChangedById: user._id,
-        amendmentCounter: "1",
-        mainProjectId: mainProjectId,
-        projectTrackDateTime: new Date().toLocaleString("en-GB"),
-      };
-      AddProjectTrack(finalData);
-      if (ProjectCycledata.value === "Amend_QC DONE")
-        msgContent =
-          " images for AmendQC Done. Please Upload. Please also mention the link.";
-    } else {
-      const finalData = {
-        projectId: ProjectCycledata.projectId,
-        Reviewer: empdata.label,
-        ReviewerId: empdata.value,
-        projectTrackLatestChange: Instructions,
-        ptEstimatedTime: estimatedWorkTime,
-        projectStatusType: ProjectCycledata.value,
-        projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
-        ptEstimatedDateTime: ptEstimatedDateTimeVal,
-        projectStatusChangedbyName: user.empFullName,
-        projectStatusChangedById: user._id,
-        mainProjectId: mainProjectId,
-        projectTrackDateTime: new Date().toLocaleString("en-GB"),
-      };
-      AddProjectTrack(finalData);
-      if (ProjectCycledata.value === "Reviewed")
-        msgContent = " images reviewed.";
-      if (ProjectCycledata.value === "Additional_Instruction")
-        msgContent = " images for Additional Work.";
-      if (ProjectCycledata.value === "AI_QC DONE")
-        msgContent =
-          " images AI QC DONE. Please upload. Please also mention the link.";
-    }
-    let msgVal =
-      ProjectCycledata.jobQueueProjects.clientFolderName +
-      " - " +
-      ProjectCycledata.jobQueueProjects.projectName +
-      " - " +
-      ProjectCycledata.jobQueueProjects.projectQuantity +
-      "" +
-      msgContent;
-
-    const data = await JSON.parse(
-      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-    );
-    if (msgContent !== "") {
-      for (let i = 0; i < contacts.length; i++) {
-        socket.current.emit("send-msg", {
-          to: contacts[i]._id,
-          from: data._id,
-          msg: msgVal,
-        });
-
-        await axios.post(sendMessageRoute, {
-          from: data._id,
-          to: contacts[i]._id,
-          message: msgVal,
-        });
+    if (checkError()) {
+      let msgContent = "";
+      if (ProjectCycledata.value === "Amendment") {
+        const amendmentData = {
+          projectId: ProjectCycledata.projectId,
+          projectTrackLatestChange: Instructions,
+          ptEstimatedTime: estimatedWorkTime,
+          projectStatusType: ProjectCycledata.value,
+          projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
+          ptEstimatedDateTime: ptEstimatedDateTimeVal,
+          projectStatusChangedbyName: user.empFullName,
+          projectStatusChangedById: user._id,
+          amendmentCounter: "1",
+          amendmentType: "UnResolved",
+          mainProjectId: mainProjectId,
+          projectTrackDateTime: new Date().toLocaleString("en-GB"),
+        };
+        AddProjectTrack(amendmentData);
+        msgContent = " images for Amend.";
+      } else if (
+        ProjectCycledata.value === "Amend_Working" ||
+        ProjectCycledata.value === "Amend_Pending" ||
+        ProjectCycledata.value === "Amend_QC Pending" ||
+        ProjectCycledata.value === "Amend_QC Estimate" ||
+        ProjectCycledata.value === "Amend_QC DONE" ||
+        ProjectCycledata.value === "Amend_Uploading"
+      ) {
+        const finalData = {
+          projectId: ProjectCycledata.projectId,
+          projectTrackLatestChange: Instructions,
+          ptEstimatedTime: estimatedWorkTime,
+          projectStatusType: ProjectCycledata.value,
+          projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
+          ptEstimatedDateTime: ptEstimatedDateTimeVal,
+          projectStatusChangedbyName: user.empFullName,
+          projectStatusChangedById: user._id,
+          amendmentCounter: "1",
+          mainProjectId: mainProjectId,
+          projectTrackDateTime: new Date().toLocaleString("en-GB"),
+        };
+        AddProjectTrack(finalData);
+        if (ProjectCycledata.value === "Amend_QC DONE")
+          msgContent =
+            " images for AmendQC Done. Please Upload. Please also mention the link.";
+      } else {
+        const finalData = {
+          projectId: ProjectCycledata.projectId,
+          Reviewer: empdata.label,
+          ReviewerId: empdata.value,
+          projectTrackLatestChange: Instructions,
+          ptEstimatedTime: estimatedWorkTime,
+          projectStatusType: ProjectCycledata.value,
+          projectTrackStatusId: ProjectCycledata && ProjectCycledata.statusId,
+          ptEstimatedDateTime: ptEstimatedDateTimeVal,
+          projectStatusChangedbyName: user.empFullName,
+          projectStatusChangedById: user._id,
+          mainProjectId: mainProjectId,
+          projectTrackDateTime: new Date().toLocaleString("en-GB"),
+        };
+        AddProjectTrack(finalData);
+        if (ProjectCycledata.value === "Reviewed")
+          msgContent = " images reviewed.";
+        if (ProjectCycledata.value === "Additional_Instruction")
+          msgContent = " images for Additional Work.";
+        if (ProjectCycledata.value === "AI_QC DONE")
+          msgContent =
+            " images AI QC DONE. Please upload. Please also mention the link.";
       }
+      let msgVal =
+        ProjectCycledata.jobQueueProjects.clientFolderName +
+        " - " +
+        ProjectCycledata.jobQueueProjects.projectName +
+        " - " +
+        ProjectCycledata.jobQueueProjects.projectQuantity +
+        "" +
+        msgContent;
+
+      const data = await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      );
+      if (msgContent !== "") {
+        for (let i = 0; i < contacts.length; i++) {
+          socket.current.emit("send-msg", {
+            to: contacts[i]._id,
+            from: data._id,
+            msg: msgVal,
+          });
+
+          await axios.post(sendMessageRoute, {
+            from: data._id,
+            to: contacts[i]._id,
+            message: msgVal,
+          });
+        }
+      }
+      onProjectCycleModalChange(true);
+      client.send(
+        JSON.stringify({
+          type: "message",
+          msg: "/JobQueue",
+          msg1: "/DailyJobSheet`",
+        })
+      );
+
+      setFormData({
+        ...formData,
+        Instructions: "",
+        projectHour: "",
+        projectMinutes: "",
+        isSubmitted: true,
+      });
     }
-    onProjectCycleModalChange(true);
-    client.send(
-      JSON.stringify({
-        type: "message",
-        msg: "/JobQueue",
-        msg1: "/DailyJobSheet`",
-      })
-    );
-
-    setFormData({
-      ...formData,
-      Instructions: "",
-      projectHour: "",
-      projectMinutes: "",
-      isSubmitted: true,
-    });
-
-    // }
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -255,24 +278,28 @@ const ChangeProjectLifeCycle = ({
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
           <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
-            <label className="label-control col-lg-6 col-md-6 col-sm-6 col-12">
-              <strong> Status : {ProjectCycledata.value}</strong>
-            </label>
+            <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+              <label>
+                <strong> Status : {ProjectCycledata.value}</strong>
+              </label>
+            </div>
             {ProjectCycledata.value === "Review_Pending" ? (
               <>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <label
-                  // className="label-control"
+                    // className="label-control"
+                    style={userGroupErrorStyle}
                   >
-                    Select Employee<i className="text-danger">*</i> :
-                    <Select
-                      name="projectempData"
-                      options={empdetailsopt}
-                      isSearchable={true}
-                      placeholder="Select Emp"
-                      onChange={(e) => onReviewerChange(e)}
-                    />
+                    Select Employee<i className="text-danger">*</i>{" "}
                   </label>
+                  :
+                  <Select
+                    name="projectempData"
+                    options={empdetailsopt}
+                    isSearchable={true}
+                    placeholder="Select Emp"
+                    onChange={(e) => onReviewerChange(e)}
+                  />
                 </div>
               </>
             ) : (
