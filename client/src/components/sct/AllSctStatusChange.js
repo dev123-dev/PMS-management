@@ -297,11 +297,14 @@ const AllSctStatusChange = ({
   const [sctLeadsCategory, setsctLeadsCategory] = useState("");
 
   const onStatusTypeChange = (e) => {
+    setStatusDate("");
+
     if (e.value === "CallBack") {
       setstatus("CallBack");
       setFormData({
         ...formData,
         sctCallStatus: e,
+        sctCallTime: "",
       });
       setsctLeadsCategory("");
       setShowHide({
@@ -333,12 +336,14 @@ const AllSctStatusChange = ({
         setFormData({
           ...formData,
           sctCallStatus: e,
+          sctCallTime: "",
         });
       }
       if (e.value === "DND") {
         setFormData({
           ...formData,
           sctCallStatus: e,
+          sctCallTime: "",
         });
         setStatusDate(nextmonth);
         setShowHide({
@@ -351,6 +356,7 @@ const AllSctStatusChange = ({
         setFormData({
           ...formData,
           sctCallStatus: e,
+          sctCallTime: "",
         });
         setStatusDate(nextyear);
         setShowHide({
@@ -363,7 +369,9 @@ const AllSctStatusChange = ({
         setFormData({
           ...formData,
           sctCallStatus: e,
+          sctCallTime: "",
         });
+
         setStatusDate("");
         setShowHide({
           ...showHide,
@@ -375,6 +383,7 @@ const AllSctStatusChange = ({
         setFormData({
           ...formData,
           sctCallStatus: e,
+          sctCallTime: "",
         });
         setStatusDate("");
         setShowHide({
@@ -402,6 +411,7 @@ const AllSctStatusChange = ({
         setFormData({
           ...formData,
           sctCallStatus: e,
+          sctCallTime: "",
         });
         setStatusDate("");
         setShowHide({
@@ -414,6 +424,7 @@ const AllSctStatusChange = ({
         setFormData({
           ...formData,
           sctCallStatus: e,
+          sctCallTime: "",
         });
         setStatusDate("");
         setShowHide({
@@ -426,6 +437,7 @@ const AllSctStatusChange = ({
         setFormData({
           ...formData,
           sctCallStatus: e,
+          sctCallTime: "",
         });
         setStatusDate("");
         setShowHide({
@@ -550,162 +562,7 @@ const AllSctStatusChange = ({
   const [reasonForChange, setReasonForChange] = useState("");
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (isSalesValueChanged === "true" || isExpectedDateChanged === "true") {
-    //   setReasonForChange("true");
-    //   let callCategoryVal = null,
-    //     clientTypeVal = "",
-    //     callComeFromVal = "Lead";
 
-    //   if (from === "EngagedClient" || from === "RegularClient")
-    //     callComeFromVal = "Client";
-    //   if (sctCallStatus.value === "FollowUp") {
-    //     callCategoryVal = "F";
-    //   } else if (sctLeadsCategory !== "") {
-    //     alert("inside first ");
-    //     callCategoryVal = "PT";
-    //   } else if (sctCallStatus.value === "WrongNumber") {
-    //     callCategoryVal = "W";
-    //   } else if (sctCallStatus.value === "EngagedClient") {
-    //     callCategoryVal = "EC";
-    //     clientTypeVal = "Engaged";
-    //   } else if (sctCallStatus.value === "RegularClient") {
-    //     callCategoryVal = "RC";
-    //     clientTypeVal = "Regular";
-    //   } else {
-    //     if (
-    //       leadDataVal.sctLeadCategory === "NL" &&
-    //       sctLeadsCategory.value === ""
-    //     )
-    //       callCategoryVal = "P";
-    //     else {
-    //       if (from === "EngagedClient" || from === "RegularClient")
-    //         callCategoryVal = leadDataVal.sctClientCategory;
-    //       else callCategoryVal = leadDataVal.sctLeadCategory;
-    //     }
-    //   }
-    //   e.preventDefault();
-
-    //   if (checkErrors()) {
-    //     const finalData = {
-    //       sctCallToId: leadDataVal._id,
-    //       sctCallToName: leadDataVal.sctCompanyName,
-    //       sctCallToStaffId: sctStaffs.staffsId,
-    //       sctCallToStaffName: sctStaffs.value,
-    //       sctCallFromId: user._id,
-    //       sctCallFromName: user.userName,
-    //       sctCallCategory: callCategoryVal,
-    //       sctCallStatus: sctCallStatus.value,
-    //       sctLeadsCategory: sctLeadsCategory
-    //         ? sctLeadsCategory.value
-    //         : leadDataVal.sctLeadsCategory
-    //         ? leadDataVal.sctLeadsCategory
-    //         : "",
-    //       sctcallToNumber: staffsNumber ? staffsNumber : phone1,
-    //       // !== "Demo"? sctCallStatus.value: leadDataVal.sctCallStatus
-    //       sctCallDate: startStatusDate || demoDate || todayDateymd,
-    //       sctExpectedMonth: expectedDate,
-    //       sctExpectedMonthYear: MonthAndYear,
-    //       sctCallReasonForChange: sctCallReasonForChange,
-    //       sctCallTime: sctCallTime,
-    //       sctCallSalesValue: salesValue,
-    //       sctCallNote: sctCallNote?.trim(),
-    //       sctCallComeFrom: callComeFromVal,
-    //       sctCallTakenDate: new Date().toISOString().split("T")[0],
-    //       sctCallEnteredDate: new Date().toLocaleString("en-GB"),
-    //       sctCallDateTime: new Date().toLocaleString("en-GB"),
-    //       filterData: filterData,
-    //       page: page,
-    //     };
-    //     console.log("finaldata", finalData);
-    //     if (from === "EngagedClient" || from === "RegularClient") {
-    //       // addSctClientCalls(finalData);
-    //     } else {
-    //       // addSctCalls(finalData);
-    //     }
-
-    //     if (
-    //       sctCallStatus.value === "Demo" ||
-    //       sctCallStatus.value === "AdditionalDemo" ||
-    //       sctCallStatus.value === "TrainingDemo"
-    //     ) {
-    //       const demoData = {
-    //         demoDate: demoDate,
-    //         fromTime: fromTime,
-    //         toTime: toTime,
-    //         callDate: todayDateymd,
-    //         demoCategory: sctCallStatus.value,
-    //         demoEnteredById: user._id,
-    //         clientId: leadDataVal._id,
-    //         clientName: leadDataVal.sctClientName,
-    //         sctDemoComeFrom: callComeFromVal,
-    //         clientDetails: {
-    //           sctCompanyName: leadDataVal.sctCompanyName,
-    //           sctEmailId: leadDataVal.sctEmailId,
-    //           sctPhone1: leadDataVal.sctPhone1,
-    //           sctCallToStaffId: sctStaffs.staffsId ? sctStaffs.staffsId : null,
-    //           sctCallToStaffName: sctStaffs.value,
-    //           stateId: leadDataVal.stateId ? leadDataVal.stateId : null,
-    //           stateName: leadDataVal.stateName,
-    //         },
-    //         demoEnteredByDateTime: new Date().toLocaleString("en-GB"),
-    //       };
-    //       addDemo(demoData);
-    //     }
-    //     if (
-    //       (sctCallStatus.value === "EngagedClient" ||
-    //         sctCallStatus.value === "RegularClient") &&
-    //       leadDataVal.sctClientCategory !== "EC"
-    //     ) {
-    //       const transferData = {
-    //         sctCompanyName: leadDataVal.sctCompanyName,
-    //         sctClientName: leadDataVal.sctClientName,
-    //         sctLeadId: leadDataVal._id,
-    //         sctEmailId: leadDataVal.sctEmailId,
-    //         sctPhone1: leadDataVal.sctPhone1,
-    //         sctPhone2: leadDataVal.sctPhone2,
-    //         sctWebsite: leadDataVal.sctWebsite,
-    //         sctClientAddress: leadDataVal.sctLeadAddress,
-    //         sctClientImportantPoints: leadDataVal.sctImportantPoints,
-    //         projectsId: leadDataVal.projectsId ? leadDataVal.projectsId : null,
-    //         projectsName: leadDataVal.projectsName
-    //           ? leadDataVal.projectsName
-    //           : null,
-    //         countryId: leadDataVal.countryId ? leadDataVal.countryId : null,
-    //         countryName: leadDataVal.countryName
-    //           ? leadDataVal.countryName
-    //           : null,
-    //         sctcountryCode: leadDataVal.sctcountryCode,
-    //         stateId: leadDataVal.stateId ? leadDataVal.stateId : null,
-    //         stateName: leadDataVal.stateName,
-    //         districtId: leadDataVal.districtId ? leadDataVal.districtId : null,
-    //         sctClientStatus: "Active",
-    //         sctClientCategory: callCategoryVal,
-    //         sctCallDate: new Date().toISOString().split("T")[0],
-    //         sctCallTime: sctCallTime,
-    //         sctClientEnteredById: user._id,
-    //         sctClientEnteredByName: user.empFullName,
-    //         sctClientEnteredDateTime: new Date().toLocaleString("en-GB"),
-    //         sctClientAssignedToId: leadDataVal.sctLeadAssignedToId,
-    //         sctClientAssignedToName: leadDataVal.sctLeadAssignedToName,
-    //         clientType: clientTypeVal,
-    //         sctStaffs: leadDataVal.sctStaffs,
-    //       };
-
-    //       addSctClientDetails(transferData);
-    //     }
-    //     setFormData({
-    //       ...formData,
-    //       sctCallStatus: "",
-    //       sctLeadsCategory: "",
-    //       sctCallDate: "",
-    //       sctCallNote: "",
-    //       isSubmitted: true,
-    //     });
-    //     ondivcloseChange(true);
-    //     setStatusDate("");
-    //     getstaffsData("");
-    //   }
-    // } else {
     e.preventDefault();
     // setReasonForChange("false");
     let callCategoryVal = null,
@@ -888,7 +745,6 @@ const AllSctStatusChange = ({
     //   salesValueErrorStyle: { color: "#FF0000" },
     // });
   };
-  // console.log("sctLeadsCategory", sctLeadsCategory);
   let ED =
     leadDataVal && leadDataVal.sctExpectedMonth
       ? leadDataVal.sctExpectedMonth.split(/\D/g)
@@ -1089,73 +945,74 @@ const AllSctStatusChange = ({
                   )}
                   ) :
                 </label>
-                <input
-                  type="date"
-                  // placeholder="dd/mm/yyyy"
-                  className="form-control cpp-input datevalidation datecorrect"
-                  // min={todaydate}
-                  min={expectedDate}
-                  name="expectedMonth"
-                  value={expectedDate}
-                  onChange={(e) => onDateChange2(e)}
-                  onKeyDown={(e) => {
-                    e.preventDefault();
-                  }}
-                  style={{
-                    width: "100%",
-                  }}
-                />
-
-                {/* {leadDataVal.sctExpectedMonth ? (
+                {user && user.empCtAccess && user.empCtAccess === "All" ? (
                   <>
-                    <div
-                      className="cstm-hint text-white"
-                      id="pass_admin_help"
-                      style={{ top: "60px", marginRight: "3px" }}
-                    >
-                      <img
-                        src={require("../../static/images/help1.png")}
-                        alt="help"
-                        id="img_tool_admin"
-                        className="pass_admin_help_icon_question"
-                      />
-                      <div
-                        id="tooltipPassAdmin"
-                        className="syle-hint"
-                        style={passwrdTooltip}
-                        data-hint={
-                          "Expected date must be greater than" +
-                          sctExpectedMonthrevered
-                        }
-                      ></div>
-                    </div>
+                    <input
+                      type="date"
+                      // placeholder="dd/mm/yyyy"
+                      className="form-control cpp-input datevalidation datecorrect"
+                      // min={todaydate}
+                      min={expectedDate}
+                      name="expectedMonth"
+                      value={expectedDate}
+                      onChange={(e) => onDateChange2(e)}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
+                      style={{
+                        width: "100%",
+                      }}
+                    />
                   </>
                 ) : (
                   <>
-                    <div
-                      className="cstm-hint text-white"
-                      id="pass_admin_help"
-                      style={{ top: "60px", marginRight: "3px" }}
-                    >
-                      <img
-                        src={require("../../static/images/help1.png")}
-                        alt="help"
-                        id="img_tool_admin"
-                        className="pass_admin_help_icon_question"
-                      />
-                      <div
-                        id="tooltipPassAdmin"
-                        className="syle-hint"
-                        style={passwrdTooltip}
-                        data-hint={" Please select Expected date "}
-                      ></div>
-                    </div>
+                    {leadDataVal &&
+                    Number(leadDataVal.sctCallSalesValue) > 0 ? (
+                      <>
+                        <input
+                          type="date"
+                          // placeholder="dd/mm/yyyy"
+                          className="form-control cpp-input datevalidation datecorrect"
+                          // min={todaydate}
+                          min={expectedDate}
+                          name="expectedMonth"
+                          value={expectedDate}
+                          disabled={true}
+                          // onChange={(e) => onDateChange2(e)}
+                          onKeyDown={(e) => {
+                            e.preventDefault();
+                          }}
+                          style={{
+                            width: "100%",
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <input
+                          type="date"
+                          // placeholder="dd/mm/yyyy"
+                          className="form-control cpp-input datevalidation datecorrect"
+                          // min={todaydate}
+                          min={expectedDate}
+                          name="expectedMonth"
+                          value={expectedDate}
+                          onChange={(e) => onDateChange2(e)}
+                          onKeyDown={(e) => {
+                            e.preventDefault();
+                          }}
+                          style={{
+                            width: "100%",
+                          }}
+                        />
+                      </>
+                    )}
                   </>
-                )} */}
+                )}
               </div>
               <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
                 <label className="label-control" style={salesValueErrorStyle}>
-                  Sales Value (
+                  Sales Values (
                   {leadDataVal.sctCallSalesValue ? (
                     <>
                       {" "}
@@ -1181,13 +1038,51 @@ const AllSctStatusChange = ({
                   )}
                   ) :
                 </label>
-                <input
+
+                {user && user.empCtAccess && user.empCtAccess === "All" ? (
+                  <>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="salesValue"
+                      value={salesValue}
+                      onChange={(e) => onSalesvalueChange(e)}
+                    />
+                  </>
+                ) : (
+                  <>
+                    {leadDataVal &&
+                    Number(leadDataVal.sctCallSalesValue) > 0 ? (
+                      <>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="salesValue"
+                          value={salesValue}
+                          disabled={true}
+                          // onChange={(e) => onSalesvalueChange(e)}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="salesValue"
+                          value={salesValue}
+                          onChange={(e) => onSalesvalueChange(e)}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+                {/* <input
                   type="text"
                   className="form-control"
                   name="salesValue"
                   value={salesValue}
                   onChange={(e) => onSalesvalueChange(e)}
-                />
+                /> */}
                 {/* {leadDataVal.sctCallSalesValue ? (
                   <>
                     <div

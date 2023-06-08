@@ -312,57 +312,59 @@ const AllSctContacts = ({
           <>
             <div className="col-lg-12 col-md-11 col-sm-11 col-11 text-center ">
               <section className="body">
-                <div className="body-inner   table-responsive fixTableHeadcontact">
-                  <table
-                    className="table table-bordered table-striped table-hover smll_row "
-                    id="datatable2"
-                  >
-                    <thead>
-                      <tr>
-                        <th style={{ width: "15%" }}>Staff Name </th>
-                        <th style={{ width: "13%" }}>Phone No</th>
-                        <th style={{ width: "13%" }}>Designation</th>
-                        <th style={{ width: "5%" }}>Op</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {sctStaffData &&
-                        sctStaffData.sctStaffs &&
-                        sctStaffData.sctStaffs.map((sctStaffs, idx) => {
-                          if (sctStaffs.sctStaffStatus === "Active")
-                            return (
-                              <tr key={idx}>
-                                <td>{sctStaffs.sctStaffName}</td>
-                                <td>
-                                  {sctStaffs.sctStaffCountryCode
-                                    ? "+" + sctStaffs.sctStaffCountryCode
-                                    : ""}
-                                  &nbsp;
-                                  {sctStaffs.sctStaffPhoneNumber}
-                                </td>
-                                <td>{sctStaffs.sctStaffDesignation}</td>
-                                <td>
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onDeactive(sctStaffs, idx)}
-                                    src={require("../../static/images/delete.png")}
-                                    alt="Delete Staff"
-                                    title="Delelte Staff"
-                                  />
-                                  &nbsp;
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() => onUpdate(sctStaffs, idx)}
-                                    src={require("../../static/images/edit_icon.png")}
-                                    alt="Edit"
-                                    title="Edit"
-                                  />
-                                </td>
-                              </tr>
-                            );
-                        })}
-                    </tbody>
-                  </table>
+                <div className="body-inner no-padding  table-responsive  fixTableHeadcontact">
+                  <div className="fixTableHeadcontactsct">
+                    <table
+                      className="table hoverrow table-bordered table-striped table-hover smll_row "
+                      id="datatable2"
+                    >
+                      <thead>
+                        <tr>
+                          <th style={{ width: "15%" }}>Staff Name </th>
+                          <th style={{ width: "13%" }}>Phone No</th>
+                          <th style={{ width: "13%" }}>Designation</th>
+                          <th style={{ width: "5%" }}>Op</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {sctStaffData &&
+                          sctStaffData.sctStaffs &&
+                          sctStaffData.sctStaffs.map((sctStaffs, idx) => {
+                            if (sctStaffs.sctStaffStatus === "Active")
+                              return (
+                                <tr key={idx}>
+                                  <td>{sctStaffs.sctStaffName}</td>
+                                  <td>
+                                    {sctStaffs.sctStaffCountryCode
+                                      ? "+" + sctStaffs.sctStaffCountryCode
+                                      : ""}
+                                    &nbsp;
+                                    {sctStaffs.sctStaffPhoneNumber}
+                                  </td>
+                                  <td>{sctStaffs.sctStaffDesignation}</td>
+                                  <td>
+                                    <img
+                                      className="img_icon_size log"
+                                      onClick={() => onDeactive(sctStaffs, idx)}
+                                      src={require("../../static/images/delete.png")}
+                                      alt="Delete Staff"
+                                      title="Delelte Staff"
+                                    />
+                                    &nbsp;
+                                    <img
+                                      className="img_icon_size log"
+                                      onClick={() => onUpdate(sctStaffs, idx)}
+                                      src={require("../../static/images/edit_icon.png")}
+                                      alt="Edit"
+                                      title="Edit"
+                                    />
+                                  </td>
+                                </tr>
+                              );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </section>
             </div>
