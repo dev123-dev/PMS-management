@@ -26,6 +26,9 @@ const ProjectSchema = new mongoose.Schema({
   Reviewer: {
     type: String,
   },
+  ReviewerId: {
+    type: ObjectId,
+  },
   parentClientId: {
     type: ObjectId,
   },
