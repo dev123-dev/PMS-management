@@ -59,6 +59,8 @@ router.post("/add-project-track", async (req, res) => {
           ptEstimatedTime: data.ptEstimatedTime,
           ptEstimatedDateTime: data.ptEstimatedDateTime,
           timeOutMsgSent: 0,
+          Reviewer: data.Reviewer,
+          ReviewerId: data.ReviewerId,
         },
       }
     );
@@ -863,33 +865,64 @@ router.post("/get-verified-project-details", async (req, res) => {
 router.post("/get-all-changes", async (req, res) => {
   const { projectId } = req.body;
   try {
-    const ProjectLatestChangeDetails = await ProjectTrack.aggregate([
-      {
-        $lookup: {
-          from: "projects",
-          localField: "projectId",
-          foreignField: "_id",
-          as: "output",
-        },
-      },
-      // { $unwind: "$output" },
+    // const ProjectLatestChangeDetails = await ProjectTrack.aggregate([
+    //   {
+    //     $lookup: {
+    //       from: "projects",
+    //       localField: "projectId",
+    //       foreignField: "_id",
+    //       as: "output",
+    //     },
+    //   },
+    //   // { $unwind: "$output" },
+    //   {
+    //     $match: {
+    //       $or: [
+    //         {
+    //           "output._id": {
+    //             $eq: mongoose.Types.ObjectId(projectId),
+    //           },
+    //         },
+    //         {
+    //           "output.projectBelongsToId": {
+    //             $eq: mongoose.Types.ObjectId(projectId),
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   },
+    // ]);
+
+    const ProjectLatestChangeDetails = await Project.aggregate([
       {
         $match: {
-          $or: [
-            {
-              "output._id": {
-                $eq: mongoose.Types.ObjectId(projectId),
-              },
-            },
-            {
-              "output.projectBelongsToId": {
-                $eq: mongoose.Types.ObjectId(projectId),
-              },
-            },
-          ],
+          _id: mongoose.Types.ObjectId(projectId),
+        },
+      },
+      {
+        $lookup: {
+          from: "projecttracks",
+          localField: "_id",
+          foreignField: "projectId",
+          as: "StatusChanges",
+        },
+      },
+      {
+        $unwind: {
+          path: "$StatusChanges",
+        },
+      },
+      {
+        $project: {
+          projectStatusChangedbyName:
+            "$StatusChanges.projectStatusChangedbyName",
+          projectTrackDateTime: "$StatusChanges.projectTrackDateTime",
+          projectStatusType: "$StatusChanges.projectStatusType",
+          projectTrackLatestChange: "$StatusChanges.projectTrackLatestChange",
         },
       },
     ]);
+
     res.json(ProjectLatestChangeDetails);
   } catch (err) {
     console.error(err.message);
@@ -900,26 +933,45 @@ router.post("/get-all-changes", async (req, res) => {
 router.post("/get-latest-change", async (req, res) => {
   const { projectId } = req.body;
   try {
-    const ProjectLatestChangeData = await ProjectTrack.aggregate([
+    const ProjectLatestChangeData = await Project.aggregate([
       {
-        $lookup: {
-          from: "projects",
-          localField: "projectId",
-          foreignField: "_id",
-          as: "output",
+        $match: {
+          _id: mongoose.Types.ObjectId(projectId),
         },
       },
       {
-        $match: {
-          "output._id": {
-            $eq: mongoose.Types.ObjectId(projectId),
+        $lookup: {
+          from: "projecttracks",
+          localField: "_id",
+          foreignField: "projectId",
+          as: "StatusChanges",
+        },
+      },
+      {
+        $addFields: {
+          lastELEM: {
+            $last: "$StatusChanges",
           },
         },
       },
-      { $unwind: "$output" },
-      { $sort: { _id: -1 } },
-      { $limit: 1 },
+      {
+        $unwind: {
+          path: "$lastELEM",
+        },
+      },
+      {
+        $project: {
+          projectStatusChangedbyName: "$lastELEM.projectStatusChangedbyName",
+          projectTrackDateTime: "$lastELEM.projectTrackDateTime",
+          projectStatusType: "$lastELEM.projectStatusType",
+          projectTrackLatestChange: "$lastELEM.projectTrackLatestChange",
+          projectName: 1,
+          projectEnteredByName: 1,
+          projectEnteredDateTime: 1,
+        },
+      },
     ]);
+    console.log("x", ProjectLatestChangeData);
     res.json(ProjectLatestChangeData);
   } catch (err) {
     console.error(err.message);
