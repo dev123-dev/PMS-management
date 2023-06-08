@@ -254,13 +254,13 @@ const ChangeProjectLifeCycle = ({
       {" "}
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-          <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-            <label className="label-control">
+          <div className="row col-lg-12 col-md-6 col-sm-6 col-12">
+            <label className="label-control col-lg-6 col-md-6 col-sm-6 col-12">
               <strong> Status : {ProjectCycledata.value}</strong>
             </label>
             {ProjectCycledata.value === "Review_Pending" ? (
               <>
-                <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                   <label
                   // className="label-control"
                   >

@@ -38,15 +38,15 @@ const JobHistory = ({
       ...formData,
       projectName:
         getLatestChangesDetails &&
-        getLatestChangesDetails[0].output &&
-        getLatestChangesDetails[0].output.projectName
-          ? getLatestChangesDetails[0].output.projectName
+        getLatestChangesDetails[0] &&
+        getLatestChangesDetails[0].projectName
+          ? getLatestChangesDetails[0].projectName
           : "",
       projectTrackLatestChange:
         getLatestChangesDetails &&
-        getLatestChangesDetails[0].output &&
-        getLatestChangesDetails[0].output.projectTrackLatestChange
-          ? getLatestChangesDetails[0].output.projectTrackLatestChange
+        getLatestChangesDetails[0] &&
+        getLatestChangesDetails[0].projectTrackLatestChange
+          ? getLatestChangesDetails[0].projectTrackLatestChange
           : "",
 
       projectEnteredByName:
