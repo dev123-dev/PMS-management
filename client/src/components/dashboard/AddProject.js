@@ -98,7 +98,117 @@ const AddProject = ({
     review,
     isSubmitted,
   } = formData;
+  const [error, setError] = useState({
+    // clientnameIdChecker: false,
+    // clientnameIdErrorStyle: {},
+    staffNameIdChecker: false,
+    staffNameIdErrorStyle: {},
+    projectNameChecker: false,
+    projectNameErrorStyle: {},
+    projectQtyChecker: false,
+    projectQtyErrorStyle: {},
+    projectdateChecker: false,
+    projectdateErrorStyle: {},
+    clientdateChecker: false,
+    clientdateErrorStyle: {},
+    projectInstrChecker: false,
+    projectInstrErrorStyle: {},
 
+    projectstatusChecker: true,
+    projectstatusErrorStyle: {},
+    empselectChecker: false,
+    empselectErrorStyle: {},
+  });
+  const {
+    staffNameIdChecker,
+    staffNameIdErrorStyle,
+    projectNameChecker,
+    projectNameErrorStyle,
+    projectQtyChecker,
+    projectQtyErrorStyle,
+    projectdateChecker,
+    projectdateErrorStyle,
+    clientdateChecker,
+    clientdateErrorStyle,
+    projectInstrChecker,
+    projectInstrErrorStyle,
+    ClientErrorStyle,
+    projectstatusChecker,
+    projectstatusErrorStyle,
+    empselectChecker,
+    empselectErrorStyle,
+  } = error;
+
+  const checkErrors = () => {
+    if (!staffNameIdChecker) {
+      setError({
+        ...error,
+        staffNameIdErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!projectNameChecker) {
+      setError({
+        ...error,
+        projectNameErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!projectQtyChecker) {
+      setError({
+        ...error,
+        projectQtyErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!projectdateChecker) {
+      setError({
+        ...error,
+        projectdateErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!clientdateChecker) {
+      setError({
+        ...error,
+        clientdateErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    // if (review === true) {
+    //   if (!clientdateChecker) {
+    //     setError({
+    //       ...error,
+    //       clientdateErrorStyle: { color: "#F00" },
+    //     });
+    //     return false;
+    //   }
+    // }
+    if (!projectInstrChecker) {
+      setError({
+        ...error,
+        projectInstrErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (!projectstatusChecker) {
+      setError({
+        ...error,
+        projectstatusErrorStyle: { color: "#F00" },
+      });
+      return false;
+    }
+    if (review === true) {
+      if (!empselectChecker) {
+        setError({
+          ...error,
+          empselectErrorStyle: { color: "#F00" },
+        });
+        return false;
+      }
+    }
+    return true;
+  };
   const activeClientsOpt = [];
   activeClientFilter.map((clientsData) =>
     activeClientsOpt.push({
@@ -209,7 +319,6 @@ const AddProject = ({
     setProjectStatusData(e);
     var projectStatusId = "";
     var projectStatusType = "";
-
     projectStatusId = e.projStatusId;
     projectStatusType = e.value;
     setprojectStatusId(projectStatusId);
@@ -228,6 +337,64 @@ const AddProject = ({
   };
 
   const onInputChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "projectName":
+        if (value !== "") {
+          setError({
+            ...error,
+            projectNameChecker: true,
+            projectNameErrorStyle: { color: "#000" },
+          });
+          setFormData({ ...formData, [e.target.name]: value });
+        } else {
+          setError({
+            ...error,
+            projectNameChecker: false,
+            projectNameErrorStyle: { color: "#f00" },
+          });
+          setFormData({ ...formData, [e.target.name]: "" });
+        }
+        break;
+      case "qty":
+        if (value !== "") {
+          setError({
+            ...error,
+            projectQtyChecker: true,
+            projectQtyErrorStyle: { color: "#000" },
+          });
+          setFormData({ ...formData, [e.target.name]: value });
+        } else {
+          setError({
+            ...error,
+            projectQtyChecker: false,
+            projectQtyErrorStyle: { color: "#f00" },
+          });
+          setFormData({ ...formData, [e.target.name]: "" });
+        }
+        break;
+
+      case "Instructions":
+        if (value !== "") {
+          setError({
+            ...error,
+            projectInstrChecker: true,
+            projectInstrErrorStyle: { color: "#000" },
+          });
+          setFormData({ ...formData, [e.target.name]: value });
+        } else {
+          setError({
+            ...error,
+            projectInstrChecker: false,
+            projectInstrErrorStyle: { color: "#f00" },
+          });
+          setFormData({ ...formData, [e.target.name]: "" });
+        }
+        break;
+
+      default:
+        break;
+    }
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -299,7 +466,6 @@ const AddProject = ({
   };
 
   const handleOnOtherChange = () => {
-    console.log("projectStatusData", projectStatusData);
     setFormData({
       ...formData,
       review: !review,
@@ -422,108 +588,13 @@ const AddProject = ({
   // console.log("ActiveClientId", ActiveClientId);
   //Required Validation Starts
 
-  const [error, setError] = useState({
-    // clientnameIdChecker: false,
-    // clientnameIdErrorStyle: {},
-    staffNameIdChecker: false,
-    staffNameIdErrorStyle: {},
-    // ClientIdChecker: true,
-    // ClientErrorStyle: {},
-    projectstatusChecker: true,
-    projectstatusErrorStyle: {},
-
-    projectdateChecker: false,
-    projectdateErrorStyle: {},
-
-    clientdateChecker: false,
-    clientdateErrorStyle: {},
-
-    empselectChecker: false,
-    empselectErrorStyle: {},
-  });
-  const {
-    // clientnameIdChecker,
-    // clientnameIdErrorStyle,
-    staffNameIdChecker,
-    staffNameIdErrorStyle,
-    projectdateChecker,
-    projectdateErrorStyle,
-    clientdateChecker,
-
-    clientdateErrorStyle,
-    ClientErrorStyle,
-    projectstatusChecker,
-    projectstatusErrorStyle,
-    empselectChecker,
-    empselectErrorStyle,
-  } = error;
-
-  const checkErrors = () => {
-    // if (!ClientIdChecker) {
-    //   setError({
-    //     ...error,
-    //     ClientErrorStyle: { color: "#F00" },
-    //   });
-    //   return false;
-    // }
-
-    // if (!clientnameIdChecker) {
-    //   setError({
-    //     ...error,
-    //     clientnameIdErrorStyle: { color: "#F00" },
-    //   });
-    //   return false;
-    // }
-
-    if (!staffNameIdChecker) {
-      setError({
-        ...error,
-        staffNameIdErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-
-    if (!projectstatusChecker) {
-      setError({
-        ...error,
-        projectstatusErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-    if (!projectdateChecker) {
-      setError({
-        ...error,
-        projectdateErrorStyle: { color: "#F00" },
-      });
-      return false;
-    }
-    if (review === true) {
-      if (!clientdateChecker) {
-        setError({
-          ...error,
-          clientdateErrorStyle: { color: "#F00" },
-        });
-        return false;
-      }
-    }
-    if (review === true) {
-      if (!empselectChecker) {
-        setError({
-          ...error,
-          empselectErrorStyle: { color: "#F00" },
-        });
-        return false;
-      }
-    }
-
-    return true;
-  };
   const date = new Date();
   const projectEnteredTime =
     date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
   const onSubmit = (e) => {
     e.preventDefault();
+
     if (checkErrors()) {
       const finalData = {
         projectName: projectName?.trim(),
@@ -558,8 +629,8 @@ const AddProject = ({
         clientDate: startclientDate,
         projectEnteredById: user._id,
         projectEnteredByName: user.empFullName,
-        Reviewer: empdata.label,
-        ReviewerId: empdata.value,
+        Reviewer: empdata.label ? empdata.label : "",
+        ReviewerId: empdata.value ? empdata.value : null,
       };
       console.log("finalDataaa", finalData);
       addProject(finalData);
@@ -687,7 +758,8 @@ const AddProject = ({
 
                   <div className="col-lg-12 col-md-6 col-sm-6 col-12 ">
                     <label
-                    //  className="label-control"
+                      //  className="label-control"
+                      style={projectNameErrorStyle}
                     >
                       Project Name<i className="text-danger">*</i> :
                     </label>
@@ -697,7 +769,6 @@ const AddProject = ({
                       value={projectName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
-                      required
                     />
                   </div>
                   <div className="col-lg-12 col-md-6 col-sm-6 col-12">
@@ -711,7 +782,10 @@ const AddProject = ({
                     />
                   </div>
                   <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">
+                    <label
+                      className="label-control"
+                      style={projectQtyErrorStyle}
+                    >
                       Qty<i className="text-danger">*</i> :
                     </label>
                     <input
@@ -724,7 +798,6 @@ const AddProject = ({
                         (e.keyCode === 69 || e.keyCode === 190) &&
                         e.preventDefault()
                       }
-                      required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -761,6 +834,7 @@ const AddProject = ({
                     </label>
                     <br />
                     <DatePicker
+                      name="projectDate"
                       label="Controlled picker"
                       value={startprojectShow}
                       placeholderText="dd-mm-yyyy"
@@ -800,6 +874,7 @@ const AddProject = ({
                     <br />
 
                     <DatePicker
+                      name="clientDate"
                       label="Controlled picker"
                       value={startclientShow}
                       placeholderText="dd-mm-yyyy"
@@ -948,7 +1023,10 @@ const AddProject = ({
                   </span>
 
                   <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control">
+                    <label
+                      className="label-control"
+                      style={projectInstrErrorStyle}
+                    >
                       Project Instructions<i className="text-danger">*</i> :
                     </label>
                     <textarea
@@ -960,7 +1038,6 @@ const AddProject = ({
                       style={{ width: "100%" }}
                       value={Instructions}
                       onChange={(e) => onInputChange(e)}
-                      required
                     ></textarea>
                   </div>
                 </div>

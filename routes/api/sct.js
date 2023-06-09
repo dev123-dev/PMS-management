@@ -2192,30 +2192,29 @@ router.post("/get-client-report", auth, async (req, res) => {
 //Get Financial client Details start
 router.post("/get-FY-Client", auth, async (req, res) => {
   let { startDate, endDate, clientFolderName, finYear } = req.body;
-
   let query = {};
-  if (clientFolderName === "") {
+  if (clientFolderName) {
     query = {
-      projectDate: {
-        $gte: startDate,
-        $lte: endDate,
-      },
+      clientFolderName: { $eq: clientFolderName },
     };
   } else {
     query = {
-      projectDate: {
-        $ne: null,
-        $ne: "",
-      },
-      clientFolderName: { $eq: clientFolderName },
+      clientFolderName: { $ne: "" },
     };
   }
   try {
+    //////////////////////////////new code///////////////////////////////
     let projectDetails = await Project.aggregate([
+      {
+        $match: {
+          projectStatus: {
+            $ne: "Trash",
+          },
+        },
+      },
       {
         $match: query,
       },
-
       {
         $addFields: {
           projectDate: {
@@ -2232,47 +2231,221 @@ router.post("/get-FY-Client", auth, async (req, res) => {
         },
       },
       {
-        $lookup: {
-          from: "projectstatuses",
-          localField: "projectStatusId",
-          foreignField: "_id",
-          as: "status",
-        },
-      },
-      {
         $match: {
-          "status.projectStatusCategory": {
-            $nin: ["Dont Work", "Amend", "Additional Instruction"],
+          _id: {
+            $ne: "",
+          },
+          // query,
+          projectBelongsToId: {
+            $eq: null,
           },
         },
       },
       {
         $group: {
-          _id: "$clientFolderName",
-          totQty: {
+          _id: {
+            clientFolderName: "$clientFolderName",
+            month: {
+              $month: "$projectDate",
+            },
+            year: {
+              $year: "$projectDate",
+            },
+          },
+          totalQty: {
             $sum: "$projectQuantity",
           },
-          clientFolderName: {
-            $first: "$clientFolderName",
+        },
+      },
+      {
+        $addFields: {
+          monthOrder: {
+            $switch: {
+              branches: [
+                {
+                  case: {
+                    $eq: ["$_id.month", 1],
+                  },
+                  then: 10,
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 2],
+                  },
+                  then: 11,
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 3],
+                  },
+                  then: 12,
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 4],
+                  },
+                  then: 1,
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 5],
+                  },
+                  then: 2,
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 6],
+                  },
+                  then: 3,
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 7],
+                  },
+                  then: 4,
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 8],
+                  },
+                  then: 5,
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 9],
+                  },
+                  then: 6,
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 10],
+                  },
+                  then: 7,
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 11],
+                  },
+                  then: 8,
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 12],
+                  },
+                  then: 9,
+                },
+              ],
+              default: "Invalid month",
+            },
           },
-        },
-      },
-      {
-        $match: {
-          _id: { $ne: null },
-        },
-      },
-      {
-        $project: {
-          _id: "$_id",
-          totQty: "$totQty",
-          finYear: finYear,
         },
       },
       {
         $sort: {
-          _id: 1,
+          monthOrder: 1,
         },
+      },
+      {
+        $addFields: {
+          monthName: {
+            $switch: {
+              branches: [
+                {
+                  case: {
+                    $eq: ["$_id.month", 1],
+                  },
+                  then: "Jan",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 2],
+                  },
+                  then: "Feb",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 3],
+                  },
+                  then: "Mar",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 4],
+                  },
+                  then: "Apr",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 5],
+                  },
+                  then: "May",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 6],
+                  },
+                  then: "Jun",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 7],
+                  },
+                  then: "Jul",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 8],
+                  },
+                  then: "Aug",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 9],
+                  },
+                  then: "Sept",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 10],
+                  },
+                  then: "Oct",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 11],
+                  },
+                  then: "Nov",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 12],
+                  },
+                  then: "Dec",
+                },
+              ],
+              default: "Invalid month",
+            },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$_id.clientFolderName",
+          finalData: {
+            $push: {
+              $concat: [
+                "$monthName",
+                "-",
+                {
+                  $toString: "$totalQty",
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        $sort: { _id: 1 },
       },
     ]);
 

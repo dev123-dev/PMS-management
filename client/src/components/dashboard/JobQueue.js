@@ -37,7 +37,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.40:8000");
+const client = new w3cwebsocket("ws://192.168.6.38:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -554,7 +554,7 @@ const JobQueue = ({
       // "projectPriority",
     ],
   ];
-  console.log(user);
+
   jobQueueProjects.map((JobqueuesheetData) =>
     csvData.push([
       JobqueuesheetData.clientName,
@@ -700,8 +700,6 @@ const JobQueue = ({
                     <tbody>
                       {jobQueueProjects &&
                         jobQueueProjects.map((JobQueueProject, idx) => {
-                          console.log("JobQueueProject", JobQueueProject);
-
                           let PST = JobQueueProject.projectStatusType;
                           projectQty += JobQueueProject.projectQuantity;
                           let statusType = JobQueueProject.projectStatusType;
@@ -859,14 +857,19 @@ const JobQueue = ({
                                 <td>{JobQueueProject.outputformat}</td>
 
                                 <td>
-                                  {idx === jobQueueProjects.length - 1 ||
-                                  idx === jobQueueProjects.length - 2 ||
-                                  idx === jobQueueProjects.length - 3 ||
-                                  idx === jobQueueProjects.length - 4 ||
-                                  idx === jobQueueProjects.length - 5 ||
-                                  idx === jobQueueProjects.length - 6 ? (
+                                  {(idx === 0 && jobQueueProjects.length - 1) ||
+                                  (idx === 1 && jobQueueProjects.length - 1) ||
+                                  (idx === 2 && jobQueueProjects.length - 1) ||
+                                  (idx === 3 && jobQueueProjects.length - 1) ||
+                                  (idx === 4 && jobQueueProjects.length - 1) ||
+                                  idx === jobQueueProjects.length - 1 ||
+                                  idx === jobQueueProjects.length - 2 ? (
+                                    // ||
+                                    // idx === jobQueueProjects.length - 3 ||
+                                    // idx === jobQueueProjects.length - 4 ||
+                                    // idx === jobQueueProjects.length - 5 ||
+                                    // idx === jobQueueProjects.length - 6
                                     <>
-                                      {/* SLAP UserGroupRights */}
                                       {(user.userGroupName &&
                                         user.userGroupName ===
                                           "Administrator") ||
@@ -889,11 +892,12 @@ const JobQueue = ({
                                           />
 
                                           <Select
-                                            className="ml-4"
+                                            className="ml-4 "
                                             menuPlacement="auto"
                                             styles={{
                                               control: (base) => ({
                                                 ...base,
+                                                // background: "#e333ff",
                                                 background: "#456792",
                                               }),
                                               singleValue: (base) => ({
@@ -963,8 +967,12 @@ const JobQueue = ({
                                           />
 
                                           <Select
-                                            className="ml-4"
-                                            menuPlacement="auto"
+                                            className="ml-4 "
+                                            menuContainerStyle={{
+                                              top: "auto",
+                                              bottom: "100%",
+                                            }}
+                                            menuPlacement="top"
                                             styles={{
                                               control: (base) => ({
                                                 ...base,
@@ -1243,7 +1251,7 @@ const JobQueue = ({
 
                                           <Select
                                             className="ml-4"
-                                            menuPlacement="auto"
+                                            menuPlacement="top"
                                             styles={{
                                               control: (base) => ({
                                                 ...base,
@@ -1317,11 +1325,16 @@ const JobQueue = ({
                                           />
 
                                           <Select
-                                            className="ml-4"
+                                            className="ml-4  "
                                             menuPlacement="auto"
+                                            menuContainerStyle={{
+                                              top: "auto",
+                                              bottom: "100%",
+                                            }}
                                             styles={{
                                               control: (base) => ({
                                                 ...base,
+
                                                 background: "#456792",
                                               }),
                                               singleValue: (base) => ({

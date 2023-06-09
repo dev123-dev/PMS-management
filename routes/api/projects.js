@@ -410,7 +410,7 @@ router.post("/get-job-queue-project-details", async (req, res) => {
       },
       { $unwind: "$output" },
       { $match: query },
-      { $sort: { "output._id": 1 } },
+      { $sort: { "output.statusOrder": 1 } },
     ]);
     res.json(getJobQueueDetails);
   } catch (err) {
@@ -971,7 +971,7 @@ router.post("/get-latest-change", async (req, res) => {
         },
       },
     ]);
-    console.log("x", ProjectLatestChangeData);
+
     res.json(ProjectLatestChangeData);
   } catch (err) {
     console.error(err.message);
