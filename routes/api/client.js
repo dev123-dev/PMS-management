@@ -196,7 +196,7 @@ router.get("/get-employerDetails", async (req, res) => {
       },
     },
   ]);
-  console.log("xxx", empdetails);
+
   res.json(empdetails);
 });
 
