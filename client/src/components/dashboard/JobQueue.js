@@ -37,7 +37,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.40:8000");
+const client = new w3cwebsocket("ws://192.168.6.38:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -890,7 +890,7 @@ const JobQueue = ({
 
                                           <Select
                                             className="ml-4"
-                                            menuPlacement="auto"
+                                            menuPlacement="top"
                                             styles={{
                                               control: (base) => ({
                                                 ...base,
@@ -1243,7 +1243,7 @@ const JobQueue = ({
 
                                           <Select
                                             className="ml-4"
-                                            menuPlacement="auto"
+                                            menuPlacement="top"
                                             styles={{
                                               control: (base) => ({
                                                 ...base,
