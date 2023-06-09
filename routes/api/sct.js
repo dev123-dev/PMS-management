@@ -2192,40 +2192,26 @@ router.post("/get-client-report", auth, async (req, res) => {
 //Get Financial client Details start
 router.post("/get-FY-Client", auth, async (req, res) => {
   let { startDate, endDate, clientFolderName, finYear } = req.body;
-  console.log(req.body);
-
   let query = {};
-  if (clientFolderName === "") {
+  if (clientFolderName) {
     query = {
-      projectDate: {
-        $gte: startDate,
-        $lte: endDate,
-      },
-      "status.projectStatusCategory": {
-        $nin: ["Dont Work", "Amend", "Additional Instruction"],
-      },
-      clientFolderName: { $ne: "" },
-      _id: { $ne: "" },
-      projectBelongsToId: { $eq: null },
+      clientFolderName: { $eq: clientFolderName },
     };
   } else {
     query = {
-      projectDate: {
-        $ne: null,
-        $ne: "",
-      },
-      "status.projectStatusCategory": {
-        $nin: ["Dont Work", "Amend", "Additional Instruction"],
-      },
-      _id: { $ne: null },
-      clientFolderName: { $eq: clientFolderName },
-      projectBelongsToId: { $eq: null },
+      clientFolderName: { $ne: "" },
     };
   }
-  console.log("y", query);
   try {
     //////////////////////////////new code///////////////////////////////
     let projectDetails = await Project.aggregate([
+      {
+        $match: {
+          projectStatus: {
+            $ne: "Trash",
+          },
+        },
+      },
       {
         $match: query,
       },
@@ -2237,214 +2223,116 @@ router.post("/get-FY-Client", auth, async (req, res) => {
         },
       },
       {
-        $lookup: {
-          from: "projectstatuses",
-          localField: "projectStatusId",
-          foreignField: "_id",
-          as: "status",
+        $match: {
+          projectDate: {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate),
+          },
         },
       },
-      // {
-      //   $match: {
-      // nin
-      //   },
-      // },
+      {
+        $match: {
+          _id: {
+            $ne: "",
+          },
+          // query,
+          projectBelongsToId: {
+            $eq: null,
+          },
+        },
+      },
       {
         $group: {
-          _id: "$clientFolderName",
-          totQty: {
+          _id: {
+            clientFolderName: "$clientFolderName",
+            month: {
+              $month: "$projectDate",
+            },
+            year: {
+              $year: "$projectDate",
+            },
+          },
+          totalQty: {
             $sum: "$projectQuantity",
           },
-          clientFolderName: {
-            $first: "$clientFolderName",
-          },
-          MonthAndYear: {
-            $first: "$projectDate",
-          },
         },
       },
       {
         $addFields: {
-          month: {
-            $month: "$MonthAndYear",
-          },
-          year: {
-            $year: "$MonthAndYear",
-          },
-        },
-      },
-      {
-        $addFields: {
-          monthWiseQty: {
+          monthOrder: {
             $switch: {
               branches: [
                 {
                   case: {
-                    $eq: ["$month", 1],
+                    $eq: ["$_id.month", 1],
                   },
-                  then: {
-                    $concat: [
-                      "Jan",
-                      " :",
-                      {
-                        $toString: "$totQty",
-                      },
-                    ],
-                  },
+                  then: 10,
                 },
                 {
                   case: {
-                    $eq: ["$month", 2],
+                    $eq: ["$_id.month", 2],
                   },
-                  then: {
-                    $concat: [
-                      "Feb",
-                      "-",
-                      {
-                        $toString: "$totQty",
-                      },
-                    ],
-                  },
+                  then: 11,
                 },
                 {
                   case: {
-                    $eq: ["$month", 3],
+                    $eq: ["$_id.month", 3],
                   },
-                  then: {
-                    $concat: [
-                      "Mar",
-                      " : ",
-                      {
-                        $toString: "$totQty",
-                      },
-                    ],
-                  },
+                  then: 12,
                 },
                 {
                   case: {
-                    $eq: ["$month", 4],
+                    $eq: ["$_id.month", 4],
                   },
-                  then: {
-                    $concat: [
-                      "Apr",
-                      " : ",
-                      {
-                        $toString: "$totQty",
-                      },
-                    ],
-                  },
+                  then: 1,
                 },
                 {
                   case: {
-                    $eq: ["$month", 5],
+                    $eq: ["$_id.month", 5],
                   },
-                  then: {
-                    $concat: [
-                      "May",
-                      " : ",
-                      {
-                        $toString: "$totQty",
-                      },
-                    ],
-                  },
+                  then: 2,
                 },
                 {
                   case: {
-                    $eq: ["$month", 6],
+                    $eq: ["$_id.month", 6],
                   },
-                  then: {
-                    $concat: [
-                      "Jun",
-                      " : ",
-                      {
-                        $toString: "$totQty",
-                      },
-                    ],
-                  },
+                  then: 3,
                 },
                 {
                   case: {
-                    $eq: ["$month", 7],
+                    $eq: ["$_id.month", 7],
                   },
-                  then: {
-                    $concat: [
-                      "Jul",
-                      " : ",
-                      {
-                        $toString: "$totQty",
-                      },
-                    ],
-                  },
+                  then: 4,
                 },
                 {
                   case: {
-                    $eq: ["$month", 8],
+                    $eq: ["$_id.month", 8],
                   },
-                  then: {
-                    $concat: [
-                      "Aug",
-                      " :",
-                      {
-                        $toString: "$totQty",
-                      },
-                    ],
-                  },
+                  then: 5,
                 },
                 {
                   case: {
-                    $eq: ["$month", 9],
+                    $eq: ["$_id.month", 9],
                   },
-                  then: {
-                    $concat: [
-                      "Sep",
-                      " : ",
-                      {
-                        $toString: "$totQty",
-                      },
-                    ],
-                  },
+                  then: 6,
                 },
                 {
                   case: {
-                    $eq: ["$month", 10],
+                    $eq: ["$_id.month", 10],
                   },
-                  then: {
-                    $concat: [
-                      "Oct",
-                      " : ",
-                      {
-                        $toString: "$totQty",
-                      },
-                    ],
-                  },
+                  then: 7,
                 },
                 {
                   case: {
-                    $eq: ["$month", 11],
+                    $eq: ["$_id.month", 11],
                   },
-                  then: {
-                    $concat: [
-                      "Nov",
-                      "-",
-                      {
-                        $toString: "$totQty",
-                      },
-                    ],
-                  },
+                  then: 8,
                 },
                 {
                   case: {
-                    $eq: ["$month", 12],
+                    $eq: ["$_id.month", 12],
                   },
-                  then: {
-                    $concat: [
-                      "Dec",
-                      "-",
-                      {
-                        $toString: "$totQty",
-                      },
-                    ],
-                  },
+                  then: 9,
                 },
               ],
               default: "Invalid month",
@@ -2452,73 +2340,115 @@ router.post("/get-FY-Client", auth, async (req, res) => {
           },
         },
       },
+      {
+        $sort: {
+          monthOrder: 1,
+        },
+      },
+      {
+        $addFields: {
+          monthName: {
+            $switch: {
+              branches: [
+                {
+                  case: {
+                    $eq: ["$_id.month", 1],
+                  },
+                  then: "Jan",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 2],
+                  },
+                  then: "Feb",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 3],
+                  },
+                  then: "Mar",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 4],
+                  },
+                  then: "Apr",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 5],
+                  },
+                  then: "May",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 6],
+                  },
+                  then: "Jun",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 7],
+                  },
+                  then: "Jul",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 8],
+                  },
+                  then: "Aug",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 9],
+                  },
+                  then: "Sept",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 10],
+                  },
+                  then: "Oct",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 11],
+                  },
+                  then: "Nov",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 12],
+                  },
+                  then: "Dec",
+                },
+              ],
+              default: "Invalid month",
+            },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$_id.clientFolderName",
+          finalData: {
+            $push: {
+              $concat: [
+                "$monthName",
+                "-",
+                {
+                  $toString: "$totalQty",
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
     ]);
-    ///////////////////////////////////////////////////old code//////////////////////////////
-    // let projectDetails = await Project.aggregate([
-    //   {
-    //     $match: query,
-    //   },
 
-    //   {
-    //     $addFields: {
-    //       projectDate: {
-    //         $toDate: "$projectDate",
-    //       },
-    //     },
-    //   },
-    //   {
-    //     $match: {
-    //       projectDate: {
-    //         $gte: new Date(startDate),
-    //         $lte: new Date(endDate),
-    //       },
-    //     },
-    //   },
-    //   {
-    //     $lookup: {
-    //       from: "projectstatuses",
-    //       localField: "projectStatusId",
-    //       foreignField: "_id",
-    //       as: "status",
-    //     },
-    //   },
-    //   {
-    //     $match: {
-    //       "status.projectStatusCategory": {
-    //         $nin: ["Dont Work", "Amend", "Additional Instruction"],
-    //       },
-    //     },
-    //   },
-    //   {
-    //     $group: {
-    //       _id: "$clientFolderName",
-    //       totQty: {
-    //         $sum: "$projectQuantity",
-    //       },
-    //       clientFolderName: {
-    //         $first: "$clientFolderName",
-    //       },
-    //     },
-    //   },
-    //   {
-    //     $match: {
-    //       _id: { $ne: null },
-    //     },
-    //   },
-    //   {
-    //     $project: {
-    //       _id: "$_id",
-    //       totQty: "$totQty",
-    //       finYear: finYear,
-    //     },
-    //   },
-    //   {
-    //     $sort: {
-    //       _id: 1,
-    //     },
-    //   },
-    // ]);
-    // console.log("x", projectDetails);
     res.json(projectDetails);
   } catch (error) {
     console.log(error.message);

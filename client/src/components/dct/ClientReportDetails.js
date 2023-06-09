@@ -20,7 +20,7 @@ import { w3cwebsocket } from "websocket";
 import { propTypes } from "react-bootstrap/esm/Image";
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.39:8000");
+const client = new w3cwebsocket("ws://192.168.6.40:8000");
 
 const ClientReportDetails = ({
   auth: { isAuthenticated, user, users },
@@ -41,7 +41,9 @@ const ClientReportDetails = ({
   let defaultStartDate = new Date().getFullYear() + "-" + "04" + "-" + "01";
   let defaultEndDate = new Date().getFullYear() + 1 + "-" + "03" + "-" + "31";
   let ClientFolderName = "";
+
   let financialyear = JSON.parse(localStorage.getItem("financialYear"));
+
   useEffect(() => {
     getYear();
     getFYclient({
@@ -50,7 +52,8 @@ const ClientReportDetails = ({
       clientFolderName: ClientFolderName,
       finYear: financialyear && financialyear[0]._id,
     });
-  }, [financialyear]);
+  }, []);
+
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -188,7 +191,18 @@ const ClientReportDetails = ({
                       <tr>
                         <th>Sl no</th>
                         <th>Client Name</th>
-                        <th>Total Qty</th>
+                        <th>April</th>
+                        <th>May</th>
+                        <th>June</th>
+                        <th>July</th>
+                        <th>Aug</th>
+                        <th>Sept</th>
+                        <th>Oct</th>
+                        <th>Nov</th>
+                        <th>Dec</th>
+                        <th>Jan</th>
+                        <th>Feb</th>
+                        <th>Mar</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -206,8 +220,164 @@ const ClientReportDetails = ({
                                   {client._id}
                                 </Link>
                               </td>
+                              {/* apr */}
+                              <td>
+                                {client.finalData &&
+                                  (client.finalData.findIndex((val) =>
+                                    val.includes("Apr")
+                                  ) === -1
+                                    ? "0"
+                                    : client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Apr")
+                                        )
+                                      ].split("-")[1])}
+                              </td>
+                              {/* May */}
+                              <td>
+                                {client.finalData &&
+                                  (client.finalData.findIndex((val) =>
+                                    val.includes("May")
+                                  ) === -1
+                                    ? "0"
+                                    : client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("May")
+                                        )
+                                      ].split("-")[1])}
+                              </td>
+                              {/* June */}
+                              <td>
+                                {client.finalData &&
+                                  (client.finalData.findIndex((val) =>
+                                    val.includes("Jun")
+                                  ) === -1
+                                    ? "0"
+                                    : client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Jun")
+                                        )
+                                      ].split("-")[1])}
+                              </td>
+                              {/* jul */}
+                              <td>
+                                {client.finalData &&
+                                  (client.finalData.findIndex((val) =>
+                                    val.includes("Jul")
+                                  ) === -1
+                                    ? "0"
+                                    : client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Jul")
+                                        )
+                                      ].split("-")[1])}
+                              </td>
+                              {/* aug */}
+                              <td>
+                                {client.finalData &&
+                                  (client.finalData.findIndex((val) =>
+                                    val.includes("Aug")
+                                  ) === -1
+                                    ? "0"
+                                    : client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Aug")
+                                        )
+                                      ].split("-")[1])}
+                              </td>
+                              {/* sept */}
+                              <td>
+                                {client.finalData &&
+                                  (client.finalData.findIndex((val) =>
+                                    val.includes("Sept")
+                                  ) === -1
+                                    ? "0"
+                                    : client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Sept")
+                                        )
+                                      ].split("-")[1])}
+                              </td>
+                              {/* oct */}
+                              <td>
+                                {client.finalData &&
+                                  (client.finalData.findIndex((val) =>
+                                    val.includes("Oct")
+                                  ) === -1
+                                    ? "0"
+                                    : client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Oct")
+                                        )
+                                      ].split("-")[1])}
+                              </td>
+                              {/* nov */}
+                              <td>
+                                {client.finalData &&
+                                  (client.finalData.findIndex((val) =>
+                                    val.includes("Nov")
+                                  ) === -1
+                                    ? "0"
+                                    : client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Nov")
+                                        )
+                                      ].split("-")[1])}
+                              </td>
+                              {/* dec */}
+                              <td>
+                                {client.finalData &&
+                                  (client.finalData.findIndex((val) =>
+                                    val.includes("Dec")
+                                  ) === -1
+                                    ? "0"
+                                    : client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Dec")
+                                        )
+                                      ].split("-")[1])}
+                              </td>
 
-                              <td>{client.totQty}</td>
+                              {/* Jan */}
+                              <td>
+                                {client.finalData &&
+                                  (client.finalData.findIndex((val) =>
+                                    val.includes("Jan")
+                                  ) === -1
+                                    ? "0"
+                                    : client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Jan")
+                                        )
+                                      ].split("-")[1])}
+                              </td>
+                              {/* feb */}
+
+                              <td>
+                                {client.finalData &&
+                                  (client.finalData.findIndex((val) =>
+                                    val.includes("Feb")
+                                  ) === -1
+                                    ? "0"
+                                    : client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Feb")
+                                        )
+                                      ].split("-")[1])}
+                              </td>
+                              {/* mar */}
+                              <td>
+                                {client.finalData &&
+                                  (client.finalData.findIndex((val) =>
+                                    val.includes("Mar")
+                                  ) === -1
+                                    ? "0"
+                                    : client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Mar")
+                                        )
+                                      ].split("-")[1])}
+                              </td>
                             </tr>
                           );
                         })}
