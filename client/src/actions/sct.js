@@ -45,6 +45,7 @@ import {
   FY_CLIENT,
   FY_CLIENT_MONTHWISE,
   CLIENT_WISE,
+  FY_CLIENT_SUM,
 } from "./types";
 
 const config = {
@@ -828,7 +829,11 @@ export const getFYclient = (finalData) => async (dispatch) => {
     //localStorage.setItem("financialYear", JSON.stringify(res.data));
     dispatch({
       type: FY_CLIENT,
-      payload: res.data,
+      payload: res.data.projectDetails,
+    });
+    dispatch({
+      type: FY_CLIENT_SUM,
+      payload: res.data.projectDetailsSum,
     });
   } catch (err) {
     dispatch({

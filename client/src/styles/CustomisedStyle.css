@@ -2368,3 +2368,12 @@ div{
   overflow-y: auto;
   height:20vh;
 }
+
+
+.freeze-row{
+  position: sticky;
+  top :25px;
+  color :#456792;
+  font-weight: bold;
+  /* background-color: rgb(192, 192, 46); */
+}

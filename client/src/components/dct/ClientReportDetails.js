@@ -26,7 +26,7 @@ const ClientReportDetails = ({
   auth: { isAuthenticated, user, users },
   project: { allfolder },
   client: { activeVerfificationFolders },
-  sct: { FYclient },
+  sct: { FYclient, fyclientsum },
 
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
@@ -53,7 +53,7 @@ const ClientReportDetails = ({
       finYear: financialyear && financialyear[0]._id,
     });
   }, []);
-
+  
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -83,7 +83,9 @@ const ClientReportDetails = ({
   };
 
   const onYearChange = (e) => {
-    setYear(e);
+    setYear(e.label);
+    
+    
     setStartDate(e.value.startDate);
     setendDate(e.value.endDate);
     let selYear = {
@@ -138,6 +140,8 @@ const ClientReportDetails = ({
     });
   };
 
+  
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -189,196 +193,374 @@ const ClientReportDetails = ({
                   >
                     <thead>
                       <tr>
-                        <th>Sl no</th>
-                        <th>Client Name</th>
-                        <th>April</th>
-                        <th>May</th>
-                        <th>June</th>
-                        <th>July</th>
-                        <th>Aug</th>
-                        <th>Sept</th>
-                        <th>Oct</th>
-                        <th>Nov</th>
-                        <th>Dec</th>
-                        <th>Jan</th>
-                        <th>Feb</th>
-                        <th>Mar</th>
+                        <th style={{ width: "3%" }}>Sl no</th>
+                        <th style={{ width: "9%" }}>Client Name</th>
+                        <th>April{"-"+Year.split("-")[0]}</th>
+                        <th>May{"-"+Year.split("-")[0]}</th>
+                        <th>June{"-"+Year.split("-")[0]}</th>
+                        <th>July{"-"+Year.split("-")[0]}</th>
+                        <th>Aug{"-"+Year.split("-")[0]}</th>
+                        <th>Sept{"-"+Year.split("-")[0]}</th>
+                        <th>Oct{"-"+Year.split("-")[0]}</th>
+                        <th>Nov{"-"+Year.split("-")[0]}</th>
+                        <th>Dec{"-"+Year.split("-")[0]}</th>
+                        <th>Jan{"-"+Year.split("-")[1]}</th>
+                        <th>Feb{"-"+Year.split("-")[1]}</th>
+                        <th>Mar{"-"+Year.split("-")[1]}</th>
                       </tr>
                     </thead>
                     <tbody>
+                      <tr className="freeze-row">
+                        <td></td>
+                        <td>Total</td>
+                        <td>
+                          {(
+                            fyclientsum &&
+                            fyclientsum.filter((val) => {
+                              return val._id === "Apr";
+                            })
+                          ).length === 0
+                            ? "0"
+                            : (fyclientsum &&
+                                fyclientsum.filter((val) => {
+                                  return val._id === "Apr";
+                                }))[0].totalCount}
+                        </td>
+                        <td>
+                          {" "}
+                          {(
+                            fyclientsum &&
+                            fyclientsum.filter((val) => {
+                              return val._id === "May";
+                            })
+                          ).length === 0
+                            ? "0"
+                            : (fyclientsum &&
+                                fyclientsum.filter((val) => {
+                                  return val._id === "May";
+                                }))[0].totalCount}
+                        </td>
+                        <td>
+                          {" "}
+                          {(
+                            fyclientsum &&
+                            fyclientsum.filter((val) => {
+                              return val._id === "Jun";
+                            })
+                          ).length === 0
+                            ? "0"
+                            : (fyclientsum &&
+                                fyclientsum.filter((val) => {
+                                  return val._id === "Jun";
+                                }))[0].totalCount}
+                        </td>
+                        <td>
+                          {" "}
+                          {(
+                            fyclientsum &&
+                            fyclientsum.filter((val) => {
+                              return val._id === "Jul";
+                            })
+                          ).length === 0
+                            ? "0"
+                            : (fyclientsum &&
+                                fyclientsum.filter((val) => {
+                                  return val._id === "Jul";
+                                }))[0].totalCount}
+                        </td>
+                        <td>
+                          {" "}
+                          {(
+                            fyclientsum &&
+                            fyclientsum.filter((val) => {
+                              return val._id === "Aug";
+                            })
+                          ).length === 0
+                            ? "0"
+                            : (fyclientsum &&
+                                fyclientsum.filter((val) => {
+                                  return val._id === "Aug";
+                                }))[0].totalCount}
+                        </td>
+                        <td>
+                          {" "}
+                          {(
+                            fyclientsum &&
+                            fyclientsum.filter((val) => {
+                              return val._id === "Sept";
+                            })
+                          ).length === 0
+                            ? "0"
+                            : (fyclientsum &&
+                                fyclientsum.filter((val) => {
+                                  return val._id === "Sept";
+                                }))[0].totalCount}
+                        </td>
+                        <td>
+                          {" "}
+                          {(
+                            fyclientsum &&
+                            fyclientsum.filter((val) => {
+                              return val._id === "Oct";
+                            })
+                          ).length === 0
+                            ? "0"
+                            : (fyclientsum &&
+                                fyclientsum.filter((val) => {
+                                  return val._id === "Oct";
+                                }))[0].totalCount}
+                        </td>
+                        <td>
+                          {" "}
+                          {(
+                            fyclientsum &&
+                            fyclientsum.filter((val) => {
+                              return val._id === "Nov";
+                            })
+                          ).length === 0
+                            ? "0"
+                            : (fyclientsum &&
+                                fyclientsum.filter((val) => {
+                                  return val._id === "Nov";
+                                }))[0].totalCount}
+                        </td>
+                        <td>
+                          {" "}
+                          {(
+                            fyclientsum &&
+                            fyclientsum.filter((val) => {
+                              return val._id === "Dec";
+                            })
+                          ).length === 0
+                            ? "0"
+                            : (fyclientsum &&
+                                fyclientsum.filter((val) => {
+                                  return val._id === "Dec";
+                                }))[0].totalCount}
+                        </td>
+
+                        <td>
+                          {" "}
+                          {(
+                            fyclientsum &&
+                            fyclientsum.filter((val) => {
+                              return val._id === "Jan";
+                            })
+                          ).length === 0
+                            ? "0"
+                            : (fyclientsum &&
+                                fyclientsum.filter((val) => {
+                                  return val._id === "Jan";
+                                }))[0].totalCount}
+                        </td>
+                        <td>
+                          {" "}
+                          {(
+                            fyclientsum &&
+                            fyclientsum.filter((val) => {
+                              return val._id === "Feb";
+                            })
+                          ).length === 0
+                            ? "0"
+                            : (fyclientsum &&
+                                fyclientsum.filter((val) => {
+                                  return val._id === "Feb";
+                                }))[0].totalCount}
+                        </td>
+
+                        <td>
+                          {" "}
+                          {(
+                            fyclientsum &&
+                            fyclientsum.filter((val) => {
+                              return val._id === "Mar";
+                            })
+                          ).length === 0
+                            ? "0"
+                            : (fyclientsum &&
+                                fyclientsum.filter((val) => {
+                                  return val._id === "Mar";
+                                }))[0].totalCount}
+                        </td>
+                      </tr>
+
                       {FYclient &&
                         FYclient.map((client, idx) => {
                           return (
-                            <tr key={idx}>
-                              <td>{idx + 1}</td>
-                              <td>
-                                <Link
-                                  to="/client-fy-report"
-                                  className="btnLink"
-                                  onClick={() => handleGoToAllMember(client)}
-                                >
-                                  {client._id}
-                                </Link>
-                              </td>
-                              {/* apr */}
-                              <td>
-                                {client.finalData &&
-                                  (client.finalData.findIndex((val) =>
-                                    val.includes("Apr")
-                                  ) === -1
-                                    ? "0"
-                                    : client.finalData[
-                                        client.finalData.findIndex((val) =>
-                                          val.includes("Apr")
-                                        )
-                                      ].split("-")[1])}
-                              </td>
-                              {/* May */}
-                              <td>
-                                {client.finalData &&
-                                  (client.finalData.findIndex((val) =>
-                                    val.includes("May")
-                                  ) === -1
-                                    ? "0"
-                                    : client.finalData[
-                                        client.finalData.findIndex((val) =>
-                                          val.includes("May")
-                                        )
-                                      ].split("-")[1])}
-                              </td>
-                              {/* June */}
-                              <td>
-                                {client.finalData &&
-                                  (client.finalData.findIndex((val) =>
-                                    val.includes("Jun")
-                                  ) === -1
-                                    ? "0"
-                                    : client.finalData[
-                                        client.finalData.findIndex((val) =>
-                                          val.includes("Jun")
-                                        )
-                                      ].split("-")[1])}
-                              </td>
-                              {/* jul */}
-                              <td>
-                                {client.finalData &&
-                                  (client.finalData.findIndex((val) =>
-                                    val.includes("Jul")
-                                  ) === -1
-                                    ? "0"
-                                    : client.finalData[
-                                        client.finalData.findIndex((val) =>
-                                          val.includes("Jul")
-                                        )
-                                      ].split("-")[1])}
-                              </td>
-                              {/* aug */}
-                              <td>
-                                {client.finalData &&
-                                  (client.finalData.findIndex((val) =>
-                                    val.includes("Aug")
-                                  ) === -1
-                                    ? "0"
-                                    : client.finalData[
-                                        client.finalData.findIndex((val) =>
-                                          val.includes("Aug")
-                                        )
-                                      ].split("-")[1])}
-                              </td>
-                              {/* sept */}
-                              <td>
-                                {client.finalData &&
-                                  (client.finalData.findIndex((val) =>
-                                    val.includes("Sept")
-                                  ) === -1
-                                    ? "0"
-                                    : client.finalData[
-                                        client.finalData.findIndex((val) =>
-                                          val.includes("Sept")
-                                        )
-                                      ].split("-")[1])}
-                              </td>
-                              {/* oct */}
-                              <td>
-                                {client.finalData &&
-                                  (client.finalData.findIndex((val) =>
-                                    val.includes("Oct")
-                                  ) === -1
-                                    ? "0"
-                                    : client.finalData[
-                                        client.finalData.findIndex((val) =>
-                                          val.includes("Oct")
-                                        )
-                                      ].split("-")[1])}
-                              </td>
-                              {/* nov */}
-                              <td>
-                                {client.finalData &&
-                                  (client.finalData.findIndex((val) =>
-                                    val.includes("Nov")
-                                  ) === -1
-                                    ? "0"
-                                    : client.finalData[
-                                        client.finalData.findIndex((val) =>
-                                          val.includes("Nov")
-                                        )
-                                      ].split("-")[1])}
-                              </td>
-                              {/* dec */}
-                              <td>
-                                {client.finalData &&
-                                  (client.finalData.findIndex((val) =>
-                                    val.includes("Dec")
-                                  ) === -1
-                                    ? "0"
-                                    : client.finalData[
-                                        client.finalData.findIndex((val) =>
-                                          val.includes("Dec")
-                                        )
-                                      ].split("-")[1])}
-                              </td>
+                            <React.Fragment>
+                              {/* <tr>1</tr> */}
+                              <tr key={idx}>
+                                <td>{idx + 1}</td>
 
-                              {/* Jan */}
-                              <td>
-                                {client.finalData &&
-                                  (client.finalData.findIndex((val) =>
-                                    val.includes("Jan")
-                                  ) === -1
-                                    ? "0"
-                                    : client.finalData[
-                                        client.finalData.findIndex((val) =>
-                                          val.includes("Jan")
-                                        )
-                                      ].split("-")[1])}
-                              </td>
-                              {/* feb */}
+                                <td>
+                                  <Link
+                                    to="/client-fy-report"
+                                    className="btnLink"
+                                    onClick={() => handleGoToAllMember(client)}
+                                  >
+                                    {client._id}
+                                  </Link>
+                                </td>
+                                {/* apr */}
+                                <td>
+                                  {client.finalData &&
+                                    (client.finalData.findIndex((val) =>
+                                      val.includes("Apr")
+                                    ) === -1
+                                      ? "0"
+                                      : client.finalData[
+                                          client.finalData.findIndex((val) =>
+                                            val.includes("Apr")
+                                          )
+                                        ].split("-")[1])}
+                                </td>
+                                {/* May */}
+                                <td>
+                                  {client.finalData &&
+                                    (client.finalData.findIndex((val) =>
+                                      val.includes("May")
+                                    ) === -1
+                                      ? "0"
+                                      : client.finalData[
+                                          client.finalData.findIndex((val) =>
+                                            val.includes("May")
+                                          )
+                                        ].split("-")[1])}
+                                </td>
+                                {/* June */}
+                                <td>
+                                  {client.finalData &&
+                                    (client.finalData.findIndex((val) =>
+                                      val.includes("Jun")
+                                    ) === -1
+                                      ? "0"
+                                      : client.finalData[
+                                          client.finalData.findIndex((val) =>
+                                            val.includes("Jun")
+                                          )
+                                        ].split("-")[1])}
+                                </td>
+                                {/* jul */}
+                                <td>
+                                  {client.finalData &&
+                                    (client.finalData.findIndex((val) =>
+                                      val.includes("Jul")
+                                    ) === -1
+                                      ? "0"
+                                      : client.finalData[
+                                          client.finalData.findIndex((val) =>
+                                            val.includes("Jul")
+                                          )
+                                        ].split("-")[1])}
+                                </td>
+                                {/* aug */}
+                                <td>
+                                  {client.finalData &&
+                                    (client.finalData.findIndex((val) =>
+                                      val.includes("Aug")
+                                    ) === -1
+                                      ? "0"
+                                      : client.finalData[
+                                          client.finalData.findIndex((val) =>
+                                            val.includes("Aug")
+                                          )
+                                        ].split("-")[1])}
+                                </td>
+                                {/* sept */}
+                                <td>
+                                  {client.finalData &&
+                                    (client.finalData.findIndex((val) =>
+                                      val.includes("Sept")
+                                    ) === -1
+                                      ? "0"
+                                      : client.finalData[
+                                          client.finalData.findIndex((val) =>
+                                            val.includes("Sept")
+                                          )
+                                        ].split("-")[1])}
+                                </td>
+                                {/* oct */}
+                                <td>
+                                  {client.finalData &&
+                                    (client.finalData.findIndex((val) =>
+                                      val.includes("Oct")
+                                    ) === -1
+                                      ? "0"
+                                      : client.finalData[
+                                          client.finalData.findIndex((val) =>
+                                            val.includes("Oct")
+                                          )
+                                        ].split("-")[1])}
+                                </td>
+                                {/* nov */}
+                                <td>
+                                  {client.finalData &&
+                                    (client.finalData.findIndex((val) =>
+                                      val.includes("Nov")
+                                    ) === -1
+                                      ? "0"
+                                      : client.finalData[
+                                          client.finalData.findIndex((val) =>
+                                            val.includes("Nov")
+                                          )
+                                        ].split("-")[1])}
+                                </td>
+                                {/* dec */}
+                                <td>
+                                  {client.finalData &&
+                                    (client.finalData.findIndex((val) =>
+                                      val.includes("Dec")
+                                    ) === -1
+                                      ? "0"
+                                      : client.finalData[
+                                          client.finalData.findIndex((val) =>
+                                            val.includes("Dec")
+                                          )
+                                        ].split("-")[1])}
+                                </td>
 
-                              <td>
-                                {client.finalData &&
-                                  (client.finalData.findIndex((val) =>
-                                    val.includes("Feb")
-                                  ) === -1
-                                    ? "0"
-                                    : client.finalData[
-                                        client.finalData.findIndex((val) =>
-                                          val.includes("Feb")
-                                        )
-                                      ].split("-")[1])}
-                              </td>
-                              {/* mar */}
-                              <td>
-                                {client.finalData &&
-                                  (client.finalData.findIndex((val) =>
-                                    val.includes("Mar")
-                                  ) === -1
-                                    ? "0"
-                                    : client.finalData[
-                                        client.finalData.findIndex((val) =>
-                                          val.includes("Mar")
-                                        )
-                                      ].split("-")[1])}
-                              </td>
-                            </tr>
+                                {/* Jan */}
+                                <td>
+                                  {client.finalData &&
+                                    (client.finalData.findIndex((val) =>
+                                      val.includes("Jan")
+                                    ) === -1
+                                      ? "0"
+                                      : client.finalData[
+                                          client.finalData.findIndex((val) =>
+                                            val.includes("Jan")
+                                          )
+                                        ].split("-")[1])}
+                                </td>
+                                {/* feb */}
+
+                                <td>
+                                  {client.finalData &&
+                                    (client.finalData.findIndex((val) =>
+                                      val.includes("Feb")
+                                    ) === -1
+                                      ? "0"
+                                      : client.finalData[
+                                          client.finalData.findIndex((val) =>
+                                            val.includes("Feb")
+                                          )
+                                        ].split("-")[1])}
+                                </td>
+                                {/* mar */}
+                                <td>
+                                  {client.finalData &&
+                                    (client.finalData.findIndex((val) =>
+                                      val.includes("Mar")
+                                    ) === -1
+                                      ? "0"
+                                      : client.finalData[
+                                          client.finalData.findIndex((val) =>
+                                            val.includes("Mar")
+                                          )
+                                        ].split("-")[1])}
+                                </td>
+                              </tr>
+                            </React.Fragment>
                           );
                         })}
                     </tbody>
