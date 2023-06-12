@@ -68,12 +68,12 @@ try{
 }
 
 //edit enquiry
-export const  editEnquiryDetails = ()=>async(dispatch)=>{
-  try{
-    await axios.post("/api/enquiry/edit-enquiry-details")
+// export const  editEnquiryDetails = ()=>async(dispatch)=>{
+//   try{
+//     await axios.post("/api/enquiry/edit-enquiry-details")
 
-  }catch(error){console.log(error.message)}
-}
+//   }catch(error){console.log(error.message)}
+// }
 
 export const getEnquiryDetails =(data)=>async(dispatch)=>{
   try{
@@ -93,6 +93,16 @@ export const deleteEnquiry=()=>async(dispatch)=>{
 
   }catch(error){console.log(error.message)}
 }
+
+export const getLastEnquiryHistoryDeatils=(data)=>async(dispatch)=>{
+  try{
+    let finalData = await axios.post("/api/enquiry/get-last-enquiry-details",data)
+
+  }catch(error){
+    console.log(error.message)
+  }
+}
+
 
 
 //ADD

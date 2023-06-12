@@ -23,14 +23,14 @@ router.post("/add-enquiry-details",async(req,res)=>{
 });
 
 //edit
-router.post("/edit-enquiry-details",async(req,res)=>{
-    try{
-        console.log("")
+// router.post("/edit-enquiry-details",async(req,res)=>{
+//     try{
+//         console.log("")
 
-    }catch(error){
-        console.log(error.message)
-    }
-})
+//     }catch(error){
+//         console.log(error.message)
+//     }
+// })
 
 //delete
 router.post("/get-enquiry-details",async(req,res)=>{
@@ -45,15 +45,27 @@ router.post("/get-enquiry-details",async(req,res)=>{
     }
 })
 
-//get details
 
-router.post("/delete-enquiry-details",async(req,res)=>{
+router.post("/get-last-enquiry-details",async(req,res)=>{
+    let data = req.body;
     try{
-        console.log("")
-
+        let finalResult = await enquiry.find({enteredById :mongoose.Types.ObjectId(data.userId)}).sort({_id :-1})
+        res.json(finalResult)
+       console.log("finalResult",finalResult)
     }catch(error){
         console.log(error.message)
     }
 })
+
+//get details
+
+// router.post("/delete-enquiry-details",async(req,res)=>{
+//     try{
+//         console.log("")
+
+//     }catch(error){
+//         console.log(error.message)
+//     }
+// })
 
 module.exports = router;
