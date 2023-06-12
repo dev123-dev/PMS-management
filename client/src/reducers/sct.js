@@ -41,6 +41,7 @@ import {
   FY_CLIENT_MONTHWISE,
   CLIENT_WISE,
   FY_CLIENT_SUM,
+  ENQUIRY_DETAILS,
 } from "../actions/types";
 
 const initialState = {
@@ -85,6 +86,7 @@ const initialState = {
   sctCallsClientCount: [],
   FYclient: [],
   clientwise: [],
+  allEnquiry:[],
 };
 
 const sct = (state = initialState, action) => {
@@ -312,6 +314,13 @@ const sct = (state = initialState, action) => {
         ...state,
         allsctsalesvalues: payload,
       };
+
+      case ENQUIRY_DETAILS:
+        return{
+          ...state,
+          allEnquiry:payload,
+
+        };
 
     default:
       return state;

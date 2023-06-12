@@ -15,6 +15,7 @@ import AmendAddDiscussion from "./AmendAddDiscussion";
 import AmendHistory from "./AmendHistory";
 const Enquiry = ({
   auth: { isAuthenticated, user, users },
+  sct:{allEnquiry},
   project: { amendmentProjects },
   getAmendmentProjectDeatils,
   getLastAmendmentHistoryDeatils,
@@ -36,6 +37,8 @@ const Enquiry = ({
   const [showHide2, setShowHide2] = useState({
     showonclickSection: false,
   });
+
+  console.log("allEnquiry",allEnquiry)
 
   const { showonclickSection } = showHide2;
 
@@ -84,6 +87,9 @@ const Enquiry = ({
       showonclickSection: true,
     });
   };
+
+
+//   console.log("allEnquiry",allEnquiry)
 
   const [showHide, setShowHide] = useState({
     showhistory_submitSection: false,
@@ -165,45 +171,67 @@ const Enquiry = ({
                     <thead>
                       <tr>
                         {/* <th style={{ width: "10%" }}>Client Name</th> */}
-                        <th style={{ width: "10%" }}>Client Name </th>
+                        <th style={{ width: "9%" }}>Client Name </th>
                         <th style={{ width: "15%" }}>Email ID</th>
                         <th style={{ width: "10%" }}>EnquiryTo</th>
-                        <th style={{ width: "15%" }}>Notes</th>
+                        <th style={{ width: "10%" }}>Notes</th>
                         <th style={{ width: "10%" }}>DCT/SCT</th>
                         <th style={{ width: "10%" }}>Entered Date</th>
-                        <th style={{ width: "10%" }}>Entered By</th>
+                        <th style={{ width: "7%" }}>Entered By</th>
                         <th style={{ width: "10%" }}>Estimated ERD</th>
-                        <th style={{ width: "10%" }}>Status</th>
+                        <th style={{ width: "7%" }}>Status</th>
+                        <th  style={{ width: "5%" }}>OP</th>
                     
                     
                       </tr>
                     </thead>
                     <tbody>
-                      {/* {amendmentProjects &&
-                        amendmentProjects.map((amendmentProjects, idx) => {
+                      {allEnquiry &&
+                        allEnquiry.map((allEnquiryData, idx) => {
                           return (
                             <tr
                               key={idx}
-                              className={
-                                colorData === idx ? "seletedrowcolorchange" : ""
-                              }
-                              onClick={() =>
-                                onClickHandler(amendmentProjects, idx)
-                              }
+                            //   className={
+                            //     colorData === idx ? "seletedrowcolorchange" : ""
+                            //   }
+                            //   onClick={() =>
+                            //     onClickHandler(amendmentProjects, idx)
+                            //   }
                             >
                            
                               <td>
                                 <b>
-                                  {amendmentProjects.output[0].clientFolderName}
+                                  {allEnquiryData.clientName}
                                 </b>
                               </td>
-                              <td>{amendmentProjects.output[0].projectName}</td>
+                              <td>{allEnquiryData.clientEmailId
+                                }</td>
                               <td>
-                                {amendmentProjects.output[0].projectStatusType}
+                                {allEnquiryData.enquiryTo}
+                              </td>
+                             
+                              <td>
+                                {allEnquiryData.enquiryNotes}
+                              </td>
+                              <td>
+                                {allEnquiryData.enquiryType}
+                              </td>
+                              <td>
+                                {allEnquiryData.enteredDateTime}
+                              </td>
+                              <td>{allEnquiryData.enteredBy}</td>
+                              <td>
+                                {allEnquiryData.estimatedERD}
+                              </td>
+                              <td>
+                                {allEnquiryData.enquiryStatus}
+                              </td>
+                              <td>
+
                               </td>
                             </tr>
                           );
-                        })} */}
+                        })}
                     </tbody>
                   </table>
                 </div>
@@ -379,6 +407,7 @@ Enquiry.propTypes = {
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  sct:state.sct,
   project: state.project,
   settings: state.settings,
 });
