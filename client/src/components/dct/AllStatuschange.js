@@ -296,6 +296,35 @@ const AllStatuschange = ({
       callComeFromVal = "Client";
     if (callStatus.value === "FollowUp") {
       callCategoryVal = "F";
+
+
+
+    } else if (dctLeadsCategory !== "") {
+      if (from === "TestClient") {
+            callCategoryVal = "TC";
+      } else if (from === "RegularClient") {
+        callCategoryVal = "RC";
+      } else if (from === "FollowUp") {
+        callCategoryVal = "F";
+      }  else {
+        callCategoryVal = "PT";
+      }
+    // } else if (callStatus.value === "WrongNumber") {
+    //   callCategoryVal = "W";
+    } else if (callStatus.value === "TestClient") {
+      callCategoryVal = "TC";
+      // clientTypeVal = "Engaged";
+    } else if (callStatus.value === "RegularClient") {
+      callCategoryVal = "RC";
+      // clientTypeVal = "Regular";
+    } else if (callStatus.value === "RegularClient") {
+      callCategoryVal = "RC";
+      // clientTypeVal = "Regular";
+  
+    
+  
+
+
     } else if (callStatus.value === "WrongNumber") {
       callCategoryVal = "W";
     }
@@ -306,6 +335,9 @@ const AllStatuschange = ({
       callCategoryVal = "TC";
     } else if (callStatus.value === "RegularClient") {
       callCategoryVal = "RC";
+   
+   
+   
     } else {
       if (leadDataVal.dctLeadCategory === "NL") callCategoryVal = "P";
       else {
@@ -326,7 +358,12 @@ const AllStatuschange = ({
         callFromName: user.userName,
         callCategory: callCategoryVal,
         callStatus: callStatus.value,
-        dctLeadsCategory: dctLeadsCategory ? dctLeadsCategory.value : "",
+        // dctLeadsCategory: dctLeadsCategory ? dctLeadsCategory.value : "",
+        dctLeadsCategory: dctLeadsCategory
+        ? dctLeadsCategory.value
+        : leadDataVal.dctLeadsCategory
+        ? leadDataVal.dctLeadsCategory
+        : "",
         callDate: startStatusDate || todayDateymd,
         callNote: callNote?.trim(),
         callComeFrom: callComeFromVal,
@@ -334,11 +371,11 @@ const AllStatuschange = ({
         callEnteredDateTime: new Date().toLocaleString("en-GB"),
         filterData: filterData,
       };
-      // console.log("finaldata", finalData);
+      //  console.log("finaldata", finalData);
       if (from === "TestClient" || from === "RegularClient") {
-        addDctClientCalls(finalData);
+       addDctClientCalls(finalData);
       } else {
-        addDctCalls(finalData);
+       addDctCalls(finalData);
       }
       setFormData({
         ...formData,
@@ -348,9 +385,9 @@ const AllStatuschange = ({
         callNote: "",
         isSubmitted: true,
       });
-      ondivcloseChange(true);
-      setStatusDate("");
-      getstaffsData("");
+     ondivcloseChange(true);
+     setStatusDate("");
+     getstaffsData("");
     }
   };
 
@@ -422,7 +459,9 @@ const AllStatuschange = ({
               </>
             )}
           </div>
-          {showLeadCategory && (
+
+          
+          {showLeadCategory && from !== "FollowUp" && from !== "TestClient" && from!=="RegularClient" ?   (
             <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTop">
               <label className="label-control">Category :</label>
               <Select
@@ -434,7 +473,7 @@ const AllStatuschange = ({
                 onChange={(e) => onLeadCategoryChange(e)}
               />
             </div>
-          )}
+          ):(<></>)}
           {showLeadCategory && showLeadCategory ? (
             <div className="col-lg-5 col-md-12 col-sm-12 col-12 notesTop">
               <label className="label-control"> Notes :</label>

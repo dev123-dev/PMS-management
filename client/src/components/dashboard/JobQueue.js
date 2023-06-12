@@ -37,7 +37,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.38:8000");
+const client = new w3cwebsocket("ws://192.168.6.43:8000");
 
 const JobQueue = ({
   auth: { isAuthenticated, user, users },
@@ -1472,7 +1472,7 @@ const JobQueue = ({
 
         <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
-            <Link
+            {downloadingQty > 0 ?( <Link
               to="#"
               className="btnLinkjob"
               onClick={() => onstatusTypeSelect("Downloading")}
@@ -1481,32 +1481,76 @@ const JobQueue = ({
                 {" "}
                 Downloading : {downloadingQty}
               </span>
-            </Link>
+            </Link>):( <Link
+              to="#"
+              className="btnLinkjob"
+              // onClick={() => onstatusTypeSelect("Downloading")}
+            >
+              <span className="footerfont">
+                {" "}
+                Downloading : {downloadingQty}
+              </span>
+            </Link>)}
+         
             &emsp;
-            <Link
+            {WorkingQty > 0 ?(
+               <Link
               to="#"
               className="btnLinkjob"
               onClick={() => onstatusTypeSelect("Working")}
             >
               <span className="footerfont"> Working : {WorkingQty}</span>
-            </Link>
-            &emsp;
+            </Link>):( 
             <Link
               to="#"
               className="btnLinkjob"
-              onClick={() => onstatusTypeSelect("Pending")}
+              // onClick={() => onstatusTypeSelect("Working")}
+            >
+              <span className="footerfont"> Working : {WorkingQty}</span>
+            </Link>) }
+           
+            &emsp;
+            {PendingQty > 0 ?(
+                <Link
+                to="#"
+                className="btnLinkjob"
+                onClick={() => onstatusTypeSelect("Pending")}
+              >
+                <span className="footerfont"> Pending : {PendingQty}</span>
+              </Link>
+            ):(
+              <Link
+              to="#"
+              className="btnLinkjob"
+              // onClick={() => onstatusTypeSelect("Pending")}
             >
               <span className="footerfont"> Pending : {PendingQty}</span>
             </Link>
+            )}
+          
             &emsp;
-            <Link
+            { QCPendingQty > 0 ?(
+               <Link
+               to="#"
+               className="btnLinkjob"
+               onClick={() => onstatusTypeSelect("QC Pending")}
+             >
+               <span className="footerfont">QC Pending : {QCPendingQty}</span>
+             </Link>
+
+            ):(
+              <Link
               to="#"
               className="btnLinkjob"
-              onClick={() => onstatusTypeSelect("QC Pending")}
+              // onClick={() => onstatusTypeSelect("QC Pending")}
             >
               <span className="footerfont">QC Pending : {QCPendingQty}</span>
             </Link>
+
+            )}
+           
             &emsp;
+            { QCEstimateQty > 0 ?( 
             <Link
               to="#"
               className="btnLinkjob"
@@ -1514,22 +1558,59 @@ const JobQueue = ({
             >
               <span className="footerfont"> QC Estimate : {QCEstimateQty}</span>
             </Link>
+            ):(
+               <Link
+               to="#"
+               className="btnLinkjob"
+              //  onClick={() => onstatusTypeSelect("QC Estimate")}
+             >
+               <span className="footerfont"> QC Estimate : {QCEstimateQty}</span>
+             </Link>
+            )}
+           
             &emsp;
-            <Link
+
+
+            { UploadingQty > 0 ?(
+               <Link
+               to="#"
+               className="btnLinkjob"
+               onClick={() => onstatusTypeSelect("Uploading")}
+             >
+               <span className="footerfont"> Uploading : {UploadingQty}</span>
+             </Link>
+
+            ):(
+              <Link
               to="#"
               className="btnLinkjob"
-              onClick={() => onstatusTypeSelect("Uploading")}
+              // onClick={() => onstatusTypeSelect("Uploading")}
             >
               <span className="footerfont"> Uploading : {UploadingQty}</span>
             </Link>
+
+            )}
+           
             &emsp;
-            <Link
+            {QCDoneQty > 0 ?(
+               <Link
+               to="#"
+               className="btnLinkjob"
+               onClick={() => onstatusTypeSelect("QC DONE")}
+             >
+               <span className="footerfont"> QC Done : {QCDoneQty}</span>
+             </Link>
+
+            ):(
+              <Link
               to="#"
               className="btnLinkjob"
-              onClick={() => onstatusTypeSelect("QC DONE")}
+              // onClick={() => onstatusTypeSelect("QC DONE")}
             >
               <span className="footerfont"> QC Done : {QCDoneQty}</span>
             </Link>
+            )}
+           
             &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
             {Review_Pending > 0 ? (
               <Link
@@ -1546,13 +1627,13 @@ const JobQueue = ({
               <Link
                 to="#"
                 className=" btnLinkjob"
-                onClick={() => onstatusTypeSelect("Review_Pending")}
+                // onClick={() => onstatusTypeSelect("Review_Pending")}
               >
                 <span className="footerfont">
                   {" "}
                   Reviews Pending : {Review_Pending}
                 </span>
-              </Link>
+               </Link>  
             )}
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
