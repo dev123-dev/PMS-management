@@ -46,6 +46,8 @@ import {
   FY_CLIENT_MONTHWISE,
   CLIENT_WISE,
   FY_CLIENT_SUM,
+  ENQUIRY_DETAILS,
+  
 } from "./types";
 
 const config = {
@@ -53,6 +55,40 @@ const config = {
     "Content-Type": "application/json",
   },
 };
+
+//add enquiry
+export const addEnquiryDetails = ()=>async(dispatch)=>{
+  console.log("hii")
+try{
+  await axios.post("/api/enquiry/add-enquiry-details")
+
+}catch(error){
+  console.log(error.message)
+}
+}
+
+//edit enquiry
+export const  editEnquiryDetails = ()=>async(dispatch)=>{
+  try{
+    await axios.post("/api/enquiry/edit-enquiry-details")
+
+  }catch(error){console.log(error.message)}
+}
+
+export const getEnquiryDetails =()=>async(diaptch)=>{
+  try{
+    await axios.post("/api/enquiry/get-enquiry-details")
+
+  }catch(error){console.log(error.message)}
+}
+
+export const deleteEnquiry=()=>async(dispatch)=>{
+  try{
+    await axios.post("/api/enquiry/delete-enquiry-details")
+
+  }catch(error){console.log(error.message)}
+}
+
 
 //ADD
 

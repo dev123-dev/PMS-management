@@ -7,6 +7,7 @@ export const FY_CLIENT = "FY_CLIENT";
 export const USER_LOADED = "USER_LOADED";
 export const EMP_DETAILS = "EMP_DETAILS";
 export const AUTH_ERROR = "AUTH_ERROR";
+export const ENQUIRY_DETAILS = "ENQUIRY_DETAILS";
 export const ERROR = "ERROR"; //For Any ERRORS in actions it's return error
 export const REMOVE_ERROR = "REMOVE_ERROR";
 export const ONLY_SUMMARY = "ONLY_SUMMARY";
