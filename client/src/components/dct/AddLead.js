@@ -583,9 +583,25 @@ const onTimeZoneChange=(e)=>{
                       value={timezone}
                       placeholder="Select Region"
                       onChange={(e) => onTimeZoneChange(e)}
-                     // required
+                      required
                     />
-                  </div>) : (<></>)}
+                  </div>) : (<><div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <label
+                      className="label-control"
+                      style={countrytypeIdErrorStyle}
+                    >
+                      Select Time Zone* :
+                    </label>
+                    <Select
+                      name="countryName"
+                      options={timeZoneDropDown}
+                      isSearchable={true}
+                      value={timezone}
+                      placeholder="Select Region"
+                      onChange={(e) => onTimeZoneChange(e)}
+                      //required
+                    />
+                  </div>)</>)}
               
 
 
