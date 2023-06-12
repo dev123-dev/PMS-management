@@ -1,46 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Fragment } from "react";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import {
-    getAmendmentProjectDeatils,
-    getLastAmendmentHistoryDeatils,
-    
-  } from "../../actions/projects";
+    addEnquiryDetails,
+    getEnquiryDetails,
+} from "../../actions/sct";
 
 const AddEnquiry = ({
-    auth: { isAuthenticated, user, users },
-    project: { amendmentProjects },
-    getAmendmentProjectDeatils,
-    getLastAmendmentHistoryDeatils,
+  auth: { isAuthenticated, user, users },
+  project: { amendmentProjects },
+  addEnquiryDetails,
+  getEnquiryDetails,
+ 
 }) => {
-
   const [show, setshow] = useState("");
   const handleClose = () => setshow("false");
 
-
+  useEffect(()=>{
+    getEnquiryDetails({userId:user && user._id})
+  },[])
 
   const [formData, setformData] = useState({
     clientName: "",
     emailId: "",
-    category: "",
-    EstimatedDate:"",
-    notes:"",
-    radiodata:"",
+    EnquiryTo: "",
+    EstimatedDate: "",
+    notes: "",
+    radiodata: "",
   });
-  const { clientName, emailId ,category,EstimatedDate,notes,radiodata} = formData;
+  const { clientName, emailId, EnquiryTo, EstimatedDate, notes, radiodata } =
+    formData;
   const onRadioSelect = (radiodata) => {
-    console.log("radiodata",radiodata)
+    console.log("radiodata", radiodata);
     if (radiodata === "SCT") {
-        setformData({
+      setformData({
         ...formData,
         radiodata: "SCT",
         major: "",
       });
     } else if (radiodata === "DCT") {
-        setformData({
+      setformData({
         ...formData,
         SCT: "",
         radiodata: "DCT",
@@ -54,7 +56,6 @@ const AddEnquiry = ({
     // }
   };
 
-
   const onEnquiryChange = (e) => {
     setformData({
       ...formData,
@@ -62,8 +63,7 @@ const AddEnquiry = ({
     });
   };
 
-
-  console.log("user",user)
+ 
   // Modal show
   const [showAddModal, setShowAddModal] = useState(false);
   const handleAddClose = () => setShowAddModal(false);
@@ -73,34 +73,30 @@ const AddEnquiry = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const finalData = {
-        clientName:clientName,
-        clientEmailId:emailId,
-        enquiryType:category,
-        estimatedERD:EstimatedDate,
-        enteredById:user && user._id,
-        enquiryStatus:"UnResolved",
-        enquiryType:radiodata,
-        enquiryNotes:notes,
-
-
-
+      clientName: clientName,
+      clientEmailId: emailId,
+      enquiryType: EnquiryTo,
+      estimatedERD: EstimatedDate,
+      enteredById: user && user._id,
+      enquiryStatus: "UnResolved",
+      enquiryType: radiodata,
+      enquiryNotes: notes,
     };
 
-    console.log("finaldata",finalData)
+    console.log("finaldata", finalData);
 
-    // AddEnquiry(finalData);
- 
+    addEnquiryDetails(finalData);
 
     setformData({
       ...formData,
       clientName: "",
       emailId: "",
-      category: "",
-      EstimatedDate:"",
-      notes:"",
-      radiodata:"",
+      EnquiryTo: "",
+      EstimatedDate: "",
+      notes: "",
+      radiodata: "",
     });
- 
+
     handleAddClose();
   };
 
@@ -108,20 +104,14 @@ const AddEnquiry = ({
     <Fragment></Fragment>
   ) : (
     <Fragment>
-   
-       <button
-                className="btn btn_green_bg float-right"
-                onClick={handleOpen}
-              >
-                Add Enquiry
-              </button>
+      <button className="btn btn_green_bg float-right" onClick={handleOpen}>
+        Add Enquiry
+      </button>
 
       <br />
 
-
       <Modal
         show={showAddModal}
-   
         backdrop="static"
         keyboard={false}
         onHide={handleClose}
@@ -129,7 +119,7 @@ const AddEnquiry = ({
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header >
+        <Modal.Header>
           <div className="col-lg-10 col-md-10">
             <h3 className="modal-title text-center">ADD Enquiry </h3>
           </div>
@@ -145,7 +135,7 @@ const AddEnquiry = ({
         </Modal.Header>
 
         <Modal.Body>
-        {/*  */}
+          {/*  */}
           <form onSubmit={(e) => onSubmit(e)}>
             <div className="container ">
               <section className="body">
@@ -183,28 +173,28 @@ const AddEnquiry = ({
                           onChange={(e) => onEnquiryChange(e)}
                           required
                         />
-                    
                       </div>
                     </div>
                   </div>
-                  <div className="row form-group">
-                  <div className="control-group col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                      <label className="control-label">Category</label>
+                  <div className="row form-group py-2">
+                    <div className="control-group col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                      <label className="control-label">
+                        EnquiryTo <span style={{ color: "red" }}>*</span>
+                      </label>
                       <div className="controls">
                         <input
-                          name="category"
-                          id="category"
+                          name="EnquiryTo"
+                          id="EnquiryTo"
                           type="text"
                           className="form-control"
                           onChange={(e) => onEnquiryChange(e)}
                         />
-                     
                       </div>
                     </div>
-                  
+
                     <div className="control-group col-md-6 col-lg-6 col-sm-6 col-xs-6">
                       <label className="control-label">
-                       Estimated ERD <span style={{ color: "red" }}></span>
+                        Estimated ERD <span style={{ color: "red" }}>*</span>
                       </label>
                       <div className="controls">
                         <input
@@ -213,58 +203,64 @@ const AddEnquiry = ({
                           type="date"
                           className="form-control"
                           onChange={(e) => onEnquiryChange(e)}
-                         required
+                          required
                         />
-                       
                       </div>
                     </div>
-                  
-
-                    <div className="control-group col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                      <label className="control-label">Notes</label>
-                      <div className="controls">
-                        
-                        <textarea  name="notes"
-                          id="notes"
-                          type="text"
-                          className="form-control"
-                          onChange={(e) => onEnquiryChange(e)}  required></textarea>
-                         
-                     
-                      </div>
-                    </div>
-                    <div className="control-group col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                      <label className="control-label">Type : </label>
-                      
-                     
-              &emsp;
-
-              {user && user.empCtAccess !="Individual" ?(<><input
-                className="radiolevels"
-                type="radio"
-                id="DCT"
-                value="DCT"
-                name="radiolevels"
-               onClick={() => onRadioSelect("DCT")}
-              /><label className="label-control">DCT </label>
-                       </>):(<></>)}
-                       &emsp;
-              <input
-                className="radiolevels"
-                type="radio"
-                id="SCT"
-                value="SCT"
-                name="radiolevels"
-                onClick={() => onRadioSelect("SCT")}
-              /> <label className="label-control">SCT </label>
-               
-           
-              
-                     
-                     
-                    </div>
-
                   </div>
+                  <div className="row form-group py-2">
+
+                  <div className="control-group col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                    <label className="control-label">
+                      Type : <span style={{ color: "red" }}>*</span>
+                    </label>
+                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                    {user && user.empCtAccess != "Individual" ? (
+                      <>
+                        <input
+                          className="radiolevels"
+                          type="radio"
+                          id="DCT"
+                          value="DCT"
+                          name="radiolevels"
+                          onClick={() => onRadioSelect("DCT")}
+                        /> &nbsp;
+                         
+                        <label className="label-control">DCT </label>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                    &emsp;
+                    <input
+                      className="radiolevels"
+                      type="radio"
+                      id="SCT"
+                      value="SCT"
+                      name="radiolevels"
+                      onClick={() => onRadioSelect("SCT")}
+                    />{" "}&nbsp;
+                    <label className="label-control">   SCT </label>
+                  </div>
+                  </div>
+                
+                  <div className=" row control-group col-md-6 col-lg-12 col-sm-6 col-xs-6">
+                    <label className="control-label">
+                      Notes <span style={{ color: "red" }}>*</span>
+                    </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    {/* <div className="col-lg-12 col-md-4 col-sm-4 col-12 text-right"> */}
+                <textarea
+                  rows="3"
+                  name="notes"
+                  onChange={(e) => onEnquiryChange(e)}
+                  id="notes"
+                  className="textarea form-control"
+                  required
+                ></textarea>
+              {/* </div> */}
+                  
+                  </div>
+                
 
                   <div className="controls ">
                     <div className="control-group col-md-12 col-lg-12 col-sm-12 col-xs-12 text-left">
@@ -290,12 +286,12 @@ const AddEnquiry = ({
   );
 };
 const mapStateToProps = (state) => ({
-    auth: state.auth,
-    project: state.project,
-    settings: state.settings,
-
+  auth: state.auth,
+  project: state.project,
+  settings: state.settings,
 });
-export default connect(mapStateToProps, {   getAmendmentProjectDeatils,
-    getLastAmendmentHistoryDeatils,})(
-  AddEnquiry
-);
+export default connect(mapStateToProps, {
+    addEnquiryDetails,
+    getEnquiryDetails,
+ 
+})(AddEnquiry);
