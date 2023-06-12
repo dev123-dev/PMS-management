@@ -9,12 +9,13 @@ const enquiry = require("../../models/enquiryDetails");
 
 //add
 router.post("/add-enquiry-details",async(req,res)=>{
-    // let data = req.body;
-    console.log("hii")
+     let data = req.body;
+     console.log(data)
+    
 
     try{
-    // let enquiryDetails = new enquiry(data);
-    // await enquiryDetails.save();    
+    let enquiryDetails = new enquiry(data);
+    await enquiryDetails.save();    
 
     }catch(error){
         console.log(error.message)
@@ -33,8 +34,11 @@ router.post("/edit-enquiry-details",async(req,res)=>{
 
 //delete
 router.post("/get-enquiry-details",async(req,res)=>{
+    let data = req.body;
+    console.log(data)
     try{
-        console.log("")
+        let finalData = await enquiry.find({enteredById :mongoose.Types.ObjectId(data.userId),enquiryStatus :{$eq :"UnResolved"} });
+        res.json(finalData)
 
     }catch(error){
         console.log(error.message)

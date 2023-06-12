@@ -47,7 +47,7 @@ import {
   CLIENT_WISE,
   FY_CLIENT_SUM,
   ENQUIRY_DETAILS,
-  
+
 } from "./types";
 
 const config = {
@@ -57,10 +57,10 @@ const config = {
 };
 
 //add enquiry
-export const addEnquiryDetails = ()=>async(dispatch)=>{
-  console.log("hii")
+export const addEnquiryDetails = (finalData)=>async(dispatch)=>{
+  console.log("finalData",finalData)
 try{
-  await axios.post("/api/enquiry/add-enquiry-details")
+  await axios.post("/api/enquiry/add-enquiry-details",finalData)
 
 }catch(error){
   console.log(error.message)
@@ -75,9 +75,14 @@ export const  editEnquiryDetails = ()=>async(dispatch)=>{
   }catch(error){console.log(error.message)}
 }
 
-export const getEnquiryDetails =()=>async(diaptch)=>{
+export const getEnquiryDetails =(data)=>async(dispatch)=>{
   try{
-    await axios.post("/api/enquiry/get-enquiry-details")
+  let finalData =   await axios.post("/api/enquiry/get-enquiry-details",data);
+  
+    dispatch({
+      type : ENQUIRY_DETAILS,
+      payload : finalData.data
+    })
 
   }catch(error){console.log(error.message)}
 }
