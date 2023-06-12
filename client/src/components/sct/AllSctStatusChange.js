@@ -70,7 +70,7 @@ const AllSctStatusChange = ({
         StatusMethods.value !== "TrainingDemo"
     );
   } else if (from === "EngagedClient") {
-    // ShowCategory("true");
+     //ShowCategory("true");
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
         StatusMethods.value !== "EngagedClient" &&
@@ -815,7 +815,7 @@ const AllSctStatusChange = ({
               />
             </div>
           )}
-          {showLeadCategory && staffFilter.staffFrom !== "F" ? (
+          {showLeadCategory && staffFilter.staffFrom !== "F" && from !== "EngagedClient"&& from !== "RegularClient" ? (
             <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
               <label className="label-control">Category :</label>
               <Select

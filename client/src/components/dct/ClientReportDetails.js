@@ -12,7 +12,7 @@ import {
   getAllFolder1,
   getSelectedClientfolderDeatils,
 } from "../../actions/projects";
-import { getYear, getFYclient, getMonthWiseClient } from "../../actions/sct";
+import { getYear, getFYclient, getMonthWiseClient,getClientDetails } from "../../actions/sct";
 import { getVerificationFolder } from "../../actions/client";
 
 import { getAllchanges, getUpdatedProjectStaus } from "../../actions/projects";
@@ -32,6 +32,7 @@ const ClientReportDetails = ({
   getAllProjectStatusVerification,
   getUpdatedProjectStaus,
   getYear,
+  getClientDetails,
   getFYclient,
   getAllFolder1,
   getMonthWiseClient,
@@ -68,7 +69,8 @@ const ClientReportDetails = ({
   }, [getAllFolder1]);
 
   const [clientData, setClientData1] = useState("");
-  const [Year, setYear] = useState(financialyear && financialyear[0]._id);
+  const [Year, setYear] = useState((financialyear && financialyear[0]._id) || "2022-2023");
+
   const [startDate, setStartDate] = useState(defaultStartDate);
   const [endDate, setendDate] = useState(defaultEndDate);
   const onfolderClientChange = (e) => {
@@ -81,6 +83,12 @@ const ClientReportDetails = ({
       finYear: Year,
     });
   };
+
+///////////////////////
+
+
+///////////////////////
+
 
   const onYearChange = (e) => {
     setYear(e.label);
@@ -139,8 +147,25 @@ const ClientReportDetails = ({
       finYear: client.finYear,
     });
   };
+ 
 
+  const handleGoToMember = (clientmonth,monthNo) => {
+let yr=""
+
+   Number(monthNo)>=4 ? yr+=(Year && Year.split("-")[0]) :yr+=(Year && Year.split("-")[1]);
   
+      let start = yr + "-" +monthNo  + "-" + "01";
+      let end = yr + "-" + monthNo + "-" + "31";
+
+     let finalData = {
+      clientFolderName: clientmonth._id,
+      startDate: start,
+      endDate: end,
+    };
+     //console.log("finalData",finalData)
+    getClientDetails(finalData);
+  //};
+  }
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -150,7 +175,8 @@ const ClientReportDetails = ({
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h4 className="heading_color">Client Report Details</h4>
+              <h4 className="heading_color">
+                 Report Details</h4>
             </div>
 
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -195,18 +221,18 @@ const ClientReportDetails = ({
                       <tr>
                         <th style={{ width: "3%" }}>Sl no</th>
                         <th style={{ width: "9%" }}>Client Name</th>
-                        <th>April{"-"+Year.split("-")[0]}</th>
-                        <th>May{"-"+Year.split("-")[0]}</th>
-                        <th>June{"-"+Year.split("-")[0]}</th>
-                        <th>July{"-"+Year.split("-")[0]}</th>
-                        <th>Aug{"-"+Year.split("-")[0]}</th>
-                        <th>Sept{"-"+Year.split("-")[0]}</th>
-                        <th>Oct{"-"+Year.split("-")[0]}</th>
-                        <th>Nov{"-"+Year.split("-")[0]}</th>
-                        <th>Dec{"-"+Year.split("-")[0]}</th>
-                        <th>Jan{"-"+Year.split("-")[1]}</th>
-                        <th>Feb{"-"+Year.split("-")[1]}</th>
-                        <th>Mar{"-"+Year.split("-")[1]}</th>
+                        <th>April{"-"+ Year && Year.slice(2,4) || "Y"}</th>
+                        <th>May{"-"+ Year && Year.slice(2,4) || "Y"}</th>
+                        <th>June{"-"+ Year && Year.slice(2,4) || "Y"}</th>
+                        <th>July{"-"+ Year && Year.slice(2,4) || "Y"}</th>
+                        <th>Aug{"-"+ Year && Year.slice(2,4) || "Y"}</th>
+                        <th>Sept{"-"+ Year && Year.slice(2,4) || "Y"}</th>
+                        <th>Oct{"-"+ Year && Year.slice(2,4) || "Y"}</th>
+                        <th>Nov{"-"+ Year && Year.slice(2,4) || "Y"}</th>
+                        <th>Dec{"-"+ Year && Year.slice(2,4) || "Y"}</th>
+                        <th>Jan{"-"+ Year && Year.slice(7,9) || "Y"}</th>
+                        <th>Feb{"-"+ Year && Year.slice(7,9) || "Y"}</th>
+                        <th>Mar{"-"+ Year && Year.slice(7,9) || "Y"}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -403,6 +429,11 @@ const ClientReportDetails = ({
                                 </td>
                                 {/* apr */}
                                 <td>
+                                <Link
+                                    to="/client-month-report"
+                                    className="btnLink"
+                                    onClick={() => handleGoToMember(client,"04")}
+                                  >
                                   {client.finalData &&
                                     (client.finalData.findIndex((val) =>
                                       val.includes("Apr")
@@ -413,9 +444,15 @@ const ClientReportDetails = ({
                                             val.includes("Apr")
                                           )
                                         ].split("-")[1])}
+                                        </Link>
                                 </td>
                                 {/* May */}
                                 <td>
+                                <Link
+                                    to="/client-month-report"
+                                    className="btnLink"
+                                    onClick={() => handleGoToMember(client,"05")}
+                                  >
                                   {client.finalData &&
                                     (client.finalData.findIndex((val) =>
                                       val.includes("May")
@@ -426,9 +463,15 @@ const ClientReportDetails = ({
                                             val.includes("May")
                                           )
                                         ].split("-")[1])}
+                                        </Link>
                                 </td>
                                 {/* June */}
                                 <td>
+                                <Link
+                                    to="/client-month-report"
+                                    className="btnLink"
+                                    onClick={() => handleGoToMember(client,"06")}
+                                  >
                                   {client.finalData &&
                                     (client.finalData.findIndex((val) =>
                                       val.includes("Jun")
@@ -439,9 +482,15 @@ const ClientReportDetails = ({
                                             val.includes("Jun")
                                           )
                                         ].split("-")[1])}
+                                        </Link>
                                 </td>
                                 {/* jul */}
                                 <td>
+                                <Link
+                                    to="/client-month-report"
+                                    className="btnLink"
+                                    onClick={() => handleGoToMember(client,"07")}
+                                  >
                                   {client.finalData &&
                                     (client.finalData.findIndex((val) =>
                                       val.includes("Jul")
@@ -452,9 +501,15 @@ const ClientReportDetails = ({
                                             val.includes("Jul")
                                           )
                                         ].split("-")[1])}
+                                        </Link>
                                 </td>
                                 {/* aug */}
                                 <td>
+                                <Link
+                                    to="/client-month-report"
+                                    className="btnLink"
+                                    onClick={() => handleGoToMember(client,"08")}
+                                  >
                                   {client.finalData &&
                                     (client.finalData.findIndex((val) =>
                                       val.includes("Aug")
@@ -465,9 +520,15 @@ const ClientReportDetails = ({
                                             val.includes("Aug")
                                           )
                                         ].split("-")[1])}
+                                        </Link>
                                 </td>
                                 {/* sept */}
                                 <td>
+                                <Link
+                                    to="/client-month-report"
+                                    className="btnLink"
+                                    onClick={() => handleGoToMember(client,"09")}
+                                  >
                                   {client.finalData &&
                                     (client.finalData.findIndex((val) =>
                                       val.includes("Sept")
@@ -478,9 +539,15 @@ const ClientReportDetails = ({
                                             val.includes("Sept")
                                           )
                                         ].split("-")[1])}
+                                        </Link>
                                 </td>
                                 {/* oct */}
                                 <td>
+                                <Link
+                                    to="/client-month-report"
+                                    className="btnLink"
+                                    onClick={() => handleGoToMember(client,"10")}
+                                  >
                                   {client.finalData &&
                                     (client.finalData.findIndex((val) =>
                                       val.includes("Oct")
@@ -491,9 +558,15 @@ const ClientReportDetails = ({
                                             val.includes("Oct")
                                           )
                                         ].split("-")[1])}
+                                        </Link>
                                 </td>
                                 {/* nov */}
                                 <td>
+                                <Link
+                                    to="/client-month-report"
+                                    className="btnLink"
+                                    onClick={() => handleGoToMember(client,"11")}
+                                  >
                                   {client.finalData &&
                                     (client.finalData.findIndex((val) =>
                                       val.includes("Nov")
@@ -504,9 +577,15 @@ const ClientReportDetails = ({
                                             val.includes("Nov")
                                           )
                                         ].split("-")[1])}
+                                        </Link>
                                 </td>
                                 {/* dec */}
                                 <td>
+                                <Link
+                                    to="/client-month-report"
+                                    className="btnLink"
+                                    onClick={() => handleGoToMember(client,"12")}
+                                  >
                                   {client.finalData &&
                                     (client.finalData.findIndex((val) =>
                                       val.includes("Dec")
@@ -517,10 +596,16 @@ const ClientReportDetails = ({
                                             val.includes("Dec")
                                           )
                                         ].split("-")[1])}
+                                        </Link>
                                 </td>
 
                                 {/* Jan */}
                                 <td>
+                                <Link
+                                    to="/client-month-report"
+                                    className="btnLink"
+                                    onClick={() => handleGoToMember(client,"01")}
+                                  >
                                   {client.finalData &&
                                     (client.finalData.findIndex((val) =>
                                       val.includes("Jan")
@@ -531,10 +616,16 @@ const ClientReportDetails = ({
                                             val.includes("Jan")
                                           )
                                         ].split("-")[1])}
+                                        </Link>
                                 </td>
                                 {/* feb */}
 
                                 <td>
+                                <Link
+                                    to="/client-month-report"
+                                    className="btnLink"
+                                    onClick={() => handleGoToMember(client,"02")}
+                                  >
                                   {client.finalData &&
                                     (client.finalData.findIndex((val) =>
                                       val.includes("Feb")
@@ -545,9 +636,15 @@ const ClientReportDetails = ({
                                             val.includes("Feb")
                                           )
                                         ].split("-")[1])}
+                                        </Link>
                                 </td>
                                 {/* mar */}
                                 <td>
+                                <Link
+                                    to="/client-month-report"
+                                    className="btnLink"
+                                    onClick={() => handleGoToMember(client,"03")}
+                                  >
                                   {client.finalData &&
                                     (client.finalData.findIndex((val) =>
                                       val.includes("Mar")
@@ -558,6 +655,7 @@ const ClientReportDetails = ({
                                             val.includes("Mar")
                                           )
                                         ].split("-")[1])}
+                                        </Link>
                                 </td>
                               </tr>
                             </React.Fragment>
@@ -599,6 +697,7 @@ export default connect(mapStateToProps, {
   getSelectedClientfolderDeatils,
   getYear,
   getFYclient,
+  getClientDetails,
   getMonthWiseClient,
   getVerificationFolder,
 })(ClientReportDetails);
