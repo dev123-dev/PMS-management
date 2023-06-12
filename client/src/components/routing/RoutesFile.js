@@ -109,6 +109,7 @@ import FollowupHistory from "../sct/FollowupHistory";
 import ClientReportDetails from "../dct/ClientReportDetails";
 import ClientFYReport from "../dct/ClientFYReport";
 import ClientMonthReport from "../dct/ClientMonthReport";
+import Enquiry from "../dashboard/Enquiry";
 
 const RoutesFile = () => {
   return (
@@ -409,6 +410,7 @@ const RoutesFile = () => {
           path="/change-password"
           component={changePassword}
         />
+        <PrivateRoute exact path="/all-Enquiry" component={Enquiry} />
         <PrivateRoute exact path="/route-driver" component={RouteDriver} />
         <Route component={NotFound} />
       </Switch>

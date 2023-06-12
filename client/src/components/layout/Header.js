@@ -18,7 +18,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   //client in websocket
   //SLAP IP
 
-  const client = new w3cwebsocket("ws://192.168.6.38:8000");
+  const client = new w3cwebsocket("ws://192.168.6.43:8000");
   const LogoutModalClose = () => {
     handleLogoutModalClose();
     logout();
@@ -230,6 +230,7 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                 ) : (
                   <></>
                 )}
+
                 {!loading &&
                 isAuthenticated &&
                 user &&
@@ -361,7 +362,47 @@ const Header = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                 ) : (
                   <NavItem></NavItem>
                 )}
+
+                
+                <NavItem>
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin" ||
+                    user.userGroupName === "Sct Marketing" ||
+                    user.userGroupName === "Marketing") ? (
+                    <NavLink
+                      to="/all-Enquiry"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      Enquiry
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
               </Nav>
+
+                <NavItem>
+                  {!loading &&
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin" ||
+                    user.userGroupName === "Marketing") ? (
+                    <NavLink
+                      to="/all-Amendments"
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      AM/AI
+                    </NavLink>
+                  ) : (
+                    <NavItem></NavItem>
+                  )}
+                </NavItem>
               {!loading && isAuthenticated && user ? (
                 <Nav>
                   <ul className="top-level-menu text-right">
