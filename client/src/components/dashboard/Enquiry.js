@@ -15,7 +15,7 @@ import AmendAddDiscussion from "./AmendAddDiscussion";
 import AmendHistory from "./AmendHistory";
 const Enquiry = ({
   auth: { isAuthenticated, user, users },
-  sct:{allEnquiry},
+  sct: { allEnquiry },
   project: { amendmentProjects },
   getAmendmentProjectDeatils,
   getLastAmendmentHistoryDeatils,
@@ -38,7 +38,7 @@ const Enquiry = ({
     showonclickSection: false,
   });
 
-  console.log("allEnquiry",allEnquiry)
+  console.log("allEnquiry", allEnquiry);
 
   const { showonclickSection } = showHide2;
 
@@ -88,8 +88,7 @@ const Enquiry = ({
     });
   };
 
-
-//   console.log("allEnquiry",allEnquiry)
+  //   console.log("allEnquiry",allEnquiry)
 
   const [showHide, setShowHide] = useState({
     showhistory_submitSection: false,
@@ -117,11 +116,9 @@ const Enquiry = ({
     <Fragment>
       <div className="container container_align ">
         <section className="sub_reg">
-          <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding" >
+          <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className=" col-lg-3 col-md-11 col-sm-10 col-10">
-              <h4 className="heading_color">
-               All Enquiry
-              </h4>
+              <h4 className="heading_color">All Enquiry</h4>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -145,20 +142,15 @@ const Enquiry = ({
             </div>
 
             <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2">
-            <AddEnquiry/>
-                
+              <AddEnquiry />
+
               {/* <button
                 className="btn btn_green_bg float-right"
                 // onClick={() => onClickReset()}
               >
                 Add Enquiry
               </button> */}
-              </div>
-
-
-
-
-          
+            </div>
           </div>
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
             <div className="col-lg-8 col-md-12 col-sm-12 col-12 text-center">
@@ -180,55 +172,54 @@ const Enquiry = ({
                         <th style={{ width: "7%" }}>Entered By</th>
                         <th style={{ width: "10%" }}>Estimated ERD</th>
                         <th style={{ width: "7%" }}>Status</th>
-                        <th  style={{ width: "5%" }}>OP</th>
-                    
-                    
+                        <th style={{ width: "5%" }}>OP</th>
                       </tr>
                     </thead>
                     <tbody>
                       {allEnquiry &&
                         allEnquiry.map((allEnquiryData, idx) => {
+                          var ED =
+                          allEnquiryData.estimatedERD &&
+                          allEnquiryData.estimatedERD.split(/\D/g);
+                          var estimatedERD = [
+                            ED && ED[2],
+                            ED && ED[1],
+                            ED && ED[0],
+                          ].join("-");
+                          var EDT =
+                          allEnquiryData.enteredDateTime &&
+                          allEnquiryData.enteredDateTime.split(/\D/g);
+                          var enteredDateTime = [
+                            EDT && EDT[2],
+                            EDT && EDT[1],
+                            EDT && EDT[0],
+                          ].join("-");
+
+
+                          
                           return (
                             <tr
                               key={idx}
-                            //   className={
-                            //     colorData === idx ? "seletedrowcolorchange" : ""
-                            //   }
-                            //   onClick={() =>
-                            //     onClickHandler(amendmentProjects, idx)
-                            //   }
+                              //   className={
+                              //     colorData === idx ? "seletedrowcolorchange" : ""
+                              //   }
+                              //   onClick={() =>
+                              //     onClickHandler(amendmentProjects, idx)
+                              //   }
                             >
-                           
                               <td>
-                                <b>
-                                  {allEnquiryData.clientName}
-                                </b>
+                                <b>{allEnquiryData.clientName}</b>
                               </td>
-                              <td>{allEnquiryData.clientEmailId
-                                }</td>
-                              <td>
-                                {allEnquiryData.enquiryTo}
-                              </td>
-                             
-                              <td>
-                                {allEnquiryData.enquiryNotes}
-                              </td>
-                              <td>
-                                {allEnquiryData.enquiryType}
-                              </td>
-                              <td>
-                                {allEnquiryData.enteredDateTime}
-                              </td>
-                              <td>{allEnquiryData.enteredBy}</td>
-                              <td>
-                                {allEnquiryData.estimatedERD}
-                              </td>
-                              <td>
-                                {allEnquiryData.enquiryStatus}
-                              </td>
-                              <td>
+                              <td>{allEnquiryData.clientEmailId}</td>
+                              <td>{allEnquiryData.enquiryTo}</td>
 
-                              </td>
+                              <td>{allEnquiryData.enquiryNotes}</td>
+                              <td>{allEnquiryData.enquiryType}</td>
+                              <td>{enteredDateTime}</td>
+                              <td>{allEnquiryData.enteredBy}</td>
+                              <td>{estimatedERD}</td>
+                              <td>{allEnquiryData.enquiryStatus}</td>
+                              <td></td>
                             </tr>
                           );
                         })}
@@ -238,7 +229,7 @@ const Enquiry = ({
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
                     <label>
-                      Count : 
+                      Count :
                       {/* {amendmentProjects && amendmentProjects.length} */}
                     </label>
                   </div>
@@ -256,9 +247,7 @@ const Enquiry = ({
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePart2divHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-                  <label className="sidePartHeading ">
-                     Last Discussion
-                  </label>
+                  <label className="sidePartHeading ">Last Discussion</label>
                   {showonclickSection && (
                     <AmendLastDiscussion
                       ProjLastchnageVal={ProjLastchnage}
@@ -407,7 +396,7 @@ Enquiry.propTypes = {
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  sct:state.sct,
+  sct: state.sct,
   project: state.project,
   settings: state.settings,
 });

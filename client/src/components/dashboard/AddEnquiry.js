@@ -75,15 +75,17 @@ const AddEnquiry = ({
     const finalData = {
       clientName: clientName,
       clientEmailId: emailId,
-      enquiryType: EnquiryTo,
+      enquiryTo: EnquiryTo,
       estimatedERD: EstimatedDate,
       enteredById: user && user._id,
+      enteredBy:user && user.userName,
       enquiryStatus: "UnResolved",
       enquiryType: radiodata,
       enquiryNotes: notes,
+      
     };
 
-    console.log("finaldata", finalData);
+    console.log("finaldataaa", finalData);
 
     addEnquiryDetails(finalData);
 

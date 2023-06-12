@@ -31,6 +31,9 @@ const enquiryDetails = new mongoose.Schema({
     enquiryStatus :{                 //resolved or Unresolved
         type :String
     },
+    enteredBy:{
+        type:String
+    },
     
 })
 module.exports = mongoose.model("enquiryDetails", enquiryDetails);
