@@ -572,7 +572,7 @@ const onTimeZoneChange=(e)=>{
 <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label
                       className="label-control"
-                      style={countrytypeIdErrorStyle}
+                     // style={countrytypeIdErrorStyle}
                     >
                       Select Time Zone* :
                     </label>
@@ -588,7 +588,7 @@ const onTimeZoneChange=(e)=>{
                   </div>) : (<><div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label
                       className="label-control"
-                      style={countrytypeIdErrorStyle}
+                     // style={countrytypeIdErrorStyle}
                     >
                       Select Time Zone* :
                     </label>

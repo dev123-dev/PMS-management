@@ -68,6 +68,7 @@ router.post("/edit-dct-Leads", async (req, res) => {
           dctLeadEditedDateTime: data.dctLeadEditedDateTime,
           dctLeadAssignedToId: data.dctLeadAssignedToId,
           dctLeadAssignedToName: data.dctLeadAssignedToName,
+          timezone : data.timezone
         },
       }
     );
