@@ -39,7 +39,7 @@ router.post("/update-enquiry-details", async (req, res) => {
   try {
     let updateEnquiry = await enquiry.updateOne(
       {
-        _id: mongoose.Types.ObjectId(data.enquiryId),
+        _id: mongoose.Types.ObjectId(data.clientId),
       },
       {
         $set: {
@@ -50,6 +50,7 @@ router.post("/update-enquiry-details", async (req, res) => {
         },
       }
     );
+    res.json(updateEnquiry)
   } catch (error) {
     console.log(error.message);
   }
@@ -58,26 +59,27 @@ router.post("/update-enquiry-details", async (req, res) => {
 //delete
 router.post("/get-enquiry-details", async (req, res) => {
   const{userId,enquiryStatus } = req.body;
+
   let query = {};
  if(enquiryStatus){
+
 query = {
-    enteredById: mongoose.Types.ObjectId(data.userId),
+    enteredById: mongoose.Types.ObjectId(userId),
     enquiryStatus : {$eq :enquiryStatus },
-    enquiryStatus: { $eq: "UnResolved" },
+  
 }
  }else{
     query = {
-        enteredById: mongoose.Types.ObjectId(data.userId),
+        enteredById: mongoose.Types.ObjectId(userId),
         enquiryStatus: { $eq: "UnResolved" },
 
     }
  }
 
-  //  console.log(data)
   try {
-    let finalData = await enquiry.find({
+    let finalData = await enquiry.find(
         query  
-    });
+    );
     res.json(finalData);
   } catch (error) {
     console.log(error.message);
@@ -88,7 +90,7 @@ router.post("/get-last-enquiry-details", async (req, res) => {
   let data = req.body;
   try {
     let finalResult = await enquiryHistory
-      .find({ enteredById: mongoose.Types.ObjectId(data.enquiryId) })
+      .find({ clientId: mongoose.Types.ObjectId(data.clientId) })
       .sort({ _id: -1 });
     res.json(finalResult);
     //console.log("finalResult",finalResult)

@@ -78,6 +78,10 @@ const Enquiry = ({
 
       console.log("finalData delete",finalData)
       deleteEnquiry(finalData);
+      getEnquiryDetails(
+        {userId : user && user._id}
+  
+      )
   
       handleClose();
     };
@@ -136,26 +140,12 @@ const Enquiry = ({
 
   const { showonclickSection } = showHide2;
 
-  // const onStatuscatChange = (e) => {
-  //   if (e) {
-  //     setFormData({
-  //       ...formData,
-  //       projectStatusCategory: e,
-  //     });
-  //   }
-  //   if (e.value === "Resolved") {
-  //     setShowHide1({
-  //       ...showHide1,
-  //       showunresolvedSection: false,
-  //     });
-  //   } else {
-  //     setShowHide1({
-  //       ...showHide1,
-  //       showunresolvedSection: true,
-  //     });
-  //   }
-  //   let setTypeData = e.value;
-  // };
+  const onStatuscatChange = (e) => {
+    console.log("e.value",e.value)
+  
+    getEnquiryDetails({enquiryStatus : e.value, 
+                      userId:user && user._id})
+  };
 const[oldData,setOldData]=useState("") 
 
   const onClickHandler = (allEnquiryData, idx) => {
@@ -168,8 +158,7 @@ const[oldData,setOldData]=useState("")
       ...formData,
       enquiryId: allEnquiryData._id ,
     });
-    console.log(allEnquiryData)
-    getLastEnquiryHistoryDeatils({enquiryId :allEnquiryData.enteredById})
+    getLastEnquiryHistoryDeatils({clientId :allEnquiryData._id})
 
   };
 
@@ -179,19 +168,16 @@ const[oldData,setOldData]=useState("")
   const [colorData, setcolorData] = useState();
   
 
-  const onInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
+ 
  
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("xxx",e)
-    console.log("oldData",oldData)
+
    let finalData={
 
-    enquiryId : oldData._id,
+    clientId : oldData._id,
+    
     radiodata : radiodata,
     discussionPointNotes : discussionPointNotes,
     clientName : oldData.clientName,
@@ -200,6 +186,7 @@ const[oldData,setOldData]=useState("")
     enteredBy : oldData.enteredBy,
     enteredById : oldData.enteredById,
    }
+   console.log("finaldata submit",finalData)
     AddenquiryHistory(finalData);
     updateEnquiry(finalData)
     getEnquiryDetails(
@@ -218,12 +205,7 @@ const[oldData,setOldData]=useState("")
     
     }
 
-    // setFormData({
-    //   ...formData,
-    //   enquiryId: "",
-    //   discussionPointNotes: "",
-    //   radiodata: "",
-    // });
+   
 
     const[showHistoryTable,setshowHistoryTable]=useState(false)
     const buttonOnclickClose =()=> setshowHistoryTable(false)
@@ -250,11 +232,11 @@ console.log("historyDetails",historyDetails)
               <h4 className="heading_color">All Enquiry</h4>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              {/* <Select
+              <Select
                 name="projectStatusCategory"
                 options={StatusCategory}
                 isSearchable={true}
-                value={projectStatusCategory}
+               // value={projectStatusCategory}
                 placeholder="Select"
                 onChange={(e) => onStatuscatChange(e)}
                 theme={(theme) => ({
@@ -267,7 +249,7 @@ console.log("historyDetails",historyDetails)
                     primary: "black",
                   },
                 })}
-              /> */}
+              />
             </div>
 
             <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2">
@@ -374,8 +356,8 @@ console.log("historyDetails",historyDetails)
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
                     <label>
-                    UnResolved  Count :
-                      {/* {amendmentProjects && amendmentProjects.length} */}
+                     Count :
+                      {allEnquiry && allEnquiry.length}
                     </label>
                   </div>
                 </div>
@@ -426,7 +408,7 @@ console.log("historyDetails",historyDetails)
                              placeholder="Discussion Points Notes"
                              value={discussionPointNotes}
                              style={{ width: "100%" }}
-                             onChange={(e) => onInputChange(e)}
+                             onChange={(e) => onInputchange(e)}
                              required
                            ></textarea>
                          </div>
@@ -469,7 +451,7 @@ console.log("historyDetails",historyDetails)
             rows="4"
             placeholder=""
             style={{ width: "100%" }}
-            value={historyDetails && historyDetails[0] && historyDetails[0].discussionPointNotes}
+            value={historyDetails && historyDetails[0] && historyDetails[0].discussionPointNotes ? historyDetails && historyDetails[0] && historyDetails[0].discussionPointNotes:""}
             disabled
           ></textarea>
         </div>

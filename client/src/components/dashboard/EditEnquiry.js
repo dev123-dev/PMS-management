@@ -6,6 +6,7 @@ import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { getEnquiryDetails,editEnquiryDetails } from "../../actions/sct";
 
+
 const EditEnquiry = ({
   auth: { isAuthenticated, user, users },
   EnquiryData,
@@ -27,14 +28,17 @@ const EditEnquiry = ({
 
   // const [checkDCT,setcheckDCT]=useState("")
   // const [checkSCT,setcheckSCT]=useState("")
-  //   if(EnquiryData.enquiryType==="DCT"){
+  //   useEffect(()=>{
+  //     if(EnquiryData.enquiryType==="DCT"){
   //       setcheckDCT("true")
+  //       console.log("inside")
   //   }
   //   else
-  //   {
+  //   {console.log("else")
   //       setcheckSCT("true")
 
   //   }
+  //   },[])
 
   const [estimatedDate, setEstimatedDate] = useState(
     EnquiryData.estimatedERD
@@ -100,6 +104,8 @@ const EditEnquiry = ({
     };
     console.log("finaledit", finalData);
     editEnquiryDetails(finalData)
+    getEnquiryDetails(
+      {userId : user && user._id});
     closeedit();
   };
   return !isAuthenticated || !user || !users ? (
@@ -198,7 +204,7 @@ const EditEnquiry = ({
                         id="DCT"
                         value="DCT"
                         name="radiolevels"
-                        //   checked={checkDCT=="true"}
+                          // checked={checkDCT=="true"}
                         onClick={() => onRadioSelect("DCT")}
                       />{" "}
                       &nbsp;

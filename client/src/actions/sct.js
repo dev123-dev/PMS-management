@@ -77,23 +77,31 @@ export const AddenquiryHistory =(data)=>async(dispatch)=>{
     });
 
   const res2 =   await axios.post("/api/enquiry/add-enquiry-history",data,config);
-   
 
-    dispatch(getEnquiryDetails({userId : data.enteredById}))
+  dispatch(getEnquiryDetails({userId : data && data.enquiryId}))
+
 
   }catch(error){console.log(error.message)}
 }
 
 export const updateEnquiry=(data)=>async(dispatch)=>{
 try{
+  dispatch({
+    type: SET_LOADING_TRUE,
+  });
   const res1 =   await axios.post("/api/enquiry/update-enquiry-details",data,config);
+
+  // dispatch(getEnquiryDetails(userId:data.))
+  dispatch({
+    type: SET_LOADING_FALSE,
+  });
+  
 }catch(error){console.log(error.message)}
 }
 
 
 //edit enquiry
 export const  editEnquiryDetails = (data)=>async(dispatch)=>{
-  console.log("xyz123",data)
   try{
     await axios.post("/api/enquiry/edit-enquiry-details",data)
 
@@ -121,7 +129,9 @@ export const deleteEnquiry=(data)=>async(dispatch)=>{
 
 export const getLastEnquiryHistoryDeatils=(data)=>async(dispatch)=>{
   try{
+
     let finalData = await axios.post("/api/enquiry/get-last-enquiry-details",data)
+    
   dispatch({
     type :HISTORY_DETAILS,
     payload : finalData.data

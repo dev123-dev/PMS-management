@@ -37,6 +37,9 @@ const enquiryHistory = new mongoose.Schema({
     radiodata :{
         type :String
     },
+    clientId:{
+        type:ObjectId
+    },
     
     
 })
