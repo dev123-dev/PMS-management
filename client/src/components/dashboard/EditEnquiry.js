@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { getEnquiryDetails,editEnquiryDetails } from "../../actions/sct";
+import { getEnquiryDetails,editEnquiryDetails ,getUnresolvedData} from "../../actions/sct";
 
 
 const EditEnquiry = ({
@@ -14,6 +14,7 @@ const EditEnquiry = ({
   sct: { allEntity },
   getEnquiryDetails,
   editEnquiryDetails,
+  getUnresolvedData,
 }) => {
   const [formData, setFormData] = useState({
     clientName: EnquiryData.clientName,
@@ -104,6 +105,7 @@ const EditEnquiry = ({
     };
     console.log("finaledit", finalData);
     editEnquiryDetails(finalData)
+    getUnresolvedData({userId:user && user._id})
     getEnquiryDetails(
       {userId : user && user._id});
     closeedit();
@@ -275,4 +277,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getEnquiryDetails,
   editEnquiryDetails,
+  getUnresolvedData,
 })(EditEnquiry);

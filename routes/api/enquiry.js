@@ -5,6 +5,7 @@ const auth = require("../../middleware/auth");
 const mongoose = require("mongoose");
 const enquiryHistory = require("../../models/enquiryHistory");
 const enquiry = require("../../models/enquiryDetails");
+const EmployeeDetails = require("../../models/EmpDetails");
 
 //add
 router.post("/add-enquiry-details", async (req, res) => {
@@ -56,35 +57,105 @@ router.post("/update-enquiry-details", async (req, res) => {
   }
 });
 
-//delete
-router.post("/get-enquiry-details", async (req, res) => {
+//get all data
+router.post("/get-enquiry-details",auth, async (req, res) => {
   const{userId,enquiryStatus } = req.body;
-
-  let query = {};
- if(enquiryStatus){
-
-query = {
-    enteredById: mongoose.Types.ObjectId(userId),
-    enquiryStatus : {$eq :enquiryStatus },
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
   
-}
- }else{
-    query = {
-        enteredById: mongoose.Types.ObjectId(userId),
-        enquiryStatus: { $eq: "UnResolved" },
+  let query = {};
+  if (userInfo.empCtAccess === "All"){
+    if(enquiryStatus){
 
-    }
- }
+        query = {
+            // enteredById: mongoose.Types.ObjectId(userId),
+            enquiryStatus : {$eq :enquiryStatus },
+          
+        }
+         }else{
+            query = {
+                // enteredById: mongoose.Types.ObjectId(userId),
+                enquiryStatus: { $eq: "UnResolved" },
+        
+            }
+         }
+  }else {
+    if(enquiryStatus){
+
+        query = {
+             enteredById: mongoose.Types.ObjectId(userId),
+            enquiryStatus : {$eq :enquiryStatus },
+          
+        }
+         }else{
+            query = {
+                 enteredById: mongoose.Types.ObjectId(userId),
+                enquiryStatus: { $eq: "UnResolved" },
+        
+            }
+         }
+}
 
   try {
     let finalData = await enquiry.find(
         query  
     );
+
+  
     res.json(finalData);
   } catch (error) {
     console.log(error.message);
   }
 });
+
+
+router.post("/get-Unresolved-Data",auth,async(req,res)=>{
+    
+    const{userId,enquiryStatus } = req.body;
+
+    const userInfo = await EmployeeDetails.findById(req.user.id).select(
+        "-password"
+      );
+
+      let query = {};
+      if (userInfo.empCtAccess === "All"){
+        if(enquiryStatus){
+    
+            query = {
+                enquiryStatus: { $eq: "UnResolved" },
+              
+            }
+             }else{
+                query = {
+                    enquiryStatus: { $eq: "UnResolved" },
+            
+                }
+             }
+      }else {
+        if(enquiryStatus){
+    
+            query = {
+                 enteredById: mongoose.Types.ObjectId(userInfo._id),
+                 enquiryStatus: { $eq: "UnResolved" },
+              
+            }
+             }else{
+                query = {
+                     enteredById: mongoose.Types.ObjectId(userInfo._id),
+                    enquiryStatus: { $eq: "UnResolved" },
+            
+                }
+             }
+    }
+    try{
+        let finalData = await enquiry.find(
+            query  
+        );
+        res.json(finalData)
+
+    }catch(error){console.log(error.message)}
+})
 
 router.post("/get-last-enquiry-details", async (req, res) => {
   let data = req.body;

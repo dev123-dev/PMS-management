@@ -48,6 +48,7 @@ import {
   FY_CLIENT_SUM,
   ENQUIRY_DETAILS,
   HISTORY_DETAILS,
+  UNRESOLVED_ENQUIRY_DETAILS,
 } from "./types";
 
 const config = {
@@ -119,6 +120,20 @@ export const getEnquiryDetails =(data)=>async(dispatch)=>{
 
   }catch(error){console.log(error.message)}
 }
+//to get unresolved data for header counter
+export const getUnresolvedData =(data)=>async(dispatch)=>{
+  try{
+  let finalData = await axios.post("/api/enquiry/get-Unresolved-Data",data);
+  
+    dispatch({
+      type : UNRESOLVED_ENQUIRY_DETAILS,
+      payload : finalData.data
+    })
+
+  }catch(error){console.log(error.message)}
+}
+
+
 
 export const deleteEnquiry=(data)=>async(dispatch)=>{
   try{

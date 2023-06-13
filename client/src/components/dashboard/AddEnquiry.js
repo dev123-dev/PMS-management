@@ -7,6 +7,7 @@ import Select from "react-select";
 import {
     addEnquiryDetails,
     getEnquiryDetails,
+    getUnresolvedData,
 } from "../../actions/sct";
 
 const AddEnquiry = ({
@@ -14,6 +15,7 @@ const AddEnquiry = ({
   project: { amendmentProjects },
   addEnquiryDetails,
   getEnquiryDetails,
+  getUnresolvedData,
  
 }) => {
   const [show, setshow] = useState("");
@@ -88,6 +90,7 @@ const AddEnquiry = ({
     console.log("finaldataaa", finalData);
 
     addEnquiryDetails(finalData);
+    getUnresolvedData({userId:user && user._id})
 
     setformData({
       ...formData,
@@ -299,5 +302,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
     addEnquiryDetails,
     getEnquiryDetails,
- 
+    getUnresolvedData,
 })(AddEnquiry);

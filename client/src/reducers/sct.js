@@ -43,10 +43,12 @@ import {
   FY_CLIENT_SUM,
   ENQUIRY_DETAILS,
   HISTORY_DETAILS,
+  UNRESOLVED_ENQUIRY_DETAILS,
 } from "../actions/types";
 
 const initialState = {
   allSctLeads: [],
+  allUnResolved : [],
   historyDetails :[],
   fyclientsum :[],
   allSctLeadsDD: [],
@@ -104,7 +106,11 @@ const sct = (state = initialState, action) => {
          ...state,
          fyclientsum :payload,
  }
-      
+      case UNRESOLVED_ENQUIRY_DETAILS :
+        return{
+          ...state,
+          allUnResolved : payload,
+        }
  case HISTORY_DETAILS :
   return{
     ...state,

@@ -10,7 +10,8 @@ import {
   AddenquiryHistory,
   getLastEnquiryHistoryDeatils,
   updateEnquiry,
-  deleteEnquiry
+  deleteEnquiry,
+  getUnresolvedData,
 } from "../../actions/sct";
 import AddEnquiry from "../dashboard/AddEnquiry";
 const Enquiry = ({
@@ -21,6 +22,7 @@ const Enquiry = ({
   updateEnquiry,
   deleteEnquiry,
   getLastEnquiryHistoryDeatils,
+  getUnresolvedData,
 }) => {
 
   useEffect(()=>{
@@ -84,6 +86,8 @@ const Enquiry = ({
       )
   
       handleClose();
+      getUnresolvedData({userId:user && user._id})
+      
     };
   
     //on Delete
@@ -126,12 +130,20 @@ const Enquiry = ({
         ...formData,
         radiodata: "Resolved",
       });
-    } else {
+     } else if(radiodata === "UnResolved"){
+
+      
+      setFormData({
+        ...formData,
+        radiodata: "UnResolved",
+      });
+    }else{
       setFormData({
         ...formData,
         radiodata: "UnResolved",
       });
     }
+
   };
 
   //radioselect end
@@ -178,7 +190,8 @@ const[oldData,setOldData]=useState("")
 
     clientId : oldData._id,
     
-    radiodata : radiodata,
+    radiodata : radiodata ? radiodata : "UnResolved",
+
     discussionPointNotes : discussionPointNotes,
     clientName : oldData.clientName,
     enquiryTo : oldData.enquiryTo,
@@ -650,6 +663,7 @@ export default connect(mapStateToProps, {
   AddenquiryHistory,
   deleteEnquiry,
   getLastEnquiryHistoryDeatils,
+  getUnresolvedData,
 })(Enquiry);
 
 
