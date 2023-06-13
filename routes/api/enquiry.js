@@ -57,12 +57,26 @@ router.post("/update-enquiry-details", async (req, res) => {
 
 //delete
 router.post("/get-enquiry-details", async (req, res) => {
-  let data = req.body;
+  const{userId,enquiryStatus } = req.body;
+  let query = {};
+ if(enquiryStatus){
+query = {
+    enteredById: mongoose.Types.ObjectId(data.userId),
+    enquiryStatus : {$eq :enquiryStatus },
+    enquiryStatus: { $eq: "UnResolved" },
+}
+ }else{
+    query = {
+        enteredById: mongoose.Types.ObjectId(data.userId),
+        enquiryStatus: { $eq: "UnResolved" },
+
+    }
+ }
+
   //  console.log(data)
   try {
     let finalData = await enquiry.find({
-      enteredById: mongoose.Types.ObjectId(data.userId),
-      enquiryStatus: { $eq: "UnResolved" },
+        query  
     });
     res.json(finalData);
   } catch (error) {
