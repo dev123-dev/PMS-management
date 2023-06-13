@@ -59,29 +59,35 @@ router.post("/update-enquiry-details", async (req, res) => {
 
 //get all data
 router.post("/get-enquiry-details",auth, async (req, res) => {
-  const{userId,enquiryStatus } = req.body;
+  const{userId,enquiryStatus,username } = req.body;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
-  
   let query = {};
+
+  
+
   if (userInfo.empCtAccess === "All"){
+  
+
     if(enquiryStatus){
 
         query = {
             // enteredById: mongoose.Types.ObjectId(userId),
             enquiryStatus : {$eq :enquiryStatus },
+           
           
         }
          }else{
             query = {
-                // enteredById: mongoose.Types.ObjectId(userId),
                 enquiryStatus: { $eq: "UnResolved" },
         
             }
          }
-  }else {
+  
+        }else {
     if(enquiryStatus){
+
 
         query = {
              enteredById: mongoose.Types.ObjectId(userId),
@@ -89,12 +95,15 @@ router.post("/get-enquiry-details",auth, async (req, res) => {
           
         }
          }else{
+           
+
             query = {
                  enteredById: mongoose.Types.ObjectId(userId),
                 enquiryStatus: { $eq: "UnResolved" },
         
             }
          }
+     
 }
 
   try {

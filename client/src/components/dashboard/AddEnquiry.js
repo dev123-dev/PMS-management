@@ -210,9 +210,10 @@ const AddEnquiry = ({
                           name="EstimatedDate"
                           id="EstimatedDate"
                           type="date"
+                          required
                         //   className="form-control"
                           onChange={(e) => onEnquiryChange(e)}
-                          required
+                          
                         />
                       </div>
                     </div>
@@ -232,6 +233,7 @@ const AddEnquiry = ({
                           id="DCT"
                           value="DCT"
                           name="radiolevels"
+                          required
                           onClick={() => onRadioSelect("DCT")}
                         /> &nbsp;
                          

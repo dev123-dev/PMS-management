@@ -211,6 +211,7 @@ const EditEnquiry = ({
                         value="DCT"
                         name="radiolevels"
                         checked={radio === "DCT"}
+                        required
                         // checked={checkDCT=="true"}
                         onClick={() => onRadioSelect("DCT")}
                       />{" "}
