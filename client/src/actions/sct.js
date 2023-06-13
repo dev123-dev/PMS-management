@@ -47,7 +47,7 @@ import {
   CLIENT_WISE,
   FY_CLIENT_SUM,
   ENQUIRY_DETAILS,
-
+  HISTORY_DETAILS,
 } from "./types";
 
 const config = {
@@ -61,23 +61,47 @@ export const addEnquiryDetails = (finalData)=>async(dispatch)=>{
   console.log("finalData",finalData)
 try{
   await axios.post("/api/enquiry/add-enquiry-details",finalData)
-
+  dispatch(getEnquiryDetails({userId : finalData.enteredById}))
 }catch(error){
   console.log(error.message)
 }
 }
 
-//edit enquiry
-// export const  editEnquiryDetails = ()=>async(dispatch)=>{
-//   try{
-//     await axios.post("/api/enquiry/edit-enquiry-details")
+export const AddenquiryHistory =(data)=>async(dispatch)=>{
+  console.log("data",data)
 
-//   }catch(error){console.log(error.message)}
-// }
+  
+  try{
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+
+  const res2 =   await axios.post("/api/enquiry/add-enquiry-history",data,config);
+   
+
+    dispatch(getEnquiryDetails({userId : data.enteredById}))
+
+  }catch(error){console.log(error.message)}
+}
+
+export const updateEnquiry=(data)=>async(dispatch)=>{
+try{
+  const res1 =   await axios.post("/api/enquiry/update-enquiry-details",data,config);
+}catch(error){console.log(error.message)}
+}
+
+
+//edit enquiry
+export const  editEnquiryDetails = ()=>async(dispatch)=>{
+  try{
+    await axios.post("/api/enquiry/edit-enquiry-details")
+
+  }catch(error){console.log(error.message)}
+}
 
 export const getEnquiryDetails =(data)=>async(dispatch)=>{
   try{
-  let finalData =   await axios.post("/api/enquiry/get-enquiry-details",data);
+  let finalData = await axios.post("/api/enquiry/get-enquiry-details",data);
   
     dispatch({
       type : ENQUIRY_DETAILS,
@@ -97,7 +121,10 @@ export const deleteEnquiry=()=>async(dispatch)=>{
 export const getLastEnquiryHistoryDeatils=(data)=>async(dispatch)=>{
   try{
     let finalData = await axios.post("/api/enquiry/get-last-enquiry-details",data)
-
+  dispatch({
+    type :HISTORY_DETAILS,
+    payload : finalData.data
+  })
   }catch(error){
     console.log(error.message)
   }

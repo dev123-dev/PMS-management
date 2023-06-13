@@ -42,10 +42,12 @@ import {
   CLIENT_WISE,
   FY_CLIENT_SUM,
   ENQUIRY_DETAILS,
+  HISTORY_DETAILS,
 } from "../actions/types";
 
 const initialState = {
   allSctLeads: [],
+  historyDetails :[],
   fyclientsum :[],
   allSctLeadsDD: [],
   allSctLeadsEmp: [],
@@ -103,6 +105,11 @@ const sct = (state = initialState, action) => {
          fyclientsum :payload,
  }
       
+ case HISTORY_DETAILS :
+  return{
+    ...state,
+    historyDetails : payload,
+  }
     case FY_CLIENT_MONTHWISE:
       return {
         ...state,
