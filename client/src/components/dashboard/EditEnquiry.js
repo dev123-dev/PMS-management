@@ -4,8 +4,11 @@ import { Fragment } from "react";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { getEnquiryDetails,editEnquiryDetails ,getUnresolvedData} from "../../actions/sct";
-
+import {
+  getEnquiryDetails,
+  editEnquiryDetails,
+  getUnresolvedData,
+} from "../../actions/sct";
 
 const EditEnquiry = ({
   auth: { isAuthenticated, user, users },
@@ -66,6 +69,7 @@ const EditEnquiry = ({
   };
 
   console.log("EnquiryData", EnquiryData);
+  const [radio, setradio] = useState(EnquiryData.enquiryType);
 
   const onRadioSelect = (radiodata) => {
     console.log("radiodata inside", radiodata);
@@ -81,14 +85,14 @@ const EditEnquiry = ({
         radiodata: "DCT",
       });
     }
+    setradio(radiodata);
   };
 
   // on submit
   const onUpdate = (e) => {
-   
     e.preventDefault();
     const finalData = {
-      _id:EnquiryData._id,
+      _id: EnquiryData._id,
       clientName: clientName,
       clientEmailId: clientEmailId,
       enquiryTo: enquiryTo,
@@ -104,12 +108,12 @@ const EditEnquiry = ({
       //   EditByDateTime: new Date().toLocaleString("en-GB"),
     };
     console.log("finaledit", finalData);
-    editEnquiryDetails(finalData)
-    getUnresolvedData({userId:user && user._id})
-    getEnquiryDetails(
-      {userId : user && user._id});
+    editEnquiryDetails(finalData);
+    getUnresolvedData({ userId: user && user._id });
+    getEnquiryDetails({ userId: user && user._id });
     closeedit();
   };
+
   return !isAuthenticated || !user || !users ? (
     <Fragment></Fragment>
   ) : (
@@ -206,7 +210,8 @@ const EditEnquiry = ({
                         id="DCT"
                         value="DCT"
                         name="radiolevels"
-                          // checked={checkDCT=="true"}
+                        checked={radio === "DCT"}
+                        // checked={checkDCT=="true"}
                         onClick={() => onRadioSelect("DCT")}
                       />{" "}
                       &nbsp;
@@ -222,6 +227,7 @@ const EditEnquiry = ({
                     id="SCT"
                     value="SCT"
                     name="radiolevels"
+                    checked={radio === "SCT"}
                     onClick={() => onRadioSelect("SCT")}
                   />{" "}
                   &nbsp;
