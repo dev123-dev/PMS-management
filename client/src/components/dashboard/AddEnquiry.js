@@ -203,7 +203,7 @@ const AddEnquiry = ({
                           name="EstimatedDate"
                           id="EstimatedDate"
                           type="date"
-                          className="form-control"
+                        //   className="form-control"
                           onChange={(e) => onEnquiryChange(e)}
                           required
                         />
