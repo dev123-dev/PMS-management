@@ -99,6 +99,10 @@ const AddEnquiry = ({
       radiodata: "",
     });
 
+    getEnquiryDetails(
+      {userId : user && user._id}
+
+    )
     handleAddClose();
   };
 

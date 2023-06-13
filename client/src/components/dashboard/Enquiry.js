@@ -10,6 +10,7 @@ import {
   AddenquiryHistory,
   getLastEnquiryHistoryDeatils,
   updateEnquiry,
+  deleteEnquiry
 } from "../../actions/sct";
 import AddEnquiry from "../dashboard/AddEnquiry";
 const Enquiry = ({
@@ -18,6 +19,7 @@ const Enquiry = ({
   getEnquiryDetails,
   AddenquiryHistory,
   updateEnquiry,
+  deleteEnquiry,
   getLastEnquiryHistoryDeatils,
 }) => {
 
@@ -63,7 +65,7 @@ const Enquiry = ({
 
   const [EnquiryId, setEnquiryId] = useState("");
     //deactivate
-    const onAdd = (e) => {
+    const onDeactive = (e) => {
       e.preventDefault();
       const finalData = {
         EnquiryId: EnquiryId,
@@ -75,7 +77,7 @@ const Enquiry = ({
       };
 
       console.log("finalData delete",finalData)
-      // deleteEnquiry(finalData);
+      deleteEnquiry(finalData);
   
       handleClose();
     };
@@ -157,6 +159,7 @@ const Enquiry = ({
 const[oldData,setOldData]=useState("") 
 
   const onClickHandler = (allEnquiryData, idx) => {
+    setcolorData(idx);
     setShowHide2({
       showonclickSection :true
     })
@@ -199,6 +202,20 @@ const[oldData,setOldData]=useState("")
    }
     AddenquiryHistory(finalData);
     updateEnquiry(finalData)
+    getEnquiryDetails(
+      {userId : user && user._id}
+
+    )
+       setFormData({
+      ...formData,
+      enquiryId: "",
+      discussionPointNotes: "",
+      radiodata: "",
+    });
+
+    
+
+    
     }
 
     // setFormData({
@@ -216,6 +233,8 @@ const onHistoryClick =(e)=>{
   setshowHistoryTable(true)
   
 }
+
+console.log("historyDetails",historyDetails)
 
 
   
@@ -590,7 +609,7 @@ const onHistoryClick =(e)=>{
         </Modal.Header>
         <Modal.Body>
         {/*  */}
-          <form onSubmit={(e) => onAdd(e)} >
+          <form onSubmit={(e) => onDeactive(e)} >
             <div className="row col-lg-12 col-md-9 col-sm-9 col-12 ">
               <div className="col-lg-12 col-md-4 col-sm-4 col-12">
                 <label>
@@ -647,6 +666,7 @@ export default connect(mapStateToProps, {
   getEnquiryDetails,
   updateEnquiry,
   AddenquiryHistory,
+  deleteEnquiry,
   getLastEnquiryHistoryDeatils,
 })(Enquiry);
 
