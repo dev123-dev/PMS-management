@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { getEnquiryDetails } from "../../actions/sct";
+import { getEnquiryDetails,editEnquiryDetails } from "../../actions/sct";
 
 const EditEnquiry = ({
   auth: { isAuthenticated, user, users },
@@ -12,6 +12,7 @@ const EditEnquiry = ({
   closeedit,
   sct: { allEntity },
   getEnquiryDetails,
+  editEnquiryDetails,
 }) => {
   const [formData, setFormData] = useState({
     clientName: EnquiryData.clientName,
@@ -98,6 +99,7 @@ const EditEnquiry = ({
       //   EditByDateTime: new Date().toLocaleString("en-GB"),
     };
     console.log("finaledit", finalData);
+    editEnquiryDetails(finalData)
     closeedit();
   };
   return !isAuthenticated || !user || !users ? (
@@ -266,4 +268,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getEnquiryDetails,
+  editEnquiryDetails,
 })(EditEnquiry);

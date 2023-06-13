@@ -34,6 +34,9 @@ const enquiryDetails = new mongoose.Schema({
     enteredBy:{
         type:String
     },
+    enquiryDeactiveReason :{
+        type :String
+    },
     
 })
 module.exports = mongoose.model("enquiryDetails", enquiryDetails);
