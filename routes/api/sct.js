@@ -2203,7 +2203,7 @@ router.post("/get-FY-Client", auth, async (req, res) => {
     };
   }
   try {
-    //////////////////////////////new code///////////////////////////////
+    //////////////////////////////new code overall summary///////////////////////////////
     let projectDetails = await Project.aggregate([
       {
         $match: {
@@ -2448,8 +2448,163 @@ router.post("/get-FY-Client", auth, async (req, res) => {
         $sort: { _id: 1 },
       },
     ]);
+/////////////////for overall total count
+    let projectDetailsSum = await Project.aggregate([
+      {
+        $match:
+          
+          {
+            projectStatus: {
+              $ne: "Trash",
+            },
+            _id: {
+              $ne: "",
+            },
+            projectBelongsToId: {
+               $eq: null,
+            },
 
-    res.json(projectDetails);
+
+          },
+      },
+      {
+       $match :query
+      },
+      {
+        $addFields:
+         
+          {
+            projectDate: {
+              $toDate: "$projectDate",
+            },
+          },
+      },
+      {
+        $match:
+         
+          {
+            projectDate: {
+              $gte: new Date(startDate),
+              $lte: new Date(endDate),
+            },
+          },
+      },
+     
+      {
+        $group:
+         
+          {
+            _id: {
+              clientFolderName: "$clientFolderName",
+              month: {
+                $month: "$projectDate",
+              },
+              year: {
+                $year: "$projectDate",
+              },
+            },
+            totalQty: {
+              $sum: "$projectQuantity",
+            },
+          },
+      },
+      {
+        $addFields: {
+          monthName: {
+            $switch: {
+              branches: [
+                {
+                  case: {
+                    $eq: ["$_id.month", 1],
+                  },
+                  then: "Jan",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 2],
+                  },
+                  then: "Feb",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 3],
+                  },
+                  then: "Mar",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 4],
+                  },
+                  then: "Apr",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 5],
+                  },
+                  then: "May",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 6],
+                  },
+                  then: "Jun",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 7],
+                  },
+                  then: "Jul",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 8],
+                  },
+                  then: "Aug",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 9],
+                  },
+                  then: "Sept",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 10],
+                  },
+                  then: "Oct",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 11],
+                  },
+                  then: "Nov",
+                },
+                {
+                  case: {
+                    $eq: ["$_id.month", 12],
+                  },
+                  then: "Dec",
+                },
+              ],
+              default: "Invalid month",
+            },
+          },
+        },
+      },
+      {
+        $group:
+         
+          {
+            _id: "$monthName",
+            totalCount: {
+              $sum: "$totalQty",
+            },
+          },
+      },
+    ])
+
+    res.json({projectDetails :projectDetails,
+      projectDetailsSum :projectDetailsSum});
   } catch (error) {
     console.log(error.message);
   }

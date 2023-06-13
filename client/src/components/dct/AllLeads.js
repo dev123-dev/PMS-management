@@ -83,7 +83,15 @@ const AllLeads = ({
   const [colorData, setcolorData] = useState();
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
+
+  const [highlightTimeZone, sethighlightTimeZone] = useState("");
+
   const onClickHandler = (getAllLeads, idx) => {
+    sethighlightTimeZone(
+      getAllLeads.timezone && getAllLeads.timezone !== ""
+        ? getAllLeads.timezone
+        : ""
+    );
     setcolorData(idx);
     setLeadData(getAllLeads);
     const searchData = {
@@ -279,7 +287,7 @@ const AllLeads = ({
     addImportDctLeadData(finalData);
     handleShowPathModalClose();
   };
-
+  
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -295,24 +303,44 @@ const AllLeads = ({
                 <h6>
                   PST :&nbsp;
                   <Clock
+                    style={
+                      highlightTimeZone && highlightTimeZone === "PST"
+                        ? { backgroundColor: "yellow" }
+                        : { backgroundColor: "white" }
+                    }
                     ticking={true}
                     timezone={"US/Pacific"}
                     format={"DD/MM/YYYY, h:mm:ss a"}
                   />
                   &emsp;&emsp; MST :
                   <Clock
+                    style={
+                      highlightTimeZone && highlightTimeZone === "MST"
+                        ? { backgroundColor: "yellow" }
+                        : { backgroundColor: "white"}
+                    }
                     ticking={true}
                     timezone={"US/Mountain"}
                     format={" DD/MM/YYYY, h:mm:ss a"}
                   />{" "}
                   &emsp;&emsp; EST :
                   <Clock
+                    style={
+                      highlightTimeZone && highlightTimeZone === "EST"
+                        ? { backgroundColor: "yellow" }
+                        : { backgroundColor: "white" }
+                    }
                     ticking={true}
                     timezone={"US/Eastern"}
                     format={" DD/MM/YYYY, h:mm:ss a"}
                   />{" "}
                   &emsp;&emsp; CST :
                   <Clock
+                    style={
+                      highlightTimeZone && highlightTimeZone === "CST"
+                        ? { backgroundColor: "yellow" }
+                        : { backgroundColor: "white"}
+                    }
                     ticking={true}
                     timezone={"US/Central"}
                     format={" DD/MM/YYYY, h:mm:ss a"}
@@ -323,12 +351,22 @@ const AllLeads = ({
                 <h6>
                   Sydney :
                   <Clock
+                    style={
+                      highlightTimeZone && highlightTimeZone === "Sydney"
+                        ? { backgroundColor: "yellow" }
+                        : { backgroundColor: "white" }
+                    }
                     ticking={true}
                     timezone={"Australia/Sydney"}
                     format={" DD/MM/YYYY, h:mm:ss a"}
                   />
                   &emsp; &emsp;Perth :
                   <Clock
+                    style={
+                      highlightTimeZone && highlightTimeZone === "Perth"
+                        ? {backgroundColor: "yellow" }
+                        : {backgroundColor: "white" }
+                    }
                     ticking={true}
                     timezone={"Australia/Perth"}
                     format={" DD/MM/YYYY, h:mm:ss a"}

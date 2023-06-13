@@ -28,6 +28,7 @@ const AllSctStatusChange = ({
   checkDemo,
   addSctClientDetails,
   page,
+  page1,
   getSctStaffsData,
 }) => {
   useEffect(() => {
@@ -62,6 +63,8 @@ const AllSctStatusChange = ({
     { value: "TrainingDemo", label: "Training Demo" },
   ];
 
+  let StatusMethodsforwrongnumber = [{ value: "CallBack", label: "Call Back" }];
+
   if (from === "FollowUp" || from === "F") {
     //ShowCategory("false");
     StatusMethods = StatusMethods.filter(
@@ -70,7 +73,7 @@ const AllSctStatusChange = ({
         StatusMethods.value !== "TrainingDemo"
     );
   } else if (from === "EngagedClient") {
-    // ShowCategory("true");
+    //ShowCategory("true");
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
         StatusMethods.value !== "EngagedClient" &&
@@ -759,26 +762,55 @@ const AllSctStatusChange = ({
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadstatus ">
           <div className="col-lg-4 col-md-12 col-sm-12 col-12  ">
             <label style={statusmodeIdErrorStyle}>Status* :</label>
-            <Select
-              name="sctCallStatus"
-              options={StatusMethods}
-              className="statuschange "
-              isSearchable={false}
-              menuPlacement="bottom"
-              value={sctCallStatus}
-              placeholder="Select "
-              onChange={(e) => onStatusTypeChange(e)}
-              theme={(theme) => ({
-                ...theme,
-                height: 26,
-                minHeight: 26,
-                borderRadius: 1,
-                colors: {
-                  ...theme.colors,
-                  primary: "black",
-                },
-              })}
-            />
+            {page1 === "AllWrongNumber" ? (
+              <>
+                {" "}
+                <Select
+                  name="sctCallStatus"
+                  options={StatusMethodsforwrongnumber}
+                  className="statuschange "
+                  isSearchable={false}
+                  menuPlacement="bottom"
+                  value={sctCallStatus}
+                  placeholder="Select "
+                  onChange={(e) => onStatusTypeChange(e)}
+                  theme={(theme) => ({
+                    ...theme,
+                    height: 26,
+                    minHeight: 26,
+                    borderRadius: 1,
+                    colors: {
+                      ...theme.colors,
+                      primary: "black",
+                    },
+                  })}
+                />
+              </>
+            ) : (
+              <>
+                {" "}
+                <Select
+                  name="sctCallStatus"
+                  options={StatusMethods}
+                  className="statuschange "
+                  isSearchable={false}
+                  menuPlacement="bottom"
+                  value={sctCallStatus}
+                  placeholder="Select "
+                  onChange={(e) => onStatusTypeChange(e)}
+                  theme={(theme) => ({
+                    ...theme,
+                    height: 26,
+                    minHeight: 26,
+                    borderRadius: 1,
+                    colors: {
+                      ...theme.colors,
+                      primary: "black",
+                    },
+                  })}
+                />
+              </>
+            )}
           </div>
 
           <div className="col-lg-4 col-md-12 col-sm-12 col-12 ">
@@ -815,7 +847,10 @@ const AllSctStatusChange = ({
               />
             </div>
           )}
-          {showLeadCategory && staffFilter.staffFrom !== "F" ? (
+          {showLeadCategory &&
+          staffFilter.staffFrom !== "F" &&
+          from !== "EngagedClient" &&
+          from !== "RegularClient" ? (
             <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTopSCT">
               <label className="label-control">Category :</label>
               <Select

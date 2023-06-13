@@ -40,10 +40,17 @@ import {
   FY_CLIENT,
   FY_CLIENT_MONTHWISE,
   CLIENT_WISE,
+  FY_CLIENT_SUM,
+  ENQUIRY_DETAILS,
+  HISTORY_DETAILS,
+  UNRESOLVED_ENQUIRY_DETAILS,
 } from "../actions/types";
 
 const initialState = {
   allSctLeads: [],
+  allUnResolved : [],
+  historyDetails :[],
+  fyclientsum :[],
   allSctLeadsDD: [],
   allSctLeadsEmp: [],
   allSummary: [],
@@ -83,6 +90,7 @@ const initialState = {
   sctCallsClientCount: [],
   FYclient: [],
   clientwise: [],
+  allEnquiry:[],
 };
 
 const sct = (state = initialState, action) => {
@@ -93,6 +101,21 @@ const sct = (state = initialState, action) => {
         ...state,
         allSctLeads: payload,
       };
+      case FY_CLIENT_SUM :
+    return {
+         ...state,
+         fyclientsum :payload,
+ }
+      case UNRESOLVED_ENQUIRY_DETAILS :
+        return{
+          ...state,
+          allUnResolved : payload,
+        }
+ case HISTORY_DETAILS :
+  return{
+    ...state,
+    historyDetails : payload,
+  }
     case FY_CLIENT_MONTHWISE:
       return {
         ...state,
@@ -304,6 +327,13 @@ const sct = (state = initialState, action) => {
         ...state,
         allsctsalesvalues: payload,
       };
+
+      case ENQUIRY_DETAILS:
+        return{
+          ...state,
+          allEnquiry:payload,
+
+        };
 
     default:
       return state;

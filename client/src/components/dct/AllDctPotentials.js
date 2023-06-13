@@ -28,10 +28,10 @@ const AllDctPotentials = ({
   getLastmessage,
 }) => {
   useEffect(() => {
-    getDctLeadDetails({ dctLeadCategory: "P" });
+    getDctLeadDetails({ dctLeadCategory: "PT" });
   }, [getDctLeadDetails]);
   useEffect(() => {
-    getDctLeadDetailsDD({ dctLeadCategory: "P" });
+    getDctLeadDetailsDD({ dctLeadCategory: "PT" });
   }, [getDctLeadDetailsDD]);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
@@ -49,7 +49,7 @@ const AllDctPotentials = ({
     showUKSection: false,
   });
   const { showUSSection, showAUDSection, showUKSection } = showHide1;
-  const [filterData, setFilterData] = useState({ dctLeadCategory: "P" });
+  const [filterData, setFilterData] = useState({ dctLeadCategory: "PT" });
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -162,9 +162,9 @@ const AllDctPotentials = ({
     getclientsData("");
     getempData("");
     getcountryIdData(e.countryId);
-    getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "P" });
-    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "P" });
-    setFilterData({ countryId: e.countryId, dctLeadCategory: "P" });
+    getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "PT" });
+    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "PT" });
+    setFilterData({ countryId: e.countryId, dctLeadCategory: "PT" });
   };
 
   const allclient = [];
@@ -183,12 +183,12 @@ const AllDctPotentials = ({
     getDctLeadDetails({
       countryId: countryId,
       clientsId: e.clientsId,
-      dctLeadCategory: "P",
+      dctLeadCategory: "PT",
     });
     setFilterData({
       countryId: countryId,
       clientsId: e.clientsId,
-      dctLeadCategory: "P",
+      dctLeadCategory: "PT",
     });
   };
   const [leadCategory, getLeadCategoryData] = useState();
@@ -200,13 +200,13 @@ const AllDctPotentials = ({
       countryId: countryId,
       clientsId: e.clientsId,
       dctLeadsCategory: e.value,
-      dctLeadCategory: "P",
+      dctLeadCategory: "PT",
     });
     setFilterData({
       countryId: countryId,
       clientsId: e.clientsId,
       dctLeadsCategory: e.value,
-      dctLeadCategory: "P",
+      dctLeadCategory: "PT",
     });
   };
 
@@ -228,20 +228,20 @@ const AllDctPotentials = ({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
-      dctLeadCategory: "P",
+      dctLeadCategory: "PT",
     });
     getDctLeadDetailsDD({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
-      dctLeadCategory: "P",
+      dctLeadCategory: "PT",
       emp: true,
     });
     setFilterData({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
-      dctLeadCategory: "P",
+      dctLeadCategory: "PT",
     });
   };
 
@@ -259,7 +259,7 @@ const AllDctPotentials = ({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: empId,
-      dctLeadCategory: "P",
+      dctLeadCategory: "PT",
       enteredBy: e.value,
     });
     setFilterData({
@@ -267,7 +267,7 @@ const AllDctPotentials = ({
       clientsId: clients ? clients.clientsId : null,
       assignedTo: empId,
       enteredBy: e.value,
-      dctLeadCategory: "P",
+      dctLeadCategory: "PT",
     });
   };
 
@@ -278,9 +278,9 @@ const AllDctPotentials = ({
     getempData("");
     getEnterByData("");
     setShowHide1(false);
-    getDctLeadDetails({ dctLeadCategory: "P" });
-    getDctLeadDetailsDD({ dctLeadCategory: "P" });
-    setFilterData({ dctLeadCategory: "P" });
+    getDctLeadDetails({ dctLeadCategory: "PT" });
+    getDctLeadDetailsDD({ dctLeadCategory: "PT" });
+    setFilterData({ dctLeadCategory: "PT" });
     ondivcloseChange(true);
     getLeadCategoryData("");
     setcolorData("");
@@ -462,7 +462,7 @@ const AllDctPotentials = ({
                             var ED = allLeads.dctCallDate.split(/\D/g);
                             callDates = [ED[2], ED[1], ED[0]].join("-");
                           }
-                          if (allLeads.dctLeadsCategory !== "") {
+                          // if (allLeads.dctLeadsCategory !== "") {
                             return (
                               <tr
                                 key={idx}
@@ -521,7 +521,7 @@ const AllDctPotentials = ({
                                 </td>
                               </tr>
                             );
-                          }
+                          // }
                         })}
                     </tbody>
                   </table>

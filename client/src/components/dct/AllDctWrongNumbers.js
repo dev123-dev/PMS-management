@@ -303,11 +303,15 @@ const AllDctWrongNumbers = ({
                         <th style={{ width: "3%" }}>Sl.No</th>
                         <th style={{ width: "15%" }}>Company </th>
                         <th style={{ width: "15%" }}>Website </th>
-                        <th style={{ width: "13%" }}>Email</th>
+                        <th style={{ width: "10%" }}>Email</th>
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
-                        <th style={{ width: "8%" }}>Call Date</th>
-                        <th style={{ width: "5%" }}>Op</th>
+                        <th style={{ width: "8%" }}>
+                          &nbsp;&nbsp;CallDate&nbsp;&nbsp;&nbsp;&nbsp;
+                        </th>
+                        <th style={{ width: "8%" }}>
+                          &nbsp;&nbsp;Op&nbsp;&nbsp;&nbsp;&nbsp;
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -364,7 +368,6 @@ const AllDctWrongNumbers = ({
                                   alt="Delete Project"
                                   title="Delete Project"
                                 />{" "}
-                                &emsp;
                                 <img
                                   className="img_icon_size log"
                                   onClick={() => onUpdate(allLeads, idx)}
@@ -403,7 +406,7 @@ const AllDctWrongNumbers = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "30vh" }}
+                  style={{ height: "33vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
@@ -411,6 +414,8 @@ const AllDctWrongNumbers = ({
                       leadDataVal={leadData}
                       ondivcloseChange={ondivcloseChange}
                       filterData={filterData}
+                      from={leadData.dctLeadCategory}
+                      page="AllWrongNumber"
                     />
                   )}
                 </div>
@@ -418,7 +423,7 @@ const AllDctWrongNumbers = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "23vh" }}
+                  style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
                     Last Message Details

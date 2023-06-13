@@ -68,6 +68,7 @@ router.post("/edit-dct-Leads", async (req, res) => {
           dctLeadEditedDateTime: data.dctLeadEditedDateTime,
           dctLeadAssignedToId: data.dctLeadAssignedToId,
           dctLeadAssignedToName: data.dctLeadAssignedToName,
+          timezone : data.timezone
         },
       }
     );
@@ -430,11 +431,27 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
   let catCondition = [];
   if (dctLeadCategory == "P" || dctLeadCategory == "NL") {
     catCondition = [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }];
+    condition = { dctLeadsCategory: { $eq: "" } };
+  } else if (dctLeadCategory == "PT") {
+    catCondition = [{ dctLeadCategory: "PT" }];
+    condition = { dctLeadsCategory: { $ne: "" } };
   } else if (dctLeadCategory == "W") {
     catCondition = [{ dctLeadCategory: "W" }, { dctLeadCategory: "W" }];
   } else if (dctLeadCategory == "F") {
     catCondition = [{ dctLeadCategory: "F" }, { dctLeadCategory: "F" }];
+  } else if (dctLeadCategory == "TC") {
+    catCondition = [{ dctLeadCategory: "TC" }, { dctLeadCategory: "TC" }];
   }
+
+  //////////////////////////////new code end///////////////
+  /////////////////////////////old code start
+  // if (dctLeadCategory == "P" || dctLeadCategory == "NL") {
+  //   catCondition = [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }];
+  // } else if (dctLeadCategory == "W") {
+  //   catCondition = [{ dctLeadCategory: "W" }, { dctLeadCategory: "W" }];
+  // } else if (dctLeadCategory == "F") {
+  //   catCondition = [{ dctLeadCategory: "F" }, { dctLeadCategory: "F" }];
+  // }
   let query = {};
   if (countryId) {
     if (clientsId) {
@@ -486,6 +503,9 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
       dctLeadEnteredByName: enteredBy,
     };
   }
+
+
+  // console.log("query",query)
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
       dctCallDate: -1,

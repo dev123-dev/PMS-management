@@ -45,8 +45,12 @@ const SctClientCallHistory = ({
                   var sctCallCategory = "Followup";
                 } else if (sctcallHistory.sctCallCategory === "P") {
                   var sctCallCategory = "Prospects";
-                } else if (sctcallHistory.sctCallCategory === "TC") {
-                  var sctCallCategory = "TestClient";
+                } else if (sctcallHistory.sctCallCategory === "EC") {
+                  var sctCallCategory = "EngagedClient";
+                } else if (sctcallHistory.sctCallCategory === "PT") {
+                  var sctCallCategory = "Potentialclient";
+                } else if (sctcallHistory.sctCallCategory === "W") {
+                  var sctCallCategory = "Prospects";
                 } else {
                   var sctCallCategory = "RegularClient";
                 }
