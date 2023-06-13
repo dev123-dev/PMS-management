@@ -47,6 +47,10 @@ const ClientCallHistory = ({
                   var callCategory = "Prospects";
                 } else if (callHistory.callCategory === "TC") {
                   var callCategory = "TestClient";
+                } else if (callHistory.callCategory === "W") {
+                  var callCategory = "Prospects";
+                } else if (callHistory.callCategory === "PT") {
+                  var callCategory = "PotentialClient";
                 } else {
                   var callCategory = "RegularClient";
                 }

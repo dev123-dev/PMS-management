@@ -47,6 +47,10 @@ const SctClientCallHistory = ({
                   var sctCallCategory = "Prospects";
                 } else if (sctcallHistory.sctCallCategory === "EC") {
                   var sctCallCategory = "EngagedClient";
+                } else if (sctcallHistory.sctCallCategory === "PT") {
+                  var sctCallCategory = "Potentialclient";
+                } else if (sctcallHistory.sctCallCategory === "W") {
+                  var sctCallCategory = "Prospects";
                 } else {
                   var sctCallCategory = "RegularClient";
                 }

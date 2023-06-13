@@ -17,6 +17,7 @@ const AllStatuschange = ({
   addDctClientCalls,
   ondivcloseChange,
   from,
+  page,
   filterData,
   getStaffsData,
 }) => {
@@ -42,6 +43,9 @@ const AllStatuschange = ({
     { value: "TestClient", label: "Test Client" },
     { value: "RegularClient", label: "Regular Client" },
   ];
+
+  let StatusMethodsforwrongnumber = [{ value: "CallBack", label: "Call Back" }];
+
   if (from === "FollowUp" || from === "F") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) => StatusMethods.value !== "FollowUp"
@@ -60,7 +64,6 @@ const AllStatuschange = ({
         StatusMethods.value !== "RegularClient"
     );
   }
-
   //formData
   const [formData, setFormData] = useState({
     callStatus: "",
@@ -296,21 +299,18 @@ const AllStatuschange = ({
       callComeFromVal = "Client";
     if (callStatus.value === "FollowUp") {
       callCategoryVal = "F";
-
-
-
     } else if (dctLeadsCategory !== "") {
       if (from === "TestClient") {
-            callCategoryVal = "TC";
+        callCategoryVal = "TC";
       } else if (from === "RegularClient") {
         callCategoryVal = "RC";
       } else if (from === "FollowUp") {
         callCategoryVal = "F";
-      }  else {
+      } else {
         callCategoryVal = "PT";
       }
-    // } else if (callStatus.value === "WrongNumber") {
-    //   callCategoryVal = "W";
+      // } else if (callStatus.value === "WrongNumber") {
+      //   callCategoryVal = "W";
     } else if (callStatus.value === "TestClient") {
       callCategoryVal = "TC";
       // clientTypeVal = "Engaged";
@@ -320,14 +320,14 @@ const AllStatuschange = ({
     } else if (callStatus.value === "RegularClient") {
       callCategoryVal = "RC";
       // clientTypeVal = "Regular";
-  
-    
-  
-
-
     } else if (callStatus.value === "WrongNumber") {
       callCategoryVal = "W";
+    } else if (callStatus.value === "CallBack") {
+      if (from === "W") {
+        callCategoryVal = "P";
+      }
     }
+
     // else if (callStatus.value === "CallBack") {
     //   callCategoryVal = "P";
     // }
@@ -335,9 +335,6 @@ const AllStatuschange = ({
       callCategoryVal = "TC";
     } else if (callStatus.value === "RegularClient") {
       callCategoryVal = "RC";
-   
-   
-   
     } else {
       if (leadDataVal.dctLeadCategory === "NL") callCategoryVal = "P";
       else {
@@ -346,6 +343,9 @@ const AllStatuschange = ({
         else callCategoryVal = leadDataVal.dctLeadCategory;
       }
     }
+    console.log("callCategoryVal", callCategoryVal);
+    console.log("callStatus.value", callStatus.value);
+    console.log("from", from);
     e.preventDefault();
     if (checkErrors()) {
       const finalData = {
@@ -360,10 +360,10 @@ const AllStatuschange = ({
         callStatus: callStatus.value,
         // dctLeadsCategory: dctLeadsCategory ? dctLeadsCategory.value : "",
         dctLeadsCategory: dctLeadsCategory
-        ? dctLeadsCategory.value
-        : leadDataVal.dctLeadsCategory
-        ? leadDataVal.dctLeadsCategory
-        : "",
+          ? dctLeadsCategory.value
+          : leadDataVal.dctLeadsCategory
+          ? leadDataVal.dctLeadsCategory
+          : "",
         callDate: startStatusDate || todayDateymd,
         callNote: callNote?.trim(),
         callComeFrom: callComeFromVal,
@@ -371,11 +371,11 @@ const AllStatuschange = ({
         callEnteredDateTime: new Date().toLocaleString("en-GB"),
         filterData: filterData,
       };
-      //  console.log("finaldata", finalData);
+      //console.log("finaldata", finalData);
       if (from === "TestClient" || from === "RegularClient") {
-       addDctClientCalls(finalData);
+        addDctClientCalls(finalData);
       } else {
-       addDctCalls(finalData);
+        addDctCalls(finalData);
       }
       setFormData({
         ...formData,
@@ -385,11 +385,23 @@ const AllStatuschange = ({
         callNote: "",
         isSubmitted: true,
       });
-     ondivcloseChange(true);
-     setStatusDate("");
-     getstaffsData("");
+      ondivcloseChange(true);
+      setStatusDate("");
+      getstaffsData("");
     }
   };
+
+  useEffect(() => {
+    setStatusDate("");
+    getstaffsData("");
+    setFormData({
+      ...formData,
+      callStatus: "",
+      dctLeadsCategory: "",
+      callDate: "",
+      callNote: "",
+    });
+  }, [leadDataVal]);
 
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -401,24 +413,51 @@ const AllStatuschange = ({
             <label className="label-control" style={statusmodeIdErrorStyle}>
               Status :
             </label>
-            <Select
-              name="callStatus"
-              options={StatusMethods}
-              isSearchable={false}
-              value={callStatus}
-              placeholder="Select"
-              onChange={(e) => onStatusTypeChange(e)}
-              theme={(theme) => ({
-                ...theme,
-                height: 26,
-                minHeight: 26,
-                borderRadius: 1,
-                colors: {
-                  ...theme.colors,
-                  primary: "black",
-                },
-              })}
-            />
+            {page === "AllWrongNumber" ? (
+              <>
+                {" "}
+                <Select
+                  name="callStatus"
+                  options={StatusMethodsforwrongnumber}
+                  isSearchable={false}
+                  value={callStatus}
+                  placeholder="Select"
+                  onChange={(e) => onStatusTypeChange(e)}
+                  theme={(theme) => ({
+                    ...theme,
+                    height: 26,
+                    minHeight: 26,
+                    borderRadius: 1,
+                    colors: {
+                      ...theme.colors,
+                      primary: "black",
+                    },
+                  })}
+                />
+              </>
+            ) : (
+              <>
+                {" "}
+                <Select
+                  name="callStatus"
+                  options={StatusMethods}
+                  isSearchable={false}
+                  value={callStatus}
+                  placeholder="Select"
+                  onChange={(e) => onStatusTypeChange(e)}
+                  theme={(theme) => ({
+                    ...theme,
+                    height: 26,
+                    minHeight: 26,
+                    borderRadius: 1,
+                    colors: {
+                      ...theme.colors,
+                      primary: "black",
+                    },
+                  })}
+                />
+              </>
+            )}
           </div>
 
           <div className="col-lg-4 col-md-12 col-sm-12 col-12 headingTop">
@@ -460,8 +499,11 @@ const AllStatuschange = ({
             )}
           </div>
 
-          
-          {showLeadCategory && from !== "FollowUp" && from !== "TestClient" && from!=="RegularClient" ?   (
+          {showLeadCategory &&
+          from !== "FollowUp" &&
+          from !== "TestClient" &&
+          from !== "RegularClient" &&
+          from !== "W" ? (
             <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTop">
               <label className="label-control">Category :</label>
               <Select
@@ -473,7 +515,9 @@ const AllStatuschange = ({
                 onChange={(e) => onLeadCategoryChange(e)}
               />
             </div>
-          ):(<></>)}
+          ) : (
+            <></>
+          )}
           {showLeadCategory && showLeadCategory ? (
             <div className="col-lg-5 col-md-12 col-sm-12 col-12 notesTop">
               <label className="label-control"> Notes :</label>

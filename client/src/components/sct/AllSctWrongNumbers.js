@@ -331,6 +331,7 @@ const AllSctWrongNumbers = ({
                       from={leadData.sctLeadCategory}
                       filterData={filterData}
                       page="AllSctProspects"
+                      page1="AllWrongNumber"
                     />
                   )}
                 </div>
