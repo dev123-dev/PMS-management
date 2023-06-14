@@ -233,7 +233,7 @@ const AddEnquiry = ({
                       Type : <span style={{ color: "red" }}>*</span>
                     </label>
                   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                    {user && user.empCtAccess != "Individual" ? (
+                    {user.empCtAccess != "Individual" || user.userGroupName =="Clarical Admins" ? (
                       <>
                         <input
                           className="radiolevels"
@@ -251,7 +251,8 @@ const AddEnquiry = ({
                       <></>
                     )}
                     &emsp;
-                    <input
+                    {user.userGroupName !="Clarical Admins" ?(<>
+                      <input
                       className="radiolevels"
                       type="radio"
                       id="SCT"
@@ -260,6 +261,9 @@ const AddEnquiry = ({
                       onClick={() => onRadioSelect("SCT")}
                     />{" "}&nbsp;
                     <label className="label-control">   SCT </label>
+                    
+                    </>):(<></>)}
+                  
                   </div>
                   </div>
                 
