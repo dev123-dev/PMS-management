@@ -449,6 +449,7 @@ const Header = ({ auth: { isAuthenticated, loading, user },sct:{allUnResolved}, 
                     user.userGroupName === "Administrator") ||
                     user.userGroupName === "Super Admin" ||
                     user.userGroupName === "Sct Marketing" ||
+                    user.userGroupName ==="Clarical Admins"||
                     user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/all-Enquiry"

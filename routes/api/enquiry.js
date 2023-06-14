@@ -63,15 +63,15 @@ router.post("/get-enquiry-details", auth, async (req, res) => {
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
-  //console.log(userId)
+  console.log(userInfo)
   let query = {};
-  
+  //console.log(userInfo)
   // else{
   //  query={
   //   enteredById: {$eq :mongoose.Types.ObjectId(userId)}
   //  }
   // }
-  if (userInfo.empCtAccess === "All") {
+  if (userInfo.empCtAccess === "All" || userInfo.userGroupName ==="Clarical Admins") {
     if (enquiryStatus) {
       query = {
         // enteredById: mongoose.Types.ObjectId(userId),
@@ -123,7 +123,7 @@ router.post("/get-Unresolved-Data", auth, async (req, res) => {
   );
 
   let query = {};
-  if (userInfo.empCtAccess === "All") {
+  if (userInfo.empCtAccess === "All"|| userInfo.userGroupName === "Clarical Admins") {
     if (enquiryStatus) {
       query = {
         enquiryStatus: { $eq: "UnResolved" },

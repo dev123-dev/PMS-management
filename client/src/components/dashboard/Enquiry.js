@@ -294,7 +294,8 @@ const Enquiry = ({
                 })}
               />
             </div>
-         {user && user.empCtAccess && user.empCtAccess  ==="All" ? (<> <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+         {(user && user.empCtAccess && user.empCtAccess  ==="All") || (user.userGroupName ==="Clarical Admins" ) ?
+          (<> <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="enteredbyname"
                 options={nameFilter}
