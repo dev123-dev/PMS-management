@@ -178,7 +178,7 @@ const Enquiry = ({
     getLastEnquiryHistoryDeatils({ clientId: allEnquiryData._id });
   };
 
-  let nameFilter = [{ label: "All", value: "All" }];
+  let nameFilter = [];
   let TotalCount = 0;
 
   allEnquiry && allEnquiry.map((ele)=>{
@@ -191,7 +191,6 @@ const Enquiry = ({
   );
   let unqi = [...new Set(tounq)];
 
- // console.log("nonunq", [...new Set(tounq)]);
  namewithcountdropdown &&
  namewithcountdropdown.map((ele) => {
  
@@ -202,8 +201,7 @@ const Enquiry = ({
       });
     });
 
-console.log("ccccc",TotalCount)
-  const [username, setusername] = useState({ label:"All-".concat(TotalCount), value: "All" });
+  const [username, setusername] = useState("");
 
   const onnameChange = (e) => {
     let data = e.label.split("-")[0];
@@ -304,9 +302,10 @@ console.log("ccccc",TotalCount)
                   },
                 })}
               />
-            </div></>) : (<>
+            </div></>) : (
+            <>
               <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-            //need this blank for allignment purpose
+              {/* //need this blank for allignment purpose */}
             </div>
             </>) }
            

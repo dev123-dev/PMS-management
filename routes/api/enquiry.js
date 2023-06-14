@@ -158,12 +158,15 @@ router.post("/get-Unresolved-Data",auth,async(req,res)=>{
              }
     }
     try{
-        let finalData = await enquiry.find(
+        let AllEnquiryDetails = await enquiry.find(
             query  
         );
 
+        let findcount = await enquiry.count(
+          {enquiryStatus :{$eq :"UnResolved"}})
 
-        let finalData2 = await enquiry.aggregate([
+    let AllEnquiry ={_id :"All",showField :"All-".concat(findcount) }
+        let GroupedEnquiryDetails = await enquiry.aggregate([
           {
             $match:
               
@@ -205,8 +208,10 @@ router.post("/get-Unresolved-Data",auth,async(req,res)=>{
               },
           },
         ])
-        res.json({res1 : finalData,
-                  res2 :  finalData2  })
+
+        GroupedEnquiryDetails.push(AllEnquiry)
+        res.json({res1 : AllEnquiryDetails,
+                  res2 :  GroupedEnquiryDetails.reverse()  })
 
     }catch(error){console.log(error.message)}
 })
