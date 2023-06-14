@@ -16,7 +16,7 @@ import {
 import AddEnquiry from "../dashboard/AddEnquiry";
 const Enquiry = ({
   auth: { isAuthenticated, user, users },
-  sct: { allEnquiry, historyDetails },
+  sct: { allEnquiry, historyDetails,namewithcountdropdown },
   getEnquiryDetails,
   AddenquiryHistory,
   updateEnquiry,
@@ -27,6 +27,8 @@ const Enquiry = ({
   useEffect(() => {
     getEnquiryDetails({ userId: user && user._id });
   }, []);
+
+  console.log("namewithcountdropdown",namewithcountdropdown)
 
   // useEffect(()=>{
   //   getLastEnquiryHistoryDeatils()
@@ -177,25 +179,40 @@ const Enquiry = ({
   };
 
   let nameFilter = [{ label: "All", value: "All" }];
+  let TotalCount = 0;
 
-  let tounq = allEnquiry.map((ele) => ele.enteredBy);
+  allEnquiry && allEnquiry.map((ele)=>{
+    TotalCount+=1
+  })
+
+  let tounq = allEnquiry.map((ele) =>
+ 
+  ele.enteredBy,
+  );
   let unqi = [...new Set(tounq)];
 
-  console.log("nonunq", [...new Set(tounq)]);
-
-  unqi &&
-    unqi.map((ele) => {
+ // console.log("nonunq", [...new Set(tounq)]);
+ namewithcountdropdown &&
+ namewithcountdropdown.map((ele) => {
+ 
       nameFilter.push({
-        label: ele,
-        value: ele,
+        label: ele.showField,
+        value: ele._id
+        ,
       });
     });
 
-  const [username, setusername] = useState({ label: "All", value: "All" });
+console.log("ccccc",TotalCount)
+  const [username, setusername] = useState({ label:"All-".concat(TotalCount), value: "All" });
 
   const onnameChange = (e) => {
-    setusername(e);
-    getEnquiryDetails({ username: e.value });
+    let data = e.label.split("-")[0];
+    let finalres = {
+      label : data,
+      value :data
+    }
+    setusername(finalres);
+    getEnquiryDetails({ username: data });
   };
 
   const [colorData, setcolorData] = useState();
@@ -268,8 +285,7 @@ const Enquiry = ({
                 })}
               />
             </div>
-
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+         {user && user.empCtAccess && user.empCtAccess  ==="All" ? (<> <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="enteredbyname"
                 options={nameFilter}
@@ -288,7 +304,12 @@ const Enquiry = ({
                   },
                 })}
               />
+            </div></>) : (<>
+              <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+            //need this blank for allignment purpose
             </div>
+            </>) }
+           
 
             <div className="col-lg-1 col-md-11 col-sm-12 col-11 py-2">
               <AddEnquiry />

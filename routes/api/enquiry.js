@@ -161,7 +161,52 @@ router.post("/get-Unresolved-Data",auth,async(req,res)=>{
         let finalData = await enquiry.find(
             query  
         );
-        res.json(finalData)
+
+
+        let finalData2 = await enquiry.aggregate([
+          {
+            $match:
+              
+              {
+                enquiryStatus: {
+                  $eq: "UnResolved",
+                },
+              },
+          },
+          {
+            $group:
+             
+              {
+                _id: "$enteredById",
+                name: {
+                  $first: "$enteredBy",
+                },
+                count: {
+                  $count: {},
+                },
+              },
+          },
+          {
+            $project:
+              /**
+               * specifications: The fields to
+               *   include or exclude.
+               */
+              {
+                showField: {
+                  $concat: [
+                    "$name",
+                    "-",
+                    {
+                      $toString: "$count",
+                    },
+                  ],
+                },
+              },
+          },
+        ])
+        res.json({res1 : finalData,
+                  res2 :  finalData2  })
 
     }catch(error){console.log(error.message)}
 })
