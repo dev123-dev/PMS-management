@@ -49,6 +49,7 @@ import {
   ENQUIRY_DETAILS,
   HISTORY_DETAILS,
   UNRESOLVED_ENQUIRY_DETAILS,
+  NAME_WITH_COUNT_DROPDOWN,
 } from "./types";
 
 const config = {
@@ -127,7 +128,11 @@ export const getUnresolvedData =(data)=>async(dispatch)=>{
   
     dispatch({
       type : UNRESOLVED_ENQUIRY_DETAILS,
-      payload : finalData.data
+      payload : finalData.data.res1
+    })
+    dispatch({
+      type :NAME_WITH_COUNT_DROPDOWN,
+      payload : finalData.data.res2
     })
 
   }catch(error){console.log(error.message)}

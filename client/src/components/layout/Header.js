@@ -18,14 +18,28 @@ const Header = ({ auth: { isAuthenticated, loading, user },sct:{allUnResolved}, 
  
   const [showLogin, setShowLogin] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
+  const client = new w3cwebsocket("ws://192.168.6.44:8000");
 
-  console.log("user",user)
 
   useEffect(()=>{
     getUnresolvedData({userId:user && user._id})
   },[user])
 
-   console.log("allUnResolved", allUnResolved.length);
+
+  useEffect(() => {
+    client.onopen = () => {
+      console.log("webSocket client connected");
+    };
+    client.onmessage = (message) => {
+      // if (clientData === "") {
+     // getUpdatedProjectStaus();
+      // } else {
+      // }
+      //window.location.reload();
+      // getUpdatedProjectStausForDailyJobSheet();
+      getUnresolvedData({userId:user && user._id})
+    };
+  }, [/*clientData*/]);
 
     // const [unRes,setUnres]=useState(0);
 
@@ -79,7 +93,6 @@ const Header = ({ auth: { isAuthenticated, loading, user },sct:{allUnResolved}, 
   //client in websocket
   //SLAP IP
 
-  const client = new w3cwebsocket("ws://192.168.6.43:8000");
   const LogoutModalClose = () => {
     handleLogoutModalClose();
     logout();
@@ -436,6 +449,7 @@ const Header = ({ auth: { isAuthenticated, loading, user },sct:{allUnResolved}, 
                     user.userGroupName === "Administrator") ||
                     user.userGroupName === "Super Admin" ||
                     user.userGroupName === "Sct Marketing" ||
+                    user.userGroupName ==="Clarical Admins"||
                     user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/all-Enquiry"

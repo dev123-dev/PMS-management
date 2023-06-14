@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import EditEnquiry from "./EditEnquiry";
+import { w3cwebsocket } from "websocket";
+
 import Select from "react-select";
 import {
   getEnquiryDetails,
@@ -16,7 +18,7 @@ import {
 import AddEnquiry from "../dashboard/AddEnquiry";
 const Enquiry = ({
   auth: { isAuthenticated, user, users },
-  sct: { allEnquiry, historyDetails },
+  sct: { allEnquiry, historyDetails,namewithcountdropdown },
   getEnquiryDetails,
   AddenquiryHistory,
   updateEnquiry,
@@ -25,8 +27,10 @@ const Enquiry = ({
   getUnresolvedData,
 }) => {
   useEffect(() => {
-    getEnquiryDetails({ userId: user && user._id });
+    getEnquiryDetails({ userId: user && user._id,enquiryStatus : "" });
   }, []);
+
+  const client = new w3cwebsocket("ws://192.168.6.44:2001");
 
   // useEffect(()=>{
   //   getLastEnquiryHistoryDeatils()
@@ -159,6 +163,7 @@ const Enquiry = ({
   const { showonclickSection } = showHide2;
 
   const onStatuscatChange = (e) => {
+    
     getEnquiryDetails({ enquiryStatus: e.value, userId: user && user._id });
   };
   const [oldData, setOldData] = useState("");
@@ -176,31 +181,45 @@ const Enquiry = ({
     getLastEnquiryHistoryDeatils({ clientId: allEnquiryData._id });
   };
 
-  let nameFilter = [{ label: "All", value: "All" }];
+  let nameFilter = [];
+  let TotalCount = 0;
 
-  let tounq = allEnquiry.map((ele) => ele.enteredBy);
+  allEnquiry && allEnquiry.map((ele)=>{
+    TotalCount+=1
+  })
+
+  let tounq = allEnquiry.map((ele) =>
+ 
+  ele.enteredBy,
+  );
   let unqi = [...new Set(tounq)];
 
-  console.log("nonunq", [...new Set(tounq)]);
-
-  unqi &&
-    unqi.map((ele) => {
+ namewithcountdropdown &&
+ namewithcountdropdown.map((ele) => {
+ 
       nameFilter.push({
-        label: ele,
-        value: ele,
+        label: ele.showField,
+        value: ele._id
+        ,
       });
     });
 
-  const [username, setusername] = useState({ label: "All", value: "All" });
+  const [username, setusername] = useState("");
 
   const onnameChange = (e) => {
-    setusername(e);
-    getEnquiryDetails({ username: e.value });
+    let data = e.label.split("-")[0];
+    let finalres = {
+      label : data,
+      value :data
+    }
+    setusername(finalres);
+    getEnquiryDetails({ userId: e.value });
   };
 
   const [colorData, setcolorData] = useState();
 
   const onSubmit = (e) => {
+    
     e.preventDefault();
 
     let finalData = {
@@ -226,6 +245,13 @@ const Enquiry = ({
       discussionPointNotes: "",
       radiodata: "",
     });
+    client.send(
+      JSON.stringify({
+        type: "message",
+        msg: "../layout/Header",
+      })
+    );
+
   };
 
   const [showHistoryTable, setshowHistoryTable] = useState(false);
@@ -268,8 +294,8 @@ const Enquiry = ({
                 })}
               />
             </div>
-
-            <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+         {(user && user.empCtAccess && user.empCtAccess  ==="All") || (user.userGroupName ==="Clarical Admins" ) ?
+          (<> <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="enteredbyname"
                 options={nameFilter}
@@ -288,7 +314,13 @@ const Enquiry = ({
                   },
                 })}
               />
+            </div></>) : (
+            <>
+              <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+              {/* //need this blank for allignment purpose */}
             </div>
+            </>) }
+           
 
             <div className="col-lg-1 col-md-11 col-sm-12 col-11 py-2">
               <AddEnquiry />
@@ -395,7 +427,7 @@ const Enquiry = ({
                                 </td>
                               </tr>
                             );
-                          } else if (username.value === "All") {
+                          } else{
                             return (
                               <tr
                                 key={idx}
@@ -727,6 +759,7 @@ Enquiry.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   sct: state.sct,
+  client: state.client,
 });
 
 export default connect(mapStateToProps, {

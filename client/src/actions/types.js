@@ -3,6 +3,7 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 export const FY_CLIENT_SUM = "FY_CLIENT_SUM";
 export const HISTORY_DETAILS = "HISTORY_DETAILS";
 export const LOGOUT = "LOGOUT";
+export const NAME_WITH_COUNT_DROPDOWN = "NAME_WITH_COUNT_DROPDOWN";
 export const FINANCIAL_YEAR = "FINANCIAL_YEAR";
 export const FY_CLIENT = "FY_CLIENT";
 export const USER_LOADED = "USER_LOADED";

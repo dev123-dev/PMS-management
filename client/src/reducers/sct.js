@@ -44,12 +44,14 @@ import {
   ENQUIRY_DETAILS,
   HISTORY_DETAILS,
   UNRESOLVED_ENQUIRY_DETAILS,
+  NAME_WITH_COUNT_DROPDOWN,
 } from "../actions/types";
 
 const initialState = {
   allSctLeads: [],
   allUnResolved : [],
   historyDetails :[],
+  namewithcountdropdown :[],
   fyclientsum :[],
   allSctLeadsDD: [],
   allSctLeadsEmp: [],
@@ -106,6 +108,11 @@ const sct = (state = initialState, action) => {
          ...state,
          fyclientsum :payload,
  }
+ case NAME_WITH_COUNT_DROPDOWN :
+  return{
+    ...state,
+    namewithcountdropdown :payload,
+  }
       case UNRESOLVED_ENQUIRY_DETAILS :
         return{
           ...state,

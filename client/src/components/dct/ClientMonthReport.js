@@ -19,7 +19,7 @@ import { w3cwebsocket } from "websocket";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.38:8000");
+const client = new w3cwebsocket("ws://192.168.6.44:8000");
 
 const ClientMonthReport = ({
   auth: { isAuthenticated, user, users },
@@ -34,7 +34,7 @@ const ClientMonthReport = ({
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
-  console.log("clientwise", clientwise);
+
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -146,7 +146,7 @@ const ClientMonthReport = ({
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
               <Link
                 className="btn btn_green_bg float-right"
-                to="/client-fy-report"
+                to="/client-report-detail"
               >
                 Back
               </Link>
