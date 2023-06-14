@@ -107,10 +107,9 @@ const EditEnquiry = ({
 
       //   EditByDateTime: new Date().toLocaleString("en-GB"),
     };
-    console.log("finaledit", finalData);
     editEnquiryDetails(finalData);
     getUnresolvedData({ userId: user && user._id });
-    getEnquiryDetails({ userId: user && user._id });
+    getEnquiryDetails({ userId: user && user._id,enquiryStatus :"" });
     closeedit();
   };
 

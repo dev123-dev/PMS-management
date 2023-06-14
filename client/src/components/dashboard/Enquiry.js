@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import EditEnquiry from "./EditEnquiry";
+import { w3cwebsocket } from "websocket";
+
 import Select from "react-select";
 import {
   getEnquiryDetails,
@@ -25,10 +27,10 @@ const Enquiry = ({
   getUnresolvedData,
 }) => {
   useEffect(() => {
-    getEnquiryDetails({ userId: user && user._id });
+    getEnquiryDetails({ userId: user && user._id,enquiryStatus : "" });
   }, []);
 
-  console.log("namewithcountdropdown",namewithcountdropdown)
+  const client = new w3cwebsocket("ws://192.168.6.44:2001");
 
   // useEffect(()=>{
   //   getLastEnquiryHistoryDeatils()
@@ -161,6 +163,7 @@ const Enquiry = ({
   const { showonclickSection } = showHide2;
 
   const onStatuscatChange = (e) => {
+    
     getEnquiryDetails({ enquiryStatus: e.value, userId: user && user._id });
   };
   const [oldData, setOldData] = useState("");
@@ -210,12 +213,13 @@ const Enquiry = ({
       value :data
     }
     setusername(finalres);
-    getEnquiryDetails({ username: data });
+    getEnquiryDetails({ userId: e.value });
   };
 
   const [colorData, setcolorData] = useState();
 
   const onSubmit = (e) => {
+    
     e.preventDefault();
 
     let finalData = {
@@ -241,6 +245,13 @@ const Enquiry = ({
       discussionPointNotes: "",
       radiodata: "",
     });
+    client.send(
+      JSON.stringify({
+        type: "message",
+        msg: "../layout/Header",
+      })
+    );
+
   };
 
   const [showHistoryTable, setshowHistoryTable] = useState(false);
@@ -415,7 +426,7 @@ const Enquiry = ({
                                 </td>
                               </tr>
                             );
-                          } else if (username.value === "All") {
+                          } else{
                             return (
                               <tr
                                 key={idx}
@@ -747,6 +758,7 @@ Enquiry.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   sct: state.sct,
+  client: state.client,
 });
 
 export default connect(mapStateToProps, {
