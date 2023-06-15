@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import EditEnquiry from "./EditEnquiry";
-import { w3cwebsocket } from "websocket";
-
 import Select from "react-select";
 import {
   getEnquiryDetails,
@@ -263,12 +261,6 @@ const Enquiry = ({
       discussionPointNotes: "",
       radiodata: "",
     });
-    client.send(
-      JSON.stringify({
-        type: "message",
-        msg: "../layout/Header",
-      })
-    );
   };
 
   const [showHistoryTable, setshowHistoryTable] = useState(false);
@@ -453,7 +445,7 @@ const Enquiry = ({
                                 </td>
                               </tr>
                             );
-                          } else {
+                          } else if (username.value === "All") {
                             return (
                               <tr
                                 key={idx}
@@ -791,7 +783,6 @@ Enquiry.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   sct: state.sct,
-  client: state.client,
 });
 
 export default connect(mapStateToProps, {

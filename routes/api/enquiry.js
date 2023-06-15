@@ -62,7 +62,6 @@ router.post("/get-enquiry-details", auth, async (req, res) => {
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
-  console.log(userInfo);
   let query = {};
   //console.log(req.body);
   if (userInfo.empCtAccess === "All") {
