@@ -2208,9 +2208,9 @@ router.post("/get-FY-Client", auth, async (req, res) => {
           //query,
         },
       },
-      // {
-      //   $match: query,
-      // },
+      {
+        $match: query,
+      },
       {
         $addFields: {
           projectDate: {
