@@ -35,7 +35,6 @@ router.post("/add-enquiry-history", async (req, res) => {
 //edit
 router.post("/update-enquiry-details", async (req, res) => {
   let data = req.body;
-  //console.log("123", data);
 
   try {
     let updateEnquiry = await enquiry.updateOne(
@@ -63,52 +62,42 @@ router.post("/get-enquiry-details", auth, async (req, res) => {
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
-  console.log(userInfo)
   let query = {};
-  //console.log(userInfo)
-  // else{
-  //  query={
-  //   enteredById: {$eq :mongoose.Types.ObjectId(userId)}
-  //  }
-  // }
-  if (userInfo.empCtAccess === "All" || userInfo.userGroupName ==="Clarical Admins") {
+  //console.log(req.body);
+  if (userInfo.empCtAccess === "All") {
     if (enquiryStatus) {
       query = {
-        // enteredById: mongoose.Types.ObjectId(userId),
         enquiryStatus: { $eq: enquiryStatus },
       };
     } else {
       query = {
-        // enteredById: mongoose.Types.ObjectId(userId),
         enquiryStatus: { $eq: "UnResolved" },
       };
     }
   } else {
     if (enquiryStatus) {
-     // console.log("inside if has status");
       query = {
-        enteredById: { $eq: mongoose.Types.ObjectId(userId) },
+        enteredById: mongoose.Types.ObjectId(userId),
         enquiryStatus: { $eq: enquiryStatus },
       };
     } else {
-     // console.log("inside else no status");
       query = {
-        enteredById: { $eq: mongoose.Types.ObjectId(userId) },
+        enteredById: mongoose.Types.ObjectId(userId),
         enquiryStatus: { $eq: "UnResolved" },
       };
     }
   }
-  if (userId) {
+  if (userInfo._id && userInfo.designationName === "Project Coordinator") {
+    // console.log("hit");
     query = {
-      ...query,
-       enteredById:{$eq :mongoose.Types.ObjectId(userId)}
+      enquiryType: { $eq: "DCT" },
+      enquiryStatus: { $eq: enquiryStatus },
     };
   }
 
- // console.log(query);
   try {
     let finalData = await enquiry.find(query);
-    //console.log("reds",finalData)
+
     res.json(finalData);
   } catch (error) {
     console.log(error.message);
@@ -117,13 +106,14 @@ router.post("/get-enquiry-details", auth, async (req, res) => {
 
 router.post("/get-Unresolved-Data", auth, async (req, res) => {
   const { userId, enquiryStatus } = req.body;
-
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
-
   let query = {};
-  if (userInfo.empCtAccess === "All"|| userInfo.userGroupName === "Clarical Admins") {
+  if (
+    userInfo.empCtAccess === "All" ||
+    userInfo.userGroupName === "Clarical Admins"
+  ) {
     if (enquiryStatus) {
       query = {
         enquiryStatus: { $eq: "UnResolved" },
@@ -146,21 +136,32 @@ router.post("/get-Unresolved-Data", auth, async (req, res) => {
       };
     }
   }
+  if (userInfo._id && userInfo.designationName === "Project Coordinator") {
+    query = {
+      enquiryType: { $eq: "DCT" },
+      enquiryStatus: { $eq: enquiryStatus },
+    };
+  }
+
   try {
-    let AllEnquiryDetails = await enquiry.find(query);
+    let finalData = await enquiry.find(query);
+    let findcount = 0;
+    if (userInfo._id && userInfo.designationName === "Project Coordinator") {
+      findcount = await enquiry.count({
+        enquiryStatus: { $eq: "UnResolved" },
+        enquiryType: { $eq: "DCT" },
+      });
+    } else {
+      findcount = await enquiry.count({
+        enquiryStatus: { $eq: "UnResolved" },
+      });
+    }
 
-    let findcount = await enquiry.count({
-      enquiryStatus: { $eq: "UnResolved" },
-    });
+    let AllEnquiry = { _id: "All", showField: "All-".concat(findcount) };
 
-    let AllEnquiry = { _id: 0, showField: "All-".concat(findcount) };
-    let GroupedEnquiryDetails = await enquiry.aggregate([
+    let finalData2 = await enquiry.aggregate([
       {
-        $match: {
-          enquiryStatus: {
-            $eq: "UnResolved",
-          },
-        },
+        $match: query,
       },
       {
         $group: {
@@ -169,35 +170,26 @@ router.post("/get-Unresolved-Data", auth, async (req, res) => {
             $first: "$enteredBy",
           },
           count: {
-            $count: {},
+            $sum: 1,
           },
         },
       },
       {
-        $project:
-          /**
-           * specifications: The fields to
-           *   include or exclude.
-           */
-          {
-            showField: {
-              $concat: [
-                "$name",
-                "-",
-                {
-                  $toString: "$count",
-                },
-              ],
-            },
+        $project: {
+          showField: {
+            $concat: [
+              "$name",
+              "-",
+              {
+                $toString: "$count",
+              },
+            ],
           },
+        },
       },
     ]);
-
-    GroupedEnquiryDetails.push(AllEnquiry);
-    res.json({
-      res1: AllEnquiryDetails,
-      res2: GroupedEnquiryDetails.reverse(),
-    });
+    finalData2.push(AllEnquiry);
+    res.json({ res1: finalData, res2: finalData2.reverse() });
   } catch (error) {
     console.log(error.message);
   }
@@ -210,7 +202,6 @@ router.post("/get-last-enquiry-details", async (req, res) => {
       .find({ clientId: mongoose.Types.ObjectId(data.clientId) })
       .sort({ _id: -1 });
     res.json(finalResult);
-    //console.log("finalResult",finalResult)
   } catch (error) {
     console.log(error.message);
   }
@@ -220,7 +211,6 @@ router.post("/get-last-enquiry-details", async (req, res) => {
 
 router.post("/edit-enquiry-details", async (req, res) => {
   let data = req.body;
- // console.log(data);
   try {
     let editEnquiry = await enquiry.updateOne(
       {

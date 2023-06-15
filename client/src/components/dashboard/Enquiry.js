@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import EditEnquiry from "./EditEnquiry";
-import { w3cwebsocket } from "websocket";
-
 import Select from "react-select";
 import {
   getEnquiryDetails,
@@ -18,7 +16,7 @@ import {
 import AddEnquiry from "../dashboard/AddEnquiry";
 const Enquiry = ({
   auth: { isAuthenticated, user, users },
-  sct: { allEnquiry, historyDetails,namewithcountdropdown },
+  sct: { allEnquiry, historyDetails, namewithcountdropdown },
   getEnquiryDetails,
   AddenquiryHistory,
   updateEnquiry,
@@ -27,10 +25,11 @@ const Enquiry = ({
   getUnresolvedData,
 }) => {
   useEffect(() => {
-    getEnquiryDetails({ userId: user && user._id,enquiryStatus : "" });
+    getEnquiryDetails({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
   }, []);
-
-  const client = new w3cwebsocket("ws://192.168.6.44:2001");
 
   // useEffect(()=>{
   //   getLastEnquiryHistoryDeatils()
@@ -87,10 +86,6 @@ const Enquiry = ({
   }
   let finalres = date + "-" + month + "-" + year;
 
-
-
-
-
   //deactivate
   const onDeactive = (e) => {
     e.preventDefault();
@@ -104,19 +99,30 @@ const Enquiry = ({
     };
 
     deleteEnquiry(finalData);
-    getEnquiryDetails({ userId: user && user._id });
+    getEnquiryDetails({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
 
     handleClose();
-    getUnresolvedData({ userId: user && user._id });
+    getUnresolvedData({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
   };
 
   //refresh
   const onClickReset = () => {
-    getEnquiryDetails({ userId: user && user._id });
-    getUnresolvedData({ userId: user && user._id });
+    getEnquiryDetails({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
+    getUnresolvedData({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
     window.location.reload();
   };
-
 
   //on Delete
   const onDelete = (id) => {
@@ -163,7 +169,6 @@ const Enquiry = ({
   const { showonclickSection } = showHide2;
 
   const onStatuscatChange = (e) => {
-    
     getEnquiryDetails({ enquiryStatus: e.value, userId: user && user._id });
   };
   const [oldData, setOldData] = useState("");
@@ -184,42 +189,47 @@ const Enquiry = ({
   let nameFilter = [];
   let TotalCount = 0;
 
-  allEnquiry && allEnquiry.map((ele)=>{
-    TotalCount+=1
-  })
+  allEnquiry &&
+    allEnquiry.map((ele) => {
+      TotalCount += 1;
+    });
 
-  let tounq = allEnquiry.map((ele) =>
- 
-  ele.enteredBy,
-  );
+  let tounq = allEnquiry.map((ele) => ele.enteredBy);
   let unqi = [...new Set(tounq)];
 
- namewithcountdropdown &&
- namewithcountdropdown.map((ele) => {
- 
+  // console.log("nonunq", [...new Set(tounq)]);
+  namewithcountdropdown &&
+    namewithcountdropdown.map((ele) => {
       nameFilter.push({
         label: ele.showField,
-        value: ele._id
-        ,
+        value: ele._id,
       });
     });
 
-  const [username, setusername] = useState("");
+  const [username, setusername] = useState({
+    label:
+      namewithcountdropdown &&
+      namewithcountdropdown[0] &&
+      namewithcountdropdown[0]._id,
+    value:
+      namewithcountdropdown &&
+      namewithcountdropdown[0] &&
+      namewithcountdropdown[0]._id,
+  });
 
   const onnameChange = (e) => {
     let data = e.label.split("-")[0];
     let finalres = {
-      label : data,
-      value :data
-    }
+      label: data,
+      value: data,
+    };
     setusername(finalres);
-    getEnquiryDetails({ userId: e.value });
+    getEnquiryDetails({ username: data, enquiryStatus: "UnResolved" });
   };
 
   const [colorData, setcolorData] = useState();
 
   const onSubmit = (e) => {
-    
     e.preventDefault();
 
     let finalData = {
@@ -236,8 +246,14 @@ const Enquiry = ({
     };
     AddenquiryHistory(finalData);
     updateEnquiry(finalData);
-    getEnquiryDetails({ userId: user && user._id });
-    getUnresolvedData({ userId: user && user._id });
+    getEnquiryDetails({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
+    getUnresolvedData({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
     getLastEnquiryHistoryDeatils({ clientId: oldData._id });
     setFormData({
       ...formData,
@@ -245,22 +261,17 @@ const Enquiry = ({
       discussionPointNotes: "",
       radiodata: "",
     });
-    client.send(
-      JSON.stringify({
-        type: "message",
-        msg: "../layout/Header",
-      })
-    );
-
   };
 
   const [showHistoryTable, setshowHistoryTable] = useState(false);
   const buttonOnclickClose = () => setshowHistoryTable(false);
 
   const onHistoryClick = (e) => {
-
     setshowHistoryTable(true);
-    getUnresolvedData({ userId: user && user._id });
+    getUnresolvedData({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -278,7 +289,7 @@ const Enquiry = ({
                 name="projectStatusCategory"
                 options={StatusCategory}
                 isSearchable={true}
-                defaultValue={{label:"UnResolved",value:0}}
+                defaultValue={{ label: "UnResolved", value: 0 }}
                 // value={projectStatusCategory}
                 placeholder="Select"
                 onChange={(e) => onStatuscatChange(e)}
@@ -294,33 +305,40 @@ const Enquiry = ({
                 })}
               />
             </div>
-         {(user && user.empCtAccess && user.empCtAccess  ==="All") || (user.userGroupName ==="Clarical Admins" ) ?
-          (<> <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
-                name="enteredbyname"
-                options={nameFilter}
-                isSearchable={true}
-                value={username}
-                placeholder="Select"
-                onChange={(e) => onnameChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
-              />
-            </div></>) : (
-            <>
-              <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              {/* //need this blank for allignment purpose */}
-            </div>
-            </>) }
-           
+            {(user && user.empCtAccess && user.empCtAccess === "All") ||
+            (user &&
+              user.userGroupName &&
+              user.userGroupName === "Clarical Admins") ? (
+              <>
+                {" "}
+                <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                  <Select
+                    name="enteredbyname"
+                    options={nameFilter}
+                    isSearchable={true}
+                    value={username}
+                    placeholder="Select"
+                    onChange={(e) => onnameChange(e)}
+                    theme={(theme) => ({
+                      ...theme,
+                      height: 26,
+                      minHeight: 26,
+                      borderRadius: 1,
+                      colors: {
+                        ...theme.colors,
+                        primary: "black",
+                      },
+                    })}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                  {/* //need this blank for allignment purpose */}
+                </div>
+              </>
+            )}
 
             <div className="col-lg-1 col-md-11 col-sm-12 col-11 py-2">
               <AddEnquiry />
@@ -427,7 +445,7 @@ const Enquiry = ({
                                 </td>
                               </tr>
                             );
-                          } else{
+                          } else if (username.value === "All") {
                             return (
                               <tr
                                 key={idx}
@@ -450,8 +468,14 @@ const Enquiry = ({
                                 <td>{allEnquiryData.enquiryType}</td>
                                 <td>{enteredDateTime}</td>
                                 <td>{allEnquiryData.enteredBy}</td>
-                                {estimatedERD < finalres ?  <td style={{background:"#dda6a6"}}>{estimatedERD}</td>: <td>{estimatedERD}</td>}
-                              {/* <td>{estimatedERD}</td> */}
+                                {estimatedERD < finalres ? (
+                                  <td style={{ background: "#dda6a6" }}>
+                                    {estimatedERD}
+                                  </td>
+                                ) : (
+                                  <td>{estimatedERD}</td>
+                                )}
+                                {/* <td>{estimatedERD}</td> */}
                                 <td>{allEnquiryData.enquiryStatus}</td>
                                 <td>
                                   <img
@@ -759,7 +783,6 @@ Enquiry.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   sct: state.sct,
-  client: state.client,
 });
 
 export default connect(mapStateToProps, {

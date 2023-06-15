@@ -68,7 +68,7 @@ router.post("/edit-dct-Leads", async (req, res) => {
           dctLeadEditedDateTime: data.dctLeadEditedDateTime,
           dctLeadAssignedToId: data.dctLeadAssignedToId,
           dctLeadAssignedToName: data.dctLeadAssignedToName,
-          timezone : data.timezone
+          timezone: data.timezone,
         },
       }
     );
@@ -504,7 +504,6 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
     };
   }
 
-
   // console.log("query",query)
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
@@ -547,7 +546,16 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
 });
 //ALL LEADS
 router.post("/get-all-dct-Leads", auth, async (req, res) => {
-  let { countryId, clientsId, assignedTo, enteredBy } = req.body;
+  let {
+    countryId,
+    clientsId,
+    assignedTo,
+    enteredBy,
+    recPerPage = 200,
+    Pagedata = 0,
+    clientName,
+  } = req.body;
+  const page = Pagedata * recPerPage; //|| 200;
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
@@ -562,12 +570,14 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
     }
   }
   let query = {};
+
   if (countryId) {
     if (clientsId) {
       query = {
         dctLeadStatus: "Active",
         countryId: mongoose.Types.ObjectId(countryId),
-        _id: mongoose.Types.ObjectId(clientsId),
+        // _id: mongoose.Types.ObjectId(clientsId),
+        companyName: { $regex: clientName, $options: "i" },
         $and: [
           { dctLeadCategory: { $ne: "TC" } },
           { dctLeadCategory: { $ne: "RC" } },
@@ -596,6 +606,17 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
         ],
         dctLeadAssignedToId,
       };
+    }
+    if (clientName) {
+      query = {
+        dctLeadStatus: "Active",
+        companyName: { $regex: clientName, $options: "i" },
+        $and: [
+          { dctLeadCategory: { $ne: "TC" } },
+          { dctLeadCategory: { $ne: "RC" } },
+        ],
+        dctLeadAssignedToId,
+      };
     } else {
       query = {
         dctLeadStatus: "Active",
@@ -615,9 +636,18 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
     };
   }
   try {
-    const getDctLeadsDetails = await DctLeads.find(query).sort({
-      _id: -1,
-    });
+    //
+    // const recPerPage = req.body.recPerPage; //|| 200;
+
+    const getDctLeadsDetails = await DctLeads.find(query)
+      .skip(page)
+      .limit(recPerPage)
+      .sort({
+        _id: -1,
+      });
+
+    const getDctLeadsDetailsCont = await DctLeads.count(query);
+
     const getDctLeadsEmp = await DctLeads.aggregate([
       {
         $match: query,
@@ -640,12 +670,15 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
         },
       },
     ]).sort({ _id: 1 });
+
     const resName = getDctLeadsEmp1.map((e) => e.dctLeadEnteredByName);
     const resFinal = resName.filter((item, i, ar) => ar.indexOf(item) === i);
+
     res.json({
       result1: getDctLeadsDetails,
       result2: getDctLeadsEmp,
       result3: resFinal,
+      result4: getDctLeadsDetailsCont,
     });
   } catch (err) {
     console.error(err.message);
