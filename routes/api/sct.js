@@ -2102,14 +2102,15 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
 //Client details start
 router.post("/get-client-report", auth, async (req, res) => {
   let { startDate, endDate, clientFolderName } = req.body;
-
-  console.log("xxx", req.body);
   try {
     let ProjectDetails = await Project.aggregate([
       {
         $match: {
           projectDate: {
             $ne: "",
+          },
+          projectStatus: {
+            $ne: "Trash",
           },
         },
       },
