@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
+//import csv
+import { CSVLink } from "react-csv";
 import {
   getAllEmployee,
   getAllStaff,
@@ -221,6 +223,44 @@ const AllLeave = ({
       });
     }
   };
+  //export csv//
+  const csvData = [
+    [
+      "Sl No.",
+      "Staff Name",
+      "Leave Category",
+      "Reason",
+      "Leave Type",
+      "Date",
+      "Department",
+
+      // "Folder Name",
+      // "Project Deadline",
+      // "Entered By",
+      // "Client Date Time",
+
+      // "Client Type",
+      // "Project Working Status",
+      // "projectPriority",
+    ],
+  ];
+  leaves &&
+    leaves.map((leavecsv, i) =>
+      csvData.push([
+        i + 1,
+        leavecsv.empFullName,
+        leavecsv.leavecategoryName,
+        leavecsv.leaveReason,
+        leavecsv.leaveType,
+        leavecsv.leaveDate,
+        leavecsv.departmentName,
+      ])
+    );
+  // const exportData = () => {
+  //   alert("hai");
+  // };
+  //end//
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -336,6 +376,20 @@ const AllLeave = ({
             </div>
 
             <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-2">
+              <CSVLink
+                className="secondlinebreak"
+                data={csvData}
+                // filename={fileName}
+              >
+                <button className="btn btn_green_bg float-right">Export</button>
+              </CSVLink>
+
+              {/* <button
+                className="btn btn_green_bg float-right"
+                onClick={() => exportData()}
+              >
+                Export
+              </button> */}
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
