@@ -34,7 +34,6 @@ const ClientMonthReport = ({
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
-
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -99,6 +98,15 @@ const ClientMonthReport = ({
   // clientwise && clientwise.map((ele)=>{
 
   // })
+let clientTYPE =[
+  {value :"Regular",label :"Regular"},
+  {value :"Test",label :"Test"}]
+
+const[clientType,setClientType]=useState({value :"Regular",label :"Regular"})
+
+const onTypeChange=(e)=>{
+  setClientType(e)
+}
   const onfolderClientChange = (e) => {
     setClientData1(e);
     // let selDateData = {
@@ -122,6 +130,7 @@ const ClientMonthReport = ({
         value: clientsData._id,
       })
     );
+    console.log(clientwise)
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -129,7 +138,7 @@ const ClientMonthReport = ({
       <div className="container container_align ">
         <section className="sub_reg">
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className=" col-lg-6 col-md-11 col-sm-10 col-10">
+            <div className=" col-lg-3 col-md-11 col-sm-10 col-10">
               <h4 className="heading_color">
                 <b>
                   {" "}
@@ -142,7 +151,26 @@ const ClientMonthReport = ({
                 Month Report
               </h4>
             </div>
-
+            <div className="col-lg-2 col-md-6 col-sm-6 col-12 mt-2">
+              <Select
+                name="sctProjectName"
+                options={clientTYPE}
+                isSearchable={true}
+                 value={clientType}
+                placeholder=" Project"
+                 onChange={(e) => onTypeChange(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  height: 26,
+                  minHeight: 26,
+                  borderRadius: 1,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
             <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
               <Link
                 className="btn btn_green_bg float-right"
@@ -182,14 +210,26 @@ const ClientMonthReport = ({
                             var ED1 = client.projectDate.split(/\D/g);
                             projectDate = [ED1[2], ED1[1], ED1[0]].join("-");
                           }
-                          return (
-                            <tr key={idx}>
-                              <td>{idx + 1}</td>
-                              <td>{projectDate}</td>
-                              <td>{client.projectName}</td>
-                              <td>{client.projectQty}</td>
-                            </tr>
-                          );
+                          if(client.clientTypeVal === clientType.value){
+                            return (
+                              <tr key={idx}>
+                                <td>{idx + 1}</td>
+                                <td>{projectDate}</td>
+                                <td>{client.projectName}</td>
+                                <td>{client.projectQty}</td>
+                              </tr>
+                            );
+                          }else{
+                            // return (
+                            //   <tr key={idx}>
+                            //     <td>{idx + 1}</td>
+                            //     <td>{projectDate}</td>
+                            //     <td>{client.projectName}</td>
+                            //     <td>{client.projectQty}</td>
+                            //   </tr>
+                            // );
+                          }
+                         
                         })}
                     </tbody>
                   </table>
