@@ -248,12 +248,12 @@ const AllLeave = ({
     leaves.map((leavecsv, i) =>
       csvData.push([
         i + 1,
-        leavecsv.empFullName,
+        leavecsv.output.empFullName,
         leavecsv.leavecategoryName,
         leavecsv.leaveReason,
         leavecsv.leaveType,
         leavecsv.leaveDate,
-        leavecsv.departmentName,
+        leavecsv.output.departmentName,
       ])
     );
   // const exportData = () => {
