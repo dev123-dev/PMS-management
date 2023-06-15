@@ -16,7 +16,7 @@ import {
 import AddEnquiry from "../dashboard/AddEnquiry";
 const Enquiry = ({
   auth: { isAuthenticated, user, users },
-  sct: { allEnquiry, historyDetails,namewithcountdropdown },
+  sct: { allEnquiry, historyDetails, namewithcountdropdown },
   getEnquiryDetails,
   AddenquiryHistory,
   updateEnquiry,
@@ -25,10 +25,11 @@ const Enquiry = ({
   getUnresolvedData,
 }) => {
   useEffect(() => {
-    getEnquiryDetails({ userId: user && user._id });
+    getEnquiryDetails({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
   }, []);
-
-  console.log("namewithcountdropdown",namewithcountdropdown)
 
   // useEffect(()=>{
   //   getLastEnquiryHistoryDeatils()
@@ -85,10 +86,6 @@ const Enquiry = ({
   }
   let finalres = date + "-" + month + "-" + year;
 
-
-
-
-
   //deactivate
   const onDeactive = (e) => {
     e.preventDefault();
@@ -102,19 +99,30 @@ const Enquiry = ({
     };
 
     deleteEnquiry(finalData);
-    getEnquiryDetails({ userId: user && user._id });
+    getEnquiryDetails({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
 
     handleClose();
-    getUnresolvedData({ userId: user && user._id });
+    getUnresolvedData({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
   };
 
   //refresh
   const onClickReset = () => {
-    getEnquiryDetails({ userId: user && user._id });
-    getUnresolvedData({ userId: user && user._id });
+    getEnquiryDetails({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
+    getUnresolvedData({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
     window.location.reload();
   };
-
 
   //on Delete
   const onDelete = (id) => {
@@ -178,41 +186,45 @@ const Enquiry = ({
     getLastEnquiryHistoryDeatils({ clientId: allEnquiryData._id });
   };
 
-  let nameFilter = [{ label: "All", value: "All" }];
+  let nameFilter = [];
   let TotalCount = 0;
 
-  allEnquiry && allEnquiry.map((ele)=>{
-    TotalCount+=1
-  })
+  allEnquiry &&
+    allEnquiry.map((ele) => {
+      TotalCount += 1;
+    });
 
-  let tounq = allEnquiry.map((ele) =>
- 
-  ele.enteredBy,
-  );
+  let tounq = allEnquiry.map((ele) => ele.enteredBy);
   let unqi = [...new Set(tounq)];
 
- // console.log("nonunq", [...new Set(tounq)]);
- namewithcountdropdown &&
- namewithcountdropdown.map((ele) => {
- 
+  // console.log("nonunq", [...new Set(tounq)]);
+  namewithcountdropdown &&
+    namewithcountdropdown.map((ele) => {
       nameFilter.push({
         label: ele.showField,
-        value: ele._id
-        ,
+        value: ele._id,
       });
     });
 
-console.log("ccccc",TotalCount)
-  const [username, setusername] = useState({ label:"All-".concat(TotalCount), value: "All" });
+  const [username, setusername] = useState({
+    label:
+      namewithcountdropdown &&
+      namewithcountdropdown[0] &&
+      namewithcountdropdown[0]._id,
+    value:
+      namewithcountdropdown &&
+      namewithcountdropdown[0] &&
+      namewithcountdropdown[0]._id,
+  });
 
   const onnameChange = (e) => {
     let data = e.label.split("-")[0];
     let finalres = {
-      label : data,
-      value :data
-    }
+      label: data,
+      value: data,
+    };
     setusername(finalres);
-    getEnquiryDetails({ username: data });
+    getEnquiryDetails({ username: data, enquiryStatus: "UnResolved" });
   };
 
   const [colorData, setcolorData] = useState();
@@ -234,8 +246,14 @@ console.log("ccccc",TotalCount)
     };
     AddenquiryHistory(finalData);
     updateEnquiry(finalData);
-    getEnquiryDetails({ userId: user && user._id });
-    getUnresolvedData({ userId: user && user._id });
+    getEnquiryDetails({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
+    getUnresolvedData({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
     getLastEnquiryHistoryDeatils({ clientId: oldData._id });
     setFormData({
       ...formData,
@@ -249,9 +267,11 @@ console.log("ccccc",TotalCount)
   const buttonOnclickClose = () => setshowHistoryTable(false);
 
   const onHistoryClick = (e) => {
-
     setshowHistoryTable(true);
-    getUnresolvedData({ userId: user && user._id });
+    getUnresolvedData({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -269,7 +289,7 @@ console.log("ccccc",TotalCount)
                 name="projectStatusCategory"
                 options={StatusCategory}
                 isSearchable={true}
-                defaultValue={{label:"UnResolved",value:0}}
+                defaultValue={{ label: "UnResolved", value: 0 }}
                 // value={projectStatusCategory}
                 placeholder="Select"
                 onChange={(e) => onStatuscatChange(e)}
@@ -285,31 +305,40 @@ console.log("ccccc",TotalCount)
                 })}
               />
             </div>
-         {user && user.empCtAccess && user.empCtAccess  ==="All" ? (<> <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
-                name="enteredbyname"
-                options={nameFilter}
-                isSearchable={true}
-                value={username}
-                placeholder="Select"
-                onChange={(e) => onnameChange(e)}
-                theme={(theme) => ({
-                  ...theme,
-                  height: 26,
-                  minHeight: 26,
-                  borderRadius: 1,
-                  colors: {
-                    ...theme.colors,
-                    primary: "black",
-                  },
-                })}
-              />
-            </div></>) : (<>
-              <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-            //need this blank for allignment purpose
-            </div>
-            </>) }
-           
+            {(user && user.empCtAccess && user.empCtAccess === "All") ||
+            (user &&
+              user.userGroupName &&
+              user.userGroupName === "Clarical Admins") ? (
+              <>
+                {" "}
+                <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                  <Select
+                    name="enteredbyname"
+                    options={nameFilter}
+                    isSearchable={true}
+                    value={username}
+                    placeholder="Select"
+                    onChange={(e) => onnameChange(e)}
+                    theme={(theme) => ({
+                      ...theme,
+                      height: 26,
+                      minHeight: 26,
+                      borderRadius: 1,
+                      colors: {
+                        ...theme.colors,
+                        primary: "black",
+                      },
+                    })}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
+                  {/* //need this blank for allignment purpose */}
+                </div>
+              </>
+            )}
 
             <div className="col-lg-1 col-md-11 col-sm-12 col-11 py-2">
               <AddEnquiry />
@@ -439,8 +468,14 @@ console.log("ccccc",TotalCount)
                                 <td>{allEnquiryData.enquiryType}</td>
                                 <td>{enteredDateTime}</td>
                                 <td>{allEnquiryData.enteredBy}</td>
-                                {estimatedERD < finalres ?  <td style={{background:"#dda6a6"}}>{estimatedERD}</td>: <td>{estimatedERD}</td>}
-                              {/* <td>{estimatedERD}</td> */}
+                                {estimatedERD < finalres ? (
+                                  <td style={{ background: "#dda6a6" }}>
+                                    {estimatedERD}
+                                  </td>
+                                ) : (
+                                  <td>{estimatedERD}</td>
+                                )}
+                                {/* <td>{estimatedERD}</td> */}
                                 <td>{allEnquiryData.enquiryStatus}</td>
                                 <td>
                                   <img

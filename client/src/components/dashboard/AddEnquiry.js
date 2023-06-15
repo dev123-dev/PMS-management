@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import {
-    addEnquiryDetails,
-    getEnquiryDetails,
-    getUnresolvedData,
+  addEnquiryDetails,
+  getEnquiryDetails,
+  getUnresolvedData,
 } from "../../actions/sct";
 
 const AddEnquiry = ({
@@ -16,14 +16,16 @@ const AddEnquiry = ({
   addEnquiryDetails,
   getEnquiryDetails,
   getUnresolvedData,
- 
 }) => {
   const [show, setshow] = useState("");
   const handleClose = () => setshow("false");
 
-  useEffect(()=>{
-    getEnquiryDetails({userId:user && user._id})
-  },[])
+  useEffect(() => {
+    getEnquiryDetails({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
+  }, []);
 
   const [formData, setformData] = useState({
     clientName: "",
@@ -36,7 +38,6 @@ const AddEnquiry = ({
   const { clientName, emailId, EnquiryTo, EstimatedDate, notes, radiodata } =
     formData;
   const onRadioSelect = (radiodata) => {
-    console.log("radiodata", radiodata);
     if (radiodata === "SCT") {
       setformData({
         ...formData,
@@ -65,7 +66,6 @@ const AddEnquiry = ({
     });
   };
 
- 
   // Modal show
   const [showAddModal, setShowAddModal] = useState(false);
   const handleAddClose = () => setShowAddModal(false);
@@ -80,17 +80,17 @@ const AddEnquiry = ({
       enquiryTo: EnquiryTo,
       estimatedERD: EstimatedDate,
       enteredById: user && user._id,
-      enteredBy:user && user.userName,
+      enteredBy: user && user.userName,
       enquiryStatus: "UnResolved",
       enquiryType: radiodata,
       enquiryNotes: notes,
-      
     };
 
-    console.log("finaldataaa", finalData);
-
     addEnquiryDetails(finalData);
-    getUnresolvedData({userId:user && user._id})
+    getUnresolvedData({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
 
     setformData({
       ...formData,
@@ -102,10 +102,10 @@ const AddEnquiry = ({
       radiodata: "",
     });
 
-    getEnquiryDetails(
-      {userId : user && user._id}
-
-    )
+    getEnquiryDetails({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
     handleAddClose();
   };
 
@@ -211,67 +211,70 @@ const AddEnquiry = ({
                           id="EstimatedDate"
                           type="date"
                           required
-                        //   className="form-control"
+                          //   className="form-control"
                           onChange={(e) => onEnquiryChange(e)}
-                          
                         />
                       </div>
                     </div>
                   </div>
                   <div className="row form-group py-2">
-
-                  <div className="control-group col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                    <label className="control-label">
-                      Type : <span style={{ color: "red" }}>*</span>
-                    </label>
-                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                    {user && user.empCtAccess != "Individual" ? (
-                      <>
+                    <div className="control-group col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                      <label className="control-label">
+                        Type : <span style={{ color: "red" }}>*</span>
+                      </label>
+                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                      {(user && user.empCtAccess != "Individual") ||
+                      (user && user.userGroupName === "Clarical Admins") ? (
+                        <>
+                          <input
+                            className="radiolevels"
+                            type="radio"
+                            id="DCT"
+                            value="DCT"
+                            name="radiolevels"
+                            required
+                            onClick={() => onRadioSelect("DCT")}
+                          />{" "}
+                          &nbsp;
+                          <label className="label-control">DCT </label>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                      &emsp;
+                      {user && user.userGroupName !== "Clarical Admins" ? (
                         <input
                           className="radiolevels"
                           type="radio"
-                          id="DCT"
-                          value="DCT"
+                          id="SCT"
+                          value="SCT"
                           name="radiolevels"
-                          required
-                          onClick={() => onRadioSelect("DCT")}
-                        /> &nbsp;
-                         
-                        <label className="label-control">DCT </label>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                    &emsp;
-                    <input
-                      className="radiolevels"
-                      type="radio"
-                      id="SCT"
-                      value="SCT"
-                      name="radiolevels"
-                      onClick={() => onRadioSelect("SCT")}
-                    />{" "}&nbsp;
-                    <label className="label-control">   SCT </label>
+                          onClick={() => onRadioSelect("SCT")}
+                        />
+                      ) : (
+                        <></>
+                      )}
+                      {/* &nbsp;
+                      <label className="label-control"> SCT </label> */}
+                    </div>
                   </div>
-                  </div>
-                
+
                   <div className=" row control-group col-md-6 col-lg-12 col-sm-6 col-xs-6">
                     <label className="control-label">
                       Notes <span style={{ color: "red" }}>*</span>
-                    </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </label>{" "}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     {/* <div className="col-lg-12 col-md-4 col-sm-4 col-12 text-right"> */}
-                <textarea
-                  rows="3"
-                  name="notes"
-                  onChange={(e) => onEnquiryChange(e)}
-                  id="notes"
-                  className="textarea form-control"
-                  required
-                ></textarea>
-              {/* </div> */}
-                  
+                    <textarea
+                      rows="3"
+                      name="notes"
+                      onChange={(e) => onEnquiryChange(e)}
+                      id="notes"
+                      className="textarea form-control"
+                      required
+                    ></textarea>
+                    {/* </div> */}
                   </div>
-                
 
                   <div className="controls ">
                     <div className="control-group col-md-12 col-lg-12 col-sm-12 col-xs-12 text-left">
@@ -302,7 +305,7 @@ const mapStateToProps = (state) => ({
   settings: state.settings,
 });
 export default connect(mapStateToProps, {
-    addEnquiryDetails,
-    getEnquiryDetails,
-    getUnresolvedData,
+  addEnquiryDetails,
+  getEnquiryDetails,
+  getUnresolvedData,
 })(AddEnquiry);
