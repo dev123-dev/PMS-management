@@ -3,6 +3,8 @@ import { Modal } from "react-bootstrap";
 import { Fragment } from "react";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import { w3cwebsocket } from "websocket";
+
 import Select from "react-select";
 import {
   addEnquiryDetails,
@@ -19,6 +21,7 @@ const AddEnquiry = ({
 }) => {
   const [show, setshow] = useState("");
   const handleClose = () => setshow("false");
+  const client = new w3cwebsocket("ws://192.168.6.44:8000");
 
   useEffect(() => {
     getEnquiryDetails({
@@ -107,6 +110,12 @@ const AddEnquiry = ({
       enquiryStatus: "UnResolved",
     });
     handleAddClose();
+    client.send(
+      JSON.stringify({
+        type: "message",
+        msg: "../layout/Header",
+      })
+    );
   };
 
   return !isAuthenticated || !user || !users ? (
@@ -302,6 +311,7 @@ const AddEnquiry = ({
 const mapStateToProps = (state) => ({
   auth: state.auth,
   project: state.project,
+  client: state.client,
   settings: state.settings,
 });
 export default connect(mapStateToProps, {

@@ -21,7 +21,7 @@ import { io } from "socket.io-client";
 
 //client in websocket
 //SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.38:8000");
+const client = new w3cwebsocket("ws://192.168.6.44:8000");
 const ProjectSummary = ({
   auth: { isAuthenticated, user, users },
   project: { clientJobSummary, allProjectStatus },

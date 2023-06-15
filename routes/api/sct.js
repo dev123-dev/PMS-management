@@ -1731,14 +1731,13 @@ router.get("/get-Year", auth, async (req, res) => {
 //MOnth wise report start
 router.post("/get-Month-wise-Report", auth, async (req, res) => {
   let { startDate, endDate, clientFolderName, finYear } = req.body;
+  // if(clientFolderName)
 
   try {
     let MonthWiseData = await Project.aggregate([
       {
         $match:
-          /**
-           * query: The query in MQL.
-           */
+         
           {
             projectDate: {
               $ne: null,
@@ -1748,10 +1747,7 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
       },
       {
         $addFields:
-          /**
-           * newField: The new field name.
-           * expression: The new field expression.
-           */
+          
           {
             projectDate: {
               $toDate: "$projectDate",
@@ -1760,9 +1756,7 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
       },
       {
         $match:
-          /**
-           * query: The query in MQL.
-           */
+         
           {
             clientFolderName: {
               $eq: clientFolderName,
@@ -1775,10 +1769,7 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
       },
       {
         $addFields:
-          /**
-           * newField: The new field name.
-           * expression: The new field expression.
-           */
+          
           {
             month: {
               $month: "$projectDate",
@@ -1790,10 +1781,7 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
       },
       {
         $addFields:
-          /**
-           * newField: The new field name.
-           * expression: The new field expression.
-           */
+         
           {
             monthName: {
               $switch: {
@@ -2125,12 +2113,12 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
 router.post("/get-client-report", auth, async (req, res) => {
   let { startDate, endDate, clientFolderName } = req.body;
 
+console.log("xxx",req.body)
   try {
     let ProjectDetails = await Project.aggregate([
       {
         $match: {
           projectDate: {
-            $ne: null,
             $ne: "",
           },
         },
@@ -2148,6 +2136,7 @@ router.post("/get-client-report", auth, async (req, res) => {
             $eq: clientFolderName,
           },
           projectDateObj: {
+            
             $gte: new Date(startDate),
             $lte: new Date(endDate),
           },
@@ -2183,6 +2172,8 @@ router.post("/get-client-report", auth, async (req, res) => {
         },
       },
     ]);
+
+console.log(ProjectDetails)
     res.json(ProjectDetails);
   } catch (error) {
     console.log(error.message);

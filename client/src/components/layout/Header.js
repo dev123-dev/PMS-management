@@ -19,6 +19,7 @@ const Header = ({
 }) => {
   const [showLogin, setShowLogin] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
+  //const client = new w3cwebsocket("ws://192.168.6.44:8000");
 
   useEffect(() => {
     getUnresolvedData({

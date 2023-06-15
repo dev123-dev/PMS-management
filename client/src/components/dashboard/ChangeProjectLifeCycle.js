@@ -129,7 +129,7 @@ const ChangeProjectLifeCycle = ({
   const { showTimerSection } = showHide;
   //client in websocket
   //SLAP IP
-  const client = new w3cwebsocket("ws://192.168.6.40:8000");
+  const client = new w3cwebsocket("ws://192.168.6.44:8000");
 
   const onSubmit = async (e) => {
     const amendmentProjectId = {
