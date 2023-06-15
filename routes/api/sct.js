@@ -604,10 +604,23 @@ router.post("/get-sct-Leads", auth, async (req, res) => {
 
 //ALL LEADS
 router.post("/get-all-sct-Leads", auth, async (req, res) => {
-  let { stateId, clientsId, assignedTo, projectsId, DD, empId } = req.body;
+  let {
+    stateId,
+    clientsId,
+    assignedTo,
+    projectsId,
+    DD,
+    empId,
+    recPerPage = 200,
+    Pagedata = 0,
+    clientName,
+  } = req.body;
+
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
+  const page = Pagedata * recPerPage;
+  // console.log("page", Pagedata, recPerPage);
   let sctLeadAssignedToId = "";
   if (userInfo.empCtAccess !== "All")
     sctLeadAssignedToId = mongoose.Types.ObjectId(userInfo._id);
@@ -618,11 +631,12 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
 
   let query = {
     sctLeadStatus: "Active",
-    $and: [
-      // { sctLeadCategory: { $ne: "EC" } },
-      { sctLeadCategory: { $ne: "RC" } },
-    ],
+    // $and: [
+    // { sctLeadCategory: { $ne: "EC" } },
+    // { sctLeadCategory: { $ne: "RC" } },
+    // ],
     sctLeadAssignedToId,
+    sctLeadCategory: { $ne: "RC" },
   };
 
   if (stateId) {
@@ -632,10 +646,12 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
     };
   }
 
-  if (clientsId) {
+  if (clientName) {
     query = {
       ...query,
-      _id: mongoose.Types.ObjectId(clientsId),
+      // _id: mongoose.Types.ObjectId(clientsId),
+      projectsId: mongoose.Types.ObjectId(projectsId),
+      sctCompanyName: { $regex: clientName, $options: "i" },
     };
   }
 
@@ -645,7 +661,9 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
       projectsId: mongoose.Types.ObjectId(projectsId),
     };
   }
+  console.log("qry", query);
   try {
+    const getSctLeadsDetailsCont = await SctLeads.count(query);
     let getSctLeadsDetails = (getSctLeadsEmp = []);
     if (projectsId) {
       if (DD) {
@@ -654,9 +672,12 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
           sctCompanyName: 1,
           sctClientName: 1,
           sctPhone1: 1,
-        }).sort({
-          _id: -1,
-        });
+        })
+          .skip(page)
+          .limit(recPerPage)
+          .sort({
+            _id: -1,
+          });
         getSctLeadsEmp = await SctLeads.aggregate([
           {
             $match: query,
@@ -668,13 +689,23 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
             },
           },
         ]).sort({ _id: 1 });
+        console.log("IF");
       } else {
-        getSctLeadsDetails = await SctLeads.find(query).sort({
-          _id: -1,
-        });
+        console.log("else");
+        getSctLeadsDetails = await SctLeads.find(query)
+          .skip(page)
+          .limit(recPerPage)
+          .sort({
+            _id: -1,
+          });
       }
     }
-    res.json({ result1: getSctLeadsDetails, result2: getSctLeadsEmp });
+    console.log("count", getSctLeadsDetails.length);
+    res.json({
+      result1: getSctLeadsDetails,
+      result2: getSctLeadsEmp,
+      result3: getSctLeadsDetailsCont,
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");
@@ -2103,7 +2134,7 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
 router.post("/get-client-report", auth, async (req, res) => {
   let { startDate, endDate, clientFolderName } = req.body;
 
-  console.log("xxx", req.body);
+  // console.log("xxx", req.body);
   try {
     let ProjectDetails = await Project.aggregate([
       {
@@ -2153,6 +2184,7 @@ router.post("/get-client-report", auth, async (req, res) => {
           projectQty: "$projectQuantity",
           projectName: "$projectName",
           clientFolderName: "$clientFolderName",
+          clientTypeVal: 1,
         },
       },
       {
