@@ -93,6 +93,9 @@ const DctLeadsSchema = new mongoose.Schema({
   dctLeadAssignedToName: {
     type: String,
   },
+  timezone :{
+    type :String
+  },
 
   dctLeadTransferById: {
     type: ObjectId,

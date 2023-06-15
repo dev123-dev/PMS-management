@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
@@ -12,16 +12,24 @@ import {
   getLastmessage,
   addImportDctLeadData,
 } from "../../actions/dct";
+import _debounce from "lodash/debounce";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
 import { getActiveCountry } from "../../actions/regions";
+import Pagination from "../layout/Pagination";
 
 const AllLeads = ({
   auth: { isAuthenticated, user, users },
-  dct: { getAllLeads, getAllLeadsDD, getAllLeadsEmp, getAllLeadsEnterdBy },
+  dct: {
+    getAllLeads,
+    getAllLeadsDD,
+    getAllLeadsEmp,
+    getAllLeadsEnterdBy,
+    dctAllLeadsCount,
+  },
   regions: { activeCountry },
   getAllDctLead,
   addImportDctLeadData,
@@ -29,20 +37,24 @@ const AllLeads = ({
   getAllDctLeadDD,
   getLastmessage,
 }) => {
+  // useEffect(() => {
+  //   getAllDctLead({ recPerPage: 0, recPerPage: 0 });
+  // }, [getAllDctLead]);
+
   useEffect(() => {
-    getAllDctLead();
-  }, [getAllDctLead]);
-  useEffect(() => {
-    getAllDctLeadDD();
+    getAllDctLeadDD({ Pagedata: 0, recPerPage: 200 });
   }, [getAllDctLeadDD]);
+
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
+
   const [showHide1, setShowHide1] = useState({
     showUSSection: false,
     showAUDSection: false,
     showUKSection: false,
   });
+
   const { showUSSection, showAUDSection, showUKSection } = showHide1;
   const [filterData, setFilterData] = useState();
 
@@ -54,6 +66,7 @@ const AllLeads = ({
       handleEditModalClose();
     }
   };
+
   const [showHide, setShowHide] = useState({
     showdateselectionSection: false,
   });
@@ -67,6 +80,7 @@ const AllLeads = ({
   };
 
   const [userDatadeactive, setUserDatadeactive] = useState(null);
+
   const onDeactive = (jobQueueProjects, idx) => {
     setShowDeactiveModal(true);
     setUserDatadeactive(jobQueueProjects);
@@ -83,7 +97,15 @@ const AllLeads = ({
   const [colorData, setcolorData] = useState();
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
+
+  const [highlightTimeZone, sethighlightTimeZone] = useState("");
+
   const onClickHandler = (getAllLeads, idx) => {
+    sethighlightTimeZone(
+      getAllLeads.timezone && getAllLeads.timezone !== ""
+        ? getAllLeads.timezone
+        : ""
+    );
     setcolorData(idx);
     setLeadData(getAllLeads);
     const searchData = {
@@ -116,7 +138,6 @@ const AllLeads = ({
 
   const [country, getcountryData] = useState();
   const [countryId, getcountryIdData] = useState(null);
-
   const oncountryChange = (e) => {
     getEnterByData("");
     if (e.value === "US") {
@@ -165,18 +186,32 @@ const AllLeads = ({
       value: clients.companyName,
     })
   );
+
   const [clients, getclientsData] = useState();
+
   const onclientsChange = (e) => {
     getEnterByData("");
     getclientsData(e);
+
     getAllDctLead({
       countryId: countryId,
       clientsId: e.clientsId,
     });
+
     setFilterData({
       countryId: countryId,
       clientsId: e.clientsId,
     });
+  };
+
+  const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
+
+  function handleDebounceFn(val, countryId) {
+    getAllDctLead({ countryId: countryId, clientName: val });
+  }
+
+  const onclientsearch = (e) => {
+    debounceFn(e.target.value);
   };
 
   const allemp = [{ empId: null, label: "All", value: null }];
@@ -249,6 +284,7 @@ const AllLeads = ({
     setShowHide1(false);
     ondivcloseChange(true);
     setcolorData("");
+    onclientsearch("");
   };
 
   const [showPathSettingModal, setShowPathModal] = useState(false);
@@ -280,6 +316,20 @@ const AllLeads = ({
     handleShowPathModalClose();
   };
 
+  //pagination code//////////////////////////////////
+  const [currentData, setCurrentData] = useState(1);
+  const [dataPerPage] = useState(200);
+
+  const paginate = (nmbr) => {
+    setCurrentData(nmbr);
+  };
+
+  useEffect(() => {
+    getAllDctLead({ Pagedata: currentData - 1, recPerPage: 200 });
+  }, [currentData]);
+
+  //End Pageinate
+
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -295,24 +345,44 @@ const AllLeads = ({
                 <h6>
                   PST :&nbsp;
                   <Clock
+                    style={
+                      highlightTimeZone && highlightTimeZone === "PST"
+                        ? { backgroundColor: "yellow" }
+                        : { backgroundColor: "white" }
+                    }
                     ticking={true}
                     timezone={"US/Pacific"}
                     format={"DD/MM/YYYY, h:mm:ss a"}
                   />
                   &emsp;&emsp; MST :
                   <Clock
+                    style={
+                      highlightTimeZone && highlightTimeZone === "MST"
+                        ? { backgroundColor: "yellow" }
+                        : { backgroundColor: "white" }
+                    }
                     ticking={true}
                     timezone={"US/Mountain"}
                     format={" DD/MM/YYYY, h:mm:ss a"}
                   />{" "}
                   &emsp;&emsp; EST :
                   <Clock
+                    style={
+                      highlightTimeZone && highlightTimeZone === "EST"
+                        ? { backgroundColor: "yellow" }
+                        : { backgroundColor: "white" }
+                    }
                     ticking={true}
                     timezone={"US/Eastern"}
                     format={" DD/MM/YYYY, h:mm:ss a"}
                   />{" "}
                   &emsp;&emsp; CST :
                   <Clock
+                    style={
+                      highlightTimeZone && highlightTimeZone === "CST"
+                        ? { backgroundColor: "yellow" }
+                        : { backgroundColor: "white" }
+                    }
                     ticking={true}
                     timezone={"US/Central"}
                     format={" DD/MM/YYYY, h:mm:ss a"}
@@ -323,12 +393,22 @@ const AllLeads = ({
                 <h6>
                   Sydney :
                   <Clock
+                    style={
+                      highlightTimeZone && highlightTimeZone === "Sydney"
+                        ? { backgroundColor: "yellow" }
+                        : { backgroundColor: "white" }
+                    }
                     ticking={true}
                     timezone={"Australia/Sydney"}
                     format={" DD/MM/YYYY, h:mm:ss a"}
                   />
                   &emsp; &emsp;Perth :
                   <Clock
+                    style={
+                      highlightTimeZone && highlightTimeZone === "Perth"
+                        ? { backgroundColor: "yellow" }
+                        : { backgroundColor: "white" }
+                    }
                     ticking={true}
                     timezone={"Australia/Perth"}
                     format={" DD/MM/YYYY, h:mm:ss a"}
@@ -361,13 +441,19 @@ const AllLeads = ({
             </div>
 
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
+              {/* <Select
                 name="companyName"
                 options={allclient}
                 isSearchable={true}
                 value={clients}
                 placeholder="Select Lead"
                 onChange={(e) => onclientsChange(e)}
+              /> */}
+              <input
+                type="Text"
+                name="companyName"
+                className="form-control shadow-none"
+                onChange={(e) => onclientsearch(e)}
               />
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
@@ -438,9 +524,9 @@ const AllLeads = ({
                   >
                     <thead>
                       <tr>
-                        <th style={{ width: "3%" }}>Sl.No</th>
+                        {/* <th style={{ width: "3%" }}>Sl.No</th> */}
                         <th style={{ width: "15%" }}>Company </th>
-                        <th style={{ width: "14%" }}>Website </th>
+                        <th style={{ width: "13%" }}>Website </th>
                         <th style={{ width: "11%" }}>Email</th>
                         <th style={{ width: "8%" }}>Region</th>
                         <th style={{ width: "13%" }}>Contact</th>
@@ -466,7 +552,7 @@ const AllLeads = ({
                               }
                               onClick={() => onClickHandler(getAllLeads, idx)}
                             >
-                              <td>{idx + 1}</td>
+                              {/* <td>{idx + 1}</td> */}
                               <td>{getAllLeads.companyName}</td>
                               <td>
                                 <a
@@ -510,12 +596,29 @@ const AllLeads = ({
                   </table>
                 </div>
                 <div className="row">
-                  <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
-                    <label>
-                      No of Leads : {getAllLeads && getAllLeads.length}
-                    </label>
+                  <div className="col-lg-6 col-md-6 col-sm-11 col-11 no_padding">
+                    {getAllLeads && getAllLeads.length !== 0 ? (
+                      <Pagination
+                        dataPerPage={dataPerPage}
+                        totalData={dctAllLeadsCount}
+                        paginate={paginate}
+                        currentPage={currentData}
+                      />
+                    ) : (
+                      <Fragment />
+                    )}
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-11 col-11 align_right">
+                    No of Leads : {dctAllLeadsCount}
                   </div>
                 </div>
+                {/* <div className="row">
+                  <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
+                    <label>
+                     
+                    </label>
+                  </div>
+                </div> */}
               </section>
             </div>
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead">

@@ -45,6 +45,11 @@ import {
   FY_CLIENT,
   FY_CLIENT_MONTHWISE,
   CLIENT_WISE,
+  FY_CLIENT_SUM,
+  ENQUIRY_DETAILS,
+  HISTORY_DETAILS,
+  UNRESOLVED_ENQUIRY_DETAILS,
+  NAME_WITH_COUNT_DROPDOWN,
 } from "./types";
 
 const config = {
@@ -52,6 +57,111 @@ const config = {
     "Content-Type": "application/json",
   },
 };
+
+//add enquiry
+export const addEnquiryDetails = (finalData)=>async(dispatch)=>{
+  console.log("finalData",finalData)
+try{
+  await axios.post("/api/enquiry/add-enquiry-details",finalData)
+  dispatch(getEnquiryDetails({userId : finalData.enteredById}))
+}catch(error){
+  console.log(error.message)
+}
+}
+
+export const AddenquiryHistory =(data)=>async(dispatch)=>{
+  console.log("data",data)
+
+  
+  try{
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+
+  const res2 =   await axios.post("/api/enquiry/add-enquiry-history",data,config);
+
+  dispatch(getEnquiryDetails({userId : data && data.enquiryId}))
+
+
+  }catch(error){console.log(error.message)}
+}
+
+export const updateEnquiry=(data)=>async(dispatch)=>{
+try{
+  dispatch({
+    type: SET_LOADING_TRUE,
+  });
+  const res1 =   await axios.post("/api/enquiry/update-enquiry-details",data,config);
+
+  // dispatch(getEnquiryDetails(userId:data.))
+  dispatch({
+    type: SET_LOADING_FALSE,
+  });
+  
+}catch(error){console.log(error.message)}
+}
+
+
+//edit enquiry
+export const  editEnquiryDetails = (data)=>async(dispatch)=>{
+  try{
+    await axios.post("/api/enquiry/edit-enquiry-details",data)
+
+  }catch(error){console.log(error.message)}
+}
+
+export const getEnquiryDetails =(data)=>async(dispatch)=>{
+  try{
+  let finalData = await axios.post("/api/enquiry/get-enquiry-details",data);
+  
+    dispatch({
+      type : ENQUIRY_DETAILS,
+      payload : finalData.data
+    })
+
+  }catch(error){console.log(error.message)}
+}
+//to get unresolved data for header counter
+export const getUnresolvedData =(data)=>async(dispatch)=>{
+  try{
+  let finalData = await axios.post("/api/enquiry/get-Unresolved-Data",data);
+  
+    dispatch({
+      type : UNRESOLVED_ENQUIRY_DETAILS,
+      payload : finalData.data.res1
+    })
+    dispatch({
+      type :NAME_WITH_COUNT_DROPDOWN,
+      payload : finalData.data.res2
+    })
+
+  }catch(error){console.log(error.message)}
+}
+
+
+
+export const deleteEnquiry=(data)=>async(dispatch)=>{
+  try{
+    await axios.post("/api/enquiry/delete-enquiry-details",data)
+
+  }catch(error){console.log(error.message)}
+}
+
+export const getLastEnquiryHistoryDeatils=(data)=>async(dispatch)=>{
+  try{
+
+    let finalData = await axios.post("/api/enquiry/get-last-enquiry-details",data)
+    
+  dispatch({
+    type :HISTORY_DETAILS,
+    payload : finalData.data
+  })
+  }catch(error){
+    console.log(error.message)
+  }
+}
+
+
 
 //ADD
 
@@ -828,7 +938,11 @@ export const getFYclient = (finalData) => async (dispatch) => {
     //localStorage.setItem("financialYear", JSON.stringify(res.data));
     dispatch({
       type: FY_CLIENT,
-      payload: res.data,
+      payload: res.data.projectDetails,
+    });
+    dispatch({
+      type: FY_CLIENT_SUM,
+      payload: res.data.projectDetailsSum,
     });
   } catch (err) {
     dispatch({
