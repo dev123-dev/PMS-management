@@ -207,11 +207,12 @@ const AllLeads = ({
   const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
 
   function handleDebounceFn(val, countryId) {
+    // console.log("countryId", countryId);
     getAllDctLead({ countryId: countryId, clientName: val });
   }
 
   const onclientsearch = (e) => {
-    debounceFn(e.target.value);
+    debounceFn(e.target.value, countryId);
   };
 
   const allemp = [{ empId: null, label: "All", value: null }];
@@ -451,6 +452,7 @@ const AllLeads = ({
               /> */}
               <input
                 type="Text"
+                placeholder="Type Lead Name"
                 name="companyName"
                 className="form-control shadow-none"
                 onChange={(e) => onclientsearch(e)}

@@ -1,10 +1,11 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
+import _debounce from "lodash/debounce";
 import {
   getAllSctLead,
   getAllSctLeadDD,
@@ -18,10 +19,17 @@ import SctLastMessageDetails from "./SctLastMessageDetails";
 import AllSctContacts from "./AllSctContacts";
 import AllSctStatusChange from "./AllSctStatusChange";
 import { getActiveCountry, getActiveState } from "../../actions/regions";
+import Pagination from "../layout/Pagination";
 
 const AllSctLeads = ({
   auth: { isAuthenticated, user, users, loading },
-  sct: { getAllSctLeads, getAllSctLeadsDD, getAllSctLeadsEmp, projectList },
+  sct: {
+    getAllSctLeads,
+    getAllSctLeadsDD,
+    getAllSctLeadsEmp,
+    projectList,
+    sctAllLeadsCount,
+  },
   regions: { activeCountry, activeState },
   getAllSctLead,
   getActiveCountry,
@@ -31,12 +39,12 @@ const AllSctLeads = ({
   getProjectList,
   addImportSctLeadData,
 }) => {
-  useEffect(() => {
-    getAllSctLead();
-  }, [getAllSctLead]);
-  useEffect(() => {
-    getAllSctLeadDD();
-  }, [getAllSctLeadDD]);
+  // useEffect(() => {
+  //   getAllSctLead();
+  // }, [getAllSctLead]);
+  // useEffect(() => {
+  //   getAllSctLeadDD({ projectsId: projectsId, Pagedata: 0, recPerPage: 200 });
+  // }, [getAllSctLeadDD]);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "SCT" });
   }, [getActiveCountry]);
@@ -51,7 +59,7 @@ const AllSctLeads = ({
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
-
+  console.log("200", getAllSctLeads.length);
   const onEditModalChange = (e) => {
     if (e) {
       handleEditModalClose();
@@ -167,7 +175,7 @@ const AllSctLeads = ({
       assignedTo: empId,
     };
     getAllSctLead(searchData);
-    getAllSctLeadDD(searchData);
+    // getAllSctLeadDD(searchData);
     setFilterData(searchData);
   };
 
@@ -200,7 +208,7 @@ const AllSctLeads = ({
       assignedTo: empId,
     };
     getAllSctLead(searchData);
-    getAllSctLeadDD(searchData);
+    // getAllSctLeadDD(searchData);
     setFilterData(searchData);
   };
   const allclient = [];
@@ -213,6 +221,7 @@ const AllSctLeads = ({
   );
   const [clients, getclientsData] = useState();
   const [clientsId, getclientsIdData] = useState();
+
   const onclientsChange = (e) => {
     getClientsNameData("");
     getClientsPhoneData("");
@@ -307,7 +316,7 @@ const AllSctLeads = ({
       assignedTo: e.empId,
     };
     getAllSctLead(searchData);
-    getAllSctLeadDD(searchData);
+    // getAllSctLeadDD(searchData);
     setFilterData(searchData);
   };
 
@@ -319,7 +328,7 @@ const AllSctLeads = ({
     getClientsNameData("");
     getClientsPhoneData("");
     getempData("");
-    getAllSctLeadDD();
+    // getAllSctLeadDD();
     setprojectsID("");
     setStateID("");
     setFilterData();
@@ -358,6 +367,44 @@ const AllSctLeads = ({
     handleShowPathModalClose();
   };
 
+  //pagination code//////////////////////////////////
+  const [currentData, setCurrentData] = useState(1);
+  const [dataPerPage] = useState(200);
+
+  const paginate = (nmbr) => {
+    setCurrentData(nmbr);
+  };
+
+  useEffect(() => {
+    getAllSctLead({
+      Pagedata: currentData - 1,
+      recPerPage: 200,
+      projectsId: projectsId,
+    });
+  }, [currentData]);
+
+  //End Pageinate
+  useEffect(() => {}, [isAuthenticated, user, users]);
+
+  //phone src
+  const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
+
+  function handleDebounceFn(val, stateId, projectsId) {
+    getAllSctLead({
+      stateId: stateId,
+      clientName: val,
+      projectsId: projectsId,
+    });
+    console.log("projectsIdIN", projectsId);
+    console.log("stateId", stateId);
+  }
+  console.log("projectsIdout", projectsId);
+
+  const onclientsearch = (e) => {
+    debounceFn(e.target.value, stateId, projectsId);
+  };
+
+  //
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -409,13 +456,21 @@ const AllSctLeads = ({
               />
             </div>
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
-              <Select
+              {/* <Select
                 name="companyName"
                 options={allclient}
                 isSearchable={true}
                 value={clients}
                 placeholder="Lead"
                 onChange={(e) => onclientsChange(e)}
+              /> */}
+
+              <input
+                type="text"
+                name="companyName"
+                placeholder="Leads"
+                className="form-control"
+                onChange={(e) => onclientsearch(e)}
               />
             </div>
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10 py-2">
@@ -429,14 +484,14 @@ const AllSctLeads = ({
               />
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              <Select
+              {/* <Select
                 name="clientPhone"
                 options={allClientPhone}
                 isSearchable={true}
                 value={clientsPhone}
                 placeholder=" Phone"
                 onChange={(e) => onClientPhoneChange(e)}
-              />
+              /> */}
             </div>
             <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
@@ -581,12 +636,29 @@ const AllSctLeads = ({
                   </table>
                 </div>
                 <div className="row">
+                  <div className="col-lg-6 col-md-6 col-sm-11 col-11 no_padding">
+                    {getAllSctLeads && getAllSctLeads.length !== 0 ? (
+                      <Pagination
+                        dataPerPage={dataPerPage}
+                        totalData={sctAllLeadsCount}
+                        paginate={paginate}
+                        currentPage={currentData}
+                      />
+                    ) : (
+                      <Fragment />
+                    )}
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-11 col-11 align_right">
+                    No of Leads : {sctAllLeadsCount}
+                  </div>
+                </div>
+                {/* <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
                     <label>
                       No of Leads : {getAllSctLeads && getAllSctLeads.length}
                     </label>
                   </div>
-                </div>
+                </div> */}
               </section>
             </div>
 
