@@ -54,6 +54,7 @@ const initialState = {
   allDctLeadEnteredToday: [],
   getAllLeadsEnterdBy: [],
   allLeadsEnterdBy: [],
+  dctAllLeadsCount: 0,
 };
 
 const dct = (state = initialState, action) => {
@@ -191,6 +192,11 @@ const dct = (state = initialState, action) => {
       return {
         ...state,
         allDctLeadEnteredToday: payload,
+      };
+    case "DCT_ALL_LEADS_COUNT":
+      return {
+        ...state,
+        dctAllLeadsCount: payload,
       };
 
     default:

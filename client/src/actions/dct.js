@@ -451,6 +451,7 @@ export const getAllDctLead = (finalData) => async (dispatch) => {
       finalData,
       config
     );
+
     dispatch({
       type: GET_ALL_LEADS,
       payload: res.data.result1,
@@ -482,6 +483,10 @@ export const getAllDctLeadDD = (finalData) => async (dispatch) => {
     dispatch({
       type: GET_ALL_LEADS_ENTERED_BY,
       payload: res.data.result3,
+    });
+    dispatch({
+      type: "DCT_ALL_LEADS_COUNT",
+      payload: res.data.result4,
     });
   } catch (err) {
     dispatch({

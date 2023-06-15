@@ -1736,229 +1736,219 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
   try {
     let MonthWiseData = await Project.aggregate([
       {
-        $match:
-         
-          {
-            projectDate: {
-              $ne: null,
-              $ne: "",
-            },
+        $match: {
+          projectDate: {
+            $ne: null,
+            $ne: "",
           },
+        },
       },
       {
-        $addFields:
-          
-          {
-            projectDate: {
-              $toDate: "$projectDate",
-            },
+        $addFields: {
+          projectDate: {
+            $toDate: "$projectDate",
           },
+        },
       },
       {
-        $match:
-         
-          {
-            clientFolderName: {
-              $eq: clientFolderName,
-            },
-            projectDate: {
-              $gte: new Date(startDate),
-              $lte: new Date(endDate),
-            },
+        $match: {
+          clientFolderName: {
+            $eq: clientFolderName,
           },
+          projectDate: {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate),
+          },
+        },
       },
       {
-        $addFields:
-          
-          {
-            month: {
-              $month: "$projectDate",
-            },
-            year: {
-              $year: "$projectDate",
-            },
+        $addFields: {
+          month: {
+            $month: "$projectDate",
           },
+          year: {
+            $year: "$projectDate",
+          },
+        },
       },
       {
-        $addFields:
-         
-          {
-            monthName: {
-              $switch: {
-                branches: [
-                  {
-                    case: {
-                      $eq: ["$month", 1],
-                    },
-                    then: {
-                      $concat: [
-                        "Jan",
-                        "-",
-                        {
-                          $toString: "$year",
-                        },
-                      ],
-                    },
+        $addFields: {
+          monthName: {
+            $switch: {
+              branches: [
+                {
+                  case: {
+                    $eq: ["$month", 1],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 2],
-                    },
-                    then: {
-                      $concat: [
-                        "Feb",
-                        "-",
-                        {
-                          $toString: "$year",
-                        },
-                      ],
-                    },
+                  then: {
+                    $concat: [
+                      "Jan",
+                      "-",
+                      {
+                        $toString: "$year",
+                      },
+                    ],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 3],
-                    },
-                    then: {
-                      $concat: [
-                        "Mar",
-                        "-",
-                        {
-                          $toString: "$year",
-                        },
-                      ],
-                    },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 2],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 4],
-                    },
-                    then: {
-                      $concat: [
-                        "Apr",
-                        "-",
-                        {
-                          $toString: "$year",
-                        },
-                      ],
-                    },
+                  then: {
+                    $concat: [
+                      "Feb",
+                      "-",
+                      {
+                        $toString: "$year",
+                      },
+                    ],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 5],
-                    },
-                    then: {
-                      $concat: [
-                        "May",
-                        "-",
-                        {
-                          $toString: "$year",
-                        },
-                      ],
-                    },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 3],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 6],
-                    },
-                    then: {
-                      $concat: [
-                        "Jun",
-                        "-",
-                        {
-                          $toString: "$year",
-                        },
-                      ],
-                    },
+                  then: {
+                    $concat: [
+                      "Mar",
+                      "-",
+                      {
+                        $toString: "$year",
+                      },
+                    ],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 7],
-                    },
-                    then: {
-                      $concat: [
-                        "Jul",
-                        "-",
-                        {
-                          $toString: "$year",
-                        },
-                      ],
-                    },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 4],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 8],
-                    },
-                    then: {
-                      $concat: [
-                        "Aug",
-                        "-",
-                        {
-                          $toString: "$year",
-                        },
-                      ],
-                    },
+                  then: {
+                    $concat: [
+                      "Apr",
+                      "-",
+                      {
+                        $toString: "$year",
+                      },
+                    ],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 9],
-                    },
-                    then: {
-                      $concat: [
-                        "Sep",
-                        "-",
-                        {
-                          $toString: "$year",
-                        },
-                      ],
-                    },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 5],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 10],
-                    },
-                    then: {
-                      $concat: [
-                        "Oct",
-                        "-",
-                        {
-                          $toString: "$year",
-                        },
-                      ],
-                    },
+                  then: {
+                    $concat: [
+                      "May",
+                      "-",
+                      {
+                        $toString: "$year",
+                      },
+                    ],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 11],
-                    },
-                    then: {
-                      $concat: [
-                        "Nov",
-                        "-",
-                        {
-                          $toString: "$year",
-                        },
-                      ],
-                    },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 6],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 12],
-                    },
-                    then: {
-                      $concat: [
-                        "Dec",
-                        "-",
-                        {
-                          $toString: "$year",
-                        },
-                      ],
-                    },
+                  then: {
+                    $concat: [
+                      "Jun",
+                      "-",
+                      {
+                        $toString: "$year",
+                      },
+                    ],
                   },
-                ],
-                default: "Invalid month",
-              },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 7],
+                  },
+                  then: {
+                    $concat: [
+                      "Jul",
+                      "-",
+                      {
+                        $toString: "$year",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 8],
+                  },
+                  then: {
+                    $concat: [
+                      "Aug",
+                      "-",
+                      {
+                        $toString: "$year",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 9],
+                  },
+                  then: {
+                    $concat: [
+                      "Sep",
+                      "-",
+                      {
+                        $toString: "$year",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 10],
+                  },
+                  then: {
+                    $concat: [
+                      "Oct",
+                      "-",
+                      {
+                        $toString: "$year",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 11],
+                  },
+                  then: {
+                    $concat: [
+                      "Nov",
+                      "-",
+                      {
+                        $toString: "$year",
+                      },
+                    ],
+                  },
+                },
+                {
+                  case: {
+                    $eq: ["$month", 12],
+                  },
+                  then: {
+                    $concat: [
+                      "Dec",
+                      "-",
+                      {
+                        $toString: "$year",
+                      },
+                    ],
+                  },
+                },
+              ],
+              default: "Invalid month",
             },
           },
+        },
       },
       {
         $addFields:
@@ -2112,14 +2102,15 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
 //Client details start
 router.post("/get-client-report", auth, async (req, res) => {
   let { startDate, endDate, clientFolderName } = req.body;
-
-console.log("xxx",req.body)
   try {
     let ProjectDetails = await Project.aggregate([
       {
         $match: {
           projectDate: {
             $ne: "",
+          },
+          projectStatus: {
+            $ne: "Trash",
           },
         },
       },
@@ -2136,7 +2127,6 @@ console.log("xxx",req.body)
             $eq: clientFolderName,
           },
           projectDateObj: {
-            
             $gte: new Date(startDate),
             $lte: new Date(endDate),
           },
@@ -2173,7 +2163,7 @@ console.log("xxx",req.body)
       },
     ]);
 
-console.log(ProjectDetails)
+    console.log(ProjectDetails);
     res.json(ProjectDetails);
   } catch (error) {
     console.log(error.message);
@@ -2204,6 +2194,22 @@ router.post("/get-FY-Client", auth, async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: "projectstatuses",
+          localField: "projectStatusId",
+          foreignField: "_id",
+          as: "status",
+        },
+      },
+      {
+        $match: {
+          "status.projectStatusCategory": {
+            $nin: ["Dont Work", "Amend", "Additional Instruction"],
+          },
+          //query,
+        },
+      },
+      {
         $match: query,
       },
       {
@@ -2226,10 +2232,10 @@ router.post("/get-FY-Client", auth, async (req, res) => {
           _id: {
             $ne: "",
           },
-          // query,
           projectBelongsToId: {
             $eq: null,
           },
+          //query,
         },
       },
       {
@@ -2436,68 +2442,60 @@ router.post("/get-FY-Client", auth, async (req, res) => {
         },
       },
       {
-        $sort: { _id: 1 },
+        $sort: {
+          _id: 1,
+        },
       },
     ]);
-/////////////////for overall total count
+    /////////////////for overall total count
     let projectDetailsSum = await Project.aggregate([
       {
-        $match:
-          
-          {
-            projectStatus: {
-              $ne: "Trash",
-            },
-            _id: {
-              $ne: "",
-            },
-            projectBelongsToId: {
-               $eq: null,
-            },
+        $match: {
+          projectStatus: {
+            $ne: "Trash",
+          },
+          _id: {
+            $ne: "",
+          },
+          projectBelongsToId: {
+            $eq: null,
+          },
+        },
+      },
+      {
+        $match: query,
+      },
+      {
+        $addFields: {
+          projectDate: {
+            $toDate: "$projectDate",
+          },
+        },
+      },
+      {
+        $match: {
+          projectDate: {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate),
+          },
+        },
+      },
 
-
-          },
-      },
       {
-       $match :query
-      },
-      {
-        $addFields:
-         
-          {
-            projectDate: {
-              $toDate: "$projectDate",
+        $group: {
+          _id: {
+            clientFolderName: "$clientFolderName",
+            month: {
+              $month: "$projectDate",
+            },
+            year: {
+              $year: "$projectDate",
             },
           },
-      },
-      {
-        $match:
-         
-          {
-            projectDate: {
-              $gte: new Date(startDate),
-              $lte: new Date(endDate),
-            },
+          totalQty: {
+            $sum: "$projectQuantity",
           },
-      },
-     
-      {
-        $group:
-         
-          {
-            _id: {
-              clientFolderName: "$clientFolderName",
-              month: {
-                $month: "$projectDate",
-              },
-              year: {
-                $year: "$projectDate",
-              },
-            },
-            totalQty: {
-              $sum: "$projectQuantity",
-            },
-          },
+        },
       },
       {
         $addFields: {
@@ -2583,19 +2581,19 @@ router.post("/get-FY-Client", auth, async (req, res) => {
         },
       },
       {
-        $group:
-         
-          {
-            _id: "$monthName",
-            totalCount: {
-              $sum: "$totalQty",
-            },
+        $group: {
+          _id: "$monthName",
+          totalCount: {
+            $sum: "$totalQty",
           },
+        },
       },
-    ])
+    ]);
 
-    res.json({projectDetails :projectDetails,
-      projectDetailsSum :projectDetailsSum});
+    res.json({
+      projectDetails: projectDetails,
+      projectDetailsSum: projectDetailsSum,
+    });
   } catch (error) {
     console.log(error.message);
   }

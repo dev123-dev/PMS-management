@@ -1,4 +1,4 @@
-import React, { Fragment, useState,useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Container, Navbar, Nav, NavItem, Modal } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
@@ -6,56 +6,42 @@ import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
 import Login from "../auth/Login";
 
-import {
-
-  getUnresolvedData,
-} from "../../actions/sct";
+import { getUnresolvedData } from "../../actions/sct";
 import "react-datepicker/dist/react-datepicker.css";
 import { w3cwebsocket } from "websocket";
 import Dropdown from "rsuite/Dropdown";
 import "rsuite/dist/rsuite.min.css";
-const Header = ({ auth: { isAuthenticated, loading, user },sct:{allUnResolved}, logout,getUnresolvedData }) => {
- 
+const Header = ({
+  auth: { isAuthenticated, loading, user },
+  sct: { allUnResolved },
+  logout,
+  getUnresolvedData,
+}) => {
   const [showLogin, setShowLogin] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
-  const client = new w3cwebsocket("ws://192.168.6.44:8000");
-
-
-  useEffect(()=>{
-    getUnresolvedData({userId:user && user._id})
-  },[user])
-
+  //const client = new w3cwebsocket("ws://192.168.6.44:8000");
 
   useEffect(() => {
-    client.onopen = () => {
-      console.log("webSocket client connected");
-    };
-    client.onmessage = (message) => {
-      // if (clientData === "") {
-     // getUpdatedProjectStaus();
-      // } else {
-      // }
-      //window.location.reload();
-      // getUpdatedProjectStausForDailyJobSheet();
-      getUnresolvedData({userId:user && user._id})
-    };
-  }, [/*clientData*/]);
+    getUnresolvedData({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
+  }, [user]);
 
-    // const [unRes,setUnres]=useState(0);
+  // const [unRes,setUnres]=useState(0);
 
-    //  setUnres(allUnResolved.length);
+  //  setUnres(allUnResolved.length);
 
-    //const 
+  //const
   // let unResolvedCount = 0;
   // let oldDate = [];
   // let todayDate = new Date();
   //  console.log("old data",oldDate)
 
-   
   //   let year = todayDate.getFullYear();
   //   let month = todayDate.getMonth() +1;
   //   let date = todayDate.getDate();
-  
+
   //   if(month < 10 ){
   //     month = "0"+month
   //   }
@@ -64,10 +50,8 @@ const Header = ({ auth: { isAuthenticated, loading, user },sct:{allUnResolved}, 
   //   }
   //   let finalres = date+"-"+month+"-"+year;
 
-
-    
   //     allUnResolved && allUnResolved.map((ele)=>{
-      
+
   //       var ED =
   //       ele.estimatedERD &&
   //       ele.estimatedERD.split(/\D/g);
@@ -78,21 +62,20 @@ const Header = ({ auth: { isAuthenticated, loading, user },sct:{allUnResolved}, 
   //       ].join("-");
   //       oldDate.push(datestring)
   //     })
-  
-  
+
   //     oldDate && oldDate.map((ele)=>{
   //       if(ele <= finalres){
   //         unResolvedCount +=1
   //       }
 
   //     })
-    
 
   const handleLogoutModalClose = () => setShowLogout(false);
   const handleLogoutModalShow = () => setShowLogout(true);
   //client in websocket
   //SLAP IP
 
+  const client = new w3cwebsocket("ws://192.168.6.40:8000");
   const LogoutModalClose = () => {
     handleLogoutModalClose();
     logout();
@@ -118,9 +101,6 @@ const Header = ({ auth: { isAuthenticated, loading, user },sct:{allUnResolved}, 
       }
     }
   };
-
-
- 
 
   return (
     <Fragment>
@@ -440,7 +420,6 @@ const Header = ({ auth: { isAuthenticated, loading, user },sct:{allUnResolved}, 
                   <NavItem></NavItem>
                 )}
 
-                
                 <NavItem>
                   {!loading &&
                   isAuthenticated &&
@@ -449,13 +428,14 @@ const Header = ({ auth: { isAuthenticated, loading, user },sct:{allUnResolved}, 
                     user.userGroupName === "Administrator") ||
                     user.userGroupName === "Super Admin" ||
                     user.userGroupName === "Sct Marketing" ||
-                    user.userGroupName ==="Clarical Admins"||
+                    user.userGroupName === "Clarical Admins" ||
                     user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/all-Enquiry"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      Enquiry <span>: {allUnResolved && allUnResolved.length}</span>
+                      Enquiry{" "}
+                      <span>: {allUnResolved && allUnResolved.length}</span>
                     </NavLink>
                   ) : (
                     <NavItem></NavItem>
@@ -463,7 +443,6 @@ const Header = ({ auth: { isAuthenticated, loading, user },sct:{allUnResolved}, 
                 </NavItem>
               </Nav>
 
-              
               {!loading && isAuthenticated && user ? (
                 <Nav>
                   <ul className="top-level-menu text-right">
@@ -661,7 +640,7 @@ Header.propTypes = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  sct:state.sct,
+  sct: state.sct,
 });
 
-export default connect(mapStateToProps, { logout,getUnresolvedData })(Header);
+export default connect(mapStateToProps, { logout, getUnresolvedData })(Header);

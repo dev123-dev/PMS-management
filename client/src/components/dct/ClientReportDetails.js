@@ -44,88 +44,80 @@ const ClientReportDetails = ({
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
-
-
   // useEffect(()=>{
   //   getClientDetails()
   // },[])
- // program to check leap year
- function checkLeapYear(year) {
-  //three conditions to find out the leap year
-  if ((0 == year % 4 && 0 != year % 100) || 0 == year % 400) {
-    return true;
-    // console.log(year + ' is a leap year');
-  } else {
-    return false;
-    //console.log(year + ' is not a leap year');
+  // program to check leap year
+  function checkLeapYear(year) {
+    //three conditions to find out the leap year
+    if ((0 == year % 4 && 0 != year % 100) || 0 == year % 400) {
+      return true;
+      // console.log(year + ' is a leap year');
+    } else {
+      return false;
+      //console.log(year + ' is not a leap year');
+    }
   }
-}
 
+  const checkMonthDays = (monthNo, year) => {
+    switch (monthNo) {
+      case "01":
+        return "31";
+      case "02":
+        return checkLeapYear(year.split("-")[1]) ? "29" : "28";
+      case "03":
+        return "31";
+      case "04":
+        return "30";
+      case "05":
+        return "31";
+      case "06":
+        return "30";
+      case "07":
+        return "31";
+      case "08":
+        return "31";
+      case "09":
+        return "30";
+      case "10":
+        return "31";
+      case "11":
+        return "30";
+      case "12":
+        return "31";
 
-
-const checkMonthDays = (monthNo, year) => {
-  switch (monthNo) {
-    case "01":
-      return "31";
-    case "02":
-      return checkLeapYear(year.split("-")[1]) ? "29" : "28";
-    case "03":
-      return "31";
-    case "04":
-      return "30";
-    case "05":
-      return "31";
-    case "06":
-      return "30";
-    case "07":
-      return "31";
-    case "08":
-      return "31";
-    case "09":
-      return "30";
-    case "10":
-      return "31";
-    case "11":
-      return "30";
-    case "12":
-      return "31";
-
-    default:
-      break;
-  }
-};
-
-
-const[startyear,setstartyear]=useState("");
-const[endyear,setendyear]=useState("")
-
-
-const handleGoToMember = (clientmonth, monthNo) => {
-  
-  let yr = "";
-
-  if(Number(monthNo) >= 4){
-    console.log("T"); 
-    (yr += Year && Year.split("-")[0])
-  }else{
-    console.log("F");
-    (yr += Year && Year.split("-")[1]);
-  }
-    console.log(yr)
-
-  let start = yr + "-" + monthNo + "-" + "01";
-  let end = yr + "-" + monthNo + "-" + checkMonthDays(monthNo,Year);
-console.log(start,"bul",end)
-  let finalData = {
-    clientFolderName: clientmonth._id,
-    startDate: start,
-    endDate: end,
+      default:
+        break;
+    }
   };
 
-  console.log("finalData",finalData)
- getClientDetails(finalData);
-  //};
-};
+  const [startyear, setstartyear] = useState("");
+  const [endyear, setendyear] = useState("");
+
+  const handleGoToMember = (clientmonth, monthNo) => {
+    let yr = "";
+
+    if (Number(monthNo) >= 4) {
+      console.log("T");
+      yr += Year && Year.split("-")[0];
+    } else {
+      console.log("F");
+      yr += Year && Year.split("-")[1];
+    }
+    console.log(yr);
+
+    let start = yr + "-" + monthNo + "-" + "01";
+    let end = yr + "-" + monthNo + "-" + checkMonthDays(monthNo, Year);
+    let finalData = {
+      clientFolderName: clientmonth._id,
+      startDate: start,
+      endDate: end,
+    };
+
+    console.log("finalData", finalData);
+    getClientDetails(finalData);
+    //};
+  };
 
   let defaultStartDate = new Date().getFullYear() + "-" + "04" + "-" + "01";
   let defaultEndDate = new Date().getFullYear() + 1 + "-" + "03" + "-" + "31";
@@ -158,8 +150,9 @@ console.log(start,"bul",end)
 
   const [clientData, setClientData1] = useState("");
   const [Year, setYear] = useState(
-    (financialyear && financialyear[0]._id)
+    (financialyear && financialyear[0]._id) || "2023-2024"
   );
+  // financialyear && financialyear[0]._id
 
   const [startDate, setStartDate] = useState(defaultStartDate);
   const [endDate, setendDate] = useState(defaultEndDate);
@@ -237,7 +230,6 @@ console.log(start,"bul",end)
     });
   };
 
-
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -291,7 +283,9 @@ console.log(start,"bul",end)
                       <tr>
                         <th style={{ width: "3%" }}>Sl no</th>
                         <th style={{ width: "9%" }}>Client Name</th>
-                        <th>April{("-" + Year && Year?.slice(2, 4)) || "23"}</th>
+                        <th>
+                          April{("-" + Year && Year?.slice(2, 4)) || "23"}
+                        </th>
                         <th>May{("-" + Year && Year?.slice(2, 4)) || "23"}</th>
                         <th>June{("-" + Year && Year?.slice(2, 4)) || "23"}</th>
                         <th>July{("-" + Year && Year?.slice(2, 4)) || "23"}</th>

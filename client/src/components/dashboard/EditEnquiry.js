@@ -68,11 +68,9 @@ const EditEnquiry = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  console.log("EnquiryData", EnquiryData);
   const [radio, setradio] = useState(EnquiryData.enquiryType);
 
   const onRadioSelect = (radiodata) => {
-    console.log("radiodata inside", radiodata);
     if (radiodata === "SCT") {
       setFormData({
         ...formData,
@@ -108,8 +106,14 @@ const EditEnquiry = ({
       //   EditByDateTime: new Date().toLocaleString("en-GB"),
     };
     editEnquiryDetails(finalData);
-    getUnresolvedData({ userId: user && user._id });
-    getEnquiryDetails({ userId: user && user._id,enquiryStatus :"" });
+    getUnresolvedData({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
+    getEnquiryDetails({
+      userId: user && user._id,
+      enquiryStatus: "UnResolved",
+    });
     closeedit();
   };
 

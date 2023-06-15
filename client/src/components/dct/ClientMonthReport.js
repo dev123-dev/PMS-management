@@ -5,6 +5,7 @@ import { Modal } from "react-bootstrap";
 import Select from "react-select";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
+import { CSVLink } from "react-csv";
 
 import {
   getverificationProjectDeatils,
@@ -91,6 +92,21 @@ const ClientMonthReport = ({
       return ele.label;
     }
   });
+
+  const csvData = [["sl no.", "Project Date", "Project Name", "Qty"]];
+  clientwise &&
+    clientwise.map((client, i) => {
+      var projectDate = "";
+      var ED1 = client.projectDate.split(/\D/g);
+      projectDate = [ED1[2], ED1[1], ED1[0]].join("-");
+      csvData.push([
+        i + 1,
+        client.projectDate,
+        client.projectName,
+        client.projectQty,
+      ]);
+    });
+
   let finalDateValue =
     monthLabel && monthLabel[0] && monthLabel[0].label + "-" + year;
   // let finalDateData =
@@ -178,6 +194,13 @@ const onTypeChange=(e)=>{
               >
                 Back
               </Link>
+              <CSVLink
+                className="secondlinebreak"
+                data={csvData}
+                // filename={fileName}
+              >
+                <button className="btn btn_green_bg float-right">Export</button>
+              </CSVLink>
               {/* <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
