@@ -422,8 +422,8 @@ const AllSctLeads = ({
 
   /////////////////////
 
-  //
-  return !isAuthenticated || !user || !users ? (
+  //|| !users
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
