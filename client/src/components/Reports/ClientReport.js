@@ -85,7 +85,9 @@ const ClientReport = ({
   };
 
   let idVal = 0;
-  return !isAuthenticated || !user || !users ? (
+  // console.log("spinner", isAuthenticated, user, users);
+  //|| !users
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
