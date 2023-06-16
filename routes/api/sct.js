@@ -614,13 +614,14 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
     recPerPage = 200,
     Pagedata = 0,
     clientName,
+    phone,
   } = req.body;
 
   const userInfo = await EmployeeDetails.findById(req.user.id).select(
     "-password"
   );
   const page = Pagedata * recPerPage;
-  // console.log("page", Pagedata, recPerPage);
+
   let sctLeadAssignedToId = "";
   if (userInfo.empCtAccess !== "All")
     sctLeadAssignedToId = mongoose.Types.ObjectId(userInfo._id);
@@ -661,7 +662,32 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
       projectsId: mongoose.Types.ObjectId(projectsId),
     };
   }
-  console.log("qry", query);
+  if (phone) {
+    let reg = { $regex: phone };
+    query = {
+      ...query,
+      projectsId: mongoose.Types.ObjectId(projectsId),
+
+      $or: [
+        {
+          sctPhone1: reg,
+        },
+        {
+          sctPhone2: reg,
+        },
+        {
+          sctStaffs: {
+            $type: "array",
+            $exists: true,
+            $elemMatch: {
+              sctStaffPhoneNumber: reg,
+            },
+          },
+        },
+      ],
+    };
+  }
+
   try {
     const getSctLeadsDetailsCont = await SctLeads.count(query);
     let getSctLeadsDetails = (getSctLeadsEmp = []);
@@ -689,9 +715,7 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
             },
           },
         ]).sort({ _id: 1 });
-        console.log("IF");
       } else {
-        console.log("else");
         getSctLeadsDetails = await SctLeads.find(query)
           .skip(page)
           .limit(recPerPage)
@@ -700,7 +724,7 @@ router.post("/get-all-sct-Leads", auth, async (req, res) => {
           });
       }
     }
-    console.log("count", getSctLeadsDetails.length);
+
     res.json({
       result1: getSctLeadsDetails,
       result2: getSctLeadsEmp,
@@ -2195,7 +2219,6 @@ router.post("/get-client-report", auth, async (req, res) => {
       },
     ]);
 
-    console.log(ProjectDetails);
     res.json(ProjectDetails);
   } catch (error) {
     console.log(error.message);

@@ -59,7 +59,7 @@ const AllSctLeads = ({
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
-  console.log("200", getAllSctLeads.length);
+
   const onEditModalChange = (e) => {
     if (e) {
       handleEditModalClose();
@@ -386,23 +386,41 @@ const AllSctLeads = ({
   //End Pageinate
   useEffect(() => {}, [isAuthenticated, user, users]);
 
-  //phone src
-  const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
+  ////////////// Phone srch
+  const debounceFnPhone = useCallback(
+    _debounce(handleDebounceFnPhone, 1000),
+    []
+  );
 
-  function handleDebounceFn(val, stateId, projectsId) {
+  function handleDebounceFnPhone(val, stateId, projectsId) {
+    getAllSctLead({
+      stateId: stateId,
+      phone: val,
+      projectsId: projectsId,
+    });
+  }
+
+  const onPhoneSreach = (e) => {
+    debounceFnPhone(e.target.value, stateId, projectsId);
+  };
+
+  /////////////////////////// Lead srch on type
+
+  const debounceFnName = useCallback(_debounce(handleDebounceFnName, 1000), []);
+
+  function handleDebounceFnName(val, stateId, projectsId) {
     getAllSctLead({
       stateId: stateId,
       clientName: val,
       projectsId: projectsId,
     });
-    console.log("projectsIdIN", projectsId);
-    console.log("stateId", stateId);
   }
-  console.log("projectsIdout", projectsId);
 
   const onclientsearch = (e) => {
-    debounceFn(e.target.value, stateId, projectsId);
+    debounceFnName(e.target.value, stateId, projectsId);
   };
+
+  /////////////////////
 
   //
   return !isAuthenticated || !user || !users ? (
@@ -492,6 +510,13 @@ const AllSctLeads = ({
                 placeholder=" Phone"
                 onChange={(e) => onClientPhoneChange(e)}
               /> */}
+              <input
+                type="text"
+                name="clientPhone"
+                placeholder="Phone Number"
+                className="form-control"
+                onChange={(e) => onPhoneSreach(e)}
+              />
             </div>
             <div className="col-lg-1 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
