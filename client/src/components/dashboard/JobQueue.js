@@ -55,14 +55,11 @@ const JobQueue = ({
   // getUpdatedProjectStausForDailyJobSheet,
   updateMsgSent,
 }) => {
-  // console.log("user", user);
   const socket = useRef();
-  //const activeClientsOpt = [];
+
   const [clientData, setClientData] = useState("");
   useEffect(() => {
     getAllFollowUp();
-    // getYear();
-    // console.log("localgetAllSctCallCount1", localAllSctCallCount1);
   }, []);
 
   useEffect(() => {
@@ -115,60 +112,55 @@ const JobQueue = ({
     { value: "Dont Work", label: "Dont Work" },
     { value: "Additional Instruction", label: "Additional Instruction" },
   ];
-/////////////////////////////////////////////////////////
 
-// const[count,setcount]=useState(0);
-  // useEffect(()=>{
-    // jobQueueProjects && jobQueueProjects.map((ele)=>{
-    //   if(ele.projectStatusType ==="Working"){ dhm();} 
-    // });
-   
-    //console.log(count)
-   // setcount(count +1)
-  //  dhm()
-  // },[count])
+  //additional code for countdown
 
-  // function ehm(pDateTime) {
-  //   let pStartDate = new Date(pDateTime);
-  //   let pEndDate = new Date();
-  //   let ms = Math.abs(pStartDate - pEndDate);
-  //   const days = Math.floor(ms / (24 * 60 * 60 * 1000));
-  //   const daysms = ms % (24 * 60 * 60 * 1000);
-  //   const hours = Math.floor(daysms / (60 * 60 * 1000));
-  //   const hoursms = ms % (60 * 60 * 1000);
-  //   const minutes = Math.floor(hoursms / (60 * 1000));
-  //   const minutesms = ms % (60 * 1000);
-  //   const sec = Math.floor(minutesms / 1000);
-  //   let hr = hours < 10 ? "0" + hours : hours;
-  //   let mt = minutes < 10 ? "0" + minutes : minutes;
+  const [countDown, setCountDown] = useState("");
+  let countDownDate = "";
 
-  //   // console.log( days + " d : " + hours + " h : " + minutes + " m : " + sec + " s",
-  //   // hr + "" + mt,)
-  //   return [
-  //     days + " d : " + hours + " h : " + minutes + " m : " + sec + " s",
-  //     hr + "" + mt,
-  //   ];
-    
-  // }
-///////////////////////////////////////////////////////////
+  //this is for showing timer count of estimated time
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountDown(countDownDate - new Date().getTime());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [countDownDate]);
+
+  const useCountdownt = (targetDate) => {
+    countDownDate = new Date(targetDate).getTime();
+    setCountDown(countDownDate - new Date().getTime());
+    return dhm(countDown);
+  };
+
+  //additional code ends
 
   function dhm(pDateTime) {
     let pStartDate = new Date(pDateTime);
     let pEndDate = new Date();
     let ms = Math.abs(pStartDate - pEndDate);
+
     const days = Math.floor(ms / (24 * 60 * 60 * 1000));
+
     const daysms = ms % (24 * 60 * 60 * 1000);
+
     const hours = Math.floor(daysms / (60 * 60 * 1000));
+
     const hoursms = ms % (60 * 60 * 1000);
+
     const minutes = Math.floor(hoursms / (60 * 1000));
+
     const minutesms = ms % (60 * 1000);
+
     const sec = Math.floor(minutesms / 1000);
+
     let hr = hours < 10 ? "0" + hours : hours;
     let mt = minutes < 10 ? "0" + minutes : minutes;
+
     return [
       days + " d : " + hours + " h : " + minutes + " m : " + sec + " s",
       hr + "" + mt,
-    ];   
+    ];
   }
   const timeOutMsg = async (jobQueueProjects) => {
     const data = await JSON.parse(
@@ -189,6 +181,7 @@ const JobQueue = ({
     }
     updateMsgSent({ recordId: jobQueueProjects._id, timeOutMsgSent: 1 });
   };
+ 
 
   // On change ProjectCycle
   const [showProjectCycleModal, setShowProjectCycleModal] = useState(false);
@@ -614,7 +607,7 @@ const JobQueue = ({
     ])
   );
   const fileName = [clientFolderName ? clientFolderName : "Client Report"];
-    return !isAuthenticated || !user ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -710,10 +703,10 @@ const JobQueue = ({
                         <th style={{ width: "1%" }}></th>
                         <th style={{ width: "20%" }}>Project Name</th>
 
-                        <th style={{ width: "12%" }}>Queue Duration</th>
+                        <th style={{ width: "9%" }}>Queue Duration</th>
                         <th style={{ width: "6%" }}>Estimated Time</th>
-                        <th style={{ width: "10%" }}>Job Time</th>
-                        <th style={{width :"10%"}}>Project Date</th>
+                        <th style={{ width: "9%" }}>Job Time</th>
+                        <th style={{ width: "5%" }}>Project Date</th>
                         <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "3%" }}>Qty</th>
                         <th style={{ width: "5%" }}>Output Format</th>
@@ -737,6 +730,11 @@ const JobQueue = ({
                     <tbody>
                       {jobQueueProjects &&
                         jobQueueProjects.map((JobQueueProject, idx) => {
+                          //date
+                          var NEW_projectDate = "";
+                          var ED = JobQueueProject.projectDate.split(/\D/g);
+                          NEW_projectDate = [ED[2], ED[1], ED[0]].join("-");
+
                           let PST = JobQueueProject.projectStatusType;
                           projectQty += JobQueueProject.projectQuantity;
                           let statusType = JobQueueProject.projectStatusType;
@@ -758,8 +756,13 @@ const JobQueue = ({
                           if (JobQueueProject.ptEstimatedTime) {
                             estimatedTimeVal =
                               JobQueueProject.ptEstimatedTime.split(":");
-                               jobTime = dhm(JobQueueProject.ptEstimatedDateTime );
-                            if ( Number(jobTime[1]) >=Number(estimatedTimeVal[0] + "" + estimatedTimeVal[1] )
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            jobTime = dhm(JobQueueProject.ptEstimatedDateTime);
+                            if (
+                              Number(jobTime[1]) >=
+                              Number(
+                                estimatedTimeVal[0] + "" + estimatedTimeVal[1]
+                              )
                             ) {
                               timeOut = true;
                             }
@@ -865,7 +868,7 @@ const JobQueue = ({
                                       estimatedTimeVal[1] +
                                       " min"}
                                 </td>
-                                <td>
+                                <td className="time">
                                   {timeOut ? (
                                     <span style={{ color: "red" }}>
                                       {JobQueueProject.ptEstimatedDateTime &&
@@ -878,7 +881,7 @@ const JobQueue = ({
                                     </span>
                                   )}
                                 </td>
-                                <td>{JobQueueProject.projectDate}</td>
+                                <td>{NEW_projectDate}</td>
                                 <td>{JobQueueProject.projectDeadline}</td>
                                 <td>
                                   {JobQueueProject.projectQuantity}&nbsp;
@@ -1505,145 +1508,143 @@ const JobQueue = ({
 
         <div className="row col-md-12 col-lg-12 col-sm-12 col-12  bottmAlgmnt">
           <div className="col-lg-10 col-md-6 col-sm-6 col-12">
-            {downloadingQty > 0 ?( <Link
-              to="#"
-              className="btnLinkjob"
-              onClick={() => onstatusTypeSelect("Downloading")}
-            >
-              <span className="footerfont">
-                {" "}
-                Downloading : {downloadingQty}
-              </span>
-            </Link>):( <Link
-              to="#"
-              className="btnLinkjob"
-              // onClick={() => onstatusTypeSelect("Downloading")}
-            >
-              <span className="footerfont">
-                {" "}
-                Downloading : {downloadingQty}
-              </span>
-            </Link>)}
-         
+            {downloadingQty > 0 ? (
+              <Link
+                to="#"
+                className="btnLinkjob"
+                onClick={() => onstatusTypeSelect("Downloading")}
+              >
+                <span className="footerfont">
+                  {" "}
+                  Downloading : {downloadingQty}
+                </span>
+              </Link>
+            ) : (
+              <Link
+                to="#"
+                className="btnLinkjob"
+                // onClick={() => onstatusTypeSelect("Downloading")}
+              >
+                <span className="footerfont">
+                  {" "}
+                  Downloading : {downloadingQty}
+                </span>
+              </Link>
+            )}
             &emsp;
-            {WorkingQty > 0 ?(
-               <Link
-              to="#"
-              className="btnLinkjob"
-              onClick={() => onstatusTypeSelect("Working")}
-            >
-              <span className="footerfont"> Working : {WorkingQty}</span>
-            </Link>):( 
-            <Link
-              to="#"
-              className="btnLinkjob"
-              // onClick={() => onstatusTypeSelect("Working")}
-            >
-              <span className="footerfont"> Working : {WorkingQty}</span>
-            </Link>) }
-           
+            {WorkingQty > 0 ? (
+              <Link
+                to="#"
+                className="btnLinkjob"
+                onClick={() => onstatusTypeSelect("Working")}
+              >
+                <span className="footerfont"> Working : {WorkingQty}</span>
+              </Link>
+            ) : (
+              <Link
+                to="#"
+                className="btnLinkjob"
+                // onClick={() => onstatusTypeSelect("Working")}
+              >
+                <span className="footerfont"> Working : {WorkingQty}</span>
+              </Link>
+            )}
             &emsp;
-            {PendingQty > 0 ?(
-                <Link
+            {PendingQty > 0 ? (
+              <Link
                 to="#"
                 className="btnLinkjob"
                 onClick={() => onstatusTypeSelect("Pending")}
               >
                 <span className="footerfont"> Pending : {PendingQty}</span>
               </Link>
-            ):(
+            ) : (
               <Link
-              to="#"
-              className="btnLinkjob"
-              // onClick={() => onstatusTypeSelect("Pending")}
-            >
-              <span className="footerfont"> Pending : {PendingQty}</span>
-            </Link>
+                to="#"
+                className="btnLinkjob"
+                // onClick={() => onstatusTypeSelect("Pending")}
+              >
+                <span className="footerfont"> Pending : {PendingQty}</span>
+              </Link>
             )}
-          
             &emsp;
-            { QCPendingQty > 0 ?(
-               <Link
-               to="#"
-               className="btnLinkjob"
-               onClick={() => onstatusTypeSelect("QC Pending")}
-             >
-               <span className="footerfont">QC Pending : {QCPendingQty}</span>
-             </Link>
-
-            ):(
+            {QCPendingQty > 0 ? (
               <Link
-              to="#"
-              className="btnLinkjob"
-              // onClick={() => onstatusTypeSelect("QC Pending")}
-            >
-              <span className="footerfont">QC Pending : {QCPendingQty}</span>
-            </Link>
-
-            )}
-           
-            &emsp;
-            { QCEstimateQty > 0 ?( 
-            <Link
-              to="#"
-              className="btnLinkjob"
-              onClick={() => onstatusTypeSelect("QC Estimate")}
-            >
-              <span className="footerfont"> QC Estimate : {QCEstimateQty}</span>
-            </Link>
-            ):(
-               <Link
-               to="#"
-               className="btnLinkjob"
-              //  onClick={() => onstatusTypeSelect("QC Estimate")}
-             >
-               <span className="footerfont"> QC Estimate : {QCEstimateQty}</span>
-             </Link>
-            )}
-           
-            &emsp;
-
-
-            { UploadingQty > 0 ?(
-               <Link
-               to="#"
-               className="btnLinkjob"
-               onClick={() => onstatusTypeSelect("Uploading")}
-             >
-               <span className="footerfont"> Uploading : {UploadingQty}</span>
-             </Link>
-
-            ):(
+                to="#"
+                className="btnLinkjob"
+                onClick={() => onstatusTypeSelect("QC Pending")}
+              >
+                <span className="footerfont">QC Pending : {QCPendingQty}</span>
+              </Link>
+            ) : (
               <Link
-              to="#"
-              className="btnLinkjob"
-              // onClick={() => onstatusTypeSelect("Uploading")}
-            >
-              <span className="footerfont"> Uploading : {UploadingQty}</span>
-            </Link>
-
+                to="#"
+                className="btnLinkjob"
+                // onClick={() => onstatusTypeSelect("QC Pending")}
+              >
+                <span className="footerfont">QC Pending : {QCPendingQty}</span>
+              </Link>
             )}
-           
             &emsp;
-            {QCDoneQty > 0 ?(
-               <Link
-               to="#"
-               className="btnLinkjob"
-               onClick={() => onstatusTypeSelect("QC DONE")}
-             >
-               <span className="footerfont"> QC Done : {QCDoneQty}</span>
-             </Link>
-
-            ):(
+            {QCEstimateQty > 0 ? (
               <Link
-              to="#"
-              className="btnLinkjob"
-              // onClick={() => onstatusTypeSelect("QC DONE")}
-            >
-              <span className="footerfont"> QC Done : {QCDoneQty}</span>
-            </Link>
+                to="#"
+                className="btnLinkjob"
+                onClick={() => onstatusTypeSelect("QC Estimate")}
+              >
+                <span className="footerfont">
+                  {" "}
+                  QC Estimate : {QCEstimateQty}
+                </span>
+              </Link>
+            ) : (
+              <Link
+                to="#"
+                className="btnLinkjob"
+                //  onClick={() => onstatusTypeSelect("QC Estimate")}
+              >
+                <span className="footerfont">
+                  {" "}
+                  QC Estimate : {QCEstimateQty}
+                </span>
+              </Link>
             )}
-           
+            &emsp;
+            {UploadingQty > 0 ? (
+              <Link
+                to="#"
+                className="btnLinkjob"
+                onClick={() => onstatusTypeSelect("Uploading")}
+              >
+                <span className="footerfont"> Uploading : {UploadingQty}</span>
+              </Link>
+            ) : (
+              <Link
+                to="#"
+                className="btnLinkjob"
+                // onClick={() => onstatusTypeSelect("Uploading")}
+              >
+                <span className="footerfont"> Uploading : {UploadingQty}</span>
+              </Link>
+            )}
+            &emsp;
+            {QCDoneQty > 0 ? (
+              <Link
+                to="#"
+                className="btnLinkjob"
+                onClick={() => onstatusTypeSelect("QC DONE")}
+              >
+                <span className="footerfont"> QC Done : {QCDoneQty}</span>
+              </Link>
+            ) : (
+              <Link
+                to="#"
+                className="btnLinkjob"
+                // onClick={() => onstatusTypeSelect("QC DONE")}
+              >
+                <span className="footerfont"> QC Done : {QCDoneQty}</span>
+              </Link>
+            )}
             &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
             {Review_Pending > 0 ? (
               <Link
@@ -1666,7 +1667,7 @@ const JobQueue = ({
                   {" "}
                   Reviews Pending : {Review_Pending}
                 </span>
-               </Link>  
+              </Link>
             )}
           </div>
           <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
