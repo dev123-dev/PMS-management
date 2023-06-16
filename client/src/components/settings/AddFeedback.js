@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { AddFeedbackData } from "../../actions/settings";
+import FileBase64 from "react-file-base64";
 import Select from "react-select";
 const AddFeedback = ({
   auth: { isAuthenticated, user, users, loading },
@@ -125,6 +126,58 @@ const AddFeedback = ({
     }
   };
 
+  //////////////////////////////////////////////////////////////////////////////////// 
+
+  const onRemoveChange = (imageNotes) => {
+    const removeList = AddedDetails.filter(
+      (AddDetails) => AddDetails.imageNotes !== imageNotes
+    );
+    AddDetails(removeList);
+  };
+
+  const [addData, setFormDatas] = useState({
+    imageNotes: "",
+    PhotoUpload: "",
+  });
+
+  const { imageNotes, PhotoUpload } = addData;
+  const [AddedDetails, AddDetails] = useState([]);
+
+  const onInputChange1 = (e) => {
+    setFormDatas({ ...addData, [e.target.name]: e.target.value });
+  };
+
+  const onAdd = (e) => {
+    // const loanList = AddedDetails.filter(
+    //   (AddDetails) => AddDetails.imageNotes === imageNotes
+    // );
+    e.preventDefault();
+    // if (loanList.length === 0) {
+    if (addData && addData.imageNotes) {
+      const addData = {
+        imageNotes: imageNotes,
+        PhotoUpload: PhotoUpload,
+      };
+      setFormDatas({
+        ...addData,
+        imageNotes: "",
+        PhotoUpload: "",
+      });
+      let temp = [];
+      temp.push(...AddedDetails, addData);
+      AddDetails(temp);
+      // setError({
+      //   ...error,
+      //   bankErrorStyle: { color: "#000" },
+      // });
+    }
+    // }
+  };
+
+  console.log("AddDetails", AddedDetails);
+
+  ////////////////////////////////////////////////////////// end
+
   const onfeedbackBelongsChange = (e) => {
     //Required Validation starts
     // setError({
@@ -150,11 +203,14 @@ const AddFeedback = ({
         feedbackPriority: feedbackpriority.value,
         feedbackBelongsTo: feedbackBelongsTo.value,
         feedbackNotes: feedbacknotes?.trim(),
+        // Screenshot: PhotoUpload,
         feedbackStatus: "Pending",
         feedbackEnteredById: user._id,
         feedbackEnteredByName: user.empFullName,
         feedbackEnteredDate: new Date().toISOString().split("T")[0],
+        screenshot: AddedDetails,
       };
+      // console.log("finaldata feeddback", finalData);
       AddFeedbackData(finalData);
       onAddFeedbackModalChange(true);
     }
@@ -167,7 +223,7 @@ const AddFeedback = ({
       {" "}
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-          <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
             <label className="label-control">Problem* :</label>
             <input
               type="text"
@@ -178,7 +234,7 @@ const AddFeedback = ({
               required
             />
           </div>
-          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
             <label className="label-control" style={changestypeIdErrorStyle}>
               Changes In* :
             </label>
@@ -201,7 +257,7 @@ const AddFeedback = ({
               })}
             />
           </div>
-          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
             <label
               className="label-control"
               style={feedbackpriorityIdErrorStyle}
@@ -227,7 +283,7 @@ const AddFeedback = ({
               })}
             />
           </div>
-          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
             <label
               className="label-control"
               // style={feedbackBelongsToIdErrorStyle}
@@ -253,7 +309,8 @@ const AddFeedback = ({
               })}
             />
           </div>
-          <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
             <label className="label-control">Notes* :</label>
             <textarea
               name="feedbacknotes"
@@ -266,6 +323,120 @@ const AddFeedback = ({
               onChange={(e) => onInputChange(e)}
               required
             ></textarea>
+          </div>
+        </div>
+        <div className="col-lg-4 col-md-6 col-sm-6 col-12"></div>
+        <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+          <div
+            className=" row col-lg-12 col-md-12 col-sm-12 col-12 card1 "
+            id="shadow-bck"
+            style={{ marginTop: "15px" }}
+          >
+            <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+              <label className="label-control">Upload Screenshot :</label>
+
+              <div className="row col-lg-6 col-md-12 col-sm-12 col-12">
+                <FileBase64
+                  type="file"
+                  multiple={false}
+                  onDone={({ base64 }) => {
+                    setFormDatas({
+                      ...addData,
+                      PhotoUpload: base64,
+                    });
+                  }}
+                />
+              </div>
+              <div className=" row  form-group align_right">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-12  ">
+                  <img
+                    className="log_size "
+                    alt="Preview"
+                    src={`${PhotoUpload}`}
+                    style={{ height: "70px", width: "100px" }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+              <label className="label-control"> Image Notes* :</label>
+              <textarea
+                name="imageNotes"
+                id="imageNotes"
+                className="textarea form-control"
+                rows="2"
+                placeholder="Notes"
+                style={{ width: "100%" }}
+                value={imageNotes}
+                onChange={(e) => onInputChange1(e)}
+              ></textarea>
+            </div>
+
+            <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+              <button
+                className="btn btn_green_bg"
+                style={{ marginTop: "80px" }}
+                onClick={(e) => onAdd(e)}
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-3">
+          <div className="row card-new py-3">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div className=" body-inner no-padding  table-responsive">
+                <div className="fixTableHeadjoin">
+                  <table
+                    className="tabllll table table-bordered table-striped table-hover"
+                    id="datatable2"
+                  >
+                    <thead>
+                      <tr>
+                        <th style={{ width: "10%" }}>Sl no</th>
+                        <th style={{ width: "20%" }}>Image</th>
+                        <th style={{ width: "40%" }}>Image Notes</th>
+                        <th style={{ width: "5%" }}>Remove</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {AddedDetails &&
+                        AddedDetails.map((AddDetail, idx) => {
+                          return (
+                            <tr key={idx}>
+                              <td className="text-center">{idx + 1}</td>
+                              <td className="text-center">
+                                {" "}
+                                <img
+                                  className="log_size "
+                                  alt="Preview"
+                                  src={`${AddDetail.PhotoUpload}`}
+                                  style={{ height: "40px", width: "70px" }}
+                                />
+                              </td>
+                              <td>{AddDetail.imageNotes}</td>
+
+                              <td className="text-center">
+                                <img
+                                  className="img_icon_size log"
+                                  onClick={() =>
+                                    onRemoveChange(AddDetail.imageNotes)
+                                  }
+                                  src={require("../../static/images/close-buttonRed.png")}
+                                  alt="Remove"
+                                  title="Remove"
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
