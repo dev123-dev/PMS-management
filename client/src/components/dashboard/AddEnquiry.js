@@ -252,6 +252,7 @@ const AddEnquiry = ({
                       )}
                       &emsp;
                       {user && user.userGroupName !== "Clarical Admins" ? (
+                        <>
                         <input
                           className="radiolevels"
                           type="radio"
@@ -259,7 +260,10 @@ const AddEnquiry = ({
                           value="SCT"
                           name="radiolevels"
                           onClick={() => onRadioSelect("SCT")}
-                        />
+                        />{" "}
+                          &nbsp;
+                       <label className="label-control"> SCT </label> 
+                       </>
                       ) : (
                         <></>
                       )}

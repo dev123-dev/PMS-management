@@ -115,6 +115,43 @@ const JobQueue = ({
     { value: "Dont Work", label: "Dont Work" },
     { value: "Additional Instruction", label: "Additional Instruction" },
   ];
+/////////////////////////////////////////////////////////
+
+// const[count,setcount]=useState(0);
+  // useEffect(()=>{
+    // jobQueueProjects && jobQueueProjects.map((ele)=>{
+    //   if(ele.projectStatusType ==="Working"){ dhm();} 
+    // });
+   
+    //console.log(count)
+   // setcount(count +1)
+  //  dhm()
+  // },[count])
+
+  // function ehm(pDateTime) {
+  //   let pStartDate = new Date(pDateTime);
+  //   let pEndDate = new Date();
+  //   let ms = Math.abs(pStartDate - pEndDate);
+  //   const days = Math.floor(ms / (24 * 60 * 60 * 1000));
+  //   const daysms = ms % (24 * 60 * 60 * 1000);
+  //   const hours = Math.floor(daysms / (60 * 60 * 1000));
+  //   const hoursms = ms % (60 * 60 * 1000);
+  //   const minutes = Math.floor(hoursms / (60 * 1000));
+  //   const minutesms = ms % (60 * 1000);
+  //   const sec = Math.floor(minutesms / 1000);
+  //   let hr = hours < 10 ? "0" + hours : hours;
+  //   let mt = minutes < 10 ? "0" + minutes : minutes;
+
+  //   // console.log( days + " d : " + hours + " h : " + minutes + " m : " + sec + " s",
+  //   // hr + "" + mt,)
+  //   return [
+  //     days + " d : " + hours + " h : " + minutes + " m : " + sec + " s",
+  //     hr + "" + mt,
+  //   ];
+    
+  // }
+///////////////////////////////////////////////////////////
+
   function dhm(pDateTime) {
     let pStartDate = new Date(pDateTime);
     let pEndDate = new Date();
@@ -131,7 +168,7 @@ const JobQueue = ({
     return [
       days + " d : " + hours + " h : " + minutes + " m : " + sec + " s",
       hr + "" + mt,
-    ];
+    ];   
   }
   const timeOutMsg = async (jobQueueProjects) => {
     const data = await JSON.parse(
@@ -577,8 +614,7 @@ const JobQueue = ({
     ])
   );
   const fileName = [clientFolderName ? clientFolderName : "Client Report"];
-
-  return !isAuthenticated || !user ? (
+    return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -677,6 +713,7 @@ const JobQueue = ({
                         <th style={{ width: "12%" }}>Queue Duration</th>
                         <th style={{ width: "6%" }}>Estimated Time</th>
                         <th style={{ width: "10%" }}>Job Time</th>
+                        <th style={{width :"10%"}}>Project Date</th>
                         <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "3%" }}>Qty</th>
                         <th style={{ width: "5%" }}>Output Format</th>
@@ -721,12 +758,8 @@ const JobQueue = ({
                           if (JobQueueProject.ptEstimatedTime) {
                             estimatedTimeVal =
                               JobQueueProject.ptEstimatedTime.split(":");
-                            jobTime = dhm(JobQueueProject.ptEstimatedDateTime);
-                            if (
-                              Number(jobTime[1]) >=
-                              Number(
-                                estimatedTimeVal[0] + "" + estimatedTimeVal[1]
-                              )
+                               jobTime = dhm(JobQueueProject.ptEstimatedDateTime );
+                            if ( Number(jobTime[1]) >=Number(estimatedTimeVal[0] + "" + estimatedTimeVal[1] )
                             ) {
                               timeOut = true;
                             }
@@ -845,7 +878,7 @@ const JobQueue = ({
                                     </span>
                                   )}
                                 </td>
-
+                                <td>{JobQueueProject.projectDate}</td>
                                 <td>{JobQueueProject.projectDeadline}</td>
                                 <td>
                                   {JobQueueProject.projectQuantity}&nbsp;
