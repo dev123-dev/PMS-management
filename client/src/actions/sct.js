@@ -59,109 +59,118 @@ const config = {
 };
 
 //add enquiry
-export const addEnquiryDetails = (finalData)=>async(dispatch)=>{
-  console.log("finalData",finalData)
-try{
-  await axios.post("/api/enquiry/add-enquiry-details",finalData)
-  dispatch(getEnquiryDetails({userId : finalData.enteredById}))
-}catch(error){
-  console.log(error.message)
-}
-}
+export const addEnquiryDetails = (finalData) => async (dispatch) => {
+  console.log("finalData", finalData);
+  try {
+    await axios.post("/api/enquiry/add-enquiry-details", finalData);
+    dispatch(getEnquiryDetails({ userId: finalData.enteredById }));
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
-export const AddenquiryHistory =(data)=>async(dispatch)=>{
-  console.log("data",data)
+export const AddenquiryHistory = (data) => async (dispatch) => {
+  console.log("data", data);
 
-  
-  try{
+  try {
     dispatch({
       type: SET_LOADING_TRUE,
     });
 
-  const res2 =   await axios.post("/api/enquiry/add-enquiry-history",data,config);
+    const res2 = await axios.post(
+      "/api/enquiry/add-enquiry-history",
+      data,
+      config
+    );
 
-  dispatch(getEnquiryDetails({userId : data && data.enquiryId}))
+    dispatch(getEnquiryDetails({ userId: data && data.enquiryId }));
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
+export const updateEnquiry = (data) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    const res1 = await axios.post(
+      "/api/enquiry/update-enquiry-details",
+      data,
+      config
+    );
 
-  }catch(error){console.log(error.message)}
-}
-
-export const updateEnquiry=(data)=>async(dispatch)=>{
-try{
-  dispatch({
-    type: SET_LOADING_TRUE,
-  });
-  const res1 =   await axios.post("/api/enquiry/update-enquiry-details",data,config);
-
-  // dispatch(getEnquiryDetails(userId:data.))
-  dispatch({
-    type: SET_LOADING_FALSE,
-  });
-  
-}catch(error){console.log(error.message)}
-}
-
+    // dispatch(getEnquiryDetails(userId:data.))
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 //edit enquiry
-export const  editEnquiryDetails = (data)=>async(dispatch)=>{
-  try{
-    await axios.post("/api/enquiry/edit-enquiry-details",data)
-
-  }catch(error){console.log(error.message)}
-}
-
-export const getEnquiryDetails =(data)=>async(dispatch)=>{
-  try{
-  let finalData = await axios.post("/api/enquiry/get-enquiry-details",data);
-  
-    dispatch({
-      type : ENQUIRY_DETAILS,
-      payload : finalData.data
-    })
-
-  }catch(error){console.log(error.message)}
-}
-//to get unresolved data for header counter
-export const getUnresolvedData =(data)=>async(dispatch)=>{
-  try{
-  let finalData = await axios.post("/api/enquiry/get-Unresolved-Data",data);
-  
-    dispatch({
-      type : UNRESOLVED_ENQUIRY_DETAILS,
-      payload : finalData.data.res1
-    })
-    dispatch({
-      type :NAME_WITH_COUNT_DROPDOWN,
-      payload : finalData.data.res2
-    })
-
-  }catch(error){console.log(error.message)}
-}
-
-
-
-export const deleteEnquiry=(data)=>async(dispatch)=>{
-  try{
-    await axios.post("/api/enquiry/delete-enquiry-details",data)
-
-  }catch(error){console.log(error.message)}
-}
-
-export const getLastEnquiryHistoryDeatils=(data)=>async(dispatch)=>{
-  try{
-
-    let finalData = await axios.post("/api/enquiry/get-last-enquiry-details",data)
-    
-  dispatch({
-    type :HISTORY_DETAILS,
-    payload : finalData.data
-  })
-  }catch(error){
-    console.log(error.message)
+export const editEnquiryDetails = (data) => async (dispatch) => {
+  try {
+    await axios.post("/api/enquiry/edit-enquiry-details", data);
+  } catch (error) {
+    console.log(error.message);
   }
-}
+};
 
+export const getEnquiryDetails = (data) => async (dispatch) => {
+  try {
+    let finalData = await axios.post("/api/enquiry/get-enquiry-details", data);
 
+    dispatch({
+      type: ENQUIRY_DETAILS,
+      payload: finalData.data,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+//to get unresolved data for header counter
+export const getUnresolvedData = (data) => async (dispatch) => {
+  try {
+    let finalData = await axios.post("/api/enquiry/get-Unresolved-Data", data);
+
+    dispatch({
+      type: UNRESOLVED_ENQUIRY_DETAILS,
+      payload: finalData.data.res1,
+    });
+    dispatch({
+      type: NAME_WITH_COUNT_DROPDOWN,
+      payload: finalData.data.res2,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const deleteEnquiry = (data) => async (dispatch) => {
+  try {
+    await axios.post("/api/enquiry/delete-enquiry-details", data);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const getLastEnquiryHistoryDeatils = (data) => async (dispatch) => {
+  try {
+    let finalData = await axios.post(
+      "/api/enquiry/get-last-enquiry-details",
+      data
+    );
+
+    dispatch({
+      type: HISTORY_DETAILS,
+      payload: finalData.data,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 //ADD
 
@@ -562,6 +571,10 @@ export const getAllSctLead = (finalData) => async (dispatch) => {
       payload: res.data.result1,
     });
     dispatch({
+      type: "SCT_ALL_LEADS_COUNT",
+      payload: res.data.result3,
+    });
+    dispatch({
       type: SET_LOADING_FALSE,
     });
   } catch (err) {
@@ -584,6 +597,10 @@ export const getAllSctLeadDD = (finalData) => async (dispatch) => {
     dispatch({
       type: GET_ALL_SCT_LEADS_DD,
       payload: res.data.result1,
+    });
+    dispatch({
+      type: "SCT_ALL_LEADS_COUNT",
+      payload: res.data.result3,
     });
     if (finalData === undefined || (finalData && finalData.emp !== true)) {
       dispatch({

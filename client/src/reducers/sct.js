@@ -49,10 +49,10 @@ import {
 
 const initialState = {
   allSctLeads: [],
-  allUnResolved : [],
-  historyDetails :[],
-  namewithcountdropdown :[],
-  fyclientsum :[],
+  allUnResolved: [],
+  historyDetails: [],
+  namewithcountdropdown: [],
+  fyclientsum: [],
   allSctLeadsDD: [],
   allSctLeadsEmp: [],
   allSummary: [],
@@ -92,7 +92,8 @@ const initialState = {
   sctCallsClientCount: [],
   FYclient: [],
   clientwise: [],
-  allEnquiry:[],
+  allEnquiry: [],
+  sctAllLeadsCount: [],
 };
 
 const sct = (state = initialState, action) => {
@@ -103,26 +104,26 @@ const sct = (state = initialState, action) => {
         ...state,
         allSctLeads: payload,
       };
-      case FY_CLIENT_SUM :
-    return {
-         ...state,
-         fyclientsum :payload,
- }
- case NAME_WITH_COUNT_DROPDOWN :
-  return{
-    ...state,
-    namewithcountdropdown :payload,
-  }
-      case UNRESOLVED_ENQUIRY_DETAILS :
-        return{
-          ...state,
-          allUnResolved : payload,
-        }
- case HISTORY_DETAILS :
-  return{
-    ...state,
-    historyDetails : payload,
-  }
+    case FY_CLIENT_SUM:
+      return {
+        ...state,
+        fyclientsum: payload,
+      };
+    case NAME_WITH_COUNT_DROPDOWN:
+      return {
+        ...state,
+        namewithcountdropdown: payload,
+      };
+    case UNRESOLVED_ENQUIRY_DETAILS:
+      return {
+        ...state,
+        allUnResolved: payload,
+      };
+    case HISTORY_DETAILS:
+      return {
+        ...state,
+        historyDetails: payload,
+      };
     case FY_CLIENT_MONTHWISE:
       return {
         ...state,
@@ -335,12 +336,16 @@ const sct = (state = initialState, action) => {
         allsctsalesvalues: payload,
       };
 
-      case ENQUIRY_DETAILS:
-        return{
-          ...state,
-          allEnquiry:payload,
-
-        };
+    case ENQUIRY_DETAILS:
+      return {
+        ...state,
+        allEnquiry: payload,
+      };
+    case "SCT_ALL_LEADS_COUNT":
+      return {
+        ...state,
+        sctAllLeadsCount: payload,
+      };
 
     default:
       return state;
