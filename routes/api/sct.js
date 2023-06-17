@@ -2157,6 +2157,7 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
 //Client details start
 router.post("/get-client-report", auth, async (req, res) => {
   let { startDate, endDate, clientFolderName } = req.body;
+  console.log("coming",req.body)
   try {
     let ProjectDetails = await Project.aggregate([
       {
@@ -2219,7 +2220,88 @@ router.post("/get-client-report", auth, async (req, res) => {
       },
     ]);
 
-    res.json(ProjectDetails);
+    let projectDetailsSum = await Project.aggregate([
+      {
+        $match: {
+          projectStatus: {
+            $ne: "Trash",
+          },
+          _id: {
+            $ne: "",
+          },
+          projectBelongsToId: {
+            $eq: null,
+          },
+          clientTypeVal : {$eq :"Regular"},
+        },
+      },
+      {
+        $lookup:
+          /**
+           * from: The target collection.
+           * localField: The local join field.
+           * foreignField: The target join field.
+           * as: The name for the results.
+           * pipeline: Optional pipeline to run on the foreign collection.
+           * let: Optional variables to use in the pipeline field stages.
+           */
+          {
+            from: "projectstatuses",
+            localField: "projectStatusId",
+            foreignField: "_id",
+            as: "status",
+          },
+      },
+      {
+        $match: {
+          "status.projectStatusCategory": {
+            $nin: [
+              "Dont Work",
+              "Amend",
+              "Additional Instruction",
+            ],
+          },
+        },
+      },
+      {
+        $addFields: {
+          projectDate: {
+            $toDate: "$projectDate",
+          },
+        },
+      },
+      {
+        $match: {
+          projectDate: {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate),
+          },
+        },
+      },
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            clientFolderName: {
+              $eq:clientFolderName,
+            },
+          },
+      },
+      {
+        $group:
+         
+          {
+            _id: "$clientFolderName",
+            total: {
+              $sum: "$projectQuantity",
+            },
+          },
+      },
+    ]);
+    console.log("projectDetailsSum",projectDetailsSum)
+    res.json({res1 :ProjectDetails,res2 :projectDetailsSum});
   } catch (error) {
     console.log(error.message);
   }
@@ -2246,6 +2328,7 @@ router.post("/get-FY-Client", auth, async (req, res) => {
           projectStatus: {
             $ne: "Trash",
           },
+          clientTypeVal : {$eq :"Regular"},
         },
       },
       {
@@ -2515,6 +2598,7 @@ router.post("/get-FY-Client", auth, async (req, res) => {
           projectBelongsToId: {
             $eq: null,
           },
+          clientTypeVal : {$eq :"Regular"},
         },
       },
       {
