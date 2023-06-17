@@ -177,6 +177,11 @@ const AddLead = ({
   const [timezone, settimezone] = useState("");
 
   const onTimeZoneChange = (e) => {
+    setError({
+      ...error,
+      timezonechecker: true,
+      timezoneErrorStyle: { color: "#000" },
+    });
     settimezone(e);
   };
 
@@ -294,6 +299,8 @@ const AddLead = ({
     countrytypeIdErrorStyle: {},
     AssignedtypeIdChecker: false,
     AssignedtypeIdErrorStyle: {},
+    timezonechecker: false,
+    timezoneErrorStyle: {},
 
     websiteValChecker: false,
     websiteValResult: "",
@@ -305,6 +312,8 @@ const AddLead = ({
     countrytypeIdErrorStyle,
     AssignedtypeIdChecker,
     AssignedtypeIdErrorStyle,
+    timezonechecker,
+    timezoneErrorStyle,
 
     websiteValChecker,
     websiteValResult,
@@ -319,6 +328,15 @@ const AddLead = ({
         countrytypeIdErrorStyle: { color: "#F00" },
       });
       return false;
+    }
+    if (timeZoneShow) {
+      if (!timezonechecker) {
+        setError({
+          ...error,
+          timezoneErrorStyle: { color: "#F00" },
+        });
+        return false;
+      }
     }
     if (user.empCtAccess === "All") {
       if (!AssignedtypeIdChecker) {
@@ -563,12 +581,11 @@ const AddLead = ({
                       required
                     />
                   </div>
-
                   {timeZoneShow ? (
                     <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                       <label
                         className="label-control"
-                        // style={countrytypeIdErrorStyle}
+                        style={timezoneErrorStyle}
                       >
                         Select Time Zone* :
                       </label>
@@ -585,21 +602,21 @@ const AddLead = ({
                   ) : (
                     <>
                       <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                        <label
-                          className="label-control"
-                          // style={countrytypeIdErrorStyle}
-                        >
-                          Select Time Zone :
-                        </label>
-                        <Select
-                          name="countryName"
-                          options={timeZoneDropDown}
-                          isSearchable={true}
-                          value={timezone}
-                          placeholder="Select Region"
-                          onChange={(e) => onTimeZoneChange(e)}
-                          //required
-                        />
+                        {/* <label
+                      className="label-control"
+                     // style={countrytypeIdErrorStyle}
+                    >
+                      Select Time Zone :
+                    </label>
+                    <Select
+                      name="countryName"
+                      options={timeZoneDropDown}
+                      isSearchable={true}
+                      value={timezone}
+                      placeholder="Select Region"
+                      onChange={(e) => onTimeZoneChange(e)}
+                      //required
+                    /> */}
                       </div>
                     </>
                   )}
