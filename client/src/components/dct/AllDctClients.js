@@ -84,7 +84,7 @@ const AllDctClients = ({
                 isSearchable={true}
                 value={clientData}
                 options={activeClientsOpt}
-                placeholder="Select"
+                placeholder="Select Client"
                 onChange={(e) => onClientChange(e)}
               />
             </div>
