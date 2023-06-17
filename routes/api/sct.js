@@ -2602,6 +2602,15 @@ router.post("/get-FY-Client", auth, async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: "projectstatuses",
+          localField: "projectStatusId",
+          foreignField: "_id",
+          as: "status",
+        },
+      },
+
+      {
         $match: query,
       },
       {
@@ -2616,6 +2625,9 @@ router.post("/get-FY-Client", auth, async (req, res) => {
           projectDate: {
             $gte: new Date(startDate),
             $lte: new Date(endDate),
+          },
+          "status.projectStatusCategory": {
+            $nin: ["Dont Work", "Amend", "Additional Instruction"],
           },
         },
       },
