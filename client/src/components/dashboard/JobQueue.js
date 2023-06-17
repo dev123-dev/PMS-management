@@ -1244,6 +1244,7 @@ const JobQueue = ({
                                     </span>
                                   )}
                                 </td>
+                                <td>{NEW_projectDate}</td>
 
                                 <td>{JobQueueProject.projectDeadline}</td>
                                 <td>
