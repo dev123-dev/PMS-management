@@ -50,6 +50,7 @@ import {
   HISTORY_DETAILS,
   UNRESOLVED_ENQUIRY_DETAILS,
   NAME_WITH_COUNT_DROPDOWN,
+  CLIENT_WISE_SUM,
 } from "./types";
 
 const config = {
@@ -995,11 +996,16 @@ export const getClientDetails = (finalData) => async (dispatch) => {
       finalData,
       config
     );
+    //console.log(res.data)
     //localStorage.setItem("financialYear", JSON.stringify(res.data));
     dispatch({
       type: CLIENT_WISE,
-      payload: res.data,
+      payload: res.data.res1,
     });
+    dispatch({
+      type : CLIENT_WISE_SUM,
+      payload :res.data.res2,
+    })
   } catch (err) {
     dispatch({
       type: ERROR,

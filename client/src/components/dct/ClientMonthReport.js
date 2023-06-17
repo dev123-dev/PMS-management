@@ -25,7 +25,7 @@ const ClientMonthReport = ({
   auth: { isAuthenticated, user, users },
   project: { allFolderName },
   client: { activeVerfificationFolders },
-  sct: { clientwise },
+  sct: { clientwise,clientwisesum},
 
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
@@ -38,6 +38,8 @@ const ClientMonthReport = ({
     client.onopen = () => {
       console.log("webSocket client connected");
     };
+
+    console.log("clientwisesum",clientwisesum)
 
     client.onmessage = (message) => {
       getUpdatedProjectStaus();
@@ -148,7 +150,6 @@ const ClientMonthReport = ({
         value: clientsData._id,
       })
     );
-  console.log(clientwise);
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -169,7 +170,7 @@ const ClientMonthReport = ({
                 Month Report
               </h4>
             </div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 mt-2">
+            {/* <div className="col-lg-2 col-md-6 col-sm-6 col-12 mt-2">
               <Select
                 name="sctProjectName"
                 options={clientTYPE}
@@ -188,7 +189,7 @@ const ClientMonthReport = ({
                   },
                 })}
               />
-            </div>
+            </div> */}
             <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-2 ">
               <Link
                 className="btn btn_green_bg float-right"
@@ -220,6 +221,7 @@ const ClientMonthReport = ({
                     id="datatable2"
                   >
                     <thead>
+                    
                       <tr>
                         <th>Sl no</th>
                         <th>Project Date</th>
@@ -228,6 +230,13 @@ const ClientMonthReport = ({
                       </tr>
                     </thead>
                     <tbody>
+                      <tr className="freeze-row">
+                        <td ></td>
+                        <td colSpan={2} style={{marginLeft :"10%"}}>Total</td>
+                       
+                       
+                        <td >{clientwisesum && clientwisesum[0] && clientwisesum[0].total}</td>
+                      </tr>
                       {clientwise &&
                         clientwise.map((client, idx) => {
                           var projectDate = "";
@@ -238,7 +247,7 @@ const ClientMonthReport = ({
                           if (client.clientTypeVal === clientType.value) {
                             return (
                               <tr key={idx}>
-                                <td>{idx + 1}</td>
+                                <td>{idx + 0}</td>
                                 <td>{projectDate}</td>
                                 <td>{client.projectName}</td>
                                 <td>{client.projectQty}</td>
