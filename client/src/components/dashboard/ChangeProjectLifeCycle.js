@@ -153,7 +153,28 @@ const ChangeProjectLifeCycle = ({
             ? "0" + projectMinutes
             : projectMinutes
           : "00");
-      ptEstimatedDateTimeVal = new Date().toLocaleString("en-GB");
+      // ptEstimatedDateTimeVal = new Date().toLocaleString("en-GB");
+      let new_sample = new Date();
+      let year = new_sample.getFullYear();
+      let Month = new_sample.getMonth() + 1;
+      let date = new_sample.getDate();
+      let hour = new_sample.getHours();
+      let minutes = new_sample.getMinutes();
+      //  let seconds = new_sample.getSeconds();
+      if (Month < 10) {
+        Month = "0" + Month;
+      }
+      if (date < 10) {
+        date = "0" + date;
+      }
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+
+      ptEstimatedDateTimeVal =
+        year + "-" + Month + "-" + date + "," + hour + ":" + minutes;
+
+      //console.log("this is it", ptEstimatedDateTimeVal);
     }
 
     if (checkError()) {

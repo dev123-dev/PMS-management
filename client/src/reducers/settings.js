@@ -9,6 +9,7 @@ import {
   ALL_DELETED_PROJECTS,
   ALL_COMPANY_DETAILS,
   ALL_TEAMS_DETAILS,
+  EXST_SCREENSHOT,
 } from "../actions/types";
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   allDeletedProjects: [],
   allCompanyDetails: [],
   allTeamDetails: [],
+  allScreenshot:[],
 };
 
 const settings = (state = initialState, action) => {
@@ -79,6 +81,11 @@ const settings = (state = initialState, action) => {
         ...state,
         allTeamDetails: payload,
       };
+      case EXST_SCREENSHOT:
+        return{
+          ...state,
+          allScreenshot:payload,
+        };
     default:
       return state;
   }

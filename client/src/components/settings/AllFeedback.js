@@ -7,6 +7,7 @@ import Spinner from "../layout/Spinner";
 import { getAllFeedback, EditFeedbackStatusData } from "../../actions/settings";
 import AddFeedback from "./AddFeedback";
 import EditFeedback from "./EditFeedback";
+import ViewScreenshot from "./ViewScreenshot";
 import Select from "react-select";
 import ChangeFeedbackStatus from "./ChangeFeedbackStatus";
 const AllFeedback = ({
@@ -63,6 +64,25 @@ const AllFeedback = ({
       handleEditModalClose();
     }
   };
+  /////////////////////////////////////123
+
+
+  const [showViewModal, setShowViewModal] = useState(false);
+  const handleViewModalClose = () => setShowViewModal(false);
+
+  const onViewModalChange = (e) => {
+    if (e) {
+      handleViewModalClose();
+    }
+  };
+
+
+  const [userViewData, setUserViewData] = useState(null);
+  const onView=(allFeedback)=>{
+    setUserViewData(allFeedback);
+    setShowViewModal(true)
+
+  }
 
   const [userDatas, setUserDatas] = useState(null);
   const onUpdate = (paymentMode, idx) => {
@@ -216,6 +236,7 @@ const AllFeedback = ({
                         <th>Belongs To</th>
                         <th>Priority</th>
                         <th>Notes</th>
+                        <th>View ScreenShot</th>
                         <th>Feedback Entered Date</th>
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
@@ -258,6 +279,9 @@ const AllFeedback = ({
                               <td>{allFeedback.feedbackBelongsTo}</td>
                               <td>{allFeedback.feedbackPriority}</td>
                               <td>{allFeedback.feedbackNotes}</td>
+                              <td>
+                                <button className="btn1 btn_green_bg1 " style={{width:"50px"}}    onClick={() => onView(allFeedback,idx)} >View </button>
+                                </td>
                               <td>{feedbackEnteredDate}</td>
                               {(user.userGroupName &&
                                 user.userGroupName === "Administrator") ||
@@ -330,7 +354,7 @@ const AllFeedback = ({
           show={showAddfeedbackModal}
           backdrop="static"
           keyboard={false}
-          size="md"
+          size="xl"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
@@ -357,7 +381,7 @@ const AllFeedback = ({
           show={showEditModal}
           backdrop="static"
           keyboard={false}
-          size="md"
+          size="xl"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
@@ -410,6 +434,39 @@ const AllFeedback = ({
             <ChangeFeedbackStatus
               onStatusModalChange={onStatusModalChange}
               feedbackData1={userDatas1}
+            />
+          </Modal.Body>
+        </Modal>
+
+
+{/* on view */}
+
+        <Modal
+          show={showViewModal}
+          backdrop="static"
+          keyboard={false}
+          size="xl"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="col-lg-10">
+              <h3 className="modal-title text-center">View Screenshot</h3>
+            </div>
+            <div className="col-lg-1">
+              <button onClick={handleViewModalClose} className="close">
+                <img
+                  src={require("../../static/images/close.png")}
+                  alt="X"
+                  style={{ height: "20px", width: "20px" }}
+                />
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <ViewScreenshot
+              onViewModalChange={onViewModalChange}
+              screenshotData={userViewData}
             />
           </Modal.Body>
         </Modal>

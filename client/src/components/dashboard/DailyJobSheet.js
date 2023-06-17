@@ -721,7 +721,6 @@ const DailyJobSheet = ({
       showdateSection1: true,
     });
   };
-
   const fileName = [clientName1 ? clientName1 : "Client Report"];
   return !isAuthenticated || !user || !users ? (
     <Spinner />
@@ -928,6 +927,7 @@ const DailyJobSheet = ({
                         <th style={{ width: "5%" }}>History</th>
                         {/* <th style={{ width: "12%" }}>Queue Duration</th> */}
                         <th style={{ width: "10%" }}>Estimated Time</th>
+                        <th style={{ width: "10%" }}>Project Status</th>
                         <th style={{ width: "10%" }}>Job Time</th>
                         {/* <th style={{ width: "2%" }}>Priority</th> */}
                         <th style={{ width: "2%" }}>Deadline</th>
@@ -1045,7 +1045,7 @@ const DailyJobSheet = ({
                                   </>
                                 ) : (
                                   <>
-                                    <td></td>
+                                    {/* <td></td> */}
                                     <td>
                                       <label>
                                         <b>
@@ -1091,6 +1091,9 @@ const DailyJobSheet = ({
                                       " min"}
                                 </td>
                                 <td>
+                                  {dailyJobsheetProjects.projectStatusType}
+                                </td>
+                                <td>
                                   {timeOut ? (
                                     <span style={{ color: "red" }}>
                                       {dailyJobsheetProjects.ptEstimatedDateTime &&
@@ -1103,6 +1106,7 @@ const DailyJobSheet = ({
                                     </span>
                                   )}
                                 </td>
+
                                 {/* <td>{dailyJobsheetProjects.projectPriority}</td> */}
                                 <td>{dailyJobsheetProjects.projectDeadline}</td>
                                 <td>

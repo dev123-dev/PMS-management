@@ -5,7 +5,7 @@ import { Modal } from "react-bootstrap";
 import Select from "react-select";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
-
+import { CSVLink } from "react-csv";
 import {
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
@@ -25,7 +25,7 @@ const ClientMonthReport = ({
   auth: { isAuthenticated, user, users },
   project: { allFolderName },
   client: { activeVerfificationFolders },
-  sct: { clientwise },
+  sct: { clientwise,clientwisesum},
 
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
@@ -34,11 +34,12 @@ const ClientMonthReport = ({
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
-
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
     };
+
+    console.log("clientwisesum",clientwisesum)
 
     client.onmessage = (message) => {
       getUpdatedProjectStaus();
@@ -99,15 +100,33 @@ const ClientMonthReport = ({
   // clientwise && clientwise.map((ele)=>{
 
   // })
-let clientTYPE =[
-  {value :"Regular",label :"Regular"},
-  {value :"Test",label :"Test"}]
+  const csvData = [["sl no.", "Project Date", "Project Name", "Qty"]];
+  clientwise &&
+    clientwise.map((client, i) => {
+      var projectDate = "";
+      var ED1 = client.projectDate.split(/\D/g);
+      projectDate = [ED1[2], ED1[1], ED1[0]].join("-");
+      csvData.push([
+        i + 1,
+        client.projectDate,
+        client.projectName,
+        client.projectQty,
+      ]);
+    });
 
-const[clientType,setClientType]=useState({value :"Regular",label :"Regular"})
+  let clientTYPE = [
+    { value: "Regular", label: "Regular" },
+    { value: "Test", label: "Test" },
+  ];
 
-const onTypeChange=(e)=>{
-  setClientType(e)
-}
+  const [clientType, setClientType] = useState({
+    value: "Regular",
+    label: "Regular",
+  });
+
+  const onTypeChange = (e) => {
+    setClientType(e);
+  };
   const onfolderClientChange = (e) => {
     setClientData1(e);
     // let selDateData = {
@@ -131,7 +150,6 @@ const onTypeChange=(e)=>{
         value: clientsData._id,
       })
     );
-    console.log(clientwise)
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -152,14 +170,14 @@ const onTypeChange=(e)=>{
                 Month Report
               </h4>
             </div>
-            <div className="col-lg-2 col-md-6 col-sm-6 col-12 mt-2">
+            {/* <div className="col-lg-2 col-md-6 col-sm-6 col-12 mt-2">
               <Select
                 name="sctProjectName"
                 options={clientTYPE}
                 isSearchable={true}
-                 value={clientType}
+                value={clientType}
                 placeholder=" Project"
-                 onChange={(e) => onTypeChange(e)}
+                onChange={(e) => onTypeChange(e)}
                 theme={(theme) => ({
                   ...theme,
                   height: 26,
@@ -171,14 +189,21 @@ const onTypeChange=(e)=>{
                   },
                 })}
               />
-            </div>
-            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
+            </div> */}
+            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-2 ">
               <Link
                 className="btn btn_green_bg float-right"
                 to="/client-report-detail"
               >
                 Back
               </Link>
+              <CSVLink
+                className="secondlinebreak"
+                data={csvData}
+                // filename={fileName}
+              >
+                <button className="btn btn_green_bg float-right">Export</button>
+              </CSVLink>
               {/* <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -196,6 +221,7 @@ const onTypeChange=(e)=>{
                     id="datatable2"
                   >
                     <thead>
+                    
                       <tr>
                         <th>Sl no</th>
                         <th>Project Date</th>
@@ -204,6 +230,13 @@ const onTypeChange=(e)=>{
                       </tr>
                     </thead>
                     <tbody>
+                      <tr className="freeze-row">
+                        <td ></td>
+                        <td colSpan={2} style={{marginLeft :"10%"}}>Total</td>
+                       
+                       
+                        <td >{clientwisesum && clientwisesum[0] && clientwisesum[0].total}</td>
+                      </tr>
                       {clientwise &&
                         clientwise.map((client, idx) => {
                           var projectDate = "";
@@ -211,16 +244,16 @@ const onTypeChange=(e)=>{
                             var ED1 = client.projectDate.split(/\D/g);
                             projectDate = [ED1[2], ED1[1], ED1[0]].join("-");
                           }
-                          if(client.clientTypeVal === clientType.value){
+                          if (client.clientTypeVal === clientType.value) {
                             return (
                               <tr key={idx}>
-                                <td>{idx + 1}</td>
+                                <td>{idx + 0}</td>
                                 <td>{projectDate}</td>
                                 <td>{client.projectName}</td>
                                 <td>{client.projectQty}</td>
                               </tr>
                             );
-                          }else{
+                          } else {
                             // return (
                             //   <tr key={idx}>
                             //     <td>{idx + 1}</td>
@@ -230,7 +263,6 @@ const onTypeChange=(e)=>{
                             //   </tr>
                             // );
                           }
-                         
                         })}
                     </tbody>
                   </table>

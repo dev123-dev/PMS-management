@@ -43,6 +43,17 @@ const FeedbackSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  screenshot:[
+    {
+    PhotoUpload:{
+      type:String,
+    },
+    imageNotes:{
+      type:String,
+    },
+  },
+],
+
 });
 
 module.exports = feedback = mongoose.model("feedback", FeedbackSchema);
