@@ -16,6 +16,7 @@ import {
   ALL_DELETED_PROJECTS,
   ALL_COMPANY_DETAILS,
   ALL_TEAMS_DETAILS,
+  EXST_SCREENSHOT,
 } from "./types";
 
 const config = {
@@ -196,6 +197,49 @@ export const EditPaymentMode = (finalData) => async (dispatch) => {
   }
 };
 
+///////////////////////////////////////////////////////////////////123
+// export const editScreenshotDetails = (finalData) => async (dispatch) => {
+//   console.log("action feedbcak", finalData);
+//   try {
+//     dispatch({
+//       type: SET_LOADING_TRUE,
+//     });
+//     await axios.post("/api/settings/edit-screenshot", finalData);
+//     dispatch(getAllFeedback());
+//     dispatch({
+//       type: SET_LOADING_FALSE,
+//     });
+//   } catch (err) {
+//     dispatch({
+//       type: AUTH_ERROR,
+//     });
+//   }
+// };
+
+
+
+
+export const deleteScreenshot = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post(
+      "/api/settings/delete-screenshot",
+      finalData,
+  
+    );
+    dispatch(getExistingscreenshot({imageId:finalData.feedbackId}));
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+/////////////////////////////////////////////////
 export const EditFeedbackData = (finalData) => async (dispatch) => {
   try {
     dispatch({
@@ -355,6 +399,25 @@ export const getAllRights = () => async (dispatch) => {
     });
   }
 };
+
+
+////////////////////////////////
+export const getExistingscreenshot = (finalData) => async (dispatch) => {
+
+ 
+  try {
+    const res = await axios.post("/api/settings/get-existing-screenshot",finalData);
+     dispatch({
+     type: EXST_SCREENSHOT,
+     payload: res.data,
+   });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+/////////////////////////////////
 
 export const getAllFeedback = (finalData) => async (dispatch) => {
   try {

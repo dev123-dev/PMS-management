@@ -1,15 +1,33 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { EditFeedbackData } from "../../actions/settings";
+import { EditFeedbackData,deleteScreenshot,getAllFeedback,
+  getExistingscreenshot 
+} from "../../actions/settings";
 import Select from "react-select";
+import FileBase64 from "react-file-base64";
+import { Modal } from "react-bootstrap";
+import EditScreenshot from "./ViewScreenshot";
 const EditFeedback = ({
-  auth: { isAuthenticated, user, users, loading },
+  auth: { isAuthenticated, user, users, loading, },
+  settings:{allScreenshot,},
   feedbackData,
   onEditModalChange,
   EditFeedbackData,
+  getAllFeedback,
+  deleteScreenshot,
+  getExistingscreenshot,
 }) => {
+  // const[refresh,setrefresh]=useState(false)
+  // useEffect(() => {
+   
+  //   getAllFeedback();
+  //   // EditFeedbackData({ recordId: feedbackData ? feedbackData._id : "",});
+    
+  // }, [refresh]);
+
+
   //formData
   const [formData, setFormData] = useState({
     feedbackProblem:
@@ -53,6 +71,19 @@ const EditFeedback = ({
 
     isSubmitted: false,
   });
+
+
+const screenshotDetails={
+  imageId: feedbackData._id,
+  
+}
+
+
+  useEffect(()=>{
+    getExistingscreenshot(screenshotDetails)
+  },[getExistingscreenshot])
+  
+
 
   const {
     feedbackProblem,
@@ -106,6 +137,96 @@ const EditFeedback = ({
     }
   };
 
+  /////////////////////////////////////////////////////////123
+
+
+ 
+
+  //edit modal
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [userImageData, setUserImageData] = useState(null);
+  const handleEditModalClose = () => setShowEditModal(false);
+  // const onEditModalChange = (e) => {
+  //   if (e) {
+  //     handleEditModalClose();
+  //   }
+  // };
+  const onUpdateBank = (image, idx) => {
+    setShowEditModal(true);
+    setUserImageData(image);
+    // setUserDatas1(data.dctdata);
+  };
+
+  const onRemoveChange = (imageNotes) => {
+    const removeList = AddedDetails.filter(
+      (AddDetails) => AddDetails.imageNotes !== imageNotes
+    );
+    AddDetails(removeList);
+  };
+
+  const [addData, setFormDatas] = useState({
+    imageNotes: "",
+    PhotoUpload: "",
+  });
+
+  const { imageNotes, PhotoUpload } = addData;
+  const [AddedDetails, AddDetails] = useState([]);
+
+  const onInputChange1 = (e) => {
+    setFormDatas({ ...addData, [e.target.name]: e.target.value });
+  };
+
+
+
+
+  const onDelete = (image) => {
+    // setrefresh(true)
+    deleteScreenshot({
+     screenshotId : image._id,
+     feedbackId:feedbackData._id,
+     PhotoUpload: image.PhotoUpload,
+      imageNotes: image.imageNotes,
+     
+    });
+    // onEditModalChange(true);
+   
+  };
+
+  const onAdd = (e) => {
+    // const loanList = AddedDetails.filter(
+    //   (AddDetails) => AddDetails.imageNotes === imageNotes
+    // );
+
+    var screenshotDetails = feedbackData.screenshot;
+    const existingscreenshotList = screenshotDetails.filter(
+      (screenshotDetail) => screenshotDetail.imageNotes === imageNotes
+    );
+
+    e.preventDefault();
+    // if (loanList.length === 0) {
+    if (addData && addData.imageNotes) {
+      const addData = {
+        imageNotes: imageNotes,
+        PhotoUpload: PhotoUpload,
+      };
+      setFormDatas({
+        ...addData,
+        imageNotes: "",
+        PhotoUpload: "",
+      });
+      let temp = [];
+      temp.push(...AddedDetails, addData);
+      AddDetails(temp);
+      // setError({
+      //   ...error,
+      //   bankErrorStyle: { color: "#000" },
+      // });
+    }
+    // }
+  };
+
+
+
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -122,7 +243,10 @@ const EditFeedback = ({
       feedbackNotes: feedbackNotes?.trim(),
       feedbackStatus: feedbackStatus.value,
       feedbackEditedById: user._id,
+      screenshot: AddedDetails,
     };
+
+    // console.log("final edit", finalData);
     EditFeedbackData(finalData);
     onEditModalChange(true);
   };
@@ -134,7 +258,7 @@ const EditFeedback = ({
       {" "}
       <form onSubmit={(e) => onUpdate(e)}>
         <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-          <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
             <label className="label-control">Problem*:</label>
             <input
               type="text"
@@ -145,7 +269,7 @@ const EditFeedback = ({
               required
             />
           </div>
-          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
             <label className="label-control">Changes In* :</label>
             <Select
               name="feedbackCategory"
@@ -166,7 +290,7 @@ const EditFeedback = ({
               })}
             />
           </div>
-          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
             <label className="label-control">Priority* :</label>
             <Select
               name="feedbackPriority"
@@ -187,7 +311,7 @@ const EditFeedback = ({
               })}
             />
           </div>
-          <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
             <label className="label-control">Feedback Belongs To* :</label>
             <Select
               name="feedbackBelongsTo"
@@ -208,7 +332,7 @@ const EditFeedback = ({
               })}
             />
           </div>
-          <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12">
             <label className="label-control">Notes* :</label>
             <textarea
               name="feedbackNotes"
@@ -220,6 +344,201 @@ const EditFeedback = ({
               value={feedbackNotes}
               onChange={(e) => onInputChange(e)}
             ></textarea>
+          </div>
+
+          <div className="col-lg-4 col-md-6 col-sm-6 col-12"></div>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div
+              className=" row col-lg-12 col-md-12 col-sm-12 col-12 card1 "
+              id="shadow-bck"
+              style={{ marginTop: "15px" }}
+            >
+              <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+                <label className="label-control">Upload Screenshot :</label>
+
+                <div className="row col-lg-6 col-md-12 col-sm-12 col-12">
+                  <FileBase64
+                    type="file"
+                    multiple={false}
+                    onDone={({ base64 }) => {
+                      setFormDatas({
+                        ...addData,
+                        PhotoUpload: base64,
+                      });
+                    }}
+                  />
+                </div>
+                <div className=" row  form-group align_right">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12  ">
+                    <img
+                      className="log_size "
+                      alt="Preview"
+                      src={`${PhotoUpload}`}
+                      style={{ height: "70px", width: "100px" }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                <label className="label-control"> Image Notes * :</label>
+                <textarea
+                  name="imageNotes"
+                  id="imageNotes"
+                  className="textarea form-control"
+                  rows="2"
+                  placeholder="Notes"
+                  style={{ width: "100%" }}
+                  value={imageNotes}
+                  onChange={(e) => onInputChange1(e)}
+                 
+                ></textarea>
+              </div>
+
+              <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+                <button
+                  className="btn btn_green_bg"
+                  style={{ marginTop: "80px" }}
+                  onClick={(e) => onAdd(e)}
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-3">
+            <div className="row card-new py-3">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div className=" body-inner no-padding  table-responsive">
+                  <div className="fixTableHeadjoin">
+                    <table
+                      className="tabllll table table-bordered table-striped table-hover"
+                      id="datatable2"
+                    >
+                      <thead>
+                        <tr>
+                          <th style={{ width: "20%" }}>Image</th>
+                          <th style={{ width: "40%" }}>Image Notes</th>
+                          <th style={{ width: "5%" }}>Remove</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {allScreenshot &&
+                          allScreenshot.screenshot &&
+                          allScreenshot.screenshot.map((image, idx) => {
+                            // if (staff.staffStatus === "Active")
+                            return (
+                              <tr key={idx}>
+                                <td className="text-center">
+                                  {" "}
+                                  <img
+                                    className="log_size "
+                                    alt="Preview"
+                                    src={`${image.PhotoUpload}`}
+                                    style={{ height: "40px", width: "70px" }}
+                                  />
+                                </td>
+
+                                <td>{image.imageNotes}</td>
+
+                                <td className="text-center">
+                                  {/* <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdateBank(image, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />{" "}
+                                  &nbsp; */}
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() =>
+                                      onDelete(image,idx)
+                                    }
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Remove"
+                                    title="Remove"
+                                  />
+                                </td>
+                              </tr>
+                            );
+                          })}
+
+                        {AddedDetails &&
+                          AddedDetails.map((AddDetail, idx) => {
+                            return (
+                              <tr key={idx}>
+                                <td className="text-center">
+                                  {" "}
+                                  <img
+                                    className="log_size "
+                                    alt="Preview"
+                                    src={`${AddDetail.PhotoUpload}`}
+                                    style={{ height: "40px", width: "70px" }}
+                                  />
+                                </td>
+                                <td>{AddDetail.imageNotes}</td>
+
+                                <td className="text-center">
+                                  {/* <img
+                                    className="img_icon_size log"
+                                    onClick={() => onUpdateBank(bank, idx)}
+                                    src={require("../../static/images/edit_icon.png")}
+                                    alt="Edit"
+                                    title="Edit"
+                                  />{" "}
+                                  &nbsp; */}
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() =>
+                                      onRemoveChange(AddDetail.imageNotes)
+                                    }
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Remove"
+                                    title="Remove"
+                                  />
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                      {/* <tbody>
+                        {AddedDetails &&
+                          AddedDetails.map((AddDetail, idx) => {
+                            return (
+                              <tr key={idx}>
+                                <td className="text-center">{idx + 1}</td>
+                                <td className="text-center">
+                                  {" "}
+                                  <img
+                                    className="log_size "
+                                    alt="Preview"
+                                    src={`${AddDetail.PhotoUpload}`}
+                                    style={{ height: "40px", width: "70px" }}
+                                  />
+                                </td>
+                                <td>{AddDetail.imageNotes}</td>
+
+                                <td className="text-center">
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() =>
+                                      onRemoveChange(AddDetail.imageNotes)
+                                    }
+                                    src={require("../../static/images/close-buttonRed.png")}
+                                    alt="Remove"
+                                    title="Remove"
+                                  />
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody> */}
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -251,17 +570,50 @@ const EditFeedback = ({
           </div>
         </div>
       </form>
+      {/* edit modal */}
+      <Modal
+        show={showEditModal}
+        backdrop="static"
+        keyboard={false}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">Edit ScreenShot </h3>
+          </div>
+          <div className="col-lg-1">
+            <button onClick={handleEditModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <EditScreenshot
+            onEditModalChange={onEditModalChange}
+            allImageData={userImageData}
+            // batchData={batchesdata}
+          />
+        </Modal.Body>
+      </Modal>
     </Fragment>
   );
 };
 
 EditFeedback.propTypes = {
   auth: PropTypes.object.isRequired,
-  EditFeedbackData: PropTypes.func.isRequired,
+   EditFeedbackData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  settings:state.settings,
 });
 
-export default connect(mapStateToProps, { EditFeedbackData })(EditFeedback);
+export default connect(mapStateToProps, { EditFeedbackData,deleteScreenshot,getAllFeedback ,getExistingscreenshot
+})(EditFeedback);

@@ -246,17 +246,18 @@ const AllContacts = ({
           <>
             <div className="col-lg-12 col-md-11 col-sm-11 col-11 text-center ">
               <section className="body">
-                <div className="body-inner   table-responsive fixTableHeadcontact">
-                  <div className="fixTableHeadcontactsct">
+                <div className="body-inner table-responsive fixTableHeadcontact">
+                  <div className="fixTableHeadcontactdct">
                     <table
-                      className="table table-bordered table-striped table-hover smll_row "
+                      className="table table-bordered table-striped table-hover smll_row scrollhor "
                       id="datatable2"
                     >
                       <thead>
                         <tr>
-                          <th style={{ width: "13%" }}>Staff Name </th>
-                          <th style={{ width: "11%" }}>Phone No</th>
-                          <th style={{ width: "13%" }}>Designation</th>
+                          <th style={{ width: "11%" }}>St Name </th>
+                          <th style={{ width: "10%" }}>Phone No</th>
+                          <th style={{ width: "8%" }}>Designation</th>
+                          <th style={{ width: "10%" }}>Email</th>
                           <th style={{ width: "7%" }}>Op</th>
                         </tr>
                       </thead>
@@ -276,21 +277,28 @@ const AllContacts = ({
                                     {staff.staffPhoneNumber}
                                   </td>
                                   <td>{staff.staffDesignation}</td>
+                                  <td>{staff.staffEmailId}</td>
                                   <td>
                                     <img
                                       className="img_icon_size log"
                                       onClick={() => onDeactive(staff, idx)}
                                       src={require("../../static/images/delete.png")}
                                       alt="Delete Staff"
+                                      style={{ height: "17px", width: "14px" }}
                                       title="Delelte Staff"
                                     />
-                                    &nbsp;
+
                                     <img
                                       className="img_icon_size log"
                                       onClick={() => onUpdate(staff, idx)}
                                       src={require("../../static/images/edit_icon.png")}
                                       alt="Edit"
                                       title="Edit"
+                                      style={{
+                                        height: "17px",
+                                        width: "14px",
+                                        marginLeft: "2px",
+                                      }}
                                     />
                                   </td>
                                 </tr>

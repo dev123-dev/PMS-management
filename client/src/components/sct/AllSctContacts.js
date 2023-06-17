@@ -315,15 +315,20 @@ const AllSctContacts = ({
                 <div className="body-inner no-padding  table-responsive  fixTableHeadcontact">
                   <div className="fixTableHeadcontactsct">
                     <table
-                      className="table hoverrow table-bordered table-striped table-hover smll_row "
+                      className="table hoverrow table-bordered table-striped table-hover scrollhor smll_row "
                       id="datatable2"
                     >
                       <thead>
                         <tr>
-                          <th style={{ width: "15%" }}>Staff Name </th>
+                          <th style={{ width: "11%" }}>St Name </th>
+                          <th style={{ width: "10%" }}>Phone No</th>
+                          <th style={{ width: "8%" }}>Designation</th>
+                          <th style={{ width: "10%" }}>Email</th>
+                          <th style={{ width: "7%" }}>Op</th>
+                          {/* <th style={{ width: "15%" }}>Staff Name </th>
                           <th style={{ width: "13%" }}>Phone No</th>
                           <th style={{ width: "13%" }}>Designation</th>
-                          <th style={{ width: "5%" }}>Op</th>
+                          <th style={{ width: "5%" }}>Op</th> */}
                         </tr>
                       </thead>
                       <tbody>
@@ -342,6 +347,7 @@ const AllSctContacts = ({
                                     {sctStaffs.sctStaffPhoneNumber}
                                   </td>
                                   <td>{sctStaffs.sctStaffDesignation}</td>
+                                  <td>{sctStaffs.sctStaffEmailId}</td>
                                   <td>
                                     <img
                                       className="img_icon_size log"

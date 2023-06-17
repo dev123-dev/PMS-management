@@ -181,30 +181,125 @@ router.post("/edit-payment-mode", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
+//////////////////////////////////////////////////////////////////////////123
+// delete screenshot in edit feedback
+router.post("/delete-screenshot", async (req, res) => {
+  let data = req.body;
+  console.log("data fedd", data);
+  try {
+    const updateOL = await Feedback.updateOne(
+      { _id: mongoose.Types.ObjectId(data.feedbackId) },
+      { $pull: { screenshot: { _id: data.screenshotId } } }
+    );
+    res.json(updateOL);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+
+router.post("/get-existing-screenshot",  async (req, res) => {
+  const { imageId } = req.body;
+ 
+  try {
+    const getExistingscreenshot= await Feedback.findOne(
+      {
+        
+        _id: mongoose.Types.ObjectId(imageId),
+    
+      },
+      { screenshot: 1 }
+    );
+    res.json(getExistingscreenshot);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 
 router.post("/edit-feedback", async (req, res) => {
   try {
     let data = req.body;
-    const updateFeedback = await Feedback.updateOne(
-      { _id: data.recordId },
-      {
-        $set: {
-          feedbackProblem: data.feedbackProblem,
-          feedbackCategory: data.feedbackCategory,
-          feedbackPriority: data.feedbackPriority,
-          feedbackBelongsTo: data.feedbackBelongsTo,
-          feedbackNotes: data.feedbackNotes,
-          feedbackStatus: data.feedbackStatus,
-          feedbackEditedById: data.feedbackEditedById,
-          feedbackEditedDateTime: Date.now(),
-        },
-      }
-    );
+ 
+    let updateFeedback = {};
+   
+    if (data.screenshot.length > 0) {
+  
+      updateFeedback = await Feedback.updateOne(
+        { _id: data.recordId },
+        {
+          $set: {
+            feedbackProblem: data.feedbackProblem,
+            feedbackCategory: data.feedbackCategory,
+            feedbackPriority: data.feedbackPriority,
+            feedbackBelongsTo: data.feedbackBelongsTo,
+            feedbackNotes: data.feedbackNotes,
+            feedbackStatus: data.feedbackStatus,
+            feedbackEditedById: data.feedbackEditedById,
+            feedbackEditedDateTime: Date.now(),
+          },
+          $push: {
+            screenshot: data.screenshot,
+          },
+        }
+      );
+    } else {
+    
+      updateFeedback = await Feedback.updateOne(
+        { _id: data.recordId },
+        {
+          $set: {
+            feedbackProblem: data.feedbackProblem,
+            feedbackCategory: data.feedbackCategory,
+            feedbackPriority: data.feedbackPriority,
+            feedbackBelongsTo: data.feedbackBelongsTo,
+            feedbackNotes: data.feedbackNotes,
+            feedbackStatus: data.feedbackStatus,
+            feedbackEditedById: data.feedbackEditedById,
+            feedbackEditedDateTime: Date.now(),
+          },
+        }
+      ).then((data) => {
+        console.log("updateFeedback", data);
+      });
+    }
+
     res.json(updateFeedback);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
+
+
+
+
+
+///////////////////////////////////////////// old edit-feedback before screenshot
+
+// router.post("/edit-feedback", async (req, res) => {
+//   try {
+//     let data = req.body;
+//     const updateFeedback = await Feedback.updateOne(
+//       { _id: data.recordId },
+//       {
+//         $set: {
+//           feedbackProblem: data.feedbackProblem,
+//           feedbackCategory: data.feedbackCategory,
+//           feedbackPriority: data.feedbackPriority,
+//           feedbackBelongsTo: data.feedbackBelongsTo,
+//           feedbackNotes: data.feedbackNotes,
+//           feedbackStatus: data.feedbackStatus,
+//           feedbackEditedById: data.feedbackEditedById,
+//           feedbackEditedDateTime: Date.now(),
+//         },
+//       }
+//     );
+//     res.json(updateFeedback);
+//   } catch (error) {
+//     res.status(500).json({ errors: [{ msg: "Server Error" }] });
+//   }
+// });
 
 router.post("/edit-feedback-status", async (req, res) => {
   try {

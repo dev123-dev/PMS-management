@@ -5,7 +5,7 @@ import { Modal } from "react-bootstrap";
 import Select from "react-select";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
-
+import { CSVLink } from "react-csv";
 import {
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
@@ -34,7 +34,6 @@ const ClientMonthReport = ({
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
-
   useEffect(() => {
     client.onopen = () => {
       console.log("webSocket client connected");
@@ -99,15 +98,33 @@ const ClientMonthReport = ({
   // clientwise && clientwise.map((ele)=>{
 
   // })
-let clientTYPE =[
-  {value :"Regular",label :"Regular"},
-  {value :"Test",label :"Test"}]
+  const csvData = [["sl no.", "Project Date", "Project Name", "Qty"]];
+  clientwise &&
+    clientwise.map((client, i) => {
+      var projectDate = "";
+      var ED1 = client.projectDate.split(/\D/g);
+      projectDate = [ED1[2], ED1[1], ED1[0]].join("-");
+      csvData.push([
+        i + 1,
+        client.projectDate,
+        client.projectName,
+        client.projectQty,
+      ]);
+    });
 
-const[clientType,setClientType]=useState({value :"Regular",label :"Regular"})
+  let clientTYPE = [
+    { value: "Regular", label: "Regular" },
+    { value: "Test", label: "Test" },
+  ];
 
-const onTypeChange=(e)=>{
-  setClientType(e)
-}
+  const [clientType, setClientType] = useState({
+    value: "Regular",
+    label: "Regular",
+  });
+
+  const onTypeChange = (e) => {
+    setClientType(e);
+  };
   const onfolderClientChange = (e) => {
     setClientData1(e);
     // let selDateData = {
@@ -131,7 +148,7 @@ const onTypeChange=(e)=>{
         value: clientsData._id,
       })
     );
-    console.log(clientwise)
+  console.log(clientwise);
   return !isAuthenticated || !user || !users ? (
     <Spinner />
   ) : (
@@ -157,9 +174,9 @@ const onTypeChange=(e)=>{
                 name="sctProjectName"
                 options={clientTYPE}
                 isSearchable={true}
-                 value={clientType}
+                value={clientType}
                 placeholder=" Project"
-                 onChange={(e) => onTypeChange(e)}
+                onChange={(e) => onTypeChange(e)}
                 theme={(theme) => ({
                   ...theme,
                   height: 26,
@@ -172,13 +189,20 @@ const onTypeChange=(e)=>{
                 })}
               />
             </div>
-            <div className="col-lg-6 col-md-11 col-sm-12 col-11 py-2 ">
+            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-2 ">
               <Link
                 className="btn btn_green_bg float-right"
                 to="/client-report-detail"
               >
                 Back
               </Link>
+              <CSVLink
+                className="secondlinebreak"
+                data={csvData}
+                // filename={fileName}
+              >
+                <button className="btn btn_green_bg float-right">Export</button>
+              </CSVLink>
               {/* <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
@@ -211,7 +235,7 @@ const onTypeChange=(e)=>{
                             var ED1 = client.projectDate.split(/\D/g);
                             projectDate = [ED1[2], ED1[1], ED1[0]].join("-");
                           }
-                          if(client.clientTypeVal === clientType.value){
+                          if (client.clientTypeVal === clientType.value) {
                             return (
                               <tr key={idx}>
                                 <td>{idx + 1}</td>
@@ -220,7 +244,7 @@ const onTypeChange=(e)=>{
                                 <td>{client.projectQty}</td>
                               </tr>
                             );
-                          }else{
+                          } else {
                             // return (
                             //   <tr key={idx}>
                             //     <td>{idx + 1}</td>
@@ -230,7 +254,6 @@ const onTypeChange=(e)=>{
                             //   </tr>
                             // );
                           }
-                         
                         })}
                     </tbody>
                   </table>
