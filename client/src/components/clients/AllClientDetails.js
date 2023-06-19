@@ -45,7 +45,7 @@ const AllClientDetails = ({
     setShowDeactiveModal(true);
     setUserDatadeactive(allClient);
   };
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>

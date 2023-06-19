@@ -56,7 +56,7 @@ const AllTeams = ({
     setdeactive(allTeamDetails);
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

@@ -7,7 +7,7 @@ const SctClientCallHistory = ({
   auth: { isAuthenticated, user, users, loading },
   sct: { sctcallHistory },
 }) => {
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

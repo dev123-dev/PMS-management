@@ -150,7 +150,7 @@ const ClientMonthReport = ({
         value: clientsData._id,
       })
     );
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user? (
     <Spinner />
   ) : (
     <Fragment>

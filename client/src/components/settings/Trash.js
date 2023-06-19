@@ -58,7 +58,7 @@ const Trash = ({
     restoreProjectData(finalData);
     onRestoreModalChange(true);
   };
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

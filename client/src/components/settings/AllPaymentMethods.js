@@ -42,7 +42,7 @@ const AllPaymentMethods = ({
     setUserDatas(paymentMode);
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

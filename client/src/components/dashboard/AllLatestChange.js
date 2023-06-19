@@ -14,7 +14,7 @@ const AllLatestChange = ({
     localStorage.getItem("getAllChangesDetails")
   );
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

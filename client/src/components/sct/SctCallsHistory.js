@@ -72,8 +72,7 @@ const SctCallsHistory = ({
     getAllSctCallEmp();
     getAllSctCallClientCount();
   };
-  let callClientArr = [];
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

@@ -7,7 +7,7 @@ const billingBreakup = ({
   auth: { isAuthenticated, user, users },
   billing,
 }) => {
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

@@ -213,7 +213,7 @@ const GenerateInvoiceEngagedClient = ({
     setcolorData("");
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

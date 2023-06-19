@@ -165,7 +165,7 @@ const AllSctWrongNumbers = ({
     );
 
   const fileName = ["SCT Wrong Number Reports"];
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

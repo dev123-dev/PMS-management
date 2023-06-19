@@ -260,7 +260,7 @@ const AllProspects = ({
     setcolorData("");
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

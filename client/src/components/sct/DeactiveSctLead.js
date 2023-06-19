@@ -48,7 +48,7 @@ const DeactiveSctLead = ({
     ondivcloseChange(true);
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>

@@ -283,7 +283,7 @@ const AllEngagedClient = ({
     getInvoicePrint({ clientId: sctClients._id });
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

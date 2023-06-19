@@ -458,7 +458,6 @@ const AddLead = ({
   const onInputChange1 = (e) => {
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
-  //|| !users
   return !isAuthenticated || !user ? (
     <Spinner />
   ) : (

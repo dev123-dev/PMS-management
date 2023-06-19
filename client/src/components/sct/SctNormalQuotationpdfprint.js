@@ -185,7 +185,7 @@ const SctNormalQuotationpdfprint = ({
   quotationDataLS &&
     quotationDataLS.item.map((row, i) => (totSubTot += Number(row.grandTotal)));
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <>

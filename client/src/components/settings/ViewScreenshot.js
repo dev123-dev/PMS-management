@@ -27,7 +27,7 @@ const ViewScreenshot = ({
     setimagNotes("");
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>

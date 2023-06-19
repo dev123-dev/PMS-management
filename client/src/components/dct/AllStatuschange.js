@@ -403,7 +403,7 @@ const AllStatuschange = ({
     });
   }, [leadDataVal]);
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

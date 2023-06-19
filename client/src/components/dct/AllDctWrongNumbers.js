@@ -192,7 +192,7 @@ const AllDctWrongNumbers = ({
     );
 
   const fileName = ["DCT Wrong Number Reports"];
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>

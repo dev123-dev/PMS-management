@@ -41,7 +41,7 @@ const AddCountryDetails = ({
     });
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

@@ -118,7 +118,7 @@ const AddEnquiry = ({
     );
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Fragment></Fragment>
   ) : (
     <Fragment>

@@ -655,7 +655,7 @@ const AddSctLeads = ({
   if (isSubmitted) {
     return <Redirect to="/all-sct-leads" />;
   }
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

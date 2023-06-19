@@ -46,7 +46,7 @@ const DeactiveSctClient = ({
     onDeactiveModalChange(true);
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

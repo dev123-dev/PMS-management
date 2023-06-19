@@ -10,7 +10,7 @@ import AllCountry from "./AllCountry";
 import AllSctCountry from "./AllSctCountry";
 
 const AllArea = ({ auth: { isAuthenticated, user, users } }) => {
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

@@ -96,7 +96,7 @@ const Billing = ({
   };
 
   let projectQty = 0;
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

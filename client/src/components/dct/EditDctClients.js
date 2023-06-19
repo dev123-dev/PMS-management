@@ -672,7 +672,7 @@ const EditDctClients = ({
     setFormDatas({ ...addData, [e.target.name]: e.target.value });
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>
