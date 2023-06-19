@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
@@ -14,35 +14,47 @@ const Homepage = ({ auth: { isAuthenticated, user } }) => {
   return (
     <div>
       {isAuthenticated && user ? (
-        <Fragment></Fragment>
+        <Fragment className=""></Fragment>
       ) : (
-        <Fragment>
-          <div className="container container_align"></div>
-          <Link
-            className="log btn btn_submit"
-            style={{ padding: "10px 39px" }}
-            onClick={handleLoginModalShow}
-            to="#"
-          >
-            LOGIN
-          </Link>
+        <>
+          {localStorage.token ? (
+            <></>
+          ) : (
+            <>
+              <Fragment>
+                <div className="container container_align"></div>
+                <Link
+                  className="log btn btn_submit"
+                  style={{ padding: "10px 39px" }}
+                  onClick={handleLoginModalShow}
+                  to="#"
+                >
+                  LOGIN
+                </Link>
 
-          <Modal
-            show={showLogin}
-            backdrop="static"
-            keyboard={false}
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-          >
-            <Modal.Header></Modal.Header>
-            <Modal.Body>
-              {/* <button onClick={handleLoginModalClose} className="close">
-                <img src={require("../../static/images/close.png")} alt="X" />
-              </button> */}
-              <Login />
-            </Modal.Body>
-          </Modal>
-        </Fragment>
+                <Modal
+                  show={showLogin}
+                  backdrop="static"
+                  keyboard={false}
+                  aria-labelledby="contained-modal-title-vcenter"
+                  centered
+                >
+                  <Modal.Header></Modal.Header>
+                  <Modal.Body>
+                    <button onClick={handleLoginModalClose} className="close">
+                      <img
+                        src={require("../../static/images/close.png")}
+                        alt="X"
+                      />
+                    </button>
+
+                    <Login />
+                  </Modal.Body>
+                </Modal>
+              </Fragment>
+            </>
+          )}
+        </>
       )}
     </div>
   );

@@ -4,15 +4,31 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loadUser } from "../../actions/auth";
 
-const RouteDriver = ({ auth: { user }, loadUser }) => {
+const RouteDriver = ({ auth: { user, isAuthenticated }, loadUser }) => {
   useEffect(() => {
     loadUser();
-  }, [loadUser]);
+  }, []);
 
-  if (user) {
-    return <Redirect to="/job-queue" />;
+  if (isAuthenticated) {
+    // eslint-disable-next-line no-lone-blocks
+    {
+      user && user.userGroupName && user.userGroupName === "Sct Marketing" ? (
+        <></>
+      ) : (
+        <>
+          return <Redirect to="/job-queue" />
+        </>
+      );
+    }
+  } else {
+    return (
+      <Fragment>
+        <div className="" style={{ height: "450px" }}>
+          loading...
+        </div>
+      </Fragment>
+    );
   }
-  return <Fragment>loading...</Fragment>;
 };
 
 RouteDriver.propTypes = {
