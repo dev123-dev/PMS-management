@@ -248,7 +248,7 @@ const ProjectSummary = ({
   if (!data) {
     return <Redirect to="/daily-job-sheet" />;
   }
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

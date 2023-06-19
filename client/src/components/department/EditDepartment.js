@@ -50,7 +50,7 @@ const EditDepartment = ({
     // getStateData("");
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

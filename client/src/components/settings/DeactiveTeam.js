@@ -43,7 +43,7 @@ const DeactiveTeam = ({
     onDeactiveModalChange(true);
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -106,4 +106,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { deactiveTeamData })(DeactiveTeam);
+export default connect( { deactiveTeamData })(DeactiveTeam);

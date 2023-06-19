@@ -398,7 +398,7 @@ const GenerateSctQuotation = ({
   if (!data) {
     return <Redirect to="/all-sct-documents" />;
   }
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>

@@ -43,7 +43,7 @@ const AllDepartment = ({
     setShowEditModal(true);
     setUserDatas(allDepartment);
   };
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

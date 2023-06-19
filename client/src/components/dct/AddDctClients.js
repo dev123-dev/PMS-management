@@ -612,7 +612,7 @@ const AddDctClients = ({
   if (isSubmitted) {
     return <Redirect to="/all-dct-client" />;
   }
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

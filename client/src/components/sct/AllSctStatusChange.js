@@ -754,7 +754,7 @@ const AllSctStatusChange = ({
       : "";
   let sctExpectedMonthrevered = [ED[2], ED[1], ED[0]].join("-");
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

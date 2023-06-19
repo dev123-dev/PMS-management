@@ -511,7 +511,7 @@ const AdditionalAddProject = ({
   if (isSubmitted) {
     return <Redirect to="/daily-job-sheet" />;
   }
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

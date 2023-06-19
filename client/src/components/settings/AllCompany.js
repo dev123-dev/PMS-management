@@ -29,7 +29,7 @@ const AllCompany = ({
     setdeactive(allCompanyDetails);
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

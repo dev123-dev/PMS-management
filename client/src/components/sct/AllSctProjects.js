@@ -71,7 +71,7 @@ const AllSctProjects = ({
     onUploadChange(true);
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>

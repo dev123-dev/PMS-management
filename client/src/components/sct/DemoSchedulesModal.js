@@ -25,7 +25,7 @@ const DemoSchedulesModal = ({
   const onCheckSchedule = (e) => {
     getDemoSchedules({ selectedDate: selectedDate });
   };
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

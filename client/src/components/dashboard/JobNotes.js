@@ -108,7 +108,7 @@ const JobNotes = ({
       }
     });
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

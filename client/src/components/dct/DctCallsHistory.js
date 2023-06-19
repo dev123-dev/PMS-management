@@ -59,7 +59,7 @@ const DctCallsHistory = ({
     getAllDctCall();
     getAllDctCallEmp();
   };
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

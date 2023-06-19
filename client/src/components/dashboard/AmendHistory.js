@@ -15,7 +15,7 @@ const AmendHistory = ({
     getAmendmentHistoryDeatils(amenddata);
   }, [getAmendmentHistoryDeatils]);
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

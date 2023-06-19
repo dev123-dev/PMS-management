@@ -293,7 +293,7 @@ const EditClientDetails = ({
     onEditModalChange(true);
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

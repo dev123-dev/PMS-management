@@ -56,7 +56,7 @@ const AllProjectStatus = ({
     setUserDatadeactive(allProjectStatus);
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

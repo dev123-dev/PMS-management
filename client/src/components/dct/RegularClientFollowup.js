@@ -193,7 +193,7 @@ const RegularClientFollowup = ({
     ondivcloseChange(true);
     setcolorData("");
   };
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

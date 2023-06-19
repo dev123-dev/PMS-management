@@ -8,7 +8,7 @@ const ClientCallHistory = ({
   dct: { callHistory },
   onClientCallHistoryModalChange,
 }) => {
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>

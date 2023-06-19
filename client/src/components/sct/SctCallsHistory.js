@@ -60,7 +60,7 @@ const SctCallsHistory = ({
     getAllSctCall();
     getAllSctCallEmp();
   };
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

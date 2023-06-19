@@ -16,7 +16,7 @@ const DctDailyReport = ({
     getAllDctLeadToday();
   }, [getAllDctLeadToday]);
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>

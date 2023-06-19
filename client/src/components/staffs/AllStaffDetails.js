@@ -112,7 +112,7 @@ const AllStaffDetails = ({
     getFilterEmpDetails("");
     setstaffData("");
   };
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

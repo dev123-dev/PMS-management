@@ -213,7 +213,7 @@ const AddClientDetails = ({
   if (isSubmitted) {
     return <Redirect to="/all-clients" />;
   }
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

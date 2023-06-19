@@ -221,7 +221,7 @@ const AllDemos = ({
     setShowResheduleModal(true);
     setResheduleData(allDemos);
   };
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

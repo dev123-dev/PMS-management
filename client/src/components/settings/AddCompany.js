@@ -191,7 +191,7 @@ const AddCompany = ({
     return <Redirect to="/all-company" />;
   }
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

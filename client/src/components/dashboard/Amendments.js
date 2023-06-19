@@ -104,7 +104,7 @@ const Amendments = ({
   const handleHistoryModalClose = () => setShowHistoryModal(false);
   const [userData, setUserData] = useState(ProjRestore);
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>

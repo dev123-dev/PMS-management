@@ -57,7 +57,7 @@ const AllDesignation = ({
     setShowDeactiveModal(true);
     setUserDatadeactive(allDeptartment);
   };
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

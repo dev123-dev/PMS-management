@@ -510,7 +510,7 @@ const AddEmployeeDetails = ({
     return <Redirect to="/all-staff" />;
   }
   // code for next previous tabing ends
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

@@ -134,7 +134,7 @@ const ProjectVerification = ({
     QCPendingQty = 0,
     QCEstimateQty = 0,
     UploadingQty = 0;
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <Fragment>

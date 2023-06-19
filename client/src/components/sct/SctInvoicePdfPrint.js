@@ -174,7 +174,7 @@ const SctInvoicePdfPrint = ({
   // if (!data || data === undefined) {
   //   return <Redirect to="/all-engaged-clients" />;
   // }
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user  ? (
     <Spinner />
   ) : (
     <>
