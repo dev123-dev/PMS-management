@@ -10,9 +10,6 @@ const RouteDriver = ({ auth: { user }, loadUser }) => {
     loadUser();
   }, [loadUser]);
 
-  console.log("hit driver");
-  // useEffect(() => {}, [user]);
-
   if (user && user.userGroupName && user.userGroupName !== "Sct Marketing") {
     return <Redirect to="/job-queue" />;
   }

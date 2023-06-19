@@ -181,7 +181,6 @@ const JobQueue = ({
     }
     updateMsgSent({ recordId: jobQueueProjects._id, timeOutMsgSent: 1 });
   };
- 
 
   // On change ProjectCycle
   const [showProjectCycleModal, setShowProjectCycleModal] = useState(false);
@@ -607,7 +606,8 @@ const JobQueue = ({
     ])
   );
   const fileName = [clientFolderName ? clientFolderName : "Client Report"];
-  return !isAuthenticated || !user ? (
+  // console.log("", localStorage.token);
+  return !isAuthenticated || !localStorage.token || !user ? (
     <Spinner />
   ) : (
     <Fragment>

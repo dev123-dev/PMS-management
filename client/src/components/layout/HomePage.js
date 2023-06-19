@@ -11,8 +11,6 @@ const Homepage = ({ auth: { isAuthenticated, user } }) => {
   const handleLoginModalClose = () => setShowLogin(false);
   const handleLoginModalShow = () => setShowLogin(true);
 
-  console.log("hit home", isAuthenticated, localStorage.token);
-
   return (
     <div>
       {localStorage.token ? (
