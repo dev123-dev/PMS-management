@@ -19,6 +19,9 @@ import {
   CLIENT_JOB_SUMMARY,
   CLIENT_DATA,
   ALL_FOLDER,
+  EXST_PROJ_SCREENSHOT,
+  GET_FILE,
+  ALL_EXCEL_FILES,
 } from "../actions/types";
 
 const initialState = {
@@ -39,6 +42,7 @@ const initialState = {
   clientJobSummary: [],
   clientsData: [],
   allfolder: [],
+  allProjScreenshot: [],
 };
 
 const projects = (state = initialState, action) => {
@@ -149,6 +153,22 @@ const projects = (state = initialState, action) => {
       return {
         ...state,
         allfolder: payload,
+      };
+    case EXST_PROJ_SCREENSHOT:
+      return {
+        ...state,
+        allProjScreenshot: payload,
+      };
+
+    case GET_FILE:
+      return {
+        ...state,
+        allFile: payload,
+      };
+    case ALL_EXCEL_FILES:
+      return {
+        ...state,
+        allExcelFiles: payload,
       };
 
     default:

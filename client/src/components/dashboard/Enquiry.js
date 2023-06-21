@@ -273,8 +273,9 @@ const Enquiry = ({
       enquiryStatus: "UnResolved",
     });
   };
+  //console.log("todaydate", todayDate);
 
-  return !isAuthenticated || !user  ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -385,6 +386,8 @@ const Enquiry = ({
                     <tbody>
                       {allEnquiry &&
                         allEnquiry.map((allEnquiryData, idx) => {
+                          var enqdate = new Date(allEnquiryData.estimatedERD);
+                          // console.log("enqdate", enqdate);
                           var ED =
                             allEnquiryData.estimatedERD &&
                             allEnquiryData.estimatedERD.split(/\D/g);
@@ -468,7 +471,7 @@ const Enquiry = ({
                                 <td>{allEnquiryData.enquiryType}</td>
                                 <td>{enteredDateTime}</td>
                                 <td>{allEnquiryData.enteredBy}</td>
-                                {estimatedERD < finalres ? (
+                                {enqdate < todayDate ? (
                                   <td style={{ background: "#dda6a6" }}>
                                     {estimatedERD}
                                   </td>

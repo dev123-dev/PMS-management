@@ -10,6 +10,14 @@ const ClientDetails = require("../../models/Client");
 const DctClientDetails = require("../../models/dct/dctClients");
 const AmendmentHistory = require("../../models/AmendmentHistory");
 const dctClients = require("../../models/dct/dctClients");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+//ADD
+
+const upload = multer({ dest: "D:/extraaaa/" });
+
+// const upload = multer({ dest: 'uploads/' });
 
 //ADD
 router.post("/add-project", async (req, res) => {
@@ -86,43 +94,157 @@ router.post("/add-amendment-history", async (req, res) => {
 });
 
 //EDIT
+
+////////////////////////////////123
+
+router.post("/get-existing-project-screenshot", async (req, res) => {
+  const { imageId } = req.body;
+
+  try {
+    const getExistingProjscreenshot = await Project.findOne(
+      {
+        _id: mongoose.Types.ObjectId(imageId),
+      },
+      { screenshot: 1 }
+    );
+    res.json(getExistingProjscreenshot);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+router.post("/delete-proj-screenshot", async (req, res) => {
+  let data = req.body;
+  console.log("data fedd", data);
+  try {
+    const updateOL = await Project.updateOne(
+      { _id: mongoose.Types.ObjectId(data.feedbackId) },
+      { $pull: { screenshot: { _id: data.screenshotId } } }
+    );
+    res.json(updateOL);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 router.post("/edit-project", async (req, res) => {
   try {
     let data = req.body;
-    const updateProject = await Project.updateOne(
-      { _id: data.recordId },
-      {
-        $set: {
-          projectName: data.projectName,
-          clientId: data.clientId,
-          inputpath: data.inputpath,
-          clientName: data.clientName,
-          parentClientId: data.parentClientId,
-          parentClientName: data.parentClientName,
-          clientFolderName: data.clientFolderName,
-          projectPriority: data.projectPriority,
-          projectNotes: data.projectNotes,
-          projectDeadline: data.projectDeadline,
-          projectQuantity: data.projectQuantity,
-          staffName: data.staffName,
-          staffId: data.staffId,
-          clientTypeVal: data.clientTypeVal,
-          projectTime: data.projectTime,
-          projectDate: data.projectDate,
-          clientTime: data.clientTime,
-          clientDate: data.clientDate,
-          outputformat: data.outputformat,
-          projectUnconfirmed: data.projectUnconfirmed,
-          projectEditedById: data.projectEditedById,
-          projectEditedDateTime: Date.now(),
-        },
-      }
-    );
+    console.log("dataaaa", data);
+    let updateProject = {};
+    if (data.screenshot.length > 0) {
+      updateProject = await Project.updateOne(
+        { _id: data.recordId },
+        {
+          $set: {
+            projectName: data.projectName,
+            clientId: data.clientId,
+            inputpath: data.inputpath,
+            clientName: data.clientName,
+            parentClientId: data.parentClientId,
+            parentClientName: data.parentClientName,
+            clientFolderName: data.clientFolderName,
+            projectPriority: data.projectPriority,
+            projectNotes: data.projectNotes,
+            projectDeadline: data.projectDeadline,
+            projectQuantity: data.projectQuantity,
+            staffName: data.staffName,
+            staffId: data.staffId,
+            clientTypeVal: data.clientTypeVal,
+            projectTime: data.projectTime,
+            projectDate: data.projectDate,
+            clientTime: data.clientTime,
+            clientDate: data.clientDate,
+            outputformat: data.outputformat,
+            projectUnconfirmed: data.projectUnconfirmed,
+            projectEditedById: data.projectEditedById,
+            projectEditedDateTime: Date.now(),
+          },
+          $push: {
+            screenshot: data.screenshot,
+          },
+        }
+      );
+    } else {
+      updateProject = await Project.updateOne(
+        { _id: data.recordId },
+        {
+          $set: {
+            projectName: data.projectName,
+            clientId: data.clientId,
+            inputpath: data.inputpath,
+            clientName: data.clientName,
+            parentClientId: data.parentClientId,
+            parentClientName: data.parentClientName,
+            clientFolderName: data.clientFolderName,
+            projectPriority: data.projectPriority,
+            projectNotes: data.projectNotes,
+            projectDeadline: data.projectDeadline,
+            projectQuantity: data.projectQuantity,
+            staffName: data.staffName,
+            staffId: data.staffId,
+            clientTypeVal: data.clientTypeVal,
+            projectTime: data.projectTime,
+            projectDate: data.projectDate,
+            clientTime: data.clientTime,
+            clientDate: data.clientDate,
+            outputformat: data.outputformat,
+            projectUnconfirmed: data.projectUnconfirmed,
+            projectEditedById: data.projectEditedById,
+            projectEditedDateTime: Date.now(),
+          },
+        }
+      ).then((data) => {
+        console.log("update ", data);
+      });
+    }
+
     res.json(updateProject);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
+
+// router.post("/edit-project", async (req, res) => {
+//   try {
+//     let data = req.body;
+
+//     updateProject = await Project.updateOne(
+//       { _id: data.recordId },
+//       {
+//         $set: {
+//           projectName: data.projectName,
+//           clientId: data.clientId,
+//           inputpath: data.inputpath,
+//           clientName: data.clientName,
+//           parentClientId: data.parentClientId,
+//           parentClientName: data.parentClientName,
+//           clientFolderName: data.clientFolderName,
+//           projectPriority: data.projectPriority,
+//           projectNotes: data.projectNotes,
+//           projectDeadline: data.projectDeadline,
+//           projectQuantity: data.projectQuantity,
+//           staffName: data.staffName,
+//           staffId: data.staffId,
+//           clientTypeVal: data.clientTypeVal,
+//           projectTime: data.projectTime,
+//           projectDate: data.projectDate,
+//           clientTime: data.clientTime,
+//           clientDate: data.clientDate,
+//           outputformat: data.outputformat,
+//           projectUnconfirmed: data.projectUnconfirmed,
+//           projectEditedById: data.projectEditedById,
+//           projectEditedDateTime: Date.now(),
+//         },
+//       }
+//     );
+//     res.json(updateProject);
+//   } catch (error) {
+//     res.status(500).json({ errors: [{ msg: "Server Error" }] });
+//   }
+// });
 
 router.post("/edit-project-status", async (req, res) => {
   try {
@@ -1258,5 +1380,105 @@ router.post("/get-summary", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+router.post("/get-file", upload.single("file"), (req, res) => {
+  console.log(req.file);
+  // Access the uploaded file details using req.file
+  // Perform necessary operations with the file (e.g., save it to a specific location, process it, etc.)
+  // Send a response to the client
+  const uploadedFile = req.file;
+  const destinationFolder = "D:/extraaaa/";
+
+  // Get the original file extension
+  const fileExtension = path.extname(uploadedFile.originalname);
+
+  // Construct the new file path with the original extension
+  const newFilePath = path.join(
+    destinationFolder,
+    uploadedFile.originalname + fileExtension
+  );
+
+  // Move the file to the destination folder
+  fs.rename(uploadedFile.path, newFilePath, (err) => {
+    if (err) {
+      console.error("Error moving file:", err);
+      res.status(500).send("Error moving file");
+    } else {
+      console.log("File uploaded and saved successfully");
+      res.sendStatus(200);
+    }
+  });
+});
+
+router.get("/files", (req, res) => {
+  const folderPath = path.join("D:/extraaaa/");
+  console.log("folderPath", folderPath);
+
+  fs.readdir(folderPath, (err, files) => {
+    if (err) {
+      console.error("Error reading folder:", err);
+      return res.status(500).send("Error reading folder");
+    }
+    console.log("files", files);
+    res.json(files);
+  });
+});
+
+// router.post("/get-file",  async (req, res) => {
+//   let data  = req.body;
+//   try {
+//     console.log("req",data)
+// // console.log("reqq.file",req.body)
+// // Access the uploaded file details using req.file
+// // const uploadedFile = req.file;
+// // console.log("uploadedFile",uploadedFile)
+
+// // //Define the destination folder
+// // const destinationFolder = 'D://extraaaa//';
+
+// // // Construct the new file path
+// // // const newFilePath = require("path").join(destinationFolder, uploadedFile.originalname);
+// // const newFilePath = path.join(destinationFolder, uploadedFile.originalname);
+// // console.log("newFilePath",newFilePath)
+
+// // // Move the file to the destination folder
+// // fs.rename(uploadedFile.path, newFilePath, (err) => {
+// //   if (err) {
+// //     console.error('Error moving file:', err);
+// //     res.status(500).send('Error moving file');
+// //   } else {
+// //     console.log('File uploaded and saved successfully');
+// //     res.sendStatus(200);
+// //   }
+// // });
+// // Specify the destination directory path on the desktop
+// // const desktopPath = path.join(require('os').homedir(), 'Desktop', 'YourDirectoryName');
+
+// // // Create the directory if it doesn't exist
+// // if (!fs.existsSync(desktopPath)) {
+// //   fs.mkdirSync(desktopPath, { recursive: true });
+// // }
+
+// // // Specify the source file path
+// // const sourceFilePath = 'path/to/source/'+name;
+
+// // // Specify the destination file path
+// // const destinationFilePath = path.join(desktopPath, 'file.txt');
+
+// // // Copy the file to the destination
+// // fs.copyFile(sourceFilePath, destinationFilePath, (err) => {
+// //   if (err) {
+// //     console.error('Error copying file:', err);
+// //   } else {
+// //     console.log('File saved successfully!');
+// //   }
+
+// // })
+
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Internal Server Error.");
+//   }
+// });
 
 module.exports = router;

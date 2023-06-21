@@ -182,6 +182,21 @@ const ProjectSchema = new mongoose.Schema({
   oldClientFolderName: {
     type: String,
   },
+
+  screenshot: [
+    {
+      PhotoUpload: {
+        type: String,
+      },
+      imageNotes: {
+        type: String,
+      },
+
+      fileType: {
+        type: String,
+      },
+    },
+  ],
 });
 
 module.exports = project = mongoose.model("project", ProjectSchema);

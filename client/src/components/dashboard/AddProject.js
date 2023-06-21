@@ -3,13 +3,20 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Select from "react-select";
 import { Link } from "react-router-dom";
+import FileBase64 from "react-file-base64";
 import Spinner from "../layout/Spinner";
+import Resizer from "react-image-file-resizer";
+import FileSaver from "file-saver";
 import {
   getActiveClientsFilter,
   getActiveStaffFilter,
   getEmployerDetails,
 } from "../../actions/client";
-import { getAllProjectStatus, addProject } from "../../actions/projects";
+import {
+  getAllProjectStatus,
+  addProject,
+  getFile,
+} from "../../actions/projects";
 import { Redirect } from "react-router-dom";
 import DatePicker from "react-datepicker";
 const clientTypeVal = [
@@ -28,12 +35,13 @@ const AddProject = ({
 
   settings: { paymentMode },
   client: { activeClientFilter, activeStaffFilter, empdetails },
-  project: { allProjectStatus },
+  project: { allProjectStatus, allFile },
   getActiveClientsFilter,
   getActiveStaffFilter,
   getAllProjectStatus,
   getEmployerDetails,
   addProject,
+  getFile,
 }) => {
   useEffect(() => {
     getAllProjectStatus();
@@ -49,7 +57,7 @@ const AddProject = ({
     getEmployerDetails();
   }, [getEmployerDetails]);
 
-  // console.log("empdetails", empdetails);
+  //console.log("allFile", allFile);
 
   var today = new Date();
   var dd = today.getDate();
@@ -260,6 +268,68 @@ const AddProject = ({
         value: projStatusData.projectStatusType,
       })
     );
+  ///////////////////////////////////////////////////////////////////////////////////////123
+  //To store excel ,pdf and image
+  const [showPreview, setShowPreview] = useState("false");
+  const [fileSend, setFileSend] = useState("");
+  const [fileType, setFileType] = useState("false");
+  const checksize = async (file, index) => {
+    // console.log("file e", file.type);
+
+    if (file.type == "image/png" || file.type == "image/jpeg") {
+      const resizeFile = (file) =>
+        new Promise((resolve) => {
+          Resizer.imageFileResizer(
+            file,
+            500,
+            500,
+            "JPEG",
+            100,
+            0,
+            (uri) => {
+              resolve(uri);
+            },
+            "base64"
+          );
+        });
+      const base64 = await resizeFile(file);
+
+      setFormDatas({
+        ...addData,
+        PhotoUpload: base64,
+      });
+      setFileType("");
+      setShowPreview("false");
+    } else if (file.type === "application/pdf") {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const base64 = e.target.result;
+
+        setFormDatas({
+          ...addData,
+          PhotoUpload: base64,
+        });
+      };
+      reader.readAsDataURL(file);
+      // setFileType("")
+      setFileType(file.type);
+      setShowPreview("true");
+    } else {
+      setFileType(file.type);
+      setFileSend(file);
+      setFormDatas({
+        ...addData,
+        PhotoUpload: "D:/extraaaa/" + file.name,
+      });
+      setShowPreview("true");
+
+      // FileSaver.saveAs(blob, "hello world.xlsx");
+      // var blob = new Blob([file], {
+      //   type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8",
+      // });
+      // FileSaver.saveAs(blob, "D:\\extraaaa\\Book2.xlsx");
+    }
+  };
 
   const empdetailsopt = [];
   empdetails &&
@@ -611,10 +681,10 @@ const AddProject = ({
         projectNotes: Instructions?.trim(),
         projectDeadline: deadline?.trim(),
         projectStatusType: review
-          ? projectStatusOpt[28].label
+          ? projectStatusOpt[26].label
           : projectStatusData.value || projectStatusType,
         projectStatusId: review
-          ? projectStatusOpt[28].projStatusId
+          ? projectStatusOpt[26].projStatusId
           : projectStatusData.projStatusId || projectStatusId,
         projectQuantity: qty,
         projectUnconfirmed: isChecked,
@@ -631,8 +701,9 @@ const AddProject = ({
         projectEnteredByName: user.empFullName,
         Reviewer: empdata.label ? empdata.label : "",
         ReviewerId: empdata.value ? empdata.value : null,
+        screenshot: AddedDetails,
       };
-      console.log("finalDataaa", finalData);
+      //console.log("finalDataaa", finalData);
       addProject(finalData);
       setFormData({
         ...formData,
@@ -640,11 +711,68 @@ const AddProject = ({
       });
     }
   };
-  // console.log("projectStatusOpt", projectStatusOpt);
+
+  ///////////////////////////////////////////////////////////////////////123
+
+  // const [fileType, setFileType] = useState("");
+
+  const onRemoveChange = (imageNotes) => {
+    const removeList = AddedDetails.filter(
+      (AddDetails) => AddDetails.imageNotes !== imageNotes
+    );
+    AddDetails(removeList);
+  };
+
+  const [addData, setFormDatas] = useState({
+    imageNotes: "",
+    PhotoUpload: "",
+    fileType: "",
+  });
+
+  const { imageNotes, PhotoUpload } = addData;
+  const [AddedDetails, AddDetails] = useState([]);
+
+  const onInputChange1 = (e) => {
+    setFormDatas({ ...addData, [e.target.name]: e.target.value });
+  };
+
+  const onAdd = (e) => {
+    e.preventDefault();
+
+    if (addData && addData.imageNotes) {
+      if (fileType) {
+        //console.log("fileSend", fileSend);
+        const formData = new FormData();
+        formData.append("file", fileSend);
+        // console.log("frm", formData.get("file"));
+        getFile(formData);
+      }
+
+      const addData = {
+        imageNotes: imageNotes,
+        PhotoUpload: PhotoUpload,
+        fileType: fileType,
+      };
+      setFormDatas({
+        ...addData,
+        imageNotes: "",
+        PhotoUpload: "",
+        fileType: "",
+      });
+      let temp = [];
+      temp.push(...AddedDetails, addData);
+      AddDetails(temp);
+    }
+  };
+
+  // console.log("AddDetails", AddedDetails);
+
+  //////////////////////
+
   if (isSubmitted) {
     return <Redirect to="/job-queue" />;
   }
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -766,6 +894,7 @@ const AddProject = ({
                     <input
                       type="text"
                       name="projectName"
+                      autoComplete="off"
                       value={projectName}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
@@ -836,6 +965,7 @@ const AddProject = ({
                     <DatePicker
                       name="projectDate"
                       label="Controlled picker"
+                      autoComplete="off"
                       value={startprojectShow}
                       placeholderText="dd-mm-yyyy"
                       onChange={(newValue) => onDateChange(newValue)}
@@ -876,6 +1006,7 @@ const AddProject = ({
                     <DatePicker
                       name="clientDate"
                       label="Controlled picker"
+                      autoComplete="off"
                       value={startclientShow}
                       placeholderText="dd-mm-yyyy"
                       onChange={(newValue) => onDateChange1(newValue)}
@@ -956,7 +1087,7 @@ const AddProject = ({
                         </label>
                         <Select
                           name="projectStatusData"
-                          value={projectStatusOpt[28]}
+                          value={projectStatusOpt[26]}
                           isSearchable={true}
                           placeholder="Select"
                           //  onChange={(e) => onProjectStatusChange(e)}
@@ -1042,6 +1173,182 @@ const AddProject = ({
                   </div>
                 </div>
               </div>
+              <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+                {/* Screenshot */}
+                <div
+                  className="row card-new mb-3"
+                  style={{ paddingBottom: "62px" }}
+                >
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 pb-3 ">
+                    <h5>Screenshot</h5>
+                    <div
+                      className=" row col-lg-12 col-md-12 col-sm-12 col-12 card1 "
+                      id="shadow-bck"
+                      style={{ marginTop: "15px" }}
+                    >
+                      <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+                        <label className="label-control">
+                          Upload Screenshot :
+                        </label>
+
+                        <div className="row col-lg-6 col-md-12 col-sm-12 col-12">
+                          <input
+                            type="file"
+                            multiple={false}
+                            onChange={(e) => checksize(e.target.files[0], 1)}
+                            // style={{ color: "transparent" }}
+                          />
+
+                          {/* <FileBase64
+                            type="file"
+                            multiple={false}
+                            // onClick={(e) => checksize(e.target.files[0], 1)}
+                            onDone={({ base64 },e) => {
+                             checksize(e.target.files[0], 1),
+                              setFormDatas({
+                                ...addData,
+                                PhotoUpload: base64,
+                              });
+                            }}
+                          /> */}
+                        </div>
+
+                        {showPreview == "true" ? (
+                          <></>
+                        ) : (
+                          <>
+                            <div className=" row  form-group align_right">
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-12  ">
+                                <img
+                                  className="log_size "
+                                  alt="Preview"
+                                  src={`${PhotoUpload}`}
+                                  style={{ height: "70px", width: "100px" }}
+                                />
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                      <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <label className="label-control"> Image Notes* :</label>
+                        <textarea
+                          name="imageNotes"
+                          id="imageNotes"
+                          className="textarea form-control"
+                          rows="2"
+                          placeholder="Notes"
+                          style={{ width: "100%" }}
+                          value={imageNotes}
+                          onChange={(e) => onInputChange1(e)}
+                        ></textarea>
+                      </div>
+
+                      <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+                        <button
+                          className="btn btn_green_bg"
+                          style={{ marginTop: "80px" }}
+                          onClick={(e) => onAdd(e)}
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  {/* END */}
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-3">
+                    <div className="row card-new py-3">
+                      <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div className=" body-inner no-padding  table-responsive">
+                          <div className="fixTableHeadjoin">
+                            <table
+                              className="tabllll table table-bordered table-striped table-hover"
+                              id="datatable2"
+                            >
+                              <thead>
+                                <tr>
+                                  <th style={{ width: "10%" }}>Sl no</th>
+                                  <th style={{ width: "20%" }}>Image</th>
+                                  <th style={{ width: "40%" }}>Image Notes</th>
+                                  <th style={{ width: "5%" }}>Remove</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {AddedDetails &&
+                                  AddedDetails.map((AddDetail, idx) => {
+                                    return (
+                                      <tr key={idx}>
+                                        <td className="text-center">
+                                          {idx + 1}
+                                        </td>
+                                        <td className="text-center">
+                                          {" "}
+                                          {AddDetail.fileType ===
+                                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+                                          AddDetail.fileType === "text/csv" ||
+                                          AddDetail.fileType ===
+                                            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? (
+                                            <>
+                                              <h6>Excel D:/extraa</h6>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {AddDetail.fileType ===
+                                              "application/pdf" ? (
+                                                <>PDF</>
+                                              ) : (
+                                                <>
+                                                  <img
+                                                    className="log_size "
+                                                    alt="Preview"
+                                                    src={`${AddDetail.PhotoUpload}`}
+                                                    style={{
+                                                      height: "40px",
+                                                      width: "70px",
+                                                    }}
+                                                  />
+                                                </>
+                                              )}
+                                            </>
+                                          )}
+                                        </td>
+                                        <td>{AddDetail.imageNotes}</td>
+
+                                        <td className="text-center">
+                                          {AddDetail.fileType ===
+                                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+                                          AddDetail.fileType === "text/csv" ||
+                                          AddDetail.fileType ===
+                                            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? (
+                                            <></>
+                                          ) : (
+                                            <>
+                                              <img
+                                                className="img_icon_size log"
+                                                onClick={() =>
+                                                  onRemoveChange(
+                                                    AddDetail.imageNotes
+                                                  )
+                                                }
+                                                src={require("../../static/images/close-buttonRed.png")}
+                                                alt="Remove"
+                                                title="Remove"
+                                              />
+                                            </>
+                                          )}
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div
@@ -1107,4 +1414,5 @@ export default connect(mapStateToProps, {
   getActiveStaffFilter,
   addProject,
   getEmployerDetails,
+  getFile,
 })(AddProject);

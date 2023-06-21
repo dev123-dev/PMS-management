@@ -4,12 +4,20 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import FileBase64 from "react-file-base64";
+import Resizer from "react-image-file-resizer";
 import DatePicker from "react-datepicker";
 import {
   getActiveClientsFilter,
   getActiveStaffFilter,
 } from "../../actions/client";
-import { getAllProjectStatus, EditProjectData } from "../../actions/projects";
+import {
+  getAllProjectStatus,
+  EditProjectData,
+  getExistingProjectscreenshot,
+  deleteProjScreenshot,
+  getFile,
+} from "../../actions/projects";
 
 const clientTypeVal = [
   { value: "Regular", label: "Regular Client" },
@@ -24,7 +32,7 @@ const priorityVal = [
 
 const EditProject = ({
   auth: { isAuthenticated, user, users, loading },
-  project: { allProjectStatus },
+  project: { allProjectStatus, allProjScreenshot },
   getActiveClientsFilter,
   client: { activeClientFilter, activeStaffFilter },
   getAllProjectStatus,
@@ -32,6 +40,9 @@ const EditProject = ({
   onEditModalChange,
   EditProjectData,
   getActiveStaffFilter,
+  getExistingProjectscreenshot,
+  deleteProjScreenshot,
+  getFile,
 }) => {
   useEffect(() => {
     getAllProjectStatus();
@@ -46,6 +57,13 @@ const EditProject = ({
   useEffect(() => {
     getActiveStaffFilter();
   }, [getActiveStaffFilter]);
+
+  const projScreenshotDetails = {
+    imageId: allProjectdata._id,
+  };
+  useEffect(() => {
+    getExistingProjectscreenshot(projScreenshotDetails);
+  }, [getExistingProjectscreenshot]);
 
   //formData
   const [formData, setFormData] = useState({
@@ -258,9 +276,9 @@ const EditProject = ({
     setFolderNameVal(e.folderName);
   };
 
-  const onInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  // const onInputChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
 
   const onClientTypeChange = (e) => {
     if (e) {
@@ -485,6 +503,177 @@ const EditProject = ({
 
     return true;
   };
+
+  ////////////////////////////////////////////////////////////123
+
+  //edit modal
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [userImageData, setUserImageData] = useState(null);
+  const handleEditModalClose = () => setShowEditModal(false);
+  // const onEditModalChange = (e) => {
+  //   if (e) {
+  //     handleEditModalClose();
+  //   }
+  // };
+  const onUpdateBank = (image, idx) => {
+    setShowEditModal(true);
+    setUserImageData(image);
+    // setUserDatas1(data.dctdata);
+  };
+
+  const onRemoveChange = (imageNotes) => {
+    const removeList = AddedDetails.filter(
+      (AddDetails) => AddDetails.imageNotes !== imageNotes
+    );
+    AddDetails(removeList);
+  };
+
+  const [addData, setFormDatas] = useState({
+    imageNotes: "",
+    PhotoUpload: "",
+  });
+
+  const { imageNotes, PhotoUpload } = addData;
+  const [AddedDetails, AddDetails] = useState([]);
+
+  const onInputChange1 = (e) => {
+    setFormDatas({ ...addData, [e.target.name]: e.target.value });
+  };
+
+  const onDelete = (image) => {
+    // setrefresh(true)
+    deleteProjScreenshot({
+      screenshotId: image._id,
+      feedbackId: allProjectdata._id,
+      PhotoUpload: image.PhotoUpload,
+      imageNotes: image.imageNotes,
+    });
+    // onEditModalChange(true);
+  };
+
+  const [showPreview, setShowPreview] = useState("false");
+  const [fileSend, setFileSend] = useState("");
+  const [fileType, setFileType] = useState("false");
+  const checksize = async (file, index) => {
+    if (file.type == "image/png" || file.type == "image/jpeg") {
+      const resizeFile = (file) =>
+        new Promise((resolve) => {
+          Resizer.imageFileResizer(
+            file,
+            500,
+            500,
+            "JPEG",
+            100,
+            0,
+            (uri) => {
+              resolve(uri);
+            },
+            "base64"
+          );
+        });
+      const base64 = await resizeFile(file);
+
+      setFormDatas({
+        ...addData,
+        PhotoUpload: base64,
+      });
+      setFileType("");
+      setShowPreview("false");
+    } else if (file.type === "application/pdf") {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const base64 = e.target.result;
+
+        setFormDatas({
+          ...addData,
+          PhotoUpload: base64,
+        });
+      };
+      reader.readAsDataURL(file);
+      // setFileType("")
+      setFileType(file.type);
+      setShowPreview("true");
+    } else {
+      setFileType(file.type);
+      setFileSend(file);
+      setFormDatas({
+        ...addData,
+        PhotoUpload: "D:/extraaaa/" + file.name,
+      });
+      setShowPreview("true");
+
+      // FileSaver.saveAs(blob, "hello world.xlsx");
+      // var blob = new Blob([file], {
+      //   type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8",
+      // });
+      // FileSaver.saveAs(blob, "D:\\extraaaa\\Book2.xlsx");
+    }
+  };
+
+  const onAdd = (e) => {
+    e.preventDefault();
+
+    if (addData && addData.imageNotes) {
+      if (fileType) {
+        //console.log("fileSend", fileSend);
+        const formData = new FormData();
+        formData.append("file", fileSend);
+        //console.log("frm", formData.get("file"));
+        getFile(formData);
+      }
+      const addData = {
+        imageNotes: imageNotes,
+        PhotoUpload: PhotoUpload,
+        fileType: fileType,
+      };
+      setFormDatas({
+        ...addData,
+        imageNotes: "",
+        PhotoUpload: "",
+        fileType: "",
+      });
+      let temp = [];
+      temp.push(...AddedDetails, addData);
+      AddDetails(temp);
+    }
+  };
+
+  // const onAdd = (e) => {
+
+  //   // var screenshotDetails = feedbackData.screenshot;
+  //   // const existingscreenshotList = screenshotDetails.filter(
+  //   //   (screenshotDetail) => screenshotDetail.imageNotes === imageNotes
+  //   // );
+
+  //   e.preventDefault();
+  //   // if (loanList.length === 0) {
+  //   if (addData && addData.imageNotes) {
+  //     const addData = {
+  //       imageNotes: imageNotes,
+  //       PhotoUpload: PhotoUpload,
+  //     };
+  //     setFormDatas({
+  //       ...addData,
+  //       imageNotes: "",
+  //       PhotoUpload: "",
+  //     });
+  //     let temp = [];
+  //     temp.push(...AddedDetails, addData);
+  //     AddDetails(temp);
+  //     // setError({
+  //     //   ...error,
+  //     //   bankErrorStyle: { color: "#000" },
+  //     // });
+  //   }
+  //   // }
+  // };
+
+  const onInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (checkErrors()) {
@@ -512,14 +701,15 @@ const EditProject = ({
         clientTime: clientTime,
         clientDate: startclientDate,
         projectEditedById: user._id,
+        screenshot: AddedDetails,
       };
-      console.log(finalData);
+      //console.log(finalData);
       EditProjectData(finalData);
       onEditModalChange(true);
     }
   };
 
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -529,44 +719,47 @@ const EditProject = ({
           {(user.userGroupName && user.userGroupName === "Administrator") ||
           user.userGroupName === "Super Admin" ||
           user.userGroupName === "Clarical Admins" ? (
-            <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                <div
-                  className="row card-new "
-                  style={{ paddingBottom: "120px" }}
-                >
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h5>Client Info</h5>
-                  </div>
-
-                  <div className="col-lg-6 col-md-11 col-sm-12 col-12">
-                    <label>Client Type* :</label>
-                    <Select
-                      name="clientType"
-                      options={clientTypeVal}
-                      value={clientType}
-                      isSearchable={true}
-                      placeholder="Select"
-                      onChange={(e) => onClientTypeChange(e)}
-                    />
-                  </div>
+            <>
+              <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
+                <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
                   <div
-                    className="col-lg-6 col-md-6 col-sm-6 col-12"
-                    style={{ postion: "Relative", top: "-29px" }}
+                    className="row card-new "
+                    style={{ paddingBottom: "120px" }}
                   >
-                    <label className="label-control">Staff Name* :</label>
-                    <Select
-                      name="stateName"
-                      options={selectStaff}
-                      isSearchable={true}
-                      value={staff}
-                      placeholder="Select Staff"
-                      onChange={(e) => onStaffChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label style={clientnameIdErrorStyle}>Client Name* :</label>
-                    {/* <Select
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                      <h5>Client Info</h5>
+                    </div>
+
+                    <div className="col-lg-6 col-md-11 col-sm-12 col-12">
+                      <label>Client Type* :</label>
+                      <Select
+                        name="clientType"
+                        options={clientTypeVal}
+                        value={clientType}
+                        isSearchable={true}
+                        placeholder="Select"
+                        onChange={(e) => onClientTypeChange(e)}
+                      />
+                    </div>
+                    <div
+                      className="col-lg-6 col-md-6 col-sm-6 col-12"
+                      style={{ postion: "Relative", top: "-29px" }}
+                    >
+                      <label className="label-control">Staff Name* :</label>
+                      <Select
+                        name="stateName"
+                        options={selectStaff}
+                        isSearchable={true}
+                        value={staff}
+                        placeholder="Select Staff"
+                        onChange={(e) => onStaffChange(e)}
+                      />
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                      <label style={clientnameIdErrorStyle}>
+                        Client Name* :
+                      </label>
+                      {/* <Select
                       name="clientData"
                       value={clientData}
                       options={activeClientsOpt}
@@ -574,17 +767,17 @@ const EditProject = ({
                       placeholder="Select"
                       onChange={(e) => onClientChange(e)}
                     /> */}
-                    <input
-                      type="text"
-                      name="clientFolderName"
-                      value={ActiveClientName}
-                      className="form-control"
-                      //onChange={(e) => onInputChange(e)}
-                      disabled
-                    />
-                  </div>
+                      <input
+                        type="text"
+                        name="clientFolderName"
+                        value={ActiveClientName}
+                        className="form-control"
+                        //onChange={(e) => onInputChange(e)}
+                        disabled
+                      />
+                    </div>
 
-                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                    {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Belongs to :</label>
                     <input
                       type="text"
@@ -595,103 +788,103 @@ const EditProject = ({
                       disabled
                     />
                   </div> */}
-                  <div
-                    className="col-lg-6 col-md-6 col-sm-6 col-12"
-                    style={{ postion: "Relative", top: "-25px" }}
-                  >
-                    <label className="label-control">
-                      Client folder Name :
-                    </label>
-                    <input
-                      type="text"
-                      name="ActiveClientFolder"
-                      value={ActiveClientFolder}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                      disabled
-                    />
+                    <div
+                      className="col-lg-6 col-md-6 col-sm-6 col-12"
+                      style={{ postion: "Relative", top: "-25px" }}
+                    >
+                      <label className="label-control">
+                        Client folder Name :
+                      </label>
+                      <input
+                        type="text"
+                        name="ActiveClientFolder"
+                        value={ActiveClientFolder}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                        disabled
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                {/* // prj Info */}
+                <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                  {/* // prj Info */}
 
-                <div className="row card-new  py-2">
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-1">
-                    <h5>Project Info</h5>
-                  </div>
+                  <div className="row card-new  py-2">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-1">
+                      <h5>Project Info</h5>
+                    </div>
 
-                  <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-                    <label>Project Name* :</label>
-                    <input
-                      type="text"
-                      name="projectName"
-                      value={projectName}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                      required
-                    />
-                  </div>
-                  <div className="col-lg-12 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Input :</label>
-                    <input
-                      type="text"
-                      name="inputpath"
-                      value={inputpath}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Qty* :</label>
+                    <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+                      <label>Project Name* :</label>
+                      <input
+                        type="text"
+                        name="projectName"
+                        value={projectName}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                        required
+                      />
+                    </div>
+                    <div className="col-lg-12 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Input :</label>
+                      <input
+                        type="text"
+                        name="inputpath"
+                        value={inputpath}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Qty* :</label>
 
-                    <input
-                      type="Number"
-                      name="qty"
-                      value={qty}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
-                      required
-                    />
-                  </div>
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Unconfirmed :</label>
-                    <input
-                      type="checkbox"
-                      id="Unconfirmed"
-                      checked={isChecked}
-                      onChange={handleOnChange}
-                    />
-                  </div>
-                  <div className="col-lg-5 col-md-6 col-sm-6 col-12 pb-4">
-                    <label className="label-control">Priority :</label>
-                    <Select
-                      name="priority"
-                      options={priorityVal}
-                      value={priority}
-                      isSearchable={true}
-                      placeholder="Select"
-                      onChange={(e) => priorityToChange(e)}
-                    />
+                      <input
+                        type="Number"
+                        name="qty"
+                        value={qty}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                        onKeyDown={(e) =>
+                          (e.keyCode === 69 || e.keyCode === 190) &&
+                          e.preventDefault()
+                        }
+                        required
+                      />
+                    </div>
+                    <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                      <label className="label-control">Unconfirmed :</label>
+                      <input
+                        type="checkbox"
+                        id="Unconfirmed"
+                        checked={isChecked}
+                        onChange={handleOnChange}
+                      />
+                    </div>
+                    <div className="col-lg-5 col-md-6 col-sm-6 col-12 pb-4">
+                      <label className="label-control">Priority :</label>
+                      <Select
+                        name="priority"
+                        options={priorityVal}
+                        value={priority}
+                        isSearchable={true}
+                        placeholder="Select"
+                        onChange={(e) => priorityToChange(e)}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                {/* // prj DAte */}
-                <div className="row card-new  py-3">
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h5>Project Dates</h5>
-                  </div>
+                <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                  {/* // prj DAte */}
+                  <div className="row card-new  py-3">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                      <h5>Project Dates</h5>
+                    </div>
 
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label>Project Date* :</label>
-                    <br />
-                    {/* <input
+                    <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                      <label>Project Date* :</label>
+                      <br />
+                      {/* <input
                       type="date"
                       placeholder="dd/mm/yyyy"
                       className="form-control cpp-input datevalidation"
@@ -703,15 +896,15 @@ const EditProject = ({
                       }}
                       required
                     /> */}
-                    <DatePicker
-                      label="Controlled picker"
-                      value={startprojectShow}
-                      placeholderText="dd-mm-yyyy"
-                      onChange={(newValue) => onDateChange(newValue)}
-                      required
-                    />
-                  </div>
-                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                      <DatePicker
+                        label="Controlled picker"
+                        value={startprojectShow}
+                        placeholderText="dd-mm-yyyy"
+                        onChange={(newValue) => onDateChange(newValue)}
+                        required
+                      />
+                    </div>
+                    {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Project Time* :</label>
                     <br />
                     <input
@@ -725,10 +918,10 @@ const EditProject = ({
                       // required
                     />
                   </div> */}
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label>Client Date* :</label>
-                    <br />
-                    {/* <input
+                    <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                      <label>Client Date* :</label>
+                      <br />
+                      {/* <input
                       type="date"
                       placeholder="dd/mm/yyyy"
                       className="form-control cpp-input datevalidation"
@@ -740,40 +933,40 @@ const EditProject = ({
                       }}
                       required
                     /> */}
-                    <DatePicker
-                      label="Controlled picker"
-                      value={startclientShow}
-                      placeholderText="dd-mm-yyyy"
-                      onChange={(newValue) => onDateChange1(newValue)}
-                      required
-                    />
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label>Client Time :</label>
-                    <input
-                      type="time"
-                      name="clientTime"
-                      value={clientTime}
-                      className="form-control"
-                      min="00:00"
-                      max="23:00"
-                      onChange={(e) => onInputChange(e)}
-                      // required
-                    />
-                  </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
-                    <label className="label-control colorRed">
-                      * Client Date & Client Time is Mail Date & Mail Time.
-                      <br />* Before 2:00 PM Project Date should be previous
-                      Date. After 2:00 PM Project Date should be Today’s Date
-                    </label>
+                      <DatePicker
+                        label="Controlled picker"
+                        value={startclientShow}
+                        placeholderText="dd-mm-yyyy"
+                        onChange={(newValue) => onDateChange1(newValue)}
+                        required
+                      />
+                    </div>
+                    <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                      <label>Client Time :</label>
+                      <input
+                        type="time"
+                        name="clientTime"
+                        value={clientTime}
+                        className="form-control"
+                        min="00:00"
+                        max="23:00"
+                        onChange={(e) => onInputChange(e)}
+                        // required
+                      />
+                    </div>
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+                      <label className="label-control colorRed">
+                        * Client Date & Client Time is Mail Date & Mail Time.
+                        <br />* Before 2:00 PM Project Date should be previous
+                        Date. After 2:00 PM Project Date should be Today’s Date
+                      </label>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                <div className="row card-new  py-4">
-                  {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                  <div className="row card-new  py-4">
+                    {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
                         <label
                           className="label-control"
                           
@@ -789,46 +982,339 @@ const EditProject = ({
                           onChange={(e) => onProjectStatusChange(e)}
                         />
                       </div> */}
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label>Deadline :</label>
-                    <input
-                      type="text"
-                      name="deadline"
-                      value={deadline}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label>Output Format :</label>
-                    <input
-                      type="text"
-                      name="outputformat"
-                      value={outputformat}
-                      className="form-control"
-                      onChange={(e) => onInputChange(e)}
-                    />
-                  </div>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                      <label>Deadline :</label>
+                      <input
+                        type="text"
+                        name="deadline"
+                        value={deadline}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-12">
+                      <label>Output Format :</label>
+                      <input
+                        type="text"
+                        name="outputformat"
+                        value={outputformat}
+                        className="form-control"
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </div>
 
-                  <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
-                    <label className="label-control">
-                      Project Instructions* :
-                    </label>
-                    <textarea
-                      name="Instructions"
-                      id="Instructions"
-                      className="textarea form-control"
-                      rows="4"
-                      placeholder="Instructions"
-                      style={{ width: "100%" }}
-                      value={Instructions}
-                      onChange={(e) => onInputChange(e)}
-                      required
-                    ></textarea>
+                    <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
+                      <label className="label-control">
+                        Project Instructions* :
+                      </label>
+                      <textarea
+                        name="Instructions"
+                        id="Instructions"
+                        className="textarea form-control"
+                        rows="4"
+                        placeholder="Instructions"
+                        style={{ width: "100%" }}
+                        value={Instructions}
+                        onChange={(e) => onInputChange(e)}
+                        required
+                      ></textarea>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+
+              <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
+                  {/* feedback INFO */}
+                  <div
+                    className="row card-new mb-3"
+                    style={{ paddingBottom: "62px" }}
+                  >
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-12 pb-3 ">
+                      <h5>Files</h5>
+                    </div>
+                    <div
+                      className=" row col-lg-12 col-md-12 col-sm-12 col-12 card1 "
+                      id="shadow-bck"
+                      style={{ marginTop: "15px" }}
+                    >
+                      <div className="col-lg-4 col-md-12 col-sm-12 col-12">
+                        <label className="label-control">Upload Files :</label>
+
+                        <div className="row col-lg-6 col-md-12 col-sm-12 col-12">
+                          <input
+                            type="file"
+                            multiple={false}
+                            onChange={(e) => checksize(e.target.files[0], 1)}
+                            // style={{ color: "transparent" }}
+                          />
+                          {/* <FileBase64
+                    type="file"
+                    multiple={false}
+                    onDone={({ base64 }) => {
+                      setFormDatas({
+                        ...addData,
+                        PhotoUpload: base64,
+                      });
+                    }}
+                  /> */}
+                        </div>
+                        <div className=" row  form-group align_right">
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-12  ">
+                            {showPreview == "true" ? (
+                              <></>
+                            ) : (
+                              <>
+                                <div className=" row  form-group align_right">
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-12  ">
+                                    <img
+                                      className="log_size "
+                                      alt="Preview"
+                                      src={`${PhotoUpload}`}
+                                      style={{ height: "70px", width: "100px" }}
+                                    />
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <label className="label-control">
+                          {" "}
+                          Image Notes * :
+                        </label>
+                        <textarea
+                          name="imageNotes"
+                          id="imageNotes"
+                          className="textarea form-control"
+                          rows="2"
+                          placeholder="Notes"
+                          style={{ width: "100%" }}
+                          value={imageNotes}
+                          onChange={(e) => onInputChange1(e)}
+                        ></textarea>
+                      </div>
+
+                      <div className="col-lg-4 col-md-6 col-sm-6 col-12 ">
+                        <button
+                          className="btn btn_green_bg"
+                          style={{ marginTop: "80px" }}
+                          onClick={(e) => onAdd(e)}
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-12 py-3">
+                      <div className="row card-new py-3">
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                          <div className=" body-inner no-padding  table-responsive">
+                            <div className="fixTableHeadjoin">
+                              <table
+                                className="tabllll table table-bordered table-striped table-hover"
+                                id="datatable2"
+                              >
+                                <thead>
+                                  <tr>
+                                    <th style={{ width: "20%" }}>Image</th>
+                                    <th style={{ width: "40%" }}>
+                                      Image Notes
+                                    </th>
+                                    <th style={{ width: "5%" }}>Remove</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {allProjScreenshot &&
+                                    allProjScreenshot.screenshot &&
+                                    allProjScreenshot.screenshot.map(
+                                      (image, idx) => {
+                                        console.log("image", image);
+
+                                        return (
+                                          <tr key={idx}>
+                                            {/* <td className="text-center">
+                                  {" "}
+                                  <img
+                                    className="log_size "
+                                    alt="Preview"
+                                    src={`${image.PhotoUpload}`}
+                                    style={{ height: "40px", width: "70px" }}
+                                  />
+                                </td> */}
+                                            <td className="text-center">
+                                              {" "}
+                                              {image.fileType ===
+                                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+                                              image.fileType === "text/csv" ||
+                                              image.fileType ===
+                                                "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? (
+                                                <>
+                                                  <h6>Excel D:/extraa</h6>
+                                                </>
+                                              ) : (
+                                                <>
+                                                  {image.fileType ===
+                                                  "application/pdf" ? (
+                                                    <>PDF</>
+                                                  ) : (
+                                                    <>
+                                                      <img
+                                                        className="log_size "
+                                                        alt="Preview"
+                                                        src={`${image.PhotoUpload}`}
+                                                        style={{
+                                                          height: "40px",
+                                                          width: "70px",
+                                                        }}
+                                                      />
+                                                    </>
+                                                  )}
+                                                </>
+                                              )}
+                                            </td>
+
+                                            <td>{image.imageNotes}</td>
+
+                                            {/* <td className="text-center">
+                               
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() =>
+                                      onDelete(image,idx)
+                                    }
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Remove"
+                                    title="Remove"
+                                  />
+                                </td> */}
+
+                                            <td className="text-center">
+                                              {image.fileType ===
+                                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+                                              image.fileType === "text/csv" ||
+                                              image.fileType ===
+                                                "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? (
+                                                <></>
+                                              ) : (
+                                                <>
+                                                  <img
+                                                    className="img_icon_size log"
+                                                    onClick={() =>
+                                                      onDelete(image, idx)
+                                                    }
+                                                    src={require("../../static/images/delete.png")}
+                                                    alt="Remove"
+                                                    title="Remove"
+                                                  />
+                                                </>
+                                              )}
+                                            </td>
+                                          </tr>
+                                        );
+                                      }
+                                    )}
+
+                                  {AddedDetails &&
+                                    AddedDetails.map((AddDetail, idx) => {
+                                      return (
+                                        <tr key={idx}>
+                                          {/* <td className="text-center">
+                                  {" "}
+                                  <img
+                                    className="log_size "
+                                    alt="Preview"
+                                    src={`${AddDetail.PhotoUpload}`}
+                                    style={{ height: "40px", width: "70px" }}
+                                  />
+                                </td> */}
+
+                                          <td className="text-center">
+                                            {" "}
+                                            {AddDetail.fileType ===
+                                              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+                                            AddDetail.fileType === "text/csv" ||
+                                            AddDetail.fileType ===
+                                              "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? (
+                                              <>
+                                                <h6>Excel D:/extraa</h6>
+                                              </>
+                                            ) : (
+                                              <>
+                                                {AddDetail.fileType ===
+                                                "application/pdf" ? (
+                                                  <>PDF</>
+                                                ) : (
+                                                  <>
+                                                    <img
+                                                      className="log_size "
+                                                      alt="Preview"
+                                                      src={`${AddDetail.PhotoUpload}`}
+                                                      style={{
+                                                        height: "40px",
+                                                        width: "70px",
+                                                      }}
+                                                    />
+                                                  </>
+                                                )}
+                                              </>
+                                            )}
+                                          </td>
+                                          <td>{AddDetail.imageNotes}</td>
+
+                                          {/* <td className="text-center">
+                                
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() =>
+                                      onRemoveChange(AddDetail.imageNotes)
+                                    }
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Remove"
+                                    title="Remove"
+                                  />
+                                </td> */}
+
+                                          <td className="text-center">
+                                            {AddDetail.fileType ===
+                                              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+                                            AddDetail.fileType === "text/csv" ||
+                                            AddDetail.fileType ===
+                                              "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? (
+                                              <></>
+                                            ) : (
+                                              <>
+                                                <img
+                                                  className="img_icon_size log"
+                                                  onClick={() =>
+                                                    onRemoveChange(
+                                                      AddDetail.imageNotes
+                                                    )
+                                                  }
+                                                  src={require("../../static/images/delete.png")}
+                                                  alt="Remove"
+                                                  title="Remove"
+                                                />
+                                              </>
+                                            )}
+                                          </td>
+                                        </tr>
+                                      );
+                                    })}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* END */}
+                </div>
+              </div>
+            </>
           ) : (
             <></>
           )}
@@ -931,4 +1417,7 @@ export default connect(mapStateToProps, {
   getActiveClientsFilter,
   EditProjectData,
   getActiveStaffFilter,
+  getExistingProjectscreenshot,
+  deleteProjScreenshot,
+  getFile,
 })(EditProject);
