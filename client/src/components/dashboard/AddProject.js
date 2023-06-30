@@ -340,36 +340,36 @@ const AddProject = ({
       })
     );
 
-  const [clientData, setClientData] = useState("");
-  const [clientId, setClientId] = useState("");
+  // const [clientData, setClientData] = useState("");
+  // const [clientId, setClientId] = useState("");
 
   // const [clientBelongsTo, setBelongsToVal] = useState("");
   const [clientFolderName, setFolderNameVal] = useState("");
 
-  const onClientChange = (e) => {
-    //Required Validation starts
-    // setError({
-    //   ...error,
-    //   clientnameIdChecker: true,
-    //   clientnameIdErrorStyle: { color: "#000" },
-    // });
-    //Required Validation ends
-    if (e) {
-      setFormData({
-        ...formData,
-        clientId: clientId,
-      });
-      let clientVal = {
-        clientId: e.clientId,
-      };
-      getActiveStaffFilter(clientVal);
-    }
-    setClientData(e);
-    setClientId(e.clientId);
-    // setBelongsToVal(e.belongsTo);
+  // const onClientChange = (e) => {
+  //   //Required Validation starts
+  //   // setError({
+  //   //   ...error,
+  //   //   clientnameIdChecker: true,
+  //   //   clientnameIdErrorStyle: { color: "#000" },
+  //   // });
+  //   //Required Validation ends
+  //   if (e) {
+  //     setFormData({
+  //       ...formData,
+  //       clientId: clientId,
+  //     });
+  //     let clientVal = {
+  //       clientId: e.clientId,
+  //     };
+  //     getActiveStaffFilter(clientVal);
+  //   }
+  //   setClientData(e);
+  //   setClientId(e.clientId);
+  //   // setBelongsToVal(e.belongsTo);
 
-    setFolderNameVal(e.folderName);
-  };
+  //   setFolderNameVal(e.folderName);
+  // };
 
   const [projectStatusData, setProjectStatusData] = useState(
     projectStatusOpt[1]
@@ -486,9 +486,15 @@ const AddProject = ({
       };
       getActiveClientsFilter(clientTypeVal);
     }
-    setClientData("");
+    // setClientData("");
     // setBelongsToVal("");
     setFolderNameVal("");
+
+    // activeClientFilter = [];
+
+    setActiveClientName("");
+    setActiveClientfolder("");
+    getstaffData("");
   };
 
   // console.log("projectStatusType", projectStatusType);

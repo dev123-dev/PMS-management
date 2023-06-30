@@ -291,10 +291,15 @@ const EditProject = ({
       };
       getActiveClientsFilter(clientTypeVal);
     }
+
     setClientData(null);
     setBelongsToVal("");
     setFolderNameVal("");
+    setActiveClientName("");
+    setActiveClientfolder("");
+    getstaffData("");
   };
+
   const [startprojectDate, setprojectDate] = useState(
     allProjectdata && allProjectdata.projectDate
       ? allProjectdata.projectDate
@@ -450,9 +455,11 @@ const EditProject = ({
       : ""
   );
   const onStaffChange = (e) => {
+    // setActiveClientId
+    // setActiveClientName
     setActiveClientId(e.clientId);
     setActiveClientName(e.clientName);
-    setActiveClientName(e.clientName);
+    // setActiveClientName(e.clientName);
 
     // console.log(e, "E");
     setActiveClientfolder(e.clientFolderName);
@@ -465,6 +472,8 @@ const EditProject = ({
 
     setstaffID(staffId);
     setstaffName(staffName);
+    // setClientData("");
+    // clientData
   };
 
   // const onDateChange = (e) => {
@@ -493,7 +502,9 @@ const EditProject = ({
   const { clientnameIdErrorStyle } = error;
 
   const checkErrors = () => {
-    if (!clientData) {
+    // console.log("cl data", clientData);
+
+    if (!ActiveClientName) {
       setError({
         ...error,
         clientnameIdErrorStyle: { color: "#F00" },
@@ -675,7 +686,9 @@ const EditProject = ({
   const [selectedImage, setSelectedImage] = useState(null);
 
   const onSubmit = (e) => {
+    console.log("val", ActiveClientName);
     e.preventDefault();
+
     if (checkErrors()) {
       const finalData = {
         recordId: allProjectdata ? allProjectdata._id : "",
