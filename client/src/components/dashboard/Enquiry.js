@@ -243,6 +243,12 @@ const Enquiry = ({
       enquiryType: oldData.enquiryType,
       enteredBy: oldData.enteredBy,
       enteredById: oldData.enteredById,
+      lastResolvedDate:
+        radiodata === "Resolved"
+          ? todayDate
+          : radiodata === "UnResolved" && oldData.lastResolvedDate !== ""
+          ? oldData.lastResolvedDate
+          : "",
     };
     AddenquiryHistory(finalData);
     updateEnquiry(finalData);
@@ -261,6 +267,10 @@ const Enquiry = ({
       discussionPointNotes: "",
       radiodata: "",
     });
+
+    setShowHide2({
+      showonclickSection: false,
+    });
   };
 
   const [showHistoryTable, setshowHistoryTable] = useState(false);
@@ -273,7 +283,6 @@ const Enquiry = ({
       enquiryStatus: "UnResolved",
     });
   };
-  //console.log("todaydate", todayDate);
 
   return !isAuthenticated || !user ? (
     <Spinner />
@@ -361,7 +370,7 @@ const Enquiry = ({
             </div>
           </div>
           <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
-            <div className="col-lg-8 col-md-12 col-sm-12 col-12 text-center">
+            <div className="col-lg-9 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHead">
                   <table
@@ -370,24 +379,29 @@ const Enquiry = ({
                   >
                     <thead>
                       <tr>
-                        {/* <th style={{ width: "10%" }}>Client Name</th> */}
-                        <th style={{ width: "9%" }}>Client Name </th>
-                        <th style={{ width: "15%" }}>Email ID</th>
-                        <th style={{ width: "10%" }}>EnquiryTo</th>
-                        <th style={{ width: "10%" }}>Notes</th>
-                        <th style={{ width: "10%" }}>DCT/SCT</th>
+                        <th style={{ width: "10%" }}>Client Name</th>
+
+                        <th style={{ width: "13%" }}>Email ID</th>
+                        <th style={{ width: "7%" }}>EnquiryTo</th>
+                        <th style={{ width: "15%" }}>Notes</th>
+                        <th style={{ width: "5%" }}>DCT/SCT</th>
                         <th style={{ width: "10%" }}>Entered Date</th>
                         <th style={{ width: "7%" }}>Entered By</th>
                         <th style={{ width: "10%" }}>Estimated ERD</th>
+
+                        <th style={{ width: "10%" }}>Resolved Date</th>
+
                         <th style={{ width: "7%" }}>Status</th>
-                        <th style={{ width: "5%" }}>OP</th>
+                        <th style={{ width: "10%" }}>OP</th>
                       </tr>
                     </thead>
                     <tbody>
                       {allEnquiry &&
                         allEnquiry.map((allEnquiryData, idx) => {
                           var enqdate = new Date(allEnquiryData.estimatedERD);
-                          // console.log("enqdate", enqdate);
+                          var resolveddate = new Date(
+                            allEnquiryData.lastResolvedDate
+                          );
                           var ED =
                             allEnquiryData.estimatedERD &&
                             allEnquiryData.estimatedERD.split(/\D/g);
@@ -396,6 +410,16 @@ const Enquiry = ({
                             ED && ED[1],
                             ED && ED[0],
                           ].join("-");
+
+                          var EDR =
+                            allEnquiryData.lastResolvedDate &&
+                            allEnquiryData.lastResolvedDate.split(/\D/g);
+                          var Resolveddate = [
+                            EDR && EDR[2],
+                            EDR && EDR[1],
+                            EDR && EDR[0],
+                          ].join("-");
+
                           var EDT =
                             allEnquiryData.enteredDateTime &&
                             allEnquiryData.enteredDateTime.split(/\D/g);
@@ -427,7 +451,28 @@ const Enquiry = ({
                                 <td>{allEnquiryData.enquiryType}</td>
                                 <td>{enteredDateTime}</td>
                                 <td>{allEnquiryData.enteredBy}</td>
-                                <td>{estimatedERD}</td>
+                                {(enqdate < todayDate &&
+                                  allEnquiryData.enquiryStatus ===
+                                    "UnResolved") ||
+                                (enqdate < resolveddate &&
+                                  allEnquiryData.enquiryStatus ===
+                                    "Resolved") ? (
+                                  <td style={{ background: "#dda6a6" }}>
+                                    {estimatedERD}
+                                  </td>
+                                ) : (
+                                  <td>{estimatedERD}</td>
+                                )}
+                                {allEnquiryData.enquiryStatus ===
+                                  "unresolved" &&
+                                allEnquiryData.lastResolvedDate !== "" ? (
+                                  <td>{Resolveddate}</td>
+                                ) : (
+                                  <>
+                                    <td>{Resolveddate}</td>
+                                  </>
+                                )}
+
                                 <td>{allEnquiryData.enquiryStatus}</td>
                                 <td>
                                   <img
@@ -471,13 +516,29 @@ const Enquiry = ({
                                 <td>{allEnquiryData.enquiryType}</td>
                                 <td>{enteredDateTime}</td>
                                 <td>{allEnquiryData.enteredBy}</td>
-                                {enqdate < todayDate ? (
+                                {(enqdate < todayDate &&
+                                  allEnquiryData.enquiryStatus ===
+                                    "UnResolved") ||
+                                (enqdate < resolveddate &&
+                                  allEnquiryData.enquiryStatus ===
+                                    "Resolved") ? (
                                   <td style={{ background: "#dda6a6" }}>
                                     {estimatedERD}
                                   </td>
                                 ) : (
                                   <td>{estimatedERD}</td>
                                 )}
+
+                                {allEnquiryData.enquiryStatus ===
+                                  "unresolved" &&
+                                allEnquiryData.lastResolvedDate !== "" ? (
+                                  <td>{Resolveddate}</td>
+                                ) : (
+                                  <>
+                                    <td>{Resolveddate}</td>
+                                  </>
+                                )}
+
                                 {/* <td>{estimatedERD}</td> */}
                                 <td>{allEnquiryData.enquiryStatus}</td>
                                 <td>
@@ -511,7 +572,7 @@ const Enquiry = ({
                 </div>
               </section>
             </div>
-            <div className="col-lg-4 col-md-12 col-sm-12 col-12  ">
+            <div className="col-lg-3 col-md-12 col-sm-12 col-12  ">
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePart2divHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <label className="sidePartHeading ">Enquiry Status</label>

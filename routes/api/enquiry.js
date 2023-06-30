@@ -47,6 +47,7 @@ router.post("/update-enquiry-details", async (req, res) => {
           enquiryNotes: data.discussionPointNotes,
           enquiryType: data.enquiryType,
           enteredById: data.enteredById,
+          lastResolvedDate: data.lastResolvedDate,
         },
       }
     );
