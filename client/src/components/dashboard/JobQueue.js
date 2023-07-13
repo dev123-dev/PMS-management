@@ -868,19 +868,32 @@ const JobQueue = ({
                                       estimatedTimeVal[1] +
                                       " min"}
                                 </td>
-                                <td className="time">
-                                  {timeOut ? (
-                                    <span style={{ color: "red" }}>
-                                      {JobQueueProject.ptEstimatedDateTime &&
-                                        jobTime[0]}
-                                    </span>
-                                  ) : (
-                                    <span>
-                                      {JobQueueProject.ptEstimatedDateTime &&
-                                        jobTime[0]}
-                                    </span>
-                                  )}
-                                </td>
+                                {JobQueueProject.projectStatusType ===
+                                  "QC DONE" ||
+                                JobQueueProject.projectStatusType ===
+                                  "Uploading" ? (
+                                  <>
+                                    <td></td>
+                                  </>
+                                ) : (
+                                  <>
+                                    {" "}
+                                    <td className="time">
+                                      {timeOut ? (
+                                        <span style={{ color: "red" }}>
+                                          {JobQueueProject.ptEstimatedDateTime &&
+                                            jobTime[0]}
+                                        </span>
+                                      ) : (
+                                        <span>
+                                          {JobQueueProject.ptEstimatedDateTime &&
+                                            jobTime[0]}
+                                        </span>
+                                      )}
+                                    </td>
+                                  </>
+                                )}
+
                                 <td>{NEW_projectDate}</td>
                                 <td>{JobQueueProject.projectDeadline}</td>
                                 <td>
@@ -1232,16 +1245,25 @@ const JobQueue = ({
                                       " min"}
                                 </td>
                                 <td>
-                                  {timeOut ? (
-                                    <span style={{ color: "red" }}>
-                                      {JobQueueProject.ptEstimatedDateTime &&
-                                        jobTime[0]}
-                                    </span>
+                                  {JobQueueProject.projectStatusType ===
+                                    "QC DONE" ||
+                                  JobQueueProject.projectStatusType ===
+                                    "Uploading" ? (
+                                    <></>
                                   ) : (
-                                    <span>
-                                      {JobQueueProject.ptEstimatedDateTime &&
-                                        jobTime[0]}
-                                    </span>
+                                    <>
+                                      {timeOut ? (
+                                        <span style={{ color: "red" }}>
+                                          {JobQueueProject.ptEstimatedDateTime &&
+                                            jobTime[0]}
+                                        </span>
+                                      ) : (
+                                        <span>
+                                          {JobQueueProject.ptEstimatedDateTime &&
+                                            jobTime[0]}
+                                        </span>
+                                      )}
+                                    </>
                                   )}
                                 </td>
                                 <td>{NEW_projectDate}</td>

@@ -10,6 +10,7 @@ import EditProject from "./EditProject";
 import JobHistory from "./JobHistory";
 import DatePicker from "react-datepicker";
 import Pagination from "../layout/Pagination";
+import ViewProjFile from "./ViewProjFile";
 
 import axios from "axios";
 import {
@@ -254,6 +255,23 @@ const DailyJobSheet = ({
     projectStatusData: "",
     isSubmitted: false,
   });
+
+  /////////////////////////////////////////////////////////123
+  const [showViewModal, setShowViewModal] = useState(false);
+  const handleViewModalClose = () => setShowViewModal(false);
+
+  const onViewModalChange = (e) => {
+    if (e) {
+      handleViewModalClose();
+    }
+  };
+
+  const [userViewData, setUserViewData] = useState(null);
+  const onView = (allFeedback) => {
+    setUserViewData(allFeedback);
+    setShowViewModal(true);
+  };
+
   const [statusChangeValue, setStatusChange] = useState();
   // const onSliderChange = (dailyJobsheetProjects) => (e) => {
   //   let newStatusData = {
@@ -409,7 +427,7 @@ const DailyJobSheet = ({
 
   const [userDatas2, setUserDatas2] = useState(null);
   const onnotes = (dailyJobsheetProjects, idx) => {
-    console.log("dailyJobsheetProjects", dailyJobsheetProjects);
+    //console.log("dailyJobsheetProjects", dailyJobsheetProjects);
     setshownotesModal(true);
     setUserDatas2(dailyJobsheetProjects);
   };
@@ -721,8 +739,9 @@ const DailyJobSheet = ({
       showdateSection1: true,
     });
   };
+  // console.log("dailyJobsheetProjects", dailyJobsheetProjects);
   const fileName = [clientName1 ? clientName1 : "Client Report"];
-  return !isAuthenticated || !user || !users ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -932,7 +951,8 @@ const DailyJobSheet = ({
                         {/* <th style={{ width: "2%" }}>Priority</th> */}
                         <th style={{ width: "2%" }}>Deadline</th>
                         <th style={{ width: "3%" }}>Qty</th>
-                        <th style={{ width: "8%" }}>Output Format</th>
+                        <th style={{ width: "6%" }}>Output Format</th>
+                        <th style={{ width: "3%" }}>View File</th>
                         <th style={{ width: "13%" }}>Status</th>
                         {/* <th style={{ width: "10%" }}>Latest Change</th>
                         <th style={{ width: "10%" }}>Job Notes</th> */}
@@ -951,6 +971,10 @@ const DailyJobSheet = ({
                       {dailyJobsheetProjects &&
                         dailyJobsheetProjects.map(
                           (dailyJobsheetProjects, idx) => {
+                            console.log(
+                              "dailyJobsheetProjects",
+                              dailyJobsheetProjects
+                            );
                             projectQty += dailyJobsheetProjects.projectQuantity;
                             // clients += dailyJobsheetProjects.clientName.length;
 
@@ -1084,26 +1108,49 @@ const DailyJobSheet = ({
                                   }
                                 </td> */}
                                 <td>
-                                  {dailyJobsheetProjects.ptEstimatedTime &&
-                                    estimatedTimeVal[0] +
-                                      " hr : " +
-                                      estimatedTimeVal[1] +
-                                      " min"}
+                                  {dailyJobsheetProjects.projectStatusType ===
+                                    "Uploaded" ||
+                                  dailyJobsheetProjects.projectStatusType ===
+                                    "QC DONE" ||
+                                  dailyJobsheetProjects.projectStatusType ===
+                                    "Uploading" ? (
+                                    <></>
+                                  ) : (
+                                    <>
+                                      {" "}
+                                      {dailyJobsheetProjects.ptEstimatedTime &&
+                                        estimatedTimeVal[0] +
+                                          " hr : " +
+                                          estimatedTimeVal[1] +
+                                          " min"}
+                                    </>
+                                  )}
                                 </td>
                                 <td>
                                   {dailyJobsheetProjects.projectStatusType}
                                 </td>
                                 <td>
-                                  {timeOut ? (
-                                    <span style={{ color: "red" }}>
-                                      {dailyJobsheetProjects.ptEstimatedDateTime &&
-                                        jobTime[0]}
-                                    </span>
+                                  {dailyJobsheetProjects.projectStatusType ===
+                                    "Uploaded" ||
+                                  dailyJobsheetProjects.projectStatusType ===
+                                    "QC DONE" ||
+                                  dailyJobsheetProjects.projectStatusType ===
+                                    "Uploading" ? (
+                                    <></>
                                   ) : (
-                                    <span>
-                                      {dailyJobsheetProjects.ptEstimatedDateTime &&
-                                        jobTime[0]}
-                                    </span>
+                                    <>
+                                      {timeOut ? (
+                                        <span style={{ color: "red" }}>
+                                          {dailyJobsheetProjects.ptEstimatedDateTime &&
+                                            jobTime[0]}
+                                        </span>
+                                      ) : (
+                                        <span>
+                                          {dailyJobsheetProjects.ptEstimatedDateTime &&
+                                            jobTime[0]}
+                                        </span>
+                                      )}
+                                    </>
                                   )}
                                 </td>
 
@@ -1117,6 +1164,17 @@ const DailyJobSheet = ({
                                   )}
                                 </td>
                                 <td>{dailyJobsheetProjects.outputformat}</td>
+                                <td>
+                                  <button
+                                    className="btn1 btn_green_bg1 "
+                                    style={{ width: "50px" }}
+                                    onClick={() =>
+                                      onView(dailyJobsheetProjects, idx)
+                                    }
+                                  >
+                                    View{" "}
+                                  </button>
+                                </td>
 
                                 <td>
                                   {/* SLAP UserGroupRights */}
@@ -1464,6 +1522,38 @@ const DailyJobSheet = ({
           <DeactiveProject
             onDeactiveModalChange={onDeactiveModalChange}
             Projectdeavtivedata={userDatadeactive}
+          />
+        </Modal.Body>
+      </Modal>
+
+      {/* on view */}
+
+      <Modal
+        show={showViewModal}
+        backdrop="static"
+        keyboard={false}
+        size="xl"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="col-lg-10">
+            <h3 className="modal-title text-center">View File</h3>
+          </div>
+          <div className="col-lg-1">
+            <button onClick={handleViewModalClose} className="close">
+              <img
+                src={require("../../static/images/close.png")}
+                alt="X"
+                style={{ height: "20px", width: "20px" }}
+              />
+            </button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <ViewProjFile
+            onViewModalChange={onViewModalChange}
+            screenshotData={userViewData}
           />
         </Modal.Body>
       </Modal>

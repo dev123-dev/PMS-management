@@ -24,6 +24,9 @@ import {
   CLIENT_JOB_SUMMARY,
   CLIENT_DATA,
   ALL_FOLDER,
+  EXST_PROJ_SCREENSHOT,
+  GET_FILE,
+  ALL_EXCEL_FILES,
 } from "./types";
 
 const config = {
@@ -127,6 +130,41 @@ export const AddAmendmentHistory = (amendmentData) => async (dispatch) => {
 };
 
 //EDIT
+//////////////////////////////////////////////123
+
+export const getExistingProjectscreenshot = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      "/api/projects/get-existing-project-screenshot",
+      finalData
+    );
+    dispatch({
+      type: EXST_PROJ_SCREENSHOT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const deleteProjScreenshot = (finalData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_LOADING_TRUE,
+    });
+    await axios.post("/api/projects/delete-proj-screenshot", finalData);
+    dispatch(getExistingProjectscreenshot({ imageId: finalData.feedbackId }));
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
 
 export const EditProjectData = (finalData) => async (dispatch) => {
   try {
@@ -640,5 +678,36 @@ export const getSummary = (finalData) => async (dispatch) => {
     });
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const getFile = (finalData) => async (dispatch) => {
+  try {
+    console.log("finalData acc", finalData);
+    const res = await axios.post("/api/projects/get-file", finalData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    dispatch({
+      type: GET_FILE,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getAllFiles = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/projects/files");
+    console.log("res", res);
+
+    dispatch({
+      type: ALL_EXCEL_FILES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
   }
 };

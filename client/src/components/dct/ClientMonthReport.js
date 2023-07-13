@@ -25,7 +25,7 @@ const ClientMonthReport = ({
   auth: { isAuthenticated, user, users },
   project: { allFolderName },
   client: { activeVerfificationFolders },
-  sct: { clientwise,clientwisesum},
+  sct: { clientwise, clientwisesum },
 
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
@@ -39,7 +39,7 @@ const ClientMonthReport = ({
       console.log("webSocket client connected");
     };
 
-    console.log("clientwisesum",clientwisesum)
+    console.log("clientwisesum", clientwisesum);
 
     client.onmessage = (message) => {
       getUpdatedProjectStaus();
@@ -150,7 +150,7 @@ const ClientMonthReport = ({
         value: clientsData._id,
       })
     );
-  return !isAuthenticated || !user? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -190,7 +190,7 @@ const ClientMonthReport = ({
                 })}
               />
             </div> */}
-            <div className="col-lg-7 col-md-11 col-sm-12 col-11 py-2 ">
+            <div className="col-lg-9 col-md-11 col-sm-12 col-11 py-2 ">
               <Link
                 className="btn btn_green_bg float-right"
                 to="/client-report-detail"
@@ -221,7 +221,6 @@ const ClientMonthReport = ({
                     id="datatable2"
                   >
                     <thead>
-                    
                       <tr>
                         <th>Sl no</th>
                         <th>Project Date</th>
@@ -231,11 +230,16 @@ const ClientMonthReport = ({
                     </thead>
                     <tbody>
                       <tr className="freeze-row">
-                        <td ></td>
-                        <td colSpan={2} style={{marginLeft :"10%"}}>Total</td>
-                       
-                       
-                        <td >{clientwisesum && clientwisesum[0] && clientwisesum[0].total}</td>
+                        <td></td>
+                        <td colSpan={2} style={{ marginLeft: "10%" }}>
+                          Total
+                        </td>
+
+                        <td>
+                          {clientwisesum &&
+                            clientwisesum[0] &&
+                            clientwisesum[0].total}
+                        </td>
                       </tr>
                       {clientwise &&
                         clientwise.map((client, idx) => {
