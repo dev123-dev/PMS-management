@@ -546,12 +546,12 @@ const JobQueue = ({
   const onClickReset = () => {
     getJobQueueProjectDeatils("");
     setClientData("");
+    setClientName('');
     setFilterData("");
     setFormData({
       ...formData,
       projectStatusCategory: "",
     });
-    window.location.reload();
   };
 
   const onstatusTypeSelect = (statusType) => {
