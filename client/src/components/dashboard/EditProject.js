@@ -717,9 +717,9 @@ const EditProject = ({
         projectEditedById: user._id,
         screenshot: AddedDetails,
       };
-      console.log(finalData);
-      //EditProjectData(finalData);
-      //onEditModalChange(true);
+      // console.log(finalData);
+      EditProjectData(finalData);
+      onEditModalChange(true);
     }
   };
 
