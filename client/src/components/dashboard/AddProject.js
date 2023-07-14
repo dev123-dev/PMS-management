@@ -243,11 +243,12 @@ const AddProject = ({
   //.flat(1);
 
   const selectStaff = Activestaff.map((ele) => {
+    // console.log("xxx", ele);
     return {
       sId: ele._id,
       label: ele.staffName,
       value: ele.staffName,
-      clientId: ele._id,
+      clientId: ele.clientId,
       clientName: ele.clientName,
       clientFolderName: ele.clientFolderName,
     };
@@ -637,7 +638,7 @@ const AddProject = ({
   const [ActiveClientName, setActiveClientName] = useState("");
   const [ActiveClientFolder, setActiveClientfolder] = useState("");
   const onStaffChange = (e) => {
-    //console.log(e);
+    console.log("staff change", e);
 
     setError({
       ...error,
