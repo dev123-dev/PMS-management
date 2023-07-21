@@ -110,6 +110,7 @@ import ClientReportDetails from "../dct/ClientReportDetails";
 import ClientFYReport from "../dct/ClientFYReport";
 import ClientMonthReport from "../dct/ClientMonthReport";
 import Enquiry from "../dashboard/Enquiry";
+import InactiveClientsReport from "../dct/InactiveClientsReport";
 
 const RoutesFile = () => {
   return (
@@ -303,6 +304,13 @@ const RoutesFile = () => {
           path="/client-report-detail"
           component={ClientReportDetails}
         />
+
+        <PrivateRoute
+          exact
+          path="/inactive-clients"
+          component={InactiveClientsReport}
+        />
+
         <PrivateRoute
           exact
           path="/client-month-report"

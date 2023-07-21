@@ -8,13 +8,11 @@ import { Link } from "react-router-dom";
 import Clock from "react-live-clock";
 import {
   getAllDctLead,
-  getAllDctLeadDD,
   getLastmessage,
   addImportDctLeadData,
 } from "../../actions/dct";
 import _debounce from "lodash/debounce";
 import AllContacts from "./AllContacts";
-import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
@@ -25,25 +23,205 @@ const AllLeads = ({
   auth: { isAuthenticated, user, users },
   dct: {
     getAllLeads,
-    getAllLeadsDD,
     getAllLeadsEmp,
     getAllLeadsEnterdBy,
     dctAllLeadsCount,
+    dctLeadsLoading
   },
   regions: { activeCountry },
   getAllDctLead,
   addImportDctLeadData,
   getActiveCountry,
-  getAllDctLeadDD,
   getLastmessage,
 }) => {
-  // useEffect(() => {
-  //   getAllDctLead({ recPerPage: 0, recPerPage: 0 });
-  // }, [getAllDctLead]);
+  // Pagination Initialization
+  const [currentData, setCurrentData] = useState(1);
+  const [dataPerPage] = useState(200);  //Number of Records to Load Per Page
+
+  const [country, setCountryData] = useState(null);
+  const [emp, setEmpData] = useState(null);
+  const [enteredPerson, setEnteredByData] = useState(null);
+  const [filterData, setFilterData] = useState();
+
+  var finalData = { Pagedata: 0, recPerPage: dataPerPage };
 
   useEffect(() => {
-    getAllDctLeadDD({ Pagedata: 0, recPerPage: 200 });
-  }, [getAllDctLeadDD]);
+    getAllDctLead(finalData);
+    setFilterData(finalData);
+  }, []);
+
+  //Pagination Code Start 
+  const paginate = (nmbr) => {
+    setCurrentData(nmbr);
+    finalData = {
+      countryId: country && country.countryId,
+      clientName: txtCompName === "" ? null : txtCompName,
+      assignedTo: emp && emp.empId,
+      enteredBy: enteredPerson && enteredPerson.value,
+      Pagedata: nmbr - 1,
+      recPerPage: dataPerPage
+    }
+    getAllDctLead(finalData);
+    setFilterData(finalData);
+  };
+  //Pagination Code Ends
+
+  // Handles Client Search on every Key Stroke
+  const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
+
+  function handleDebounceFn(val, country, emp, enteredPerson) {
+    if (val) {
+      setCurrentData(1);
+      finalData = {
+        countryId: country && country.countryId,
+        clientName: val,
+        assignedTo: emp && emp.empId,
+        enteredBy: enteredPerson && enteredPerson.value,
+        Pagedata: 0,
+        recPerPage: dataPerPage
+      };
+      getAllDctLead(finalData);
+      setFilterData(finalData);
+    }
+  }
+
+  const [txtCompName, setTxtCompName] = useState("");
+  const onClientSearch = (e) => {
+    debounceFn(e && e.target.value, country, emp, enteredPerson);  //Search for the specific client name
+    setTxtCompName(e && e.target.value);
+  };
+
+  // Capture Change In Country  
+  const allcountry = [];
+  activeCountry.map((country) =>
+    allcountry.push({
+      countryId: country._id,
+      label: country.countryName,
+      value: country.countryName,
+    })
+  );
+
+  const oncountryChange = (e) => {
+    //Empty all Company Name, Employee, Entered By data
+    setEnteredByData("");
+    setEmpData("");
+    setTxtCompName("");
+    //Empty all Company Name, Employee, Entered By data
+
+    setCountryData(e);
+    setCurrentData(1);
+    finalData = {
+      clientName: null,
+      assignedTo: null,
+      enteredBy: null,
+      countryId: e && e.countryId,
+      Pagedata: 0,
+      recPerPage: dataPerPage
+    };
+    getAllDctLead(finalData);
+    setFilterData(finalData);
+
+    if (e.value === "US") {
+      setShowHide1({
+        ...showHide1,
+        showUSSection: true,
+        showAUDSection: false,
+        showUKSection: false,
+      });
+    } else if (e.value === "AUS") {
+      setShowHide1({
+        ...showHide1,
+        showUSSection: false,
+        showAUDSection: true,
+        showUKSection: false,
+      });
+    } else if (e.value === "UK") {
+      setShowHide1({
+        ...showHide1,
+        showUSSection: false,
+        showAUDSection: false,
+        showUKSection: true,
+      });
+    } else {
+      setShowHide1({
+        ...showHide1,
+        showUSSection: false,
+        showAUDSection: false,
+        showUKSection: false,
+      });
+    }
+  };
+  // End Capture Change In Country
+
+  const allemp = [];
+  getAllLeadsEmp.map((emp) =>
+    allemp.push({
+      empId: emp._id,
+      label: emp.dctLeadAssignedToName,
+      value: emp.dctLeadAssignedToName,
+    })
+  );
+
+  const onEmpChange = (e) => {
+    setCurrentData(1);
+    setEmpData(e);
+    finalData = {
+      countryId: country && country.countryId,
+      clientName: txtCompName === "" ? null : txtCompName,
+      assignedTo: e && e.empId,
+      enteredBy: enteredPerson && enteredPerson.value,
+      Pagedata: 0,
+      recPerPage: dataPerPage
+    };
+    getAllDctLead(finalData);
+    setFilterData(finalData);
+  };
+
+  const allEnteredBy = [];
+  getAllLeadsEnterdBy.map((enterdBy) =>
+    allEnteredBy.push({
+      label: enterdBy,
+      value: enterdBy,
+    })
+  );
+
+  const onEnteredByChange = (e) => {
+    setCurrentData(1);
+    setEnteredByData(e);
+    finalData = {
+      countryId: country && country.countryId,
+      clientName: txtCompName === "" ? null : txtCompName,
+      assignedTo: emp & emp.empId,
+      enteredBy: e && e.value,
+      Pagedata: 0,
+      recPerPage: dataPerPage
+    };
+    getAllDctLead(finalData);
+    setFilterData(finalData);
+  };
+
+  const onClickReset = () => {
+    setTxtCompName("");
+    onClientSearch("");
+    setEmpData(null);
+    setCountryData(null);
+    setEnteredByData(null);
+    setCurrentData(1);
+    finalData = {
+      countryId: null,
+      clientName: null,
+      assignedTo: null,
+      enteredBy: null,
+      Pagedata: 0,
+      recPerPage: dataPerPage
+    };
+    getAllDctLead(finalData);
+    setFilterData(finalData);
+
+    setShowHide1(false);
+    ondivcloseChange(true);
+    setcolorData("");
+  };
 
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
@@ -56,7 +234,6 @@ const AllLeads = ({
   });
 
   const { showUSSection, showAUDSection, showUKSection } = showHide1;
-  const [filterData, setFilterData] = useState();
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -99,7 +276,6 @@ const AllLeads = ({
   const [leadData, setLeadData] = useState();
 
   const [highlightTimeZone, sethighlightTimeZone] = useState("");
-
   const onClickHandler = (getAllLeads, idx) => {
     sethighlightTimeZone(
       getAllLeads.timezone && getAllLeads.timezone !== ""
@@ -107,6 +283,7 @@ const AllLeads = ({
         : ""
     );
     setcolorData(idx);
+    //console.log("Get Selected Leads", getAllLeads);
     setLeadData(getAllLeads);
     const searchData = {
       callToId: getAllLeads._id,
@@ -126,167 +303,6 @@ const AllLeads = ({
   };
 
   const handledivModalClose = () => setShowHide(false);
-
-  const allcountry = [];
-  activeCountry.map((country) =>
-    allcountry.push({
-      countryId: country._id,
-      label: country.countryName,
-      value: country.countryName,
-    })
-  );
-
-  const [country, getcountryData] = useState();
-  const [countryId, getcountryIdData] = useState(null);
-  const oncountryChange = (e) => {
-    getEnterByData("");
-    if (e.value === "US") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: true,
-        showAUDSection: false,
-        showUKSection: false,
-      });
-    } else if (e.value === "AUS") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: true,
-        showUKSection: false,
-      });
-    } else if (e.value === "UK") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: false,
-        showUKSection: true,
-      });
-    } else {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: false,
-        showUKSection: false,
-      });
-    }
-    getcountryData(e);
-    getclientsData("");
-    getempData("");
-    getcountryIdData(e.countryId);
-    getAllDctLead({ countryId: e.countryId });
-    getAllDctLeadDD({ countryId: e.countryId });
-    setFilterData({ countryId: e.countryId });
-  };
-
-  const allclient = [];
-  getAllLeadsDD.map((clients) =>
-    allclient.push({
-      clientsId: clients._id,
-      label: clients.companyName,
-      value: clients.companyName,
-    })
-  );
-
-  const [clients, getclientsData] = useState();
-
-  const onclientsChange = (e) => {
-    getEnterByData("");
-    getclientsData(e);
-
-    getAllDctLead({
-      countryId: countryId,
-      clientsId: e.clientsId,
-    });
-
-    setFilterData({
-      countryId: countryId,
-      clientsId: e.clientsId,
-    });
-  };
-
-  const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
-
-  function handleDebounceFn(val, countryId) {
-    // console.log("countryId", countryId);
-    getAllDctLead({ countryId: countryId, clientName: val });
-  }
-
-  const onclientsearch = (e) => {
-    debounceFn(e.target.value, countryId);
-  };
-
-  const allemp = [{ empId: null, label: "All", value: null }];
-  getAllLeadsEmp.map((emp) =>
-    allemp.push({
-      empId: emp._id,
-      label: emp.dctLeadAssignedToName,
-      value: emp.dctLeadAssignedToName,
-    })
-  );
-
-  const [emp, getempData] = useState();
-  const [empId, setempID] = useState();
-  const onempChange = (e) => {
-    getEnterByData("");
-    getempData(e);
-    setempID(e.empId);
-    getAllDctLead({
-      countryId: countryId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-    });
-    getAllDctLeadDD({
-      countryId: countryId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      emp: true,
-    });
-    setFilterData({
-      countryId: countryId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-    });
-  };
-
-  const allEnteredBy = [{ label: "All", value: null }];
-  getAllLeadsEnterdBy.map((enterdBy) =>
-    allEnteredBy.push({
-      label: enterdBy,
-      value: enterdBy,
-    })
-  );
-  // console.log(allEnteredBy);
-  const [enterBy, getEnterByData] = useState();
-  const onEnteredByChange = (e) => {
-    getEnterByData(e);
-    getAllDctLead({
-      countryId: countryId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: empId,
-      enteredBy: e.value,
-    });
-    setFilterData({
-      countryId: countryId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: empId,
-      enteredBy: e.value,
-    });
-  };
-
-  const onClickReset = () => {
-    getcountryData("");
-    getcountryIdData("");
-    getclientsData("");
-    getEnterByData("");
-    getempData("");
-    getAllDctLead();
-    getAllDctLeadDD();
-    setFilterData();
-    setShowHide1(false);
-    ondivcloseChange(true);
-    setcolorData("");
-    onclientsearch("");
-  };
 
   const [showPathSettingModal, setShowPathModal] = useState(false);
   const handleShowPathModalClose = () => setShowPathModal(false);
@@ -317,20 +333,6 @@ const AllLeads = ({
     handleShowPathModalClose();
   };
 
-  //pagination code//////////////////////////////////
-  const [currentData, setCurrentData] = useState(1);
-  const [dataPerPage] = useState(200);
-
-  const paginate = (nmbr) => {
-    setCurrentData(nmbr);
-  };
-
-  useEffect(() => {
-    getAllDctLead({ Pagedata: currentData - 1, recPerPage: 200 });
-  }, [currentData]);
-
-  //End Pageinate
-  //|| !users
   return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
@@ -436,32 +438,26 @@ const AllLeads = ({
                 options={allcountry}
                 isSearchable={true}
                 value={country}
-                placeholder="Select Region"
+                placeholder="Select Country"
                 onChange={(e) => oncountryChange(e)}
               />
             </div>
 
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
-              {/* <Select
-                name="companyName"
-                options={allclient}
-                isSearchable={true}
-                value={clients}
-                placeholder="Select Lead"
-                onChange={(e) => onclientsChange(e)}
-              /> */}
               <input
                 type="Text"
-                placeholder="Type Lead Name"
+                value={txtCompName}
+                placeholder="Type Company Name"
                 name="companyName"
+                autoComplete="off"
                 className="form-control shadow-none"
-                onChange={(e) => onclientsearch(e)}
+                onChange={(e) => onClientSearch(e)}
               />
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
-              user.userGroupName === "Super Admin" ||
-              user.empCtAccess === "All" ? (
+                user.userGroupName === "Super Admin" ||
+                user.empCtAccess === "All" ? (
                 <>
                   <Select
                     name="empFullName"
@@ -469,7 +465,7 @@ const AllLeads = ({
                     isSearchable={true}
                     value={emp}
                     placeholder="Select Employee"
-                    onChange={(e) => onempChange(e)}
+                    onChange={(e) => onEmpChange(e)}
                   />
                 </>
               ) : (
@@ -478,14 +474,14 @@ const AllLeads = ({
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2 ">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
-              user.userGroupName === "Super Admin" ||
-              user.empCtAccess === "All" ? (
+                user.userGroupName === "Super Admin" ||
+                user.empCtAccess === "All" ? (
                 <>
                   <Select
                     name="enteredByFullName"
                     options={allEnteredBy}
                     isSearchable={true}
-                    value={enterBy}
+                    value={enteredPerson}
                     placeholder="Select Entered By"
                     onChange={(e) => onEnteredByChange(e)}
                   />
@@ -496,6 +492,11 @@ const AllLeads = ({
             </div>
 
             <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2 align_right">
+              {
+                dctLeadsLoading ? (<img
+                  src={require("../../static/images/Refresh-Loader.gif")}
+                  alt="Loading..." />) : (<></>)
+              }
               {user.userGroupName && user.userGroupName === "Super Admin" && (
                 <button
                   className="btn btn_green_bg "
@@ -517,7 +518,7 @@ const AllLeads = ({
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-8 col-md-12 col-sm-12 col-12 text-center ">
+            <div className="col-lg-8 col-md-12 col-sm-12 col-12 text-center">
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHeadCT">
                   <table
@@ -526,7 +527,6 @@ const AllLeads = ({
                   >
                     <thead>
                       <tr>
-                        {/* <th style={{ width: "3%" }}>Sl.No</th> */}
                         <th style={{ width: "15%" }}>Company </th>
                         <th style={{ width: "13%" }}>Website </th>
                         <th style={{ width: "11%" }}>Email</th>
@@ -626,31 +626,13 @@ const AllLeads = ({
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead">
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-                  {/* {showdateselectionSection && ( */}
                   <AllContacts
                     leadDataVal={leadData}
                     ondivcloseChange={ondivcloseChange}
-                    from="lead"
+                    from="AllLeads"
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
                   />
-                  {/* )} */}
-                </div>
-              </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
-                <div
-                  className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "39vh" }}
-                >
-                  <label className="sidePartHeading ">Status</label>
-                  {showdateselectionSection && (
-                    <AllStatuschange
-                      leadDataVal={leadData}
-                      ondivcloseChange={ondivcloseChange}
-                      from={leadData.dctLeadCategory}
-                      filterData={filterData}
-                    />
-                  )}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
@@ -659,7 +641,7 @@ const AllLeads = ({
                   style={{ height: "17vh" }}
                 >
                   <label className="sidePartHeading ">
-                    Last Message Details
+                    Last Call History
                   </label>
                   {showdateselectionSection && (
                     <LastMessageDetails
@@ -794,7 +776,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getAllDctLead,
-  getAllDctLeadDD,
   getActiveCountry,
   getLastmessage,
   addImportDctLeadData,

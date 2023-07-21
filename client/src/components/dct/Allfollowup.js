@@ -8,7 +8,6 @@ import Select from "react-select";
 import Clock from "react-live-clock";
 import {
   getDctLeadDetails,
-  getDctLeadDetailsDD,
   getLastmessage,
 } from "../../actions/dct";
 import AllContacts from "./AllContacts";
@@ -20,19 +19,16 @@ import { getActiveCountry } from "../../actions/regions";
 
 const Allfollowup = ({
   auth: { isAuthenticated, user, users },
-  dct: { allLeads, allLeadsDD, allLeadsEmp, allLeadsEnterdBy },
+  dct: { allLeads, allLeadsEmp, allLeadsEnterdBy, dctLeadsLoading },
   regions: { activeCountry },
   getDctLeadDetails,
   getActiveCountry,
-  getDctLeadDetailsDD,
   getLastmessage,
 }) => {
   useEffect(() => {
     getDctLeadDetails({ dctLeadCategory: "F" });
   }, [getDctLeadDetails]);
-  useEffect(() => {
-    getDctLeadDetailsDD({ dctLeadCategory: "F" });
-  }, [getDctLeadDetailsDD]);
+
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
@@ -144,12 +140,12 @@ const Allfollowup = ({
     getEnterByData("");
     getcountryIdData(e.countryId);
     getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "F" });
-    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "F" });
+
     setFilterData({ countryId: e.countryId, dctLeadCategory: "F" });
   };
 
   const allclient = [];
-  allLeadsDD.map((clients) =>
+  allLeads.map((clients) =>
     allclient.push({
       clientsId: clients._id,
       label: clients.companyName,
@@ -174,7 +170,7 @@ const Allfollowup = ({
 
   const handledivModalClose = () => setShowHide(false);
 
-  const allemp = [{ empId: null, label: "All", value: null }];
+  const allemp = [];
   allLeadsEmp.map((emp) =>
     allemp.push({
       empId: emp._id,
@@ -194,13 +190,7 @@ const Allfollowup = ({
       assignedTo: e.empId,
       dctLeadCategory: "F",
     });
-    getDctLeadDetailsDD({
-      countryId: countryId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      dctLeadCategory: "F",
-      emp: true,
-    });
+
     setFilterData({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
@@ -208,7 +198,7 @@ const Allfollowup = ({
       dctLeadCategory: "F",
     });
   };
-  const allEnteredBy = [{ label: "All", value: null }];
+  const allEnteredBy = [];
   allLeadsEnterdBy.map((enterdBy) =>
     allEnteredBy.push({
       label: enterdBy,
@@ -243,12 +233,12 @@ const Allfollowup = ({
     getEnterByData("");
     setShowHide1(false);
     getDctLeadDetails({ dctLeadCategory: "F" });
-    getDctLeadDetailsDD({ dctLeadCategory: "F" });
+
     setFilterData({ dctLeadCategory: "F" });
     ondivcloseChange(true);
     setcolorData("");
   };
-  return !isAuthenticated || !user  ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -315,7 +305,7 @@ const Allfollowup = ({
               )}
             </div>
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
-              <h4 className="heading_color">All Follow-up</h4>
+              <h4 className="heading_color">All Follow Up</h4>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -342,8 +332,8 @@ const Allfollowup = ({
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
-              user.userGroupName === "Super Admin" ||
-              user.empCtAccess === "All" ? (
+                user.userGroupName === "Super Admin" ||
+                user.empCtAccess === "All" ? (
                 // <div className=" col-lg-4 col-md-11 col-sm-10 col-10 py-2">
                 <Select
                   name="empFullName"
@@ -360,8 +350,8 @@ const Allfollowup = ({
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
-              user.userGroupName === "Super Admin" ||
-              user.empCtAccess === "All" ? (
+                user.userGroupName === "Super Admin" ||
+                user.empCtAccess === "All" ? (
                 <>
                   <Select
                     name="enteredByFullName"
@@ -378,11 +368,18 @@ const Allfollowup = ({
             </div>
 
             <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2">
+              {
+                dctLeadsLoading ? (<img
+                  src={require("../../static/images/Refresh-Loader.gif")}
+                  alt="Loading..." />) : (<></>)
+              }
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
               >
-                Refresh
+                {
+                  dctLeadsLoading ? "Loading" : "Refresh"
+                }
               </button>
             </div>
           </div>
@@ -491,7 +488,7 @@ const Allfollowup = ({
                   <AllContacts
                     leadDataVal={leadData}
                     ondivcloseChange={ondivcloseChange}
-                    from="lead"
+                    from="FollowUp"
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
                   />
@@ -520,7 +517,7 @@ const Allfollowup = ({
                   style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
-                    Last Message Details
+                    Last Call History
                   </label>
                   {showdateselectionSection && (
                     <LastMessageDetails
@@ -611,7 +608,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getDctLeadDetails,
-  getDctLeadDetailsDD,
   getActiveCountry,
   getLastmessage,
 })(Allfollowup);

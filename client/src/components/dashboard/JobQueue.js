@@ -546,6 +546,7 @@ const JobQueue = ({
   const onClickReset = () => {
     getJobQueueProjectDeatils("");
     setClientData("");
+    setClientName('');
     setFilterData("");
     setFormData({
       ...formData,

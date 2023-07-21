@@ -68,7 +68,7 @@ const AllDctClients = ({
     setClientData("");
   };
 
-  return !isAuthenticated || !user  ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
