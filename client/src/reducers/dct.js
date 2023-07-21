@@ -1,8 +1,6 @@
 import {
   ALL_LEADS,
-  ALL_LEADS_DD,
   GET_ALL_LEADS,
-  GET_ALL_LEADS_DD,
   DCT_CLIENTS,
   DCT_CLIENTS_DD,
   ALL_DCT_CLIENTS,
@@ -29,11 +27,9 @@ import {
 
 const initialState = {
   allLeads: [],
-  allLeadsDD: [],
   getAllLeads: [],
   getAllLeadsDD: [],
   allDctClients: [],
-  allDctClientsDD: [],
   dctClients: [],
   dctClientsDD: [],
   lastMsg: [],
@@ -55,6 +51,9 @@ const initialState = {
   getAllLeadsEnterdBy: [],
   allLeadsEnterdBy: [],
   dctAllLeadsCount: 0,
+  dctInactiveClients: [],
+  dctLeadsLoading: false,
+  dctClientsLoading: false
 };
 
 const dct = (state = initialState, action) => {
@@ -65,20 +64,10 @@ const dct = (state = initialState, action) => {
         ...state,
         allLeads: payload,
       };
-    case ALL_LEADS_DD:
-      return {
-        ...state,
-        allLeadsDD: payload,
-      };
     case GET_ALL_LEADS:
       return {
         ...state,
         getAllLeads: payload,
-      };
-    case GET_ALL_LEADS_DD:
-      return {
-        ...state,
-        getAllLeadsDD: payload,
       };
     case ALL_DCT_CLIENTS:
       return {
@@ -198,6 +187,50 @@ const dct = (state = initialState, action) => {
         ...state,
         dctAllLeadsCount: payload,
       };
+
+    case "INACTIVE_CLIENTS":
+      return {
+        ...state,
+        dctInactiveClients: payload.clientsInactive
+      }
+
+    case "DCT_LEADS_INITIALIZE":
+      return {
+        ...state,
+        dctLeadsLoading: true,
+        allLeads: []
+      }
+
+    case "DCT_LEADS_LOADED":
+      return {
+        ...state,
+        dctLeadsLoading: false
+      }
+
+    case "ALL_DCT_LEADS_INITIALIZE":
+      return {
+        ...state,
+        dctLeadsLoading: true
+      }
+
+    case "ALL_DCT_LEADS_LOADED":
+      return {
+        ...state,
+        dctLeadsLoading: false
+      }
+
+    case "DCT_CLIENTS_INITIALIZE":
+      return {
+        ...state,
+        dctClientsLoading: true,
+        dctClients: []
+      }
+
+    case "DCT_CLIENTS_LOADED":
+      return {
+        ...state,
+        dctClientsLoading: false
+      }
 
     default:
       return state;

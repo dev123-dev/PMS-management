@@ -638,7 +638,7 @@ const AddLead = ({
                           className="label-control"
                           style={AssignedtypeIdErrorStyle}
                         >
-                          Assigned To :
+                          Assigned To* :
                         </label>
                         <Select
                           name="empFullName"

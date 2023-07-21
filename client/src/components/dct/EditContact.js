@@ -72,9 +72,9 @@ const EditContact = ({
     allStaffdata
       ? allstaffcountry.length !== 0
         ? allstaffcountry &&
-          allstaffcountry.filter(
-            (x) => x.staffcountryId === allStaffdata.staffRegionId
-          )[0]
+        allstaffcountry.filter(
+          (x) => x.staffcountryId === allStaffdata.staffRegionId
+        )[0]
         : ""
       : ""
   );
@@ -115,7 +115,7 @@ const EditContact = ({
       staffFilter: staffFilter,
     };
 
-    if (from === "client") {
+    if (from === "TestClient" || from === "RegularClient") {
       editDctClientStaffDetails(finalData);
     } else {
       editDctStaffDetails(finalData);

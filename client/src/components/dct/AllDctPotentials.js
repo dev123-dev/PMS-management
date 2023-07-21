@@ -8,7 +8,6 @@ import Select from "react-select";
 import Clock from "react-live-clock";
 import {
   getDctLeadDetails,
-  getDctLeadDetailsDD,
   getLastmessage,
 } from "../../actions/dct";
 import AllContacts from "./AllContacts";
@@ -24,15 +23,12 @@ const AllDctPotentials = ({
   regions: { activeCountry },
   getDctLeadDetails,
   getActiveCountry,
-  getDctLeadDetailsDD,
   getLastmessage,
 }) => {
   useEffect(() => {
     getDctLeadDetails({ dctLeadCategory: "PT" });
   }, [getDctLeadDetails]);
-  useEffect(() => {
-    getDctLeadDetailsDD({ dctLeadCategory: "PT" });
-  }, [getDctLeadDetailsDD]);
+
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
@@ -163,7 +159,6 @@ const AllDctPotentials = ({
     getempData("");
     getcountryIdData(e.countryId);
     getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "PT" });
-    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "PT" });
     setFilterData({ countryId: e.countryId, dctLeadCategory: "PT" });
   };
 
@@ -230,13 +225,7 @@ const AllDctPotentials = ({
       assignedTo: e.empId,
       dctLeadCategory: "PT",
     });
-    getDctLeadDetailsDD({
-      countryId: countryId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      dctLeadCategory: "PT",
-      emp: true,
-    });
+    
     setFilterData({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
@@ -279,7 +268,6 @@ const AllDctPotentials = ({
     getEnterByData("");
     setShowHide1(false);
     getDctLeadDetails({ dctLeadCategory: "PT" });
-    getDctLeadDetailsDD({ dctLeadCategory: "PT" });
     setFilterData({ dctLeadCategory: "PT" });
     ondivcloseChange(true);
     getLeadCategoryData("");
@@ -664,7 +652,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getDctLeadDetails,
-  getDctLeadDetailsDD,
   getActiveCountry,
   getLastmessage,
 })(AllDctPotentials);

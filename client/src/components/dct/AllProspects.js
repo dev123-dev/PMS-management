@@ -4,11 +4,9 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-// import { Link } from "react-router-dom";
 import Clock from "react-live-clock";
 import {
   getDctLeadDetails,
-  getDctLeadDetailsDD,
   getLastmessage,
 } from "../../actions/dct";
 import AllContacts from "./AllContacts";
@@ -20,19 +18,16 @@ import { getActiveCountry } from "../../actions/regions";
 
 const AllProspects = ({
   auth: { isAuthenticated, user, users },
-  dct: { allLeads, allLeadsDD, allLeadsEmp, allLeadsEnterdBy },
+  dct: { allLeads, allLeadsEmp, allLeadsEnterdBy, dctLeadsLoading },
   regions: { activeCountry },
   getDctLeadDetails,
   getActiveCountry,
-  getDctLeadDetailsDD,
   getLastmessage,
 }) => {
   useEffect(() => {
     getDctLeadDetails({ dctLeadCategory: "P" });
   }, [getDctLeadDetails]);
-  useEffect(() => {
-    getDctLeadDetailsDD({ dctLeadCategory: "P" });
-  }, [getDctLeadDetailsDD]);
+
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
@@ -91,8 +86,6 @@ const AllProspects = ({
     };
     setsearchDataVal(searchData);
     getLastmessage(searchData);
-
-    // }
     setShowHide({
       ...showHide,
       showdateselectionSection: true,
@@ -157,12 +150,11 @@ const AllProspects = ({
     getempData("");
     getcountryIdData(e.countryId);
     getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "P" });
-    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "P" });
     setFilterData({ countryId: e.countryId, dctLeadCategory: "P" });
   };
 
   const allclient = [];
-  allLeadsDD.map((clients) =>
+  allLeads.map((clients) =>
     allclient.push({
       clientsId: clients._id,
       label: clients.companyName,
@@ -184,7 +176,7 @@ const AllProspects = ({
     });
   };
 
-  const allemp = [{ empId: null, label: "All", value: null }];
+  const allemp = [];
   allLeadsEmp.map((emp) =>
     allemp.push({
       empId: emp._id,
@@ -205,13 +197,7 @@ const AllProspects = ({
       assignedTo: e.empId,
       dctLeadCategory: "P",
     });
-    getDctLeadDetailsDD({
-      countryId: countryId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      dctLeadCategory: "P",
-      emp: true,
-    });
+
     setFilterData({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
@@ -220,7 +206,7 @@ const AllProspects = ({
     });
   };
 
-  const allEnteredBy = [{ label: "All", value: null }];
+  const allEnteredBy = [];
   allLeadsEnterdBy.map((enterdBy) =>
     allEnteredBy.push({
       label: enterdBy,
@@ -254,13 +240,13 @@ const AllProspects = ({
     setShowHide1(false);
     getempData("");
     getDctLeadDetails({ dctLeadCategory: "P" });
-    getDctLeadDetailsDD({ dctLeadCategory: "P" });
+
     setFilterData({ dctLeadCategory: "P" });
     ondivcloseChange(true);
     setcolorData("");
   };
 
-  return !isAuthenticated || !user  ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -354,8 +340,8 @@ const AllProspects = ({
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
-              user.userGroupName === "Super Admin" ||
-              user.empCtAccess === "All" ? (
+                user.userGroupName === "Super Admin" ||
+                user.empCtAccess === "All" ? (
                 // <div className=" col-lg-4 col-md-11 col-sm-10 col-10 py-2">
                 <Select
                   name="empFullName"
@@ -372,8 +358,8 @@ const AllProspects = ({
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
-              user.userGroupName === "Super Admin" ||
-              user.empCtAccess === "All" ? (
+                user.userGroupName === "Super Admin" ||
+                user.empCtAccess === "All" ? (
                 <>
                   <Select
                     name="enteredByFullName"
@@ -389,11 +375,18 @@ const AllProspects = ({
               )}
             </div>
             <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2">
+              {
+                dctLeadsLoading ? (<img
+                  src={require("../../static/images/Refresh-Loader.gif")}
+                  alt="Loading..." />) : (<></>)
+              }
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
               >
-                Refresh
+                {
+                  dctLeadsLoading ? "Loading" : "Refresh"
+                }
               </button>
             </div>
           </div>
@@ -402,21 +395,21 @@ const AllProspects = ({
               <section className="body">
                 <div className=" body-inner no-padding table-responsive fixTableHeadCT">
                   <table
-                    className="table table-bordered table-striped "
+                    className="table table-bordered table-striped hoverrow smll_row"
                     id="datatable2"
                   >
                     <thead>
                       <tr>
-                        <th>Sl.No</th>
-                        <th>Company </th>
-                        <th>Website </th>
-                        <th>Email</th>
-                        <th>Region</th>
-                        <th>Contact</th>
-                        <th>
-                          &nbsp;&nbsp;&nbsp;&nbsp;CallDate&nbsp;&nbsp;&nbsp;&nbsp;
+                        <th style={{ width: "3%" }}>Sl.No</th>
+                        <th style={{ width: "15%" }}>Company </th>
+                        <th style={{ width: "13%" }}>Website </th>
+                        <th style={{ width: "11%" }}>Email</th>
+                        <th style={{ width: "8%" }}>Region</th>
+                        <th style={{ width: "13%" }}>Contact</th>
+                        <th style={{ width: "10%" }}>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CallDate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </th>
-                        <th>Operation</th>
+                        <th style={{ width: "5%" }}>Operation</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -496,7 +489,7 @@ const AllProspects = ({
                   <AllContacts
                     leadDataVal={leadData}
                     ondivcloseChange={ondivcloseChange}
-                    from="lead"
+                    from="Prospect"
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
                   />
@@ -511,6 +504,7 @@ const AllProspects = ({
                   {showdateselectionSection && (
                     <AllStatuschange
                       leadDataVal={leadData}
+                      from="Prospect"
                       ondivcloseChange={ondivcloseChange}
                       filterData={filterData}
                     />
@@ -523,7 +517,7 @@ const AllProspects = ({
                   style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
-                    Last Message Details
+                    Last Call History
                   </label>
                   {showdateselectionSection && (
                     <LastMessageDetails
@@ -614,7 +608,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getDctLeadDetails,
-  getDctLeadDetailsDD,
   getActiveCountry,
   getLastmessage,
 })(AllProspects);

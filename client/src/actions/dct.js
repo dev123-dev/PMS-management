@@ -5,11 +5,9 @@ import {
   SET_LOADING_TRUE,
   SET_LOADING_FALSE,
   ALL_LEADS,
-  ALL_LEADS_DD,
   LAST_MSG,
   CALLHISTORY,
   GET_ALL_LEADS,
-  GET_ALL_LEADS_DD,
   ALL_DCT_CLIENTS,
   ALL_DCT_CLIENTS_DD,
   DCT_CLIENTS,
@@ -37,6 +35,24 @@ const config = {
     "Content-Type": "application/json",
   },
 };
+
+export const getInactiveClients = () => async (dispatch) => {
+  dispatch({
+    type: SET_LOADING_TRUE,
+  });
+  try {
+    const res = await axios.get("http://localhost:5439/api/dct/inactive-clients");
+    dispatch({
+      type: "INACTIVE_CLIENTS",
+      payload: res.data,
+    });
+    dispatch({
+      type: SET_LOADING_FALSE,
+    });
+  } catch (err) {
+    console.error(err.message);
+  }
+}
 
 //ADD
 export const addDctLeadDetails = (finalData) => async (dispatch) => {
@@ -106,7 +122,6 @@ export const addDctClientCalls = (finalData) => async (dispatch) => {
     );
     if (finalData.filterData) {
       dispatch(getDctClientDetails(finalData.filterData));
-      dispatch(getDctClientDetailsDD(finalData.filterData));
     }
     dispatch({
       type: SET_LOADING_FALSE,
@@ -180,7 +195,6 @@ export const addNewDctClientStaffDetails = (finalData) => async (dispatch) => {
     if (finalData.staffFilter) dispatch(getStaffsData(finalData.staffFilter));
     if (finalData.filterData) {
       dispatch(getDctClientDetails(finalData.filterData));
-      dispatch(getDctClientDetailsDD(finalData.filterData));
     }
     dispatch({
       type: SET_LOADING_FALSE,
@@ -205,7 +219,6 @@ export const addNewDctClientInstructionDetails =
       );
       if (finalData.filterData) {
         dispatch(getDctClientDetails(finalData.filterData));
-        dispatch(getDctClientDetailsDD(finalData.filterData));
       }
       dispatch({
         type: SET_LOADING_FALSE,
@@ -243,7 +256,6 @@ export const editDctClientStaffDetails = (finalData) => async (dispatch) => {
     if (finalData.staffFilter) dispatch(getStaffsData(finalData.staffFilter));
     if (finalData.filterData) {
       dispatch(getDctClientDetails(finalData.filterData));
-      dispatch(getDctClientDetailsDD(finalData.filterData));
     }
     dispatch({
       type: SET_LOADING_FALSE,
@@ -270,7 +282,6 @@ export const editDctClientInstructionDetails =
         dispatch(getInstructionData(finalData.instructionFilter));
       if (finalData.filterData) {
         dispatch(getDctClientDetails(finalData.filterData));
-        dispatch(getDctClientDetailsDD(finalData.filterData));
       }
       dispatch({
         type: SET_LOADING_FALSE,
@@ -313,7 +324,6 @@ export const deactivateDctClientStaffDetails =
       if (finalData.staffFilter) dispatch(getStaffsData(finalData.staffFilter));
       if (finalData.filterData) {
         dispatch(getDctClientDetails(finalData.filterData));
-        dispatch(getDctClientDetailsDD(finalData.filterData));
       }
       dispatch({
         type: SET_LOADING_FALSE,
@@ -361,12 +371,17 @@ export const deactivateDctClient = (finalData) => async (dispatch) => {
 
 export const refreshLead = (finalData) => async (dispatch) => {
   try {
-    if (finalData.filterData && finalData.filterData.dctLeadCategory) {
-      dispatch(getDctLeadDetails(finalData.filterData));
-      dispatch(getDctLeadDetailsDD(finalData.filterData));
+    //console.log("Refresh Lead Called", finalData);
+    if (finalData.staffFilter) {
+      if (finalData.staffFilter.from === "AllLeads") {
+        //console.log("Refresh Lead", finalData.filterData);
+        dispatch(getAllDctLead(finalData.filterData));
+      }
+      else if (finalData.staffFilter.from === "Prospect" || finalData.staffFilter.from === "FollowUp" || finalData.staffFilter.from === "WrongNumber")
+        dispatch(getDctLeadDetails(finalData.filterData));
+      else if (finalData.staffFilter.from === "TestClient" || finalData.staffFilter.from === "RegularClient")
+        dispatch(getDctClientDetails(finalData.filterData));
     }
-    dispatch(getAllDctLead());
-    dispatch(getAllDctLeadDD());
   } catch (err) {
     dispatch({
       type: ERROR,
@@ -375,20 +390,6 @@ export const refreshLead = (finalData) => async (dispatch) => {
 };
 
 //**********************************SELECT**********************************
-export const getDctLeadDetails = (finalData) => async (dispatch) => {
-  try {
-    const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
-    dispatch({
-      type: ALL_LEADS,
-      payload: res.data.result1,
-    });
-  } catch (err) {
-    dispatch({
-      type: ERROR,
-    });
-  }
-};
-
 export const getEmpLeadAssignedDetails = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/dct/get-skill-details", finalData);
@@ -420,31 +421,11 @@ export const TransferLeads = (finalData) => async (dispatch) => {
     });
   }
 };
-export const getDctLeadDetailsDD = (finalData) => async (dispatch) => {
-  try {
-    const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
-    dispatch({
-      type: ALL_LEADS_DD,
-      payload: res.data.result1,
-    });
-    if (finalData === undefined || (finalData && finalData.emp !== true)) {
-      dispatch({
-        type: ALL_LEADS_EMP,
-        payload: res.data.result2,
-      });
-    }
-    dispatch({
-      type: GET_LEADS_ENTERED_BY,
-      payload: res.data.result3,
-    });
-  } catch (err) {
-    dispatch({
-      type: ERROR,
-    });
-  }
-};
 
 export const getAllDctLead = (finalData) => async (dispatch) => {
+  dispatch({
+    type: "ALL_DCT_LEADS_INITIALIZE"
+  });
   try {
     const res = await axios.post(
       "/api/dct/get-all-dct-Leads",
@@ -456,28 +437,7 @@ export const getAllDctLead = (finalData) => async (dispatch) => {
       type: GET_ALL_LEADS,
       payload: res.data.result1,
     });
-    dispatch({
-      type: "DCT_ALL_LEADS_COUNT",
-      payload: res.data.result4,
-    });
-  } catch (err) {
-    dispatch({
-      type: ERROR,
-    });
-  }
-};
 
-export const getAllDctLeadDD = (finalData) => async (dispatch) => {
-  try {
-    const res = await axios.post(
-      "/api/dct/get-all-dct-Leads",
-      finalData,
-      config
-    );
-    dispatch({
-      type: GET_ALL_LEADS_DD,
-      payload: res.data.result1,
-    });
     if (finalData === undefined || (finalData && finalData.emp !== true)) {
       dispatch({
         type: GET_ALL_LEADS_EMP,
@@ -492,6 +452,39 @@ export const getAllDctLeadDD = (finalData) => async (dispatch) => {
       type: "DCT_ALL_LEADS_COUNT",
       payload: res.data.result4,
     });
+    dispatch({
+      type: "ALL_DCT_LEADS_LOADED"
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+export const getDctLeadDetails = (finalData) => async (dispatch) => {
+  dispatch({
+    type: "DCT_LEADS_INITIALIZE"
+  })
+  try {
+    const res = await axios.post("/api/dct/get-dct-Leads", finalData, config);
+    dispatch({
+      type: ALL_LEADS,
+      payload: res.data.result1,
+    });
+    if (finalData === undefined || (finalData && finalData.emp !== true)) {
+      dispatch({
+        type: ALL_LEADS_EMP,
+        payload: res.data.result2,
+      });
+    }
+    dispatch({
+      type: GET_LEADS_ENTERED_BY,
+      payload: res.data.result3,
+    });
+    dispatch({
+      type: "DCT_LEADS_LOADED"
+    })
   } catch (err) {
     dispatch({
       type: ERROR,
@@ -500,32 +493,26 @@ export const getAllDctLeadDD = (finalData) => async (dispatch) => {
 };
 
 export const getDctClientDetails = (finalData) => async (dispatch) => {
+  dispatch({
+    type: "DCT_CLIENTS_INITIALIZE"
+  })
   try {
     const res = await axios.post("/api/dct/get-dct-clients", finalData, config);
     dispatch({
       type: DCT_CLIENTS,
       payload: res.data.result1,
     });
-  } catch (err) {
-    dispatch({
-      type: ERROR,
-    });
-  }
-};
 
-export const getDctClientDetailsDD = (finalData) => async (dispatch) => {
-  try {
-    const res = await axios.post("/api/dct/get-dct-clients", finalData, config);
-    dispatch({
-      type: DCT_CLIENTS_DD,
-      payload: res.data.result1,
-    });
     if (finalData === undefined || (finalData && finalData.emp !== true)) {
       dispatch({
         type: DCT_CLIENTS_EMP,
         payload: res.data.result2,
       });
     }
+
+    dispatch({
+      type: "DCT_CLIENTS_LOADED"
+    })
   } catch (err) {
     dispatch({
       type: ERROR,
@@ -675,18 +662,18 @@ export const getSelectedLead = (finalData) => async (dispatch) => {
   }
 };
 
-export const getStaffsData = (finalData) => async (dispatch) => {
+export const getStaffsData = (finalData) => async (dispatch) => { //Joel 18-07-2023 conditional change
   try {
     let res = [];
-    if (finalData.staffFrom === "lead") {
+    if (finalData.staffFrom === "TestClient" || finalData.staffFrom === "RegularClient") {
       res = await axios.post(
-        "/api/dct/get-lead-staffs-data",
+        "/api/dct/get-client-staffs-data",
         finalData,
         config
       );
-    } else if (finalData.staffFrom === "client") {
+    } else {
       res = await axios.post(
-        "/api/dct/get-client-staffs-data",
+        "/api/dct/get-lead-staffs-data",
         finalData,
         config
       );

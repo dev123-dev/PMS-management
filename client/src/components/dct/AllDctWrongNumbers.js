@@ -7,11 +7,9 @@ import Select from "react-select";
 import Clock from "react-live-clock";
 import {
   getDctLeadDetails,
-  getDctLeadDetailsDD,
   getLastmessage,
 } from "../../actions/dct";
 import AllContacts from "./AllContacts";
-import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
@@ -19,18 +17,14 @@ import { getActiveCountry } from "../../actions/regions";
 import { CSVLink } from "react-csv";
 const AllDctWrongNumbers = ({
   auth: { isAuthenticated, user, users },
-  dct: { allLeads, allLeadsDD, allLeadsEmp },
+  dct: { allLeads, dctLeadsLoading },
   regions: { activeCountry },
   getDctLeadDetails,
   getActiveCountry,
-  getDctLeadDetailsDD,
   getLastmessage,
 }) => {
   useEffect(() => {
     getDctLeadDetails({ dctLeadCategory: "W" });
-  }, []);
-  useEffect(() => {
-    getDctLeadDetailsDD({ dctLeadCategory: "P" });
   }, []);
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
@@ -152,7 +146,6 @@ const AllDctWrongNumbers = ({
     getcountryData(e);
     getcountryIdData(e.countryId);
     getDctLeadDetails({ countryId: e.countryId, dctLeadCategory: "W" });
-    getDctLeadDetailsDD({ countryId: e.countryId, dctLeadCategory: "W" });
     setFilterData({ countryId: e.countryId, dctLeadCategory: "W" });
   };
 
@@ -160,7 +153,7 @@ const AllDctWrongNumbers = ({
     getcountryData("");
     getcountryIdData("");
     getDctLeadDetails({ dctLeadCategory: "W" });
-    getDctLeadDetailsDD({ dctLeadCategory: "W" });
+
     setFilterData({ dctLeadCategory: "W" });
     ondivcloseChange(true);
     setcolorData("");
@@ -275,11 +268,18 @@ const AllDctWrongNumbers = ({
             </div>
 
             <div className="col-lg-8 col-md-11 col-sm-12 col-11 py-2">
+              {
+                dctLeadsLoading ? (<img
+                  src={require("../../static/images/Refresh-Loader.gif")}
+                  alt="Loading..." />) : (<></>)
+              }
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
               >
-                Refresh
+                {
+                  dctLeadsLoading ? "Loading" : "Refresh"
+                }
               </button>
               <CSVLink
                 className="secondlinebreak"
@@ -397,27 +397,10 @@ const AllDctWrongNumbers = ({
                   <AllContacts
                     leadDataVal={leadData}
                     ondivcloseChange={ondivcloseChange}
-                    from="lead"
+                    from="WrongNumber"
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
                   />
-                </div>
-              </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
-                <div
-                  className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "33vh" }}
-                >
-                  <label className="sidePartHeading ">Status</label>
-                  {showdateselectionSection && (
-                    <AllStatuschange
-                      leadDataVal={leadData}
-                      ondivcloseChange={ondivcloseChange}
-                      filterData={filterData}
-                      from={leadData.dctLeadCategory}
-                      page="AllWrongNumber"
-                    />
-                  )}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
@@ -426,7 +409,7 @@ const AllDctWrongNumbers = ({
                   style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
-                    Last Message Details
+                    Last Call History
                   </label>
                   {showdateselectionSection && (
                     <LastMessageDetails
@@ -517,7 +500,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getDctLeadDetails,
-  getDctLeadDetailsDD,
   getActiveCountry,
   getLastmessage,
 })(AllDctWrongNumbers);

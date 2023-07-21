@@ -13,40 +13,34 @@ const AllStatuschange = ({
   auth: { isAuthenticated, user, users, loading },
   dct: { staffData },
   leadDataVal,
-  addDctCalls,
-  addDctClientCalls,
   ondivcloseChange,
   from,
   page,
   filterData,
   getStaffsData,
 }) => {
-  let staffFilter = { staffFrom: from, leadDataVal: leadDataVal };
-  useEffect(() => {
-    getStaffsData(staffFilter);
-  }, [leadDataVal]);
-  //Category
 
-  let CategoryMethods = [
-    { value: "Hot", label: "Hot" },
-    { value: "Normal", label: "Normal" },
-    { value: "Cool", label: "Cool" },
-  ];
+  // When a Client is Selected *leadDataVal* gets the new selected client, useEffect is Triggered
+  useEffect(() => {
+    resetStatusData();
+    getStaffsData({ staffFrom: from, leadDataId: leadDataVal._id }); // Joel 18-07-2023 Only need to pass Lead Id not the whole Lead Object to get Staff Data
+  }, [leadDataVal]);
 
   let StatusMethods = [
     { value: "VoiceMail", label: "Voice Mail" },
     { value: "CallBack", label: "Call Back" },
     { value: "DND", label: "DND" },
     { value: "NI", label: "NI" },
-    { value: "WrongNumber", label: "WrongNumber" },
+    { value: "WrongNumber", label: "Wrong No" },
     { value: "FollowUp", label: "Follow Up" },
     { value: "TestClient", label: "Test Client" },
     { value: "RegularClient", label: "Regular Client" },
   ];
 
-  let StatusMethodsforwrongnumber = [{ value: "CallBack", label: "Call Back" }];
+  let StatusMethodsForWrongNumber = [{ value: "CallBack", label: "Call Back" }];
 
-  if (from === "FollowUp" || from === "F") {
+  // Status Filter based on Follow Up, Test Client and Regular Client
+  if (from === "FollowUp") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) => StatusMethods.value !== "FollowUp"
     );
@@ -64,78 +58,72 @@ const AllStatuschange = ({
         StatusMethods.value !== "RegularClient"
     );
   }
-  //formData
+
   const [formData, setFormData] = useState({
     callStatus: "",
-    dctLeadsCategory: "",
-    labeldata: "",
+    callToStaff: "",
+    nextCallDate: "",
     callNote: "",
-    isSubmitted: false,
+    isSubmitted: false
   });
-  const { callNote, callStatus, dctLeadsCategory } = formData;
-  //For setting mindate as todays date
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth() + 1;
-  var yyyy = today.getFullYear();
-  if (dd < 10) {
-    dd = "0" + dd;
-  }
-  if (mm < 10) {
-    mm = "0" + mm;
-  }
-  var todayDateymd = yyyy + "-" + mm + "-" + dd;
-  //for next month
-  var d = new Date(todayDateymd);
+  const { callStatus, callToStaff, nextCallDate, callNote } = formData;
+
+  // Next Month
+  var d = new Date();
   d.setMonth(d.getMonth() + 1);
   var nextmonth = d.toISOString().split("T")[0];
-  //for next year
-  var d1 = new Date(todayDateymd);
+  // End Next Month
+
+  // Next Year
+  var d1 = new Date();
   d1.setFullYear(d1.getFullYear() + 1);
   var nextyear = d1.toISOString().split("T")[0];
-  //next day
-  var d2 = new Date(todayDateymd);
+  // End Next Year
+
+  // Next Day 
+  var d2 = new Date();
   d2.setDate(d2.getDate() + 1);
   var nextday = d2.toISOString().split("T")[0];
+  // End Next Day
 
-  //less than today
-  var d3 = new Date(todayDateymd);
+  // Today's Date
+  var d3 = new Date();
   d3.setDate(d3.getDate());
   var todaydate = d3.toISOString().split("T")[0];
-  //ends
+  // End Today's Date
 
   //Required Validation Starts
   const [error, setError] = useState({
-    statusmodeIdChecker: false,
-    statusmodeIdErrorStyle: {},
-    stafftypeIdChecker: false,
-
-    stafftypeIdErrorStyle: {},
+    callStatusSelectedChecker: false,
+    callStatusErrorStyle: {},
+    callStaffSelectedChecker: false,
+    callStaffErrorStyle: {},
   });
   const {
-    statusmodeIdChecker,
-    statusmodeIdErrorStyle,
-    stafftypeIdChecker,
-    stafftypeIdErrorStyle,
+    callStatusSelectedChecker,
+    callStatusErrorStyle,
+    callStaffSelectedChecker,
+    callStaffErrorStyle,
   } = error;
 
   const checkErrors = () => {
-    if (!statusmodeIdChecker) {
+    if (!callStatusSelectedChecker) {
       setError({
         ...error,
-        statusmodeIdErrorStyle: { color: "#F00" },
+        callStatusErrorStyle: { color: "#F00" },
       });
       return false;
     }
-    if (!stafftypeIdChecker) {
+    if (!callStaffSelectedChecker) {
       setError({
         ...error,
-        stafftypeIdErrorStyle: { color: "#F00" },
+        callStaffErrorStyle: { color: "#F00" },
       });
       return false;
     }
     return true;
   };
+  // Required Validation Ends
 
   const allStaff = [];
   staffData &&
@@ -151,131 +139,122 @@ const AllStatuschange = ({
           value: staffs.staffName,
         })
     );
-  const [staffs, getstaffsData] = useState("");
-  const [phone1, getphone1Data] = useState("");
-  const [staffsNumber, getstaffsNumberData] = useState("");
 
   const onStaffChange = (e) => {
-    //  Required Validation starts
+    //  Required Validation Starts
     setError({
       ...error,
-      stafftypeIdChecker: true,
-      stafftypeIdErrorStyle: { color: "#000" },
+      callStaffSelectedChecker: true,
+      callStaffErrorStyle: { color: "#000" },
     });
-    // Required Validation ends
+    // Required Validation Ends   
 
-    getstaffsData(e);
-    var staffsNumber = "";
-    var phone1 = "";
-    staffsNumber = e.staffsNumber;
-    phone1 = e.phone1;
-    getphone1Data(phone1);
-    getstaffsNumberData(staffsNumber);
+    setFormData({
+      ...formData,
+      callToStaff: e
+    });
   };
-  const [startStatusDate, setStatusDate] = useState("");
+
   const onDateChange = (e) => {
-    setStatusDate(e.target.value);
+    setFormData({
+      ...formData,
+      nextCallDate: e.target.value
+    });
   };
 
   const [showHide, setShowHide] = useState({
-    showdateselectionSection: true,
-    showLeadCategory: false,
+    showDateSelectionSection: true
   });
 
-  const { showdateselectionSection, showLeadCategory } = showHide;
+  const { showDateSelectionSection } = showHide;
 
   const onStatusTypeChange = (e) => {
     //Required Validation starts
     setError({
       ...error,
-      statusmodeIdChecker: true,
-      statusmodeIdErrorStyle: { color: "#000" },
+      callStatusSelectedChecker: true,
+      callStatusErrorStyle: { color: "#000" },
     });
-    //Required Validation ends
+    //Required Validation ends 
 
-    if (e) {
-      setFormData({
-        ...formData,
-        callStatus: e,
-      });
-    }
-    if (e.value === "DND") {
-      setFormData({
-        ...formData,
-        callStatus: e,
-      });
-      setStatusDate(nextmonth);
-      setShowHide({
-        ...showHide,
-        showdateselectionSection: true,
-        showLeadCategory: false,
-      });
-    } else if (e.value === "NI") {
-      setFormData({
-        ...formData,
-        callStatus: e,
-      });
-      setStatusDate(nextyear);
-      setShowHide({
-        ...showHide,
-        showdateselectionSection: true,
-        showLeadCategory: false,
-      });
-    } else if (e.value === "CallBack") {
-      setFormData({
-        ...formData,
-        callStatus: e,
-      });
-      setStatusDate("");
-      setShowHide({
-        ...showHide,
-        showdateselectionSection: true,
-        showLeadCategory: true,
-      });
-    } else if (e.value === "WrongNumber") {
-      setFormData({
-        ...formData,
-        callStatus: e,
-      });
-      setStatusDate("");
-      setShowHide({
-        ...showHide,
-        showdateselectionSection: true,
-        showLeadCategory: false,
-      });
-    } else if (e.value === "VoiceMail") {
-      setFormData({
-        ...formData,
-        callStatus: e,
-      });
-      setStatusDate(nextday);
-      setShowHide({
-        ...showHide,
-        showdateselectionSection: true,
-        showLeadCategory: false,
-      });
-    } else if (e.value === "FollowUp") {
-      setFormData({
-        ...formData,
-        callStatus: e,
-      });
-      setStatusDate("");
-      setShowHide({
-        ...showHide,
-        showdateselectionSection: true,
-        showLeadCategory: false,
-      });
-    } else {
-      setFormData({
-        ...formData,
-        callStatus: e,
-      });
-      setStatusDate("");
-      setShowHide({
-        ...showHide,
-        showdateselectionSection: false,
-        showLeadCategory: false,
-      });
+    switch (e.value) {
+      case "DND":
+        setFormData({
+          ...formData,
+          callStatus: e,
+          nextCallDate: nextmonth
+        });
+        setShowHide({
+          ...showHide,
+          showDateSelectionSection: true
+        });
+        break;
+      case "NI":
+        setFormData({
+          ...formData,
+          callStatus: e,
+          nextCallDate: nextyear
+        });
+        setShowHide({
+          ...showHide,
+          showDateSelectionSection: true
+        });
+        break;
+      case "CallBack":
+        setFormData({
+          ...formData,
+          callStatus: e,
+          nextCallDate: ""
+        });
+        setShowHide({
+          ...showHide,
+          showDateSelectionSection: true
+        });
+        break;
+      case "WrongNumber":
+        setFormData({
+          ...formData,
+          callStatus: e,
+          nextCallDate: ""
+        });
+        setShowHide({
+          ...showHide,
+          showDateSelectionSection: true
+        });
+        break;
+      case "VoiceMail":
+        setFormData({
+          ...formData,
+          callStatus: e,
+          nextCallDate: nextday
+        });
+        setShowHide({
+          ...showHide,
+          showDateSelectionSection: true
+        });
+        break;
+      case "FollowUp":
+        setFormData({
+          ...formData,
+          callStatus: e,
+          nextCallDate: ""
+        });
+        setShowHide({
+          ...showHide,
+          showDateSelectionSection: true
+        });
+        break;
+      default:
+        setFormData({
+          ...formData,
+          callStatus: e,
+          nextCallDate: ""
+        });
+        setShowHide({
+          ...showHide,
+          showDateSelectionSection: false
+        });
+        break;
     }
   };
 
@@ -283,134 +262,85 @@ const AllStatuschange = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onLeadCategoryChange = (e) => {
-    if (e) {
-      setFormData({
-        ...formData,
-        dctLeadsCategory: e,
-      });
-    }
-  };
-
   const onSubmit = (e) => {
-    let callCategoryVal = null;
-    let callComeFromVal = "Lead";
-    if (from === "TestClient" || from === "RegularClient")
-      callComeFromVal = "Client";
-    if (callStatus.value === "FollowUp") {
-      callCategoryVal = "F";
-    } else if (dctLeadsCategory !== "") {
-      if (from === "TestClient") {
-        callCategoryVal = "TC";
-      } else if (from === "RegularClient") {
-        callCategoryVal = "RC";
-      } else if (from === "FollowUp") {
-        callCategoryVal = "F";
-      } else {
-        callCategoryVal = "PT";
-      }
-      // } else if (callStatus.value === "WrongNumber") {
-      //   callCategoryVal = "W";
-    } else if (callStatus.value === "TestClient") {
-      callCategoryVal = "TC";
-      // clientTypeVal = "Engaged";
-    } else if (callStatus.value === "RegularClient") {
-      callCategoryVal = "RC";
-      // clientTypeVal = "Regular";
-    } else if (callStatus.value === "RegularClient") {
-      callCategoryVal = "RC";
-      // clientTypeVal = "Regular";
-    } else if (callStatus.value === "WrongNumber") {
-      callCategoryVal = "W";
-    } else if (callStatus.value === "CallBack") {
-      if (from === "W") {
-        callCategoryVal = "P";
-      }
-    }
-
-    // else if (callStatus.value === "CallBack") {
-    //   callCategoryVal = "P";
-    // }
-    else if (callStatus.value === "TestClient") {
-      callCategoryVal = "TC";
-    } else if (callStatus.value === "RegularClient") {
-      callCategoryVal = "RC";
-    } else {
-      if (leadDataVal.dctLeadCategory === "NL") callCategoryVal = "P";
-      else {
-        if (from === "TestClient" || from === "RegularClient")
-          callCategoryVal = leadDataVal.dctClientCategory;
-        else callCategoryVal = leadDataVal.dctLeadCategory;
-      }
-    }
-    console.log("callCategoryVal", callCategoryVal);
-    console.log("callStatus.value", callStatus.value);
-    console.log("from", from);
     e.preventDefault();
+    let callComeFromVal = from;
+    let callCategoryVal = "";
+
+    if (callStatus.value === "VoiceMail" ||
+      callStatus.value === "CallBack" ||
+      callStatus.value === "DND" ||
+      callStatus.value === "NI") {
+      if (callComeFromVal === "Prospect")
+        callCategoryVal = "P";
+      else if (callComeFromVal === "FollowUp")
+        callCategoryVal = "F";
+      else if (callComeFromVal === "WrongNumber")
+        callCategoryVal = "W";
+      else if (callComeFromVal === "TestClient")
+        callCategoryVal = "TC";
+      else if (callComeFromVal === "RegularClient")
+        callCategoryVal = "RC";
+    }
+    else if (callStatus.value === "WrongNumber")
+      callCategoryVal = "W"
+    else if (callStatus.value === "FollowUp") {
+      callCategoryVal = "F"
+    }
+    else if (callStatus.value === "TestClient")
+      callCategoryVal = "TC"
+    else if (callStatus.value === "RegularClient")
+      callCategoryVal = "RC"
+
     if (checkErrors()) {
       const finalData = {
         callToId: leadDataVal._id,
         callToName: leadDataVal.companyName,
-        callToNumber: staffsNumber ? staffsNumber : phone1,
-        callToStaffId: staffs.staffsId,
-        callToStaffName: staffs.value,
+        callToNumber: callToStaff.staffsNumber !== "" ? callToStaff.staffsNumber : callToStaff.phone1,
+        callToStaffId: callToStaff.staffsId,
+        callToStaffName: callToStaff.value,
         callFromId: user._id,
         callFromName: user.userName,
         callCategory: callCategoryVal,
         callStatus: callStatus.value,
-        // dctLeadsCategory: dctLeadsCategory ? dctLeadsCategory.value : "",
-        dctLeadsCategory: dctLeadsCategory
-          ? dctLeadsCategory.value
-          : leadDataVal.dctLeadsCategory
-          ? leadDataVal.dctLeadsCategory
-          : "",
-        callDate: startStatusDate || todayDateymd,
+        dctLeadsCategory: "",
+        callDate: nextCallDate,
         callNote: callNote?.trim(),
         callComeFrom: callComeFromVal,
         callTakenDate: new Date().toISOString().split("T")[0],
         callEnteredDateTime: new Date().toLocaleString("en-GB"),
         filterData: filterData,
       };
-      //console.log("finaldata", finalData);
+
       if (from === "TestClient" || from === "RegularClient") {
         addDctClientCalls(finalData);
       } else {
         addDctCalls(finalData);
       }
-      setFormData({
-        ...formData,
-        callStatus: "",
-        dctLeadsCategory: "",
-        callDate: "",
-        callNote: "",
-        isSubmitted: true,
-      });
+
       ondivcloseChange(true);
-      setStatusDate("");
-      getstaffsData("");
+      resetStatusData();
     }
   };
 
-  useEffect(() => {
-    setStatusDate("");
-    getstaffsData("");
+  const resetStatusData = () => {
     setFormData({
       ...formData,
       callStatus: "",
-      dctLeadsCategory: "",
-      callDate: "",
+      callToSatff: "",
+      nextCallDate: "",
       callNote: "",
     });
-  }, [leadDataVal]);
+  }
 
-  return !isAuthenticated || !user  ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
       <form className="row" onSubmit={(e) => onSubmit(e)}>
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12 fixTableHeadstatusDCT">
           <div className="col-lg-4 col-md-12 col-sm-12 col-12 headingTop">
-            <label className="label-control" style={statusmodeIdErrorStyle}>
+            <label className="label-control" style={callStatusErrorStyle}>
               Status :
             </label>
             {page === "AllWrongNumber" ? (
@@ -418,7 +348,7 @@ const AllStatuschange = ({
                 {" "}
                 <Select
                   name="callStatus"
-                  options={StatusMethodsforwrongnumber}
+                  options={StatusMethodsForWrongNumber}
                   isSearchable={false}
                   value={callStatus}
                   placeholder="Select"
@@ -461,7 +391,7 @@ const AllStatuschange = ({
           </div>
 
           <div className="col-lg-4 col-md-12 col-sm-12 col-12 headingTop">
-            <label className="label-control" style={stafftypeIdErrorStyle}>
+            <label className="label-control" style={callStaffErrorStyle}>
               Staff :
             </label>
 
@@ -469,17 +399,17 @@ const AllStatuschange = ({
               name="staffName"
               options={allStaff}
               isSearchable={true}
-              value={staffs}
+              value={callToStaff}
               placeholder="Select"
               onChange={(e) => onStaffChange(e)}
               required
             />
           </div>
           <div className=" col-lg-4 col-md-12 col-sm-12 col-12 headingTop ">
-            {showdateselectionSection && (
+            {showDateSelectionSection && (
               <>
                 <label className="label-control">
-                  {callStatus && callStatus.label} Date
+                  {callStatus.label} Date :
                 </label>
 
                 <input
@@ -488,7 +418,7 @@ const AllStatuschange = ({
                   className="form-control cpp-input datevalidation"
                   name="callDate"
                   min={todaydate}
-                  value={startStatusDate}
+                  value={nextCallDate}
                   onChange={(e) => onDateChange(e)}
                   style={{
                     width: "100%",
@@ -499,96 +429,41 @@ const AllStatuschange = ({
             )}
           </div>
 
-          {showLeadCategory &&
-          from !== "FollowUp" &&
-          from !== "TestClient" &&
-          from !== "RegularClient" &&
-          from !== "W" ? (
-            <div className="col-lg-4 col-md-12 col-sm-12 col-12 notesTop">
-              <label className="label-control">Category :</label>
-              <Select
-                name="dctLeadsCategory"
-                options={CategoryMethods}
-                isSearchable={true}
-                value={dctLeadsCategory}
-                placeholder="Select"
-                onChange={(e) => onLeadCategoryChange(e)}
+
+          <div className="col-lg-8 col-md-12 col-sm-12 col-12 notesTop">
+            <label className="label-control"> Notes :</label>
+            <textarea
+              name="callNote"
+              id="callNote"
+              className="textarea "
+              rows="3"
+              placeholder="Notes"
+              style={{ width: "100%" }}
+              value={callNote}
+              onChange={(e) => onInputChange(e)}
+              required
+            ></textarea>
+          </div>
+
+          <div className="col-lg-4 col-md-12 col-sm-12 col-12 mt-5">
+            <br />
+            {loading ? (
+              <button
+                className="btn sub_form btn_continue blackbrd Save float-right submitTop"
+                disabled
+              >
+                Loading...
+              </button>
+            ) : (
+              <input
+                type="submit"
+                name="Submit"
+                value="Submit"
+                className="btn sub_form btn_continue blackbrd Save float-right submitTop"
               />
-            </div>
-          ) : (
-            <></>
-          )}
-          {showLeadCategory && showLeadCategory ? (
-            <div className="col-lg-5 col-md-12 col-sm-12 col-12 notesTop">
-              <label className="label-control"> Notes :</label>
-              <textarea
-                name="callNote"
-                id="callNote"
-                className="textarea "
-                rows="3"
-                cols="5"
-                placeholder="Notes"
-                style={{ width: "100%" }}
-                value={callNote}
-                onChange={(e) => onInputChange(e)}
-                required
-              ></textarea>
-            </div>
-          ) : (
-            <div className="col-lg-8 col-md-12 col-sm-12 col-12 notesTop">
-              <label className="label-control"> Notes :</label>
-              <textarea
-                name="callNote"
-                id="callNote"
-                className="textarea "
-                rows="3"
-                placeholder="Notes"
-                style={{ width: "100%" }}
-                value={callNote}
-                onChange={(e) => onInputChange(e)}
-                required
-              ></textarea>
-            </div>
-          )}
-          {showLeadCategory && showLeadCategory ? (
-            <div className="col-lg-3 col-md-12 col-sm-12 col-12 mt-5">
-              <br />
-              {loading ? (
-                <button
-                  className="btn sub_form btn_continue blackbrd Save float-right submitTop"
-                  disabled
-                >
-                  Loading...
-                </button>
-              ) : (
-                <input
-                  type="submit"
-                  name="Submit"
-                  value="Submit"
-                  className="btn sub_form btn_continue blackbrd Save float-right submitTop"
-                />
-              )}
-            </div>
-          ) : (
-            <div className="col-lg-4 col-md-12 col-sm-12 col-12 mt-5">
-              <br />
-              {loading ? (
-                <button
-                  className="btn sub_form btn_continue blackbrd Save float-right submitTop"
-                  disabled
-                >
-                  Loading...
-                </button>
-              ) : (
-                <input
-                  type="submit"
-                  name="Submit"
-                  value="Submit"
-                  className="btn sub_form btn_continue blackbrd Save float-right submitTop"
-                />
-              )}
-            </div>
-          )}
+            )}
+          </div>
+
         </div>
       </form>
     </Fragment>

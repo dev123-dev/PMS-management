@@ -38,7 +38,7 @@ const LastMessageDetails = ({
     callDate = [ED[2], ED[1], ED[0]].join("-");
   }
 
-  return !isAuthenticated || !user  ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -64,9 +64,9 @@ const LastMessageDetails = ({
               rows="2"
               placeholder="Notes"
               style={{ width: "100%" }}
-              value={lastMsg && lastMsg.callNote}
+              value={lastMsg && lastMsg.callNote ? lastMsg.callNote : ""}
               disabled
-              // editable={false}
+            // editable={false}
             ></textarea>
           </Link>
         </div>

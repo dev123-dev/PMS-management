@@ -41,18 +41,17 @@ const ClientCallHistory = ({
                   var ED1 = callHistory.callTakenDate.split(/\D/g);
                   callTakenDate = [ED1[2], ED1[1], ED1[0]].join("-");
                 }
+                var callCategory = "";
                 if (callHistory.callCategory === "F") {
-                  var callCategory = "Followup";
+                  callCategory = "Followup";
                 } else if (callHistory.callCategory === "P") {
-                  var callCategory = "Prospects";
+                  callCategory = "Prospect";
                 } else if (callHistory.callCategory === "TC") {
-                  var callCategory = "TestClient";
+                  callCategory = "TestClient";
                 } else if (callHistory.callCategory === "W") {
-                  var callCategory = "Prospects";
-                } else if (callHistory.callCategory === "PT") {
-                  var callCategory = "PotentialClient";
-                } else {
-                  var callCategory = "RegularClient";
+                  callCategory = "WrongNumber";
+                } else if (callHistory.callCategory === "RC") {
+                  callCategory = "RegularClient";
                 }
                 return (
                   <tr key={idx}>

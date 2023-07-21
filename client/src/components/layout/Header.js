@@ -124,10 +124,10 @@ const Header = ({
               <Nav className="mr-auto navbar_Collapse_content">
                 <NavItem>
                   {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  user.userGroupName &&
-                  user.userGroupName !== "Sct Marketing" ? (
+                    isAuthenticated &&
+                    user &&
+                    user.userGroupName &&
+                    user.userGroupName !== "Sct Marketing" ? (
                     <NavLink
                       to="/job-queue"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -142,13 +142,13 @@ const Header = ({
                 <NavItem>
                   {/* SLAP UserGroupRights */}
                   {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin" ||
-                    user.userGroupName === "Clarical Admins" ||
-                    user.userGroupName === "Marketing") ? (
+                    isAuthenticated &&
+                    user &&
+                    ((user.userGroupName &&
+                      user.userGroupName === "Administrator") ||
+                      user.userGroupName === "Super Admin" ||
+                      user.userGroupName === "Clarical Admins" ||
+                      user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/daily-job-sheet"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -161,12 +161,12 @@ const Header = ({
                 </NavItem>
                 <NavItem>
                   {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin" ||
-                    user.userGroupName === "Marketing") ? (
+                    isAuthenticated &&
+                    user &&
+                    ((user.userGroupName &&
+                      user.userGroupName === "Administrator") ||
+                      user.userGroupName === "Super Admin" ||
+                      user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/all-Amendments"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -179,11 +179,11 @@ const Header = ({
                 </NavItem>
                 <NavItem>
                   {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
+                    isAuthenticated &&
+                    user &&
+                    ((user.userGroupName &&
+                      user.userGroupName === "Administrator") ||
+                      user.userGroupName === "Super Admin") ? (
                     <NavLink
                       to="/job-verification"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -197,11 +197,11 @@ const Header = ({
 
                 <NavItem>
                   {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin") ? (
+                    isAuthenticated &&
+                    user &&
+                    ((user.userGroupName &&
+                      user.userGroupName === "Administrator") ||
+                      user.userGroupName === "Super Admin") ? (
                     <NavLink
                       to="/billing"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -213,14 +213,14 @@ const Header = ({
                   )}
                 </NavItem>
                 {!loading &&
-                isAuthenticated &&
-                user &&
-                ((user.userGroupName &&
-                  user.userGroupName === "Administrator") ||
-                  user.userGroupName === "Super Admin" ||
-                  user.userGroupName === "Dct Marketing" ||
-                  user.userGroupName === "Marketing" ||
-                  user.empCtAccess === "All") ? (
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin" ||
+                    user.userGroupName === "Dct Marketing" ||
+                    user.userGroupName === "Marketing" ||
+                    user.empCtAccess === "All") ? (
                   <Dropdown title="DCT">
                     <NavLink
                       to="/all-leads"
@@ -234,12 +234,12 @@ const Header = ({
                     >
                       <Dropdown.Item>All Prospects</Dropdown.Item>
                     </NavLink>
-                    <NavLink
+                    {/* <NavLink  // Joel 18-07-2023 discarded not required for DCT confirmed with ARKA, VINAYAK 
                       to="/all-dct-potentials"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
                       <Dropdown.Item>All Potentials</Dropdown.Item>
-                    </NavLink>
+                    </NavLink> */}  
                     <NavLink
                       to="/all-followup"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -289,13 +289,13 @@ const Header = ({
                 )}
 
                 {!loading &&
-                isAuthenticated &&
-                user &&
-                ((user.userGroupName &&
-                  user.userGroupName === "Administrator") ||
-                  user.userGroupName === "Super Admin" ||
-                  user.userGroupName === "Sct Marketing" ||
-                  user.userGroupName === "Marketing") ? (
+                  isAuthenticated &&
+                  user &&
+                  ((user.userGroupName &&
+                    user.userGroupName === "Administrator") ||
+                    user.userGroupName === "Super Admin" ||
+                    user.userGroupName === "Sct Marketing" ||
+                    user.userGroupName === "Marketing") ? (
                   <Dropdown title="SCT">
                     <NavLink
                       to="/all-sct-leads"
@@ -403,17 +403,29 @@ const Header = ({
                 )}
 
                 {!loading &&
-                isAuthenticated &&
-                user &&
-                ((user.userGroupName &&
-                  user.userGroupName === "Administrator") ||
-                  user.userGroupName === "Super Admin") ? (
+                  isAuthenticated &&
+                  user &&
+                  (user.userGroupName &&
+                    (user.userGroupName === "Administrator" ||
+                      user.userGroupName === "Super Admin" ||
+                      user._id === "62adae375b6aaf82ce15a1d5")) ? (
                   <Dropdown title="Reports">
+                    {
+                      (user.userGroupName === "Administrator" ||
+                        user.userGroupName === "Super Admin") ? (
+                        <NavLink
+                          to="/client-report-detail"
+                          activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                        >
+                          <Dropdown.Item>Client Report </Dropdown.Item>
+                        </NavLink>
+                      ) : (<></>)
+                    }
                     <NavLink
-                      to="/client-report-detail"
+                      to="/inactive-clients"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >
-                      <Dropdown.Item>Client Report </Dropdown.Item>
+                      <Dropdown.Item>Inactive Clients</Dropdown.Item>
                     </NavLink>
                   </Dropdown>
                 ) : (
@@ -422,14 +434,14 @@ const Header = ({
 
                 <NavItem>
                   {!loading &&
-                  isAuthenticated &&
-                  user &&
-                  ((user.userGroupName &&
-                    user.userGroupName === "Administrator") ||
-                    user.userGroupName === "Super Admin" ||
-                    user.userGroupName === "Sct Marketing" ||
-                    user.userGroupName === "Clarical Admins" ||
-                    user.userGroupName === "Marketing") ? (
+                    isAuthenticated &&
+                    user &&
+                    ((user.userGroupName &&
+                      user.userGroupName === "Administrator") ||
+                      user.userGroupName === "Super Admin" ||
+                      user.userGroupName === "Sct Marketing" ||
+                      user.userGroupName === "Clarical Admins" ||
+                      user.userGroupName === "Marketing") ? (
                     <NavLink
                       to="/all-Enquiry"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -463,10 +475,10 @@ const Header = ({
                         {(user &&
                           user.userGroupName &&
                           user.userGroupName === "Administrator") ||
-                        user.userGroupName === "Super Admin" ||
-                        user.userGroupName === "Marketing" ||
-                        user.userGroupName === "Sct Marketing" ||
-                        user.userGroupName === "Dct Marketing" ? (
+                          user.userGroupName === "Super Admin" ||
+                          user.userGroupName === "Marketing" ||
+                          user.userGroupName === "Sct Marketing" ||
+                          user.userGroupName === "Dct Marketing" ? (
                           <>
                             <li>
                               <Link to="/all-Region">All Region</Link>
@@ -482,9 +494,9 @@ const Header = ({
                         {(user &&
                           user.userGroupName &&
                           user.userGroupName === "Administrator") ||
-                        user.userGroupName === "Super Admin" ||
-                        user.userGroupName === "Marketing" ||
-                        user.userGroupName === "Clarical Admins" ? (
+                          user.userGroupName === "Super Admin" ||
+                          user.userGroupName === "Marketing" ||
+                          user.userGroupName === "Clarical Admins" ? (
                           <>
                             <li>
                               <Link to="/all-dct-client">All Dct Clients</Link>
@@ -497,8 +509,8 @@ const Header = ({
                         {(user &&
                           user.userGroupName &&
                           user.userGroupName === "Administrator") ||
-                        user.userGroupName === "Super Admin" ||
-                        user.userGroupName === "Clarical Admins" ? (
+                          user.userGroupName === "Super Admin" ||
+                          user.userGroupName === "Clarical Admins" ? (
                           <li>
                             <Link to="/all-staff">All Staff</Link>
                           </li>
@@ -509,7 +521,7 @@ const Header = ({
                         {(user &&
                           user.userGroupName &&
                           user.userGroupName === "Administrator") ||
-                        user.userGroupName === "Super Admin" ? (
+                          user.userGroupName === "Super Admin" ? (
                           <Fragment>
                             {" "}
                             <li>

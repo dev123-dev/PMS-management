@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const auth = require("../../middleware/auth");
+const Projects = require("../../models/Project");
 const DctLeads = require("../../models/dct/dctLeads");
 const DctCalls = require("../../models/dct/dctCalls");
 const DctClients = require("../../models/dct/dctClients");
@@ -410,92 +411,43 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
     clientsId,
     dctLeadCategory,
     assignedTo,
-    dctLeadsCategory,
     enteredBy,
   } = req.body;
 
-  const userInfo = await EmployeeDetails.findById(req.user.id).select(
-    "-password"
-  );
   let dctLeadAssignedToId = "";
-  if (userInfo.empCtAccess !== "All")
-    dctLeadAssignedToId = mongoose.Types.ObjectId(userInfo._id);
-  else {
-    if (assignedTo) {
-      dctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
-    } else {
-      dctLeadAssignedToId = { $ne: null };
-    }
-  }
-  var todayDate = new Date().toISOString().split("T")[0];
-  let catCondition = [];
-  if (dctLeadCategory == "P" || dctLeadCategory == "NL") {
-    catCondition = [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }];
-    condition = { dctLeadsCategory: { $eq: "" } };
-  } else if (dctLeadCategory == "PT") {
-    catCondition = [{ dctLeadCategory: "PT" }];
-    condition = { dctLeadsCategory: { $ne: "" } };
-  } else if (dctLeadCategory == "W") {
-    catCondition = [{ dctLeadCategory: "W" }, { dctLeadCategory: "W" }];
-  } else if (dctLeadCategory == "F") {
-    catCondition = [{ dctLeadCategory: "F" }, { dctLeadCategory: "F" }];
-  } else if (dctLeadCategory == "TC") {
-    catCondition = [{ dctLeadCategory: "TC" }, { dctLeadCategory: "TC" }];
+  if (assignedTo) {
+    dctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
+  } else {
+    dctLeadAssignedToId = { $ne: null };
   }
 
-  //////////////////////////////new code end///////////////
-  /////////////////////////////old code start
-  // if (dctLeadCategory == "P" || dctLeadCategory == "NL") {
-  //   catCondition = [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }];
-  // } else if (dctLeadCategory == "W") {
-  //   catCondition = [{ dctLeadCategory: "W" }, { dctLeadCategory: "W" }];
-  // } else if (dctLeadCategory == "F") {
-  //   catCondition = [{ dctLeadCategory: "F" }, { dctLeadCategory: "F" }];
-  // }
-  let query = {};
-  if (countryId) {
-    if (clientsId) {
-      query = {
-        dctLeadStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
-        _id: mongoose.Types.ObjectId(clientsId),
-        $or: catCondition,
-        dctCallDate: { $lte: todayDate },
-        dctLeadAssignedToId,
-      };
-    } else {
-      query = {
-        dctLeadStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
-        $or: catCondition,
-        dctCallDate: { $lte: todayDate },
-        dctLeadAssignedToId,
-      };
-    }
-  } else {
-    if (clientsId) {
-      query = {
-        dctLeadStatus: "Active",
-        _id: mongoose.Types.ObjectId(clientsId),
-        $or: catCondition,
-        dctCallDate: { $lte: todayDate },
-        dctLeadAssignedToId,
-      };
-    } else {
-      query = {
-        dctLeadStatus: "Active",
-        $or: catCondition,
-        dctCallDate: { $lte: todayDate },
-        dctLeadAssignedToId,
-      };
-    }
-  }
-  if (dctLeadsCategory) {
+  var todayDate = new Date().toISOString().split("T")[0];
+  let catCondition = [];
+  if (dctLeadCategory == "P")
+    catCondition = [{ dctLeadCategory: "P" }, { dctLeadCategory: "NL" }, { dctLeadCategory: "PT" }];  //PT - Potential FollowUps has been removed but if ARKA has made potential calls     
+  else if (dctLeadCategory == "W")
+    catCondition = [{ dctLeadCategory: "W" }, { dctLeadCategory: "W" }];
+  else if (dctLeadCategory == "F")
+    catCondition = [{ dctLeadCategory: "F" }, { dctLeadCategory: "F" }];
+
+  let query = {
+    dctLeadStatus: "Active",
+    $or: catCondition,
+    dctCallDate: { $lte: todayDate },
+    dctLeadAssignedToId,
+  };
+
+  if (countryId)
     query = {
       ...query,
-      dctLeadsCategory: dctLeadsCategory,
+      countryId: mongoose.Types.ObjectId(countryId)
     };
-  }
+
+  if (clientsId)
+    query = {
+      ...query,
+      _id: mongoose.Types.ObjectId(clientsId)
+    };
 
   if (enteredBy) {
     query = {
@@ -503,8 +455,6 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
       dctLeadEnteredByName: enteredBy,
     };
   }
-
-  // console.log("query",query)
   try {
     const getDctLeadsDetails = await DctLeads.find(query).sort({
       dctCallDate: -1,
@@ -521,23 +471,23 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
         },
       },
     ]).sort({ _id: 1 });
-    const getDctLeadsEmp1 = await DctLeads.aggregate([
+
+    const getDctLeadsEnteredBy = await DctLeads.aggregate([
       {
         $match: query,
       },
       {
         $group: {
-          _id: "$dctLeadEnteredById",
-          dctLeadEnteredByName: { $first: "$dctLeadEnteredByName" },
+          _id: "$dctLeadEnteredByName"
         },
       },
     ]).sort({ _id: 1 });
-    const resName = getDctLeadsEmp1.map((e) => e.dctLeadEnteredByName);
-    const resFinal = resName.filter((item, i, ar) => ar.indexOf(item) === i);
+
+    const resName = getDctLeadsEnteredBy.map((emp) => emp._id);
     res.json({
       result1: getDctLeadsDetails,
       result2: getDctLeadsEmp,
-      result3: resFinal,
+      result3: resName,
     });
   } catch (err) {
     console.error(err.message);
@@ -548,86 +498,41 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
 router.post("/get-all-dct-Leads", auth, async (req, res) => {
   let {
     countryId,
-    clientsId,
+    clientName,
     assignedTo,
     enteredBy,
-    recPerPage = 200,
     Pagedata = 0,
-    clientName,
+    recPerPage = 200,
   } = req.body;
   const page = Pagedata * recPerPage; //|| 200;
-  const userInfo = await EmployeeDetails.findById(req.user.id).select(
-    "-password"
-  );
-  let dctLeadAssignedToId = "";
-  if (userInfo.empCtAccess !== "All")
-    dctLeadAssignedToId = mongoose.Types.ObjectId(userInfo._id);
-  else {
-    if (assignedTo) {
-      dctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
-    } else {
-      dctLeadAssignedToId = { $ne: null };
-    }
-  }
-  let query = {};
 
-  if (countryId) {
-    if (clientsId) {
-      query = {
-        dctLeadStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
-        // _id: mongoose.Types.ObjectId(clientsId),
-        companyName: { $regex: clientName, $options: "i" },
-        $and: [
-          { dctLeadCategory: { $ne: "TC" } },
-          { dctLeadCategory: { $ne: "RC" } },
-        ],
-        dctLeadAssignedToId,
-      };
-    } else {
-      query = {
-        dctLeadStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
-        $and: [
-          { dctLeadCategory: { $ne: "TC" } },
-          { dctLeadCategory: { $ne: "RC" } },
-        ],
-        dctLeadAssignedToId,
-      };
-    }
+  let dctLeadAssignedToId = "";
+  if (assignedTo) {
+    dctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
   } else {
-    if (clientsId) {
-      query = {
-        dctLeadStatus: "Active",
-        _id: mongoose.Types.ObjectId(clientsId),
-        $and: [
-          { dctLeadCategory: { $ne: "TC" } },
-          { dctLeadCategory: { $ne: "RC" } },
-        ],
-        dctLeadAssignedToId,
-      };
-    }
-    if (clientName) {
-      query = {
-        dctLeadStatus: "Active",
-        companyName: { $regex: clientName, $options: "i" },
-        $and: [
-          { dctLeadCategory: { $ne: "TC" } },
-          { dctLeadCategory: { $ne: "RC" } },
-        ],
-        dctLeadAssignedToId,
-      };
-    } else {
-      query = {
-        dctLeadStatus: "Active",
-        $and: [
-          { dctLeadCategory: { $ne: "TC" } },
-          { dctLeadCategory: { $ne: "RC" } },
-        ],
-        dctLeadAssignedToId,
-      };
-    }
+    dctLeadAssignedToId = { $ne: null };
   }
+
+  let query = {
+    dctLeadStatus: "Active",
+    $and: [
+      { dctLeadCategory: { $ne: "TC" } },
+      { dctLeadCategory: { $ne: "RC" } },
+    ],
+    dctLeadAssignedToId,
+  };
+
+  if (countryId)
+    query = {
+      ...query,
+      countryId: mongoose.Types.ObjectId(countryId),
+    };
+
+  if (clientName)
+    query = {
+      ...query,
+      companyName: { $regex: clientName, $options: "i" },
+    };
 
   if (enteredBy) {
     query = {
@@ -635,10 +540,8 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
       dctLeadEnteredByName: enteredBy,
     };
   }
-  try {
-    //
-    // const recPerPage = req.body.recPerPage; //|| 200;
 
+  try {
     const getDctLeadsDetails = await DctLeads.find(query)
       .skip(page)
       .limit(recPerPage)
@@ -646,9 +549,9 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
         _id: -1,
       });
 
-    const getDctLeadsDetailsCont = await DctLeads.count(query);
+    const getDctLeadsDetailsCount = await DctLeads.count(query);
 
-    const getDctLeadsEmp = await DctLeads.aggregate([
+    const getDctLeadsAssignedEmp = await DctLeads.aggregate([
       {
         $match: query,
       },
@@ -659,26 +562,25 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
         },
       },
     ]).sort({ _id: 1 });
-    const getDctLeadsEmp1 = await DctLeads.aggregate([
+
+    const getDctLeadsEnteredBy = await DctLeads.aggregate([
       {
         $match: query,
       },
       {
         $group: {
-          _id: "$dctLeadEnteredById",
-          dctLeadEnteredByName: { $first: "$dctLeadEnteredByName" },
+          _id: "$dctLeadEnteredByName"
         },
       },
     ]).sort({ _id: 1 });
 
-    const resName = getDctLeadsEmp1.map((e) => e.dctLeadEnteredByName);
-    const resFinal = resName.filter((item, i, ar) => ar.indexOf(item) === i);
+    const arrLeadEnteredEmp = getDctLeadsEnteredBy.map((emp) => emp._id);
 
     res.json({
       result1: getDctLeadsDetails,
-      result2: getDctLeadsEmp,
-      result3: resFinal,
-      result4: getDctLeadsDetailsCont,
+      result2: getDctLeadsAssignedEmp,
+      result3: arrLeadEnteredEmp,
+      result4: getDctLeadsDetailsCount,
     });
   } catch (err) {
     console.error(err.message);
@@ -731,59 +633,35 @@ router.post("/transfer-lead", async (req, res) => {
 //CLIENT
 //TEST CLIENTS,REGULAR CLIENTS
 router.post("/get-dct-clients", auth, async (req, res) => {
+
   let { countryId, clientsId, dctClientCategory, assignedTo } = req.body;
-  const userInfo = await EmployeeDetails.findById(req.user.id).select(
-    "-password"
-  );
+
   let dctClientAssignedToId = "";
-  if (userInfo.empCtAccess !== "All")
-    dctClientAssignedToId = mongoose.Types.ObjectId(userInfo._id);
-  else {
-    if (assignedTo) {
-      dctClientAssignedToId = mongoose.Types.ObjectId(assignedTo);
-    } else {
-      dctClientAssignedToId = { $ne: null };
-    }
-  }
-  var todayDate = new Date().toISOString().split("T")[0];
-  let query = {};
-  if (countryId) {
-    if (clientsId) {
-      query = {
-        dctClientStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
-        _id: mongoose.Types.ObjectId(clientsId),
-        dctClientCategory: dctClientCategory,
-        dctCallDate: { $lte: todayDate },
-        dctClientAssignedToId,
-      };
-    } else {
-      query = {
-        dctClientStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
-        dctClientCategory: dctClientCategory,
-        dctCallDate: { $lte: todayDate },
-        dctClientAssignedToId,
-      };
-    }
+  if (assignedTo) {
+    dctClientAssignedToId = mongoose.Types.ObjectId(assignedTo);
   } else {
-    if (clientsId) {
-      query = {
-        dctClientStatus: "Active",
-        _id: mongoose.Types.ObjectId(clientsId),
-        dctClientCategory: dctClientCategory,
-        dctCallDate: { $lte: todayDate },
-        dctClientAssignedToId,
-      };
-    } else {
-      query = {
-        dctClientStatus: "Active",
-        dctClientCategory: dctClientCategory,
-        dctCallDate: { $lte: todayDate },
-        dctClientAssignedToId,
-      };
-    }
+    dctClientAssignedToId = { $ne: null };
   }
+
+  var todayDate = new Date().toISOString().split("T")[0];
+  let query = {
+    dctClientStatus: "Active",
+    dctClientCategory: dctClientCategory,
+    dctCallDate: { $lte: todayDate },
+    dctClientAssignedToId,
+  };
+
+  if (countryId)
+    query = {
+      ...query,
+      countryId: mongoose.Types.ObjectId(countryId),
+    }
+
+  if (clientsId)
+    query = {
+      ...query,
+      _id: mongoose.Types.ObjectId(clientsId),
+    }
 
   try {
     const getDctClientDetails = await DctClients.find(query).sort({
@@ -1025,11 +903,11 @@ router.post("/get-selected-lead", async (req, res) => {
 });
 
 router.post("/get-lead-staffs-data", async (req, res) => {
-  let { leadDataVal } = req.body;
+  let { leadDataId } = req.body;   // Only need to pass Lead Id not the whole Lead Object to get Staff Data
   let query = {};
-  if (leadDataVal) {
+  if (leadDataId) {
     query = {
-      _id: leadDataVal._id,
+      _id: leadDataId,
     };
   }
   try {
@@ -1042,11 +920,11 @@ router.post("/get-lead-staffs-data", async (req, res) => {
 });
 
 router.post("/get-client-staffs-data", async (req, res) => {
-  let { leadDataVal } = req.body;
+  let { leadDataId } = req.body;  // Joel 18-07-2023 Only need to pass Lead Id not the whole Lead Object to get Staff Data
   let query = {};
-  if (leadDataVal) {
+  if (leadDataId) {
     query = {
-      _id: leadDataVal._id,
+      _id: leadDataId,
     };
   }
   try {
@@ -1236,6 +1114,54 @@ router.post("/add-import-dct-lead-data", async (req, res) => {
           console.log(error);
         });
     });
+});
+
+//15-07-2023 client who have not been sending data for past 30 days 
+router.get("/inactive-clients", async (req, res) => {
+  try {
+    const regClientsSendWork = await Projects.aggregate([
+      {
+        $addFields:
+        {
+          projectDate: {
+            $toDate: "$projectDate",
+          },
+        },
+      },
+      {
+        $match:
+        {
+          projectStatus: {
+            $ne: "Trash",
+          },
+        },
+      },
+      {
+        $match:
+        {
+          projectDate: {
+            $gte: new Date(
+              Date.now() - 30 * 24 * 60 * 60 * 1000
+            ),
+          },
+        },
+      },
+      {
+        $group:
+        {
+          _id: "$clientName"
+        },
+      },
+    ]);
+
+    //Extract client names from the aggregation result into an array
+    const arrRegClientsSendWork = regClientsSendWork.map(doc => doc._id);
+
+    const result = await DctClients.find({ clientName: { $nin: arrRegClientsSendWork } });
+    res.json({ clientsInactive: result })
+  } catch (err) {
+    console.error(err.message);
+  }
 });
 
 module.exports = router;

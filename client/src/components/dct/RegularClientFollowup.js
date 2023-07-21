@@ -3,10 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import { Link } from "react-router-dom";
 import {
   getDctClientDetails,
-  getDctClientDetailsDD,
   getLastmessage,
 } from "../../actions/dct";
 import Clock from "react-live-clock";
@@ -18,19 +16,16 @@ import { getActiveCountry } from "../../actions/regions";
 // import DeactiveLead from "./DeactiveLead";
 const RegularClientFollowup = ({
   auth: { isAuthenticated, user, users },
-  dct: { dctClients, dctClientsDD, dctClientsEmp },
+  dct: { dctClients, dctClientsEmp, dctClientsLoading },
   regions: { activeCountry },
   getDctClientDetails,
-  getDctClientDetailsDD,
   getActiveCountry,
   getLastmessage,
 }) => {
   useEffect(() => {
     getDctClientDetails({ dctClientCategory: "RC" });
   }, [getDctClientDetails]);
-  useEffect(() => {
-    getDctClientDetailsDD({ dctClientCategory: "RC" });
-  }, [getDctClientDetailsDD]);
+
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
@@ -120,12 +115,11 @@ const RegularClientFollowup = ({
     getempData("");
     getcountryIdData(e.countryId);
     getDctClientDetails({ countryId: e.countryId, dctClientCategory: "RC" });
-    getDctClientDetailsDD({ countryId: e.countryId, dctClientCategory: "RC" });
     setFilterData({ countryId: e.countryId, dctClientCategory: "RC" });
   };
 
   const allclient = [];
-  dctClientsDD.map((clients) =>
+  dctClients.map((clients) =>
     allclient.push({
       clientsId: clients._id,
       label: clients.companyName,
@@ -147,7 +141,7 @@ const RegularClientFollowup = ({
     });
   };
 
-  const allemp = [{ empId: null, label: "All", value: null }];
+  const allemp = [];
   dctClientsEmp.map((emp) =>
     allemp.push({
       empId: emp._id,
@@ -157,23 +151,15 @@ const RegularClientFollowup = ({
   );
 
   const [emp, getempData] = useState();
-  const [empId, setempID] = useState();
   const onempChange = (e) => {
     getempData(e);
-    setempID(e.empId);
     getDctClientDetails({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
       assignedTo: e.empId,
       dctClientCategory: "RC",
     });
-    getDctClientDetailsDD({
-      countryId: countryId,
-      clientsId: clients ? clients.clientsId : null,
-      assignedTo: e.empId,
-      dctClientCategory: "RC",
-      emp: true,
-    });
+
     setFilterData({
       countryId: countryId,
       clientsId: clients ? clients.clientsId : null,
@@ -188,12 +174,11 @@ const RegularClientFollowup = ({
     getclientsData("");
     getempData("");
     getDctClientDetails({ dctClientCategory: "RC" });
-    getDctClientDetailsDD({ dctClientCategory: "RC" });
     setFilterData({ dctClientCategory: "RC" });
     ondivcloseChange(true);
     setcolorData("");
   };
-  return !isAuthenticated || !user  ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -287,8 +272,8 @@ const RegularClientFollowup = ({
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
-              user.userGroupName === "Super Admin" ||
-              user.empCtAccess === "All" ? (
+                user.userGroupName === "Super Admin" ||
+                user.empCtAccess === "All" ? (
                 // <div className=" col-lg-4 col-md-11 col-sm-10 col-10 py-2">
                 <Select
                   name="empFullName"
@@ -304,11 +289,18 @@ const RegularClientFollowup = ({
               )}
             </div>
             <div className="col-lg-4 col-md-11 col-sm-12 col-11 py-2">
+              {
+                dctClientsLoading ? (<img
+                  src={require("../../static/images/Refresh-Loader.gif")}
+                  alt="Loading..." />) : (<></>)
+              }
               <button
                 className="btn btn_green_bg float-right"
                 onClick={() => onClickReset()}
               >
-                Refresh
+                {
+                  dctClientsLoading ? "Loading" : "Refresh"
+                }
               </button>
             </div>
           </div>
@@ -403,7 +395,7 @@ const RegularClientFollowup = ({
                   {/* {showdateselectionSection && ( */}
                   <AllContacts
                     leadDataVal={leadData}
-                    from="client"
+                    from="RegularClient"
                     ondivcloseChange={ondivcloseChange}
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
@@ -433,7 +425,7 @@ const RegularClientFollowup = ({
                   style={{ height: "18vh" }}
                 >
                   <label className="sidePartHeading ">
-                    Last Message Details
+                    Last Call History
                   </label>
                   {showdateselectionSection && (
                     <LastMessageDetails
@@ -464,7 +456,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getDctClientDetails,
-  getDctClientDetailsDD,
   getActiveCountry,
   getLastmessage,
 })(RegularClientFollowup);
