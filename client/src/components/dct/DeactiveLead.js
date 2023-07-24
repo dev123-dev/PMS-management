@@ -12,7 +12,10 @@ const DeactiveLead = ({
   onDeactiveModalChange,
   deactivateDctLeadDetails,
   filterData,
+  from
 }) => {
+  let staffFilter = { from: from };
+
   //formData
   const [formData, setFormData] = useState({
     companyName:
@@ -43,12 +46,13 @@ const DeactiveLead = ({
       dctLeadStatus: "Deactive",
       dctLeadDeactiveReason: dctLeadDeactiveReason?.trim(),
       filterData: filterData,
+      staffFilter: staffFilter
     };
     deactivateDctLeadDetails(finalData);
     onDeactiveModalChange(true);
   };
 
-  return !isAuthenticated || !user  ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>

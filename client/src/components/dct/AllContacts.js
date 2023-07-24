@@ -313,7 +313,6 @@ const AllContacts = ({
                             }) : inactiveClientStaff &&
                             inactiveClientStaff &&
                             inactiveClientStaff.map((staff, idx) => {
-                              console.log("Inactive Staff", staff);
                               if (staff.staffStatus === "Active")
                                 return (
                                   <tr key={idx}>

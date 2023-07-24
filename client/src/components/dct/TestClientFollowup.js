@@ -341,15 +341,7 @@ const TestClientFollowup = ({
                             >
                               <td>{idx + 1}</td>
                               <td>
-                                {/* <Link
-                                  className="float-left ml-3"
-                                  to="#"
-                                  // onClick={() =>
-                                  //   onClickHandler(dctClients, idx)
-                                  // }
-                                > */}
                                 {dctClients.companyName}
-                                {/* </Link> */}
                               </td>
                               <td>
                                 {" "}
@@ -380,8 +372,7 @@ const TestClientFollowup = ({
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
                     <label>
-                      No of Test Client Follow-up :
-                      {dctClients && dctClients.length}
+                      No of Test Client Follow Up : {dctClients && dctClients.length}
                     </label>
                   </div>
                 </div>

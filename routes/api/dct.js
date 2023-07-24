@@ -23,6 +23,7 @@ router.post("/add-dct-Leads", async (req, res) => {
 
 router.post("/add-dct-client", async (req, res) => {
   let data = req.body;
+  console.log("DCT Client", data);
   try {
     let AddDctClientsDetails = new DctClients(data);
     output = await AddDctClientsDetails.save();
@@ -35,6 +36,7 @@ router.post("/add-dct-client", async (req, res) => {
 
 router.post("/add-dct-calls", async (req, res) => {
   let data = req.body;
+  console.log("DCT Calls", data);
   try {
     let AddDctCallsDetails = new DctCalls(data);
     output = await AddDctCallsDetails.save();

@@ -49,7 +49,6 @@ const AddLead = ({
     emailId: "",
     phone1: "",
     phone2: "",
-    countrycode: "",
     dctLeadAddress: "",
     clientName: "",
     importantPoints: "",
@@ -62,15 +61,14 @@ const AddLead = ({
     emailId,
     phone1,
     phone2,
-    clientName,
     dctLeadAddress,
+    clientName,
     importantPoints,
     isSubmitted,
   } = formData;
-  //
+
   //add staff start
   const [addData, setFormDatas] = useState({
-    // idVal: 1,
     staffName: "",
     staffPhoneNumber: "",
     staffEmailId: "",
@@ -400,6 +398,14 @@ const AddLead = ({
   if (isSubmitted) {
     return <Redirect to="/all-leads" />;
   }
+
+  const onKeyDown = (e) => {
+    // Allow only numbers, backspace, and arrow keys
+    if (!/^\d$/.test(e.key) && e.key !== "Backspace" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
+      e.preventDefault();
+    }
+  };
+
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -484,6 +490,7 @@ const AddLead = ({
                       value={website}
                       style={websiteInptErrStyle}
                       className="form-control"
+                      autoComplete="off"
                       onChange={(e) => onleadCheck(e)}
                       required
                     />
@@ -505,17 +512,19 @@ const AddLead = ({
                       name="companyName"
                       value={companyName}
                       className="form-control"
+                      autoComplete="off"
                       onChange={(e) => onInputChange(e)}
                       required
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Email Id* :</label>
+                    <label className="label-control">Email-Id* :</label>
                     <input
                       type="email"
                       name="emailId"
                       value={emailId}
                       className="form-control"
+                      autoComplete="off"
                       onChange={(e) => onInputChange(e)}
                       required
                     />
@@ -528,12 +537,9 @@ const AddLead = ({
                       value={phone1}
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
-                      maxLength="12"
-                      minLength={10}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
+                      maxLength={12}
+                      onKeyDown={onKeyDown}
+                      autoComplete="off"
                       required
                     />
                   </div>
@@ -547,18 +553,17 @@ const AddLead = ({
                       onChange={(e) => onInputChange(e)}
                       maxLength="12"
                       minLength={10}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
+                      autoComplete="off"
+                      onKeyDown={onKeyDown}
                     />
                   </div>
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Client Name:</label>
+                    <label className="label-control">Client Name :</label>
                     <input
                       type="text"
                       name="clientName"
                       value={clientName}
+                      autoComplete="off"
                       className="form-control"
                       onChange={(e) => onInputChange(e)}
                     />
@@ -600,23 +605,6 @@ const AddLead = ({
                     </div>
                   ) : (
                     <>
-                      <div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                        {/* <label
-                      className="label-control"
-                     // style={countrytypeIdErrorStyle}
-                    >
-                      Select Time Zone :
-                    </label>
-                    <Select
-                      name="countryName"
-                      options={timeZoneDropDown}
-                      isSearchable={true}
-                      value={timezone}
-                      placeholder="Select Region"
-                      onChange={(e) => onTimeZoneChange(e)}
-                      //required
-                    /> */}
-                      </div>
                     </>
                   )}
 
@@ -627,6 +615,7 @@ const AddLead = ({
                       name="importantPoints"
                       value={importantPoints}
                       className="form-control"
+                      autoComplete="off"
                       onChange={(e) => onInputChange(e)}
                     />
                   </div>
@@ -694,6 +683,7 @@ const AddLead = ({
                       placeholder=" Address"
                       style={{ width: "100%" }}
                       value={dctLeadAddress}
+                      autoComplete="off"
                       onChange={(e) => onInputChange(e)}
                     ></textarea>
                   </div>
@@ -711,22 +701,24 @@ const AddLead = ({
                       className="label-control"
                       style={nametypeIdErrorStyle}
                     >
-                      Staff Name*:
+                      Staff Name* :
                     </label>
                     <input
                       type="text"
                       name="staffName"
                       value={staffName}
+                      autoComplete="off"
                       className="form-control"
                       onChange={(e) => onInputChange2(e)}
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Email Id :</label>
+                    <label className="label-control">Email-Id :</label>
                     <input
                       type="email"
                       name="staffEmailId"
                       value={staffEmailId}
+                      autoComplete="off"
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
                     />
@@ -743,7 +735,7 @@ const AddLead = ({
                     />
                   </div>
                   <div className="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Staff Phone:</label>
+                    <label className="label-control">Staff Phone :</label>
                     <input
                       type="text"
                       name="staffCountryCode"
@@ -762,13 +754,12 @@ const AddLead = ({
                       type="text"
                       name="staffPhoneNumber"
                       value={staffPhoneNumber}
+                      autoComplete="off"
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
+                      onKeyDown={onKeyDown}
                       style={{ marginLeft: "-6em", width: "22vh" }}
-                      onKeyDown={(e) =>
-                        (e.keyCode === 69 || e.keyCode === 190) &&
-                        e.preventDefault()
-                      }
+                      maxLength={12}
                     />
                   </div>
 
@@ -778,6 +769,7 @@ const AddLead = ({
                       type="text"
                       name="staffDesignation"
                       value={staffDesignation}
+                      autoComplete="off"
                       className="form-control"
                       onChange={(e) => onInputChange1(e)}
                     />

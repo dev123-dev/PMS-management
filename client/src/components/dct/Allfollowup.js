@@ -474,7 +474,7 @@ const Allfollowup = ({
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
                     <label>
-                      No of FollowUp : {allLeads && allLeads.length}
+                      No of Follow Up : {allLeads && allLeads.length}
                     </label>
                   </div>
                 </div>
@@ -555,6 +555,7 @@ const Allfollowup = ({
         </Modal.Header>
         <Modal.Body>
           <EditLead
+            from="FollowUp"
             onEditModalChange={onEditModalChange}
             alleditLeaddata={userDatas}
             filterData={filterData}
@@ -586,8 +587,10 @@ const Allfollowup = ({
         </Modal.Header>
         <Modal.Body>
           <DeactiveLead
+            from="FollowUp"
             onDeactiveModalChange={onDeactiveModalChange}
             Leaddeavtivedata={userDatadeactive}
+            filterData={filterData}
           />
         </Modal.Body>
       </Modal>

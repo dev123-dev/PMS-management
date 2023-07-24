@@ -447,6 +447,7 @@ const AllDctWrongNumbers = ({
         </Modal.Header>
         <Modal.Body>
           <EditLead
+            from="WrongNumber"
             onEditModalChange={onEditModalChange}
             alleditLeaddata={userDatas}
             filterData={filterData}
@@ -478,8 +479,10 @@ const AllDctWrongNumbers = ({
         </Modal.Header>
         <Modal.Body>
           <DeactiveLead
+            from="WrongNumber"
             onDeactiveModalChange={onDeactiveModalChange}
             Leaddeavtivedata={userDatadeactive}
+            filterData={filterData}
           />
         </Modal.Body>
       </Modal>

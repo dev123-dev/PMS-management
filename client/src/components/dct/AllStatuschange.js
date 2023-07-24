@@ -10,20 +10,22 @@ import {
 } from "../../actions/dct";
 
 const AllStatuschange = ({
-  auth: { isAuthenticated, user, users, loading },
+  auth: { isAuthenticated, user, loading },
   dct: { staffData },
   leadDataVal,
   ondivcloseChange,
   from,
   page,
   filterData,
+  addDctCalls,
+  addDctClientCalls,
   getStaffsData,
 }) => {
-
+  let staffFilter = { from: from, leadDataId: leadDataVal && leadDataVal._id };
   // When a Client is Selected *leadDataVal* gets the new selected client, useEffect is Triggered
   useEffect(() => {
     resetStatusData();
-    getStaffsData({ staffFrom: from, leadDataId: leadDataVal._id }); // Joel 18-07-2023 Only need to pass Lead Id not the whole Lead Object to get Staff Data
+    getStaffsData(staffFilter); // Joel 18-07-2023 Only need to pass Lead Id not the whole Lead Object to get Staff Data
   }, [leadDataVal]);
 
   let StatusMethods = [
@@ -215,7 +217,7 @@ const AllStatuschange = ({
         setFormData({
           ...formData,
           callStatus: e,
-          nextCallDate: ""
+          nextCallDate: todaydate
         });
         setShowHide({
           ...showHide,
@@ -242,6 +244,18 @@ const AllStatuschange = ({
         setShowHide({
           ...showHide,
           showDateSelectionSection: true
+        });
+        break;
+      case "TestClient":
+      case "RegularClient":
+        setFormData({
+          ...formData,
+          callStatus: e,
+          nextCallDate: todaydate
+        });
+        setShowHide({
+          ...showHide,
+          showDateSelectionSection: false
         });
         break;
       default:
@@ -310,6 +324,7 @@ const AllStatuschange = ({
         callTakenDate: new Date().toISOString().split("T")[0],
         callEnteredDateTime: new Date().toLocaleString("en-GB"),
         filterData: filterData,
+        staffFilter: staffFilter
       };
 
       if (from === "TestClient" || from === "RegularClient") {
