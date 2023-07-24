@@ -556,6 +556,7 @@ const AllProspects = ({
         </Modal.Header>
         <Modal.Body>
           <EditLead
+            from="Prospect"
             onEditModalChange={onEditModalChange}
             alleditLeaddata={userDatas}
             filterData={filterData}
@@ -587,8 +588,10 @@ const AllProspects = ({
         </Modal.Header>
         <Modal.Body>
           <DeactiveLead
+            from="Prospect"
             onDeactiveModalChange={onDeactiveModalChange}
             Leaddeavtivedata={userDatadeactive}
+            filterData={filterData}
           />
         </Modal.Body>
       </Modal>

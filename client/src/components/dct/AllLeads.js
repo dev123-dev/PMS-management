@@ -514,9 +514,7 @@ const AllLeads = ({
                 className="btn btn_green_bg "
                 onClick={() => onClickReset()}
               >
-                {
-                  dctLeadsLoading ? "Loading" : "Refresh"
-                }
+                {dctLeadsLoading ? "Loading" : "Refresh"}
               </button>
             </div>
           </div>
@@ -617,13 +615,6 @@ const AllLeads = ({
                     No of Leads : {dctAllLeadsCount}
                   </div>
                 </div>
-                {/* <div className="row">
-                  <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
-                    <label>
-                     
-                    </label>
-                  </div>
-                </div> */}
               </section>
             </div>
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead" >
@@ -685,6 +676,7 @@ const AllLeads = ({
         </Modal.Header>
         <Modal.Body>
           <EditLead
+            from="AllLeads"
             onEditModalChange={onEditModalChange}
             alleditLeaddata={userDatas}
             filterData={filterData}
@@ -716,6 +708,7 @@ const AllLeads = ({
         </Modal.Header>
         <Modal.Body>
           <DeactiveLead
+            from="AllLeads"
             onDeactiveModalChange={onDeactiveModalChange}
             Leaddeavtivedata={userDatadeactive}
             filterData={filterData}

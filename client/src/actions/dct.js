@@ -1,6 +1,5 @@
 import axios from "axios";
 import {
-  // AUTH_ERROR,
   ERROR,
   SET_LOADING_TRUE,
   SET_LOADING_FALSE,
@@ -103,6 +102,7 @@ export const addDctCalls = (finalData) => async (dispatch) => {
       type: SET_LOADING_FALSE,
     });
   } catch (err) {
+    console.log("Error: ", err);
     dispatch({
       type: ERROR,
     });
@@ -371,10 +371,9 @@ export const deactivateDctClient = (finalData) => async (dispatch) => {
 
 export const refreshLead = (finalData) => async (dispatch) => {
   try {
-    //console.log("Refresh Lead Called", finalData);
+    console.log("Refresh Lead Called", finalData);
     if (finalData.staffFilter) {
       if (finalData.staffFilter.from === "AllLeads") {
-        //console.log("Refresh Lead", finalData.filterData);
         dispatch(getAllDctLead(finalData.filterData));
       }
       else if (finalData.staffFilter.from === "Prospect" || finalData.staffFilter.from === "FollowUp" || finalData.staffFilter.from === "WrongNumber")
@@ -665,7 +664,7 @@ export const getSelectedLead = (finalData) => async (dispatch) => {
 export const getStaffsData = (finalData) => async (dispatch) => { //Joel 18-07-2023 conditional change
   try {
     let res = [];
-    if (finalData.staffFrom === "TestClient" || finalData.staffFrom === "RegularClient") {
+    if (finalData.from === "TestClient" || finalData.from === "RegularClient") {
       res = await axios.post(
         "/api/dct/get-client-staffs-data",
         finalData,

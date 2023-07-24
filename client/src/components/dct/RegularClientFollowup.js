@@ -245,7 +245,7 @@ const RegularClientFollowup = ({
               )}
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-              <h4 className="heading_color">Regular Client Follow-up</h4>
+              <h4 className="heading_color">Regular Client Follow Up</h4>
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
@@ -381,8 +381,7 @@ const RegularClientFollowup = ({
                 <div className="row">
                   <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
                     <label>
-                      No of Regular Client Follow-up :
-                      {dctClients && dctClients.length}
+                      No of Regular Client Follow Up : {dctClients && dctClients.length}
                     </label>
                   </div>
                 </div>
