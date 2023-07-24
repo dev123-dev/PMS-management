@@ -509,11 +509,14 @@ const AllLeads = ({
               <Link className="btn btn_green_bg " to="/add-lead">
                 Add Lead
               </Link>
+              
               <button
                 className="btn btn_green_bg "
                 onClick={() => onClickReset()}
               >
-                Refresh
+                {
+                  dctLeadsLoading ? "Loading" : "Refresh"
+                }
               </button>
             </div>
           </div>
@@ -623,8 +626,8 @@ const AllLeads = ({
                 </div> */}
               </section>
             </div>
-            <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead">
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
+            <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead" >
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeightLeadWrongNo">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <AllContacts
                     leadDataVal={leadData}
@@ -635,20 +638,23 @@ const AllLeads = ({
                   />
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessageLeadWrongNo">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "17vh" }}
+                  style={{height:"300px"}}
+                  // style={{ height: "30vh"}}
                 >
                   <label className="sidePartHeading ">
                     Last Call History
                   </label>
                   {showdateselectionSection && (
                     <LastMessageDetails
+                      from="AllLeads"
                       searchDataVal={searchDataVal}
                       ondivcloseChange={ondivcloseChange}
                     />
                   )}
+                 
                 </div>
               </div>
             </div>

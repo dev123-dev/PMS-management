@@ -521,6 +521,7 @@ const Allfollowup = ({
                   </label>
                   {showdateselectionSection && (
                     <LastMessageDetails
+                    from="FollowUp"
                       searchDataVal={searchDataVal}
                       ondivcloseChange={ondivcloseChange}
                     />

@@ -871,10 +871,41 @@ label {
   height: 19vh;
 }
 
+/* for All Leads and wrong Number */
+.fixTableHeadhistoryDCTLeadWrongNo{
+  overflow-y: auto;
+  height: 29vh;
+}
 .fixTableHeadhistoryDCT {
   overflow-y: auto;
-  height: 15vh;
+  height: 18vh;
 }
+.historyButton{
+  margin-top: 30px;
+}
+@media (max-width: 550px) {
+  .fixTableHeadhistoryDCTLeadWrongNo{
+    overflow-y: auto;
+    height: 30vh;
+  }
+  .fixTableHeadhistoryDCT {
+    overflow-y: auto;
+    /* height: 30vh; */
+    height: 15vh;
+  }
+  .historyButton{
+    margin-top: 0px;
+  }
+  .lastMessage {
+    /* margin-top: -30px; */
+    height: 40vh;
+    
+    /* margin-top: -8px; */
+  
+  }
+ }
+
+ 
 
 .smll_row td,
 .smll_row th {
@@ -2119,9 +2150,12 @@ input[type="checkbox"] {
   font-size: 17px;
   padding: 0.15rem !important;
 }
+.sidePartHeightLeadWrongNo{
+  height: 40vh;
+}
 .sidePartHeight {
   height: 20vh;
-  /*26.9*/
+
 }
 .sidePartHeightdct {
   height: 21vh; /*26.9*/
@@ -2239,8 +2273,12 @@ button:active {
   margin-top: -18px;
 }
 
-.lastMessage {
+.lastMessage { 
   margin-top: -8px;
+}
+/* for All Leads and wrong number DCT */
+.lastMessageLeadWrongNo{
+  height: 30vh;
 }
 
 .submitTopSCT {
