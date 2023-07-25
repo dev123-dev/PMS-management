@@ -164,7 +164,7 @@ export const getFilterDCTClientDetails = (finalData) => async (dispatch) => {
       finalData
     );
     dispatch({
-      type: ALL_DCT_CLIENTS,
+      type: CLIENT_FILTER,
       payload: res.data,
     });
   } catch (err) {

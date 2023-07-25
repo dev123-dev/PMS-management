@@ -520,6 +520,9 @@ export const getDctClientDetails = (finalData) => async (dispatch) => {
 };
 
 export const getAllDctClient = (finalData) => async (dispatch) => {
+  dispatch({
+    type: "ALL_DCT_CLIENTS_INITIALIZE"
+  });
   try {
     const res = await axios.post(
       "/api/dct/get-all-dct-clients",
@@ -664,7 +667,7 @@ export const getSelectedLead = (finalData) => async (dispatch) => {
 export const getStaffsData = (finalData) => async (dispatch) => { //Joel 18-07-2023 conditional change
   try {
     let res = [];
-    if (finalData.from === "TestClient" || finalData.from === "RegularClient") {
+    if (finalData.from === "TestClient" || finalData.from === "RegularClient" || finalData.from === "AllClients") {
       res = await axios.post(
         "/api/dct/get-client-staffs-data",
         finalData,

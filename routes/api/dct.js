@@ -690,52 +690,27 @@ router.post("/get-dct-clients", auth, async (req, res) => {
 });
 //ALL CLIENTS
 router.post("/get-all-dct-clients", auth, async (req, res) => {
-  let { countryId, clientsId, assignedTo } = req.body;
-  const userInfo = await EmployeeDetails.findById(req.user.id).select(
-    "-password"
-  );
-  let dctClientAssignedToId = "";
-  if (userInfo.empCtAccess !== "All")
-    dctClientAssignedToId = mongoose.Types.ObjectId(userInfo._id);
-  else {
-    if (assignedTo) {
-      dctClientAssignedToId = mongoose.Types.ObjectId(assignedTo);
-    } else {
-      dctClientAssignedToId = { $ne: null };
-    }
+  let { countryId, clientsId } = req.body;
+  let query = {
+    dctClientStatus: "Active",
+    dctClientAssignedToId: { $ne: null },
+  };
+
+  if (countryId) {
+    query = {
+      ...query,
+      countryId: mongoose.Types.ObjectId(countryId)
+    };
   }
 
-  let query = {};
-  if (countryId) {
-    if (clientsId) {
-      query = {
-        dctClientStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
-        _id: mongoose.Types.ObjectId(clientsId),
-        dctClientAssignedToId,
-      };
-    } else {
-      query = {
-        dctClientStatus: "Active",
-        countryId: mongoose.Types.ObjectId(countryId),
-        dctClientAssignedToId,
-      };
-    }
-  } else {
-    if (clientsId) {
-      query = {
-        dctClientStatus: "Active",
-        _id: mongoose.Types.ObjectId(clientsId),
-        dctClientAssignedToId,
-      };
-    } else {
-      query = {
-        dctClientStatus: "Active",
-        dctClientAssignedToId,
-      };
-    }
+  if (clientsId) {
+    query = {
+      ...query,
+      _id: mongoose.Types.ObjectId(clientsId)
+    };
   }
   try {
+    console.log(query);
     const getAllDctClientsDetails = await DctClients.find(query).sort({
       _id: -1,
     });
@@ -746,6 +721,7 @@ router.post("/get-all-dct-clients", auth, async (req, res) => {
   }
 });
 //********************************************************
+
 router.post("/get-last-message", async (req, res) => {
   const { callToId } = req.body;
   let query = {};
@@ -939,11 +915,11 @@ router.post("/get-client-staffs-data", async (req, res) => {
 });
 
 router.post("/get-client-instruction-data", async (req, res) => {
-  let { leadDataVal } = req.body;
+  let { leadDataId } = req.body;
   let query = {};
-  if (leadDataVal) {
+  if (leadDataId) {
     query = {
-      _id: leadDataVal._id,
+      _id: leadDataId,
     };
   }
   try {

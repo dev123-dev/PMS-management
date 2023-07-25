@@ -39,6 +39,7 @@ const EditDctClients = ({
   getInstructionData,
 }) => {
   const data = useHistory().location.data;
+
   useEffect(() => {
     getALLPaymentMode();
   }, [getALLPaymentMode]);
@@ -48,14 +49,15 @@ const EditDctClients = ({
   useEffect(() => {
     getMarketingEmployee();
   }, [getMarketingEmployee]);
-  let staffFilter = { staffFrom: "client", leadDataVal: data && data.dctdata };
+
+  let staffFilter = { from: "AllClients", leadDataId: data && data.dctdata._id };
   useEffect(() => {
     getStaffsData(staffFilter);
   }, [getStaffsData]);
 
   let instructionFilter = {
-    staffFrom: "client",
-    leadDataVal: data && data.dctdata,
+    from: "AllClients",
+    leadDataId: data && data.dctdata._id,
   };
   useEffect(() => {
     getInstructionData(instructionFilter);
@@ -1340,7 +1342,7 @@ const EditDctClients = ({
               onEditModalChange={onEditModalChange}
               allStaffdata={userDatas}
               allleaddata={userDatas1}
-              from={from}
+              from={(data && data.dctdata.clientType === "Test") ? "TestClient" : "RegularClient"}
               staffFilter={staffFilter}
             />
           </Modal.Body>
@@ -1409,12 +1411,6 @@ const EditDctClients = ({
                       className="btn sub_form btn_continue blackbrd Save float-right"
                     />
                   )}
-                  {/* <Link
-                className="btn sub_form btn_continue blackbrd float-right"
-                to="/job-queue"
-              >
-                Cancel
-              </Link> */}
                 </div>
               </div>
             </form>
@@ -1453,7 +1449,7 @@ const EditDctClients = ({
               onEditInstructionModalChange={onEditInstructionModalChange}
               allInstructiondata={intructionDatas}
               allleaddata={intructionDatas1}
-              from={from}
+              from={(data && data.dctdata.clientType === "Test") ? "TestClient" : "RegularClient"}
               instructionFilter={instructionFilter}
             />
           </Modal.Body>

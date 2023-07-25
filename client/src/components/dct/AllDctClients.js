@@ -6,25 +6,19 @@ import { Link } from "react-router-dom";
 import Select from "react-select";
 import Spinner from "../layout/Spinner";
 import { getAllDctClient } from "../../actions/dct";
-import {
-  getClientsFilter,
-  getFilterDCTClientDetails,
-} from "../../actions/client";
+import { getFilterDCTClientDetails } from "../../actions/client";
 import DeactiveDctClient from "./DeactiveDctClient";
 const AllDctClients = ({
-  auth: { isAuthenticated, user, users },
+  auth: { isAuthenticated, user },
   dct: { allDctClients },
   client: { allfilterClients },
-  getClientsFilter,
   getFilterDCTClientDetails,
   getAllDctClient,
 }) => {
   useEffect(() => {
     getAllDctClient();
   }, [getAllDctClient]);
-  useEffect(() => {
-    getClientsFilter();
-  }, [getClientsFilter]);
+
   useEffect(() => {
     getFilterDCTClientDetails();
   }, [getFilterDCTClientDetails]);
@@ -52,19 +46,18 @@ const AllDctClients = ({
     })
   );
   const [clientData, setClientData] = useState("");
-  const [clientId, setClientId] = useState("");
 
   const onClientChange = (e) => {
     setClientData(e);
     const finalData = {
-      clientId: e.clientId,
+      clientsId: e.clientId,
     };
 
-    getFilterDCTClientDetails(finalData);
+    getAllDctClient(finalData);
   };
 
   const onClickReset = () => {
-    getFilterDCTClientDetails("");
+    getAllDctClient();
     setClientData("");
   };
 
@@ -129,38 +122,38 @@ const AllDctClients = ({
                     </thead>
                     <tbody>
                       {allDctClients &&
-                        allDctClients.map((allDctClients, idx) => {
+                        allDctClients.map((allDctClient, idx) => {
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-                              <td>{allDctClients.companyName}</td>
-                              <td>{allDctClients.clientName}</td>
+                              <td>{allDctClient.companyName}</td>
+                              <td>{allDctClient.clientName}</td>
 
-                              <td>{allDctClients.clientFolderName}</td>
-                              <td>{allDctClients.emailId}</td>
+                              <td>{allDctClient.clientFolderName}</td>
+                              <td>{allDctClient.emailId}</td>
                               <td>
-                                {allDctClients.countryCode
-                                  ? "+" + allDctClients.countryCode
+                                {allDctClient.countryCode
+                                  ? "+" + allDctClient.countryCode
                                   : ""}
                                 &nbsp;
-                                {allDctClients.phone1}
+                                {allDctClient.phone1}
                               </td>
                               <td>
-                                {allDctClients.countryCode
-                                  ? "+" + allDctClients.countryCode
+                                {allDctClient.countryCode
+                                  ? "+" + allDctClient.countryCode
                                   : ""}
                                 &nbsp;
-                                {allDctClients.phone2}
+                                {allDctClient.phone2}
                               </td>
-                              <td>{allDctClients.clientCurrency}</td>
-                              <td>{allDctClients.paymentModeName}</td>
-                              <td>{allDctClients.countryName}</td>
+                              <td>{allDctClient.clientCurrency}</td>
+                              <td>{allDctClient.paymentModeName}</td>
+                              <td>{allDctClient.countryName}</td>
                               <td>
                                 <>
                                   <img
                                     className="img_icon_size log"
                                     onClick={() =>
-                                      onDeactive(allDctClients, idx)
+                                      onDeactive(allDctClient, idx)
                                     }
                                     src={require("../../static/images/delete.png")}
                                     alt="Deactivate"
@@ -172,7 +165,7 @@ const AllDctClients = ({
                                     to={{
                                       pathname: "/edit-dct-client",
                                       data: {
-                                        dctdata: allDctClients,
+                                        dctdata: allDctClient,
                                       },
                                     }}
                                   >
@@ -244,6 +237,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getAllDctClient,
-  getClientsFilter,
   getFilterDCTClientDetails,
 })(AllDctClients);

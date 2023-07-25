@@ -42,6 +42,13 @@ const AddDctClients = ({
     getLeadsList();
   }, [getLeadsList]);
 
+  const onKeyDown = (e) => {
+    // Allow only numbers, backspace, and arrow keys
+    if (!/^\d$/.test(e.key) && e.key !== "Backspace" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
+      e.preventDefault();
+    }
+  };
+
   const clientTypeVal = [
     { value: "Regular", label: "Regular Client" },
     { value: "Test", label: "Test Client" },
@@ -391,7 +398,6 @@ const AddDctClients = ({
       });
       return false;
     }
-
     return true;
   };
   const onPayModeChange = (e) => {
@@ -605,14 +611,19 @@ const AddDctClients = ({
   // code for next previous tabing starts
   const [tabIndex, setTabIndex] = useState(0);
 
-  const NextBackBtn = (tabIndex) => {
-    setTabIndex(tabIndex);
+  const NextBackBtn = (tabIndex, e) => {
+    e.preventDefault();
+    if (tabIndex === 1) {
+      if (checkErrors()) setTabIndex(tabIndex);
+    } else {
+      setTabIndex(tabIndex);
+    }
   };
 
   if (isSubmitted) {
     return <Redirect to="/all-dct-client" />;
   }
-  return !isAuthenticated || !user  ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -640,7 +651,7 @@ const AddDctClients = ({
 
             <TabPanel tabId="0">
               <div className=" col-md-12 col-lg-12 col-sm-12 col-12 ">
-                <form onSubmit={(e) => NextBackBtn(1)}>
+                <form onSubmit={(e) => NextBackBtn(1, e)}>
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
                     <div className="row card-new ">
                       <div className="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -653,17 +664,15 @@ const AddDctClients = ({
                           type="text"
                           name="website"
                           value={website}
+                          autoComplete="off"
                           className="form-control input-field"
-                          // onChange={(e) => onInputChange(e)}
                           onChange={(e) => onleadCheck(e)}
                           required
                         />
                         <input
-                          // variant="success"
                           type="button"
                           value="Fetch"
                           className="btn sub_form btn_continue Save float-right"
-                          // onChange={(e) => onleadFetch(e)}
                           onClick={(e) => onleadFetch(e)}
                         />
 
@@ -685,6 +694,7 @@ const AddDctClients = ({
                           name="companyName"
                           value={companyName}
                           className="form-control"
+                          autoComplete="off"
                           onChange={(e) => onInputChange(e)}
                           required
                         />
@@ -700,6 +710,7 @@ const AddDctClients = ({
                           value={clientType}
                           placeholder="Select Client Type"
                           onChange={(e) => onClientTypeChange(e)}
+                          isRequired={true} // This makes the select required
                           theme={(theme) => ({
                             ...theme,
                             height: 26,
@@ -732,6 +743,7 @@ const AddDctClients = ({
                           name="emailId"
                           value={emailId}
                           className="form-control"
+                          autoComplete="off"
                           onChange={(e) => onInputChange(e)}
                           required
                         />
@@ -743,6 +755,7 @@ const AddDctClients = ({
                           name="clientEmail"
                           value={clientEmail}
                           className="form-control"
+                          autoComplete="off"
                           onChange={(e) => onInputChange(e)}
                         />
                       </div>
@@ -753,6 +766,7 @@ const AddDctClients = ({
                           name="billingEmail"
                           value={billingEmail}
                           className="form-control"
+                          autoComplete="off"
                           onChange={(e) => onInputChange(e)}
                         />
                       </div>
@@ -763,13 +777,10 @@ const AddDctClients = ({
                           name="phone1"
                           value={phone1}
                           className="form-control"
+                          autoComplete="off"
                           onChange={(e) => onInputChange(e)}
-                          maxLength="12"
-                          minLength={10}
-                          onKeyDown={(e) =>
-                            (e.keyCode === 69 || e.keyCode === 190) &&
-                            e.preventDefault()
-                          }
+                          maxLength={12}
+                          onKeyDown={onKeyDown}
                           required
                         />
                       </div>
@@ -780,13 +791,10 @@ const AddDctClients = ({
                           name="phone2"
                           value={phone2}
                           className="form-control"
+                          autoComplete="off"
                           onChange={(e) => onInputChange(e)}
                           maxLength="12"
-                          minLength={10}
-                          onKeyDown={(e) =>
-                            (e.keyCode === 69 || e.keyCode === 190) &&
-                            e.preventDefault()
-                          }
+                          onKeyDown={onKeyDown}
                         />
                       </div>
                       <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -796,6 +804,7 @@ const AddDctClients = ({
                           name="clientName"
                           value={clientName}
                           className="form-control"
+                          autoComplete="off"
                           onChange={(e) => onInputChange(e)}
                         />
                       </div>
@@ -963,7 +972,7 @@ const AddDctClients = ({
               </div>
             </TabPanel>
             <TabPanel tabId="1">
-              <form onSubmit={(e) => NextBackBtn(2)}>
+              <form onSubmit={(e) => NextBackBtn(2, e)}>
                 <div className="row col-md-12 col-lg-12 col-sm-12 col-12 ">
                   <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
                     <div className="row card-new  py-3">
@@ -983,6 +992,7 @@ const AddDctClients = ({
                           name="staffName"
                           value={staffName}
                           className="form-control"
+                          autoComplete="off"
                           onChange={(e) => onInputChange1(e)}
                         />
                       </div>
@@ -1032,12 +1042,10 @@ const AddDctClients = ({
                           name="staffPhoneNumber"
                           value={staffPhoneNumber}
                           className="form-control"
+                          maxLength={12}
                           onChange={(e) => onInputChange1(e)}
                           style={{ marginLeft: "-6em", width: "22vh" }}
-                          onKeyDown={(e) =>
-                            (e.keyCode === 69 || e.keyCode === 190) &&
-                            e.preventDefault()
-                          }
+                          onKeyDown={onKeyDown}
                         />
                       </div>
 
@@ -1117,7 +1125,7 @@ const AddDctClients = ({
                       />
                       <button
                         className="btn sub_form btn_continue Save float-right"
-                        onClick={() => NextBackBtn(0)}
+                        onClick={(e) => NextBackBtn(0, e)}
                       >
                         Previous
                       </button>
@@ -1238,7 +1246,7 @@ const AddDctClients = ({
                   />
                   <button
                     className="btn sub_form btn_continue Save float-right"
-                    onClick={() => NextBackBtn(1)}
+                    onClick={(e) => NextBackBtn(1, e)}
                   >
                     Previous
                   </button>

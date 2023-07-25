@@ -129,6 +129,10 @@ const AddLead = ({
           staffRegion: "",
           staffCountryCode: "",
         });
+        setError1({
+          ...error1,
+          nametypeIdChecker: false,
+        });
         setstaffCountryCode("");
         getstaffcountryData("");
         let temp = [];
@@ -160,7 +164,6 @@ const AddLead = ({
   const [countryId, setcountryID] = useState();
   const [countrycode, setcountrycode] = useState();
 
-  //
   const timeZone = [
     { label: "PST", value: "US" },
     { label: "MST", value: "US" },
@@ -724,7 +727,7 @@ const AddLead = ({
                     />
                   </div>
                   <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <label className="label-control">Region* :</label>
+                    <label className="label-control">Region :</label>
                     <Select
                       name="countryName"
                       options={allstaffcountry}
@@ -799,7 +802,7 @@ const AddLead = ({
                         <th>Staff Name</th>
                         <th>Region</th>
                         <th>Phone Number</th>
-                        <th>Email Id</th>
+                        <th>Email-Id</th>
                         <th>Designation</th>
                         <th>Remove</th>
                       </tr>

@@ -69,7 +69,7 @@ const AllLeads = ({
   // Handles Client Search on every Key Stroke
   const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
 
-  function handleDebounceFn(val, country, emp, enteredPerson) {
+  function handleDebounceFn(e, val, country, emp, enteredPerson) {
     if (val) {
       setCurrentData(1);
       finalData = {
@@ -82,12 +82,26 @@ const AllLeads = ({
       };
       getAllDctLead(finalData);
       setFilterData(finalData);
+    } else {
+      if (e) {
+        setCurrentData(1);
+        finalData = {
+          countryId: country && country.countryId,
+          clientName: "",
+          assignedTo: emp && emp.empId,
+          enteredBy: enteredPerson && enteredPerson.value,
+          Pagedata: 0,
+          recPerPage: dataPerPage
+        };
+        getAllDctLead(finalData);
+        setFilterData(finalData);
+      }
     }
   }
 
   const [txtCompName, setTxtCompName] = useState("");
   const onClientSearch = (e) => {
-    debounceFn(e && e.target.value, country, emp, enteredPerson);  //Search for the specific client name
+    debounceFn(e, e && e.target.value, country, emp, enteredPerson);  //Search for the specific client name
     setTxtCompName(e && e.target.value);
   };
 

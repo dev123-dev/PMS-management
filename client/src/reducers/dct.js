@@ -2,9 +2,7 @@ import {
   ALL_LEADS,
   GET_ALL_LEADS,
   DCT_CLIENTS,
-  DCT_CLIENTS_DD,
   ALL_DCT_CLIENTS,
-  ALL_DCT_CLIENTS_DD,
   LAST_MSG,
   CALLHISTORY,
   ALL_DCT_CALLS,
@@ -28,10 +26,8 @@ import {
 const initialState = {
   allLeads: [],
   getAllLeads: [],
-  getAllLeadsDD: [],
   allDctClients: [],
   dctClients: [],
-  dctClientsDD: [],
   lastMsg: [],
   callHistory: [],
   allDctCalls: null,
@@ -74,20 +70,10 @@ const dct = (state = initialState, action) => {
         ...state,
         allDctClients: payload,
       };
-    case ALL_DCT_CLIENTS_DD:
-      return {
-        ...state,
-        allDctClientsDD: payload,
-      };
     case DCT_CLIENTS:
       return {
         ...state,
         dctClients: payload,
-      };
-    case DCT_CLIENTS_DD:
-      return {
-        ...state,
-        dctClientsDD: payload,
       };
     case LAST_MSG:
       return {
@@ -231,7 +217,11 @@ const dct = (state = initialState, action) => {
         ...state,
         dctClientsLoading: false
       }
-
+    case "ALL_DCT_CLIENTS_INITIALIZE":
+      return {
+        ...state,
+        allDctClients: [],
+      };
     default:
       return state;
   }
