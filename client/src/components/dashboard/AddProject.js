@@ -243,11 +243,12 @@ const AddProject = ({
   //.flat(1);
 
   const selectStaff = Activestaff.map((ele) => {
+    // console.log("xxx", ele);
     return {
       sId: ele._id,
       label: ele.staffName,
       value: ele.staffName,
-      clientId: ele._id,
+      clientId: ele.clientId,
       clientName: ele.clientName,
       clientFolderName: ele.clientFolderName,
     };
@@ -637,7 +638,7 @@ const AddProject = ({
   const [ActiveClientName, setActiveClientName] = useState("");
   const [ActiveClientFolder, setActiveClientfolder] = useState("");
   const onStaffChange = (e) => {
-    //console.log(e);
+    console.log("staff change", e);
 
     setError({
       ...error,
@@ -885,7 +886,7 @@ const AddProject = ({
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 ">
                 {/* project INFO */}
-                <div className="row card-new mb-1 pb-1">
+                <div className="row card-new mb-2 pb-2">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <h5>Project Info</h5>
                   </div>
@@ -958,7 +959,7 @@ const AddProject = ({
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 col-12">
                 {/* date info */}
-                <div className="row card-new pb-5">
+                <div className="row card-new pb-5 ">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12 pb-1">
                     <h5>Date Info</h5>
                   </div>
@@ -1159,7 +1160,7 @@ const AddProject = ({
                     </div>
                   </span>
 
-                  <div className="col-lg-12 col-md-11 col-sm-12 col-12 ">
+                  <div className="col-lg-12 col-md-11 col-sm-12 col-12  mb-3">
                     <label
                       className="label-control"
                       style={projectInstrErrorStyle}
@@ -1170,7 +1171,7 @@ const AddProject = ({
                       name="Instructions"
                       id="Instructions"
                       className="textarea form-control"
-                      rows="3"
+                      rows="7"
                       placeholder="Instructions"
                       style={{ width: "100%" }}
                       value={Instructions}

@@ -429,6 +429,7 @@ const RegularClientFollowup = ({
                   {showdateselectionSection && (
                     <LastMessageDetails
                       searchDataVal={searchDataVal}
+                      from="RegularClient"
                       ondivcloseChange={ondivcloseChange}
                     />
                   )}

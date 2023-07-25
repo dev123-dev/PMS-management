@@ -552,6 +552,8 @@ const JobQueue = ({
       ...formData,
       projectStatusCategory: "",
     });
+    // window.location.reload();
+    setClientName("");
   };
 
   const onstatusTypeSelect = (statusType) => {

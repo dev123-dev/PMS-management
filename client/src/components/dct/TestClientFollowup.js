@@ -396,7 +396,8 @@ const TestClientFollowup = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new  no_padding statusTop">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "39vh" }}
+                  
+                  style={{ height: "33vh" }}
                 >
                   <label className="sidePartHeading ">Status</label>
                   {showdateselectionSection && (
@@ -419,6 +420,7 @@ const TestClientFollowup = ({
                   </label>
                   {showdateselectionSection && (
                     <LastMessageDetails
+                    from="TestClient"
                       searchDataVal={searchDataVal}
                       ondivcloseChange={ondivcloseChange}
                     />

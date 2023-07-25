@@ -193,6 +193,7 @@ const EditProject = ({
           ...ele1,
           clientName: ele.clientName,
           clientId: ele._id,
+          //clientId: ele.clientId,
           clientFolderName: ele.clientFolderName,
         };
       })
@@ -203,7 +204,8 @@ const EditProject = ({
       sId: ele._id,
       label: ele.staffName,
       value: ele.staffName,
-      clientId: ele._id,
+      // clientId: ele._id,
+      clientId: ele.clientId,
       clientName: ele.clientName,
       clientFolderName: ele.clientFolderName,
     };
@@ -686,7 +688,6 @@ const EditProject = ({
   const [selectedImage, setSelectedImage] = useState(null);
 
   const onSubmit = (e) => {
-    console.log("val", ActiveClientName);
     e.preventDefault();
 
     if (checkErrors()) {
@@ -716,7 +717,7 @@ const EditProject = ({
         projectEditedById: user._id,
         screenshot: AddedDetails,
       };
-      //console.log(finalData);
+      // console.log(finalData);
       EditProjectData(finalData);
       onEditModalChange(true);
     }
@@ -1144,8 +1145,6 @@ const EditProject = ({
                                     allProjScreenshot.screenshot &&
                                     allProjScreenshot.screenshot.map(
                                       (image, idx) => {
-                                        console.log("image", image);
-
                                         return (
                                           <tr key={idx}>
                                             {/* <td className="text-center">

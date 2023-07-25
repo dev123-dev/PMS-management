@@ -12,11 +12,9 @@ const LastMessageDetails = ({
   dct: { lastMsg },
   getCallHistory,
   searchDataVal,
-
-  //   AddState,
+  from
 }) => {
-  //formData
-
+var cssName = from ==="AllLeads" || from ==="WrongNumber"? "fixTableHeadhistoryDCTLeadWrongNo":"fixTableHeadhistoryDCT";
   const [showClientHistoryModal, setShowClientCallHistoryModal] =
     useState(false);
   const handleClientCallHistoryModalClose = () =>
@@ -42,18 +40,19 @@ const LastMessageDetails = ({
     <Spinner />
   ) : (
     <Fragment>
-      <div className="row col-lg-12 col-md-11 col-sm-10 col-10 fixTableHeadhistoryDCT">
-        <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
-          <label>St. Name : {lastMsg && lastMsg.callToStaffName}</label>
+      
+      <div className={"row col-lg-12 col-md-11 col-sm-12 col-12 "+cssName} >
+     
+        <div className="col-lg-6 col-md-11 col-sm-10 col-12 ">
+          <label>Staff Name : {lastMsg && lastMsg.callToStaffName}</label>
         </div>
-        <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
-          <label>Cl Date : {callDate} </label>
+        <div className="col-lg-6 col-md-11 col-sm-10 col-12 ">
+          <label>Call Date &emsp;: {callDate} </label><br/>
+          <label>Call Status <span style={{marginLeft:"7px"}}>:</span> {lastMsg && lastMsg.callStatus}</label>
         </div>
-        <div className="col-lg-4 col-md-11 col-sm-10 col-10 ">
-          <label>Status : {lastMsg && lastMsg.callStatus}</label>
-        </div>
-        <div className="col-lg-9 col-md-11 col-sm-10 col-10 ">
-          <label className="label-control mt-1"> Last Meeting Details :</label>
+
+        <div className="col-lg-9 col-md-11 col-sm-10 col-12 ">
+          <label className="label-control mt-1"> Last Call Details :</label>
           <Link
             className="linkoflastmesge"
             to="#"
@@ -70,7 +69,7 @@ const LastMessageDetails = ({
             ></textarea>
           </Link>
         </div>
-        <div className="col-lg-3 col-md-12 col-sm-12 col-12 mt-3">
+        <div className="col-lg-3 col-md-12 col-sm-12 col-12 historyButton">
           <input
             type="submit"
             name="submit"

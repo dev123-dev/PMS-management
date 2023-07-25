@@ -392,7 +392,7 @@ const AllDctWrongNumbers = ({
               </section>
             </div>
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead">
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeightLeadWrongNo">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <AllContacts
                     leadDataVal={leadData}
@@ -403,7 +403,7 @@ const AllDctWrongNumbers = ({
                   />
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessageLeadWrongNo">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
                   style={{ height: "18vh" }}
@@ -413,6 +413,7 @@ const AllDctWrongNumbers = ({
                   </label>
                   {showdateselectionSection && (
                     <LastMessageDetails
+                    from="WrongNumber"
                       searchDataVal={searchDataVal}
                       ondivcloseChange={ondivcloseChange}
                     />
