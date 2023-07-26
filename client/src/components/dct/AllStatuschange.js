@@ -37,19 +37,19 @@ const AllStatuschange = ({
     { value: "FollowUp", label: "Follow Up" },
     { value: "TestClient", label: "Test Client" },
     { value: "RegularClient", label: "Regular Client" },
-    { value: "SentWork", label: "Sent Work" }
+    { value: "SentWork", label: "Sent Work" },
   ];
 
   let StatusMethodsForWrongNumber = [{ value: "CallBack", label: "Call Back" }];
-  let StatusMethodForInactiveClient = [{ value: "Inactive", label: "Inactive" }];
+  let StatusMethodForInactiveClient = [
+    { value: "Inactive", label: "Inactive" },
+  ];
 
   // Status Filter based on Follow Up, Test Client and Regular Client
   if (from === "FollowUp") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
-        StatusMethods.value !== "FollowUp" &&
-        StatusMethods.value !== "SentWork"
-
+        StatusMethods.value !== "FollowUp" && StatusMethods.value !== "SentWork"
     );
   } else if (from === "TestClient") {
     StatusMethods = StatusMethods.filter(
@@ -83,7 +83,7 @@ const AllStatuschange = ({
     callToStaff: "",
     nextCallDate: "",
     callNote: "",
-    isSubmitted: false
+    isSubmitted: false,
   });
   const { callStatus, callToStaff, nextCallDate, callNote } = formData;
 
@@ -99,7 +99,7 @@ const AllStatuschange = ({
   var nextyear = d1.toISOString().split("T")[0];
   // End Next Year
 
-  // Next Day 
+  // Next Day
   var d2 = new Date();
   d2.setDate(d2.getDate() + 1);
   var nextday = d2.toISOString().split("T")[0];
@@ -166,23 +166,23 @@ const AllStatuschange = ({
       callStaffSelectedChecker: true,
       callStaffErrorStyle: { color: "#000" },
     });
-    // Required Validation Ends   
+    // Required Validation Ends
 
     setFormData({
       ...formData,
-      callToStaff: e
+      callToStaff: e,
     });
   };
 
   const onDateChange = (e) => {
     setFormData({
       ...formData,
-      nextCallDate: e.target.value
+      nextCallDate: e.target.value,
     });
   };
 
   const [showHide, setShowHide] = useState({
-    showDateSelectionSection: true
+    showDateSelectionSection: true,
   });
 
   const { showDateSelectionSection } = showHide;
@@ -194,73 +194,73 @@ const AllStatuschange = ({
       callStatusSelectedChecker: true,
       callStatusErrorStyle: { color: "#000" },
     });
-    //Required Validation ends 
+    //Required Validation ends
 
     switch (e.value) {
       case "DND":
         setFormData({
           ...formData,
           callStatus: e,
-          nextCallDate: nextmonth
+          nextCallDate: nextmonth,
         });
         setShowHide({
           ...showHide,
-          showDateSelectionSection: true
+          showDateSelectionSection: true,
         });
         break;
       case "NI":
         setFormData({
           ...formData,
           callStatus: e,
-          nextCallDate: nextyear
+          nextCallDate: nextyear,
         });
         setShowHide({
           ...showHide,
-          showDateSelectionSection: true
+          showDateSelectionSection: true,
         });
         break;
       case "CallBack":
         setFormData({
           ...formData,
           callStatus: e,
-          nextCallDate: ""
+          nextCallDate: "",
         });
         setShowHide({
           ...showHide,
-          showDateSelectionSection: true
+          showDateSelectionSection: true,
         });
         break;
       case "WrongNumber":
         setFormData({
           ...formData,
           callStatus: e,
-          nextCallDate: todaydate
+          nextCallDate: todaydate,
         });
         setShowHide({
           ...showHide,
-          showDateSelectionSection: true
+          showDateSelectionSection: true,
         });
         break;
       case "VoiceMail":
         setFormData({
           ...formData,
           callStatus: e,
-          nextCallDate: nextday
+          nextCallDate: nextday,
         });
         setShowHide({
           ...showHide,
-          showDateSelectionSection: true
+          showDateSelectionSection: true,
         });
         break;
       case "FollowUp":
         setFormData({
           ...formData,
           callStatus: e,
-          nextCallDate: ""
+          nextCallDate: "",
         });
         setShowHide({
           ...showHide,
-          showDateSelectionSection: true
+          showDateSelectionSection: true,
         });
         break;
       case "TestClient":
@@ -270,22 +270,22 @@ const AllStatuschange = ({
         setFormData({
           ...formData,
           callStatus: e,
-          nextCallDate: todaydate
+          nextCallDate: todaydate,
         });
         setShowHide({
           ...showHide,
-          showDateSelectionSection: false
+          showDateSelectionSection: false,
         });
         break;
       default:
         setFormData({
           ...formData,
           callStatus: e,
-          nextCallDate: ""
+          nextCallDate: "",
         });
         setShowHide({
           ...showHide,
-          showDateSelectionSection: false
+          showDateSelectionSection: false,
         });
         break;
     }
@@ -300,42 +300,35 @@ const AllStatuschange = ({
     let callComeFromVal = from;
     let callCategoryVal = "";
 
-    if (callStatus.value === "VoiceMail" ||
+    if (
+      callStatus.value === "VoiceMail" ||
       callStatus.value === "CallBack" ||
       callStatus.value === "DND" ||
-      callStatus.value === "NI") {
-      if (callComeFromVal === "Prospect")
-        callCategoryVal = "P";
-      else if (callComeFromVal === "FollowUp")
-        callCategoryVal = "F";
-      else if (callComeFromVal === "WrongNumber")
-        callCategoryVal = "W";
-      else if (callComeFromVal === "TestClient")
-        callCategoryVal = "TC";
-      else if (callComeFromVal === "RegularClient")
-        callCategoryVal = "RC";
-      else if (callComeFromVal === "InactiveClient")
-        callCategoryVal = "IC";
-    }
-    else if (callStatus.value === "WrongNumber")
-      callCategoryVal = "W";
+      callStatus.value === "NI"
+    ) {
+      if (callComeFromVal === "Prospect") callCategoryVal = "P";
+      else if (callComeFromVal === "FollowUp") callCategoryVal = "F";
+      else if (callComeFromVal === "WrongNumber") callCategoryVal = "W";
+      else if (callComeFromVal === "TestClient") callCategoryVal = "TC";
+      else if (callComeFromVal === "RegularClient") callCategoryVal = "RC";
+      else if (callComeFromVal === "InactiveClient") callCategoryVal = "IC";
+    } else if (callStatus.value === "WrongNumber") callCategoryVal = "W";
     else if (callStatus.value === "FollowUp") {
       callCategoryVal = "F";
-    }
-    else if (callStatus.value === "TestClient")
-      callCategoryVal = "TC";
-    else if (callStatus.value === "RegularClient")
-      callCategoryVal = "RC";
+    } else if (callStatus.value === "TestClient") callCategoryVal = "TC";
+    else if (callStatus.value === "RegularClient") callCategoryVal = "RC";
     else if (callStatus.value === "Inactive")
-      callCategoryVal = "IC";                  //Inactive Client Status
-    else if (callStatus.value === "SentWork")
-      callCategoryVal = "SW";
+      callCategoryVal = "IC"; //Inactive Client Status
+    else if (callStatus.value === "SentWork") callCategoryVal = "SW";
 
     if (checkErrors()) {
       const finalData = {
         callToId: leadDataVal._id,
         callToName: leadDataVal.companyName,
-        callToNumber: callToStaff.staffsNumber !== "" ? callToStaff.staffsNumber : callToStaff.phone1,
+        callToNumber:
+          callToStaff.staffsNumber !== ""
+            ? callToStaff.staffsNumber
+            : callToStaff.phone1,
         callToStaffId: callToStaff.staffsId,
         callToStaffName: callToStaff.value,
         callFromId: user._id,
@@ -349,10 +342,15 @@ const AllStatuschange = ({
         callTakenDate: new Date().toISOString().split("T")[0],
         callEnteredDateTime: new Date().toLocaleString("en-GB"),
         filterData: filterData,
-        staffFilter: staffFilter
+        staffFilter: staffFilter,
       };
 
-      if (from === "TestClient" || from === "RegularClient" || from === "Inactive" || from === "InactiveClient") {
+      if (
+        from === "TestClient" ||
+        from === "RegularClient" ||
+        from === "Inactive" ||
+        from === "InactiveClient"
+      ) {
         addDctClientCalls(finalData);
       } else {
         addDctCalls(finalData);
@@ -371,7 +369,7 @@ const AllStatuschange = ({
       nextCallDate: "",
       callNote: "",
     });
-  }
+  };
 
   return !isAuthenticated || !user ? (
     <Spinner />
@@ -388,7 +386,11 @@ const AllStatuschange = ({
                 {" "}
                 <Select
                   name="callStatus"
-                  options={from === "Inactive" ? StatusMethodForInactiveClient : StatusMethodsForWrongNumber}
+                  options={
+                    from === "Inactive"
+                      ? StatusMethodForInactiveClient
+                      : StatusMethodsForWrongNumber
+                  }
                   isSearchable={false}
                   value={callStatus}
                   placeholder="Select"
@@ -459,6 +461,9 @@ const AllStatuschange = ({
                   name="callDate"
                   min={todaydate}
                   value={nextCallDate}
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                  }}
                   onChange={(e) => onDateChange(e)}
                   style={{
                     width: "100%",
@@ -468,7 +473,6 @@ const AllStatuschange = ({
               </>
             )}
           </div>
-
 
           <div className="col-lg-8 col-md-12 col-sm-12 col-12 notesTop">
             <label className="label-control"> Notes :</label>
@@ -503,7 +507,6 @@ const AllStatuschange = ({
               />
             )}
           </div>
-
         </div>
       </form>
     </Fragment>

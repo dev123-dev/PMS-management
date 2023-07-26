@@ -971,8 +971,8 @@ const EditProject = ({
                     <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
                       <label className="label-control colorRed">
                         * Client Date & Client Time is Mail Date & Mail Time.
-                        <br />* Before 2:00 PM Project Date should be previous
-                        Date. After 2:00 PM Project Date should be Today’s Date
+                        <br />* Before 1:00 PM Project Date should be previous
+                        Date. After 1:00 PM Project Date should be Today’s Date
                       </label>
                     </div>
                   </div>
