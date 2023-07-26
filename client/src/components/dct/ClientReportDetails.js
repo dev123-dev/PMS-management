@@ -44,10 +44,7 @@ const ClientReportDetails = ({
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
-  // useEffect(()=>{
-  //   getClientDetails()
-  // },[])
-  // program to check leap year
+
   function checkLeapYear(year) {
     //three conditions to find out the leap year
     if ((0 == year % 4 && 0 != year % 100) || 0 == year % 400) {
@@ -313,9 +310,9 @@ const ClientReportDetails = ({
                           ).length === 0
                             ? "0"
                             : (fyclientsum &&
-                                fyclientsum.filter((val) => {
-                                  return val._id === "Apr";
-                                }))[0].totalCount}
+                              fyclientsum.filter((val) => {
+                                return val._id === "Apr";
+                              }))[0].totalCount}
                         </td>
                         <td>
                           {" "}
@@ -327,9 +324,9 @@ const ClientReportDetails = ({
                           ).length === 0
                             ? "0"
                             : (fyclientsum &&
-                                fyclientsum.filter((val) => {
-                                  return val._id === "May";
-                                }))[0].totalCount}
+                              fyclientsum.filter((val) => {
+                                return val._id === "May";
+                              }))[0].totalCount}
                         </td>
                         <td>
                           {" "}
@@ -341,9 +338,9 @@ const ClientReportDetails = ({
                           ).length === 0
                             ? "0"
                             : (fyclientsum &&
-                                fyclientsum.filter((val) => {
-                                  return val._id === "Jun";
-                                }))[0].totalCount}
+                              fyclientsum.filter((val) => {
+                                return val._id === "Jun";
+                              }))[0].totalCount}
                         </td>
                         <td>
                           {" "}
@@ -355,9 +352,9 @@ const ClientReportDetails = ({
                           ).length === 0
                             ? "0"
                             : (fyclientsum &&
-                                fyclientsum.filter((val) => {
-                                  return val._id === "Jul";
-                                }))[0].totalCount}
+                              fyclientsum.filter((val) => {
+                                return val._id === "Jul";
+                              }))[0].totalCount}
                         </td>
                         <td>
                           {" "}
@@ -369,9 +366,9 @@ const ClientReportDetails = ({
                           ).length === 0
                             ? "0"
                             : (fyclientsum &&
-                                fyclientsum.filter((val) => {
-                                  return val._id === "Aug";
-                                }))[0].totalCount}
+                              fyclientsum.filter((val) => {
+                                return val._id === "Aug";
+                              }))[0].totalCount}
                         </td>
                         <td>
                           {" "}
@@ -383,9 +380,9 @@ const ClientReportDetails = ({
                           ).length === 0
                             ? "0"
                             : (fyclientsum &&
-                                fyclientsum.filter((val) => {
-                                  return val._id === "Sept";
-                                }))[0].totalCount}
+                              fyclientsum.filter((val) => {
+                                return val._id === "Sept";
+                              }))[0].totalCount}
                         </td>
                         <td>
                           {" "}
@@ -397,9 +394,9 @@ const ClientReportDetails = ({
                           ).length === 0
                             ? "0"
                             : (fyclientsum &&
-                                fyclientsum.filter((val) => {
-                                  return val._id === "Oct";
-                                }))[0].totalCount}
+                              fyclientsum.filter((val) => {
+                                return val._id === "Oct";
+                              }))[0].totalCount}
                         </td>
                         <td>
                           {" "}
@@ -411,9 +408,9 @@ const ClientReportDetails = ({
                           ).length === 0
                             ? "0"
                             : (fyclientsum &&
-                                fyclientsum.filter((val) => {
-                                  return val._id === "Nov";
-                                }))[0].totalCount}
+                              fyclientsum.filter((val) => {
+                                return val._id === "Nov";
+                              }))[0].totalCount}
                         </td>
                         <td>
                           {" "}
@@ -425,9 +422,9 @@ const ClientReportDetails = ({
                           ).length === 0
                             ? "0"
                             : (fyclientsum &&
-                                fyclientsum.filter((val) => {
-                                  return val._id === "Dec";
-                                }))[0].totalCount}
+                              fyclientsum.filter((val) => {
+                                return val._id === "Dec";
+                              }))[0].totalCount}
                         </td>
 
                         <td>
@@ -440,9 +437,9 @@ const ClientReportDetails = ({
                           ).length === 0
                             ? "0"
                             : (fyclientsum &&
-                                fyclientsum.filter((val) => {
-                                  return val._id === "Jan";
-                                }))[0].totalCount}
+                              fyclientsum.filter((val) => {
+                                return val._id === "Jan";
+                              }))[0].totalCount}
                         </td>
                         <td>
                           {" "}
@@ -454,9 +451,9 @@ const ClientReportDetails = ({
                           ).length === 0
                             ? "0"
                             : (fyclientsum &&
-                                fyclientsum.filter((val) => {
-                                  return val._id === "Feb";
-                                }))[0].totalCount}
+                              fyclientsum.filter((val) => {
+                                return val._id === "Feb";
+                              }))[0].totalCount}
                         </td>
 
                         <td>
@@ -469,9 +466,9 @@ const ClientReportDetails = ({
                           ).length === 0
                             ? "0"
                             : (fyclientsum &&
-                                fyclientsum.filter((val) => {
-                                  return val._id === "Mar";
-                                }))[0].totalCount}
+                              fyclientsum.filter((val) => {
+                                return val._id === "Mar";
+                              }))[0].totalCount}
                         </td>
                       </tr>
 
@@ -492,259 +489,270 @@ const ClientReportDetails = ({
                                     {client._id}
                                   </Link>
                                 </td>
-                                {/* apr */}
+                                {/* Apr */}
                                 <td>
-                                  <Link
-                                    to="/client-month-report"
-                                    className="btnLink"
-                                    onClick={() =>
-                                      handleGoToMember(client, "04")
-                                    }
-                                  >
-                                    {client.finalData &&
-                                      (client.finalData.findIndex((val) =>
-                                        val.includes("Apr")
-                                      ) === -1
-                                        ? "0"
-                                        : client.finalData[
-                                            client.finalData.findIndex((val) =>
-                                              val.includes("Apr")
-                                            )
-                                          ].split("-")[1])}
-                                  </Link>
+                                  {client.finalData &&
+                                    client.finalData.findIndex((val) =>
+                                      val.includes("Apr")
+                                    ) === -1
+                                    ? "0"
+                                    :
+                                    <Link
+                                      to="/client-month-report"
+                                      className="btnLink"
+                                      onClick={() =>
+                                        handleGoToMember(client, "04")
+                                      }
+                                    >
+                                      {client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Apr")
+                                        )].split("-")[1]}
+                                    </Link>
+                                  }
+
                                 </td>
                                 {/* May */}
                                 <td>
-                                  <Link
-                                    to="/client-month-report"
-                                    className="btnLink"
-                                    onClick={() =>
-                                      handleGoToMember(client, "05")
-                                    }
-                                  >
-                                    {client.finalData &&
-                                      (client.finalData.findIndex((val) =>
-                                        val.includes("May")
-                                      ) === -1
-                                        ? "0"
-                                        : client.finalData[
-                                            client.finalData.findIndex((val) =>
-                                              val.includes("May")
-                                            )
-                                          ].split("-")[1])}
-                                  </Link>
+                                  {client.finalData &&
+                                    client.finalData.findIndex((val) =>
+                                      val.includes("May")
+                                    ) === -1
+                                    ? "0"
+                                    : <Link
+                                      to="/client-month-report"
+                                      className="btnLink"
+                                      onClick={() =>
+                                        handleGoToMember(client, "05")
+                                      }
+                                    >
+                                      {client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("May")
+                                        )].split("-")[1]}
+                                    </Link>
+                                  }
                                 </td>
                                 {/* June */}
                                 <td>
-                                  <Link
-                                    to="/client-month-report"
-                                    className="btnLink"
-                                    onClick={() =>
-                                      handleGoToMember(client, "06")
-                                    }
-                                  >
-                                    {client.finalData &&
-                                      (client.finalData.findIndex((val) =>
-                                        val.includes("Jun")
-                                      ) === -1
-                                        ? "0"
-                                        : client.finalData[
-                                            client.finalData.findIndex((val) =>
-                                              val.includes("Jun")
-                                            )
-                                          ].split("-")[1])}
-                                  </Link>
+                                  {client.finalData &&
+                                    client.finalData.findIndex((val) =>
+                                      val.includes("Jun")
+                                    ) === -1
+                                    ? "0"
+                                    :
+                                    <Link
+                                      to="/client-month-report"
+                                      className="btnLink"
+                                      onClick={() =>
+                                        handleGoToMember(client, "06")
+                                      }
+                                    >
+                                      {
+                                        client.finalData[
+                                          client.finalData.findIndex((val) =>
+                                            val.includes("Jun")
+                                          )].split("-")[1]}
+                                    </Link>
+                                  }
                                 </td>
-                                {/* jul */}
+                                {/* Jul */}
                                 <td>
-                                  <Link
-                                    to="/client-month-report"
-                                    className="btnLink"
-                                    onClick={() =>
-                                      handleGoToMember(client, "07")
-                                    }
-                                  >
-                                    {client.finalData &&
-                                      (client.finalData.findIndex((val) =>
-                                        val.includes("Jul")
-                                      ) === -1
-                                        ? "0"
-                                        : client.finalData[
-                                            client.finalData.findIndex((val) =>
-                                              val.includes("Jul")
-                                            )
-                                          ].split("-")[1])}
-                                  </Link>
+                                  {client.finalData &&
+                                    client.finalData.findIndex((val) =>
+                                      val.includes("Jul")
+                                    ) === -1
+                                    ? "0"
+                                    :
+                                    <Link
+                                      to="/client-month-report"
+                                      className="btnLink"
+                                      onClick={() =>
+                                        handleGoToMember(client, "07")
+                                      }>
+                                      {client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Jul")
+                                        )].split("-")[1]}
+                                    </Link>
+                                  }
                                 </td>
-                                {/* aug */}
+                                {/* Aug */}
                                 <td>
-                                  <Link
-                                    to="/client-month-report"
-                                    className="btnLink"
-                                    onClick={() =>
-                                      handleGoToMember(client, "08")
-                                    }
-                                  >
-                                    {client.finalData &&
-                                      (client.finalData.findIndex((val) =>
-                                        val.includes("Aug")
-                                      ) === -1
-                                        ? "0"
-                                        : client.finalData[
-                                            client.finalData.findIndex((val) =>
-                                              val.includes("Aug")
-                                            )
-                                          ].split("-")[1])}
-                                  </Link>
+                                  {client.finalData &&
+                                    client.finalData.findIndex((val) =>
+                                      val.includes("Aug")
+                                    ) === -1
+                                    ? "0"
+                                    : <Link
+                                      to="/client-month-report"
+                                      className="btnLink"
+                                      onClick={() =>
+                                        handleGoToMember(client, "08")
+                                      }
+                                    >
+                                      {client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Aug")
+                                        )].split("-")[1]}
+                                    </Link>
+                                  }
                                 </td>
-                                {/* sept */}
+                                {/* Sept */}
                                 <td>
-                                  <Link
-                                    to="/client-month-report"
-                                    className="btnLink"
-                                    onClick={() =>
-                                      handleGoToMember(client, "09")
-                                    }
-                                  >
-                                    {client.finalData &&
-                                      (client.finalData.findIndex((val) =>
-                                        val.includes("Sept")
-                                      ) === -1
-                                        ? "0"
-                                        : client.finalData[
-                                            client.finalData.findIndex((val) =>
-                                              val.includes("Sept")
-                                            )
-                                          ].split("-")[1])}
-                                  </Link>
+                                  {client.finalData &&
+                                    client.finalData.findIndex((val) =>
+                                      val.includes("Sept")
+                                    ) === -1
+                                    ? "0"
+                                    :
+                                    <Link
+                                      to="/client-month-report"
+                                      className="btnLink"
+                                      onClick={() =>
+                                        handleGoToMember(client, "09")
+                                      }
+                                    >
+                                      {client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Sept")
+                                        )].split("-")[1]}
+                                    </Link>
+                                  }
                                 </td>
-                                {/* oct */}
+                                {/* Oct */}
                                 <td>
-                                  <Link
-                                    to="/client-month-report"
-                                    className="btnLink"
-                                    onClick={() =>
-                                      handleGoToMember(client, "10")
-                                    }
-                                  >
-                                    {client.finalData &&
-                                      (client.finalData.findIndex((val) =>
-                                        val.includes("Oct")
-                                      ) === -1
-                                        ? "0"
-                                        : client.finalData[
-                                            client.finalData.findIndex((val) =>
-                                              val.includes("Oct")
-                                            )
-                                          ].split("-")[1])}
-                                  </Link>
+                                  {client.finalData &&
+                                    client.finalData.findIndex((val) =>
+                                      val.includes("Oct")
+                                    ) === -1
+                                    ? "0"
+                                    :
+                                    <Link
+                                      to="/client-month-report"
+                                      className="btnLink"
+                                      onClick={() =>
+                                        handleGoToMember(client, "10")
+                                      }
+                                    >
+                                      {client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Oct")
+                                        )].split("-")[1]}
+                                    </Link>
+                                  }
                                 </td>
-                                {/* nov */}
+                                {/* Nov */}
                                 <td>
-                                  <Link
-                                    to="/client-month-report"
-                                    className="btnLink"
-                                    onClick={() =>
-                                      handleGoToMember(client, "11")
-                                    }
-                                  >
-                                    {client.finalData &&
-                                      (client.finalData.findIndex((val) =>
-                                        val.includes("Nov")
-                                      ) === -1
-                                        ? "0"
-                                        : client.finalData[
-                                            client.finalData.findIndex((val) =>
-                                              val.includes("Nov")
-                                            )
-                                          ].split("-")[1])}
-                                  </Link>
+                                  {client.finalData &&
+                                    client.finalData.findIndex((val) =>
+                                      val.includes("Nov")
+                                    ) === -1
+                                    ? "0"
+                                    :
+                                    <Link
+                                      to="/client-month-report"
+                                      className="btnLink"
+                                      onClick={() =>
+                                        handleGoToMember(client, "11")
+                                      }
+                                    >
+                                      {client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Nov")
+                                        )
+                                      ].split("-")[1]}
+                                    </Link>
+                                  }
                                 </td>
-                                {/* dec */}
+                                {/* Dec */}
                                 <td>
-                                  <Link
-                                    to="/client-month-report"
-                                    className="btnLink"
-                                    onClick={() =>
-                                      handleGoToMember(client, "12")
-                                    }
-                                  >
-                                    {client.finalData &&
-                                      (client.finalData.findIndex((val) =>
-                                        val.includes("Dec")
-                                      ) === -1
-                                        ? "0"
-                                        : client.finalData[
-                                            client.finalData.findIndex((val) =>
-                                              val.includes("Dec")
-                                            )
-                                          ].split("-")[1])}
-                                  </Link>
+                                  {client.finalData &&
+                                    client.finalData.findIndex((val) =>
+                                      val.includes("Dec")
+                                    ) === -1
+                                    ? "0"
+                                    :
+                                    <Link
+                                      to="/client-month-report"
+                                      className="btnLink"
+                                      onClick={() =>
+                                        handleGoToMember(client, "12")
+                                      }
+                                    >
+                                      {client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Dec")
+                                        )].split("-")[1]}
+                                    </Link>
+                                  }
                                 </td>
 
                                 {/* Jan */}
                                 <td>
-                                  <Link
-                                    to="/client-month-report"
-                                    className="btnLink"
-                                    onClick={() =>
-                                      handleGoToMember(client, "01")
-                                    }
-                                  >
-                                    {client.finalData &&
-                                      (client.finalData.findIndex((val) =>
-                                        val.includes("Jan")
-                                      ) === -1
-                                        ? "0"
-                                        : client.finalData[
-                                            client.finalData.findIndex((val) =>
-                                              val.includes("Jan")
-                                            )
-                                          ].split("-")[1])}
-                                  </Link>
+                                  {client.finalData &&
+                                    client.finalData.findIndex((val) =>
+                                      val.includes("Jan")
+                                    ) === -1
+                                    ? "0"
+                                    :
+                                    <Link
+                                      to="/client-month-report"
+                                      className="btnLink"
+                                      onClick={() =>
+                                        handleGoToMember(client, "01")
+                                      }
+                                    >
+                                      {client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Jan")
+                                        )].split("-")[1]}
+                                    </Link>
+                                  }
                                 </td>
-                                {/* feb */}
-
+                                {/* Feb */}
                                 <td>
-                                  <Link
-                                    to="/client-month-report"
-                                    className="btnLink"
-                                    onClick={() =>
-                                      handleGoToMember(client, "02")
-                                    }
-                                  >
-                                    {client.finalData &&
-                                      (client.finalData.findIndex((val) =>
-                                        val.includes("Feb")
-                                      ) === -1
-                                        ? "0"
-                                        : client.finalData[
-                                            client.finalData.findIndex((val) =>
-                                              val.includes("Feb")
-                                            )
-                                          ].split("-")[1])}
-                                  </Link>
+                                  {client.finalData &&
+                                    client.finalData.findIndex((val) =>
+                                      val.includes("Feb")
+                                    ) === -1
+                                    ? "0"
+                                    :
+                                    <Link
+                                      to="/client-month-report"
+                                      className="btnLink"
+                                      onClick={() =>
+                                        handleGoToMember(client, "02")
+                                      }
+                                    >
+                                      {client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Feb")
+                                        )].split("-")[1]}
+                                    </Link>
+                                  }
                                 </td>
-                                {/* mar */}
+                                {/* Mar */}
                                 <td>
-                                  <Link
-                                    to="/client-month-report"
-                                    className="btnLink"
-                                    onClick={() =>
-                                      handleGoToMember(client, "03")
-                                    }
-                                  >
-                                    {client.finalData &&
-                                      (client.finalData.findIndex((val) =>
-                                        val.includes("Mar")
-                                      ) === -1
-                                        ? "0"
-                                        : client.finalData[
-                                            client.finalData.findIndex((val) =>
-                                              val.includes("Mar")
-                                            )
-                                          ].split("-")[1])}
-                                  </Link>
+                                  {client.finalData &&
+                                    client.finalData.findIndex((val) =>
+                                      val.includes("Mar")
+                                    ) === -1
+                                    ? "0"
+                                    :
+                                    <Link
+                                      to="/client-month-report"
+                                      className="btnLink"
+                                      onClick={() =>
+                                        handleGoToMember(client, "03")
+                                      }
+                                    >
+                                      {client.finalData[
+                                        client.finalData.findIndex((val) =>
+                                          val.includes("Mar")
+                                        )].split("-")[1]}
+                                    </Link>
+                                  }
                                 </td>
                               </tr>
                             </React.Fragment>
@@ -756,9 +764,9 @@ const ClientReportDetails = ({
               </section>
             </div>
           </div>
-        </section>
-      </div>
-    </Fragment>
+        </section >
+      </div >
+    </Fragment >
   );
 };
 

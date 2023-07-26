@@ -234,12 +234,6 @@ const Header = ({
                     >
                       <Dropdown.Item>All Prospects</Dropdown.Item>
                     </NavLink>
-                    {/* <NavLink  // Joel 18-07-2023 discarded not required for DCT confirmed with ARKA, VINAYAK 
-                      to="/all-dct-potentials"
-                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
-                    >
-                      <Dropdown.Item>All Potentials</Dropdown.Item>
-                    </NavLink> */}  
                     <NavLink
                       to="/all-followup"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
@@ -258,6 +252,16 @@ const Header = ({
                     >
                       <Dropdown.Item>Regular Client Followup</Dropdown.Item>
                     </NavLink>
+                    {
+                      (user.userGroupName === "Administrator" ||
+                        user.userGroupName === "Super Admin" ||
+                        user._id === "62adae375b6aaf82ce15a1d5") ? (<NavLink
+                          to="/inactive-clients-followup"
+                          activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                        >
+                          <Dropdown.Item>Inactive Client Followup</Dropdown.Item>
+                        </NavLink>) : (<></>)
+                    }
                     <NavLink
                       to="/all-dct-wrong-numbers"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}

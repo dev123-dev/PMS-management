@@ -36,20 +36,33 @@ const config = {
 };
 
 export const getInactiveClients = () => async (dispatch) => {
-  dispatch({
-    type: SET_LOADING_TRUE,
-  });
+  // dispatch({
+  //   type: SET_LOADING_TRUE,
+  // });
   try {
-    const res = await axios.get("http://localhost:5439/api/dct/inactive-clients");
+    const res = await axios.get("/api/dct/inactive-clients");
     dispatch({
       type: "INACTIVE_CLIENTS",
       payload: res.data,
     });
-    dispatch({
-      type: SET_LOADING_FALSE,
-    });
+    // dispatch({
+    //   type: SET_LOADING_FALSE,
+    // });
   } catch (err) {
     console.error(err.message);
+  }
+}
+
+export const getInactiveClientsFollowUp = () => async (dispatch) => {
+  //console.log("Action Exec");
+  try {
+    const res = await axios.get("/api/dct/inactive-clients-followup");
+    dispatch({
+      type: "INACTIVE_CLIENTS_FOLLOWUP",
+      payload: res.data
+    })
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -122,6 +135,11 @@ export const addDctClientCalls = (finalData) => async (dispatch) => {
     );
     if (finalData.filterData) {
       dispatch(getDctClientDetails(finalData.filterData));
+    } else {
+      if (finalData.staffFilter && finalData.staffFilter.from === "Inactive") {
+        dispatch(getInactiveClients());
+      } else if (finalData.staffFilter && finalData.staffFilter.from === "InactiveClient")
+        dispatch(getInactiveClientsFollowUp());
     }
     dispatch({
       type: SET_LOADING_FALSE,
@@ -187,6 +205,7 @@ export const addNewDctStaffDetails = (finalData) => async (dispatch) => {
 };
 
 export const addNewDctClientStaffDetails = (finalData) => async (dispatch) => {
+  console.log("Check", finalData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,
@@ -195,6 +214,11 @@ export const addNewDctClientStaffDetails = (finalData) => async (dispatch) => {
     if (finalData.staffFilter) dispatch(getStaffsData(finalData.staffFilter));
     if (finalData.filterData) {
       dispatch(getDctClientDetails(finalData.filterData));
+    } else {
+      if (finalData.staffFilter.from === "Inactive")
+        dispatch(getInactiveClients());
+      else if (finalData.staffFilter.from === "InactiveClient")
+        dispatch(getInactiveClientsFollowUp());
     }
     dispatch({
       type: SET_LOADING_FALSE,
@@ -324,6 +348,11 @@ export const deactivateDctClientStaffDetails =
       if (finalData.staffFilter) dispatch(getStaffsData(finalData.staffFilter));
       if (finalData.filterData) {
         dispatch(getDctClientDetails(finalData.filterData));
+      } else {
+        if (finalData.staffFilter && finalData.staffFilter.from === "Inactive")
+          dispatch(getInactiveClients());
+        else if (finalData.staffFilter && finalData.staffFilter.from === "InactiveClient")
+          dispatch(getInactiveClientsFollowUp());
       }
       dispatch({
         type: SET_LOADING_FALSE,
@@ -371,7 +400,6 @@ export const deactivateDctClient = (finalData) => async (dispatch) => {
 
 export const refreshLead = (finalData) => async (dispatch) => {
   try {
-    console.log("Refresh Lead Called", finalData);
     if (finalData.staffFilter) {
       if (finalData.staffFilter.from === "AllLeads") {
         dispatch(getAllDctLead(finalData.filterData));
@@ -665,9 +693,17 @@ export const getSelectedLead = (finalData) => async (dispatch) => {
 };
 
 export const getStaffsData = (finalData) => async (dispatch) => { //Joel 18-07-2023 conditional change
+  if (!finalData.from) return;
+  dispatch({
+    type: "GET_STAFF_DATA_INITIALIZE"
+  });
   try {
     let res = [];
-    if (finalData.from === "TestClient" || finalData.from === "RegularClient" || finalData.from === "AllClients") {
+    if (finalData.from === "TestClient" ||
+      finalData.from === "RegularClient" ||
+      finalData.from === "AllClients" ||
+      finalData.from === "Inactive" ||
+      finalData.from === "InactiveClient") {
       res = await axios.post(
         "/api/dct/get-client-staffs-data",
         finalData,

@@ -521,7 +521,7 @@ const AllProspects = ({
                   </label>
                   {showdateselectionSection && (
                     <LastMessageDetails
-                    from="Prospect"
+                      from="Prospect"
                       searchDataVal={searchDataVal}
                       ondivcloseChange={ondivcloseChange}
                     />

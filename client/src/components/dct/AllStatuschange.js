@@ -37,27 +37,44 @@ const AllStatuschange = ({
     { value: "FollowUp", label: "Follow Up" },
     { value: "TestClient", label: "Test Client" },
     { value: "RegularClient", label: "Regular Client" },
+    { value: "SentWork", label: "Sent Work" }
   ];
 
   let StatusMethodsForWrongNumber = [{ value: "CallBack", label: "Call Back" }];
+  let StatusMethodForInactiveClient = [{ value: "Inactive", label: "Inactive" }];
 
   // Status Filter based on Follow Up, Test Client and Regular Client
   if (from === "FollowUp") {
     StatusMethods = StatusMethods.filter(
-      (StatusMethods) => StatusMethods.value !== "FollowUp"
+      (StatusMethods) =>
+        StatusMethods.value !== "FollowUp" &&
+        StatusMethods.value !== "SentWork"
+
     );
   } else if (from === "TestClient") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
         StatusMethods.value !== "TestClient" &&
-        StatusMethods.value !== "FollowUp"
+        StatusMethods.value !== "FollowUp" &&
+        StatusMethods.value !== "SentWork"
     );
   } else if (from === "RegularClient") {
     StatusMethods = StatusMethods.filter(
       (StatusMethods) =>
         StatusMethods.value !== "TestClient" &&
         StatusMethods.value !== "FollowUp" &&
-        StatusMethods.value !== "RegularClient"
+        StatusMethods.value !== "RegularClient" &&
+        StatusMethods.value !== "SentWork"
+    );
+  } else if (from === "InactiveClient") {
+    StatusMethods = StatusMethods.filter(
+      (StatusMethods) =>
+        StatusMethods.value !== "TestClient" &&
+        StatusMethods.value !== "FollowUp" &&
+        StatusMethods.value !== "RegularClient" &&
+        StatusMethods.value !== "WrongNumber" &&
+        StatusMethods.value !== "DND" &&
+        StatusMethods.value !== "NI"
     );
   }
 
@@ -248,6 +265,8 @@ const AllStatuschange = ({
         break;
       case "TestClient":
       case "RegularClient":
+      case "Inactive":
+      case "SentWork":
         setFormData({
           ...formData,
           callStatus: e,
@@ -295,16 +314,22 @@ const AllStatuschange = ({
         callCategoryVal = "TC";
       else if (callComeFromVal === "RegularClient")
         callCategoryVal = "RC";
+      else if (callComeFromVal === "InactiveClient")
+        callCategoryVal = "IC";
     }
     else if (callStatus.value === "WrongNumber")
-      callCategoryVal = "W"
+      callCategoryVal = "W";
     else if (callStatus.value === "FollowUp") {
-      callCategoryVal = "F"
+      callCategoryVal = "F";
     }
     else if (callStatus.value === "TestClient")
-      callCategoryVal = "TC"
+      callCategoryVal = "TC";
     else if (callStatus.value === "RegularClient")
-      callCategoryVal = "RC"
+      callCategoryVal = "RC";
+    else if (callStatus.value === "Inactive")
+      callCategoryVal = "IC";                  //Inactive Client Status
+    else if (callStatus.value === "SentWork")
+      callCategoryVal = "SW";
 
     if (checkErrors()) {
       const finalData = {
@@ -327,7 +352,7 @@ const AllStatuschange = ({
         staffFilter: staffFilter
       };
 
-      if (from === "TestClient" || from === "RegularClient") {
+      if (from === "TestClient" || from === "RegularClient" || from === "Inactive" || from === "InactiveClient") {
         addDctClientCalls(finalData);
       } else {
         addDctCalls(finalData);
@@ -358,12 +383,12 @@ const AllStatuschange = ({
             <label className="label-control" style={callStatusErrorStyle}>
               Status :
             </label>
-            {page === "AllWrongNumber" ? (
+            {page === "AllWrongNumber" || from === "Inactive" ? (
               <>
                 {" "}
                 <Select
                   name="callStatus"
-                  options={StatusMethodsForWrongNumber}
+                  options={from === "Inactive" ? StatusMethodForInactiveClient : StatusMethodsForWrongNumber}
                   isSearchable={false}
                   value={callStatus}
                   placeholder="Select"

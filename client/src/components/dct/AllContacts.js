@@ -19,7 +19,6 @@ const AllContacts = ({
   regions: { activeCountry },
   dct: { staffData },
   leadDataVal,
-  inactiveClientStaff,  // For handling Inactive Clients
   addNewDctStaffDetails,
   addNewDctClientStaffDetails,
   deactivateDctStaffDetails,
@@ -35,11 +34,11 @@ const AllContacts = ({
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
 
-  let staffFilter = { from: from, leadDataId: leadDataVal && leadDataVal._id };
+  let staffFilter = { from: from, leadDataId: leadDataVal && leadDataVal._id }
   useEffect(() => {
     getStaffsData(staffFilter);
   }, [leadDataVal]);
-  //console.log("Contacts Filter", filterData);
+
   const [formData, setFormData] = useState({
     staffName: "",
     staffPhoneNumber: "",
@@ -152,7 +151,7 @@ const AllContacts = ({
       filterData: filterData,
       staffFilter: staffFilter,
     };
-    if (from === "TestClient" || from === "RegularClient") {
+    if (from === "TestClient" || from === "RegularClient" || from === "Inactive" || from === "InactiveClient") {
       addNewDctClientStaffDetails(finalData);
     } else {
       addNewDctStaffDetails(finalData);
@@ -191,7 +190,7 @@ const AllContacts = ({
       filterData: filterData,
       staffFilter: staffFilter,
     };
-    if (from === "TestClient" || from === "RegularClient") {
+    if (from === "TestClient" || from === "RegularClient" || from === "Inactive" || from === "InactiveClient") {
       deactivateDctClientStaffDetails(finalData);
     } else {
       deactivateDctStaffDetails(finalData);
@@ -207,6 +206,13 @@ const AllContacts = ({
       staffDeactiveReason: "",
       isSubmitted: true,
     });
+  };
+
+  const onKeyDown = (e) => {
+    // Allow only numbers, backspace, and arrow keys
+    if (!/^\d$/.test(e.key) && e.key !== "Backspace" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
+      e.preventDefault();
+    }
   };
 
   return !isAuthenticated || !user ? (
@@ -227,7 +233,7 @@ const AllContacts = ({
               backgroundColor: "#456792",
             }}
           >
-            {showdateselectionSection && from !== "Inactive" ? (
+            {showdateselectionSection ? (
               <img
                 src={require("../../static/images/add-icon-wh.png")}
                 alt="X"
@@ -258,77 +264,53 @@ const AllContacts = ({
                           <th style={{ width: "10%" }}>Phone No</th>
                           <th style={{ width: "8%" }}>Designation</th>
                           <th style={{ width: "10%" }}>Email</th>
-                          {
-                            from !== "Inactive" ?
-                              (<th style={{ width: "7%" }}>Op</th>) : (<></>)
-                          }
-
+                          <th style={{ width: "7%" }}>Op</th>
                         </tr>
                       </thead>
                       <tbody>
                         {
-                          from !== "Inactive" ?
-                            staffData &&
-                            staffData.staffs &&
-                            staffData.staffs.map((staff, idx) => {
-                              if (staff.staffStatus === "Active")
-                                return (
-                                  <tr key={idx}>
-                                    <td>{staff.staffName}</td>
-                                    <td>
-                                      {staff.staffCountryCode
-                                        ? "+" + staff.staffCountryCode
-                                        : ""}
-                                      &nbsp;
-                                      {staff.staffPhoneNumber}
-                                    </td>
-                                    <td>{staff.staffDesignation}</td>
-                                    <td>{staff.staffEmailId}</td>
-                                    <td>
-                                      <img
-                                        className="img_icon_size log"
-                                        onClick={() => onDeactive(staff, idx)}
-                                        src={require("../../static/images/delete.png")}
-                                        alt="Delete Staff"
-                                        style={{ height: "17px", width: "14px" }}
-                                        title="Delelte Staff"
-                                      />
+                          staffData &&
+                          staffData.staffs &&
+                          staffData.staffs.map((staff, idx) => {
+                            if (staff.staffStatus === "Active")
+                              return (
+                                <tr key={idx}>
+                                  <td>{staff.staffName}</td>
+                                  <td>
+                                    {staff.staffCountryCode
+                                      ? "+" + staff.staffCountryCode
+                                      : ""}
+                                    &nbsp;
+                                    {staff.staffPhoneNumber}
+                                  </td>
+                                  <td>{staff.staffDesignation}</td>
+                                  <td>{staff.staffEmailId}</td>
+                                  <td>
+                                    <img
+                                      className="img_icon_size log"
+                                      onClick={() => onDeactive(staff, idx)}
+                                      src={require("../../static/images/delete.png")}
+                                      alt="Delete Staff"
+                                      style={{ height: "17px", width: "14px" }}
+                                      title="Delelte Staff"
+                                    />
 
-                                      <img
-                                        className="img_icon_size log"
-                                        onClick={() => onUpdate(staff, idx)}
-                                        src={require("../../static/images/edit_icon.png")}
-                                        alt="Edit"
-                                        title="Edit"
-                                        style={{
-                                          height: "17px",
-                                          width: "14px",
-                                          marginLeft: "2px",
-                                        }}
-                                      />
-                                    </td>
-
-                                  </tr>
-                                );
-                            }) : inactiveClientStaff &&
-                            inactiveClientStaff &&
-                            inactiveClientStaff.map((staff, idx) => {
-                              if (staff.staffStatus === "Active")
-                                return (
-                                  <tr key={idx}>
-                                    <td>{staff.staffName}</td>
-                                    <td>
-                                      {staff.staffCountryCode
-                                        ? "+" + staff.staffCountryCode
-                                        : ""}
-                                      &nbsp;
-                                      {staff.staffPhoneNumber}
-                                    </td>
-                                    <td>{staff.staffDesignation}</td>
-                                    <td>{staff.staffEmailId}</td>
-                                  </tr>
-                                );
-                            })}
+                                    <img
+                                      className="img_icon_size log"
+                                      onClick={() => onUpdate(staff, idx)}
+                                      src={require("../../static/images/edit_icon.png")}
+                                      alt="Edit"
+                                      title="Edit"
+                                      style={{
+                                        height: "17px",
+                                        width: "14px",
+                                        marginLeft: "2px",
+                                      }}
+                                    />
+                                  </td>
+                                </tr>)
+                          })
+                        }
                       </tbody>
                     </table>
                   </div>
@@ -400,28 +382,30 @@ const AllContacts = ({
             <div className="row col-lg-12 col-md-11 col-sm-12 col-12 ">
               <div className="row card-new  pb-3">
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Staff Name :</label>
+                  <label className="label-control">Staff Name* :</label>
                   <input
                     type="text"
                     name="staffName"
                     value={staffName}
                     className="form-control"
+                    autoComplete="off"
                     onChange={(e) => onInputChange(e)}
                     required
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Email Id:</label>
+                  <label className="label-control">Email-Id:</label>
                   <input
-                    type="text"
+                    type="email"
                     name="staffEmailId"
                     value={staffEmailId}
                     className="form-control"
+                    autoComplete="off"
                     onChange={(e) => onInputChange(e)}
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label className="label-control">Region* :</label>
+                  <label className="label-control">Region :</label>
                   <Select
                     name="countryName"
                     options={allstaffcountry}
@@ -448,16 +432,15 @@ const AllContacts = ({
                     <br />
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     name="staffPhoneNumber"
                     value={staffPhoneNumber}
                     className="form-control"
                     onChange={(e) => onInputChange(e)}
                     style={{ marginLeft: "-6em", width: "22vh" }}
-                    onKeyDown={(e) =>
-                      (e.keyCode === 69 || e.keyCode === 190) &&
-                      e.preventDefault()
-                    }
+                    maxLength="12"
+                    autoComplete="off"
+                    onKeyDown={onKeyDown}
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -467,6 +450,7 @@ const AllContacts = ({
                     name="staffDesignation"
                     value={staffDesignation}
                     className="form-control"
+                    autoComplete="off"
                     onChange={(e) => onInputChange(e)}
                   />
                 </div>

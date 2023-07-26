@@ -14,8 +14,6 @@ const EditContact = ({
   allStaffdata,
   getActiveCountry,
   regions: { activeCountry },
-  allleaddata,
-  ondivcloseChange,
   onEditModalChange,
   editDctStaffDetails,
   editDctClientStaffDetails,
@@ -115,13 +113,20 @@ const EditContact = ({
       staffFilter: staffFilter,
     };
 
-    if (from === "TestClient" || from === "RegularClient") {
+    if (from === "TestClient" || from === "RegularClient" || from === "Inactive" || from === "InactiveClient") {
       editDctClientStaffDetails(finalData);
     } else {
       editDctStaffDetails(finalData);
     }
     onEditModalChange(true);
     // ondivcloseChange(true);
+  };
+
+  const onKeyDown = (e) => {
+    // Allow only numbers, backspace, and arrow keys
+    if (!/^\d$/.test(e.key) && e.key !== "Backspace" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
+      e.preventDefault();
+    }
   };
 
   return !isAuthenticated || !user ? (
@@ -138,15 +143,18 @@ const EditContact = ({
                 name="staffName"
                 value={staffName}
                 className="form-control"
+                autoComplete="off"
                 onChange={(e) => onInputChange(e)}
+                required
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-6 col-12">
               <label className="label-control">Email Id:</label>
               <input
-                type="text"
+                type="email"
                 name="staffEmailId"
                 value={staffEmailId}
+                autoComplete="off"
                 className="form-control"
                 onChange={(e) => onInputChange(e)}
               />
@@ -179,15 +187,15 @@ const EditContact = ({
                 <br />
               </label>
               <input
-                type="number"
+                type="text"
                 name="staffPhoneNumber"
                 value={staffPhoneNumber}
                 className="form-control"
+                autoComplete="off"
+                maxLength={12}
                 onChange={(e) => onInputChange(e)}
                 style={{ marginLeft: "-5em", width: "20vh" }}
-                onKeyDown={(e) =>
-                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-                }
+                onKeyDown={onKeyDown}
               />
             </div>
 
@@ -198,6 +206,7 @@ const EditContact = ({
                 name="staffDesignation"
                 value={staffDesignation}
                 className="form-control"
+                autoComplete="off"
                 onChange={(e) => onInputChange(e)}
               />
             </div>

@@ -5,15 +5,14 @@ import Spinner from "../layout/Spinner";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
-import { getInactiveClients, getLastmessage } from "../../actions/dct"
+import { getInactiveClientsFollowUp, getLastmessage } from "../../actions/dct"
 
-const InactiveClientsReport =
+const InactiveClientsFolowUp =
     ({ auth: { isAuthenticated, user },
-        dct: { dctInactiveClients },
-        getInactiveClients,
+        dct: { dctInactiveClientsFollowUp },
+        getInactiveClientsFollowUp,
         getLastmessage
     }) => {
-
         const [selRowIdx, setSelRowIdx] = useState("");
         const [searchDataVal, setsearchDataVal] = useState();
         const [selInactiveClient, setSelInactiveClient] = useState("");
@@ -34,7 +33,7 @@ const InactiveClientsReport =
         const handledivModalClose = () => setShowHide(false);
 
         useEffect(() => {
-            getInactiveClients();
+            getInactiveClientsFollowUp();
         }, [])
 
         const onClickHandler = (dctInactiveClient, idx) => {
@@ -58,7 +57,8 @@ const InactiveClientsReport =
                 <section className="sub_reg">
                     <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
                         <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
-                            <h4 className="heading_color">Inactive Client Details (last 30 days)</h4>
+                            <h4 className="heading_color">Inactive Client Follow Up</h4>
+
                         </div>
                     </div>
                     <div className="row">
@@ -78,8 +78,8 @@ const InactiveClientsReport =
                                                 <th style={{ width: "13%" }}>Contact</th>
                                             </tr>
                                         </thead>
-                                        <tbody>{dctInactiveClients &&
-                                            dctInactiveClients.map((dctInactiveClient, idx) => {
+                                        <tbody>{dctInactiveClientsFollowUp &&
+                                            dctInactiveClientsFollowUp.map((dctInactiveClient, idx) => {
                                                 return (
                                                     <tr
                                                         key={idx}
@@ -116,7 +116,7 @@ const InactiveClientsReport =
                                 </div>
                                 <div className="row">
                                     <div className="col-lg-6 col-md-6 col-sm-11 col-11">
-                                        No of Inactive Clients : {dctInactiveClients.length}
+                                        No of Inactive Clients Follow Up : {dctInactiveClientsFollowUp.length}
                                     </div>
                                 </div>
                             </section>
@@ -127,7 +127,7 @@ const InactiveClientsReport =
                                     <AllContacts
                                         leadDataVal={selInactiveClient}
                                         ondivcloseChange={ondivcloseChange}
-                                        from="Inactive"
+                                        from="InactiveClient"
                                         filterData={filterData}
                                         showdateselectionSection={showdateselectionSection}
                                     />
@@ -142,7 +142,7 @@ const InactiveClientsReport =
                                     {showdateselectionSection && (
                                         <AllStatuschange
                                             leadDataVal={selInactiveClient}
-                                            from="Inactive"
+                                            from="InactiveClient"
                                             ondivcloseChange={ondivcloseChange}
                                             filterData={filterData}
                                         />
@@ -159,7 +159,7 @@ const InactiveClientsReport =
                                     </label>
                                     {showdateselectionSection && (
                                         <LastMessageDetails
-                                            from="Inactive"
+                                            from="InactiveClient"
                                             searchDataVal={searchDataVal}
                                             ondivcloseChange={ondivcloseChange}
                                         />
@@ -175,7 +175,7 @@ const InactiveClientsReport =
         )
     }
 
-InactiveClientsReport.propTypes = {
+InactiveClientsFolowUp.propTypes = {
     auth: PropTypes.object.isRequired,
     dct: PropTypes.object.isRequired
 }
@@ -186,6 +186,6 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps, {
-    getInactiveClients,
+    getInactiveClientsFollowUp,
     getLastmessage
-})(InactiveClientsReport);
+})(InactiveClientsFolowUp);

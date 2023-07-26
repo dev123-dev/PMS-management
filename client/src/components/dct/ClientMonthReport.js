@@ -200,7 +200,7 @@ const ClientMonthReport = ({
               <CSVLink
                 className="secondlinebreak"
                 data={csvData}
-                // filename={fileName}
+              // filename={fileName}
               >
                 <button className="btn btn_green_bg float-right">Export</button>
               </CSVLink>
@@ -251,7 +251,7 @@ const ClientMonthReport = ({
                           if (client.clientTypeVal === clientType.value) {
                             return (
                               <tr key={idx}>
-                                <td>{idx + 0}</td>
+                                <td>{idx + 1}</td>
                                 <td>{projectDate}</td>
                                 <td>{client.projectName}</td>
                                 <td>{client.projectQty}</td>

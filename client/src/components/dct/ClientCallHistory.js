@@ -52,7 +52,12 @@ const ClientCallHistory = ({
                   callCategory = "WrongNumber";
                 } else if (callHistory.callCategory === "RC") {
                   callCategory = "RegularClient";
+                } else if (callHistory.callCategory === "IC") {
+                  callCategory = "InactiveClient"
+                } else if (callHistory.callCategory === "SW") {
+                  callCategory = "SentWork"
                 }
+
                 return (
                   <tr key={idx}>
                     <td>{callHistory.callToStaffName}</td>

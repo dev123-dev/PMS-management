@@ -14,7 +14,7 @@ const LastMessageDetails = ({
   searchDataVal,
   from
 }) => {
-var cssName = from ==="AllLeads" || from ==="WrongNumber"? "fixTableHeadhistoryDCTLeadWrongNo":"fixTableHeadhistoryDCT";
+  var cssName = from === "AllLeads" || from === "WrongNumber" ? "fixTableHeadhistoryDCTLeadWrongNo" : "fixTableHeadhistoryDCT";
   const [showClientHistoryModal, setShowClientCallHistoryModal] =
     useState(false);
   const handleClientCallHistoryModalClose = () =>
@@ -40,15 +40,13 @@ var cssName = from ==="AllLeads" || from ==="WrongNumber"? "fixTableHeadhistoryD
     <Spinner />
   ) : (
     <Fragment>
-      
-      <div className={"row col-lg-12 col-md-11 col-sm-12 col-12 "+cssName} >
-     
+      <div className={"row col-lg-12 col-md-11 col-sm-12 col-12 " + cssName}>
         <div className="col-lg-6 col-md-11 col-sm-10 col-12 ">
           <label>Staff Name : {lastMsg && lastMsg.callToStaffName}</label>
         </div>
         <div className="col-lg-6 col-md-11 col-sm-10 col-12 ">
-          <label>Call Date &emsp;: {callDate} </label><br/>
-          <label>Call Status <span style={{marginLeft:"7px"}}>:</span> {lastMsg && lastMsg.callStatus}</label>
+          <label>Call Date &emsp;: {callDate} </label><br />
+          <label>Call Status <span style={{ marginLeft: "7px" }}>:</span> {lastMsg && lastMsg.callStatus}</label>
         </div>
 
         <div className="col-lg-9 col-md-11 col-sm-10 col-12 ">
