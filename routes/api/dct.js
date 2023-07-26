@@ -36,7 +36,6 @@ router.post("/add-dct-client", async (req, res) => {
 
 router.post("/add-dct-calls", async (req, res) => {
   let data = req.body;
-  console.log("DCT Calls", data);
   try {
     let AddDctCallsDetails = new DctCalls(data);
     output = await AddDctCallsDetails.save();
@@ -165,6 +164,7 @@ router.post("/add-new-dct-staff", async (req, res) => {
 
 router.post("/add-new-dct-client-staff", async (req, res) => {
   try {
+    console.log(req.body);
     let data = req.body;
     const updateDctClientStaff = await DctClients.updateOne(
       { _id: data.recordId },
@@ -185,6 +185,7 @@ router.post("/add-new-dct-client-staff", async (req, res) => {
     );
     res.json(updateDctClientStaff);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
   }
 });
@@ -899,13 +900,15 @@ router.post("/get-lead-staffs-data", async (req, res) => {
 
 router.post("/get-client-staffs-data", async (req, res) => {
   let { leadDataId } = req.body;  // Joel 18-07-2023 Only need to pass Lead Id not the whole Lead Object to get Staff Data
-  let query = {};
-  if (leadDataId) {
-    query = {
-      _id: leadDataId,
-    };
-  }
+  let query;
+
   try {
+    if (leadDataId) {
+      query = {
+        _id: leadDataId,
+      };
+    }
+
     const getClientsStaffData = await DctClients.findOne(query);
     res.json(getClientsStaffData);
   } catch (err) {
@@ -1094,6 +1097,22 @@ router.post("/add-import-dct-lead-data", async (req, res) => {
     });
 });
 
+//25-07-2023 clients who need to be followed after being transfered from Inactive Client Report
+router.get("/inactive-clients-followup", async (req, res) => {
+  try {
+    const resDctInactiveClientCalls = await DctClients.find({
+      $and: [
+        { dctClientCategory: { $eq: "IC" } },
+        { dctCallDate: { $lte: new Date().toISOString().split("T")[0] } }
+      ]
+    });
+
+    res.json({ clientsInactive: resDctInactiveClientCalls })
+  } catch (error) {
+    console.log(error);
+  }
+})
+
 //15-07-2023 client who have not been sending data for past 30 days 
 router.get("/inactive-clients", async (req, res) => {
   try {
@@ -1134,8 +1153,12 @@ router.get("/inactive-clients", async (req, res) => {
 
     //Extract client names from the aggregation result into an array
     const arrRegClientsSendWork = regClientsSendWork.map(doc => doc._id);
-
-    const result = await DctClients.find({ clientName: { $nin: arrRegClientsSendWork } });
+    const result = await DctClients.find({
+      $and: [
+        { clientName: { $nin: arrRegClientsSendWork } },
+        { dctClientCategory: { $ne: "IC" } }
+      ]
+    });
     res.json({ clientsInactive: result })
   } catch (err) {
     console.error(err.message);
