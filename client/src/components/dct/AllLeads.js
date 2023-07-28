@@ -5,11 +5,12 @@ import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-import Clock from "react-live-clock";
+
 import {
   getAllDctLead,
   getLastmessage,
   addImportDctLeadData,
+  changeDeactivateLeadClientStatus
 } from "../../actions/dct";
 import _debounce from "lodash/debounce";
 import AllContacts from "./AllContacts";
@@ -18,21 +19,24 @@ import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
 import { getActiveCountry } from "../../actions/regions";
 import Pagination from "../layout/Pagination";
+import ClockTimeZone from "./ClockTimeZone";
 
 const AllLeads = ({
-  auth: { isAuthenticated, user, users },
+  auth: { isAuthenticated, user, timeZone },
   dct: {
     getAllLeads,
     getAllLeadsEmp,
     getAllLeadsEnterdBy,
     dctAllLeadsCount,
-    dctLeadsLoading
+    dctLeadsLoading,
+    blnLeadClientDeactivated
   },
   regions: { activeCountry },
   getAllDctLead,
   addImportDctLeadData,
   getActiveCountry,
   getLastmessage,
+  changeDeactivateLeadClientStatus
 }) => {
   // Pagination Initialization
   const [currentData, setCurrentData] = useState(1);
@@ -49,6 +53,24 @@ const AllLeads = ({
     getAllDctLead(finalData);
     setFilterData(finalData);
   }, []);
+
+  useEffect(() => {
+    if (colorData !== undefined) {
+      sethighlightTimeZone(getAllLeads && getAllLeads.length !== 0 && getAllLeads[colorData].timezone ? getAllLeads[colorData].timezone : "");
+    }
+  }, [getAllLeads])
+
+  useEffect(() => {
+    if (blnLeadClientDeactivated) {
+      sethighlightTimeZone("");
+      setcolorData();
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: false,
+      });
+      changeDeactivateLeadClientStatus();
+    }
+  }, [blnLeadClientDeactivated]);
 
   //Pagination Code Start 
   const paginate = (nmbr) => {
@@ -115,6 +137,7 @@ const AllLeads = ({
     })
   );
 
+  const [Region, setShowRegion] = useState("");
   const oncountryChange = (e) => {
     //Empty all Company Name, Employee, Entered By data
     setEnteredByData("");
@@ -134,36 +157,7 @@ const AllLeads = ({
     };
     getAllDctLead(finalData);
     setFilterData(finalData);
-
-    if (e.value === "US") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: true,
-        showAUDSection: false,
-        showUKSection: false,
-      });
-    } else if (e.value === "AUS") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: true,
-        showUKSection: false,
-      });
-    } else if (e.value === "UK") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: false,
-        showUKSection: true,
-      });
-    } else {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: false,
-        showUKSection: false,
-      });
-    }
+    setShowRegion(e.value);
   };
   // End Capture Change In Country
 
@@ -221,6 +215,10 @@ const AllLeads = ({
     setCountryData(null);
     setEnteredByData(null);
     setCurrentData(1);
+
+    setShowRegion("");
+    sethighlightTimeZone("");
+
     finalData = {
       countryId: null,
       clientName: null,
@@ -231,23 +229,13 @@ const AllLeads = ({
     };
     getAllDctLead(finalData);
     setFilterData(finalData);
-
-    setShowHide1(false);
     ondivcloseChange(true);
-    setcolorData("");
+    setcolorData();
   };
 
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
-
-  const [showHide1, setShowHide1] = useState({
-    showUSSection: false,
-    showAUDSection: false,
-    showUKSection: false,
-  });
-
-  const { showUSSection, showAUDSection, showUKSection } = showHide1;
 
   const [showEditModal, setShowEditModal] = useState(false);
   const handleEditModalClose = () => setShowEditModal(false);
@@ -285,7 +273,7 @@ const AllLeads = ({
       handleDeactiveModalClose();
     }
   };
-  const [colorData, setcolorData] = useState();
+  const [colorData, setcolorData] = useState(); //Captures Row Index
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
 
@@ -297,7 +285,6 @@ const AllLeads = ({
         : ""
     );
     setcolorData(idx);
-    //console.log("Get Selected Leads", getAllLeads);
     setLeadData(getAllLeads);
     const searchData = {
       callToId: getAllLeads._id,
@@ -358,90 +345,10 @@ const AllLeads = ({
               className="row col-lg-12 col-md-11 col-sm-10 col-10"
               style={{ minHeight: "54px" }}
             >
-              {showUSSection && (
-                <h6>
-                  PST :&nbsp;
-                  <Clock
-                    style={
-                      highlightTimeZone && highlightTimeZone === "PST"
-                        ? { backgroundColor: "yellow" }
-                        : { backgroundColor: "white" }
-                    }
-                    ticking={true}
-                    timezone={"US/Pacific"}
-                    format={"DD/MM/YYYY, h:mm:ss a"}
-                  />
-                  &emsp;&emsp; MST :
-                  <Clock
-                    style={
-                      highlightTimeZone && highlightTimeZone === "MST"
-                        ? { backgroundColor: "yellow" }
-                        : { backgroundColor: "white" }
-                    }
-                    ticking={true}
-                    timezone={"US/Mountain"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />{" "}
-                  &emsp;&emsp; EST :
-                  <Clock
-                    style={
-                      highlightTimeZone && highlightTimeZone === "EST"
-                        ? { backgroundColor: "yellow" }
-                        : { backgroundColor: "white" }
-                    }
-                    ticking={true}
-                    timezone={"US/Eastern"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />{" "}
-                  &emsp;&emsp; CST :
-                  <Clock
-                    style={
-                      highlightTimeZone && highlightTimeZone === "CST"
-                        ? { backgroundColor: "yellow" }
-                        : { backgroundColor: "white" }
-                    }
-                    ticking={true}
-                    timezone={"US/Central"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
-              {showAUDSection && (
-                <h6>
-                  Sydney :
-                  <Clock
-                    style={
-                      highlightTimeZone && highlightTimeZone === "Sydney"
-                        ? { backgroundColor: "yellow" }
-                        : { backgroundColor: "white" }
-                    }
-                    ticking={true}
-                    timezone={"Australia/Sydney"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                  &emsp; &emsp;Perth :
-                  <Clock
-                    style={
-                      highlightTimeZone && highlightTimeZone === "Perth"
-                        ? { backgroundColor: "yellow" }
-                        : { backgroundColor: "white" }
-                    }
-                    ticking={true}
-                    timezone={"Australia/Perth"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
-              {showUKSection && (
-                <h6>
-                  UK :
-                  <Clock
-                    ticking={true}
-                    timezone={"Europe/London"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
+              <ClockTimeZone
+                Region={Region}
+                highlightTimeZone={highlightTimeZone}
+              />
             </div>
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10 ">
               <h4 className="heading_color">All Leads</h4>
@@ -523,7 +430,7 @@ const AllLeads = ({
               <Link className="btn btn_green_bg " to="/add-lead">
                 Add Lead
               </Link>
-              
+
               <button
                 className="btn btn_green_bg "
                 onClick={() => onClickReset()}
@@ -546,6 +453,11 @@ const AllLeads = ({
                         <th style={{ width: "13%" }}>Website </th>
                         <th style={{ width: "11%" }}>Email</th>
                         <th style={{ width: "8%" }}>Region</th>
+                        {(timeZone.filter((ele) => {
+                          return Region === ele.value.split('-')[0] ? ele : ""
+                        }).length !== 0) ?
+                          (< th style={{ width: "8%" }}>Timezone</th>) : (<></>)
+                        }
                         <th style={{ width: "13%" }}>Contact</th>
                         <th style={{ width: "10%" }}>
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CallDate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -582,6 +494,11 @@ const AllLeads = ({
                               </td>
                               <td>{getAllLeads.emailId}</td>
                               <td>{getAllLeads.countryName}</td>
+                              {(timeZone.filter((ele) => {
+                                return Region === ele.value.split('-')[0] ? ele : ""
+                              }).length !== 0) ?
+                                (<td>{getAllLeads.timezone ? getAllLeads.timezone : ""}</td>) : (<></>)
+                              }
                               <td>
                                 {getAllLeads.countryCode
                                   ? "+" + getAllLeads.countryCode
@@ -591,19 +508,19 @@ const AllLeads = ({
                               </td>
                               <td>{callDates}</td>
                               <td>
-                                <img
+                                {(user.empCtAccess === "All") ? (<img
                                   className="img_icon_size log"
                                   onClick={() => onDeactive(getAllLeads, idx)}
                                   src={require("../../static/images/delete.png")}
-                                  alt="Delete Project"
-                                  title="Delete Project"
-                                />{" "}
+                                  alt="Delete Lead"
+                                  title="Delete Lead"
+                                />) : (<></>)}{" "}
                                 <img
                                   className="img_icon_size log"
                                   onClick={() => onUpdate(getAllLeads, idx)}
                                   src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
+                                  alt="Edit Lead"
+                                  title="Edit Lead"
                                 />
                               </td>
                             </tr>
@@ -646,8 +563,8 @@ const AllLeads = ({
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessageLeadWrongNo">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{height:"300px"}}
-                  // style={{ height: "30vh"}}
+                  style={{ height: "300px" }}
+                // style={{ height: "30vh"}}
                 >
                   <label className="sidePartHeading ">
                     Last Call History
@@ -659,13 +576,13 @@ const AllLeads = ({
                       ondivcloseChange={ondivcloseChange}
                     />
                   )}
-                 
+
                 </div>
               </div>
             </div>
           </div>
-        </section>
-      </div>
+        </section >
+      </div >
       <Modal
         show={showEditModal}
         backdrop="static"
@@ -771,7 +688,7 @@ const AllLeads = ({
           </Modal.Body>
         </form>
       </Modal>
-    </Fragment>
+    </Fragment >
   );
 };
 
@@ -792,4 +709,5 @@ export default connect(mapStateToProps, {
   getActiveCountry,
   getLastmessage,
   addImportDctLeadData,
+  changeDeactivateLeadClientStatus
 })(AllLeads);

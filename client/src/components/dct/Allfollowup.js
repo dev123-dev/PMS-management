@@ -4,11 +4,10 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-// import { Link } from "react-router-dom";
-import Clock from "react-live-clock";
 import {
   getDctLeadDetails,
   getLastmessage,
+  changeDeactivateLeadClientStatus
 } from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
@@ -16,14 +15,16 @@ import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
 import { getActiveCountry } from "../../actions/regions";
+import ClockTimeZone from "./ClockTimeZone";
 
 const Allfollowup = ({
-  auth: { isAuthenticated, user, users },
-  dct: { allLeads, allLeadsEmp, allLeadsEnterdBy, dctLeadsLoading },
+  auth: { isAuthenticated, user, timeZone },
+  dct: { allLeads, allLeadsEmp, allLeadsEnterdBy, dctLeadsLoading, blnLeadClientDeactivated },
   regions: { activeCountry },
   getDctLeadDetails,
   getActiveCountry,
   getLastmessage,
+  changeDeactivateLeadClientStatus
 }) => {
   useEffect(() => {
     getDctLeadDetails({ dctLeadCategory: "F" });
@@ -33,12 +34,23 @@ const Allfollowup = ({
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
 
-  const [showHide1, setShowHide1] = useState({
-    showUSSection: false,
-    showAUDSection: false,
-    showUKSection: false,
-  });
-  const { showUSSection, showAUDSection, showUKSection } = showHide1;
+  useEffect(() => {
+    if (colorData !== undefined) {
+      sethighlightTimeZone(allLeads && allLeads.length !== 0 && allLeads[colorData].timezone ? allLeads[colorData].timezone : "");
+    }
+  }, [allLeads]);
+
+  useEffect(() => {
+    if (blnLeadClientDeactivated) {
+      sethighlightTimeZone("");
+      setcolorData();
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: false,
+      });
+      changeDeactivateLeadClientStatus();
+    }
+  }, [blnLeadClientDeactivated]);
 
   const [filterData, setFilterData] = useState({ dctLeadCategory: "F" });
 
@@ -79,7 +91,13 @@ const Allfollowup = ({
   const [colorData, setcolorData] = useState();
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
+  const [highlightTimeZone, sethighlightTimeZone] = useState("");
   const onClickHandler = (allLeads, idx) => {
+    sethighlightTimeZone(
+      allLeads.timezone && allLeads.timezone !== ""
+        ? allLeads.timezone
+        : ""
+    );
     setLeadData(allLeads);
     setcolorData(idx);
     const searchData = {
@@ -103,38 +121,10 @@ const Allfollowup = ({
 
   const [country, getcountryData] = useState();
   const [countryId, getcountryIdData] = useState(null);
-
+  const [Region, setShowRegion] = useState("");
   const oncountryChange = (e) => {
-    if (e.value === "US") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: true,
-        showAUDSection: false,
-        showUKSection: false,
-      });
-    } else if (e.value === "AUS") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: true,
-        showUKSection: false,
-      });
-    } else if (e.value === "UK") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: false,
-        showUKSection: true,
-      });
-    } else {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: false,
-        showUKSection: false,
-      });
-    }
     getcountryData(e);
+    setShowRegion(e.value);
     getclientsData("");
     getempData("");
     getEnterByData("");
@@ -164,7 +154,6 @@ const Allfollowup = ({
   const ondivcloseChange = (e) => {
     if (e) {
       handledivModalClose();
-      // setcolorData("");
     }
   };
 
@@ -231,12 +220,14 @@ const Allfollowup = ({
     getclientsData("");
     getempData("");
     getEnterByData("");
-    setShowHide1(false);
     getDctLeadDetails({ dctLeadCategory: "F" });
+
+    setShowRegion("");
+    sethighlightTimeZone("");
 
     setFilterData({ dctLeadCategory: "F" });
     ondivcloseChange(true);
-    setcolorData("");
+    setcolorData();
   };
   return !isAuthenticated || !user ? (
     <Spinner />
@@ -249,60 +240,9 @@ const Allfollowup = ({
               className="row col-lg-12 col-md-11 col-sm-10 col-10"
               style={{ minHeight: "54px" }}
             >
-              {showUSSection && (
-                <h6>
-                  PST :&nbsp;
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Pacific"}
-                    format={"DD/MM/YYYY, h:mm:ss a"}
-                  />
-                  &emsp;&emsp; MST :
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Mountain"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />{" "}
-                  &emsp;&emsp; EST :
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Eastern"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />{" "}
-                  &emsp;&emsp; CST :
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Central"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
-              {showAUDSection && (
-                <h6>
-                  Sydney :
-                  <Clock
-                    ticking={true}
-                    timezone={"Australia/Sydney"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                  &emsp; &emsp;Perth :
-                  <Clock
-                    ticking={true}
-                    timezone={"Australia/Perth"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
-              {showUKSection && (
-                <h6>
-                  UK :
-                  <Clock
-                    ticking={true}
-                    timezone={"Europe/London"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
+              <ClockTimeZone
+                Region={Region}
+                highlightTimeZone={highlightTimeZone} />
             </div>
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
               <h4 className="heading_color">All Follow Up</h4>
@@ -398,6 +338,10 @@ const Allfollowup = ({
                         <th style={{ width: "14%" }}>Website </th>
                         <th style={{ width: "10%" }}>Email</th>
                         <th style={{ width: "8%" }}>Region</th>
+                        {(timeZone.filter((ele) => {
+                          return Region === ele.value.split('-')[0] ? ele : ""
+                        }).length !== 0) ? (<th style={{ width: "8%" }}>Timezone</th>) : (<></>)
+                        }
                         <th style={{ width: "12%" }}>Contact</th>
                         <th style={{ width: "12%" }}>Call Date</th>
                         <th style={{ width: "10%" }}>Op</th>
@@ -421,13 +365,7 @@ const Allfollowup = ({
                             >
                               <td>{idx + 1}</td>
                               <td>
-                                {/* <Link
-                                  className="float-left ml-1"
-                                  to="#"
-                                  // onClick={() => onClickHandler(allLeads, idx)}
-                                > */}
                                 {allLeads.companyName}
-                                {/* </Link> */}
                               </td>
                               <td>
                                 {" "}
@@ -441,6 +379,10 @@ const Allfollowup = ({
                               </td>
                               <td>{allLeads.emailId}</td>
                               <td>{allLeads.countryName}</td>
+                              {(timeZone.filter((ele) => {
+                                return Region === ele.value.split('-')[0] ? ele : ""
+                              }).length !== 0) ? (<td>{allLeads.timezone ? allLeads.timezone : ""}</td>) : (<></>)
+                              }
                               <td>
                                 {allLeads.countryCode
                                   ? "+" + allLeads.countryCode
@@ -450,13 +392,13 @@ const Allfollowup = ({
                               </td>
                               <td>{callDates}</td>
                               <td>
-                                <img
+                                {(user.empCtAccess === "All") ? (<img
                                   className="img_icon_size log"
                                   onClick={() => onDeactive(allLeads, idx)}
                                   src={require("../../static/images/delete.png")}
                                   alt="Delete Project"
                                   title="Delete Project"
-                                />{" "}
+                                />) : (<></>)}{" "}
                                 <img
                                   className="img_icon_size log"
                                   onClick={() => onUpdate(allLeads, idx)}
@@ -521,7 +463,7 @@ const Allfollowup = ({
                   </label>
                   {showdateselectionSection && (
                     <LastMessageDetails
-                    from="FollowUp"
+                      from="FollowUp"
                       searchDataVal={searchDataVal}
                       ondivcloseChange={ondivcloseChange}
                     />
@@ -614,4 +556,5 @@ export default connect(mapStateToProps, {
   getDctLeadDetails,
   getActiveCountry,
   getLastmessage,
+  changeDeactivateLeadClientStatus
 })(Allfollowup);

@@ -9,7 +9,7 @@ import { editDctLeadDetails } from "../../actions/dct";
 import { getMarketingEmployee } from "../../actions/user";
 
 const EditLead = ({
-  auth: { isAuthenticated, user, users, loading },
+  auth: { isAuthenticated, user, loading, timeZone },
   user: { marketingEmployees },
   regions: { activeCountry },
   alleditLeaddata,
@@ -29,6 +29,27 @@ const EditLead = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
+  const [timeZoneShow, settimeZoneShow] = useState(false);
+  const [timeZoneDropDown, settimeZoneDropDown] = useState(timeZone.filter((ele) => {
+    return alleditLeaddata.countryName === ele.value.split('-')[0] ? alleditLeaddata.countryName === ele.value.split('-')[0] : ""
+  }));
+  const [timezone, settimezone] = useState(timeZone.filter((ele) => {
+    return alleditLeaddata.timezone === ele.label ? alleditLeaddata.timezone === ele.label : ""
+  }));
+
+  const onTimeZoneChange = (e) => {
+    setError({
+      ...error,
+      timezoneErrorStyle: { color: "#000" },
+    });
+    settimezone(e);
+  }
+
+  useEffect(() => {
+    if (timeZone.filter((ele) => {
+      return alleditLeaddata.countryName === ele.value.split('-')[0] ? alleditLeaddata.countryName === ele.value.split('-')[0] : ""
+    }).length !== 0) settimeZoneShow(true);
+  }, [alleditLeaddata]);
 
   //formData
   const [formData, setFormData] = useState({
@@ -75,32 +96,6 @@ const EditLead = ({
   const [videoEditingChecked, setVideoEditingChecked] = useState(false);
   const [isCheck, setIsCheck] = useState(false);
 
-
-  const timeZone = [
-    { label: "PST", value: "US" },
-    { label: "MST", value: "US" },
-    { label: "EST", value: "US" },
-    { label: "CST", value: "US" },
-    { label: "Sydney", value: "AUS" },
-    { label: "Perth", value: "AUS" }
-  ]
-
-  const [timeZoneShow, settimeZoneShow] = useState(false);
-  const [timeZoneDropDown, settimeZoneDropDown] = useState(timeZone.filter((ele) => {
-    return alleditLeaddata.countryName === ele.value ? alleditLeaddata.countryName === ele.value : ""
-  }));
-  const [timezone, settimezone] = useState(timeZone.filter((ele) => {
-    return alleditLeaddata.timezone === ele.label ? alleditLeaddata.timezone === ele.label : ""
-  }))
-
-  const onTimeZoneChange = (e) => {
-
-    settimezone(e)
-  }
-
-  console.log(alleditLeaddata)
-
-
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -145,17 +140,19 @@ const EditLead = ({
     }
   }
   const oncountryChange = (e) => {
-
     let timeZoneFilter = timeZone.filter((ele) => {
       return e.value === ele.value
     })
     if (timeZoneFilter.length === 0) settimeZoneShow(false)
     else
-      settimeZoneShow(true)
-    settimeZoneDropDown(timeZoneFilter)
+      settimeZoneShow(true);
 
+    settimeZoneDropDown(timeZoneFilter);
 
-
+    setError({
+      ...error,
+      timezoneErrorStyle: { color: "#000" },
+    });
 
     var countryId = "";
     var countrycode = "";
@@ -234,34 +231,56 @@ const EditLead = ({
       SetServiceDetails(removeList);
     }
   };
+
+  const checkErrors = () => {
+    if (timeZoneShow) {
+      if (timezone && timezone.length == 0) {
+        setError({
+          ...error,
+          timezoneErrorStyle: { color: "#F00" },
+        });
+        return false;
+      }
+    }
+    return true;
+  }
+
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (checkErrors()) {
-    const finalData = {
-      recordId: alleditLeaddata ? alleditLeaddata._id : "",
-      companyName: companyName.trim(),
-      website: website?.trim(),
-      clientName: clientName.trim(),
-      emailId: emailId?.trim(),
-      phone1: phone1,
-      phone2: phone2,
-      countryCode: countrycode,
-      dctLeadAddress: dctLeadAddress?.trim(),
-      importantPoints: importantPoints?.trim(),
-      countryId: countryId,
-      countryName: country.value,
-      services: ServicesDetails,
-      dctLeadAssignedToId: empId,
-      dctLeadAssignedToName: empName,
-      dctLeadEditedById: user._id,
-      dctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
-      filterData: filterData,
-      timezone: timezone.label ? timezone.label : "",
-      staffFilter: staffFilter
-    };
-    editDctLeadDetails(finalData);
-    onEditModalChange(true);
+    if (checkErrors()) {
+      const finalData = {
+        recordId: alleditLeaddata ? alleditLeaddata._id : "",
+        companyName: companyName.trim(),
+        website: website?.trim(),
+        clientName: clientName.trim(),
+        emailId: emailId?.trim(),
+        phone1: phone1,
+        phone2: phone2,
+        countryCode: countrycode,
+        dctLeadAddress: dctLeadAddress?.trim(),
+        importantPoints: importantPoints?.trim(),
+        countryId: countryId,
+        countryName: country.value,
+        services: ServicesDetails,
+        dctLeadAssignedToId: empId,
+        dctLeadAssignedToName: empName,
+        dctLeadEditedById: user._id,
+        dctLeadEditedDateTime: new Date().toLocaleString("en-GB"),
+        filterData: filterData,
+        timezone: timezone.label ? timezone.label : "",
+        staffFilter: staffFilter
+      };
+      editDctLeadDetails(finalData);
+      onEditModalChange(true);
+    }
   };
+
+  const [error, setError] = useState({
+    timezoneErrorStyle: {},
+  });
+  const {
+    timezoneErrorStyle
+  } = error;
 
   return !isAuthenticated || !user ? (
     <Spinner />
@@ -361,39 +380,19 @@ const EditLead = ({
                     <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                       <label
                         className="label-control"
-                      //style={countrytypeIdErrorStyle}
+                        style={timezoneErrorStyle}
                       >
                         Select Time Zone* :
                       </label>
                       <Select
-                        name="countryName"
+                        name="timezone"
                         options={timeZoneDropDown}
                         isSearchable={true}
                         value={timezone}
                         placeholder="Select Region"
                         onChange={(e) => onTimeZoneChange(e)}
-                        required
                       />
-                    </div>) : (<><div className="col-lg-3 col-md-6 col-sm-6 col-12">
-                      <label
-                        className="label-control"
-                      //style={countrytypeIdErrorStyle}
-                      >
-                        Select Time Zone* :
-                      </label>
-                      <Select
-                        name="countryName"
-                        options={timeZoneDropDown}
-                        isSearchable={true}
-                        value={timezone}
-                        placeholder="Select Region"
-                        onChange={(e) => onTimeZoneChange(e)}
-                      //required
-                      />
-                    </div></>)}
-
-
-
+                    </div>) : (<></>)}
 
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                     <label className="label-control">Important Points :</label>

@@ -6,6 +6,7 @@ import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 import { getInactiveClientsFollowUp, getLastmessage } from "../../actions/dct";
+import ClockTimeZone from "./ClockTimeZone";
 
 const InactiveClientsFolowUp = ({
   auth: { isAuthenticated, user },
@@ -36,8 +37,16 @@ const InactiveClientsFolowUp = ({
     getInactiveClientsFollowUp();
   }, []);
 
+  const [Region, setShowRegion] = useState("");
+  const [highlightTimeZone, sethighlightTimeZone] = useState("");
   const onClickHandler = (dctInactiveClient, idx) => {
     setSelRowIdx(idx);
+    sethighlightTimeZone(
+      dctInactiveClient.timezone && dctInactiveClient.timezone !== ""
+        ? dctInactiveClient.timezone
+        : ""
+    );
+    setShowRegion(dctInactiveClient.countryName);
     setSelInactiveClient(dctInactiveClient);
     const searchData = {
       callToId: dctInactiveClient._id,
@@ -56,6 +65,12 @@ const InactiveClientsFolowUp = ({
     <div className="container container_align_CT ">
       <section className="sub_reg">
         <div className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding">
+          <div
+            className="row col-lg-12 col-md-11 col-sm-10 col-10"
+            style={{ minHeight: "54px" }}
+          >
+            <ClockTimeZone Region={Region} highlightTimeZone={highlightTimeZone} />
+          </div>
           <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
             <h4 className="heading_color">Inactive Client Follow Up</h4>
           </div>

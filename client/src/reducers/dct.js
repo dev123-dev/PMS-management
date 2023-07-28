@@ -50,7 +50,8 @@ const initialState = {
   dctInactiveClients: [],
   dctLeadsLoading: false,
   dctClientsLoading: false,
-  dctInactiveClientsFollowUp: []
+  dctInactiveClientsFollowUp: [],
+  blnLeadClientDeactivated: false
 };
 
 const dct = (state = initialState, action) => {
@@ -233,6 +234,11 @@ const dct = (state = initialState, action) => {
       return {
         ...state,
         staffData: []
+      }
+    case "LEAD_CLIENT_DEACTIVATED":
+      return {
+        ...state,
+        blnLeadClientDeactivated: payload
       }
     default:
       return state;

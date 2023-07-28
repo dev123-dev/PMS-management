@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { deactivateDctLeadDetails } from "../../actions/dct";
 
 const DeactiveLead = ({
-  auth: { isAuthenticated, user, users, loading },
+  auth: { isAuthenticated, user, loading },
   Leaddeavtivedata,
   onDeactiveModalChange,
   deactivateDctLeadDetails,

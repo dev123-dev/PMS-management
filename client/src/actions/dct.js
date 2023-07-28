@@ -334,6 +334,7 @@ export const deactivateDctStaffDetails = (finalData) => async (dispatch) => {
     });
   }
 };
+
 export const deactivateDctClientStaffDetails =
   (finalData) => async (dispatch) => {
     try {
@@ -364,12 +365,23 @@ export const deactivateDctClientStaffDetails =
     }
   };
 
+export const changeDeactivateLeadClientStatus = () => (dispatch) => {
+  dispatch({
+    type: "LEAD_CLIENT_DEACTIVATED",
+    payload: false
+  });
+}
+
 export const deactivateDctLeadDetails = (finalData) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING_TRUE,
     });
     await axios.post("/api/dct/deactivate-dct-Leads", finalData, config);
+    dispatch({
+      type: "LEAD_CLIENT_DEACTIVATED",
+      payload: true
+    });
     dispatch(refreshLead(finalData));
     dispatch({
       type: SET_LOADING_FALSE,
@@ -482,6 +494,10 @@ export const getAllDctLead = (finalData) => async (dispatch) => {
     dispatch({
       type: "ALL_DCT_LEADS_LOADED"
     });
+    dispatch({
+      type: "LEAD_CLIENT_DEACTIVATED",
+      payload: false
+    })
   } catch (err) {
     dispatch({
       type: ERROR,
@@ -536,7 +552,6 @@ export const getDctClientDetails = (finalData) => async (dispatch) => {
         payload: res.data.result2,
       });
     }
-
     dispatch({
       type: "DCT_CLIENTS_LOADED"
     })

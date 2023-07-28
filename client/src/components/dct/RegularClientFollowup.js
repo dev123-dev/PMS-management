@@ -6,21 +6,24 @@ import Select from "react-select";
 import {
   getDctClientDetails,
   getLastmessage,
+  changeDeactivateLeadClientStatus
 } from "../../actions/dct";
 import Clock from "react-live-clock";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
 import LastMessageDetails from "./LastMessageDetails";
 import { getActiveCountry } from "../../actions/regions";
+import ClockTimeZone from "./ClockTimeZone";
 
 // import DeactiveLead from "./DeactiveLead";
 const RegularClientFollowup = ({
   auth: { isAuthenticated, user, users },
-  dct: { dctClients, dctClientsEmp, dctClientsLoading },
+  dct: { dctClients, dctClientsEmp, dctClientsLoading, blnLeadClientDeactivated },
   regions: { activeCountry },
   getDctClientDetails,
   getActiveCountry,
   getLastmessage,
+  changeDeactivateLeadClientStatus
 }) => {
   useEffect(() => {
     getDctClientDetails({ dctClientCategory: "RC" });
@@ -30,19 +33,35 @@ const RegularClientFollowup = ({
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
 
-  const [showHide1, setShowHide1] = useState({
-    showUSSection: false,
-    showAUDSection: false,
-    showUKSection: false,
-  });
-  const { showUSSection, showAUDSection, showUKSection } = showHide1;
+  useEffect(() => {
+    if (colorData !== undefined) {
+      sethighlightTimeZone(dctClients && dctClients.length !== 0 && dctClients[colorData].timezone ? dctClients[colorData].timezone : "");
+    }
+  }, [dctClients]);
+
+  useEffect(() => {
+    if (blnLeadClientDeactivated) {
+      sethighlightTimeZone("");
+      setcolorData();
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: false,
+      });
+      changeDeactivateLeadClientStatus();
+    }
+  }, [blnLeadClientDeactivated]);
 
   const [filterData, setFilterData] = useState({ dctClientCategory: "RC" });
   const [colorData, setcolorData] = useState();
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
-
+  const [highlightTimeZone, sethighlightTimeZone] = useState("");
   const onClickHandler = (dctClients, idx) => {
+    sethighlightTimeZone(
+      dctClients.timezone && dctClients.timezone !== ""
+        ? dctClients.timezone
+        : ""
+    );
     setLeadData(dctClients);
     setcolorData(idx);
     const searchData = {
@@ -65,7 +84,6 @@ const RegularClientFollowup = ({
   const ondivcloseChange = (e) => {
     if (e) {
       handledivModalClose();
-      // setcolorData("");
     }
   };
   const allcountry = [];
@@ -79,38 +97,10 @@ const RegularClientFollowup = ({
 
   const [country, getcountryData] = useState();
   const [countryId, getcountryIdData] = useState(null);
-
+  const [Region, setShowRegion] = useState("");
   const oncountryChange = (e) => {
-    if (e.value === "US") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: true,
-        showAUDSection: false,
-        showUKSection: false,
-      });
-    } else if (e.value === "AUS") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: true,
-        showUKSection: false,
-      });
-    } else if (e.value === "UK") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: false,
-        showUKSection: true,
-      });
-    } else {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: false,
-        showUKSection: false,
-      });
-    }
     getcountryData(e);
+    setShowRegion(e.value);
     getclientsData("");
     getempData("");
     getcountryIdData(e.countryId);
@@ -174,9 +164,13 @@ const RegularClientFollowup = ({
     getclientsData("");
     getempData("");
     getDctClientDetails({ dctClientCategory: "RC" });
+
+    setShowRegion("");
+    sethighlightTimeZone("");
+
     setFilterData({ dctClientCategory: "RC" });
     ondivcloseChange(true);
-    setcolorData("");
+    setcolorData();
   };
   return !isAuthenticated || !user ? (
     <Spinner />
@@ -189,60 +183,7 @@ const RegularClientFollowup = ({
               className="row col-lg-12 col-md-11 col-sm-10 col-10"
               style={{ minHeight: "54px" }}
             >
-              {showUSSection && (
-                <h6>
-                  PST :&nbsp;
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Pacific"}
-                    format={"DD/MM/YYYY, h:mm:ss a"}
-                  />
-                  &emsp;&emsp; MST :
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Mountain"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />{" "}
-                  &emsp;&emsp; EST :
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Eastern"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />{" "}
-                  &emsp;&emsp; CST :
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Central"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
-              {showAUDSection && (
-                <h6>
-                  Sydney :
-                  <Clock
-                    ticking={true}
-                    timezone={"Australia/Sydney"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                  &emsp; &emsp;Perth :
-                  <Clock
-                    ticking={true}
-                    timezone={"Australia/Perth"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
-              {showUKSection && (
-                <h6>
-                  UK :
-                  <Clock
-                    ticking={true}
-                    timezone={"Europe/London"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
+              <ClockTimeZone Region={Region} highlightTimeZone={highlightTimeZone} />
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
               <h4 className="heading_color">Regular Client Follow Up</h4>
@@ -458,4 +399,5 @@ export default connect(mapStateToProps, {
   getDctClientDetails,
   getActiveCountry,
   getLastmessage,
+  changeDeactivateLeadClientStatus
 })(RegularClientFollowup);

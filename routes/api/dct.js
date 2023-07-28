@@ -417,11 +417,14 @@ router.post("/get-dct-Leads", auth, async (req, res) => {
     enteredBy,
   } = req.body;
 
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
   let dctLeadAssignedToId = "";
-  if (assignedTo) {
-    dctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
-  } else {
-    dctLeadAssignedToId = { $ne: null };
+  if (userInfo.empCtAccess !== "All") dctLeadAssignedToId = mongoose.Types.ObjectId(userInfo._id);
+  else {
+    if (assignedTo) dctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
+    else dctLeadAssignedToId = { $ne: null };
   }
 
   var todayDate = new Date().toISOString().split("T")[0];
@@ -507,13 +510,16 @@ router.post("/get-all-dct-Leads", auth, async (req, res) => {
     Pagedata = 0,
     recPerPage = 200,
   } = req.body;
-  const page = Pagedata * recPerPage; //|| 200;
 
+  const page = Pagedata * recPerPage; //|| 200;
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
   let dctLeadAssignedToId = "";
-  if (assignedTo) {
-    dctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
-  } else {
-    dctLeadAssignedToId = { $ne: null };
+  if (userInfo.empCtAccess !== "All") dctLeadAssignedToId = mongoose.Types.ObjectId(userInfo._id);
+  else {
+    if (assignedTo) dctLeadAssignedToId = mongoose.Types.ObjectId(assignedTo);
+    else dctLeadAssignedToId = { $ne: null };
   }
 
   let query = {
@@ -639,11 +645,14 @@ router.post("/get-dct-clients", auth, async (req, res) => {
 
   let { countryId, clientsId, dctClientCategory, assignedTo } = req.body;
 
+  const userInfo = await EmployeeDetails.findById(req.user.id).select(
+    "-password"
+  );
   let dctClientAssignedToId = "";
-  if (assignedTo) {
-    dctClientAssignedToId = mongoose.Types.ObjectId(assignedTo);
-  } else {
-    dctClientAssignedToId = { $ne: null };
+  if (userInfo.empCtAccess !== "All") dctClientAssignedToId = mongoose.Types.ObjectId(userInfo._id);
+  else {
+    if (assignedTo) dctClientAssignedToId = mongoose.Types.ObjectId(assignedTo);
+    else dctClientAssignedToId = { $ne: null };
   }
 
   var todayDate = new Date().toISOString().split("T")[0];

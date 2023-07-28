@@ -4,10 +4,10 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Spinner from "../layout/Spinner";
 import Select from "react-select";
-import Clock from "react-live-clock";
 import {
   getDctLeadDetails,
   getLastmessage,
+  changeDeactivateLeadClientStatus
 } from "../../actions/dct";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
@@ -15,14 +15,16 @@ import LastMessageDetails from "./LastMessageDetails";
 import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
 import { getActiveCountry } from "../../actions/regions";
+import ClockTimeZone from "./ClockTimeZone";
 
 const AllProspects = ({
-  auth: { isAuthenticated, user, users },
-  dct: { allLeads, allLeadsEmp, allLeadsEnterdBy, dctLeadsLoading },
+  auth: { isAuthenticated, user, timeZone },
+  dct: { allLeads, allLeadsEmp, allLeadsEnterdBy, dctLeadsLoading, blnLeadClientDeactivated },
   regions: { activeCountry },
   getDctLeadDetails,
   getActiveCountry,
   getLastmessage,
+  changeDeactivateLeadClientStatus
 }) => {
   useEffect(() => {
     getDctLeadDetails({ dctLeadCategory: "P" });
@@ -33,12 +35,24 @@ const AllProspects = ({
   }, [getActiveCountry]);
   //formData
 
-  const [showHide1, setShowHide1] = useState({
-    showUSSection: false,
-    showAUDSection: false,
-    showUKSection: false,
-  });
-  const { showUSSection, showAUDSection, showUKSection } = showHide1;
+  useEffect(() => {
+    if (colorData !== undefined) {
+      sethighlightTimeZone(allLeads && allLeads.length !== 0 && allLeads[colorData].timezone ? allLeads[colorData].timezone : "");
+    }
+  }, [allLeads]);
+
+  useEffect(() => {
+    if (blnLeadClientDeactivated) {
+      sethighlightTimeZone("");
+      setcolorData();
+      setShowHide({
+        ...showHide,
+        showdateselectionSection: false,
+      });
+      changeDeactivateLeadClientStatus();
+    }
+  }, [blnLeadClientDeactivated]);
+
   const [filterData, setFilterData] = useState({ dctLeadCategory: "P" });
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -78,7 +92,13 @@ const AllProspects = ({
   const [colorData, setcolorData] = useState();
   const [searchDataVal, setsearchDataVal] = useState();
   const [leadData, setLeadData] = useState();
+  const [highlightTimeZone, sethighlightTimeZone] = useState("");
   const onClickHandler = (allLeads, idx) => {
+    sethighlightTimeZone(
+      allLeads.timezone && allLeads.timezone !== ""
+        ? allLeads.timezone
+        : ""
+    );
     setLeadData(allLeads);
     setcolorData(idx);
     const searchData = {
@@ -95,7 +115,6 @@ const AllProspects = ({
   const ondivcloseChange = (e) => {
     if (e) {
       handledivModalClose();
-      // setcolorData("");
     }
   };
 
@@ -114,37 +133,10 @@ const AllProspects = ({
   const [countryId, getcountryIdData] = useState(null);
 
   //to hide and unide the timezones according to region selected
+  const [Region, setShowRegion] = useState("");
   const oncountryChange = (e) => {
     getEnterByData("");
-    if (e.value === "US") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: true,
-        showAUDSection: false,
-        showUKSection: false,
-      });
-    } else if (e.value === "AUS") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: true,
-        showUKSection: false,
-      });
-    } else if (e.value === "UK") {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: false,
-        showUKSection: true,
-      });
-    } else {
-      setShowHide1({
-        ...showHide1,
-        showUSSection: false,
-        showAUDSection: false,
-        showUKSection: false,
-      });
-    }
+    setShowRegion(e.value);
     getcountryData(e);
     getclientsData("");
     getempData("");
@@ -237,13 +229,15 @@ const AllProspects = ({
     getcountryIdData("");
     getclientsData("");
     getEnterByData("");
-    setShowHide1(false);
     getempData("");
     getDctLeadDetails({ dctLeadCategory: "P" });
 
+    setShowRegion("");
+    sethighlightTimeZone("");
+
     setFilterData({ dctLeadCategory: "P" });
     ondivcloseChange(true);
-    setcolorData("");
+    setcolorData();
   };
 
   return !isAuthenticated || !user ? (
@@ -257,60 +251,11 @@ const AllProspects = ({
               className="row col-lg-12 col-md-11 col-sm-10 col-10"
               style={{ minHeight: "54px" }}
             >
-              {showUSSection && (
-                <h6>
-                  PST :&nbsp;
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Pacific"}
-                    format={"DD/MM/YYYY, h:mm:ss a"}
-                  />
-                  &emsp;&emsp; MST :
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Mountain"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />{" "}
-                  &emsp;&emsp; EST :
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Eastern"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />{" "}
-                  &emsp;&emsp; CST :
-                  <Clock
-                    ticking={true}
-                    timezone={"US/Central"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
-              {showAUDSection && (
-                <h6>
-                  Sydney :
-                  <Clock
-                    ticking={true}
-                    timezone={"Australia/Sydney"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                  &emsp; &emsp;Perth :
-                  <Clock
-                    ticking={true}
-                    timezone={"Australia/Perth"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
-              {showUKSection && (
-                <h6>
-                  UK :
-                  <Clock
-                    ticking={true}
-                    timezone={"Europe/London"}
-                    format={" DD/MM/YYYY, h:mm:ss a"}
-                  />
-                </h6>
-              )}
+              <ClockTimeZone
+                Region={Region}
+                highlightTimeZone={highlightTimeZone}
+              />
+
             </div>
 
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
@@ -405,6 +350,10 @@ const AllProspects = ({
                         <th style={{ width: "13%" }}>Website </th>
                         <th style={{ width: "11%" }}>Email</th>
                         <th style={{ width: "8%" }}>Region</th>
+                        {(timeZone.filter((ele) => {
+                          return Region === ele.value.split('-')[0] ? ele : ""
+                        }).length !== 0) ? (<th style={{ width: "8%" }}>Timezone</th>) : (<></>)
+                        }
                         <th style={{ width: "13%" }}>Contact</th>
                         <th style={{ width: "10%" }}>
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CallDate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -442,6 +391,10 @@ const AllProspects = ({
                               </td>
                               <td>{allLeads.emailId}</td>
                               <td>{allLeads.countryName}</td>
+                              {(timeZone.filter((ele) => {
+                                return Region === ele.value.split('-')[0] ? ele : ""
+                              }).length !== 0) ? (<td>{allLeads.timezone ? allLeads.timezone : ""}</td>) : (<></>)
+                              }
                               <td>
                                 {allLeads.countryCode
                                   ? "+" + allLeads.countryCode
@@ -455,16 +408,16 @@ const AllProspects = ({
                                   className="img_icon_size log"
                                   onClick={() => onDeactive(allLeads, idx)}
                                   src={require("../../static/images/delete.png")}
-                                  alt="Delete Project"
-                                  title="Delete Project"
+                                  alt="Delete Lead"
+                                  title="Delete Lead"
                                   style={{ width: "20px" }}
                                 />{" "}
                                 <img
                                   className="img_icon_size log"
                                   onClick={() => onUpdate(allLeads, idx)}
                                   src={require("../../static/images/edit_icon.png")}
-                                  alt="Edit"
-                                  title="Edit"
+                                  alt="Edit Lead"
+                                  title="Edit Lead"
                                   style={{ width: "20px" }}
                                 />
                               </td>
@@ -614,4 +567,5 @@ export default connect(mapStateToProps, {
   getDctLeadDetails,
   getActiveCountry,
   getLastmessage,
+  changeDeactivateLeadClientStatus
 })(AllProspects);

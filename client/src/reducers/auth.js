@@ -33,6 +33,14 @@ const initialState = {
   expReport: [],
   otpMessage: "",
   finalDataRep: [],
+  timeZone: [
+    { label: "PST", value: "US-PST" },
+    { label: "MST", value: "US-MST" },
+    { label: "EST", value: "US-EST" },
+    { label: "CST", value: "US-CST" },
+    { label: "Sydney", value: "AUS-Sydney" },
+    { label: "Perth", value: "AUS-Perth" }
+  ]
 };
 
 const auth = (state = initialState, action) => {
