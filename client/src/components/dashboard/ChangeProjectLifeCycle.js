@@ -118,13 +118,13 @@ const ChangeProjectLifeCycle = ({
   const [showHide, setShowHide] = useState({
     showTimerSection:
       (ProjectCycledata && ProjectCycledata.value === "Working") ||
-      ProjectCycledata.value === "Amend_Working" ||
-      ProjectCycledata.value === "AI_Working" ||
-      ProjectCycledata.value === "QC Estimate"
+        ProjectCycledata.value === "Amend_Working" ||
+        ProjectCycledata.value === "AI_Working" ||
+        ProjectCycledata.value === "QC Estimate"
         ? true
         : false,
   });
-  console.log("ProjectCycledata", ProjectCycledata);
+
 
   const { showTimerSection } = showHide;
   //client in websocket
@@ -291,7 +291,7 @@ const ChangeProjectLifeCycle = ({
     }
   };
 
-  return !isAuthenticated || !user  ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>

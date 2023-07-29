@@ -42,21 +42,14 @@ const ClientCallHistory = ({
                   callTakenDate = [ED1[2], ED1[1], ED1[0]].join("-");
                 }
                 var callCategory = "";
-                if (callHistory.callCategory === "F") {
-                  callCategory = "Followup";
-                } else if (callHistory.callCategory === "P") {
-                  callCategory = "Prospect";
-                } else if (callHistory.callCategory === "TC") {
-                  callCategory = "TestClient";
-                } else if (callHistory.callCategory === "W") {
-                  callCategory = "WrongNumber";
-                } else if (callHistory.callCategory === "RC") {
-                  callCategory = "RegularClient";
-                } else if (callHistory.callCategory === "IC") {
-                  callCategory = "InactiveClient"
-                } else if (callHistory.callCategory === "SW") {
-                  callCategory = "SentWork"
-                }
+                if (callHistory.callCategory === "F") callCategory = "Followup";
+                else if (callHistory.callCategory === "P") callCategory = "Prospect";
+                else if (callHistory.callCategory === "TC") callCategory = "TestClient";
+                else if (callHistory.callCategory === "W") callCategory = "WrongNumber";
+                else if (callHistory.callCategory === "RC") callCategory = "RegularClient";
+                else if (callHistory.callCategory === "IC") callCategory = "InactiveClient";
+                else if (callHistory.callCategory === "SW") callCategory = "SentWork";
+                else if (callHistory.callCategory === "UW") callCategory = "Unworthy"
 
                 return (
                   <tr key={idx}>

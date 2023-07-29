@@ -9,7 +9,7 @@ const DctClients = require("../../models/dct/dctClients");
 const EmployeeDetails = require("../../models/EmpDetails");
 const csvtojson = require("csvtojson");
 //ADD
-router.post("/add-dct-Leads", async (req, res) => {
+router.post("/add-dct-Leads", auth, async (req, res) => {
   let data = req.body;
   try {
     let AddDctLeadsDetails = new DctLeads(data);
@@ -21,7 +21,7 @@ router.post("/add-dct-Leads", async (req, res) => {
   }
 });
 
-router.post("/add-dct-client", async (req, res) => {
+router.post("/add-dct-client", auth, async (req, res) => {
   let data = req.body;
   console.log("DCT Client", data);
   try {
@@ -34,7 +34,7 @@ router.post("/add-dct-client", async (req, res) => {
   }
 });
 
-router.post("/add-dct-calls", async (req, res) => {
+router.post("/add-dct-calls", auth, async (req, res) => {
   let data = req.body;
   try {
     let AddDctCallsDetails = new DctCalls(data);
@@ -47,7 +47,7 @@ router.post("/add-dct-calls", async (req, res) => {
 });
 
 //EDIT
-router.post("/edit-dct-Leads", async (req, res) => {
+router.post("/edit-dct-Leads", auth, async (req, res) => {
   try {
     let data = req.body;
     const updateDctLeads = await DctLeads.updateOne(
@@ -87,7 +87,7 @@ router.post("/edit-dct-Leads", async (req, res) => {
   }
 });
 
-router.post("/edit-dct-clients", async (req, res) => {
+router.post("/edit-dct-clients", auth, async (req, res) => {
   try {
     let data = req.body;
     const updateDctClients = await DctClients.updateOne(
@@ -362,6 +362,26 @@ router.post("/deactivate-dct-client-staff", async (req, res) => {
     res.json(deactivateDctStaffs);
   } catch (error) {
     res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+router.post("/activate-alead-or-aclient", auth, async (req, res) => {
+  const { theLeadOrClientId, leadType } = req.body;
+  let updateDctLeadOrClient = {};
+  try {
+    if (leadType === "Leads") {
+      updateDctLeadOrClient = await DctLeads.updateOne(
+        { _id: theLeadOrClientId },
+        {
+          $set: {
+            dctLeadStatus: "Active"
+          }
+        }
+      );
+    }
+    res.json(updateDctLeadOrClient);
+  } catch (error) {
+    console.log(error);
   }
 });
 
@@ -1107,7 +1127,7 @@ router.post("/add-import-dct-lead-data", async (req, res) => {
 });
 
 //25-07-2023 clients who need to be followed after being transfered from Inactive Client Report
-router.get("/inactive-clients-followup", async (req, res) => {
+router.get("/inactive-clients-followup", auth, async (req, res) => {
   try {
     const resDctInactiveClientCalls = await DctClients.find({
       $and: [
@@ -1123,7 +1143,7 @@ router.get("/inactive-clients-followup", async (req, res) => {
 })
 
 //15-07-2023 client who have not been sending data for past 30 days 
-router.get("/inactive-clients", async (req, res) => {
+router.get("/inactive-clients", auth, async (req, res) => {
   try {
     const regClientsSendWork = await Projects.aggregate([
       {
@@ -1167,10 +1187,29 @@ router.get("/inactive-clients", async (req, res) => {
         { clientName: { $nin: arrRegClientsSendWork } },
         { dctClientCategory: { $ne: "IC" } }
       ]
-    });
+    }).sort({ dctClientCategory: 1 });   //All Unworthy or Not Worth selected clients will sit in the bottom
     res.json({ clientsInactive: result })
   } catch (err) {
     console.error(err.message);
+  }
+});
+
+//28-07-2023 API to fetch all records (leads or clients) which are in deactive status
+router.post("/deactive-leads-clients", auth, async (req, res) => {
+  const { leadType } = req.body;  //Lead or Clients
+  let dctLeadsClients;
+  try {
+    if (leadType === "Leads")
+      dctLeadsClients = await DctLeads.find({
+        $or: [{ dctLeadStatus: "Deactive" }, { dctLeadAssignedToId: null }, { dctLeadAssignedToName: null }]
+      });
+    else
+      dctLeadsClients = await DctClients.find({
+        $or: [{ dctClientStatus: "Deactive" }, { dctClientAssignedToId: null }, { dctClientAssignedToName: null }]
+      });
+    res.json(dctLeadsClients);
+  } catch (error) {
+    console.error(error);
   }
 });
 

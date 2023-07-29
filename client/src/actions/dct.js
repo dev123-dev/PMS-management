@@ -35,24 +35,42 @@ const config = {
   },
 };
 
+export const activateDctLeadOrClient = (finalData) => async (dispatch) => {
+  try {
+    await axios.post("/api/dct/activate-alead-or-aclient", finalData, config);
+    dispatch(getDeactiveLeadsClients(finalData));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//Get all deactivated leads or clients whose status is deactive and have not been assigned to anyone (which means null) so that they can be handled here
+export const getDeactiveLeadsClients = (finalData) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/dct/deactive-leads-clients", finalData, config);
+    dispatch({
+      type: "DEACTIVE_LEADS_CLIENTS",
+      payload: res.data
+    })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// Gets all Inactive Clients whose current category is Not Equal to IC and UW Unworthy clients are shown in the bottom by sort 
 export const getInactiveClients = () => async (dispatch) => {
-  // dispatch({
-  //   type: SET_LOADING_TRUE,
-  // });
   try {
     const res = await axios.get("/api/dct/inactive-clients");
     dispatch({
       type: "INACTIVE_CLIENTS",
       payload: res.data,
     });
-    // dispatch({
-    //   type: SET_LOADING_FALSE,
-    // });
   } catch (err) {
     console.error(err.message);
   }
 }
 
+// Gets all Inactive Clients whose current category is Equal to IC and Call Date is less than todays date
 export const getInactiveClientsFollowUp = () => async (dispatch) => {
   //console.log("Action Exec");
   try {
@@ -413,13 +431,14 @@ export const deactivateDctClient = (finalData) => async (dispatch) => {
 export const refreshLead = (finalData) => async (dispatch) => {
   try {
     if (finalData.staffFilter) {
-      if (finalData.staffFilter.from === "AllLeads") {
+      if (finalData.staffFilter.from === "AllLeads")
         dispatch(getAllDctLead(finalData.filterData));
-      }
       else if (finalData.staffFilter.from === "Prospect" || finalData.staffFilter.from === "FollowUp" || finalData.staffFilter.from === "WrongNumber")
         dispatch(getDctLeadDetails(finalData.filterData));
       else if (finalData.staffFilter.from === "TestClient" || finalData.staffFilter.from === "RegularClient")
         dispatch(getDctClientDetails(finalData.filterData));
+      else if (finalData.staffFilter.from === "DeactiveLeads")
+        dispatch(getDeactiveLeadsClients(finalData.filterData))
     }
   } catch (err) {
     dispatch({

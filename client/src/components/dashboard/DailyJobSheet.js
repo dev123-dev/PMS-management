@@ -427,7 +427,6 @@ const DailyJobSheet = ({
 
   const [userDatas2, setUserDatas2] = useState(null);
   const onnotes = (dailyJobsheetProjects, idx) => {
-    //console.log("dailyJobsheetProjects", dailyJobsheetProjects);
     setshownotesModal(true);
     setUserDatas2(dailyJobsheetProjects);
   };
@@ -739,7 +738,7 @@ const DailyJobSheet = ({
       showdateSection1: true,
     });
   };
-  // console.log("dailyJobsheetProjects", dailyJobsheetProjects);
+
   const fileName = [clientName1 ? clientName1 : "Client Report"];
   return !isAuthenticated || !user ? (
     <Spinner />
@@ -758,8 +757,8 @@ const DailyJobSheet = ({
 
                 {(user.userGroupName &&
                   user.userGroupName === "Administrator") ||
-                user.userGroupName === "Super Admin" ||
-                user.userGroupName === "Clarical Admins" ? (
+                  user.userGroupName === "Super Admin" ||
+                  user.userGroupName === "Clarical Admins" ? (
                   <>
                     <Select
                       name="Dateselectmode"
@@ -931,8 +930,8 @@ const DailyJobSheet = ({
                         {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
-                        user.userGroupName === "Super Admin" ||
-                        user.userGroupName === "Clarical Admins" ? (
+                          user.userGroupName === "Super Admin" ||
+                          user.userGroupName === "Clarical Admins" ? (
                           <>
                             <th style={{ width: "10%" }}>Client Name</th>
                             <th style={{ width: "6%" }}>Staff Name</th>
@@ -959,8 +958,8 @@ const DailyJobSheet = ({
                         {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
-                        user.userGroupName === "Super Admin" ||
-                        user.userGroupName === "Clarical Admins" ? (
+                          user.userGroupName === "Super Admin" ||
+                          user.userGroupName === "Clarical Admins" ? (
                           <th style={{ width: "3%" }}>OP</th>
                         ) : (
                           <></>
@@ -1011,8 +1010,8 @@ const DailyJobSheet = ({
                                 Number(
                                   estimatedTimeVal[0] + "" + estimatedTimeVal[1]
                                 ) -
-                                  Number(jobTime[1]) ===
-                                  5 &&
+                                Number(jobTime[1]) ===
+                                5 &&
                                 dailyJobsheetProjects.timeOutMsgSent === 0
                               ) {
                                 timeOutMsg(dailyJobsheetProjects);
@@ -1023,8 +1022,8 @@ const DailyJobSheet = ({
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
-                                user.userGroupName === "Super Admin" ||
-                                user.userGroupName === "Clarical Admins" ? (
+                                  user.userGroupName === "Super Admin" ||
+                                  user.userGroupName === "Clarical Admins" ? (
                                   <>
                                     <td>{dailyJobsheetProjects.clientName}</td>
                                     <td>{dailyJobsheetProjects.staffName}</td>
@@ -1039,8 +1038,8 @@ const DailyJobSheet = ({
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
-                                user.userGroupName === "Super Admin" ||
-                                user.userGroupName === "Clarical Admins" ? (
+                                  user.userGroupName === "Super Admin" ||
+                                  user.userGroupName === "Clarical Admins" ? (
                                   <>
                                     {/* <td>
                                       <img
@@ -1110,9 +1109,9 @@ const DailyJobSheet = ({
                                 <td>
                                   {dailyJobsheetProjects.projectStatusType ===
                                     "Uploaded" ||
-                                  dailyJobsheetProjects.projectStatusType ===
+                                    dailyJobsheetProjects.projectStatusType ===
                                     "QC DONE" ||
-                                  dailyJobsheetProjects.projectStatusType ===
+                                    dailyJobsheetProjects.projectStatusType ===
                                     "Uploading" ? (
                                     <></>
                                   ) : (
@@ -1120,9 +1119,9 @@ const DailyJobSheet = ({
                                       {" "}
                                       {dailyJobsheetProjects.ptEstimatedTime &&
                                         estimatedTimeVal[0] +
-                                          " hr : " +
-                                          estimatedTimeVal[1] +
-                                          " min"}
+                                        " hr : " +
+                                        estimatedTimeVal[1] +
+                                        " min"}
                                     </>
                                   )}
                                 </td>
@@ -1132,9 +1131,9 @@ const DailyJobSheet = ({
                                 <td>
                                   {dailyJobsheetProjects.projectStatusType ===
                                     "Uploaded" ||
-                                  dailyJobsheetProjects.projectStatusType ===
+                                    dailyJobsheetProjects.projectStatusType ===
                                     "QC DONE" ||
-                                  dailyJobsheetProjects.projectStatusType ===
+                                    dailyJobsheetProjects.projectStatusType ===
                                     "Uploading" ? (
                                     <></>
                                   ) : (
@@ -1160,8 +1159,8 @@ const DailyJobSheet = ({
                                   {dailyJobsheetProjects.projectQuantity}&nbsp;
                                   {dailyJobsheetProjects.projectUnconfirmed ===
                                     true && (
-                                    <span style={{ color: "red" }}>*</span>
-                                  )}
+                                      <span style={{ color: "red" }}>*</span>
+                                    )}
                                 </td>
                                 <td>{dailyJobsheetProjects.outputformat}</td>
                                 <td>
@@ -1180,8 +1179,8 @@ const DailyJobSheet = ({
                                   {/* SLAP UserGroupRights */}
                                   {(user.userGroupName &&
                                     user.userGroupName === "Administrator") ||
-                                  user.userGroupName === "Super Admin" ||
-                                  user.userGroupName === "Clarical Admins" ? (
+                                    user.userGroupName === "Super Admin" ||
+                                    user.userGroupName === "Clarical Admins" ? (
                                     <>
                                       <img
                                         className="img_icon_size log float-left mt-2"
@@ -1280,13 +1279,13 @@ const DailyJobSheet = ({
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
-                                user.userGroupName === "Super Admin" ||
-                                user.userGroupName === "Clarical Admins" ? (
+                                  user.userGroupName === "Super Admin" ||
+                                  user.userGroupName === "Clarical Admins" ? (
                                   <td>
                                     {(user.userGroupName &&
                                       user.userGroupName === "Administrator") ||
-                                    user.userGroupName === "Super Admin" ||
-                                    user.userGroupName === "Clarical Admins" ? (
+                                      user.userGroupName === "Super Admin" ||
+                                      user.userGroupName === "Clarical Admins" ? (
                                       <img
                                         className="img_icon_size log"
                                         onClick={() =>
@@ -1370,8 +1369,8 @@ const DailyJobSheet = ({
             <AdditionalAddProject
               onProjectCycleModalChange={onProjectCycleModalChange}
               ProjectCycledata={statusChangeValue}
-              // contacts={contacts}
-              // socket={socket}
+            // contacts={contacts}
+            // socket={socket}
             />
           </Modal.Body>
         </Modal>

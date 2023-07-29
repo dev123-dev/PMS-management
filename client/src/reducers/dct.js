@@ -51,7 +51,8 @@ const initialState = {
   dctLeadsLoading: false,
   dctClientsLoading: false,
   dctInactiveClientsFollowUp: [],
-  blnLeadClientDeactivated: false
+  blnLeadClientDeactivated: false,
+  dctLeadsClients: []
 };
 
 const dct = (state = initialState, action) => {
@@ -225,20 +226,29 @@ const dct = (state = initialState, action) => {
         ...state,
         dctClientsLoading: false
       }
+
     case "ALL_DCT_CLIENTS_INITIALIZE":
       return {
         ...state,
         allDctClients: [],
       };
+
     case "GET_STAFF_DATA_INITIALIZE":
       return {
         ...state,
         staffData: []
       }
+
     case "LEAD_CLIENT_DEACTIVATED":
       return {
         ...state,
         blnLeadClientDeactivated: payload
+      }
+
+    case "DEACTIVE_LEADS_CLIENTS":
+      return {
+        ...state,
+        dctLeadsClients: payload
       }
     default:
       return state;

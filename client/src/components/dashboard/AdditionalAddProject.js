@@ -58,7 +58,7 @@ const AdditionalAddProject = ({
   // var todayDateymd = yyyy + "-" + mm + "-" + dd;
 
   //formData
-  //console.log("ProjectCycledata", ProjectCycledata);
+
   const [formData, setFormData] = useState({
     projectName:
       ProjectCycledata && ProjectCycledata.jobQueueProjects.projectName
@@ -771,8 +771,8 @@ const AdditionalAddProject = ({
                     label="Controlled picker"
                     value={projectdate}
                     name="projectDate"
-                    //placeholderText="dd-mm-yyyy"
-                    //onChange={(newValue) => onDateChange(newValue)}
+                  //placeholderText="dd-mm-yyyy"
+                  //onChange={(newValue) => onDateChange(newValue)}
                   />
                 </div>
                 {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -824,7 +824,7 @@ const AdditionalAddProject = ({
                     min="00:00"
                     max="24:00"
                     onChange={(e) => onInputChange(e)}
-                    // required
+                  // required
                   />
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 mt-5">

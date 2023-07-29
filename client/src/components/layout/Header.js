@@ -263,6 +263,17 @@ const Header = ({
                         </NavLink>) : (<></>)
                     }
                     <NavLink
+                      to={{
+                        pathname: "/deactive-leads",
+                        data: {
+                          leadType: "Leads"
+                        }
+                      }}
+                      activeStyle={{ color: "#ffd037", textDecoration: "none" }}
+                    >
+                      <Dropdown.Item>Deactive Leads</Dropdown.Item>
+                    </NavLink>
+                    <NavLink
                       to="/all-dct-wrong-numbers"
                       activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                     >

@@ -112,6 +112,7 @@ import ClientMonthReport from "../dct/ClientMonthReport";
 import Enquiry from "../dashboard/Enquiry";
 import InactiveClientsReport from "../dct/InactiveClientsReport";
 import InactiveClientsFollowUp from "../dct/InactiveClientsFollowUp";
+import DeactiveLeadsClients from "../dct/DeactiveLeadsClients";
 
 const RoutesFile = () => {
   return (
@@ -320,9 +321,16 @@ const RoutesFile = () => {
 
         <PrivateRoute
           exact
+          path="/deactive-leads"
+          component={DeactiveLeadsClients}
+        />
+
+        <PrivateRoute
+          exact
           path="/client-month-report"
           component={ClientMonthReport}
-        ></PrivateRoute>
+        />
+
         <PrivateRoute
           exact
           path="/client-fy-report"
@@ -344,8 +352,7 @@ const RoutesFile = () => {
         <PrivateRoute exact path="/add-staff" component={AddEmployeeDetails} />
         <PrivateRoute exact path="/all-staff" component={AllStaffDetails} />
         <PrivateRoute
-          exact
-          path="/edit-staff"
+          exact path="/edit-staff"
           component={EditEmployeeDetails}
         />
         <PrivateRoute exact path="/all-Amendments" component={Amendments} />

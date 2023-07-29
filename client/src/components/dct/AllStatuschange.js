@@ -41,8 +41,9 @@ const AllStatuschange = ({
   ];
 
   let StatusMethodsForWrongNumber = [{ value: "CallBack", label: "Call Back" }];
-  let StatusMethodForInactiveClient = [
+  let StatusMethodForInactiveClient = [              //Inactive Client Statuses
     { value: "Inactive", label: "Inactive" },
+    { value: "Unworthy", label: "Not Worth" },
   ];
 
   // Status Filter based on Follow Up, Test Client and Regular Client
@@ -267,6 +268,7 @@ const AllStatuschange = ({
       case "RegularClient":
       case "Inactive":
       case "SentWork":
+      case "Unworthy": //Call Status when Not Worth has been selected
         setFormData({
           ...formData,
           callStatus: e,
@@ -317,8 +319,8 @@ const AllStatuschange = ({
       callCategoryVal = "F";
     } else if (callStatus.value === "TestClient") callCategoryVal = "TC";
     else if (callStatus.value === "RegularClient") callCategoryVal = "RC";
-    else if (callStatus.value === "Inactive")
-      callCategoryVal = "IC"; //Inactive Client Status
+    else if (callStatus.value === "Inactive") callCategoryVal = "IC"; //Inactive Client Report Status
+    else if (callStatus.value === "Unworthy") callCategoryVal = "UW"; //Inactive Client Report Status
     else if (callStatus.value === "SentWork") callCategoryVal = "SW";
 
     if (checkErrors()) {
@@ -346,10 +348,10 @@ const AllStatuschange = ({
       };
 
       if (
-        from === "TestClient" ||
-        from === "RegularClient" ||
-        from === "Inactive" ||
-        from === "InactiveClient"
+        from === "TestClient" ||    //Test Client Followup
+        from === "RegularClient" || //Regular Client Folllowup
+        from === "Inactive" ||      //Inactive Client Report
+        from === "InactiveClient"   //Inactive Client Followup
       ) {
         addDctClientCalls(finalData);
       } else {
