@@ -16,7 +16,6 @@ import {
   GET_STAFF_DATA,
   GET_INSTRUCTION_DATA,
   ALL_ASSIGNED_LEAD_DETAILS,
-  DCT_CALLS_CLIENT_COUNT,
   DCT_CALLS_COUNT,
   ALL_DCT_LEAD_ENTRY_TODAY,
   GET_ALL_LEADS_ENTERED_BY,
@@ -41,8 +40,7 @@ const initialState = {
   staffData: [],
   instructionData: [],
   allEmpAssignedLeadData: [],
-  dctCallsClientCount: [],
-  dctCallsCount: [],
+  dctCallsSalesEmpCount: [],
   allDctLeadEnteredToday: [],
   getAllLeadsEnterdBy: [],
   allLeadsEnterdBy: [],
@@ -154,16 +152,10 @@ const dct = (state = initialState, action) => {
         ...state,
         instructionData: payload,
       };
-    case DCT_CALLS_CLIENT_COUNT:
-      return {
-        ...state,
-        dctCallsClientCount: payload,
-      };
-
     case DCT_CALLS_COUNT:
       return {
         ...state,
-        dctCallsCount: payload,
+        dctCallsSalesEmpCount: payload,
       };
 
     case ALL_DCT_LEAD_ENTRY_TODAY:

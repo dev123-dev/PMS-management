@@ -964,147 +964,165 @@ router.post("/get-client-instruction-data", async (req, res) => {
 });
 
 router.post("/get-all-dct-calls-count", auth, async (req, res) => {
-  let { selectedDate, assignedTo } = req.body;
-  const userInfo = await EmployeeDetails.findById(req.user.id).select(
-    "-password"
-  );
-  var dateVal = new Date().toISOString().split("T")[0];
-  let callFromId = "",
-    query = {};
+  const { fromDate, toDate } = req.body;
+  let callFromId;
+
+  const userInfo = await EmployeeDetails.findById(req.user.id).select("-password");
 
   if (userInfo.empCtAccess !== "All") callFromId = userInfo._id;
-  else {
-    if (assignedTo) callFromId = mongoose.Types.ObjectId(assignedTo);
-    else callFromId = { $ne: null };
-  }
+  else callFromId = { $ne: null };
 
-  if (selectedDate) {
-    dateVal = selectedDate;
-  }
-
-  if (selectedDate) {
-    query = {
-      callTakenDate: dateVal,
-      callFromId,
-    };
-  } else {
-    query = {
-      callTakenDate: dateVal,
-      callFromId,
-    };
-  }
-  try {
-    let getAllDctCallsClient = [];
-    const getAllDctCallsCount = await DctCalls.aggregate([
+  let query = {
+    $and: [
       {
-        $match: query,
+        callTakenDate: {
+          $gte: fromDate,
+          $lte: toDate,
+        },
       },
       {
-        $group: {
-          _id: "$callFromId",
-          callFromName: { $first: "$callFromName" },
-          count: { $sum: 1 },
+        callFromId: callFromId,
+      },
+    ],
+  };
+
+  try {
+    let dctCallsSalesEmpCount = await DctCalls.aggregate([
+      {
+        $match: query
+      },
+      {
+        $group:
+        {
+          _id: {
+            callFromId: "$callFromId",
+            callFromName: "$callFromName",
+            callCategory: "$callCategory",
+          },
+          totalCalls: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $group:
+        {
+          _id: {
+            callFromId: "$_id.callFromId",
+            callFromName: "$_id.callFromName",
+          },
+          categories: {
+            $push: {
+              callCategory: "$_id.callCategory",
+              totalCalls: "$totalCalls",
+            },
+          },
+          totalCallsTogether: {
+            $sum: "$totalCalls",
+          },
+        },
+      },
+      {
+        $project:
+        {
+          _id: 0,
+          callFromId: "$_id.callFromId",
+          callFromName: "$_id.callFromName",
+          categories: 1,
+          totalCallsTogether: 1,
         },
       },
     ]);
-    if (userInfo.empCtAccess === "All") {
-      getAllDctCallsClient = await DctCalls.aggregate([
-        {
-          $match: query,
-        },
-        {
-          $group: {
-            _id: {
-              callFromId: "$callFromId",
-              callToId: "$callToId",
-            },
-            callFromId: { $first: "$callFromId" },
-            callFromName: { $first: "$callFromName" },
-            count: { $sum: 1 },
+
+    let dctUniqueClientCallsSalesEmpCount = await DctCalls.aggregate([
+      {
+        $match: query
+      },
+      {
+        $group: {
+          _id: {
+            callFromId: "$callFromId",
+            callFromName: "$callFromName",
+            callToId: "$callToId",
           },
         },
+      },
+      {
+        $group:
         {
-          $group: {
-            _id: "$callFromId",
-            callFromName: { $first: "$callFromName" },
-            countClient: { $sum: 1 },
-            countCall: { $sum: "$count" },
+          _id: {
+            callFromId: "$_id.callFromId",
+            callFromName: "$_id.callFromName",
+          },
+          totalClientCalls: {
+            $sum: 1,
           },
         },
-      ]);
-    } else {
-      getAllDctCallsClient = await DctCalls.aggregate([
+      },
+      {
+        $project:
         {
-          $match: query,
+          _id: 0,
+          callFromId: "$_id.callFromId",
+          callFromName: "$_id.callFromName",
+          totalClientCalls: 1,
         },
-        {
-          $group: {
-            _id: "$callToId",
-            callFromName: { $first: "$callFromName" },
-            countVal: { $sum: 1 },
-          },
-        },
-      ]);
-    }
-    res.json({
-      getAllDctCallsCount: getAllDctCallsCount,
-      getAllDctCallsClient: getAllDctCallsClient,
+      },
+    ]);
+
+    dctCallsSalesEmpCount = dctCallsSalesEmpCount.map((dctSalesEmpCalls) => {
+      return {
+        ...dctSalesEmpCalls,
+        totalClientCalls: dctUniqueClientCallsSalesEmpCount.find(SalesEmp => SalesEmp.callFromId.equals(dctSalesEmpCalls.callFromId)).totalClientCalls
+      }
     });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Internal Server Error.");
+    console.log("Calls", dctCallsSalesEmpCount);
+    res.json({ dctCallsSalesEmpCount });
+  } catch (error) {
+    console.log(error);
   }
 });
 
 router.post("/get-all-today-dct-lead-entered", auth, async (req, res) => {
-  const { demoDate, assignedTo } = req.body;
-  const userInfo = await EmployeeDetails.findById(req.user.id).select(
-    "-password"
-  );
-  let dctLeadEnteredById = "";
-  if (userInfo.empCtAccess !== "All")
-    dctLeadEnteredById = mongoose.Types.ObjectId(userInfo._id);
-  else {
-    if (assignedTo) {
-      dctLeadEnteredById = mongoose.Types.ObjectId(assignedTo);
-    } else {
-      dctLeadEnteredById = { $ne: null };
-    }
-  }
+  const { fromDate, toDate } = req.body;
+  let dctLeadEnteredById;
+
+  const userInfo = await EmployeeDetails.findById(req.user.id).select("-password");
+
+  if (userInfo.empCtAccess !== "All") dctLeadEnteredById = userInfo._id;
+  else dctLeadEnteredById = { $ne: null };
+
+  let query = {
+    $and: [
+      {
+        dctLeadEnteredDate: {
+          $gte: fromDate,
+          $lte: toDate,
+        },
+      },
+      {
+        dctLeadEnteredById,
+      },
+    ],
+  };
+
   try {
-    let allDctLeadEnteredToday = [];
-    if (userInfo.empCtAccess === "All") {
-      allDctLeadEnteredToday = await DctLeads.aggregate([
-        {
-          $match: {
-            dctLeadEnteredDate: new Date().toISOString().split("T")[0],
-            dctLeadEnteredById,
-          },
+    let allDctLeadEnteredToday = await DctLeads.aggregate([
+      {
+        $match: query
+      },
+      {
+        $group: {
+          _id: "$dctLeadEnteredById",
+          dctLeadEnteredByName: { $first: "$dctLeadEnteredByName" },
+          count: { $sum: 1 },
         },
-        {
-          $group: {
-            _id: "$dctLeadEnteredById",
-            dctLeadEnteredByName: { $first: "$dctLeadEnteredByName" },
-            count: { $sum: 1 },
-          },
-        },
-      ]);
-    } else {
-      allDctLeadEnteredToday = await DctLeads.aggregate([
-        {
-          $match: {
-            dctLeadEnteredDate: new Date().toISOString().split("T")[0],
-            dctLeadEnteredById,
-          },
-        },
-      ]);
-    }
-    res.json({
-      allDctLeadEnteredToday: allDctLeadEnteredToday,
-    });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Internal Server Error.");
+      }
+    ]);
+    console.log("Leads Entered", allDctLeadEnteredToday);
+    res.json({ allDctLeadEnteredToday });
+  } catch (error) {
+    console.log(error);
   }
 });
 

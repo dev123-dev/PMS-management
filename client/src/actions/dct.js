@@ -10,7 +10,6 @@ import {
   ALL_DCT_CLIENTS,
   ALL_DCT_CLIENTS_DD,
   DCT_CLIENTS,
-  DCT_CLIENTS_DD,
   ALL_DCT_CALLS,
   ALL_DCT_CALLS_EMP,
   ALL_LEADS_EMP,
@@ -22,7 +21,6 @@ import {
   GET_STAFF_DATA,
   GET_INSTRUCTION_DATA,
   ALL_ASSIGNED_LEAD_DETAILS,
-  DCT_CALLS_CLIENT_COUNT,
   DCT_CALLS_COUNT,
   ALL_DCT_LEAD_ENTRY_TODAY,
   GET_ALL_LEADS_ENTERED_BY,
@@ -791,11 +789,7 @@ export const getAllDctCallCount = (finalData) => async (dispatch) => {
     );
     dispatch({
       type: DCT_CALLS_COUNT,
-      payload: res.data.getAllDctCallsCount,
-    });
-    dispatch({
-      type: DCT_CALLS_CLIENT_COUNT,
-      payload: res.data.getAllDctCallsClient,
+      payload: res.data.dctCallsSalesEmpCount,
     });
   } catch (err) {
     dispatch({

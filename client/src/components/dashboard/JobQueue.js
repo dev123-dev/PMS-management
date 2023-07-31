@@ -216,12 +216,6 @@ const JobQueue = ({
   // );
 
   const onClientChange = (e) => {
-    // const getAllButSelected = activeClientsOpt.filter(
-    //   (ele) => ele.label !== e.label
-    // );
-
-    // setactiveClientsOpt1([e, ...getAllButSelected]);
-
     setClientData(e);
     const finalData = {
       folderNameSearch: e.value,
@@ -233,8 +227,8 @@ const JobQueue = ({
     setClientName(clientFolderName);
 
     setFilterData(finalData);
-    //cvonsole.log(e)
     getJobQueueProjectDeatils(finalData);
+
   };
 
   // const onClientChange = (e) => {
