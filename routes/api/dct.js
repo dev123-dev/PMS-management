@@ -1076,7 +1076,7 @@ router.post("/get-all-dct-calls-count", auth, async (req, res) => {
         totalClientCalls: dctUniqueClientCallsSalesEmpCount.find(SalesEmp => SalesEmp.callFromId.equals(dctSalesEmpCalls.callFromId)).totalClientCalls
       }
     });
-    console.log("Calls", dctCallsSalesEmpCount);
+
     res.json({ dctCallsSalesEmpCount });
   } catch (error) {
     console.log(error);
@@ -1119,7 +1119,7 @@ router.post("/get-all-today-dct-lead-entered", auth, async (req, res) => {
         },
       }
     ]);
-    console.log("Leads Entered", allDctLeadEnteredToday);
+
     res.json({ allDctLeadEnteredToday });
   } catch (error) {
     console.log(error);
