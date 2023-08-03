@@ -342,6 +342,18 @@ const AllLeads = ({
     handleShowPathModalClose();
   };
 
+  const getCallCategory = (category) => {
+    let callCategory = "";
+    if (category === "F") callCategory = "FollowUp";
+    else if (category === "P") callCategory = "Prospect";
+    else if (category === "TC") callCategory = "TestClient";
+    else if (category === "W") callCategory = "WrongNumber";
+    else if (category === "RC") callCategory = "RegularClient";
+    else if (category === "IC") callCategory = "InactiveClient";
+    else callCategory = "AllLeads";
+    return callCategory;
+  }
+
   return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
@@ -590,25 +602,24 @@ const AllLeads = ({
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
                   style={{ height: "33vh" }}
                 >
-                  <label className="sidePartHeading ">Status</label>
+                  <label className="sidePartHeading ">Last Call Status {(lastMsg) ? " - " + getCallCategory(lastMsg.callCategory) : ""}</label>
                   {showdateselectionSection && (
                     <AllStatuschange
                       leadDataVal={leadData}
-                      from="AllLeads"
+                      from={(lastMsg) ? getCallCategory(lastMsg.callCategory) : "AllLeads"}
                       ondivcloseChange={ondivcloseChange}
                       filterData={filterData}
-                      lastMsg={lastMsg}
+                      page="AllLeads"
                     />
                   )}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
-                {/* lastMessageLeadWrongNo */}
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
                   style={{ height: "18vh" }}
                 >
-                  <label className="sidePartHeading ">Last Call History</label>
+                  <label className="sidePartHeading ">Last Call History {(lastMsg) ? " - " + getCallCategory(lastMsg.callCategory) : ""}</label>
                   {showdateselectionSection && (
                     <LastMessageDetails
                       from="AllLeads"

@@ -19,10 +19,9 @@ const AllStatuschange = ({
   filterData,
   addDctCalls,
   addDctClientCalls,
-  getStaffsData,
-  lastMsg
+  getStaffsData
 }) => {
-  let staffFilter = { from: from, leadDataId: leadDataVal && leadDataVal._id };
+  let staffFilter = { from: (page && page !== "AllLeads") ? from : page, leadDataId: leadDataVal && leadDataVal._id };
   // When a Client is Selected *leadDataVal* gets the new selected client, useEffect is Triggered
   useEffect(() => {
     resetStatusData();
@@ -378,7 +377,7 @@ const AllStatuschange = ({
             <label className="label-control" style={callStatusErrorStyle}>
               Status :
             </label>
-            {page === "AllWrongNumber" || from === "Inactive" ? (
+            {from === "WrongNumber" || from === "Inactive" ? (
               <>
                 {" "}
                 <Select
@@ -495,14 +494,14 @@ const AllStatuschange = ({
               >
                 Loading...
               </button>
-            ) : (
-              <input
+            ) :
+              from !== "AllLeads" ? (<input
                 type="submit"
                 name="Submit"
                 value="Submit"
                 className="btn sub_form btn_continue blackbrd Save float-right submitTop"
-              />
-            )}
+              />) : (<></>)
+            }
           </div>
         </div>
       </form>

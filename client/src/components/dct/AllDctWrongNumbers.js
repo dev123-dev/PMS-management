@@ -332,13 +332,7 @@ const AllDctWrongNumbers = ({
                             >
                               <td>{idx + 1}</td>
                               <td>
-                                {/* <Link
-                                  className="float-left ml-1"
-                                  to="#"
-                                  // onClick={() => onClickHandler(allLeads, idx)}
-                                > */}
                                 {allLeads.companyName}
-                                {/* </Link> */}
                               </td>
                               <td>
                                 {" "}
@@ -413,7 +407,7 @@ const AllDctWrongNumbers = ({
                   </label>
                   {showdateselectionSection && (
                     <LastMessageDetails
-                    from="WrongNumber"
+                      from="WrongNumber"
                       searchDataVal={searchDataVal}
                       ondivcloseChange={ondivcloseChange}
                     />

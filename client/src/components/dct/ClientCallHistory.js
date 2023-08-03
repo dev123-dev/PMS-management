@@ -42,7 +42,7 @@ const ClientCallHistory = ({
                   callTakenDate = [ED1[2], ED1[1], ED1[0]].join("-");
                 }
                 var callCategory = "";
-                if (callHistory.callCategory === "F") callCategory = "Followup";
+                if (callHistory.callCategory === "F") callCategory = "FollowUp";
                 else if (callHistory.callCategory === "P") callCategory = "Prospect";
                 else if (callHistory.callCategory === "TC") callCategory = "TestClient";
                 else if (callHistory.callCategory === "W") callCategory = "WrongNumber";
