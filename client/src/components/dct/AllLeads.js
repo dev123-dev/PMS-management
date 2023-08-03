@@ -10,7 +10,7 @@ import {
   getAllDctLead,
   getLastmessage,
   addImportDctLeadData,
-  changeDeactivateLeadClientStatus
+  changeDeactivateLeadClientStatus,
 } from "../../actions/dct";
 import _debounce from "lodash/debounce";
 import AllContacts from "./AllContacts";
@@ -30,18 +30,18 @@ const AllLeads = ({
     getAllLeadsEnterdBy,
     dctAllLeadsCount,
     dctLeadsLoading,
-    blnLeadClientDeactivated
+    blnLeadClientDeactivated,
   },
   regions: { activeCountry },
   getAllDctLead,
   addImportDctLeadData,
   getActiveCountry,
   getLastmessage,
-  changeDeactivateLeadClientStatus
+  changeDeactivateLeadClientStatus,
 }) => {
   // Pagination Initialization
   const [currentData, setCurrentData] = useState(1);
-  const [dataPerPage] = useState(200);  //Number of Records to Load Per Page
+  const [dataPerPage] = useState(200); //Number of Records to Load Per Page
 
   const [country, setCountryData] = useState(null);
   const [emp, setEmpData] = useState(null);
@@ -57,9 +57,15 @@ const AllLeads = ({
 
   useEffect(() => {
     if (colorData !== undefined) {
-      sethighlightTimeZone(getAllLeads && getAllLeads.length !== 0 && getAllLeads[colorData].timezone ? getAllLeads[colorData].timezone : "");
+      sethighlightTimeZone(
+        getAllLeads &&
+          getAllLeads.length !== 0 &&
+          getAllLeads[colorData].timezone
+          ? getAllLeads[colorData].timezone
+          : ""
+      );
     }
-  }, [getAllLeads])
+  }, [getAllLeads]);
 
   useEffect(() => {
     if (blnLeadClientDeactivated) {
@@ -73,7 +79,7 @@ const AllLeads = ({
     }
   }, [blnLeadClientDeactivated]);
 
-  //Pagination Code Start 
+  //Pagination Code Start
   const paginate = (nmbr) => {
     setCurrentData(nmbr);
     finalData = {
@@ -82,8 +88,8 @@ const AllLeads = ({
       assignedTo: emp && emp.empId,
       enteredBy: enteredPerson && enteredPerson.value,
       Pagedata: nmbr - 1,
-      recPerPage: dataPerPage
-    }
+      recPerPage: dataPerPage,
+    };
     getAllDctLead(finalData);
     setFilterData(finalData);
   };
@@ -101,7 +107,7 @@ const AllLeads = ({
         assignedTo: emp && emp.empId,
         enteredBy: enteredPerson && enteredPerson.value,
         Pagedata: 0,
-        recPerPage: dataPerPage
+        recPerPage: dataPerPage,
       };
       getAllDctLead(finalData);
       setFilterData(finalData);
@@ -114,7 +120,7 @@ const AllLeads = ({
           assignedTo: emp && emp.empId,
           enteredBy: enteredPerson && enteredPerson.value,
           Pagedata: 0,
-          recPerPage: dataPerPage
+          recPerPage: dataPerPage,
         };
         getAllDctLead(finalData);
         setFilterData(finalData);
@@ -124,11 +130,11 @@ const AllLeads = ({
 
   const [txtCompName, setTxtCompName] = useState("");
   const onClientSearch = (e) => {
-    debounceFn(e, e && e.target.value, country, emp, enteredPerson);  //Search for the specific client name
+    debounceFn(e, e && e.target.value, country, emp, enteredPerson); //Search for the specific client name
     setTxtCompName(e && e.target.value);
   };
 
-  // Capture Change In Country  
+  // Capture Change In Country
   const allcountry = [];
   activeCountry.map((country) =>
     allcountry.push({
@@ -154,7 +160,7 @@ const AllLeads = ({
       enteredBy: null,
       countryId: e && e.countryId,
       Pagedata: 0,
-      recPerPage: dataPerPage
+      recPerPage: dataPerPage,
     };
     getAllDctLead(finalData);
     setFilterData(finalData);
@@ -180,7 +186,7 @@ const AllLeads = ({
       assignedTo: e && e.empId,
       enteredBy: enteredPerson && enteredPerson.value,
       Pagedata: 0,
-      recPerPage: dataPerPage
+      recPerPage: dataPerPage,
     };
     getAllDctLead(finalData);
     setFilterData(finalData);
@@ -203,7 +209,7 @@ const AllLeads = ({
       assignedTo: emp & emp.empId,
       enteredBy: e && e.value,
       Pagedata: 0,
-      recPerPage: dataPerPage
+      recPerPage: dataPerPage,
     };
     getAllDctLead(finalData);
     setFilterData(finalData);
@@ -226,7 +232,7 @@ const AllLeads = ({
       assignedTo: null,
       enteredBy: null,
       Pagedata: 0,
-      recPerPage: dataPerPage
+      recPerPage: dataPerPage,
     };
     getAllDctLead(finalData);
     setFilterData(finalData);
@@ -378,8 +384,8 @@ const AllLeads = ({
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
-                user.userGroupName === "Super Admin" ||
-                user.empCtAccess === "All" ? (
+              user.userGroupName === "Super Admin" ||
+              user.empCtAccess === "All" ? (
                 <>
                   <Select
                     name="empFullName"
@@ -396,8 +402,8 @@ const AllLeads = ({
             </div>
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2 ">
               {(user.userGroupName && user.userGroupName === "Administrator") ||
-                user.userGroupName === "Super Admin" ||
-                user.empCtAccess === "All" ? (
+              user.userGroupName === "Super Admin" ||
+              user.empCtAccess === "All" ? (
                 <>
                   <Select
                     name="enteredByFullName"
@@ -414,11 +420,14 @@ const AllLeads = ({
             </div>
 
             <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2 align_right">
-              {
-                dctLeadsLoading ? (<img
+              {dctLeadsLoading ? (
+                <img
                   src={require("../../static/images/Refresh-Loader.gif")}
-                  alt="Loading..." />) : (<></>)
-              }
+                  alt="Loading..."
+                />
+              ) : (
+                <></>
+              )}
               {user.userGroupName && user.userGroupName === "Super Admin" && (
                 <button
                   className="btn btn_green_bg "
@@ -454,11 +463,13 @@ const AllLeads = ({
                         <th style={{ width: "13%" }}>Website </th>
                         <th style={{ width: "11%" }}>Email</th>
                         <th style={{ width: "8%" }}>Region</th>
-                        {(timeZone.filter((ele) => {
-                          return Region === ele.value.split('-')[0] ? ele : ""
-                        }).length !== 0) ?
-                          (< th style={{ width: "8%" }}>Timezone</th>) : (<></>)
-                        }
+                        {timeZone.filter((ele) => {
+                          return Region === ele.value.split("-")[0] ? ele : "";
+                        }).length !== 0 ? (
+                          <th style={{ width: "8%" }}>Timezone</th>
+                        ) : (
+                          <></>
+                        )}
                         <th style={{ width: "13%" }}>Contact</th>
                         <th style={{ width: "10%" }}>
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CallDate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -495,11 +506,19 @@ const AllLeads = ({
                               </td>
                               <td>{getAllLeads.emailId}</td>
                               <td>{getAllLeads.countryName}</td>
-                              {(timeZone.filter((ele) => {
-                                return Region === ele.value.split('-')[0] ? ele : ""
-                              }).length !== 0) ?
-                                (<td>{getAllLeads.timezone ? getAllLeads.timezone : ""}</td>) : (<></>)
-                              }
+                              {timeZone.filter((ele) => {
+                                return Region === ele.value.split("-")[0]
+                                  ? ele
+                                  : "";
+                              }).length !== 0 ? (
+                                <td>
+                                  {getAllLeads.timezone
+                                    ? getAllLeads.timezone
+                                    : ""}
+                                </td>
+                              ) : (
+                                <></>
+                              )}
                               <td>
                                 {getAllLeads.countryCode
                                   ? "+" + getAllLeads.countryCode
@@ -509,13 +528,17 @@ const AllLeads = ({
                               </td>
                               <td>{callDates}</td>
                               <td>
-                                {(user.empCtAccess === "All") ? (<img
-                                  className="img_icon_size log"
-                                  onClick={() => onDeactive(getAllLeads, idx)}
-                                  src={require("../../static/images/delete.png")}
-                                  alt="Delete Lead"
-                                  title="Delete Lead"
-                                />) : (<></>)}{" "}
+                                {user.empCtAccess === "All" ? (
+                                  <img
+                                    className="img_icon_size log"
+                                    onClick={() => onDeactive(getAllLeads, idx)}
+                                    src={require("../../static/images/delete.png")}
+                                    alt="Delete Lead"
+                                    title="Delete Lead"
+                                  />
+                                ) : (
+                                  <></>
+                                )}{" "}
                                 <img
                                   className="img_icon_size log"
                                   onClick={() => onUpdate(getAllLeads, idx)}
@@ -549,8 +572,9 @@ const AllLeads = ({
                 </div>
               </section>
             </div>
-            <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead" >
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeightLeadWrongNo">
+            <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead">
+              {/* sidePartHeightLeadWrongNo */}
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
                   <AllContacts
                     leadDataVal={leadData}
@@ -577,14 +601,13 @@ const AllLeads = ({
                   )}
                 </div>
               </div>
-              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessageLeadWrongNo">
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessage">
+                {/* lastMessageLeadWrongNo */}
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
-                  style={{ height: "300px" }}
+                  style={{ height: "18vh" }}
                 >
-                  <label className="sidePartHeading ">
-                    Last Call History
-                  </label>
+                  <label className="sidePartHeading ">Last Call History</label>
                   {showdateselectionSection && (
                     <LastMessageDetails
                       from="AllLeads"
@@ -592,13 +615,12 @@ const AllLeads = ({
                       ondivcloseChange={ondivcloseChange}
                     />
                   )}
-
                 </div>
               </div>
             </div>
           </div>
-        </section >
-      </div >
+        </section>
+      </div>
       <Modal
         show={showEditModal}
         backdrop="static"
@@ -704,7 +726,7 @@ const AllLeads = ({
           </Modal.Body>
         </form>
       </Modal>
-    </Fragment >
+    </Fragment>
   );
 };
 
@@ -725,5 +747,5 @@ export default connect(mapStateToProps, {
   getActiveCountry,
   getLastmessage,
   addImportDctLeadData,
-  changeDeactivateLeadClientStatus
+  changeDeactivateLeadClientStatus,
 })(AllLeads);

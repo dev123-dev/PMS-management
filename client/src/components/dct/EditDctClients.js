@@ -50,7 +50,10 @@ const EditDctClients = ({
     getMarketingEmployee();
   }, [getMarketingEmployee]);
 
-  let staffFilter = { from: "AllClients", leadDataId: data && data.dctdata._id };
+  let staffFilter = {
+    from: "AllClients",
+    leadDataId: data && data.dctdata._id,
+  };
   useEffect(() => {
     getStaffsData(staffFilter);
   }, [getStaffsData]);
@@ -126,9 +129,9 @@ const EditDctClients = ({
     clientType:
       data && data.dctdata && data.dctdata.clientType
         ? {
-          value: data.dctdata.clientType,
-          label: data.dctdata.clientType,
-        }
+            value: data.dctdata.clientType,
+            label: data.dctdata.clientType,
+          }
         : "",
 
     paymentModeName:
@@ -203,9 +206,9 @@ const EditDctClients = ({
     data && data.dctdata
       ? allstaffcountry.length !== 0
         ? allstaffcountry &&
-        allstaffcountry.filter(
-          (x) => x.staffcountryId === data && data.dctdata.staffRegionId
-        )[0]
+          allstaffcountry.filter(
+            (x) => x.staffcountryId === data && data.dctdata.staffRegionId
+          )[0]
         : ""
       : ""
   );
@@ -396,7 +399,7 @@ const EditDctClients = ({
   const [country, getcountryData] = useState(
     data && data.dctdata
       ? allcountry &&
-      allcountry.filter((x) => x.countryId === data.dctdata.countryId)[0]
+          allcountry.filter((x) => x.countryId === data.dctdata.countryId)[0]
       : ""
   );
   const [countryId, setcountryID] = useState(data && data.dctdata.countryId);
@@ -460,9 +463,9 @@ const EditDctClients = ({
   const [payment, getStateData] = useState(
     data && data.dctdata
       ? allpaymentmodes &&
-      allpaymentmodes.filter(
-        (x) => x.paymentId === data.dctdata.paymentId
-      )[0]
+          allpaymentmodes.filter(
+            (x) => x.paymentId === data.dctdata.paymentId
+          )[0]
       : ""
   );
   const [paymentId, setpaymentId] = useState(data && data.dctdata.paymentId);
@@ -556,9 +559,9 @@ const EditDctClients = ({
   const [emp, getempData] = useState(
     data && data.dctdata && data.dctdata
       ? allemp &&
-      allemp.filter(
-        (x) => x.empId === data.dctdata.dctClientAssignedToId
-      )[0]
+          allemp.filter(
+            (x) => x.empId === data.dctdata.dctClientAssignedToId
+          )[0]
       : ""
   );
   const [empId, setempID] = useState(
@@ -1074,78 +1077,83 @@ const EditDctClients = ({
                   </div>
                 </div>
                 <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                  <div className="row card-new">
-                    <table
-                      className="tabllll table table-bordered table-striped table-hover"
-                      id="datatable2"
+                  <div style={{ height: "350px" }}>
+                    <div
+                      className="row card-new"
+                      style={{ overflowY: "scroll", maxHeight: "340px" }}
                     >
-                      <thead>
-                        <tr>
-                          <th>Staff Name</th>
-                          <th>Region</th>
-                          <th>Phone Number</th>
-                          <th>Email Id</th>
-                          <th>Designation</th>
-                          <th>Op</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {staffData &&
-                          staffData.staffs &&
-                          staffData.staffs.map((staff, idx) => {
-                            if (staff.staffStatus === "Active")
+                      <table
+                        className="tabllll table table-bordered table-striped table-hover"
+                        id="datatable2"
+                      >
+                        <thead>
+                          <tr>
+                            <th>Staff Name</th>
+                            <th>Region</th>
+                            <th>Phone Number</th>
+                            <th>Email Id</th>
+                            <th>Designation</th>
+                            <th>Op</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {staffData &&
+                            staffData.staffs &&
+                            staffData.staffs.map((staff, idx) => {
+                              if (staff.staffStatus === "Active")
+                                return (
+                                  <tr key={idx}>
+                                    <td>{staff.staffName}</td>
+                                    <td>{staff.staffRegion}</td>
+                                    <td>{staff.staffPhoneNumber}</td>
+                                    <td>{staff.staffEmailId}</td>
+                                    <td>{staff.staffDesignation}</td>
+                                    <td>
+                                      <img
+                                        className="img_icon_size log"
+                                        onClick={() => onDeactive(staff, idx)}
+                                        src={require("../../static/images/delete.png")}
+                                        alt="Delete Staff"
+                                        title="Delelte Staff"
+                                      />
+                                      &nbsp;
+                                      <img
+                                        className="img_icon_size log"
+                                        onClick={() => onUpdate(staff, idx)}
+                                        src={require("../../static/images/edit_icon.png")}
+                                        alt="Edit"
+                                        title="Edit"
+                                      />
+                                    </td>
+                                  </tr>
+                                );
+                            })}
+                          {AddedDetails &&
+                            AddedDetails.map((AddDetail, idx) => {
                               return (
                                 <tr key={idx}>
-                                  <td>{staff.staffName}</td>
-                                  <td>{staff.staffRegion}</td>
-                                  <td>{staff.staffPhoneNumber}</td>
-                                  <td>{staff.staffEmailId}</td>
-                                  <td>{staff.staffDesignation}</td>
+                                  <td>{AddDetail.staffName}</td>
+                                  <td>{AddDetail.staffRegion}</td>
+                                  <td>{AddDetail.staffPhoneNumber}</td>
+                                  <td>{AddDetail.staffEmailId}</td>
+                                  <td>{AddDetail.staffDesignation}</td>
                                   <td>
                                     <img
-                                      className="img_icon_size log"
-                                      onClick={() => onDeactive(staff, idx)}
-                                      src={require("../../static/images/delete.png")}
-                                      alt="Delete Staff"
-                                      title="Delelte Staff"
-                                    />
-                                    &nbsp;
-                                    <img
-                                      className="img_icon_size log"
-                                      onClick={() => onUpdate(staff, idx)}
-                                      src={require("../../static/images/edit_icon.png")}
-                                      alt="Edit"
-                                      title="Edit"
+                                      className="img_icon log"
+                                      onClick={() =>
+                                        onRemoveChange(AddDetail.staffName)
+                                      }
+                                      src={require("../../static/images/redCross.png")}
+                                      alt="Remove"
+                                      title="Remove"
                                     />
                                   </td>
                                 </tr>
                               );
-                          })}
-                        {AddedDetails &&
-                          AddedDetails.map((AddDetail, idx) => {
-                            return (
-                              <tr key={idx}>
-                                <td>{AddDetail.staffName}</td>
-                                <td>{AddDetail.staffRegion}</td>
-                                <td>{AddDetail.staffPhoneNumber}</td>
-                                <td>{AddDetail.staffEmailId}</td>
-                                <td>{AddDetail.staffDesignation}</td>
-                                <td>
-                                  <img
-                                    className="img_icon_size log"
-                                    onClick={() =>
-                                      onRemoveChange(AddDetail.staffName)
-                                    }
-                                    src={require("../../static/images/close-buttonRed.png")}
-                                    alt="Remove"
-                                    title="Remove"
-                                  />
-                                </td>
-                              </tr>
-                            );
-                          })}
-                      </tbody>
-                    </table>
+                            })}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                     <input
@@ -1342,7 +1350,11 @@ const EditDctClients = ({
               onEditModalChange={onEditModalChange}
               allStaffdata={userDatas}
               allleaddata={userDatas1}
-              from={(data && data.dctdata.clientType === "Test") ? "TestClient" : "RegularClient"}
+              from={
+                data && data.dctdata.clientType === "Test"
+                  ? "TestClient"
+                  : "RegularClient"
+              }
               staffFilter={staffFilter}
             />
           </Modal.Body>
@@ -1449,7 +1461,11 @@ const EditDctClients = ({
               onEditInstructionModalChange={onEditInstructionModalChange}
               allInstructiondata={intructionDatas}
               allleaddata={intructionDatas1}
-              from={(data && data.dctdata.clientType === "Test") ? "TestClient" : "RegularClient"}
+              from={
+                data && data.dctdata.clientType === "Test"
+                  ? "TestClient"
+                  : "RegularClient"
+              }
               instructionFilter={instructionFilter}
             />
           </Modal.Body>

@@ -12,9 +12,13 @@ const LastMessageDetails = ({
   dct: { lastMsg },
   getCallHistory,
   searchDataVal,
-  from
+  from,
 }) => {
-  var cssName = from === "AllLeads" || from === "WrongNumber" ? "fixTableHeadhistoryDCTLeadWrongNo" : "fixTableHeadhistoryDCT";
+  //  from === "AllLeads" ||
+  var cssName =
+    from === "WrongNumber"
+      ? "fixTableHeadhistoryDCTLeadWrongNo"
+      : "fixTableHeadhistoryDCT";
   const [showClientHistoryModal, setShowClientCallHistoryModal] =
     useState(false);
   const handleClientCallHistoryModalClose = () =>
@@ -45,8 +49,12 @@ const LastMessageDetails = ({
           <label>Staff Name : {lastMsg && lastMsg.callToStaffName}</label>
         </div>
         <div className="col-lg-6 col-md-11 col-sm-10 col-12 ">
-          <label>Call Date &emsp;: {callDate} </label><br />
-          <label>Call Status <span style={{ marginLeft: "7px" }}>:</span> {lastMsg && lastMsg.callStatus}</label>
+          <label>Call Date &emsp;: {callDate} </label>
+          <br />
+          <label>
+            Call Status <span style={{ marginLeft: "7px" }}>:</span>{" "}
+            {lastMsg && lastMsg.callStatus}
+          </label>
         </div>
 
         <div className="col-lg-9 col-md-11 col-sm-10 col-12 ">
@@ -63,7 +71,7 @@ const LastMessageDetails = ({
               style={{ width: "100%" }}
               value={lastMsg && lastMsg.callNote ? lastMsg.callNote : ""}
               disabled
-            // editable={false}
+              // editable={false}
             ></textarea>
           </Link>
         </div>

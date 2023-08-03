@@ -10,7 +10,10 @@ const DctDailyReport = ({
   getAllDctCallCount,
   getAllDctLeadToday,
 }) => {
-  let finalData = { fromDate: new Date().toISOString().split("T")[0], toDate: new Date().toISOString().split("T")[0] };
+  let finalData = {
+    fromDate: new Date().toISOString().split("T")[0],
+    toDate: new Date().toISOString().split("T")[0],
+  };
   useEffect(() => {
     setSingleDate(new Date().toISOString().split("T")[0]);
     getAllDctCallCount(finalData);
@@ -24,34 +27,33 @@ const DctDailyReport = ({
 
   const [showDateFields, setShowDateFields] = useState({
     showSingleDate: true,
-    showMultiDate: false
+    showMultiDate: false,
   });
   const { showSingleDate, showMultiDate } = showDateFields;
 
   const [dateSelectedFormat, setDateSelectedFormat] = useState(DateMethods[0]);
   const onDateModeChange = (e) => {
-    if (e)
-      setDateSelectedFormat(e);
+    if (e) setDateSelectedFormat(e);
 
     if (e.value === "Single Date") {
       setShowDateFields({
         ...showDateFields,
         showSingleDate: true,
-        showMultiDate: false
+        showMultiDate: false,
       });
     } else {
       setShowDateFields({
         ...showDateFields,
         showSingleDate: false,
-        showMultiDate: true
-      })
+        showMultiDate: true,
+      });
     }
-  }
+  };
 
   const [fromDate, setFromDate] = useState("");
   const onMultiFromDateChange = (e) => {
     setFromDate(e.target.value);
-  }
+  };
 
   const [toDate, setToDate] = useState("");
   const onMultiToDateChange = (e) => {
@@ -59,12 +61,12 @@ const DctDailyReport = ({
 
     finalData = {
       fromDate,
-      toDate: e.target.value
-    }
+      toDate: e.target.value,
+    };
 
     getAllDctCallCount(finalData);
     getAllDctLeadToday(finalData);
-  }
+  };
 
   const [singleDate, setSingleDate] = useState("");
   const onSingleDateChange = (e) => {
@@ -72,12 +74,12 @@ const DctDailyReport = ({
 
     finalData = {
       fromDate: e.target.value,
-      toDate: e.target.value
-    }
+      toDate: e.target.value,
+    };
 
     getAllDctCallCount(finalData);
     getAllDctLeadToday(finalData);
-  }
+  };
 
   return !isAuthenticated || !user ? (
     <Spinner />
@@ -102,7 +104,7 @@ const DctDailyReport = ({
 
             {showMultiDate && (
               <>
-                <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-4">
+                <div className="col-lg-3 col-md-11 col-sm-10 col-10 py-4 ">
                   <input
                     type="date"
                     placeholder="dd/mm/yyyy"
@@ -111,14 +113,14 @@ const DctDailyReport = ({
                     value={fromDate}
                     onChange={(e) => onMultiFromDateChange(e)}
                     style={{
-                      width: "110%",
+                      width: "70%",
                     }}
                     onKeyDown={(e) => {
                       e.preventDefault();
                     }}
                   />
                 </div>
-                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-4">
+                <div className=" col-lg-3 col-md-11 col-sm-10 col-10 py-4 ">
                   <input
                     type="date"
                     placeholder="dd/mm/yyyy"
@@ -127,7 +129,7 @@ const DctDailyReport = ({
                     value={toDate}
                     onChange={(e) => onMultiToDateChange(e)}
                     style={{
-                      width: "110%",
+                      width: "70%",
                     }}
                     onKeyDown={(e) => {
                       e.preventDefault();
@@ -147,7 +149,7 @@ const DctDailyReport = ({
                     value={singleDate}
                     onChange={(e) => onSingleDateChange(e)}
                     style={{
-                      width: "100%",
+                      width: "70%",
                     }}
                     onKeyDown={(e) => {
                       e.preventDefault();
@@ -176,14 +178,14 @@ const DctDailyReport = ({
                         <tr>
                           <th width="15px">SNo</th>
                           <th>Name</th>
-                          <th style={{ width: '7%' }}>P</th>
-                          <th style={{ width: '7%' }}>F</th>
-                          <th style={{ width: '7%' }}>TC</th>
-                          <th style={{ width: '7%' }}>RC</th>
-                          <th style={{ width: '7%' }}>IC</th>
-                          <th style={{ width: '7%' }}>UW</th>
-                          <th style={{ width: '7%' }}>SW</th>
-                          <th style={{ width: '7%' }}>W</th>
+                          <th style={{ width: "7%" }}>P</th>
+                          <th style={{ width: "7%" }}>F</th>
+                          <th style={{ width: "7%" }}>TC</th>
+                          <th style={{ width: "7%" }}>RC</th>
+                          <th style={{ width: "7%" }}>IC</th>
+                          <th style={{ width: "7%" }}>UW</th>
+                          <th style={{ width: "7%" }}>SW</th>
+                          <th style={{ width: "7%" }}>W</th>
                           <th>Total Calls</th>
                           <th>Clients Called</th>
                         </tr>
@@ -195,16 +197,124 @@ const DctDailyReport = ({
                               <tr key={idx}>
                                 <td align="center">{idx + 1}</td>
                                 <td>{callData.callFromName}</td>
-                                <td align="center">{callData.categories && callData.categories.length !== 0 ? callData.categories.find(category => category.callCategory === "P") ? callData.categories.find(category => category.callCategory === "P").totalCalls : "0" : "0"}</td>
-                                <td align="center">{callData.categories && callData.categories.length !== 0 ? callData.categories.find(category => category.callCategory === "F") ? callData.categories.find(category => category.callCategory === "F").totalCalls : "0" : "0"}</td>
-                                <td align="center">{callData.categories && callData.categories.length !== 0 ? callData.categories.find(category => category.callCategory === "TC") ? callData.categories.find(category => category.callCategory === "TC").totalCalls : "0" : "0"}</td>
-                                <td align="center">{callData.categories && callData.categories.length !== 0 ? callData.categories.find(category => category.callCategory === "RC") ? callData.categories.find(category => category.callCategory === "RC").totalCalls : "0" : "0"}</td>
-                                <td align="center">{callData.categories && callData.categories.length !== 0 ? callData.categories.find(category => category.callCategory === "IC") ? callData.categories.find(category => category.callCategory === "IC").totalCalls : "0" : "0"}</td>
-                                <td align="center">{callData.categories && callData.categories.length !== 0 ? callData.categories.find(category => category.callCategory === "UW") ? callData.categories.find(category => category.callCategory === "UW").totalCalls : "0" : "0"}</td>
-                                <td align="center">{callData.categories && callData.categories.length !== 0 ? callData.categories.find(category => category.callCategory === "SW") ? callData.categories.find(category => category.callCategory === "SW").totalCalls : "0" : "0"}</td>
-                                <td align="center">{callData.categories && callData.categories.length !== 0 ? callData.categories.find(category => category.callCategory === "W") ? callData.categories.find(category => category.callCategory === "W").totalCalls : "0" : "0"}</td>
-                                <td align="center">{callData.totalCallsTogether}</td>
-                                <td align="center">{callData.totalClientCalls}</td>
+                                <td align="center">
+                                  {callData.categories &&
+                                  callData.categories.length !== 0
+                                    ? callData.categories.find(
+                                        (category) =>
+                                          category.callCategory === "P"
+                                      )
+                                      ? callData.categories.find(
+                                          (category) =>
+                                            category.callCategory === "P"
+                                        ).totalCalls
+                                      : "0"
+                                    : "0"}
+                                </td>
+                                <td align="center">
+                                  {callData.categories &&
+                                  callData.categories.length !== 0
+                                    ? callData.categories.find(
+                                        (category) =>
+                                          category.callCategory === "F"
+                                      )
+                                      ? callData.categories.find(
+                                          (category) =>
+                                            category.callCategory === "F"
+                                        ).totalCalls
+                                      : "0"
+                                    : "0"}
+                                </td>
+                                <td align="center">
+                                  {callData.categories &&
+                                  callData.categories.length !== 0
+                                    ? callData.categories.find(
+                                        (category) =>
+                                          category.callCategory === "TC"
+                                      )
+                                      ? callData.categories.find(
+                                          (category) =>
+                                            category.callCategory === "TC"
+                                        ).totalCalls
+                                      : "0"
+                                    : "0"}
+                                </td>
+                                <td align="center">
+                                  {callData.categories &&
+                                  callData.categories.length !== 0
+                                    ? callData.categories.find(
+                                        (category) =>
+                                          category.callCategory === "RC"
+                                      )
+                                      ? callData.categories.find(
+                                          (category) =>
+                                            category.callCategory === "RC"
+                                        ).totalCalls
+                                      : "0"
+                                    : "0"}
+                                </td>
+                                <td align="center">
+                                  {callData.categories &&
+                                  callData.categories.length !== 0
+                                    ? callData.categories.find(
+                                        (category) =>
+                                          category.callCategory === "IC"
+                                      )
+                                      ? callData.categories.find(
+                                          (category) =>
+                                            category.callCategory === "IC"
+                                        ).totalCalls
+                                      : "0"
+                                    : "0"}
+                                </td>
+                                <td align="center">
+                                  {callData.categories &&
+                                  callData.categories.length !== 0
+                                    ? callData.categories.find(
+                                        (category) =>
+                                          category.callCategory === "UW"
+                                      )
+                                      ? callData.categories.find(
+                                          (category) =>
+                                            category.callCategory === "UW"
+                                        ).totalCalls
+                                      : "0"
+                                    : "0"}
+                                </td>
+                                <td align="center">
+                                  {callData.categories &&
+                                  callData.categories.length !== 0
+                                    ? callData.categories.find(
+                                        (category) =>
+                                          category.callCategory === "SW"
+                                      )
+                                      ? callData.categories.find(
+                                          (category) =>
+                                            category.callCategory === "SW"
+                                        ).totalCalls
+                                      : "0"
+                                    : "0"}
+                                </td>
+                                <td align="center">
+                                  {callData.categories &&
+                                  callData.categories.length !== 0
+                                    ? callData.categories.find(
+                                        (category) =>
+                                          category.callCategory === "W"
+                                      )
+                                      ? callData.categories.find(
+                                          (category) =>
+                                            category.callCategory === "W"
+                                        ).totalCalls
+                                      : "0"
+                                    : "0"}
+                                </td>
+                                <td align="center">
+                                  {callData.totalCallsTogether}
+                                </td>
+                                <td align="center">
+                                  {callData.totalClientCalls}
+                                </td>
                               </tr>
                             );
                           })}
@@ -214,13 +324,9 @@ const DctDailyReport = ({
                 </div>
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-12 py-2">
-                <div
-                  className="card card-content "
-                  style={{ height: "100%" }}
-                >
+                <div className="card card-content " style={{ height: "100%" }}>
                   <center>
                     <h3>Today's Lead Entry</h3>
-
                   </center>
                   <div style={{ padding: "0 15px 0 15px" }}>
                     <table
@@ -254,7 +360,7 @@ const DctDailyReport = ({
           </Fragment>
         </section>
       </div>
-    </Fragment >
+    </Fragment>
   );
 };
 

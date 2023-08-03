@@ -12,7 +12,7 @@ const DeactiveLead = ({
   onDeactiveModalChange,
   deactivateDctLeadDetails,
   filterData,
-  from
+  from,
 }) => {
   let staffFilter = { from: from };
 
@@ -46,7 +46,7 @@ const DeactiveLead = ({
       dctLeadStatus: "Deactive",
       dctLeadDeactiveReason: dctLeadDeactiveReason?.trim(),
       filterData: filterData,
-      staffFilter: staffFilter
+      staffFilter: staffFilter,
     };
     deactivateDctLeadDetails(finalData);
     onDeactiveModalChange(true);

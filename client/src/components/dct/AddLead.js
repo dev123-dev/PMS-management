@@ -404,7 +404,12 @@ const AddLead = ({
 
   const onKeyDown = (e) => {
     // Allow only numbers, backspace, and arrow keys
-    if (!/^\d$/.test(e.key) && e.key !== "Backspace" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
+    if (
+      !/^\d$/.test(e.key) &&
+      e.key !== "Backspace" &&
+      e.key !== "ArrowLeft" &&
+      e.key !== "ArrowRight"
+    ) {
       e.preventDefault();
     }
   };
@@ -607,8 +612,7 @@ const AddLead = ({
                       />
                     </div>
                   ) : (
-                    <>
-                    </>
+                    <></>
                   )}
 
                   <div className="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -791,7 +795,8 @@ const AddLead = ({
               <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
                 <div
                   className="row card-new"
-                  style={{ height: "340px", overflowY: "scroll" }}
+                  style={{ overflowY: "scroll", maxHeight: "340px" }}
+                  // style={{ height: "340px", overflowY: "scroll" }}
                 >
                   <table
                     className="tabllll table table-bordered table-striped table-hover"
@@ -819,11 +824,11 @@ const AddLead = ({
                               <td>{AddDetail.staffDesignation}</td>
                               <td>
                                 <img
-                                  className="img_icon_size log"
+                                  className="img_icon log"
                                   onClick={() =>
                                     onRemoveChange(AddDetail.staffName)
                                   }
-                                  src={require("../../static/images/close-buttonRed.png")}
+                                  src={require("../../static/images/redCross.png")}
                                   alt="Remove"
                                   title="Remove"
                                 />
