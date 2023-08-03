@@ -629,6 +629,7 @@ export const getAllDctClientDD = (finalData) => async (dispatch) => {
 };
 
 export const getLastmessage = (searchData) => async (dispatch) => {
+  console.log("Search Data", searchData);
   try {
     dispatch({
       type: LAST_MSG,

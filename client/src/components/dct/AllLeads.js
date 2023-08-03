@@ -30,7 +30,8 @@ const AllLeads = ({
     getAllLeadsEnterdBy,
     dctAllLeadsCount,
     dctLeadsLoading,
-    blnLeadClientDeactivated
+    blnLeadClientDeactivated,
+    lastMsg
   },
   regions: { activeCountry },
   getAllDctLead,
@@ -482,7 +483,6 @@ const AllLeads = ({
                               }
                               onClick={() => onClickHandler(getAllLeads, idx)}
                             >
-                              {/* <td>{idx + 1}</td> */}
                               <td>{getAllLeads.companyName}</td>
                               <td>
                                 <a
@@ -570,9 +570,10 @@ const AllLeads = ({
                   {showdateselectionSection && (
                     <AllStatuschange
                       leadDataVal={leadData}
-                      from="FollowUp"
+                      from="AllLeads"
                       ondivcloseChange={ondivcloseChange}
                       filterData={filterData}
+                      lastMsg={lastMsg}
                     />
                   )}
                 </div>

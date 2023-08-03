@@ -20,6 +20,7 @@ const AllStatuschange = ({
   addDctCalls,
   addDctClientCalls,
   getStaffsData,
+  lastMsg
 }) => {
   let staffFilter = { from: from, leadDataId: leadDataVal && leadDataVal._id };
   // When a Client is Selected *leadDataVal* gets the new selected client, useEffect is Triggered
