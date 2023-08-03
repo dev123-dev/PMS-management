@@ -20,6 +20,7 @@ import DeactiveLead from "./DeactiveLead";
 import { getActiveCountry } from "../../actions/regions";
 import Pagination from "../layout/Pagination";
 import ClockTimeZone from "./ClockTimeZone";
+import AllStatuschange from "./AllStatuschange";
 
 const AllLeads = ({
   auth: { isAuthenticated, user, timeZone },
@@ -560,11 +561,26 @@ const AllLeads = ({
                   />
                 </div>
               </div>
+              <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
+                <div
+                  className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
+                  style={{ height: "33vh" }}
+                >
+                  <label className="sidePartHeading ">Status</label>
+                  {showdateselectionSection && (
+                    <AllStatuschange
+                      leadDataVal={leadData}
+                      from="FollowUp"
+                      ondivcloseChange={ondivcloseChange}
+                      filterData={filterData}
+                    />
+                  )}
+                </div>
+              </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding lastMessageLeadWrongNo">
                 <div
                   className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding "
                   style={{ height: "300px" }}
-                // style={{ height: "30vh"}}
                 >
                   <label className="sidePartHeading ">
                     Last Call History

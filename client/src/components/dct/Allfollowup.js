@@ -289,7 +289,6 @@ const Allfollowup = ({
               {(user.userGroupName && user.userGroupName === "Administrator") ||
                 user.userGroupName === "Super Admin" ||
                 user.empCtAccess === "All" ? (
-                // <div className=" col-lg-4 col-md-11 col-sm-10 col-10 py-2">
                 <Select
                   name="empFullName"
                   options={allemp}
@@ -299,7 +298,6 @@ const Allfollowup = ({
                   onChange={(e) => onempChange(e)}
                 />
               ) : (
-                // </div>
                 <></>
               )}
             </div>
@@ -441,8 +439,6 @@ const Allfollowup = ({
             <div className="row col-lg-4 col-md-12 col-sm-12 col-12 fixTableHead">
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding sidePartHeight">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-12 no_padding ">
-                  {/* <label className="sidePartHeading ">Contacts</label> */}
-                  {/* {showdateselectionSection && ( */}
                   <AllContacts
                     leadDataVal={leadData}
                     ondivcloseChange={ondivcloseChange}
@@ -450,7 +446,6 @@ const Allfollowup = ({
                     filterData={filterData}
                     showdateselectionSection={showdateselectionSection}
                   />
-                  {/* )} */}
                 </div>
               </div>
               <div className=" col-lg-12 col-md-6 col-sm-6 col-12 card-new no_padding statusTop">
