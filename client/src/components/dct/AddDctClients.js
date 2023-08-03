@@ -44,7 +44,12 @@ const AddDctClients = ({
 
   const onKeyDown = (e) => {
     // Allow only numbers, backspace, and arrow keys
-    if (!/^\d$/.test(e.key) && e.key !== "Backspace" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
+    if (
+      !/^\d$/.test(e.key) &&
+      e.key !== "Backspace" &&
+      e.key !== "ArrowLeft" &&
+      e.key !== "ArrowRight"
+    ) {
       e.preventDefault();
     }
   };
@@ -1071,52 +1076,55 @@ const AddDctClients = ({
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-12 col-sm-12 col-12 py-3">
-                    <div
-                      className="row card-new"
-                      style={{ height: "340px", overflowY: "scroll" }}
-                    >
-                      <table
-                        className="tabllll table table-bordered table-striped table-hover"
-                        id="datatable2"
+                    <div style={{ height: "350px" }}>
+                      <div
+                        className="row card-new"
+                        style={{ overflowY: "scroll", maxHeight: "340px" }}
+                        // style={{ height: "340px", overflowY: "scroll" }}
                       >
-                        <thead>
-                          <tr>
-                            <th>Staff Name</th>
-                            <th>Region</th>
-                            <th>Phone Number</th>
-                            <th>Email Id</th>
-                            <th>Designation</th>
-                            <th>Remove</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {AddedDetails &&
-                            AddedDetails.map((AddDetail, idx) => {
-                              return (
-                                <tr key={idx}>
-                                  <td>{AddDetail.staffName}</td>
-                                  <td>{AddDetail.staffRegion}</td>
-                                  <td>{AddDetail.staffPhoneNumber}</td>
-                                  <td>{AddDetail.staffEmailId}</td>
-                                  <td>{AddDetail.staffDesignation}</td>
-                                  <td>
-                                    <img
-                                      className="img_icon_size log"
-                                      onClick={() =>
-                                        onRemoveChange(AddDetail.staffName)
-                                      }
-                                      src={require("../../static/images/close-buttonRed.png")}
-                                      alt="Remove"
-                                      title="Remove"
-                                    />
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                        </tbody>
-                      </table>
+                        <table
+                          className="tabllll table table-bordered table-striped table-hover"
+                          id="datatable2"
+                        >
+                          <thead>
+                            <tr>
+                              <th>Staff Name</th>
+                              <th>Region</th>
+                              <th>Phone Number</th>
+                              <th>Email Id</th>
+                              <th>Designation</th>
+                              <th>Remove</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {AddedDetails &&
+                              AddedDetails.map((AddDetail, idx) => {
+                                return (
+                                  <tr key={idx}>
+                                    <td>{AddDetail.staffName}</td>
+                                    <td>{AddDetail.staffRegion}</td>
+                                    <td>{AddDetail.staffPhoneNumber}</td>
+                                    <td>{AddDetail.staffEmailId}</td>
+                                    <td>{AddDetail.staffDesignation}</td>
+                                    <td>
+                                      <img
+                                        className="img_icon log"
+                                        onClick={() =>
+                                          onRemoveChange(AddDetail.staffName)
+                                        }
+                                        src={require("../../static/images/redCross.png")}
+                                        alt="Remove"
+                                        title="Remove"
+                                      />
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-12 ">
                       <input
                         type="submit"
                         name="submit"
