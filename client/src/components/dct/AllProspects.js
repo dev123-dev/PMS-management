@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
@@ -33,11 +33,24 @@ const AllProspects = ({
   useEffect(() => {
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
-  //formData
+
+  // Create a ref for the selected row
+  const selectedRowRef = useRef(null);
+
+  // Function to scroll the selected row into view
+  const scrollToSelectedRow = () => {
+    if (selectedRowRef.current) {
+      selectedRowRef.current.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
+    }
+  };
 
   useEffect(() => {
-    if (colorData !== undefined) {
+    if (colorData !== undefined && (colorData + 1) <= allLeads.length) {
       sethighlightTimeZone(allLeads && allLeads.length !== 0 && allLeads[colorData].timezone ? allLeads[colorData].timezone : "");
+      scrollToSelectedRow();
+    }
+    else {
+      sethighlightTimeZone("");
     }
   }, [allLeads]);
 
@@ -238,6 +251,7 @@ const AllProspects = ({
     setFilterData({ dctLeadCategory: "P" });
     ondivcloseChange(true);
     setcolorData();
+    selectedRowRef.current = null;
   };
 
   return !isAuthenticated || !user ? (
@@ -375,6 +389,7 @@ const AllProspects = ({
                               className={
                                 colorData === idx ? "seletedrowcolorchange" : ""
                               }
+                              ref={colorData == idx ? selectedRowRef : null}
                               onClick={() => onClickHandler(allLeads, idx)}
                             >
                               <td>{idx + 1}</td>

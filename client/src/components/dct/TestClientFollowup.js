@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
@@ -33,9 +33,22 @@ const TestClientFollowup = ({
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, []);
 
+  // Create a ref for the selected row
+  const selectedRowRef = useRef(null);
+
+  // Function to scroll the selected row into view
+  const scrollToSelectedRow = () => {
+    if (selectedRowRef.current) {
+      selectedRowRef.current.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
+    }
+  };
+
   useEffect(() => {
-    if (colorData !== undefined) {
+    if (colorData !== undefined && (colorData + 1) <= dctClients.length) {
       sethighlightTimeZone(dctClients && dctClients.length !== 0 && dctClients[colorData].timezone ? dctClients[colorData].timezone : "");
+      scrollToSelectedRow();
+    } else {
+      sethighlightTimeZone("");
     }
   }, [dctClients]);
 
@@ -171,6 +184,8 @@ const TestClientFollowup = ({
     setFilterData({ dctClientCategory: "TC" });
     ondivcloseChange(true);
     setcolorData();
+
+    selectedRowRef.current = null;
   };
   return !isAuthenticated || !user ? (
     <Spinner />
@@ -284,6 +299,7 @@ const TestClientFollowup = ({
                               className={
                                 colorData === idx ? "seletedrowcolorchange" : ""
                               }
+                              ref={colorData == idx ? selectedRowRef : null}
                               onClick={() => onClickHandler(dctClients, idx)}
                             >
                               <td>{idx + 1}</td>

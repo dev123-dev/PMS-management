@@ -70,13 +70,18 @@ export const getInactiveClients = () => async (dispatch) => {
 
 // Gets all Inactive Clients whose current category is Equal to IC and Call Date is less than todays date
 export const getInactiveClientsFollowUp = () => async (dispatch) => {
-  //console.log("Action Exec");
+  dispatch({
+    type: "DCT_INACTIVE_CLIENTS_FOLLOWUP_INITIALIZE"
+  });
   try {
     const res = await axios.get("/api/dct/inactive-clients-followup");
     dispatch({
       type: "INACTIVE_CLIENTS_FOLLOWUP",
       payload: res.data
-    })
+    });
+    dispatch({
+      type: "DCT_INACTIVE_CLIENTS_FOLLOWUP_LOADED"
+    });
   } catch (error) {
     console.log(error);
   }
@@ -221,7 +226,6 @@ export const addNewDctStaffDetails = (finalData) => async (dispatch) => {
 };
 
 export const addNewDctClientStaffDetails = (finalData) => async (dispatch) => {
-  console.log("Check", finalData);
   try {
     dispatch({
       type: SET_LOADING_TRUE,

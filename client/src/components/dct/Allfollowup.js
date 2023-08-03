@@ -16,6 +16,7 @@ import EditLead from "./EditLead";
 import DeactiveLead from "./DeactiveLead";
 import { getActiveCountry } from "../../actions/regions";
 import ClockTimeZone from "./ClockTimeZone";
+import { useRef } from "react";
 
 const Allfollowup = ({
   auth: { isAuthenticated, user, timeZone },
@@ -34,9 +35,22 @@ const Allfollowup = ({
     getActiveCountry({ countryBelongsTo: "DCT" });
   }, [getActiveCountry]);
 
+  // Create a ref for the selected row
+  const selectedRowRef = useRef(null);
+
+  // Function to scroll the selected row into view
+  const scrollToSelectedRow = () => {
+    if (selectedRowRef.current) {
+      selectedRowRef.current.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
+    }
+  };
+
   useEffect(() => {
-    if (colorData !== undefined) {
+    if (colorData !== undefined && (colorData + 1) <= allLeads.length) {
       sethighlightTimeZone(allLeads && allLeads.length !== 0 && allLeads[colorData].timezone ? allLeads[colorData].timezone : "");
+      scrollToSelectedRow();
+    } else {
+      sethighlightTimeZone("");
     }
   }, [allLeads]);
 
@@ -194,7 +208,7 @@ const Allfollowup = ({
       value: enterdBy,
     })
   );
-  // console.log(allEnteredBy);
+
   const [enterBy, getEnterByData] = useState();
   const onEnteredByChange = (e) => {
     getEnterByData(e);
@@ -228,6 +242,7 @@ const Allfollowup = ({
     setFilterData({ dctLeadCategory: "F" });
     ondivcloseChange(true);
     setcolorData();
+    selectedRowRef.current = null; //Reset to null 
   };
   return !isAuthenticated || !user ? (
     <Spinner />
@@ -361,6 +376,7 @@ const Allfollowup = ({
                               className={
                                 colorData === idx ? "seletedrowcolorchange" : ""
                               }
+                              ref={colorData == idx ? selectedRowRef : null}
                               onClick={() => onClickHandler(allLeads, idx)}
                             >
                               <td>{idx + 1}</td>

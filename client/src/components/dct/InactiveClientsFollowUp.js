@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Spinner from "../layout/Spinner";
 import AllContacts from "./AllContacts";
 import AllStatuschange from "./AllStatuschange";
@@ -10,11 +10,11 @@ import ClockTimeZone from "./ClockTimeZone";
 
 const InactiveClientsFolowUp = ({
   auth: { isAuthenticated, user },
-  dct: { dctInactiveClientsFollowUp },
+  dct: { dctInactiveClientsFollowUp, dctInactiveClientsLoading },
   getInactiveClientsFollowUp,
   getLastmessage,
 }) => {
-  const [selRowIdx, setSelRowIdx] = useState("");
+  const [selRowIdx, setSelRowIdx] = useState(null);
   const [searchDataVal, setsearchDataVal] = useState();
   const [selInactiveClient, setSelInactiveClient] = useState("");
   const [filterData, setFilterData] = useState("");
@@ -36,6 +36,27 @@ const InactiveClientsFolowUp = ({
   useEffect(() => {
     getInactiveClientsFollowUp();
   }, []);
+
+  // Create a ref for the selected row
+  const selectedRowRef = useRef(null);
+
+  // Function to scroll the selected row into view
+  const scrollToSelectedRow = () => {
+    if (selectedRowRef.current) {
+      selectedRowRef.current.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
+    }
+  };
+
+  useEffect(() => {
+    if (selRowIdx && (selRowIdx + 1) <= dctInactiveClientsFollowUp.length) {
+      sethighlightTimeZone(dctInactiveClientsFollowUp && dctInactiveClientsFollowUp.length !== 0 && dctInactiveClientsFollowUp[selRowIdx].timezone ? dctInactiveClientsFollowUp[selRowIdx].timezone : "");
+      setShowRegion(dctInactiveClientsFollowUp && dctInactiveClientsFollowUp.length !== 0 && dctInactiveClientsFollowUp[selRowIdx].countryName ? dctInactiveClientsFollowUp[selRowIdx].countryName : "")
+      scrollToSelectedRow();
+    } else {
+      setShowRegion("");
+      sethighlightTimeZone("");
+    }
+  }, [dctInactiveClientsFollowUp]);
 
   const [Region, setShowRegion] = useState("");
   const [highlightTimeZone, sethighlightTimeZone] = useState("");
@@ -59,6 +80,17 @@ const InactiveClientsFolowUp = ({
     });
   };
 
+  const onClickReset = () => {
+    setSelRowIdx();
+    setShowRegion("");
+    sethighlightTimeZone("");
+
+    setSelInactiveClient("");
+    getInactiveClientsFollowUp();
+
+    selectedRowRef.current = null;
+  }
+
   return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
@@ -73,6 +105,21 @@ const InactiveClientsFolowUp = ({
           </div>
           <div className=" col-lg-2 col-md-11 col-sm-10 col-10">
             <h4 className="heading_color">Inactive Client Follow Up</h4>
+          </div>
+          <div className="col-lg-3 col-md-11 col-sm-12 col-11 py-2">
+            {
+              dctInactiveClientsLoading ? (<img
+                src={require("../../static/images/Refresh-Loader.gif")}
+                alt="Loading..." />) : (<></>)
+            }
+            <button
+              className="btn btn_green_bg float-right"
+              onClick={() => onClickReset()}
+            >
+              {
+                dctInactiveClientsLoading ? "Loading" : "Refresh"
+              }
+            </button>
           </div>
         </div>
         <div className="row">
@@ -102,6 +149,7 @@ const InactiveClientsFolowUp = ({
                               className={
                                 selRowIdx === idx ? "seletedrowcolorchange" : ""
                               }
+                              ref={selRowIdx === idx ? selectedRowRef : null}
                               onClick={() =>
                                 onClickHandler(dctInactiveClient, idx)
                               }

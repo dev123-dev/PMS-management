@@ -302,22 +302,16 @@ const AllStatuschange = ({
     let callComeFromVal = from;
     let callCategoryVal = "";
 
-    if (
-      callStatus.value === "VoiceMail" ||
-      callStatus.value === "CallBack" ||
-      callStatus.value === "DND" ||
-      callStatus.value === "NI"
-    ) {
+    if (callStatus.value === "VoiceMail" || callStatus.value === "CallBack" || callStatus.value === "DND" || callStatus.value === "NI") {
       if (callComeFromVal === "Prospect") callCategoryVal = "P";
       else if (callComeFromVal === "FollowUp") callCategoryVal = "F";
-      else if (callComeFromVal === "WrongNumber") callCategoryVal = "W";
       else if (callComeFromVal === "TestClient") callCategoryVal = "TC";
       else if (callComeFromVal === "RegularClient") callCategoryVal = "RC";
       else if (callComeFromVal === "InactiveClient") callCategoryVal = "IC";
-    } else if (callStatus.value === "WrongNumber") callCategoryVal = "W";
-    else if (callStatus.value === "FollowUp") {
-      callCategoryVal = "F";
-    } else if (callStatus.value === "TestClient") callCategoryVal = "TC";
+    }
+    else if (callStatus.value === "WrongNumber") callCategoryVal = "W";
+    else if (callStatus.value === "FollowUp") callCategoryVal = "F";
+    else if (callStatus.value === "TestClient") callCategoryVal = "TC";
     else if (callStatus.value === "RegularClient") callCategoryVal = "RC";
     else if (callStatus.value === "Inactive") callCategoryVal = "IC"; //Inactive Client Report Status
     else if (callStatus.value === "Unworthy") callCategoryVal = "UW"; //Inactive Client Report Status
@@ -351,7 +345,7 @@ const AllStatuschange = ({
         from === "TestClient" ||    //Test Client Followup
         from === "RegularClient" || //Regular Client Folllowup
         from === "Inactive" ||      //Inactive Client Report
-        from === "InactiveClient"   //Inactive Client Followup
+        from === "InactiveClient"  //Inactive Client Followup
       ) {
         addDctClientCalls(finalData);
       } else {
@@ -367,7 +361,7 @@ const AllStatuschange = ({
     setFormData({
       ...formData,
       callStatus: "",
-      callToSatff: "",
+      callToStaff: "",
       nextCallDate: "",
       callNote: "",
     });
