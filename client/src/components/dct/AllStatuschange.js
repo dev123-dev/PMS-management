@@ -21,7 +21,8 @@ const AllStatuschange = ({
   addDctClientCalls,
   getStaffsData
 }) => {
-  let staffFilter = { from: (page && page !== "AllLeads") ? from : page, leadDataId: leadDataVal && leadDataVal._id };
+  let staffFilter = { from: (page && page === "AllLeads") ? page : from, leadDataId: leadDataVal && leadDataVal._id };
+
   // When a Client is Selected *leadDataVal* gets the new selected client, useEffect is Triggered
   useEffect(() => {
     resetStatusData();
