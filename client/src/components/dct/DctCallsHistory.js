@@ -5,8 +5,8 @@ import Spinner from "../layout/Spinner";
 import { getAllDctCall, getAllDctCallEmp } from "../../actions/dct";
 import Select from "react-select";
 const DctCallsHistory = ({
-  auth: { isAuthenticated, user, users },
-  dct: { allDctCalls, allDctCallsEmp },
+  auth: { isAuthenticated, user },
+  dct: { allDctCalls, allDctCallsEmp, allDctCallsClientCount },
   getAllDctCall,
   getAllDctCallEmp,
 }) => {
@@ -59,7 +59,7 @@ const DctCallsHistory = ({
     getAllDctCall();
     getAllDctCallEmp();
   };
-  return !isAuthenticated || !user  ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -85,7 +85,6 @@ const DctCallsHistory = ({
             </div>
             <div className=" col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               {user.empCtAccess && user.empCtAccess === "All" ? (
-                // <div className=" col-lg-4 col-md-11 col-sm-10 col-10 py-2">
                 <Select
                   name="empFullName"
                   options={allemp}
@@ -119,14 +118,16 @@ const DctCallsHistory = ({
                   >
                     <thead>
                       <tr>
-                        <th style={{ width: "4%" }}>Sl No.</th>
-                        <th style={{ width: "8%" }}>Call Taken Date</th>
-                        <th style={{ width: "8%" }}>Call Taken Time</th>
-                        <th style={{ width: "15%" }}>Company Name</th>
-                        <th style={{ width: "15%" }}>Call To</th>
-                        <th style={{ width: "15%" }}>Called Number</th>
-                        <th style={{ width: "25%" }}>Notes</th>
-                        <th style={{ width: "6%" }}>Next Date</th>
+                        <th>SNo</th>
+                        <th>Call Taken Date</th>
+                        <th>Call Taken Time</th>
+                        <th>Company Name</th>
+                        <th>Call To</th>
+                        <th>Called Number</th>
+                        <th>Call From</th>
+                        <th>Called Status</th>
+                        <th>Notes</th>
+                        <th>Next Date</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -145,15 +146,15 @@ const DctCallsHistory = ({
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-                              <td>{calltakenDate}</td>
-                              <td>
-                                {allDctCalls.callEnteredDateTime.split(" ")[1]}
-                              </td>
-                              <td>{allDctCalls.callToName}</td>
-                              <td>{allDctCalls.callToStaffName}</td>
-                              <td>{allDctCalls.callToNumber}</td>
+                              <td style={{ width: '8%' }}>{calltakenDate}</td>
+                              <td style={{ width: '8%' }}>{allDctCalls.callEnteredDateTime.split(" ")[1]}</td>
+                              <td style={{ width: '20%' }}>{allDctCalls.callToName}</td>
+                              <td style={{ width: '10%' }}>{allDctCalls.callToStaffName}</td>
+                              <td style={{ width: '7%' }}>{allDctCalls.callToNumber}</td>
+                              <td style={{ width: '5%' }}>{allDctCalls.callComeFrom}</td>
+                              <td style={{ width: '7%' }}>{allDctCalls.callStatus}</td>
                               <td>{allDctCalls.callNote}</td>
-                              <td>{callDates}</td>
+                              <td style={{ width: '8%' }}>{callDates}</td>
                             </tr>
                           );
                         })}
@@ -166,6 +167,12 @@ const DctCallsHistory = ({
                       No of Calls : {allDctCalls && allDctCalls.length}
                     </label>
                   </div>
+                  <div className="col-lg-12 col-md-6 col-sm-11 col-11 align_right">
+                    <label>
+                      No of Clients : {allDctCallsClientCount && allDctCallsClientCount.length}
+                      { }
+                    </label>
+                  </div>
                 </div>
               </section>
             </div>
@@ -174,7 +181,6 @@ const DctCallsHistory = ({
           <div className="row col-md-12 col-lg-12 col-sm-12 col-12  ">
             <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
             <div className="col-lg-2 col-md-6 col-sm-6 col-12 align_right">
-              {/* <strong> No of Clients:{allClient.length}</strong> */}
             </div>
           </div>
         </section>

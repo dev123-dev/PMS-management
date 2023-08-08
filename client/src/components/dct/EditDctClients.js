@@ -129,9 +129,9 @@ const EditDctClients = ({
     clientType:
       data && data.dctdata && data.dctdata.clientType
         ? {
-            value: data.dctdata.clientType,
-            label: data.dctdata.clientType,
-          }
+          value: data.dctdata.clientType,
+          label: data.dctdata.clientType,
+        }
         : "",
 
     paymentModeName:
@@ -206,9 +206,9 @@ const EditDctClients = ({
     data && data.dctdata
       ? allstaffcountry.length !== 0
         ? allstaffcountry &&
-          allstaffcountry.filter(
-            (x) => x.staffcountryId === data && data.dctdata.staffRegionId
-          )[0]
+        allstaffcountry.filter(
+          (x) => x.staffcountryId === data && data.dctdata.staffRegionId
+        )[0]
         : ""
       : ""
   );
@@ -399,7 +399,7 @@ const EditDctClients = ({
   const [country, getcountryData] = useState(
     data && data.dctdata
       ? allcountry &&
-          allcountry.filter((x) => x.countryId === data.dctdata.countryId)[0]
+      allcountry.filter((x) => x.countryId === data.dctdata.countryId)[0]
       : ""
   );
   const [countryId, setcountryID] = useState(data && data.dctdata.countryId);
@@ -463,9 +463,9 @@ const EditDctClients = ({
   const [payment, getStateData] = useState(
     data && data.dctdata
       ? allpaymentmodes &&
-          allpaymentmodes.filter(
-            (x) => x.paymentId === data.dctdata.paymentId
-          )[0]
+      allpaymentmodes.filter(
+        (x) => x.paymentId === data.dctdata.paymentId
+      )[0]
       : ""
   );
   const [paymentId, setpaymentId] = useState(data && data.dctdata.paymentId);
@@ -559,9 +559,9 @@ const EditDctClients = ({
   const [emp, getempData] = useState(
     data && data.dctdata && data.dctdata
       ? allemp &&
-          allemp.filter(
-            (x) => x.empId === data.dctdata.dctClientAssignedToId
-          )[0]
+      allemp.filter(
+        (x) => x.empId === data.dctdata.dctClientAssignedToId
+      )[0]
       : ""
   );
   const [empId, setempID] = useState(

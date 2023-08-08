@@ -429,7 +429,12 @@ const Header = ({
                       (user.userGroupName === "Administrator" ||
                         user.userGroupName === "Super Admin") ? (
                         <NavLink
-                          to="/client-report-detail"
+                          to={{
+                            pathname: "/client-report-detail",
+                            data: {
+                              callFromHeader: true
+                            }
+                          }}
                           activeStyle={{ color: "#ffd037", textDecoration: "none" }}
                         >
                           <Dropdown.Item>Client Report </Dropdown.Item>

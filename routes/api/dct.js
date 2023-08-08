@@ -125,6 +125,16 @@ router.post("/edit-dct-clients", auth, async (req, res) => {
       }
     );
 
+    await Projects.updateMany(
+      { clientId: data.recordId },
+      {
+        $set: {
+          clientName: data.clientName,
+          clientFolderName: data.clientFolderName
+        }
+      }
+    );
+
     //UFTR
     await DctCalls.updateMany(
       { callToId: data.recordId },
@@ -811,22 +821,26 @@ router.post("/get-all-dct-calls", auth, async (req, res) => {
     dateVal = selectedDate;
   }
 
-  if (selectedDate) {
-    query = {
-      callTakenDate: dateVal,
-      callFromId,
-    };
-  } else {
-    query = {
-      callTakenDate: dateVal,
-      callFromId,
-    };
-  }
+  query = {
+    callTakenDate: dateVal,
+    callFromId,
+  };
+
   try {
     const getAllDctCallsDetails = await DctCalls.find(query).sort({
       _id: -1,
     });
-    res.json(getAllDctCallsDetails);
+    const getAllDctCallClientCount = await DctCalls.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: "$callToId",
+        },
+      },
+    ]);
+    res.json({ getAllDctCallsDetails, getAllDctCallClientCount });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error.");

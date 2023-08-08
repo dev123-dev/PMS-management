@@ -1636,144 +1636,118 @@ router.post("/get-client-report-details", auth, async (req, res) => {
 
 //Financial year feteching code start
 router.get("/get-Year", auth, async (req, res) => {
-  let query = {
-    projectDate: {
-      $ne: null,
-      $ne: "",
-    },
-  };
   try {
     let financialYear = [];
     financialYear = await Project.aggregate([
       {
-        $match: query,
-      },
-      //2nd
-      {
-        $addFields:
-          /**
-           * newField: The new field name.
-           * expression: The new field expression.
-           */
-          {
-            projectDate: {
-              $toDate: "$projectDate",
-            },
+        $match: {
+          projectDate: {
+            $ne: null,
+            $ne: "",
           },
+        },
       },
-      //3rd adding new field financial year and extracting year
       {
-        $addFields:
-          /**
-           * newField: The new field name.
-           * expression: The new field expression.
-           */
-          {
-            financialYear: {
-              $cond: [
-                {
-                  $gte: [
-                    {
-                      $month: "$projectDate",
-                    },
-
-                    ,
-                  ],
-                },
-                {
-                  $concat: [
-                    {
-                      $toString: {
-                        $year: "$projectDate",
-                      },
-                    },
-                    "-",
-                    {
-                      $toString: {
-                        $add: [
-                          {
-                            $year: "$projectDate",
-                          },
-                          1,
-                        ],
-                      },
-                    },
-                  ],
-                },
-                {
-                  $concat: [
-                    {
-                      $toString: {
-                        $subtract: [
-                          {
-                            $year: "$projectDate",
-                          },
-                          1,
-                        ],
-                      },
-                    },
-                    "-",
-                    {
-                      $toString: {
-                        $year: "$projectDate",
-                      },
-                    },
-                  ],
-                },
-              ],
-            },
+        $addFields: {
+          projectDate: {
+            $toDate: "$projectDate",
           },
+        },
       },
-      //4th
       {
-        $group:
-          /**
-           * _id: The id of the group.
-           * fieldN: The first field name.
-           */
-          {
-            _id: "$financialYear",
-            totQty: {
-              $sum: 1,
-            },
+        $addFields: {
+          financialYear: {
+            $cond: [
+              {
+                $gte: [
+                  {
+                    $month: "$projectDate",
+                  },
+                  4,
+                ],
+              },
+              {
+                $concat: [
+                  {
+                    $toString: {
+                      $year: "$projectDate",
+                    },
+                  },
+                  " - ",
+                  {
+                    $toString: {
+                      $add: [
+                        {
+                          $year: "$projectDate",
+                        },
+                        1,
+                      ],
+                    },
+                  },
+                ],
+              },
+              {
+                $concat: [
+                  {
+                    $toString: {
+                      $subtract: [
+                        {
+                          $year: "$projectDate",
+                        },
+                        1,
+                      ],
+                    },
+                  },
+                  " - ",
+                  {
+                    $toString: {
+                      $year: "$projectDate",
+                    },
+                  },
+                ],
+              },
+            ],
           },
+        },
       },
-      //5th
       {
-        $sort:
-          /**
-           * specifications: The fields to
-           *   include or exclude.
-           */
-          {
-            _id: -1,
-          },
+        $group: {
+          _id: "$financialYear",
+        },
       },
-      //6th
       {
-        $addFields:
-          /**
-           * newField: The new field name.
-           * expression: The new field expression.
-           */
-          {
-            startDate: {
-              $concat: [
-                {
-                  $substr: ["$_id", 0, 4],
-                },
-                "-04-01",
-              ],
-            },
-            endDate: {
-              $concat: [
-                {
-                  $substr: ["$_id", 5, 4],
-                },
-                "-03-31",
-              ],
-            },
+        $sort: {
+          _id: -1,
+        },
+      },
+      {
+        $addFields: {
+          startDate: {
+            $concat: [
+              {
+                $substr: ["$_id", 0, 4],
+              },
+              "-04-01",
+            ],
           },
+          endDate: {
+            $concat: [
+              {
+                $substr: ["$_id", 7, 4],
+              },
+              "-03-31",
+            ],
+          },
+        },
+      },
+      {
+        $project: {
+          _id: null,
+          label: "$_id",
+          value: "$_id",
+          startDate: 1,
+          endDate: 1,
+        },
       },
     ]);
     res.json(financialYear);
@@ -1786,7 +1760,6 @@ router.get("/get-Year", auth, async (req, res) => {
 //MOnth wise report start
 router.post("/get-Month-wise-Report", auth, async (req, res) => {
   let { startDate, endDate, clientFolderName, finYear } = req.body;
-  // if(clientFolderName)
 
   try {
     let MonthWiseData = await Project.aggregate([
@@ -2007,91 +1980,87 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
       },
       {
         $addFields:
-          /**
-           * newField: The new field name.
-           * expression: The new field expression.
-           */
-          {
-            monthOrdNo: {
-              $switch: {
-                branches: [
-                  {
-                    case: {
-                      $eq: ["$month", 4],
-                    },
-                    then: 1,
+        {
+          monthOrdNo: {
+            $switch: {
+              branches: [
+                {
+                  case: {
+                    $eq: ["$month", 4],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 5],
-                    },
-                    then: 2,
+                  then: 1,
+                },
+                {
+                  case: {
+                    $eq: ["$month", 5],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 6],
-                    },
-                    then: 3,
+                  then: 2,
+                },
+                {
+                  case: {
+                    $eq: ["$month", 6],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 7],
-                    },
-                    then: 4,
+                  then: 3,
+                },
+                {
+                  case: {
+                    $eq: ["$month", 7],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 8],
-                    },
-                    then: 5,
+                  then: 4,
+                },
+                {
+                  case: {
+                    $eq: ["$month", 8],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 9],
-                    },
-                    then: 6,
+                  then: 5,
+                },
+                {
+                  case: {
+                    $eq: ["$month", 9],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 10],
-                    },
-                    then: 7,
+                  then: 6,
+                },
+                {
+                  case: {
+                    $eq: ["$month", 10],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 11],
-                    },
-                    then: 8,
+                  then: 7,
+                },
+                {
+                  case: {
+                    $eq: ["$month", 11],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 12],
-                    },
-                    then: 9,
+                  then: 8,
+                },
+                {
+                  case: {
+                    $eq: ["$month", 12],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 1],
-                    },
-                    then: 10,
+                  then: 9,
+                },
+                {
+                  case: {
+                    $eq: ["$month", 1],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 2],
-                    },
-                    then: 11,
+                  then: 10,
+                },
+                {
+                  case: {
+                    $eq: ["$month", 2],
                   },
-                  {
-                    case: {
-                      $eq: ["$month", 3],
-                    },
-                    then: 12,
+                  then: 11,
+                },
+                {
+                  case: {
+                    $eq: ["$month", 3],
                   },
-                ],
-                default: "Invalid no",
-              },
+                  then: 12,
+                },
+              ],
+              default: "Invalid no",
             },
           },
+        },
       },
       {
         $lookup: {
@@ -2110,22 +2079,18 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
       },
       {
         $group:
-          /**
-           * _id: The id of the group.
-           * fieldN: The first field name.
-           */
-          {
-            _id: "$monthName",
-            totProjQty: {
-              $sum: "$projectQuantity",
-            },
-            monthOrdNo: {
-              $first: "$monthOrdNo",
-            },
-            clientFolderName: {
-              $first: "$clientFolderName",
-            },
+        {
+          _id: "$monthName",
+          totProjQty: {
+            $sum: "$projectQuantity",
           },
+          monthOrdNo: {
+            $first: "$monthOrdNo",
+          },
+          clientFolderName: {
+            $first: "$clientFolderName",
+          },
+        },
       },
       {
         $project: {
@@ -2138,15 +2103,12 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
       },
       {
         $sort:
-          /**
-           * Provide any number of field/order pairs.
-           */
-          {
-            monthOrdNo: 1,
-          },
+        {
+          monthOrdNo: 1,
+        },
       },
     ]);
-
+    console.log("MonthWiseData", MonthWiseData);
     res.json(MonthWiseData);
   } catch (error) {
     console.log(error.message);
@@ -2157,7 +2119,6 @@ router.post("/get-Month-wise-Report", auth, async (req, res) => {
 //Client details start
 router.post("/get-client-report", auth, async (req, res) => {
   let { startDate, endDate, clientFolderName } = req.body;
-  console.log("coming",req.body)
   try {
     let ProjectDetails = await Project.aggregate([
       {
@@ -2232,25 +2193,25 @@ router.post("/get-client-report", auth, async (req, res) => {
           projectBelongsToId: {
             $eq: null,
           },
-          clientTypeVal : {$eq :"Regular"},
+          clientTypeVal: { $eq: "Regular" },
         },
       },
       {
         $lookup:
-          /**
-           * from: The target collection.
-           * localField: The local join field.
-           * foreignField: The target join field.
-           * as: The name for the results.
-           * pipeline: Optional pipeline to run on the foreign collection.
-           * let: Optional variables to use in the pipeline field stages.
-           */
-          {
-            from: "projectstatuses",
-            localField: "projectStatusId",
-            foreignField: "_id",
-            as: "status",
-          },
+        /**
+         * from: The target collection.
+         * localField: The local join field.
+         * foreignField: The target join field.
+         * as: The name for the results.
+         * pipeline: Optional pipeline to run on the foreign collection.
+         * let: Optional variables to use in the pipeline field stages.
+         */
+        {
+          from: "projectstatuses",
+          localField: "projectStatusId",
+          foreignField: "_id",
+          as: "status",
+        },
       },
       {
         $match: {
@@ -2280,28 +2241,28 @@ router.post("/get-client-report", auth, async (req, res) => {
       },
       {
         $match:
-          /**
-           * query: The query in MQL.
-           */
-          {
-            clientFolderName: {
-              $eq:clientFolderName,
-            },
+        /**
+         * query: The query in MQL.
+         */
+        {
+          clientFolderName: {
+            $eq: clientFolderName,
           },
+        },
       },
       {
         $group:
-         
-          {
-            _id: "$clientFolderName",
-            total: {
-              $sum: "$projectQuantity",
-            },
+
+        {
+          _id: "$clientFolderName",
+          total: {
+            $sum: "$projectQuantity",
           },
+        },
       },
     ]);
-    console.log("projectDetailsSum",projectDetailsSum)
-    res.json({res1 :ProjectDetails,res2 :projectDetailsSum});
+    console.log("projectDetailsSum", projectDetailsSum)
+    res.json({ res1: ProjectDetails, res2: projectDetailsSum });
   } catch (error) {
     console.log(error.message);
   }
@@ -2328,7 +2289,7 @@ router.post("/get-FY-Client", auth, async (req, res) => {
           projectStatus: {
             $ne: "Trash",
           },
-          clientTypeVal : {$eq :"Regular"},
+          clientTypeVal: { $eq: "Regular" },
         },
       },
       {
@@ -2598,7 +2559,7 @@ router.post("/get-FY-Client", auth, async (req, res) => {
           projectBelongsToId: {
             $eq: null,
           },
-          clientTypeVal : {$eq :"Regular"},
+          clientTypeVal: { $eq: "Regular" },
         },
       },
       {

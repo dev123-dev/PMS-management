@@ -30,6 +30,7 @@ const initialState = {
   lastMsg: [],
   callHistory: [],
   allDctCalls: null,
+  allDctCallsClientCount: null,
   allDctCallsEmp: null,
   allLeadsEmp: [],
   getAllLeadsEmp: [],
@@ -95,7 +96,8 @@ const dct = (state = initialState, action) => {
     case ALL_DCT_CALLS:
       return {
         ...state,
-        allDctCalls: payload,
+        allDctCalls: payload.getAllDctCallsDetails,
+        allDctCallsClientCount: payload.getAllDctCallClientCount
       };
     case ALL_DCT_CALLS_EMP:
       return {

@@ -39,8 +39,6 @@ const ClientMonthReport = ({
       console.log("webSocket client connected");
     };
 
-    console.log("clientwisesum", clientwisesum);
-
     client.onmessage = (message) => {
       getUpdatedProjectStaus();
     };
@@ -222,7 +220,7 @@ const ClientMonthReport = ({
                   >
                     <thead>
                       <tr>
-                        <th>Sl no</th>
+                        <th>SNo</th>
                         <th>Project Date</th>
                         <th>Project Name</th>
                         <th>Project Qty</th>
@@ -257,15 +255,6 @@ const ClientMonthReport = ({
                                 <td>{client.projectQty}</td>
                               </tr>
                             );
-                          } else {
-                            // return (
-                            //   <tr key={idx}>
-                            //     <td>{idx + 1}</td>
-                            //     <td>{projectDate}</td>
-                            //     <td>{client.projectName}</td>
-                            //     <td>{client.projectQty}</td>
-                            //   </tr>
-                            // );
                           }
                         })}
                     </tbody>
@@ -275,16 +264,6 @@ const ClientMonthReport = ({
             </div>
           </div>
         </section>
-
-        <div className="row col-md-12 col-lg-12 col-sm-12 col-12 py-2 bottmAlgmnt">
-          <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
-          {/* <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            <span className="footerfont"> Projects:</span>
-          </div>
-          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            <span className="footerfont">Quantity:</span>
-          </div> */}
-        </div>
       </div>
     </Fragment>
   );

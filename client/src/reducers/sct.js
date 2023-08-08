@@ -51,7 +51,7 @@ import {
 const initialState = {
   allSctLeads: [],
   allUnResolved: [],
-  clientwisesum :[],
+  clientwisesum: [],
   historyDetails: [],
   namewithcountdropdown: [],
   fyclientsum: [],
@@ -62,7 +62,7 @@ const initialState = {
   getAllSctLeads: [],
   getAllSctLeadsDD: [],
   getAllSctLeadsEmp: [],
-  financiaYEAR: [],
+  finYears: [],
   sctLastMsg: [],
   allFollowUp: [],
   allSctProject: [],
@@ -96,6 +96,8 @@ const initialState = {
   clientwise: [],
   allEnquiry: [],
   sctAllLeadsCount: [],
+  selectedClientFolder: null,   // Client Report Details - Selected Client
+  selectedFinancialYear: null   // Client Report Details - Selected Financial Year
 };
 
 const sct = (state = initialState, action) => {
@@ -116,11 +118,11 @@ const sct = (state = initialState, action) => {
         ...state,
         namewithcountdropdown: payload,
       };
-      case CLIENT_WISE_SUM :
-        return {
-          ...state,
-          clientwisesum :payload
-        }
+    case CLIENT_WISE_SUM:
+      return {
+        ...state,
+        clientwisesum: payload
+      }
     case UNRESOLVED_ENQUIRY_DETAILS:
       return {
         ...state,
@@ -155,7 +157,7 @@ const sct = (state = initialState, action) => {
     case FINANCIAL_YEAR:
       return {
         ...state,
-        financiaYEAR: payload,
+        finYears: payload,
       };
     case FY_CLIENT:
       return {
@@ -353,7 +355,16 @@ const sct = (state = initialState, action) => {
         ...state,
         sctAllLeadsCount: payload,
       };
-
+    case "SEL_CLIENT_FOLDER":
+      return {
+        ...state,
+        selectedClientFolder: payload
+      }
+    case "SEL_FINANCIAL_YEAR":
+      return {
+        ...state,
+        selectedFinancialYear: payload
+      }
     default:
       return state;
   }

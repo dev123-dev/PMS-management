@@ -1,8 +1,6 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Modal } from "react-bootstrap";
-import Select from "react-select";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
 
@@ -15,17 +13,11 @@ import {
 import { getVerificationFolder } from "../../actions/client";
 import { getClientDetails } from "../../actions/sct";
 import { getAllchanges, getUpdatedProjectStaus } from "../../actions/projects";
-import { w3cwebsocket } from "websocket";
-
-//client in websocket
-//SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.44:8000");
 
 const ClientFYReport = ({
   auth: { isAuthenticated, user, users },
   project: { allFolderName },
   sct: { FyClientMonthWiseReport },
-  client: { activeVerfificationFolders },
 
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
@@ -35,16 +27,6 @@ const ClientFYReport = ({
   getVerificationFolder,
   getSelectedClientfolderDeatils,
 }) => {
-  console.log("FyClientMonthWiseReport", FyClientMonthWiseReport);
-  useEffect(() => {
-    client.onopen = () => {
-      console.log("webSocket client connected");
-    };
-
-    client.onmessage = (message) => {
-      getUpdatedProjectStaus();
-    };
-  }, []);
   useEffect(() => {
     getAllFolder();
   }, [getAllFolder]);
@@ -57,29 +39,12 @@ const ClientFYReport = ({
   useEffect(() => {
     getVerificationFolder();
   }, [getVerificationFolder]);
-  // useEffect(() => {
-  //   getVerificationClients();
-  // }, [getVerificationClients]);
+
   useEffect(() => {
     getSelectedClientfolderDeatils({
       clientFolderName: allFolderName && allFolderName.clientFolderName,
     });
   }, [getSelectedClientfolderDeatils]);
-
-  const onfolderClientChange = (e) => {
-    setClientData1(e);
-    // let selDateData = {
-    //   folder: e.value,
-    //   statusId: projectStatusData.value,
-    //   dateVal: singledate,
-    // };
-  };
-
-  const onClickReset = () => {
-    setClientData1("");
-  };
-
-  const [clientData, setClientData1] = useState("");
 
   const activeClientsOpt = [];
   allFolderName &&
@@ -138,7 +103,7 @@ const ClientFYReport = ({
     };
     getClientDetails(finalData);
   };
-  return !isAuthenticated || !user  ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -155,9 +120,9 @@ const ClientFYReport = ({
                   {FyClientMonthWiseReport &&
                     FyClientMonthWiseReport[0] &&
                     FyClientMonthWiseReport[0].finYear + ")"}
-                  {}
+                  { }
                 </b>{" "}
-                FY Report
+                Financial Year Report
               </h4>
             </div>
 
@@ -186,7 +151,7 @@ const ClientFYReport = ({
                   >
                     <thead>
                       <tr>
-                        <th>Sl no</th>
+                        <th>SNo</th>
                         <th>Month-Year</th>
                         <th>Total Qty</th>
                       </tr>
@@ -220,16 +185,6 @@ const ClientFYReport = ({
             </div>
           </div>
         </section>
-
-        <div className="row col-md-12 col-lg-12 col-sm-12 col-12 py-2 bottmAlgmnt">
-          <div className="col-lg-10 col-md-6 col-sm-6 col-12"></div>
-          {/* <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            <span className="footerfont"> Projects:</span>
-          </div>
-          <div className="col-lg-1 col-md-6 col-sm-6 col-12 align_right">
-            <span className="footerfont">Quantity:</span>
-          </div> */}
-        </div>
       </div>
     </Fragment>
   );

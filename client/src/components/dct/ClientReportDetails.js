@@ -1,67 +1,108 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Modal } from "react-bootstrap";
 import Select from "react-select";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
 
+import { getAllchanges } from "../../actions/projects";
+import { useLocation } from "react-router-dom";
 import {
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
-  getAllFolder1,
+  getAllClientFolders,
   getSelectedClientfolderDeatils,
 } from "../../actions/projects";
+
 import {
   getYear,
   getFYclient,
   getMonthWiseClient,
   getClientDetails,
+  getSelectedClientFolderInGlobal,
+  getSelectedFinancialYrInGlobal
 } from "../../actions/sct";
-import { getVerificationFolder } from "../../actions/client";
-
-import { getAllchanges, getUpdatedProjectStaus } from "../../actions/projects";
-import { w3cwebsocket } from "websocket";
-import { propTypes } from "react-bootstrap/esm/Image";
-//client in websocket
-//SLAP IP
-const client = new w3cwebsocket("ws://192.168.6.44:8000");
 
 const ClientReportDetails = ({
-  auth: { isAuthenticated, user, users },
+  auth: { isAuthenticated, user },
   project: { allfolder },
-  client: { activeVerfificationFolders },
-  sct: { FYclient, fyclientsum },
-
-  getverificationProjectDeatils,
-  getAllProjectStatusVerification,
-  getUpdatedProjectStaus,
+  sct: { FYclient, fyclientsum, finYears, selectedClientFolder, selectedFinancialYear },
   getYear,
   getClientDetails,
   getFYclient,
-  getAllFolder1,
+  getAllClientFolders,
   getMonthWiseClient,
-  getVerificationFolder,
-  getSelectedClientfolderDeatils,
+  getSelectedClientFolderInGlobal,
+  getSelectedFinancialYrInGlobal
 }) => {
+  const location = useLocation();
+  // Access the data prop and extract the callFromHeader value
+  const [callFromHeader, setCallFromHeader] = useState(
+    location?.data?.callFromHeader
+  ); //callFromHeader to determine if the call came from header
 
-  function checkLeapYear(year) {
-    //three conditions to find out the leap year
-    if ((0 == year % 4 && 0 != year % 100) || 0 == year % 400) {
-      return true;
-      // console.log(year + ' is a leap year');
-    } else {
-      return false;
-      //console.log(year + ' is not a leap year');
+  const year = new Date().getFullYear();
+  const month = new Date().getMonth();
+
+  const defaultStartDate = (month >= 3 ? year : year - 1).toString() + "-" + "04" + "-" + "01";
+  const defaultEndDate = (month >= 3 ? year + 1 : year).toString() + "-" + "03" + "-" + "31";
+  const currFinYear = (month >= 3 ? year : year - 1).toString() + " - " + (month >= 3 ? year + 1 : year).toString();
+
+  let resetYear = {
+    label: currFinYear,
+    value: currFinYear,
+    startDate: defaultStartDate,
+    endDate: defaultEndDate
+  };
+
+  const [clientData, setClientData] = useState("");
+  const [selFinYear, setSelFinYear] = useState(callFromHeader ? resetYear : (selectedFinancialYear) ? selectedFinancialYear : resetYear);
+
+  useEffect(() => {
+    getYear();
+    getAllClientFolders();            //Get all client folders 
+
+    if (callFromHeader) {
+      getInitialLoadingOfData();
     }
+    else {
+      if (selectedClientFolder)
+        onfolderClientChange(selectedClientFolder);
+      else {
+        if (selectedFinancialYear)
+          onYearChange(selectedFinancialYear);
+        else {
+          getInitialLoadingOfData();
+        }
+      }
+    }
+  }, []);
+
+  //Separating Initial function 
+  const getInitialLoadingOfData = () => {
+    getSelectedClientFolderInGlobal(null);
+    getSelectedFinancialYrInGlobal(resetYear);
+    getFYclient({
+      startDate: defaultStartDate,
+      endDate: defaultEndDate,
+      clientFolderName: "",
+      finYear: currFinYear,
+    });
   }
 
-  const checkMonthDays = (monthNo, year) => {
+  function checkLeapYear(year) {
+    if ((0 == year % 4 && 0 != year % 100) || 0 == year % 400) //three conditions to find out the leap year
+      return true;
+    else
+      return false;
+  }
+
+  const checkMonthDays = (monthNo, selFYear) => {
     switch (monthNo) {
       case "01":
         return "31";
       case "02":
-        return checkLeapYear(year.split("-")[1]) ? "29" : "28";
+        return checkLeapYear(selFYear.value.split("-")[1]) ? "29" : "28";
       case "03":
         return "31";
       case "04":
@@ -82,129 +123,65 @@ const ClientReportDetails = ({
         return "30";
       case "12":
         return "31";
-
       default:
         break;
     }
   };
 
-  const [startyear, setstartyear] = useState("");
-  const [endyear, setendyear] = useState("");
-
-  const handleGoToMember = (clientmonth, monthNo) => {
+  const handleClientSpecificMonthDetails = (clientmonth, monthNo) => {
     let yr = "";
 
     if (Number(monthNo) >= 4) {
-      console.log("T");
-      yr += Year && Year.split("-")[0];
+      yr = selFinYear && selFinYear.value.split(" - ")[0];
     } else {
-      console.log("F");
-      yr += Year && Year.split("-")[1];
+      yr = selFinYear && selFinYear.value.split(" - ")[1];
     }
-    console.log(yr);
 
     let start = yr + "-" + monthNo + "-" + "01";
-    let end = yr + "-" + monthNo + "-" + checkMonthDays(monthNo, Year);
+    let end = yr + "-" + monthNo + "-" + checkMonthDays(monthNo, selFinYear);
     let finalData = {
       clientFolderName: clientmonth._id,
       startDate: start,
       endDate: end,
+      finYear: selFinYear.value
     };
-
-    console.log("finalData", finalData);
     getClientDetails(finalData);
-    //};
   };
 
-  let defaultStartDate = new Date().getFullYear() + "-" + "04" + "-" + "01";
-  let defaultEndDate = new Date().getFullYear() + 1 + "-" + "03" + "-" + "31";
-  let ClientFolderName = "";
-
-  let financialyear = JSON.parse(localStorage.getItem("financialYear"));
-
-  useEffect(() => {
-    getYear();
-    getFYclient({
-      startDate: defaultStartDate,
-      endDate: defaultEndDate,
-      clientFolderName: ClientFolderName,
-      finYear: financialyear && financialyear[0]._id,
-    });
-  }, []);
-
-  useEffect(() => {
-    client.onopen = () => {
-      console.log("webSocket client connected");
-    };
-
-    client.onmessage = (message) => {
-      getUpdatedProjectStaus();
-    };
-  }, []);
-  useEffect(() => {
-    getAllFolder1();
-  }, [getAllFolder1]);
-
-  const [clientData, setClientData1] = useState("");
-  const [Year, setYear] = useState(
-    (financialyear && financialyear[0]._id) || "2023-2024"
-  );
-  // financialyear && financialyear[0]._id
-
-  const [startDate, setStartDate] = useState(defaultStartDate);
-  const [endDate, setendDate] = useState(defaultEndDate);
   const onfolderClientChange = (e) => {
-    setClientData1(e);
-
+    setClientData(e);
+    getSelectedClientFolderInGlobal(e);
     getFYclient({
-      startDate: startDate,
-      endDate: endDate,
+      startDate: selFinYear.startDate,
+      endDate: selFinYear.endDate,
       clientFolderName: e.value,
-      finYear: Year,
+      finYear: selFinYear.value,
     });
   };
-
-  ///////////////////////
-
-  ///////////////////////
 
   const onYearChange = (e) => {
-    setYear(e.label);
+    setSelFinYear(e);
 
-    setStartDate(e.value.startDate);
-    setendDate(e.value.endDate);
     let selYear = {
-      startDate: e.value.startDate,
-      endDate: e.value.endDate,
+      startDate: e.startDate,
+      endDate: e.endDate,
       clientFolderName: "",
-      finYear: Year,
+      finYear: e.value,
     };
+
+    getSelectedFinancialYrInGlobal(e);
+    getSelectedClientFolderInGlobal(null);
     getFYclient(selYear);
-    setClientData1("");
+    setClientData("");
   };
 
-  const year = [];
-  financialyear &&
-    financialyear.map((ele) =>
-      year.push({
-        value: {
-          startDate: ele.startDate,
-          endDate: ele.endDate,
-        },
-
-        label: ele._id,
-      })
-    );
-
   const onClickReset = () => {
-    // setYear("");
-    getFYclient({
-      startDate: defaultStartDate,
-      endDate: defaultEndDate,
-      clientFolderName: ClientFolderName,
-      finYear: Year,
-    });
-    setClientData1("");
+    getFYclient(resetYear);
+    setSelFinYear(resetYear);
+    setClientData("");
+
+    getSelectedClientFolderInGlobal(null);
+    getSelectedFinancialYrInGlobal(resetYear);
   };
 
   const activeClientsOpt = [];
@@ -216,18 +193,15 @@ const ClientReportDetails = ({
       })
     );
 
-  const handleGoToAllMember = (client) => {
-    console.log("client", client);
-
+  const getSelectedClientMonthwise = (client) => {
     getMonthWiseClient({
       clientFolderName: client._id,
-      startDate: startDate,
-      endDate: endDate,
-      finYear: client.finYear,
+      startDate: selFinYear.startDate,
+      endDate: selFinYear.endDate,
+      finYear: selFinYear.value,
     });
   };
 
-  //users
   return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
@@ -242,10 +216,10 @@ const ClientReportDetails = ({
             <div className="col-lg-2 col-md-11 col-sm-10 col-10 py-2">
               <Select
                 name="projectStatusData"
-                options={year}
-                value={Year}
+                options={finYears}
+                value={selFinYear}
                 isSearchable={true}
-                placeholder={Year}
+                placeholder={selFinYear}
                 onChange={(e) => onYearChange(e)}
               />
             </div>
@@ -282,23 +256,23 @@ const ClientReportDetails = ({
                         <th style={{ width: "3%" }}>Sl no</th>
                         <th style={{ width: "9%" }}>Client Name</th>
                         <th>
-                          April{("-" + Year && Year?.slice(2, 4)) || "23"}
+                          April{(" - " + (selFinYear && selFinYear.value?.slice(2, 4)).toString())}
                         </th>
-                        <th>May{("-" + Year && Year?.slice(2, 4)) || "23"}</th>
-                        <th>June{("-" + Year && Year?.slice(2, 4)) || "23"}</th>
-                        <th>July{("-" + Year && Year?.slice(2, 4)) || "23"}</th>
-                        <th>Aug{("-" + Year && Year?.slice(2, 4)) || "23"}</th>
-                        <th>Sept{("-" + Year && Year?.slice(2, 4)) || "23"}</th>
-                        <th>Oct{("-" + Year && Year?.slice(2, 4)) || "23"}</th>
-                        <th>Nov{("-" + Year && Year?.slice(2, 4)) || "23"}</th>
-                        <th>Dec{("-" + Year && Year?.slice(2, 4)) || "23"}</th>
-                        <th>Jan{("-" + Year && Year?.slice(7, 9)) || "24"}</th>
-                        <th>Feb{("-" + Year && Year?.slice(7, 9)) || "24"}</th>
-                        <th>Mar{("-" + Year && Year?.slice(7, 9)) || "24"}</th>
+                        <th>May{(" - " + (selFinYear && selFinYear.value?.slice(2, 4)).toString())}</th>
+                        <th>June{(" - " + (selFinYear && selFinYear.value?.slice(2, 4)).toString())}</th>
+                        <th>July{(" - " + (selFinYear && selFinYear.value?.slice(2, 4)).toString())}</th>
+                        <th>Aug{(" - " + (selFinYear && selFinYear.value?.slice(2, 4)).toString())}</th>
+                        <th>Sept{(" - " + (selFinYear && selFinYear.value?.slice(2, 4)).toString())}</th>
+                        <th>Oct{(" - " + (selFinYear && selFinYear.value?.slice(2, 4)).toString())}</th>
+                        <th>Nov{(" - " + (selFinYear && selFinYear.value?.slice(2, 4)).toString())}</th>
+                        <th>Dec{(" - " + (selFinYear && selFinYear.value?.slice(2, 4)).toString())}</th>
+                        <th>Jan{(" - " + (selFinYear && selFinYear.value?.slice(9, 11)).toString())}</th>
+                        <th>Feb{(" - " + (selFinYear && selFinYear.value?.slice(9, 11)).toString())}</th>
+                        <th>Mar{(" - " + (selFinYear && selFinYear.value?.slice(9, 11)).toString())}</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="freeze-row">
+                      <tr key={0} className="freeze-row">
                         <td></td>
                         <td>Total</td>
                         <td>
@@ -484,7 +458,7 @@ const ClientReportDetails = ({
                                   <Link
                                     to="/client-fy-report"
                                     className="btnLink"
-                                    onClick={() => handleGoToAllMember(client)}
+                                    onClick={() => getSelectedClientMonthwise(client)}
                                   >
                                     {client._id}
                                   </Link>
@@ -501,7 +475,7 @@ const ClientReportDetails = ({
                                       to="/client-month-report"
                                       className="btnLink"
                                       onClick={() =>
-                                        handleGoToMember(client, "04")
+                                        handleClientSpecificMonthDetails(client, "04")
                                       }
                                     >
                                       {client.finalData[
@@ -523,7 +497,7 @@ const ClientReportDetails = ({
                                       to="/client-month-report"
                                       className="btnLink"
                                       onClick={() =>
-                                        handleGoToMember(client, "05")
+                                        handleClientSpecificMonthDetails(client, "05")
                                       }
                                     >
                                       {client.finalData[
@@ -545,7 +519,7 @@ const ClientReportDetails = ({
                                       to="/client-month-report"
                                       className="btnLink"
                                       onClick={() =>
-                                        handleGoToMember(client, "06")
+                                        handleClientSpecificMonthDetails(client, "06")
                                       }
                                     >
                                       {
@@ -568,7 +542,7 @@ const ClientReportDetails = ({
                                       to="/client-month-report"
                                       className="btnLink"
                                       onClick={() =>
-                                        handleGoToMember(client, "07")
+                                        handleClientSpecificMonthDetails(client, "07")
                                       }>
                                       {client.finalData[
                                         client.finalData.findIndex((val) =>
@@ -588,7 +562,7 @@ const ClientReportDetails = ({
                                       to="/client-month-report"
                                       className="btnLink"
                                       onClick={() =>
-                                        handleGoToMember(client, "08")
+                                        handleClientSpecificMonthDetails(client, "08")
                                       }
                                     >
                                       {client.finalData[
@@ -610,7 +584,7 @@ const ClientReportDetails = ({
                                       to="/client-month-report"
                                       className="btnLink"
                                       onClick={() =>
-                                        handleGoToMember(client, "09")
+                                        handleClientSpecificMonthDetails(client, "09")
                                       }
                                     >
                                       {client.finalData[
@@ -632,7 +606,7 @@ const ClientReportDetails = ({
                                       to="/client-month-report"
                                       className="btnLink"
                                       onClick={() =>
-                                        handleGoToMember(client, "10")
+                                        handleClientSpecificMonthDetails(client, "10")
                                       }
                                     >
                                       {client.finalData[
@@ -654,7 +628,7 @@ const ClientReportDetails = ({
                                       to="/client-month-report"
                                       className="btnLink"
                                       onClick={() =>
-                                        handleGoToMember(client, "11")
+                                        handleClientSpecificMonthDetails(client, "11")
                                       }
                                     >
                                       {client.finalData[
@@ -677,7 +651,7 @@ const ClientReportDetails = ({
                                       to="/client-month-report"
                                       className="btnLink"
                                       onClick={() =>
-                                        handleGoToMember(client, "12")
+                                        handleClientSpecificMonthDetails(client, "12")
                                       }
                                     >
                                       {client.finalData[
@@ -700,7 +674,7 @@ const ClientReportDetails = ({
                                       to="/client-month-report"
                                       className="btnLink"
                                       onClick={() =>
-                                        handleGoToMember(client, "01")
+                                        handleClientSpecificMonthDetails(client, "01")
                                       }
                                     >
                                       {client.finalData[
@@ -722,7 +696,7 @@ const ClientReportDetails = ({
                                       to="/client-month-report"
                                       className="btnLink"
                                       onClick={() =>
-                                        handleGoToMember(client, "02")
+                                        handleClientSpecificMonthDetails(client, "02")
                                       }
                                     >
                                       {client.finalData[
@@ -744,7 +718,7 @@ const ClientReportDetails = ({
                                       to="/client-month-report"
                                       className="btnLink"
                                       onClick={() =>
-                                        handleGoToMember(client, "03")
+                                        handleClientSpecificMonthDetails(client, "03")
                                       }
                                     >
                                       {client.finalData[
@@ -774,9 +748,6 @@ ClientReportDetails.propTypes = {
   auth: PropTypes.object.isRequired,
   project: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
-  getverificationProjectDeatils: PropTypes.func.isRequired,
-  getAllchanges: PropTypes.func.isRequired,
-  getVerificationFolder: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -789,12 +760,12 @@ export default connect(mapStateToProps, {
   getAllchanges,
   getverificationProjectDeatils,
   getAllProjectStatusVerification,
-  getUpdatedProjectStaus,
-  getAllFolder1,
+  getAllClientFolders,
   getSelectedClientfolderDeatils,
   getYear,
   getFYclient,
   getClientDetails,
   getMonthWiseClient,
-  getVerificationFolder,
+  getSelectedClientFolderInGlobal,
+  getSelectedFinancialYrInGlobal
 })(ClientReportDetails);

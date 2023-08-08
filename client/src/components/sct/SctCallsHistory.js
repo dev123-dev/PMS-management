@@ -72,7 +72,7 @@ const SctCallsHistory = ({
     getAllSctCallEmp();
     getAllSctCallClientCount();
   };
-  return !isAuthenticated || !user  ? (
+  return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -132,14 +132,16 @@ const SctCallsHistory = ({
                   >
                     <thead>
                       <tr>
-                        <th style={{ width: "4%" }}>Sl No.</th>
-                        <th style={{ width: "8%" }}>Call Taken Date</th>
-                        <th style={{ width: "8%" }}>Call Taken Time</th>
-                        <th style={{ width: "15%" }}>Company Name</th>
-                        <th style={{ width: "15%" }}>Call To</th>
-                        <th style={{ width: "15%" }}>Called Number</th>
-                        <th style={{ width: "25%" }}>Notes</th>
-                        <th style={{ width: "6%" }}>Next Date</th>
+                        <th>SNo</th>
+                        <th>Call Taken Date</th>
+                        <th>Call Taken Time</th>
+                        <th>Company Name</th>
+                        <th>Call To</th>
+                        <th>Called Number</th>
+                        <th>Call From</th>
+                        <th>Called Status</th>
+                        <th>Notes</th>
+                        <th>Next Date</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -157,26 +159,18 @@ const SctCallsHistory = ({
                               "-"
                             );
                           }
-                          //code working
-                          // if (
-                          //   callClientArr.includes(allSctCalls.sctCallToName)
-                          // ) {
-                          //   console.log("callClientArr", callClientArr);
-                          // } else {
-                          //   callClientArr.push(allSctCalls.sctCallToName);
-                          // }
                           return (
                             <tr key={idx}>
                               <td>{idx + 1}</td>
-                              <td>{sctCallTakenDate}</td>
-                              <td>
-                                {allSctCalls.sctCallDateTime.split(" ")[1]}
-                              </td>
-                              <td>{allSctCalls.sctCallToName}</td>
-                              <td>{allSctCalls.sctCallToStaffName}</td>
-                              <td>{allSctCalls.sctcallToNumber}</td>
+                              <td style={{ width: '8%' }}>{sctCallTakenDate}</td>
+                              <td style={{ width: '8%' }}>{allSctCalls.sctCallDateTime.split(" ")[1]}</td>
+                              <td style={{ width: '20%' }}>{allSctCalls.sctCallToName}</td>
+                              <td style={{ width: '10%' }}>{allSctCalls.sctCallToStaffName}</td>
+                              <td style={{ width: '7%' }}>{allSctCalls.sctcallToNumber}</td>
+                              <td style={{ width: '5%' }}>{allSctCalls.sctCallComeFrom}</td>
+                              <td style={{ width: '7%' }}>{allSctCalls.sctCallStatus}</td>
                               <td>{allSctCalls.sctCallNote}</td>
-                              <td>{sctCallDate}</td>
+                              <td style={{ width: '8%' }}>{sctCallDate}</td>
                             </tr>
                           );
                         })}

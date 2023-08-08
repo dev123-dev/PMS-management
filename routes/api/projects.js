@@ -420,14 +420,6 @@ router.get("/get-all-folder", async (req, res) => {
           },
         },
       },
-      // {
-      //   $match: {
-      //     projectDate: {
-      //       $gte: new D,
-      //       $lte: new Date("2023-03-31"),
-      //     },
-      //   },
-      // },
       {
         $group: {
           _id: "$clientFolderName",

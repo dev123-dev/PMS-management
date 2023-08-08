@@ -937,7 +937,6 @@ export const getOverAllSummary = (finalData) => async (dispatch) => {
 export const getYear = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/sct/get-Year", config);
-    localStorage.setItem("financialYear", JSON.stringify(res.data));
     dispatch({
       type: FINANCIAL_YEAR,
       payload: res.data,
@@ -949,11 +948,36 @@ export const getYear = () => async (dispatch) => {
   }
 };
 
+//getSelectedClientFolderInGlobal
+export const getSelectedClientFolderInGlobal = (selClientFolder) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "SEL_CLIENT_FOLDER",
+      payload: selClientFolder
+    })
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+//export const getSelectedFinancialYrInGlobal = (selClientFolder) => async (dispatch) => {
+
+export const getSelectedFinancialYrInGlobal = (selFinancialYear) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "SEL_FINANCIAL_YEAR",
+      payload: selFinancialYear
+    })
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 //Year extract
 export const getFYclient = (finalData) => async (dispatch) => {
   try {
     const res = await axios.post("/api/sct/get-FY-Client", finalData, config);
-    //localStorage.setItem("financialYear", JSON.stringify(res.data));
+
     dispatch({
       type: FY_CLIENT,
       payload: res.data.projectDetails,
@@ -977,7 +1001,6 @@ export const getMonthWiseClient = (finalData) => async (dispatch) => {
       finalData,
       config
     );
-    //localStorage.setItem("financialYear", JSON.stringify(res.data));
     dispatch({
       type: FY_CLIENT_MONTHWISE,
       payload: res.data,
@@ -1003,8 +1026,8 @@ export const getClientDetails = (finalData) => async (dispatch) => {
       payload: res.data.res1,
     });
     dispatch({
-      type : CLIENT_WISE_SUM,
-      payload :res.data.res2,
+      type: CLIENT_WISE_SUM,
+      payload: res.data.res2,
     })
   } catch (err) {
     dispatch({

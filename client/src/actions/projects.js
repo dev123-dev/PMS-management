@@ -345,14 +345,13 @@ export const getAllFolder = () => async (dispatch) => {
   }
 };
 
-export const getAllFolder1 = () => async (dispatch) => {
+export const getAllClientFolders = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/projects/get-all-folder");
     dispatch({
       type: ALL_FOLDER,
       payload: res.data,
     });
-    localStorage.setItem("AllFolderNme", JSON.stringify(res.data));
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
