@@ -57,7 +57,7 @@ const AllLeads = ({
   }, []);
 
   useEffect(() => {
-    if (colorData !== undefined) {
+    if (colorData !== undefined && (colorData + 1) <= getAllLeads.length) {
       sethighlightTimeZone(
         getAllLeads &&
           getAllLeads.length !== 0 &&
@@ -353,7 +353,7 @@ const AllLeads = ({
     else callCategory = "AllLeads";
     return callCategory;
   }
-
+  console.log("colorData", colorData ? colorData : "");
   return !isAuthenticated || !user ? (
     <Spinner />
   ) : (
