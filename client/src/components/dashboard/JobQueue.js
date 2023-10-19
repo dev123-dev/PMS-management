@@ -228,7 +228,6 @@ const JobQueue = ({
 
     setFilterData(finalData);
     getJobQueueProjectDeatils(finalData);
-
   };
 
   // const onClientChange = (e) => {
@@ -540,7 +539,7 @@ const JobQueue = ({
   const onClickReset = () => {
     getJobQueueProjectDeatils("");
     setClientData("");
-    setClientName('');
+    setClientName("");
     setFilterData("");
     setFormData({
       ...formData,
@@ -564,6 +563,7 @@ const JobQueue = ({
       "Folder Name",
       "Staff Name",
       "Project Name",
+      "Deadline",
       "Project Date ",
       "Status",
       "Qty",
@@ -586,6 +586,7 @@ const JobQueue = ({
       JobqueuesheetData.clientFolderName,
       JobqueuesheetData.staffName,
       JobqueuesheetData.projectName,
+      JobqueuesheetData.projectDeadline,
       JobqueuesheetData.projectDate,
       JobqueuesheetData.projectStatusType,
       JobqueuesheetData.projectQuantity,
@@ -603,8 +604,6 @@ const JobQueue = ({
   );
   const fileName = [clientFolderName ? clientFolderName : "Client Report"];
 
-
-
   return !isAuthenticated || !localStorage.token || !user ? (
     <Spinner />
   ) : (
@@ -613,7 +612,7 @@ const JobQueue = ({
         <section className="sub_reg">
           <div
             className="row col-lg-12 col-md-12 col-sm-12 col-12 no_padding"
-          //  style={{ postion: "fixed" }}
+            //  style={{ postion: "fixed" }}
           >
             <div className=" col-lg-1 col-md-11 col-sm-10 col-10">
               <h4 className="heading_color">Job Queue</h4>
@@ -647,8 +646,8 @@ const JobQueue = ({
                 Refresh
               </button>
               {(user.userGroupName && user.userGroupName === "Administrator") ||
-                user.userGroupName === "Super Admin" ||
-                user.userGroupName === "Clarical Admins" ? (
+              user.userGroupName === "Super Admin" ||
+              user.userGroupName === "Clarical Admins" ? (
                 <CSVLink data={csvData} filename={fileName}>
                   <button className="btn btn_green_bg float-right">
                     Export
@@ -659,8 +658,8 @@ const JobQueue = ({
               )}
 
               {(user.userGroupName && user.userGroupName === "Administrator") ||
-                user.userGroupName === "Super Admin" ||
-                user.userGroupName === "Clarical Admins" ? (
+              user.userGroupName === "Super Admin" ||
+              user.userGroupName === "Clarical Admins" ? (
                 <Link
                   className="btn btn_green_bg float-right"
                   to="/add-Project"
@@ -679,15 +678,15 @@ const JobQueue = ({
                   <table
                     className="table table-bordered table-striped table-hover smll_row "
                     id="datatable2"
-                  // style={{ marginBottom: "200px" }}
+                    // style={{ marginBottom: "200px" }}
                   >
                     <thead>
                       <tr>
                         {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
-                          user.userGroupName === "Super Admin" ||
-                          user.userGroupName === "Clarical Admins" ? (
+                        user.userGroupName === "Super Admin" ||
+                        user.userGroupName === "Clarical Admins" ? (
                           <>
                             <th style={{ width: "8%" }}>Client Name</th>
                             <th style={{ width: "6%" }}>Staff Name</th>
@@ -715,10 +714,10 @@ const JobQueue = ({
                         {/* SLAP UserGroupRights */}
                         {(user.userGroupName &&
                           user.userGroupName === "Administrator") ||
-                          user.userGroupName === "Super Admin" ||
-                          user.userGroupName === "Clarical Admins" ||
-                          user.userGroupName === "Quality Controller" ||
-                          user.userGroupName === "Distributors" ? (
+                        user.userGroupName === "Super Admin" ||
+                        user.userGroupName === "Clarical Admins" ||
+                        user.userGroupName === "Quality Controller" ||
+                        user.userGroupName === "Distributors" ? (
                           <th style={{ width: "4%" }}>OP</th>
                         ) : (
                           <></>
@@ -783,8 +782,8 @@ const JobQueue = ({
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
-                                  user.userGroupName === "Super Admin" ||
-                                  user.userGroupName === "Clarical Admins" ? (
+                                user.userGroupName === "Super Admin" ||
+                                user.userGroupName === "Clarical Admins" ? (
                                   <>
                                     <td>{JobQueueProject.clientName}</td>
                                     <td>{JobQueueProject.staffName}</td>
@@ -819,8 +818,8 @@ const JobQueue = ({
                                   {/* SLAP UserGroupRights */}
                                   {(user.userGroupName &&
                                     user.userGroupName === "Administrator") ||
-                                    user.userGroupName === "Super Admin" ||
-                                    user.userGroupName === "Clarical Admins" ? (
+                                  user.userGroupName === "Super Admin" ||
+                                  user.userGroupName === "Clarical Admins" ? (
                                     <>
                                       <img
                                         className="img_icon_size log float-left "
@@ -854,21 +853,21 @@ const JobQueue = ({
                                   {
                                     dhm(
                                       JobQueueProject.clientDate +
-                                      ", " +
-                                      JobQueueProject.clientTime
+                                        ", " +
+                                        JobQueueProject.clientTime
                                     )[0]
                                   }
                                 </td>
                                 <td>
                                   {JobQueueProject.ptEstimatedTime &&
                                     estimatedTimeVal[0] +
-                                    " hr : " +
-                                    estimatedTimeVal[1] +
-                                    " min"}
+                                      " hr : " +
+                                      estimatedTimeVal[1] +
+                                      " min"}
                                 </td>
                                 {JobQueueProject.projectStatusType ===
                                   "QC DONE" ||
-                                  JobQueueProject.projectStatusType ===
+                                JobQueueProject.projectStatusType ===
                                   "Uploading" ? (
                                   <>
                                     <td></td>
@@ -898,19 +897,19 @@ const JobQueue = ({
                                   {JobQueueProject.projectQuantity}&nbsp;
                                   {JobQueueProject.projectUnconfirmed ===
                                     true && (
-                                      <span style={{ color: "red" }}>*</span>
-                                    )}
+                                    <span style={{ color: "red" }}>*</span>
+                                  )}
                                 </td>
                                 <td>{JobQueueProject.outputformat}</td>
 
                                 <td>
                                   {(idx === 0 && jobQueueProjects.length - 1) ||
-                                    (idx === 1 && jobQueueProjects.length - 1) ||
-                                    (idx === 2 && jobQueueProjects.length - 1) ||
-                                    (idx === 3 && jobQueueProjects.length - 1) ||
-                                    (idx === 4 && jobQueueProjects.length - 1) ||
-                                    idx === jobQueueProjects.length - 1 ||
-                                    idx === jobQueueProjects.length - 2 ? (
+                                  (idx === 1 && jobQueueProjects.length - 1) ||
+                                  (idx === 2 && jobQueueProjects.length - 1) ||
+                                  (idx === 3 && jobQueueProjects.length - 1) ||
+                                  (idx === 4 && jobQueueProjects.length - 1) ||
+                                  idx === jobQueueProjects.length - 1 ||
+                                  idx === jobQueueProjects.length - 2 ? (
                                     // ||
                                     // idx === jobQueueProjects.length - 3 ||
                                     // idx === jobQueueProjects.length - 4 ||
@@ -919,14 +918,14 @@ const JobQueue = ({
                                     <>
                                       {(user.userGroupName &&
                                         user.userGroupName ===
-                                        "Administrator") ||
-                                        user.userGroupName === "Super Admin" ||
-                                        user.userGroupName ===
+                                          "Administrator") ||
+                                      user.userGroupName === "Super Admin" ||
+                                      user.userGroupName ===
                                         "Clarical Admins" ||
-                                        user.userGroupName ===
+                                      user.userGroupName ===
                                         "Quality Controller" ||
-                                        user.userGroupName === "Distributors" ||
-                                        user.userGroupName === "Marketing" ? (
+                                      user.userGroupName === "Distributors" ||
+                                      user.userGroupName === "Marketing" ? (
                                         <>
                                           <img
                                             className="img_icon_size log float-left mt-2"
@@ -971,8 +970,8 @@ const JobQueue = ({
                                               allAI.includes(PST)
                                                 ? AIOpt
                                                 : allAmend.includes(PST)
-                                                  ? AmendOpt
-                                                  : NormalOpt
+                                                ? AmendOpt
+                                                : NormalOpt
                                             }
                                             isSearchable={true}
                                             placeholder="Select"
@@ -994,14 +993,14 @@ const JobQueue = ({
                                       {/* SLAP UserGroupRights */}
                                       {(user.userGroupName &&
                                         user.userGroupName ===
-                                        "Administrator") ||
-                                        user.userGroupName === "Super Admin" ||
-                                        user.userGroupName ===
+                                          "Administrator") ||
+                                      user.userGroupName === "Super Admin" ||
+                                      user.userGroupName ===
                                         "Clarical Admins" ||
-                                        user.userGroupName ===
+                                      user.userGroupName ===
                                         "Quality Controller" ||
-                                        user.userGroupName === "Distributors" ||
-                                        user.userGroupName === "Marketing" ? (
+                                      user.userGroupName === "Distributors" ||
+                                      user.userGroupName === "Marketing" ? (
                                         <>
                                           <img
                                             className="img_icon_size log float-left mt-2"
@@ -1049,8 +1048,8 @@ const JobQueue = ({
                                               allAI.includes(PST)
                                                 ? AIOpt
                                                 : allAmend.includes(PST)
-                                                  ? AmendOpt
-                                                  : NormalOpt
+                                                ? AmendOpt
+                                                : NormalOpt
                                             }
                                             isSearchable={true}
                                             placeholder="Select"
@@ -1112,15 +1111,15 @@ const JobQueue = ({
       </td> */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
-                                  user.userGroupName === "Super Admin" ||
-                                  user.userGroupName === "Clarical Admins" ||
-                                  user.userGroupName === "Quality Controller" ||
-                                  user.userGroupName === "Distributors" ? (
+                                user.userGroupName === "Super Admin" ||
+                                user.userGroupName === "Clarical Admins" ||
+                                user.userGroupName === "Quality Controller" ||
+                                user.userGroupName === "Distributors" ? (
                                   <td>
                                     {(user.userGroupName &&
                                       user.userGroupName === "Administrator") ||
-                                      user.userGroupName === "Super Admin" ||
-                                      user.userGroupName === "Clarical Admins" ? (
+                                    user.userGroupName === "Super Admin" ||
+                                    user.userGroupName === "Clarical Admins" ? (
                                       <img
                                         className="img_icon_size log"
                                         onClick={() =>
@@ -1159,8 +1158,8 @@ const JobQueue = ({
                                 {/* SLAP UserGroupRights */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
-                                  user.userGroupName === "Super Admin" ||
-                                  user.userGroupName === "Clarical Admins" ? (
+                                user.userGroupName === "Super Admin" ||
+                                user.userGroupName === "Clarical Admins" ? (
                                   <>
                                     <td>{JobQueueProject.clientName}</td>
                                     <td>{JobQueueProject.staffName}</td>
@@ -1195,8 +1194,8 @@ const JobQueue = ({
                                   {/* SLAP UserGroupRights */}
                                   {(user.userGroupName &&
                                     user.userGroupName === "Administrator") ||
-                                    user.userGroupName === "Super Admin" ||
-                                    user.userGroupName === "Clarical Admins" ? (
+                                  user.userGroupName === "Super Admin" ||
+                                  user.userGroupName === "Clarical Admins" ? (
                                     <>
                                       <img
                                         className="img_icon_size log float-left "
@@ -1230,22 +1229,22 @@ const JobQueue = ({
                                   {
                                     dhm(
                                       JobQueueProject.clientDate +
-                                      ", " +
-                                      JobQueueProject.clientTime
+                                        ", " +
+                                        JobQueueProject.clientTime
                                     )[0]
                                   }
                                 </td>
                                 <td>
                                   {JobQueueProject.ptEstimatedTime &&
                                     estimatedTimeVal[0] +
-                                    " hr : " +
-                                    estimatedTimeVal[1] +
-                                    " min"}
+                                      " hr : " +
+                                      estimatedTimeVal[1] +
+                                      " min"}
                                 </td>
                                 <td>
                                   {JobQueueProject.projectStatusType ===
                                     "QC DONE" ||
-                                    JobQueueProject.projectStatusType ===
+                                  JobQueueProject.projectStatusType ===
                                     "Uploading" ? (
                                     <></>
                                   ) : (
@@ -1271,30 +1270,30 @@ const JobQueue = ({
                                   {JobQueueProject.projectQuantity}&nbsp;
                                   {JobQueueProject.projectUnconfirmed ===
                                     true && (
-                                      <span style={{ color: "red" }}>*</span>
-                                    )}
+                                    <span style={{ color: "red" }}>*</span>
+                                  )}
                                 </td>
                                 <td>{JobQueueProject.outputformat}</td>
                                 <td>
                                   {jobQueueProjects.length > 4 &&
-                                    (idx === jobQueueProjects.length - 1 ||
-                                      idx === jobQueueProjects.length - 2 ||
-                                      idx === jobQueueProjects.length - 3 ||
-                                      idx === jobQueueProjects.length - 4 ||
-                                      idx === jobQueueProjects.length - 5 ||
-                                      idx === jobQueueProjects.length - 6) ? (
+                                  (idx === jobQueueProjects.length - 1 ||
+                                    idx === jobQueueProjects.length - 2 ||
+                                    idx === jobQueueProjects.length - 3 ||
+                                    idx === jobQueueProjects.length - 4 ||
+                                    idx === jobQueueProjects.length - 5 ||
+                                    idx === jobQueueProjects.length - 6) ? (
                                     <>
                                       {/* SLAP UserGroupRights */}
                                       {(user.userGroupName &&
                                         user.userGroupName ===
-                                        "Administrator") ||
-                                        user.userGroupName === "Super Admin" ||
-                                        user.userGroupName ===
+                                          "Administrator") ||
+                                      user.userGroupName === "Super Admin" ||
+                                      user.userGroupName ===
                                         "Clarical Admins" ||
-                                        user.userGroupName ===
+                                      user.userGroupName ===
                                         "Quality Controller" ||
-                                        user.userGroupName === "Distributors" ||
-                                        user.userGroupName === "Marketing" ? (
+                                      user.userGroupName === "Distributors" ||
+                                      user.userGroupName === "Marketing" ? (
                                         <>
                                           <img
                                             className="img_icon_size log float-left mt-2"
@@ -1338,8 +1337,8 @@ const JobQueue = ({
                                               allAI.includes(PST)
                                                 ? AIOpt
                                                 : allAmend.includes(PST)
-                                                  ? AmendOpt
-                                                  : NormalOpt
+                                                ? AmendOpt
+                                                : NormalOpt
                                             }
                                             isSearchable={true}
                                             placeholder="Select"
@@ -1362,14 +1361,14 @@ const JobQueue = ({
                                       {/* SLAP UserGroupRights */}
                                       {(user.userGroupName &&
                                         user.userGroupName ===
-                                        "Administrator") ||
-                                        user.userGroupName === "Super Admin" ||
-                                        user.userGroupName ===
+                                          "Administrator") ||
+                                      user.userGroupName === "Super Admin" ||
+                                      user.userGroupName ===
                                         "Clarical Admins" ||
-                                        user.userGroupName ===
+                                      user.userGroupName ===
                                         "Quality Controller" ||
-                                        user.userGroupName === "Distributors" ||
-                                        user.userGroupName === "Marketing" ? (
+                                      user.userGroupName === "Distributors" ||
+                                      user.userGroupName === "Marketing" ? (
                                         <>
                                           <img
                                             className="img_icon_size log float-left mt-2"
@@ -1418,8 +1417,8 @@ const JobQueue = ({
                                               allAI.includes(PST)
                                                 ? AIOpt
                                                 : allAmend.includes(PST)
-                                                  ? AmendOpt
-                                                  : NormalOpt
+                                                ? AmendOpt
+                                                : NormalOpt
                                             }
                                             isSearchable={true}
                                             placeholder="Select"
@@ -1480,15 +1479,15 @@ const JobQueue = ({
       </td> */}
                                 {(user.userGroupName &&
                                   user.userGroupName === "Administrator") ||
-                                  user.userGroupName === "Super Admin" ||
-                                  user.userGroupName === "Clarical Admins" ||
-                                  user.userGroupName === "Quality Controller" ||
-                                  user.userGroupName === "Distributors" ? (
+                                user.userGroupName === "Super Admin" ||
+                                user.userGroupName === "Clarical Admins" ||
+                                user.userGroupName === "Quality Controller" ||
+                                user.userGroupName === "Distributors" ? (
                                   <td>
                                     {(user.userGroupName &&
                                       user.userGroupName === "Administrator") ||
-                                      user.userGroupName === "Super Admin" ||
-                                      user.userGroupName === "Clarical Admins" ? (
+                                    user.userGroupName === "Super Admin" ||
+                                    user.userGroupName === "Clarical Admins" ? (
                                       <img
                                         className="img_icon_size log"
                                         onClick={() =>
@@ -1544,7 +1543,7 @@ const JobQueue = ({
               <Link
                 to="#"
                 className="btnLinkjob"
-              // onClick={() => onstatusTypeSelect("Downloading")}
+                // onClick={() => onstatusTypeSelect("Downloading")}
               >
                 <span className="footerfont">
                   {" "}
@@ -1565,7 +1564,7 @@ const JobQueue = ({
               <Link
                 to="#"
                 className="btnLinkjob"
-              // onClick={() => onstatusTypeSelect("Working")}
+                // onClick={() => onstatusTypeSelect("Working")}
               >
                 <span className="footerfont"> Working : {WorkingQty}</span>
               </Link>
@@ -1583,7 +1582,7 @@ const JobQueue = ({
               <Link
                 to="#"
                 className="btnLinkjob"
-              // onClick={() => onstatusTypeSelect("Pending")}
+                // onClick={() => onstatusTypeSelect("Pending")}
               >
                 <span className="footerfont"> Pending : {PendingQty}</span>
               </Link>
@@ -1601,7 +1600,7 @@ const JobQueue = ({
               <Link
                 to="#"
                 className="btnLinkjob"
-              // onClick={() => onstatusTypeSelect("QC Pending")}
+                // onClick={() => onstatusTypeSelect("QC Pending")}
               >
                 <span className="footerfont">QC Pending : {QCPendingQty}</span>
               </Link>
@@ -1622,7 +1621,7 @@ const JobQueue = ({
               <Link
                 to="#"
                 className="btnLinkjob"
-              //  onClick={() => onstatusTypeSelect("QC Estimate")}
+                //  onClick={() => onstatusTypeSelect("QC Estimate")}
               >
                 <span className="footerfont">
                   {" "}
@@ -1643,7 +1642,7 @@ const JobQueue = ({
               <Link
                 to="#"
                 className="btnLinkjob"
-              // onClick={() => onstatusTypeSelect("Uploading")}
+                // onClick={() => onstatusTypeSelect("Uploading")}
               >
                 <span className="footerfont"> Uploading : {UploadingQty}</span>
               </Link>
@@ -1661,7 +1660,7 @@ const JobQueue = ({
               <Link
                 to="#"
                 className="btnLinkjob"
-              // onClick={() => onstatusTypeSelect("QC DONE")}
+                // onClick={() => onstatusTypeSelect("QC DONE")}
               >
                 <span className="footerfont"> QC Done : {QCDoneQty}</span>
               </Link>
@@ -1682,7 +1681,7 @@ const JobQueue = ({
               <Link
                 to="#"
                 className=" btnLinkjob"
-              // onClick={() => onstatusTypeSelect("Review_Pending")}
+                // onClick={() => onstatusTypeSelect("Review_Pending")}
               >
                 <span className="footerfont">
                   {" "}
